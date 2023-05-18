@@ -48,6 +48,7 @@ dependencies:
   equatable: ^2.0.3
   path_provider: ^2.0.12
   flutter_svg: ^2.0.1
+  sliver_tools: ^0.2.5
 
 dev_dependencies:
   flutter_test:

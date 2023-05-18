@@ -1,4 +1,6 @@
 {
 	"create_wallet": "CREATE WALLET",
-	"import_wallet": "IMPORT WALLET"
+	"import_wallet": "IMPORT WALLET",
+	"telegram_secured_storage": "Telegram Secured Storage",
+	"wechat_secured_storage": "WeChat Secured Storage"
 }

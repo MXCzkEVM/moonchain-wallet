@@ -7,7 +7,7 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'login_page_presentater.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends ConsumerWidget with SplashScreenMixin {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
@@ -15,51 +15,17 @@ class LoginPage extends ConsumerWidget {
     return MxcContextHook(
       bridge: ref.watch(loginPageContainer.actions).bridge,
       child: Material(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                Color(0xff8D023F),
-                Color(0xff09379E),
-              ],
-              tileMode: TileMode.mirror,
-            ),
-          ),
+        child: appLinearBackground(
           child: Column(
             children: [
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Image(
-                      image: ImagesTheme.of(context).datadash,
-                      // width: 160,
-                      // height: 160,
-                    ),
-                    Text(
-                      'DataDash',
-                      style: FontTheme.of(context).h4().copyWith(
-                            color: ColorsTheme.of(context).white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                    Text(
-                      'WALLET',
-                      style: FontTheme.of(context).h5().copyWith(
-                            color: ColorsTheme.of(context).white,
-                          ),
-                    ),
-                  ],
-                ),
+                child: appLogo(context),
               ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 88),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    // mainAxisSize: MainAxisSize.min,
                     children: [
                       MxcFullRoundedButton(
                         key: const ValueKey('createButton'),
@@ -67,13 +33,13 @@ class LoginPage extends ConsumerWidget {
                         onTap: () {},
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 28,
                       ),
                       MxcFullRoundedButton(
                         key: const ValueKey('importButton'),
                         title: FlutterI18n.translate(context, 'import_wallet'),
                         onTap: () {},
-                      )
+                      ),
                     ],
                   ),
                 ),
