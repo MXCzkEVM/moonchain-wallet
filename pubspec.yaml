@@ -49,6 +49,8 @@ dependencies:
   path_provider: ^2.0.12
   flutter_svg: ^2.0.1
   sliver_tools: ^0.2.5
+  url_launcher: ^6.1.11
+  appinio_social_share: ^0.2.2
 
 dev_dependencies:
   flutter_test:

@@ -4,3 +4,4 @@ export 'hooks/hooks.dart';
 export 'mixin/mixin.dart';
 export 'flat.dart';
 export 'layout/layout.dart';
+export 'url_launcher.dart';

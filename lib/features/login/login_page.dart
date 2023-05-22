@@ -1,4 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/secured_storage/secured_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,14 +25,18 @@ class LoginPage extends ConsumerWidget with SplashScreenMixin {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 88),
+                  padding: const EdgeInsets.symmetric(horizontal: 80),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MxcFullRoundedButton(
                         key: const ValueKey('createButton'),
                         title: FlutterI18n.translate(context, 'create_wallet'),
-                        onTap: () {},
+                        onTap: () => Navigator.of(context).push(
+                          route(
+                            const SecuredStoragePage(),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 28,
