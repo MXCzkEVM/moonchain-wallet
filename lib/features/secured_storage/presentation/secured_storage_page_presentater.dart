@@ -1,41 +1,69 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:appinio_social_share/appinio_social_share.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/secured_storage/secured_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:social_share/appinio_social_share.dart';
+
+import 'secured_storage_page_state.dart';
 
 final securedStoragePageContainer =
-    PresenterContainer<SecuredStoragePagePresenter, void>(
+    PresenterContainer<SecuredStoragePagePresenter, SecuredStoragePageState>(
         () => SecuredStoragePagePresenter());
 
-class SecuredStoragePagePresenter extends CompletePresenter<void> {
-  SecuredStoragePagePresenter() : super(null);
+class SecuredStoragePagePresenter
+    extends CompletePresenter<SecuredStoragePageState> {
+  SecuredStoragePagePresenter() : super(SecuredStoragePageState());
 
   late final WalletUseCase _walletUseCase = ref.read(walletUseCaseProvider);
+  final AppinioSocialShare _socialShare = AppinioSocialShare();
+
+  @override
+  void initState() {
+    super.initState();
+
+    isInstallApps();
+  }
 
   Future<String> writeToFile(
     dynamic content,
   ) async {
-    final tempPath = await getTemporaryDirectory().then((e) => e.path);
-    final fullPath = path.join(tempPath, 'dd.keys');
-    final str = jsonEncode(content);
-    await File(fullPath).writeAsString(str);
-    return path.toUri(fullPath).toString();
+    final tempDir = await getTemporaryDirectory();
+    final fullPath = '${tempDir.path}/DataDash_Mnemonice.txt';
+    final data = jsonEncode(content);
+    File file = await File(fullPath).create();
+    await file.writeAsString(data);
+    return file.path;
   }
-  
 
-  void socialShare() async {
-    AppinioSocialShare appinioSocialShare = AppinioSocialShare();
+  Future<void> isInstallApps() async {
+    final applist = await _socialShare.getInstalledApps();
+
+    notify(() => state.applist = applist);
+  }
+
+  void shareToTelegram() async {
+    final keys = _walletUseCase.generateMnemonic();
+    final filePath = await writeToFile(keys);
+
+    await _socialShare.shareToTelegram(
+      'DataDash Wallet Mnemonice Phrase',
+      filePath: filePath,
+    );
+  }
+
+  void shareToWechat() async {
+    SaveToHereTip().show(context!);
 
     final keys = _walletUseCase.generateMnemonic();
-    final storagePath = await writeToFile(keys);
-    await appinioSocialShare.shareToSystem(
-      'DataDash Wallet Keys',
-      keys,
-      filePath: storagePath,
+    final filePath = await writeToFile(keys);
+
+    _socialShare.shareToWechat(
+      'DataDash Wallet Mnemonice Phrase',
+      filePath: filePath,
     );
   }
 }

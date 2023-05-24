@@ -11,45 +11,49 @@ class SecuredStoragePage extends HookConsumerWidget with SplashScreenMixin {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.watch(securedStoragePageContainer.actions);
+    final presenter = ref.read(securedStoragePageContainer.actions);
+    final state = ref.watch(securedStoragePageContainer.state);
 
-    return Material(
-      child: appLinearBackground(
-        child: Column(
-          children: [
-            Expanded(
-              child: appLogo(context),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 76),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MxcFullRoundedButton(
-                      key: const ValueKey('telegramButton'),
-                      title: FlutterI18n.translate(
-                          context, 'telegram_secured_storage'),
-                      onTap: () {
-                        openUrl('');
-                      },
-                    ),
-                    const SizedBox(
-                      height: 28,
-                    ),
-                    MxcFullRoundedButton(
-                      key: const ValueKey('wechatButton'),
-                      title: FlutterI18n.translate(
-                          context, 'wechat_secured_storage'),
-                      onTap: () async {
-                        presenter.socialShare();
-                      },
-                    ),
-                  ],
+    return MxcContextHook(
+      bridge: presenter.bridge,
+      child: Material(
+        child: appLinearBackground(
+          child: Column(
+            children: [
+              Expanded(
+                child: appLogo(context),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 76),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MxcFullRoundedButton(
+                        key: const ValueKey('telegramButton'),
+                        title: FlutterI18n.translate(
+                            context, 'telegram_secured_storage'),
+                        onTap: state.applist['telegram'] == true
+                            ? () => presenter.shareToTelegram()
+                            : null,
+                      ),
+                      const SizedBox(
+                        height: 28,
+                      ),
+                      MxcFullRoundedButton(
+                        key: const ValueKey('wechatButton'),
+                        title: FlutterI18n.translate(
+                            context, 'wechat_secured_storage'),
+                        onTap: state.applist['wechat'] == true
+                            ? () => presenter.shareToWechat()
+                            : null,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
