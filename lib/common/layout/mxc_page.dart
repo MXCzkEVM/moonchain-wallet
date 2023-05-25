@@ -12,7 +12,7 @@ import 'mxc_page_layer.dart';
 
 const contentPadding = EdgeInsets.symmetric(horizontal: 16);
 
-abstract class MxcPage extends HookConsumerWidget {
+abstract class MxcPage extends HookConsumerWidget with SplashScreenMixin {
   const MxcPage.internal({
     Key? key,
     this.scaffoldKey,
@@ -31,6 +31,7 @@ abstract class MxcPage extends HookConsumerWidget {
     this.backgroundColor,
     this.useFooterPadding = true,
     this.resizeToAvoidBottomInset = true,
+    this.useAppLinearBackground = false,
   })  : assert(scrollController == null || layout != LayoutType.column),
         super(key: key);
 
@@ -52,6 +53,7 @@ abstract class MxcPage extends HookConsumerWidget {
     Color? backgroundColor,
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
+    bool useAppLinearBackground,
   }) = MxcPageRegular;
 
   const factory MxcPage.layer({
@@ -72,6 +74,7 @@ abstract class MxcPage extends HookConsumerWidget {
     Color? backgroundColor,
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
+    bool useAppLinearBackground,
   }) = MxcPageLayer;
 
   final Key? scaffoldKey;
@@ -92,6 +95,8 @@ abstract class MxcPage extends HookConsumerWidget {
   final Widget? floatingActionButton;
   final Color? backgroundColor;
   final bool resizeToAvoidBottomInset;
+
+  final bool useAppLinearBackground;
 
   Widget buildChildrenAsSliver(BoxConstraints? constraints) {
     Widget sliver;
@@ -178,22 +183,25 @@ abstract class MxcPage extends HookConsumerWidget {
         floatingActionButton: floatingActionButton,
         body: PresenterHooks(
           presenter: presenter,
-          child: SafeArea(
-            bottom: maintainBottomSafeArea,
-            top: topSafeArea,
-            child: Column(
-              children: [
-                buildAppBar(context, ref),
-                Expanded(child: content(context, ref)),
-                if (placeBottomInsetFiller)
-                  AnimatedSize(
-                    curve: Curves.easeOutQuad,
-                    duration: const Duration(milliseconds: 275),
-                    child: SizedBox(
-                      height: MediaQuery.of(context).viewInsets.bottom,
+          child: appLinearBackground(
+            visiable: useAppLinearBackground,
+            child: SafeArea(
+              bottom: maintainBottomSafeArea,
+              top: topSafeArea,
+              child: Column(
+                children: [
+                  buildAppBar(context, ref),
+                  Expanded(child: content(context, ref)),
+                  if (placeBottomInsetFiller)
+                    AnimatedSize(
+                      curve: Curves.easeOutQuad,
+                      duration: const Duration(milliseconds: 275),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).viewInsets.bottom,
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

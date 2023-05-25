@@ -14,46 +14,42 @@ class LoginPage extends ConsumerWidget with SplashScreenMixin {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MxcContextHook(
-      bridge: ref.watch(loginPageContainer.actions).bridge,
-      child: Material(
-        child: appLinearBackground(
-          child: Column(
-            children: [
-              Expanded(
-                child: appLogo(context),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MxcFullRoundedButton(
-                        key: const ValueKey('createButton'),
-                        title: FlutterI18n.translate(context, 'create_wallet'),
-                        onTap: () => Navigator.of(context).push(
-                          route(
-                            const SecuredStoragePage(),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 28,
-                      ),
-                      MxcFullRoundedButton(
-                        key: const ValueKey('importButton'),
-                        title: FlutterI18n.translate(context, 'import_wallet'),
-                        onTap: () {},
-                      ),
-                    ],
+    return MxcPage(
+      layout: LayoutType.column,
+      useAppLinearBackground: true,
+      presenter: ref.watch(loginPageContainer.actions),
+      children: [
+        Expanded(
+          child: appLogo(context),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MxcFullRoundedButton(
+                  key: const ValueKey('createButton'),
+                  title: FlutterI18n.translate(context, 'create_wallet'),
+                  onTap: () => Navigator.of(context).push(
+                    route(
+                      const SecuredStoragePage(),
+                    ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 28,
+                ),
+                MxcFullRoundedButton(
+                  key: const ValueKey('importButton'),
+                  title: FlutterI18n.translate(context, 'import_wallet'),
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -40,8 +40,12 @@ dependencies:
     path: packages/shared/logic
   mxc_ui:
     path: packages/shared/ui
+  share_extend:
+    path: packages/share_extend
   social_share:
     path: packages/social_share
+  local_auth:
+    path: packages/local_auth/local_auth
 
   flutter_i18n: ^0.32.4
   riverpod: ^1.0.3

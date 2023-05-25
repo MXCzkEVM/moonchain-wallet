@@ -2,5 +2,9 @@
 	"create_wallet": "CREATE WALLET",
 	"import_wallet": "IMPORT WALLET",
 	"telegram_secured_storage": "Telegram Secured Storage",
-	"wechat_secured_storage": "WeChat Secured Storage"
+	"wechat_secured_storage": "WeChat Secured Storage",
+	"set_passcode": "Create your Passcode",
+	"set_passcode_hint": "Enter a 6-digit passcode to unlock your wallet with ease. This passcode can’t be used to recover your wallet.",
+	"passcode_didnt_match": "Passcodes did not match. Try again.",
+	"confirm_passcode_desc": "Re-type your passcode"
 }

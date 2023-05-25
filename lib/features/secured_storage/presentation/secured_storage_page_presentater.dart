@@ -4,8 +4,11 @@ import 'dart:io';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/secured_storage/secured_storage.dart';
+import 'package:datadashwallet/features/security/security.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:share_extend/share_extend.dart';
 import 'package:social_share/appinio_social_share.dart';
 
 import 'secured_storage_page_state.dart';
@@ -56,6 +59,8 @@ class SecuredStoragePagePresenter
   }
 
   void shareToWechat() async {
+    Navigator.of(context!).push(route(const PasscodeSetPage()));
+    return;
     SaveToHereTip().show(context!);
 
     final keys = _walletUseCase.generateMnemonic();

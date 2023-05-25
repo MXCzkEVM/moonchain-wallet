@@ -30,6 +30,7 @@ class MxcPageLayer extends MxcPage {
     Color? backgroundColor,
     bool useFooterPadding = true,
     bool resizeToAvoidBottomInset = true,
+    bool useAppLinearBackground = false,
   })  : assert(layout != LayoutType.column2 || footer == null || fixedFooter,
             'layout: column2 and fixedFooter: false isn\'t compatible, pls set fixedFooter: true'),
         super.internal(
@@ -50,6 +51,7 @@ class MxcPageLayer extends MxcPage {
           backgroundColor: backgroundColor,
           useFooterPadding: useFooterPadding,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          useAppLinearBackground: useAppLinearBackground,
         );
 
   @override

@@ -1,3 +1,4 @@
+import 'package:datadashwallet/features/security/security.dart';
 import 'package:mxc_logic/internal.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
@@ -16,10 +17,12 @@ class GlobalCache extends GlobalCacheContainer {
 
   final ThemeCacheRepository theme = ThemeCacheRepository();
   final LanguageRepository language = LanguageRepository();
+  final PasscodeRepository passcode = PasscodeRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [
         theme,
         language,
+        passcode,
       ];
 }

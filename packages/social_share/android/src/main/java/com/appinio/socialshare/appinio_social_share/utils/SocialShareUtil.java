@@ -297,8 +297,12 @@ public class SocialShareUtil {
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent.setPackage(packageName);
+
+        Intent chooserIntent = Intent.createChooser(shareIntent, "");
+        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        
         try {
-            activity.startActivity(shareIntent);
+            activity.startActivity(chooserIntent);
             return SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
