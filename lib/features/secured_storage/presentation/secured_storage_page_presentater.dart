@@ -8,7 +8,6 @@ import 'package:datadashwallet/features/security/security.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
-import 'package:share_extend/share_extend.dart';
 import 'package:social_share/appinio_social_share.dart';
 
 import 'secured_storage_page_state.dart';
