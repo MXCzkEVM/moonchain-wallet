@@ -26,6 +26,7 @@ class MxcPageRegular extends MxcPage {
     Color? backgroundColor,
     bool useFooterPadding = true,
     bool resizeToAvoidBottomInset = true,
+    bool useAppLinearBackground = false,
   }) : super.internal(
           key: key,
           scaffoldKey: scaffoldKey,
@@ -44,6 +45,7 @@ class MxcPageRegular extends MxcPage {
           backgroundColor: backgroundColor,
           useFooterPadding: useFooterPadding,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          useAppLinearBackground: useAppLinearBackground,
         );
 
   @override

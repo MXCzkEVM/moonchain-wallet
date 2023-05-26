@@ -4,21 +4,26 @@ import 'package:mxc_ui/mxc_ui.dart';
 mixin SplashScreenMixin {
   Widget appLinearBackground({
     Widget? child,
+    bool visiable = true,
   }) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: <Color>[
-            Color(0xff8D023F),
-            Color(0xff09379E),
-          ],
-          tileMode: TileMode.mirror,
+    if (visiable) {
+      return Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Color(0xff8D023F),
+              Color(0xff09379E),
+            ],
+            tileMode: TileMode.mirror,
+          ),
         ),
-      ),
-      child: child,
-    );
+        child: child,
+      );
+    } else {
+      return Container(child: child);
+    }
   }
 
   Widget appLogo(BuildContext context) {
