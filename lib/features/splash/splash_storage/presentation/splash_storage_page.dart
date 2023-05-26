@@ -28,7 +28,8 @@ class SplashStoragePage extends SplashBasePage {
       MxcFullRoundedButton(
         key: const ValueKey('wechatButton'),
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
-        onTap: ref.watch(state).applist['wechat'] == true
+        onTap: ref.watch(state).applist['weixin'] == true ||
+                ref.watch(state).applist['wechat'] == true
             ? () => ref.read(presenter).shareToWechat()
             : null,
       ),

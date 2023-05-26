@@ -8,6 +8,7 @@ import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
+
 final splashStoragePageContainer =
     PresenterContainer<SplashStoragePagePresenter, SplashStoragePageState>(
         () => SplashStoragePagePresenter());
@@ -30,7 +31,7 @@ class SplashStoragePagePresenter
     dynamic content,
   ) async {
     final tempDir = await getTemporaryDirectory();
-    final fullPath = '${tempDir.path}/DataDash-Mnemonice.txt';
+    final fullPath = '${tempDir.path}/DataDash_Mnemonice.txt';
     final data = jsonEncode(content);
     File file = await File(fullPath).create();
     await file.writeAsString(data);
@@ -55,7 +56,7 @@ class SplashStoragePagePresenter
 
   void shareToWechat() async {
     // Navigator.of(context!).push(route(const PasscodeSwitchBiometricPage()));
-    // return;
+    return;
     SaveToHereTip().show(context!);
 
     final keys = _walletUseCase.generateMnemonic();

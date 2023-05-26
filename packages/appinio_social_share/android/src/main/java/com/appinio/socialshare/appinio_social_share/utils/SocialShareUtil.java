@@ -300,6 +300,7 @@ public class SocialShareUtil {
 
         Intent chooserIntent = Intent.createChooser(shareIntent, "");
         chooserIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         
         try {
             activity.startActivity(chooserIntent);
