@@ -294,7 +294,6 @@ public class SocialShareUtil {
 
         shareIntent.setType(imagePath == null ? "text/*" : getMimeTypeOfFile(imagePath));
         shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent.setPackage(packageName);
 

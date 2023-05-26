@@ -123,7 +123,7 @@ class SaveToHereTip extends StatefulWidget {
             color: Colors.transparent,
             elevation: 0,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SizedBox(
