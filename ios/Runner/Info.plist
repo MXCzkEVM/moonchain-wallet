@@ -68,6 +68,7 @@
 	<array>
 		<string>tg</string>
 		<string>weixin</string>
+		<string>wechat</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>

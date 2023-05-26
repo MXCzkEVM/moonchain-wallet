@@ -40,8 +40,8 @@ dependencies:
     path: packages/shared/logic
   mxc_ui:
     path: packages/shared/ui
-  social_share:
-    path: packages/social_share
+  appinio_social_share:
+    path: packages/appinio_social_share
 
   flutter_i18n: ^0.32.4
   riverpod: ^1.0.3

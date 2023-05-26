@@ -30,7 +30,7 @@ public class ShareUtil{
 
     
     public func getInstalledApps(result: @escaping FlutterResult){
-        let apps = [["instagram","instagram"],["facebook-stories","facebook_stories"],["whatsapp","whatsapp"],["tg","telegram"],["wechat","wechat"],["fb-messenger","messenger"],["tiktok","tiktok"],["instagram-stories","instagram_stories"],["twitter","twitter"],["sms","message"]]
+        let apps = [["instagram","instagram"],["facebook-stories","facebook_stories"],["whatsapp","whatsapp"],["tg","telegram"],["weixin","wechat"],["fb-messenger","messenger"],["tiktok","tiktok"],["instagram-stories","instagram_stories"],["twitter","twitter"],["sms","message"]]
         var output:[String: Bool] = [:]
         for app in apps {
             if(UIApplication.shared.canOpenURL(URL(string:(app[0])+"://")!)){
@@ -277,11 +277,18 @@ public class ShareUtil{
         }
     }
 
-
     public func shareToSystem(args : [String: Any?],result: @escaping FlutterResult) {
                        let text = args[argMessage] as? String
                        let filePath = args[argImagePath] as? String
                        let activityViewController = UIActivityViewController(activityItems: [text!,URL(fileURLWithPath: filePath!)], applicationActivities: nil)
+                       activityViewController.excludedActivityTypes = [
+                           UIActivity.ActivityType.message,
+                           UIActivity.ActivityType.assignToContact,
+                           UIActivity.ActivityType.print,
+                           UIActivity.ActivityType.airDrop,
+                           UIActivity.ActivityType(rawValue: "com.apple.reminders.RemindersEditorExtension"),
+                           UIActivity.ActivityType(rawValue: "com.apple.mobilenotes.SharingExtension")]
+
                        UIApplication.topViewController()?.present(activityViewController, animated: true, completion: nil)
                        result(SUCCESS)
     }
@@ -369,7 +376,7 @@ public class ShareUtil{
 
     func shareToWechat(args : [String: Any?],result: @escaping FlutterResult) {
         let message = args[self.argMessage] as? String
-        let wechatURL = "weixin://dl/favorites?file="+message!
+        let wechatURL = "weixin://dl/favorites?file=\(message!)"
         
         var characterSet = CharacterSet.urlQueryAllowed
         characterSet.insert(charactersIn: "?&")
