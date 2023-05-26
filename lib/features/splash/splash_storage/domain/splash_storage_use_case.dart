@@ -10,5 +10,4 @@ class WalletUseCase extends ReactiveUseCase {
     return _repository.address.generateMnemonic();
   }
 
-  
 }

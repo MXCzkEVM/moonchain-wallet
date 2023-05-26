@@ -3,24 +3,21 @@ import 'dart:io';
 
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/secured_storage/secured_storage.dart';
-import 'package:datadashwallet/features/security/security.dart';
-import 'package:flutter/material.dart';
+import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:social_share/appinio_social_share.dart';
 
-import 'secured_storage_page_state.dart';
 
-final securedStoragePageContainer =
-    PresenterContainer<SecuredStoragePagePresenter, SecuredStoragePageState>(
-        () => SecuredStoragePagePresenter());
+final splashStoragePageContainer =
+    PresenterContainer<SplashStoragePagePresenter, SplashStoragePageState>(
+        () => SplashStoragePagePresenter());
 
-class SecuredStoragePagePresenter
-    extends CompletePresenter<SecuredStoragePageState> {
-  SecuredStoragePagePresenter() : super(SecuredStoragePageState());
+class SplashStoragePagePresenter
+    extends SplashBasePagePresenter<SplashStoragePageState> {
+  SplashStoragePagePresenter() : super(SplashStoragePageState());
 
-  late final WalletUseCase _walletUseCase = ref.read(walletUseCaseProvider);
+  late final _walletUseCase = ref.read(walletUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
 
   @override
@@ -58,7 +55,7 @@ class SecuredStoragePagePresenter
   }
 
   void shareToWechat() async {
-    Navigator.of(context!).push(route(const PasscodeSetPage()));
+    // Navigator.of(context!).push(route(const PasscodeSwitchBiometricPage()));
     return;
     SaveToHereTip().show(context!);
 
