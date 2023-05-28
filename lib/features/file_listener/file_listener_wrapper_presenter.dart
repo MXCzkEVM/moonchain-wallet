@@ -34,22 +34,32 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
       }
 
       FlSharedLink().receiveHandler(
-          onUniversalLink: (IOSUniversalLinkModel? data) {
-        universalLink = data;
-      }, onOpenUrl: (IOSOpenUrlModel? data) {
-        openUrl = data;
-      }, onIntent: (AndroidIntentModel? data) async {
-        String? filePath =
-            await FlSharedLink().getRealFilePathWithAndroid(data?.id ?? '');
-        String? mnemonic = await readMnemoniceFile(filePath);
-
-        if (mnemonic != null) {
-          _walletUseCase.setupFromMnemonic(mnemonic);
-
-          openPasscodeSetPage();
-        }
-      });
+          onUniversalLink: (IOSUniversalLinkModel? data) {},
+          onOpenUrl: (IOSOpenUrlModel? data) =>
+              readMnemoniceFileAndNextPage(data?.url),
+          onIntent: (AndroidIntentModel? data) =>
+              readMnemoniceFileAndNextPage(data?.id));
     });
+  }
+
+  void readMnemoniceFileAndNextPage(String? filePath) async {
+    try {
+      if (filePath == null || filePath.isEmpty) return;
+
+      String? file = await (Platform.isAndroid
+          ? FlSharedLink().getRealFilePathWithAndroid(filePath)
+          : FlSharedLink().getAbsolutePathWithIOS(filePath));
+
+      String? mnemonic = await readMnemoniceFile(file);
+
+      if (mnemonic != null) {
+        _walletUseCase.setupFromMnemonic(mnemonic);
+
+        openPasscodeSetPage();
+      }
+    } catch (error) {
+      print(error);
+    }
   }
 
   void openPasscodeSetPage() => appNavigatorKey.currentState?.pushReplacement(
