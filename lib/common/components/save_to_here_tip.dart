@@ -25,7 +25,7 @@ class SaveToHereTip extends StatefulWidget {
     ),
     this.animationCurve = Curves.ease,
     this.animationType = AnimationType.fromRight,
-    this.autoDismiss = true,
+    this.autoDismiss = false,
     this.toastDuration = const Duration(
       milliseconds: 5000,
     ),
@@ -136,6 +136,8 @@ class SaveToHereTip extends StatefulWidget {
       ),
     );
   }
+
+  void hide(BuildContext context) => Navigator.maybePop(context);
 
   @override
   _SaveToHereTipState createState() => _SaveToHereTipState();

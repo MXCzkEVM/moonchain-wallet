@@ -295,14 +295,15 @@ public class SocialShareUtil {
         shareIntent.setType(imagePath == null ? "text/*" : getMimeTypeOfFile(imagePath));
         shareIntent.putExtra(Intent.EXTRA_TEXT, text);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.setPackage(packageName);
 
-        Intent chooserIntent = Intent.createChooser(shareIntent, "");
-        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // Intent chooserIntent = Intent.createChooser(shareIntent, "");
+        // chooserIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         
         try {
-            activity.startActivity(chooserIntent);
+            activity.startActivity(shareIntent);
             return SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();

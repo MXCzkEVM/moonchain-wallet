@@ -16,9 +16,7 @@ class SplashSetupWalletPagePresenter
   void initState() {
     super.initState();
 
-
   }
-
 
  
 }

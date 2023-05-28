@@ -16,9 +16,12 @@ ValueNotifier<ProviderContainer> containerNotifier =
 
 void resetProviders() => containerNotifier.value = ProviderContainer();
 
+final Provider<AuthenticationStorageRepository> userSetupProvider =
+    Provider((ref) => AuthenticationStorageRepository(_userSetupStore!));
+
 final Provider<GlobalCache> globalCacheProvider =
     Provider((ref) => _globalCache!);
 
 final Provider<ApiRepository> apiRepositoryProvider = Provider(
-  (ref) => ApiRepository(),
+  (ref) => ApiRepository(authStorageRepository: ref.watch(userSetupProvider)),
 );

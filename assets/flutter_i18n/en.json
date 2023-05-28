@@ -6,5 +6,7 @@
 	"set_passcode": "Create your Passcode",
 	"set_passcode_hint": "Enter a 6-digit passcode to unlock your wallet with ease. This passcode can’t be used to recover your wallet.",
 	"passcode_didnt_match": "Passcodes did not match. Try again.",
-	"confirm_passcode_desc": "Re-type your passcode"
+	"confirm_passcode_desc": "Re-type your passcode",
+	"yes": "Yes",
+	"no": "No"
 }

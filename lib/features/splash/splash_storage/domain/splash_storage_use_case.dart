@@ -10,4 +10,7 @@ class WalletUseCase extends ReactiveUseCase {
     return _repository.address.generateMnemonic();
   }
 
+  Future<bool> setupFromMnemonic(String mnemonic) async {
+    return await _repository.address.setupFromMnemonic(mnemonic);
+  }
 }

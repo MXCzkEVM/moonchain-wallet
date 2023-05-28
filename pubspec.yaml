@@ -54,6 +54,7 @@ dependencies:
   flutter_svg: ^2.0.1
   sliver_tools: ^0.2.5
   url_launcher: ^6.1.11
+  fl_shared_link: ^0.0.3
 
 dev_dependencies:
   flutter_test:

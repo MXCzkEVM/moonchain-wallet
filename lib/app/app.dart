@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/file_listener/file_listener_wrapper.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -48,6 +49,12 @@ class DataDashWallet extends HookConsumerWidget {
                 return route(const SplashSetupWalletPage());
               },
             );
+
+            // Place there top-level widgets which should be presented above all pages
+            // The widgets will be able to use Theme and Locale, but you can't use
+            // [Navigator] through Navigator.of(context), you must use navigatorKey.
+
+            child = FileListenerWrapper(child: child);
 
             // Close keyboard on tap. Default behavior on iOS.
             child = GestureDetector(
