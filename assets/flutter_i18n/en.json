@@ -8,5 +8,9 @@
 	"passcode_didnt_match": "Passcodes did not match. Try again.",
 	"confirm_passcode_desc": "Re-type your passcode",
 	"yes": "Yes",
-	"no": "No"
+	"no": "No",
+	"mnemonic_phrase": "Mnemonic Phrase",
+	"import_your_wallet": "Import Your Wallet",
+	"word_seed_phrase": "12, 18, 24-word seed phrases are supported",
+	"confirm": "Confirm"
 }

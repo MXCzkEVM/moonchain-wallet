@@ -31,6 +31,15 @@ class SplashSetupWalletPage extends SplashBasePage {
           ),
         ),
       ),
+      MxcFullRoundedButton(
+        key: const ValueKey('importButton'),
+        title: FlutterI18n.translate(context, 'import_wallet'),
+        onTap: () => Navigator.of(context).push(
+          route(
+            const SplashImportStoragePage(),
+          ),
+        ),
+      ),
     ];
   }
 }
