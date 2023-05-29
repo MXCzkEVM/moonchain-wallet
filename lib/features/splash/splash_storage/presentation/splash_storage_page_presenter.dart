@@ -100,7 +100,7 @@ class SplashStoragePagePresenter
       _walletUseCase.setupFromMnemonic(keys);
       useTip ? _tip.hide(context!) : null;
 
-      Navigator.of(context!).push(
+      Navigator.of(context!).pushReplacement(
         route(
           const PasscodeSetPage(),
         ),

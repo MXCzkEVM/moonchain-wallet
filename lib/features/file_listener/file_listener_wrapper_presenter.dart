@@ -52,13 +52,15 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
 
       String? mnemonic = await readMnemoniceFile(file);
 
-      if (mnemonic != null) {
+      if (mnemonic != null && mnemonic.isNotEmpty) {
         _walletUseCase.setupFromMnemonic(mnemonic);
 
         openPasscodeSetPage();
+      } else {
+        throw UnimplementedError('Mnemonic file is empty or not exists');
       }
-    } catch (error) {
-      print(error);
+    } catch (error, stackTrace) {
+      onError!(error, stackTrace);
     }
   }
 

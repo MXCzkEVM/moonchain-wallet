@@ -107,6 +107,8 @@ flutter:
           weight: 400
         - asset: assets/fonts/Roboto-Medium.ttf
           weight: 500
-
+    - family:  MXCIcons
+      fonts:
+        - asset: assets/icons/MXCIcons.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
