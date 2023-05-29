@@ -43,12 +43,6 @@ class SplashStoragePagePresenter
     return file.path;
   }
 
-  Future<void> isInstallApps() async {
-    final applist = await _socialShare.getInstalledApps();
-
-    notify(() => state.applist = applist);
-  }
-
   void shareToTelegram() async {
     final keys = _walletUseCase.generateMnemonic();
     final filePath = await writeToFile(keys);
