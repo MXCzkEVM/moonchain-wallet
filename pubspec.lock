@@ -160,6 +160,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
+  fl_shared_link:
+    dependency: "direct main"
+    description:
+      name: fl_shared_link
+      sha256: f9c0da5cdedccad1a51d570a57bc7a7289b345846fe7fab08738f397248f644d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   flutter:
     dependency: "direct main"
     description: flutter

@@ -16,8 +16,10 @@ class MxcPageLayer extends MxcPage {
     Key? key,
     Key? scaffoldKey,
     required List<Widget> children,
+    EdgeInsets? childrenPadding,
     Widget? footer,
-    Widget? appBar,
+    PreferredSizeWidget? appBar,
+    Widget? bottomNavigationBar,
     bool useContentPadding = true,
     Widget? drawer,
     LayoutType layout = LayoutType.scrollable,
@@ -37,8 +39,10 @@ class MxcPageLayer extends MxcPage {
           key: key,
           scaffoldKey: scaffoldKey,
           children: children,
+          childrenPadding: childrenPadding,
           footer: footer,
           appBar: appBar,
+          bottomNavigationBar: bottomNavigationBar,
           useContentPadding: useContentPadding,
           drawer: drawer,
           layout: layout,
@@ -88,7 +92,10 @@ class MxcPageLayer extends MxcPage {
   }
 
   @override
-  Widget buildAppBar(BuildContext context, WidgetRef ref) => const SizedBox();
+  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) => appBar;
+
+  @override
+  Widget? buildBottomNavigation(BuildContext context, WidgetRef ref) => bottomNavigationBar;
 
   @override
   Widget buildScrollableContent(BuildContext context, WidgetRef ref) {
