@@ -19,6 +19,8 @@ abstract class MxcPage extends HookConsumerWidget {
     required this.children,
     this.footer,
     this.appBar,
+    this.bottomNavigationBar,
+    this.childrenPadding,
     this.useContentPadding = true,
     this.drawer,
     this.layout = LayoutType.scrollable,
@@ -39,8 +41,10 @@ abstract class MxcPage extends HookConsumerWidget {
     Key? key,
     Key? scaffoldKey,
     required List<Widget> children,
+    EdgeInsets? childrenPadding,
     Widget? footer,
-    Widget? appBar,
+    PreferredSizeWidget? appBar,
+    Widget? bottomNavigationBar,
     bool useContentPadding,
     Widget? drawer,
     LayoutType layout,
@@ -60,8 +64,10 @@ abstract class MxcPage extends HookConsumerWidget {
     Key? key,
     Key? scaffoldKey,
     required List<Widget> children,
+    EdgeInsets? childrenPadding,
     Widget? footer,
-    Widget? appBar,
+    PreferredSizeWidget? appBar,
+    Widget? bottomNavigationBar,
     bool useContentPadding,
     Widget? drawer,
     LayoutType layout,
@@ -80,8 +86,10 @@ abstract class MxcPage extends HookConsumerWidget {
   final Key? scaffoldKey;
 
   final List<Widget> children;
+  final EdgeInsets? childrenPadding;
   final Widget? footer;
-  final Widget? appBar;
+  final PreferredSizeWidget? appBar;
+  final Widget? bottomNavigationBar;
   final Widget? drawer;
   final bool useContentPadding;
   final bool useFooterPadding;
@@ -138,7 +146,9 @@ abstract class MxcPage extends HookConsumerWidget {
     Color? backgroundColor,
   );
 
-  Widget buildAppBar(BuildContext context, WidgetRef ref);
+  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref);
+
+  Widget? buildBottomNavigation(BuildContext context, WidgetRef ref);
 
   Widget buildColumnContent(BuildContext context, WidgetRef ref);
 
@@ -203,8 +213,10 @@ abstract class MxcPage extends HookConsumerWidget {
         backgroundColor: resolveBackgroundColor(context),
         drawer: drawer,
         key: scaffoldKey,
+        appBar: buildAppBar(context, ref),
         resizeToAvoidBottomInset: false,
         floatingActionButton: floatingActionButton,
+        bottomNavigationBar: buildBottomNavigation(context, ref),
         body: PresenterHooks(
           presenter: presenter,
           child: appLinearBackground(
@@ -214,8 +226,10 @@ abstract class MxcPage extends HookConsumerWidget {
               top: topSafeArea,
               child: Column(
                 children: [
-                  buildAppBar(context, ref),
-                  Expanded(child: content(context, ref)),
+                  Expanded(child: Padding(
+                    padding: childrenPadding ?? EdgeInsets.zero,
+                    child: content(context, ref),
+                  )),
                   if (placeBottomInsetFiller)
                     AnimatedSize(
                       curve: Curves.easeOutQuad,
