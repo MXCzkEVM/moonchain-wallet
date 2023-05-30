@@ -108,19 +108,16 @@ class MxcPageRegular extends MxcPage {
 
   @override
   Widget buildColumnContent(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: EdgeInsets.only(top: appBar == null ? 0 : 16),
-      child: Column(
-        crossAxisAlignment: crossAxisAlignment,
-        children: [
-          ...children,
-          if (footer != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 5, bottom: 20),
-              child: footer,
-            ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: crossAxisAlignment,
+      children: [
+        ...children,
+        if (footer != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 5, bottom: 20),
+            child: footer,
+          ),
+      ],
     );
   }
 }
