@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:collection/collection.dart';
 import 'package:datadashwallet/features/security/security.dart';
@@ -29,6 +30,17 @@ class PasscodeSetConfirmPagePresenter extends PasscodeBasePagePresenter {
     }
 
     _passcodeUseCase.setNeedSetPasscode(false);
-    navigator?.pop(PasscodeConfirmResult.ok);
+    _passcodeUseCase.setPasscode(expectedNumbers.join());
+    
+    
+    if (Biometric.available) {
+      navigator!.replaceAll(
+        route(
+          const SetupEnableBiometricPage(),
+        ),
+      );
+    } else {
+      // finishPasscodeSetup(navigator!);
+    }
   }
 }

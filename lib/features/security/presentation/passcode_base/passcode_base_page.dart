@@ -134,9 +134,8 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
             alignment: Alignment.center,
             child: Text(
               number.toString(),
-              style: FontTheme.of(context).h6().copyWith(
+              style: FontTheme.of(context).h6.white().copyWith(
                     fontSize: 35,
-                    color: ColorsTheme.of(context).white,
                   ),
             ),
           ),
@@ -163,16 +162,12 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
             children: [
               Text(
                 title(context, ref),
-                style: FontTheme.of(context).h5().copyWith(
-                      color: ColorsTheme.of(context).white,
-                    ),
+                style: FontTheme.of(context).h5.white(),
               ),
               const SizedBox(height: 28),
               Text(
                 hint(context, ref),
-                style: FontTheme.of(context).body1().copyWith(
-                      color: ColorsTheme.of(context).white,
-                    ),
+                style: FontTheme.of(context).body1.white(),
               ),
               const SizedBox(height: 64),
               Center(
@@ -186,9 +181,8 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
       if (description(context, ref).isNotEmpty)
         Text(
           description(context, ref),
-          style: FontTheme.of(context).body1().copyWith(
+          style: FontTheme.of(context).body1.white().copyWith(
                 fontWeight: FontWeight.bold,
-                color: ColorsTheme.of(context).white,
               ),
         ),
       const Spacer(),

@@ -6,15 +6,15 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'splash_import_wallet_page_presenter.dart';
-import 'splash_import_wallet_page_state.dart';
+import 'splash_ens_announcement_page_presenter.dart';
+import 'splash_ens_announcement_page_state.dart';
 
-class SplashImportWalletPage extends HookConsumerWidget {
-  const SplashImportWalletPage({Key? key}) : super(key: key);
+class SplashENSAnnouncementPage extends HookConsumerWidget {
+  const SplashENSAnnouncementPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(splashImportWalletPageContainer.actions);
+    final presenter = ref.read(splashENSAnnouncementPageContainer.actions);
 
     return MxcPage(
       layout: LayoutType.scrollable,
@@ -24,23 +24,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 80,
-            ),
-            Text(
-              FlutterI18n.translate(context, 'import_your_wallet'),
-              style: FontTheme.of(context).h5.white(),
-            ),
-            const SizedBox(
-              height: 29,
-            ),
-            Text(
-              FlutterI18n.translate(context, 'word_seed_phrase'),
-              style: FontTheme.of(context).body1.secondary(),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 80),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: const BoxDecoration(
@@ -68,9 +52,9 @@ class SplashImportWalletPage extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MxcFullRoundedButton(
-                key: const ValueKey('confrimButton'),
-                title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
-                onTap: () => presenter.confirm(),
+                key: const ValueKey('claimButton'),
+                title: FlutterI18n.translate(context, 'claim').toUpperCase(),
+                onTap: null,
               ),
             ],
           ),

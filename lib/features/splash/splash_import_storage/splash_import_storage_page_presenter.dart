@@ -33,7 +33,7 @@ class SplashImportStoragePagePresenter
         throw UnimplementedError('Could not launch $url');
       }
     } catch (error, tackTrace) {
-      onError!(error, tackTrace);
+      addError(error, tackTrace);
     }
   }
 }

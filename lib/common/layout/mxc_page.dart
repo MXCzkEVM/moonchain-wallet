@@ -12,7 +12,7 @@ import 'mxc_page_layer.dart';
 
 const contentPadding = EdgeInsets.symmetric(horizontal: 16);
 
-abstract class MxcPage extends HookConsumerWidget with SplashScreenMixin {
+abstract class MxcPage extends HookConsumerWidget {
   const MxcPage.internal({
     Key? key,
     this.scaffoldKey,
@@ -169,6 +169,30 @@ abstract class MxcPage extends HookConsumerWidget with SplashScreenMixin {
       return backgroundColor!;
     }
     return ColorsTheme.of(context).primaryBackground;
+  }
+
+  Widget appLinearBackground({
+    Widget? child,
+    bool visiable = true,
+  }) {
+    if (visiable) {
+      return Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Color(0xff8D023F),
+              Color(0xff09379E),
+            ],
+            tileMode: TileMode.mirror,
+          ),
+        ),
+        child: child,
+      );
+    } else {
+      return Container(child: child);
+    }
   }
 
   @override

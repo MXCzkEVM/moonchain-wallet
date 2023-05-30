@@ -9,5 +9,8 @@ export 'presentation/passcode_set/passcode_set_confirm_page/passcode_set_confirm
 export 'presentation/passcode_set/passcode_set_confirm_page/passcode_set_confirm_page_presenter.dart';
 
 export 'presentation/passcode_set/passcode_set_page/passcode_set_page.dart';
+export 'presentation/setup_enable_biometric/setup_enable_biometric_page.dart';
 
 export 'biometric_name.dart';
+
+export 'presentation/passcode.dart';

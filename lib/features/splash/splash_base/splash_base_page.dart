@@ -1,12 +1,12 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_ui/mxc_ui.dart';
 
 import 'splash_base_page_presenter.dart';
 import 'splash_base_page_state.dart';
 
-abstract class SplashBasePage extends HookConsumerWidget
-    with SplashScreenMixin {
+abstract class SplashBasePage extends HookConsumerWidget {
   const SplashBasePage({Key? key}) : super(key: key);
 
   List<Widget> setButtons(BuildContext context, WidgetRef ref);
@@ -32,6 +32,27 @@ abstract class SplashBasePage extends HookConsumerWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Widget appLogo(BuildContext context) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Image(
+            image: ImagesTheme.of(context).datadash,
+          ),
+          Text(
+            'DataDash',
+            style: FontTheme.of(context).h4.white().copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
+          Text(
+            'WALLET',
+            style: FontTheme.of(context).h5.white(),
+          ),
+        ],
+      );
+    }
+
     return MxcPage(
       layout: LayoutType.column,
       useAppLinearBackground: true,

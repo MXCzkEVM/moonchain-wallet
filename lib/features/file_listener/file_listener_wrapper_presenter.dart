@@ -60,7 +60,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
         throw UnimplementedError('Mnemonic file is empty or not exists');
       }
     } catch (error, stackTrace) {
-      onError!(error, stackTrace);
+      addError(error, stackTrace);
     }
   }
 
