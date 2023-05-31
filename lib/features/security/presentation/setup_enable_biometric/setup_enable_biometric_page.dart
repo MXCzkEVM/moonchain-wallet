@@ -57,11 +57,11 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
               const SizedBox(height: 21),
               InkWell(
                 key: const ValueKey('skipBiometrics'),
-                onTap: null,
                 child: Text(
                   FlutterI18n.translate(context, 'maybe_later'),
                   style: FontTheme.of(context).body2.white(),
                 ),
+                onTap: () => presenter.skip(),
               ),
             ],
           ),

@@ -24,23 +24,17 @@ class SplashImportWalletPage extends HookConsumerWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 80,
-            ),
+            const SizedBox(height: 80),
             Text(
               FlutterI18n.translate(context, 'import_your_wallet'),
               style: FontTheme.of(context).h5.white(),
             ),
-            const SizedBox(
-              height: 29,
-            ),
+            const SizedBox(height: 29),
             Text(
               FlutterI18n.translate(context, 'word_seed_phrase'),
               style: FontTheme.of(context).body1.secondary(),
             ),
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 50),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: const BoxDecoration(
@@ -54,14 +48,13 @@ class SplashImportWalletPage extends HookConsumerWidget {
                   hintText:
                       FlutterI18n.translate(context, 'mnemonic_passphrase'),
                   focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
                 ),
               ),
             )
           ],
         ),
-        const SizedBox(
-          height: 150,
-        ),
+        const SizedBox(height: 150),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 72),
           child: Column(

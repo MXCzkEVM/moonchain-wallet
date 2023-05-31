@@ -271,7 +271,7 @@ class _SaveToHereTipState extends State<SaveToHereTip>
                     style: FontTheme.of(context).h4.primary(),
                   ),
                   SvgPicture.asset(
-                    'assets/svg/down_arrow.svg',
+                    'assets/svg/curve_arrow.svg',
                     colorFilter: filterFor(ColorsTheme.of(context).purpleMain),
                   )
                 ],
