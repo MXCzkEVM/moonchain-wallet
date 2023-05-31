@@ -64,5 +64,35 @@
 		<string>tl</string>
 		<string>id</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tg</string>
+		<string>weixin</string>
+		<string>wechat</string>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<string>No</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>FlSharedLink</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.file-url</string>
+				<string>public.image</string>
+				<string>public.text</string>
+				<string>public.url</string>
+				<string>public.data</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
