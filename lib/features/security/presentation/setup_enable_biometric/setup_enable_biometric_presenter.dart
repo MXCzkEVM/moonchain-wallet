@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:datadashwallet/features/splash/splash_ens_process/splash_ens.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -33,7 +34,11 @@ class SetupEnableBiometricPresenter extends CompletePresenter<void> {
     }
   }
 
-  // void skip() => _finishPasscodeSetup();
+  void skip() => navigator!.pushReplacement(
+        route(
+          const SplashENSAnnouncementPage(),
+        ),
+      );
 
   // void _finishPasscodeSetup() {
   //   finishPasscodeSetup(navigator!);

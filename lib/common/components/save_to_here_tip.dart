@@ -267,11 +267,11 @@ class _SaveToHereTipState extends State<SaveToHereTip>
               child: Column(
                 children: [
                   Text(
-                    'Save to here',
+                    "Save to here",
                     style: FontTheme.of(context).h4.primary(),
                   ),
                   SvgPicture.asset(
-                    'assets/svg/down_arrow.svg',
+                    "assets/svg/curve_arrow.svg",
                     colorFilter: filterFor(ColorsTheme.of(context).purpleMain),
                   )
                 ],
