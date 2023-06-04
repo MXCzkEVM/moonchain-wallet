@@ -38,5 +38,14 @@
 	"home" : "Home",
 	"apps" : "Apps",
 	"wallet" : "Wallet",
-	"active" : "Active"
+	"active" : "Active",
+	"date" : "Date",
+	"tx" : "Tx",
+	"manage_portfolio" : "Manage Portfolio",
+	"fiat_options" : "FIAT Options",
+	"show/hide_balance" : "Show/Hide Balance",
+	"balance" : "Balance",
+	"today":"today",
+	"deposit":"Deposit",
+	"withdraw":"Withdraw"
 }
