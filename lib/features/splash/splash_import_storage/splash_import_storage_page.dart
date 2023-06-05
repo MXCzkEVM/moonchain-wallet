@@ -6,19 +6,19 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'splash_import_storage_page_presenter.dart';
-import 'splash_import_storage_page_state.dart';
+import 'splash_import_storage_presenter.dart';
+import 'splash_import_storage_state.dart';
 
 class SplashImportStoragePage extends SplashBasePage {
   const SplashImportStoragePage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<SplashImportStoragePagePresenter> get presenter =>
-      splashImportStoragePageContainer.actions;
+  ProviderBase<SplashImportStoragePresenter> get presenter =>
+      splashImportStorageContainer.actions;
 
   @override
-  ProviderBase<SplashImportStoragePageState> get state =>
-      splashImportStoragePageContainer.state;
+  ProviderBase<SplashImportStorageState> get state =>
+      splashImportStorageContainer.state;
 
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {

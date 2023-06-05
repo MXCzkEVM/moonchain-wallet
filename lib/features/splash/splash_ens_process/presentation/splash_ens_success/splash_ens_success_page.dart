@@ -7,15 +7,21 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import '../widgets/address_bar.dart';
 import '../widgets/subdomain_bar.dart';
-import 'splash_ens_success_page_presenter.dart';
-import 'splash_ens_success_page_state.dart';
+import 'splash_ens_success_presenter.dart';
 
 class SplashENSSuccessPage extends HookConsumerWidget {
-  const SplashENSSuccessPage({Key? key}) : super(key: key);
+  const SplashENSSuccessPage({
+    Key? key,
+    required this.address,
+    required this.domain,
+  }) : super(key: key);
+
+  final String address;
+  final String domain;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(splashENSSuccessPageContainer.actions);
+    final presenter = ref.read(splashENSSuccessContainer.actions);
 
     return MxcPage(
       layout: LayoutType.column,
@@ -28,13 +34,17 @@ class SplashENSSuccessPage extends HookConsumerWidget {
           style: FontTheme.of(context).h5.white(),
         ),
         const SizedBox(height: 33),
-        const AddressBar(),
+        AddressBar(
+          address: address,
+        ),
         const SizedBox(height: 8),
         SvgPicture.asset(
           'assets/svg/down_arrow.svg',
           height: 30,
         ),
-        const SubDomainBar(),
+        SubDomainBar(
+          domain: '$domain.mxc',
+        ),
         const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 70),
@@ -48,7 +58,9 @@ class SplashENSSuccessPage extends HookConsumerWidget {
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 40),
-              Text(FlutterI18n.translate(context, 'ready_crypto'),
+              Text(
+                  FlutterI18n.translate(context, 'ready_crypto')
+                      .replaceFirst('{0}', domain),
                   style: FontTheme.of(context).body1.white()),
             ],
           ),

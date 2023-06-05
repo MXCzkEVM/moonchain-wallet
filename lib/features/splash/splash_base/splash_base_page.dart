@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'splash_base_page_presenter.dart';
-import 'splash_base_page_state.dart';
+import 'splash_base_presenter.dart';
+import 'splash_base_state.dart';
 
 abstract class SplashBasePage extends HookConsumerWidget {
   const SplashBasePage({Key? key}) : super(key: key);
 
   List<Widget> setButtons(BuildContext context, WidgetRef ref);
 
-  ProviderBase<SplashBasePagePresenter> get presenter;
+  ProviderBase<SplashBasePresenter> get presenter;
 
-  ProviderBase<SplashBasePageState> get state;
+  ProviderBase<SplashBaseState> get state;
 
   Widget separator() {
     return const SizedBox(

@@ -8,12 +8,12 @@ class SplashStoragePage extends SplashBasePage {
   const SplashStoragePage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<SplashStoragePagePresenter> get presenter =>
-      splashStoragePageContainer.actions;
+  ProviderBase<SplashStoragePresenter> get presenter =>
+      splashStorageContainer.actions;
 
   @override
-  ProviderBase<SplashStoragePageState> get state =>
-      splashStoragePageContainer.state;
+  ProviderBase<SplashStorageState> get state =>
+      splashStorageContainer.state;
 
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
