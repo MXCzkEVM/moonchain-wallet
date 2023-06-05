@@ -1,14 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:appinio_social_share/appinio_social_share.dart';
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+// import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:intl/intl.dart';
 
 import 'widgets/confirm_storage_dialog.dart';
 
@@ -16,15 +17,13 @@ final splashStorageContainer =
     PresenterContainer<SplashStoragePresenter, SplashStorageState>(
         () => SplashStoragePresenter());
 
-class SplashStoragePresenter
-    extends SplashBasePresenter<SplashStorageState> {
+class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
   SplashStoragePresenter() : super(SplashStorageState());
 
   late final _walletUseCase = ref.read(walletUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
-  final _tip = SaveToHereTip();
-  final _mnemoniceTitle = 'DataDash Wallet Mnemonice Phrase';
-  final _mnemoniceFileName = 'DataDash-Mnemonice.txt';
+  final _mnemonicTitle = 'DataDash Wallet Mnemonic Phrase';
+  final _mnemonicFileName = '${DateFormat('y-m-d').format(DateTime.now())}-DataDash-Mnemonic.txt';
 
   @override
   void initState() {
@@ -37,7 +36,7 @@ class SplashStoragePresenter
     dynamic content,
   ) async {
     final tempDir = await getTemporaryDirectory();
-    final fullPath = '${tempDir.path}/$_mnemoniceFileName';
+    final fullPath = '${tempDir.path}/$_mnemonicFileName';
     File file = await File(fullPath).create();
     await file.writeAsString(content);
     return file.path;
@@ -51,14 +50,14 @@ class SplashStoragePresenter
       showDialogAndGoToNext(keys);
 
       await _socialShare.shareToTelegram(
-        _mnemoniceTitle,
+        _mnemonicTitle,
         filePath: filePath,
       );
     } else {
-      showDialogAndGoToNext(keys, useTip: true);
+      showDialogAndGoToNext(keys);
 
       _socialShare.shareToSystem(
-        _mnemoniceTitle,
+        _mnemonicTitle,
         '',
         filePath: filePath,
       );
@@ -68,35 +67,46 @@ class SplashStoragePresenter
   }
 
   void shareToWechat() async {
-    _tip.show(context!);
-
     final keys = _walletUseCase.generateMnemonic();
     final filePath = await writeToFile(keys);
 
-    showDialogAndGoToNext(keys, useTip: true);
+    showDialogAndGoToNext(keys, type: StorageType.wechat);
 
     if (Platform.isAndroid) {
       _socialShare.shareToWechat(
-        _mnemoniceTitle,
+        _mnemonicTitle,
         filePath: filePath,
       );
     } else {
       _socialShare.shareToSystem(
-        _mnemoniceTitle,
+        _mnemonicTitle,
         '',
         filePath: filePath,
       );
     }
   }
 
-  void showDialogAndGoToNext(String keys, {bool useTip = false}) {
-    showConfirmStorageAlertDialog(context!, onOkTap: () {
+  void showDialogAndGoToNext(String keys,
+      {StorageType type = StorageType.others}) {
+    showConfirmStorageAlertDialog(context!, type: type, onOkTap: () {
       _walletUseCase.setupFromMnemonic(keys);
-      useTip ? _tip.hide(context!) : null;
 
       pushPasscodeSetPage(context!);
-    }, onNoTap: () {
-      useTip ? _tip.hide(context!) : null;
     });
   }
+
+  // void sendEmail() async {
+  //   final keys = _walletUseCase.generateMnemonic();
+  //   final filePath = await writeToFile(keys);
+
+  //   final email = Email(
+  //     body: FlutterI18n.translate(context!, 'email_secured_body'),
+  //     subject: FlutterI18n.translate(context!, 'email_secured_subject'),
+  //     recipients: [],
+  //     attachmentPaths: [filePath],
+  //     isHTML: false,
+  //   );
+
+  //   await FlutterEmailSender.send(email);
+  // }
 }

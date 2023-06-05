@@ -36,13 +36,13 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
       FlSharedLink().receiveHandler(
           onUniversalLink: (IOSUniversalLinkModel? data) {},
           onOpenUrl: (IOSOpenUrlModel? data) =>
-              readMnemoniceFileAndNextPage(data?.url),
+              readMnemonicFileAndNextPage(data?.url),
           onIntent: (AndroidIntentModel? data) =>
-              readMnemoniceFileAndNextPage(data?.id));
+              readMnemonicFileAndNextPage(data?.id));
     });
   }
 
-  void readMnemoniceFileAndNextPage(String? filePath) async {
+  void readMnemonicFileAndNextPage(String? filePath) async {
     try {
       if (filePath == null || filePath.isEmpty) return;
 
@@ -50,7 +50,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
           ? FlSharedLink().getRealFilePathWithAndroid(filePath)
           : FlSharedLink().getAbsolutePathWithIOS(filePath));
 
-      String? mnemonic = await readMnemoniceFile(file);
+      String? mnemonic = await readMnemonicFile(file);
 
       if (mnemonic != null && mnemonic.isNotEmpty) {
         _walletUseCase.setupFromMnemonic(mnemonic);
@@ -70,7 +70,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
         ),
       );
 
-  Future<String?> readMnemoniceFile(String? filePath) async {
+  Future<String?> readMnemonicFile(String? filePath) async {
     if (filePath != null) {
       return await File(filePath).readAsString();
     }
