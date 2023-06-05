@@ -23,7 +23,8 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
   late final _walletUseCase = ref.read(walletUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
   final _mnemonicTitle = 'DataDash Wallet Mnemonic Key';
-  final _mnemonicFileName = '${DateFormat('y-M-d').format(DateTime.now())}-DataDash-Mnemonic.txt';
+  final _mnemonicFileName =
+      '${DateFormat('y-M-d').format(DateTime.now())}-DataDash-Mnemonic.txt';
 
   @override
   void initState() {
@@ -46,16 +47,14 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
     final keys = _walletUseCase.generateMnemonic();
     final filePath = await writeToFile(keys);
 
-    if (Platform.isAndroid) {
-      showDialogAndGoToNext(keys);
+    showDialogAndGoToNext(keys);
 
+    if (Platform.isAndroid) {
       await _socialShare.shareToTelegram(
         _mnemonicTitle,
         filePath: filePath,
       );
     } else {
-      showDialogAndGoToNext(keys);
-
       _socialShare.shareToSystem(
         _mnemonicTitle,
         '',
