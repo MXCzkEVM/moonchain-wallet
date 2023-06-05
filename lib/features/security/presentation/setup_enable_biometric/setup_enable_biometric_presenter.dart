@@ -30,17 +30,17 @@ class SetupEnableBiometricPresenter extends CompletePresenter<void> {
     final res = await Biometric.authenticate(context!);
     if (res) {
       ref.read(passcodeUseCaseProvider).setBiometricEnabled(true);
-      // _finishPasscodeSetup();
+      _finishPasscodeSetup();
     }
   }
 
-  void skip() => navigator!.pushReplacement(
-        route(
-          const SplashENSAnnouncementPage(),
-        ),
-      );
+  void skip() => _finishPasscodeSetup();
 
-  // void _finishPasscodeSetup() {
-  //   finishPasscodeSetup(navigator!);
-  // }
+  void _finishPasscodeSetup() {
+    navigator!.pushReplacement(
+      route(
+        const SplashENSAnnouncementPage(),
+      ),
+    );
+  }
 }

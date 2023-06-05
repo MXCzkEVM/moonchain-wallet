@@ -52,7 +52,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
               MxcFullRoundedButton(
                 key: const ValueKey('confrimButton'),
                 title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
-                onTap: null,
+                onTap: () => presenter.authenticateBiometrics(),
               ),
               const SizedBox(height: 21),
               InkWell(

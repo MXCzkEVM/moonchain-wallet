@@ -94,5 +94,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Biometric?</string>
 </dict>
 </plist>

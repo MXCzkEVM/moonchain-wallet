@@ -22,8 +22,8 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
 
   late final _walletUseCase = ref.read(walletUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
-  final _mnemonicTitle = 'DataDash Wallet Mnemonic Phrase';
-  final _mnemonicFileName = '${DateFormat('y-m-d').format(DateTime.now())}-DataDash-Mnemonic.txt';
+  final _mnemonicTitle = 'DataDash Wallet Mnemonic Key';
+  final _mnemonicFileName = '${DateFormat('y-M-d').format(DateTime.now())}-DataDash-Mnemonic.txt';
 
   @override
   void initState() {
