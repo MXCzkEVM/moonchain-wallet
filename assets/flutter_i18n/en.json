@@ -34,5 +34,18 @@
 	"congratulations": "Congratulations",
 	"successfully_claimed": "You have successfully claimed your username!",
 	"ready_crypto": "{0}.mxc is ready to send and receive crypto",
-	"enter_protal": "Enter Portal"
+	"enter_protal": "Enter Portal",
+	"home" : "Home",
+	"apps" : "Apps",
+	"wallet" : "Wallet",
+	"active" : "Active",
+	"date" : "Date",
+	"tx" : "Tx",
+	"manage_portfolio" : "Manage Portfolio",
+	"fiat_options" : "FIAT Options",
+	"show/hide_balance" : "Show/Hide Balance",
+	"balance" : "Balance",
+	"today":"today",
+	"deposit":"Deposit",
+	"withdraw":"Withdraw"
 }
