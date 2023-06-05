@@ -5,19 +5,19 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'splash_setup_wallet_page_presenter.dart';
-import 'splash_setup_wallet_page_state.dart';
+import 'splash_setup_wallet_presenter.dart';
+import 'splash_setup_wallet_state.dart';
 
 class SplashSetupWalletPage extends SplashBasePage {
   const SplashSetupWalletPage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<SplashSetupWalletPagePresenter> get presenter =>
-      splashSetupWalletPageContainer.actions;
+  ProviderBase<SplashSetupWalletPresenter> get presenter =>
+      splashSetupWalletContainer.actions;
 
   @override
-  ProviderBase<SplashSetupWalletPageState> get state =>
-      splashSetupWalletPageContainer.state;
+  ProviderBase<SplashSetupWalletState> get state =>
+      splashSetupWalletContainer.state;
 
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {

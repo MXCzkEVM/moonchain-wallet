@@ -6,15 +6,15 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'splash_import_wallet_page_presenter.dart';
-import 'splash_import_wallet_page_state.dart';
+import 'splash_import_wallet_presenter.dart';
+import 'splash_import_wallet_state.dart';
 
 class SplashImportWalletPage extends HookConsumerWidget {
   const SplashImportWalletPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(splashImportWalletPageContainer.actions);
+    final presenter = ref.read(splashImportWalletContainer.actions);
 
     return MxcPage(
       layout: LayoutType.scrollable,
@@ -42,6 +42,8 @@ class SplashImportWalletPage extends HookConsumerWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: TextField(
+                 key: const ValueKey('mnemonicPassphrase'),
+                controller: presenter.mnemonicController,
                 maxLines: 7,
                 style: FontTheme.of(context).body1.white(),
                 decoration: InputDecoration(

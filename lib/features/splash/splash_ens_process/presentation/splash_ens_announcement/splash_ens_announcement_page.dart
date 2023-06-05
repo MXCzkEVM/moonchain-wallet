@@ -9,15 +9,15 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import '../widgets/address_bar.dart';
 import '../widgets/subdomain_bar.dart';
-import 'splash_ens_announcement_page_presenter.dart';
-import 'splash_ens_announcement_page_state.dart';
+import 'splash_ens_announcement_presenter.dart';
+import 'splash_ens_announcement_state.dart';
 
 class SplashENSAnnouncementPage extends HookConsumerWidget {
   const SplashENSAnnouncementPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(splashENSAnnouncementPageContainer.actions);
+    final presenter = ref.read(splashENSAnnouncementContainer.actions);
 
     return MxcPage(
       layout: LayoutType.column,
@@ -63,7 +63,7 @@ class SplashENSAnnouncementPage extends HookConsumerWidget {
                   key: const ValueKey('claimButton'),
                   title: FlutterI18n.translate(context, 'claim').toUpperCase(),
                   onTap: () => Navigator.of(context)
-                      .push(route(const SplashENSRegisterPage())),
+                      .push(route(const SplashENSQueryPage())),
                 ),
               ],
             ),

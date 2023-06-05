@@ -44,6 +44,8 @@ dependencies:
     path: packages/appinio_social_share
   local_auth:
     path: packages/local_auth/local_auth
+  ens_dart:
+    path: packages/ens_dart
 
   flutter_i18n: ^0.32.4
   riverpod: ^1.0.3
