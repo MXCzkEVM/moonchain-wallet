@@ -57,6 +57,7 @@ dependencies:
   sliver_tools: ^0.2.5
   url_launcher: ^6.1.11
   fl_shared_link: ^0.0.3
+  webview_flutter: ^4.2.1
 
 dev_dependencies:
   flutter_test:

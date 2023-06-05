@@ -1,6 +1,4 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/security/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,6 +13,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(splashImportWalletContainer.actions);
+    final state = ref.read(splashImportWalletContainer.state);
 
     return MxcPage(
       layout: LayoutType.scrollable,
@@ -42,8 +41,8 @@ class SplashImportWalletPage extends HookConsumerWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: TextField(
-                 key: const ValueKey('mnemonicPassphrase'),
-                controller: presenter.mnemonicController,
+                key: const ValueKey('mnemonicPassphrase'),
+                controller: state.mnemonicController,
                 maxLines: 7,
                 style: FontTheme.of(context).body1.white(),
                 decoration: InputDecoration(
