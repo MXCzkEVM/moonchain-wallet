@@ -53,7 +53,7 @@ class SplashENSQueryPresenter extends CompletePresenter<SplashENSQueryState> {
 
   Future<void> claim() async {
     navigator?.push(route(SplashENSSuccessPage(
-      address: '0x123',
+      address: '0x12345678900987654321',
       domain: state.usernameController.text,
     )));
   }

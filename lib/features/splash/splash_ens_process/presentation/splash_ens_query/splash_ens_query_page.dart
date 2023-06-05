@@ -1,4 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -79,72 +81,7 @@ class SplashENSQueryPage extends HookConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            Image(
-              image: ImagesTheme.of(context).mxc,
-            ),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    FlutterI18n.translate(context, 'use_ens'),
-                    style: FontTheme.of(context).body2.white(),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    FlutterI18n.translate(context, 'mxc_import_wallet'),
-                    style: FontTheme.of(context).caption1.white(),
-                    softWrap: true,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      InkWell(
-                        child: Text(
-                          FlutterI18n.translate(context, 'learn_more'),
-                          style: FontTheme.of(context).caption2.white(),
-                        ),
-                        onTap: () => openUrl(''),
-                      ),
-                      const SizedBox(width: 5),
-                      SvgPicture.asset(
-                        'assets/svg/right_arrow.svg',
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-        Row(
-          children: [
-            Theme(
-              data: Theme.of(context).copyWith(
-                unselectedWidgetColor: ColorsTheme.of(context).white,
-              ),
-              child: Checkbox(
-                value: state.agreeChecked,
-                onChanged: (_) => presenter.changeAgreeChecked(),
-              ),
-            ),
-            Text.rich(TextSpan(children: [
-              TextSpan(
-                text: FlutterI18n.translate(context, 'agree_terms1'),
-                style: FontTheme.of(context).caption1.white(),
-              ),
-              const TextSpan(text: ' '),
-              TextSpan(
-                text: FlutterI18n.translate(context, 'agree_terms2'),
-                style: FontTheme.of(context).caption2.white(),
-              )
-            ]))
-          ],
-        ),
-        const SizedBox(height: 50),
+        const SizedBox(height: 150),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
@@ -156,6 +93,16 @@ class SplashENSQueryPage extends HookConsumerWidget {
                 onTap: state.agreeChecked && state.isRegistered
                     ? () => presenter.claim()
                     : null,
+              ),
+              const SizedBox(height: 21),
+              InkWell(
+                key: const ValueKey('skipBiometrics'),
+                child: Text(
+                  FlutterI18n.translate(context, 'maybe_later'),
+                  style: FontTheme.of(context).body2.white(),
+                ),
+                onTap: () => Navigator.of(context)
+                    .replaceAll(route(const HomeMainPage())),
               ),
             ],
           ),
