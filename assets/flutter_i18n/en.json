@@ -50,7 +50,7 @@
 	"Receive": "Receive",
 	"send": "Send",
 	"alert": "Alert",
-	"save_related_app": "Do you save the mnemonic to the related app?",
+	"save_related_app": "Did you save the mnemonic to the related app?",
 	"email_secured_body": "Please keep this email safe, and change the recipients to yourself! Make sure you click Send!",
 	"email_secured_subject": "Your DataDash Wallet Key",
 	"face_id": "Face ID",
