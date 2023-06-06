@@ -45,11 +45,11 @@ class SplashImportStoragePage extends SplashBasePage {
           ),
         ),
       ),
-      // MxcFullRoundedButton(
-      //   key: const ValueKey('emailButton'),
-      //   title: FlutterI18n.translate(context, 'email_secured_storage'),
-      //   onTap: () => ref.read(presenter).openEmail(),
-      // ),
+      MxcFullRoundedButton(
+        key: const ValueKey('emailButton'),
+        title: FlutterI18n.translate(context, 'email_secured_storage'),
+        onTap: () => ref.read(presenter).openEmail(),
+      ),
     ];
   }
 }

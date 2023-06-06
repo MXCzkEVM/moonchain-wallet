@@ -54,7 +54,6 @@ class SplashImportWalletPage extends HookConsumerWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: TextField(
-                key: const Key('mnemonicPassphrase'),
                 controller: state.mnemonicController,
                 maxLines: 7,
                 style: FontTheme.of(context).body1.white(),

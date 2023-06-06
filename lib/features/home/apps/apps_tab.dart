@@ -1,5 +1,3 @@
-import 'package:datadashwallet/features/home/home_main/presentation/widgets/balance_panel.dart';
-import 'package:datadashwallet/features/home/home_main/presentation/widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/features/home/home.dart';

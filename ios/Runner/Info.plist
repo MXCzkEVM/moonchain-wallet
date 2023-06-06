@@ -69,6 +69,15 @@
 		<string>tg</string>
 		<string>weixin</string>
 		<string>wechat</string>
+		<string>googlegmail</string>
+		<string>x-dispatch</string>
+		<string>readdle-spark</string>
+		<string>airmail</string>
+		<string>ms-outlook</string>
+		<string>ymail</string>
+		<string>fastmail</string>
+		<string>superhuman</string>
+		<string>protonmail</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
