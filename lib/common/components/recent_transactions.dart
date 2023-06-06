@@ -4,6 +4,17 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:intl/intl.dart';
 
+enum TransactionType {
+  send,
+  receive
+}
+
+// extension TransactionTypeExtension on TransactionType {
+//   String get name {
+//     return this.toString().split('.').last;
+//   }
+// }
+
 class RecentTransactions extends StatefulWidget {
   const RecentTransactions({Key? key}) : super(key: key);
 
@@ -53,7 +64,7 @@ class _RecentTrxListItemState extends State<RecentTrxListItem> {
               ],
             ),
             Text(
-              FlutterI18n.translate(context, 'withdraw'),
+              FlutterI18n.translate(context, TransactionType.send.name),
               style: FontTheme.of(context).h8().copyWith(fontWeight: FontWeight.w400, color: ColorsTheme.of(context).error),
             ),
             Text(
