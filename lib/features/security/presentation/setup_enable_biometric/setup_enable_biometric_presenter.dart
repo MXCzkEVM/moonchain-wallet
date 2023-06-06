@@ -5,9 +5,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 
-final setupEnableBiometricContainer =
-    PresenterContainer<SetupEnableBiometricPresenter, void>(
-        () => SetupEnableBiometricPresenter());
+final setupEnableBiometricContainer = PresenterContainer<SetupEnableBiometricPresenter, void>(() => SetupEnableBiometricPresenter());
 
 class SetupEnableBiometricPresenter extends CompletePresenter<void> {
   SetupEnableBiometricPresenter() : super(null);
@@ -28,10 +26,8 @@ class SetupEnableBiometricPresenter extends CompletePresenter<void> {
 
   void authenticateBiometrics() async {
     final res = await Biometric.authenticate(context!);
-    if (res) {
-      ref.read(passcodeUseCaseProvider).setBiometricEnabled(true);
-      _finishPasscodeSetup();
-    }
+    ref.read(passcodeUseCaseProvider).setBiometricEnabled(res);
+    _finishPasscodeSetup();
   }
 
   void skip() => _finishPasscodeSetup();
