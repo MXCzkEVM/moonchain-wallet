@@ -58,7 +58,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
       if (mnemonic != null && mnemonic.isNotEmpty) {
         _walletUseCase.setupFromMnemonic(mnemonic);
 
-        openPasscodeSetPage();
+        pushPasscodeSetPage();
       } else {
         throw UnimplementedError('Mnemonic file is empty or not exists');
       }
@@ -67,11 +67,10 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
     }
   }
 
-  void openPasscodeSetPage() => appNavigatorKey.currentState?.pushReplacement(
-        route(
-          const PasscodeSetPage(),
-        ),
-      );
+  void pushPasscodeSetPage() =>
+      appNavigatorKey.currentState?.pushReplacement(route(
+        const PasscodeSetPage(),
+      ));
 
   Future<String?> readMnemonicFile(String? filePath) async {
     if (filePath != null) {

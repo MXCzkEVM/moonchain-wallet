@@ -17,9 +17,31 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
     final presenter = ref.watch(setupEnableBiometricContainer.actions);
 
     return MxcPage(
-      layout: LayoutType.column,
+      layout: LayoutType.scrollable,
       presenter: presenter,
       useAppLinearBackground: true,
+      footer: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MxcFullRoundedButton(
+              key: const ValueKey('confrimButton'),
+              title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
+              onTap: () => presenter.authenticateBiometrics(),
+            ),
+            const SizedBox(height: 21),
+            InkWell(
+              key: const ValueKey('skipBiometrics'),
+              child: Text(
+                FlutterI18n.translate(context, 'maybe_later'),
+                style: FontTheme.of(context).body2.white(),
+              ),
+              onTap: () => presenter.skip(),
+            ),
+          ],
+        ),
+      ),
       children: [
         const SizedBox(height: 75),
         Text(
@@ -43,30 +65,6 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
               FlutterI18n.translate(context, presenter.getAppBarTitle())),
           style: FontTheme.of(context).body1.white(),
         ),
-        const Spacer(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 72),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MxcFullRoundedButton(
-                key: const ValueKey('confrimButton'),
-                title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
-                onTap: () => presenter.authenticateBiometrics(),
-              ),
-              const SizedBox(height: 21),
-              InkWell(
-                key: const ValueKey('skipBiometrics'),
-                child: Text(
-                  FlutterI18n.translate(context, 'maybe_later'),
-                  style: FontTheme.of(context).body2.white(),
-                ),
-                onTap: () => presenter.skip(),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 65),
       ],
     );
   }

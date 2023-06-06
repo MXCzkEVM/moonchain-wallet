@@ -1,4 +1,5 @@
 import 'package:datadashwallet/app/configuration.dart';
+import 'package:datadashwallet/features/home/home.dart';
 import 'package:datadashwallet/features/splash/splash_ens_process/splash_ens.dart';
 import 'package:ens_dart/ens_dart.dart';
 
@@ -34,9 +35,6 @@ class SplashENSQueryPresenter extends CompletePresenter<SplashENSQueryState> {
     return super.dispose();
   }
 
-  void changeAgreeChecked() =>
-      notify(() => state.agreeChecked = !state.agreeChecked);
-
   Future<void> queryNameAvailable() async {
     final ens = Ens(client: _web3client);
     final name = state.usernameController.text;
@@ -51,10 +49,5 @@ class SplashENSQueryPresenter extends CompletePresenter<SplashENSQueryState> {
     }
   }
 
-  Future<void> claim() async {
-    navigator?.push(route(SplashENSSuccessPage(
-      address: '0x12345678900987654321',
-      domain: state.usernameController.text,
-    )));
-  }
+  Future<void> claim() async => navigator?.push(route(const HomeMainPage()));
 }

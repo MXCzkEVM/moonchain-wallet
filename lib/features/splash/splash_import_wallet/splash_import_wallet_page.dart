@@ -19,6 +19,19 @@ class SplashImportWalletPage extends HookConsumerWidget {
       layout: LayoutType.scrollable,
       useAppLinearBackground: true,
       presenter: presenter,
+      footer: Padding(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MxcFullRoundedButton(
+              key: const ValueKey('confrimButton'),
+              title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
+              onTap: () => presenter.confirm(),
+            ),
+          ],
+        ),
+      ),
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +54,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: TextField(
-                key: const ValueKey('mnemonicPassphrase'),
+                key: const Key('mnemonicPassphrase'),
                 controller: state.mnemonicController,
                 maxLines: 7,
                 style: FontTheme.of(context).body1.white(),
@@ -54,20 +67,6 @@ class SplashImportWalletPage extends HookConsumerWidget {
               ),
             )
           ],
-        ),
-        const SizedBox(height: 150),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 72),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MxcFullRoundedButton(
-                key: const ValueKey('confrimButton'),
-                title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
-                onTap: () => presenter.confirm(),
-              ),
-            ],
-          ),
         ),
       ],
     );

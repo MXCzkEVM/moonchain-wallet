@@ -1,12 +1,9 @@
 import 'package:datadashwallet/core/core.dart';
-import 'splash_ens_announcement_state.dart';
 
-final splashENSAnnouncementContainer = PresenterContainer<
-    SplashENSAnnouncementPresenter,
-    SplashENSAnnouncementState>(() => SplashENSAnnouncementPresenter());
+final splashENSAnnouncementContainer =
+    PresenterContainer<SplashENSAnnouncementPresenter, void>(
+        () => SplashENSAnnouncementPresenter());
 
-class SplashENSAnnouncementPresenter
-    extends CompletePresenter<SplashENSAnnouncementState> {
-  SplashENSAnnouncementPresenter() : super(SplashENSAnnouncementState());
-
+class SplashENSAnnouncementPresenter extends CompletePresenter<void> {
+  SplashENSAnnouncementPresenter() : super(null);
 }
