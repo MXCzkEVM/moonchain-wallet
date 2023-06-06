@@ -9,8 +9,7 @@ class Biometric {
   static final LocalAuthentication _localAuth = LocalAuthentication();
 
   static List<BiometricType>? _availableBiometrics;
-  static List<BiometricType> get availableBiometrics =>
-      _availableBiometrics ?? [];
+  static List<BiometricType> get availableBiometrics => _availableBiometrics ?? [];
 
   static bool get available => availableBiometrics.isNotEmpty;
 
@@ -43,10 +42,12 @@ class Biometric {
   static Future<bool> authenticate(BuildContext context) async {
     try {
       final localizedReason = FlutterI18n.translate(context, 'verify');
-      if (!await _localAuth.isDeviceSupported()) return true;
+
+      if (!await _localAuth.isDeviceSupported()) return false;
+
       return await _localAuth.authenticate(
         localizedReason: localizedReason,
-        useErrorDialogs: false,
+        useErrorDialogs: true,
         biometricOnly: true,
       );
     } catch (e) {
