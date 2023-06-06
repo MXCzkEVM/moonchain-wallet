@@ -25,6 +25,6 @@ final Provider<PasscodeUseCase> passcodeUseCaseProvider = Provider(
   (ref) => PasscodeUseCase(ref.watch(globalCacheProvider).passcode),
 );
 
-final Provider<LoginUseCase> loginUseCaseProvider = Provider(
-  (ref) => LoginUseCase(ref.watch(userSetupProvider)),
+final Provider<AuthUseCase> authUseCaseProvider = Provider(
+  (ref) => AuthUseCase(ref.watch(userSetupProvider)),
 );

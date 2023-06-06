@@ -10,7 +10,7 @@ void main() async {
   await loadProviders();
 
   final container = ProviderContainer();
-  final authUseCase = container.read(loginUseCaseProvider);
+  final authUseCase = container.read(authUseCaseProvider);
   final isLoggedIn = authUseCase.loggedIn;
 
   await Biometric.load();
