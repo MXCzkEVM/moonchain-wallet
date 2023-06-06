@@ -17,7 +17,7 @@ class PasscodeRequireWrapperPresenter
   late final PasscodeUseCase _passcodeUseCase =
       ref.read(passcodeUseCaseProvider);
 
-  late final authUseCase = ref.read(authUseCaseProvider);
+  late final _authUseCase = ref.read(authUseCaseProvider);
 
   @override
   Future<void> initState() async {
@@ -31,7 +31,7 @@ class PasscodeRequireWrapperPresenter
 
     _passcodeUseCase.setPasscodeScreenIsShown(true);
 
-    if (authUseCase.loggedIn &&
+    if (_authUseCase.loggedIn &&
         _passcodeUseCase.passcode.value != null &&
         !isUnderPenalty) {
       showLockScreen();
@@ -46,7 +46,7 @@ class PasscodeRequireWrapperPresenter
     AppLifecycleState? previous,
     AppLifecycleState current,
   ) async {
-    if (authUseCase.loggedIn) {
+    if (_authUseCase.loggedIn) {
       DateTime? dateTimeLastSessionEnd;
       if (_passcodeUseCase.millisecondsLastSessionEnd.value != null) {
         dateTimeLastSessionEnd = DateTime.fromMillisecondsSinceEpoch(

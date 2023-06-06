@@ -18,6 +18,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
   Map? launchingOptionsWithIOS;
   AndroidIntentModel? intent;
 
+  late final _authUseCase = ref.read(authUseCaseProvider);
   late final _walletUseCase = ref.read(walletUseCaseProvider);
 
   @override
@@ -43,6 +44,8 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
   }
 
   void readMnemonicFileAndNextPage(String? filePath) async {
+    if (_authUseCase.loggedIn) return;
+
     try {
       if (filePath == null || filePath.isEmpty) return;
 
