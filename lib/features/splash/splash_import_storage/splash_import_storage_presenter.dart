@@ -2,15 +2,13 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'splash_import_storage_state.dart';
-
 final splashImportStorageContainer =
-    PresenterContainer<SplashImportStoragePresenter, SplashImportStorageState>(
+    PresenterContainer<SplashImportStoragePresenter, SplashBaseState>(
         () => SplashImportStoragePresenter());
 
 class SplashImportStoragePresenter
-    extends SplashBasePresenter<SplashImportStorageState> {
-  SplashImportStoragePresenter() : super(SplashImportStorageState());
+    extends SplashBasePresenter<SplashBaseState> {
+  SplashImportStoragePresenter() : super(SplashBaseState());
 
   @override
   void initState() {
@@ -22,6 +20,8 @@ class SplashImportStoragePresenter
   void openTelegram() async => openUrl('tg://');
 
   void openWechat() async => openUrl('weixin://');
+
+  void openEmail() async => openUrl('mail:');
 
   void openUrl(String url) async {
     final uri = Uri.parse(url);

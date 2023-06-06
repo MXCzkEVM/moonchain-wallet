@@ -6,25 +6,25 @@ import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
-// import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:intl/intl.dart';
 
 import 'widgets/confirm_storage_dialog.dart';
 
 final splashStorageContainer =
-    PresenterContainer<SplashStoragePresenter, SplashStorageState>(
+    PresenterContainer<SplashStoragePresenter, SplashBaseState>(
         () => SplashStoragePresenter());
 
-class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
-  SplashStoragePresenter() : super(SplashStorageState());
+class SplashStoragePresenter extends SplashBasePresenter<SplashBaseState> {
+  SplashStoragePresenter() : super(SplashBaseState());
 
   late final _walletUseCase = ref.read(walletUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
   final _mnemonicTitle = 'DataDash Wallet Mnemonic Key';
   final _mnemonicFileName =
-      '${DateFormat('y-M-d').format(DateTime.now())}-DataDash-Mnemonic.txt';
+      '${DateFormat('y-M-d').format(DateTime.now())}-datadash-key.txt';
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
     final keys = _walletUseCase.generateMnemonic();
     final filePath = await writeToFile(keys);
 
-    showDialogAndGoToNext(keys);
+    showSaveToAppDialog(keys);
 
     if (Platform.isAndroid) {
       await _socialShare.shareToTelegram(
@@ -69,7 +69,7 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
     final keys = _walletUseCase.generateMnemonic();
     final filePath = await writeToFile(keys);
 
-    showDialogAndGoToNext(keys, type: StorageType.wechat);
+    showSaveToAppDialog(keys, type: StorageType.wechat);
 
     if (Platform.isAndroid) {
       _socialShare.shareToWechat(
@@ -85,7 +85,7 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
     }
   }
 
-  void showDialogAndGoToNext(String keys,
+  void showSaveToAppDialog(String keys,
       {StorageType type = StorageType.others}) {
     showConfirmStorageAlertDialog(context!, type: type, onOkTap: () {
       _walletUseCase.setupFromMnemonic(keys);
@@ -94,18 +94,17 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashStorageState> {
     });
   }
 
-  // void sendEmail() async {
-  //   final keys = _walletUseCase.generateMnemonic();
-  //   final filePath = await writeToFile(keys);
+  void sendEmail() async {
+    final keys = _walletUseCase.generateMnemonic();
+    final filePath = await writeToFile(keys);
 
-  //   final email = Email(
-  //     body: FlutterI18n.translate(context!, 'email_secured_body'),
-  //     subject: FlutterI18n.translate(context!, 'email_secured_subject'),
-  //     recipients: [],
-  //     attachmentPaths: [filePath],
-  //     isHTML: false,
-  //   );
+    final email = MailOptions(
+      body: FlutterI18n.translate(context!, 'email_secured_body'),
+      subject: FlutterI18n.translate(context!, 'email_secured_subject'),
+      attachments: [filePath],
+      isHTML: false,
+    );
 
-  //   await FlutterEmailSender.send(email);
-  // }
+    await FlutterMailer.send(email);
+  }
 }

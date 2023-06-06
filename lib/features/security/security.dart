@@ -14,3 +14,6 @@ export 'presentation/setup_enable_biometric/setup_enable_biometric_page.dart';
 export 'biometric_name.dart';
 
 export 'presentation/passcode.dart';
+
+export 'presentation/passcode_require/wrapper/passcode_require_wrapper_page.dart';
+export 'presentation/passcode_require/passcode_require_page.dart';

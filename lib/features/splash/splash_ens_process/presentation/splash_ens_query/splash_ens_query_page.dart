@@ -90,7 +90,7 @@ class SplashENSQueryPage extends HookConsumerWidget {
               MxcFullRoundedButton(
                 key: const ValueKey('claimMyUsernameButton'),
                 title: FlutterI18n.translate(context, 'claim_my_username'),
-                onTap: state.agreeChecked && state.isRegistered
+                onTap: state.isRegistered
                     ? () => presenter.claim()
                     : null,
               ),

@@ -3,7 +3,6 @@ export 'splash_base/splash_base_state.dart';
 export 'splash_base/splash_base_presenter.dart';
 
 export 'splash_storage/presentation/splash_storage_page.dart';
-export 'splash_storage/presentation/splash_storage_state.dart';
 export 'splash_storage/presentation/splash_storage_presenter.dart';
 
 export 'splash_storage/domain/splash_storage_use_case.dart';

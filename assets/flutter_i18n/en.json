@@ -26,11 +26,6 @@
 	"ens_register_description": "Make a smart choice! This option can only be modified once per year, so choose carefully.",
 	"username": "Username",
 	"prowerd_zkevm": "Powered by MXC zkEVM Supernodes",
-	"use_ens": "Use your existing ENS",
-	"mxc_import_wallet": "MXC has the importing feature for your ENS name in to MXC’s Wallet App.",
-	"learn_more": "Learn more",
-	"agree_terms1": "I agree to the",
-	"agree_terms2": "MXC’s subdomain terms",
 	"claim_my_username": "Claim my username",
 	"congratulations": "Congratulations",
 	"successfully_claimed": "You have successfully claimed your username!",
@@ -51,8 +46,12 @@
 	"withdraw": "Withdraw",
 	"alert": "Alert",
 	"save_related_app": "Do you save the mnemonic to the related app?",
-	"email_secured_body": "Please keep this email safe, and change the recipients to yourself! Make sure you click Send!",
-	"email_secured_subject": "Your DataDash Wallet Key",
+	"email_secured_body": "For the security and privacy of your DataDash wallet it's essential that you keep all information contained in this email strictly confidential. \nPlease follow these next steps carefully: \n1. Ensure you're the sole recipient of this email by replacing the recipient's address with your own. \n2. After confirming the correct email address, proceed to click the 'Send' button to forward this vital information to yourself securely. By adhering to these measures, you'll ensure the utmost safety for your DataDash wallet. Thank you for your diligence in this matter.",
+	"email_secured_subject": "Secure Your DataDash Wallet Key - Important Instructions",
 	"face_id": "Face ID",
-	"touch_id": "Touch ID"
+	"touch_id": "Touch ID",
+	"enter_current_passcode": "Enter your current passcode.",
+	"enter_passcode_hint": "Enter a 6-digit passcode to unlock your wallet. ",
+	"incorrect_passcode": "Incorrect passcode.",
+	"app_will_be_locked_alert": "The app will be locked for 30 minutes after one more failed attempt."
 }

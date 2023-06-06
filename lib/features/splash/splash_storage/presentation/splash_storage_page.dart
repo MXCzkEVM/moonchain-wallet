@@ -12,7 +12,7 @@ class SplashStoragePage extends SplashBasePage {
       splashStorageContainer.actions;
 
   @override
-  ProviderBase<SplashStorageState> get state => splashStorageContainer.state;
+  ProviderBase<SplashBaseState> get state => splashStorageContainer.state;
 
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
@@ -32,11 +32,11 @@ class SplashStoragePage extends SplashBasePage {
             ? () => ref.read(presenter).shareToWechat()
             : null,
       ),
-      // MxcFullRoundedButton(
-      //   key: const ValueKey('emailButton'),
-      //   title: FlutterI18n.translate(context, 'email_secured_storage'),
-      //   onTap: () => ref.read(presenter).sendEmail(),
-      // ),
+      MxcFullRoundedButton(
+        key: const ValueKey('emailButton'),
+        title: FlutterI18n.translate(context, 'email_secured_storage'),
+        onTap: () => ref.read(presenter).sendEmail(),
+      ),
     ];
   }
 }

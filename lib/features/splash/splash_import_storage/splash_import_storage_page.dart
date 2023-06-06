@@ -1,4 +1,3 @@
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'splash_import_storage_presenter.dart';
-import 'splash_import_storage_state.dart';
 
 class SplashImportStoragePage extends SplashBasePage {
   const SplashImportStoragePage({Key? key}) : super(key: key);
@@ -17,7 +15,7 @@ class SplashImportStoragePage extends SplashBasePage {
       splashImportStorageContainer.actions;
 
   @override
-  ProviderBase<SplashImportStorageState> get state =>
+  ProviderBase<SplashBaseState> get state =>
       splashImportStorageContainer.state;
 
   @override
@@ -47,6 +45,11 @@ class SplashImportStoragePage extends SplashBasePage {
           ),
         ),
       ),
+      // MxcFullRoundedButton(
+      //   key: const ValueKey('emailButton'),
+      //   title: FlutterI18n.translate(context, 'email_secured_storage'),
+      //   onTap: () => ref.read(presenter).openEmail(),
+      // ),
     ];
   }
 }
