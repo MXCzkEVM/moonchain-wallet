@@ -13,11 +13,6 @@ final fileListenerWrapperContainer =
 class FileListenerWrapperPresenter extends CompletePresenter<void> {
   FileListenerWrapperPresenter() : super(null);
 
-  IOSUniversalLinkModel? universalLink;
-  IOSOpenUrlModel? openUrl;
-  Map? launchingOptionsWithIOS;
-  AndroidIntentModel? intent;
-
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _walletUseCase = ref.read(walletUseCaseProvider);
 
@@ -26,24 +21,13 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (Platform.isIOS) {
-        universalLink = await FlSharedLink().universalLinkWithIOS;
-        openUrl = await FlSharedLink().openUrlWithIOS;
-        launchingOptionsWithIOS = await FlSharedLink().launchingOptionsWithIOS;
-      } else {
-        intent = await FlSharedLink().intentWithAndroid;
-      }
-
       FlSharedLink().receiveHandler(
-          onUniversalLink: (IOSUniversalLinkModel? data) {},
-          onOpenUrl: (IOSOpenUrlModel? data) =>
-              readMnemonicFileAndNextPage(data?.url),
-          onIntent: (AndroidIntentModel? data) =>
-              readMnemonicFileAndNextPage(data?.id));
+          onOpenUrl: (IOSOpenUrlModel? data) => receiveFile(data?.url),
+          onIntent: (AndroidIntentModel? data) => receiveFile(data?.id));
     });
   }
 
-  void readMnemonicFileAndNextPage(String? filePath) async {
+  void receiveFile(String? filePath) async {
     if (_authUseCase.loggedIn) return;
 
     try {
