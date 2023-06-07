@@ -10,13 +10,17 @@ void main() async {
   await loadProviders();
 
   final container = ProviderContainer();
+  final authUseCase = container.read(authUseCaseProvider);
+  final isLoggedIn = authUseCase.loggedIn;
 
   await Biometric.load();
 
   runApp(
     UncontrolledProviderScope(
       container: container,
-      child: const DataDashWallet(),
+      child: DataDashWallet(
+        isLoggedIn: isLoggedIn,
+      ),
     ),
   );
 }

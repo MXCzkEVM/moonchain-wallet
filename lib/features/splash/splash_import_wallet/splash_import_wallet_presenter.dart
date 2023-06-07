@@ -18,6 +18,7 @@ class SplashImportWalletPresenter
   @override
   Future<void> dispose() {
     state.mnemonicController.dispose();
+
     return super.dispose();
   }
 

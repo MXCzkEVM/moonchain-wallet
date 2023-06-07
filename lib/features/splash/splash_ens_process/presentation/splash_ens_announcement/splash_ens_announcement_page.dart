@@ -10,7 +10,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 import '../widgets/address_bar.dart';
 import '../widgets/subdomain_bar.dart';
 import 'splash_ens_announcement_presenter.dart';
-import 'splash_ens_announcement_state.dart';
 
 class SplashENSAnnouncementPage extends HookConsumerWidget {
   const SplashENSAnnouncementPage({Key? key}) : super(key: key);
@@ -20,9 +19,23 @@ class SplashENSAnnouncementPage extends HookConsumerWidget {
     final presenter = ref.read(splashENSAnnouncementContainer.actions);
 
     return MxcPage(
-      layout: LayoutType.column,
+      layout: LayoutType.scrollable,
       useAppLinearBackground: true,
       presenter: presenter,
+      footer: Padding(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MxcFullRoundedButton(
+              key: const ValueKey('claimButton'),
+              title: FlutterI18n.translate(context, 'claim').toUpperCase(),
+              onTap: () =>
+                  Navigator.of(context).push(route(const SplashENSQueryPage())),
+            ),
+          ],
+        ),
+      ),
       children: [
         const SizedBox(height: 50),
         Image(
@@ -51,22 +64,6 @@ class SplashENSAnnouncementPage extends HookConsumerWidget {
           child: Text(
             FlutterI18n.translate(context, 'ens_announcement_description'),
             style: FontTheme.of(context).caption1.white(),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 72),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MxcFullRoundedButton(
-                  key: const ValueKey('claimButton'),
-                  title: FlutterI18n.translate(context, 'claim').toUpperCase(),
-                  onTap: () => Navigator.of(context)
-                      .push(route(const SplashENSQueryPage())),
-                ),
-              ],
-            ),
           ),
         ),
       ],

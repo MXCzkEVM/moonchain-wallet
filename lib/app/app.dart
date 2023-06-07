@@ -1,6 +1,8 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/file_listener/file_listener_wrapper.dart';
+import 'package:datadashwallet/features/home/home.dart';
+import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -14,7 +16,10 @@ final appNavigatorKey = GlobalKey<NavigatorState>();
 class DataDashWallet extends HookConsumerWidget {
   const DataDashWallet({
     Key? key,
+    required this.isLoggedIn,
   }) : super(key: key);
+
+  final bool isLoggedIn;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,7 +51,15 @@ class DataDashWallet extends HookConsumerWidget {
               reportsRouteUpdateToEngine: true,
               onGenerateRoute: (s) {
                 assert(s.name == '/', 'Named routes are not supported');
-                return route(const SplashSetupWalletPage());
+                if (!isLoggedIn) {
+                  return route(const SplashSetupWalletPage());
+                }
+
+                return route(
+                  const PasscodeRequireWrapperPage(
+                    child: HomeMainPage(),
+                  ),
+                );
               },
             );
 

@@ -13,11 +13,7 @@ final fileListenerWrapperContainer =
 class FileListenerWrapperPresenter extends CompletePresenter<void> {
   FileListenerWrapperPresenter() : super(null);
 
-  IOSUniversalLinkModel? universalLink;
-  IOSOpenUrlModel? openUrl;
-  Map? launchingOptionsWithIOS;
-  AndroidIntentModel? intent;
-
+  late final _authUseCase = ref.read(authUseCaseProvider);
   late final _walletUseCase = ref.read(walletUseCaseProvider);
 
   @override
@@ -25,24 +21,15 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (Platform.isIOS) {
-        universalLink = await FlSharedLink().universalLinkWithIOS;
-        openUrl = await FlSharedLink().openUrlWithIOS;
-        launchingOptionsWithIOS = await FlSharedLink().launchingOptionsWithIOS;
-      } else {
-        intent = await FlSharedLink().intentWithAndroid;
-      }
-
       FlSharedLink().receiveHandler(
-          onUniversalLink: (IOSUniversalLinkModel? data) {},
-          onOpenUrl: (IOSOpenUrlModel? data) =>
-              readMnemonicFileAndNextPage(data?.url),
-          onIntent: (AndroidIntentModel? data) =>
-              readMnemonicFileAndNextPage(data?.id));
+          onOpenUrl: (IOSOpenUrlModel? data) => receiveFile(data?.url),
+          onIntent: (AndroidIntentModel? data) => receiveFile(data?.id));
     });
   }
 
-  void readMnemonicFileAndNextPage(String? filePath) async {
+  void receiveFile(String? filePath) async {
+    if (_authUseCase.loggedIn) return;
+
     try {
       if (filePath == null || filePath.isEmpty) return;
 
@@ -55,7 +42,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
       if (mnemonic != null && mnemonic.isNotEmpty) {
         _walletUseCase.setupFromMnemonic(mnemonic);
 
-        openPasscodeSetPage();
+        pushPasscodeSetPage();
       } else {
         throw UnimplementedError('Mnemonic file is empty or not exists');
       }
@@ -64,11 +51,10 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
     }
   }
 
-  void openPasscodeSetPage() => appNavigatorKey.currentState?.pushReplacement(
-        route(
-          const PasscodeSetPage(),
-        ),
-      );
+  void pushPasscodeSetPage() =>
+      appNavigatorKey.currentState?.pushReplacement(route(
+        const PasscodeSetPage(),
+      ));
 
   Future<String?> readMnemonicFile(String? filePath) async {
     if (filePath != null) {

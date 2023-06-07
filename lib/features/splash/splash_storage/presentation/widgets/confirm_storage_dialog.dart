@@ -50,14 +50,14 @@ class SaveToHereTip extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Save to here",
+          'Save to here',
           style: FontTheme.of(context).h5.primary(),
           textAlign: TextAlign.center,
         ),
         Container(
           alignment: Alignment.centerRight,
           child: SvgPicture.asset(
-            "assets/svg/curve_arrow.svg",
+            'assets/svg/curve_arrow.svg',
             colorFilter: filterFor(ColorsTheme.of(context).purpleMain),
           ),
         )

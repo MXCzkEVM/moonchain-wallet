@@ -24,6 +24,29 @@ class SplashENSQueryPage extends HookConsumerWidget {
       useAppLinearBackground: true,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10),
       presenter: presenter,
+      footer: Padding(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MxcFullRoundedButton(
+              key: const ValueKey('claimMyUsernameButton'),
+              title: FlutterI18n.translate(context, 'claim_my_username'),
+              onTap: state.isRegistered ? () => presenter.claim() : null,
+            ),
+            const SizedBox(height: 21),
+            InkWell(
+              key: const ValueKey('skipBiometrics'),
+              child: Text(
+                FlutterI18n.translate(context, 'maybe_later'),
+                style: FontTheme.of(context).body2.white(),
+              ),
+              onTap: () =>
+                  Navigator.of(context).replaceAll(route(const HomeMainPage())),
+            ),
+          ],
+        ),
+      ),
       children: [
         const SizedBox(height: 50),
         Text(
@@ -80,32 +103,6 @@ class SplashENSQueryPage extends HookConsumerWidget {
               style: FontTheme.of(context).caption1.white(),
             ),
           ],
-        ),
-        const SizedBox(height: 150),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MxcFullRoundedButton(
-                key: const ValueKey('claimMyUsernameButton'),
-                title: FlutterI18n.translate(context, 'claim_my_username'),
-                onTap: state.agreeChecked && state.isRegistered
-                    ? () => presenter.claim()
-                    : null,
-              ),
-              const SizedBox(height: 21),
-              InkWell(
-                key: const ValueKey('skipBiometrics'),
-                child: Text(
-                  FlutterI18n.translate(context, 'maybe_later'),
-                  style: FontTheme.of(context).body2.white(),
-                ),
-                onTap: () => Navigator.of(context)
-                    .replaceAll(route(const HomeMainPage())),
-              ),
-            ],
-          ),
         ),
       ],
     );

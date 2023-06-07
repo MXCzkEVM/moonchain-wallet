@@ -1,16 +1,16 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:flutter/material.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'splash_import_storage_state.dart';
-
 final splashImportStorageContainer =
-    PresenterContainer<SplashImportStoragePresenter, SplashImportStorageState>(
+    PresenterContainer<SplashImportStoragePresenter, SplashBaseState>(
         () => SplashImportStoragePresenter());
 
 class SplashImportStoragePresenter
-    extends SplashBasePresenter<SplashImportStorageState> {
-  SplashImportStoragePresenter() : super(SplashImportStorageState());
+    extends SplashBasePresenter<SplashBaseState> {
+  SplashImportStoragePresenter() : super(SplashBaseState());
 
   @override
   void initState() {
@@ -19,9 +19,21 @@ class SplashImportStoragePresenter
     isInstallApps();
   }
 
-  void openTelegram() async => openUrl('tg://');
+  void openTelegram() => openUrl('tg://');
 
-  void openWechat() async => openUrl('weixin://');
+  void openWechat() => openUrl('weixin://');
+
+  void openEmail() async {
+    try {
+      final result = await OpenMailApp.openMailApp();
+
+      if (!result.didOpen && !result.canOpen) {
+        throw Exception('Could not find any mail app.');
+      }
+    } catch (error, tackTrace) {
+      addError(error, tackTrace);
+    }
+  }
 
   void openUrl(String url) async {
     final uri = Uri.parse(url);
