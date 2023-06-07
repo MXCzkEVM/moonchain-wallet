@@ -13,7 +13,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(splashImportWalletContainer.actions);
-    final state = ref.read(splashImportWalletContainer.state);
+    final state = ref.watch(splashImportWalletContainer.state);
 
     return MxcPage(
       layout: LayoutType.scrollable,
@@ -25,7 +25,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MxcFullRoundedButton(
-              key: const ValueKey('confrimButton'),
+              key: const Key('confrimPhrasesButton'),
               title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
               onTap: () => presenter.confirm(),
             ),

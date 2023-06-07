@@ -15,6 +15,13 @@ class SplashImportWalletPresenter
 
   late final _walletUseCase = ref.read(walletUseCaseProvider);
 
+  @override
+  Future<void> dispose() {
+    state.mnemonicController.dispose();
+
+    return super.dispose();
+  }
+
   void confirm() {
     String keys = state.mnemonicController.text;
     try {
