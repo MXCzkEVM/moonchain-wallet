@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:datadashwallet/common/common.dart';
 
-
 String formatBigNumber(double number) {
   if (number >= 1000000000) {
     // Convert to millions
@@ -34,14 +33,14 @@ String formatWalletAddress(String inputString) {
   return formattedString;
 }
 
-class HomeMainPage extends HomeBasePage with HomeScreenMixin {
-  const HomeMainPage({Key? key}) : super(key: key);
+class HomePage extends HomeBasePage with HomeScreenMixin {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<HomeMainPagePresenter> get presenter => homeMainPageContainer.actions;
+  ProviderBase<HomePagePresenter> get presenter => HomePageContainer.actions;
 
   @override
-  ProviderBase<HomeMainPageState> get state => homeMainPageContainer.state;
+  ProviderBase<HomePageState> get state => HomePageContainer.state;
 
   @override
   int get bottomNavCurrentIndex => 0;
@@ -49,21 +48,15 @@ class HomeMainPage extends HomeBasePage with HomeScreenMixin {
   @override
   List<Widget> setContent(BuildContext context, WidgetRef ref) {
     return const [
-      Expanded(
-          flex: 2,
-          child: BalancePanel()),
+      Expanded(flex: 2, child: BalancePanel()),
       SizedBox(
         height: 10,
       ),
-      Expanded(
-          flex: 3,
-          child: RecentTransactions()),
+      Expanded(flex: 3, child: RecentTransactions()),
       SizedBox(
         height: 10,
       ),
-      Expanded(
-          flex: 3,
-          child: HomeSlider()),
+      Expanded(flex: 3, child: HomeSlider()),
     ];
   }
 }

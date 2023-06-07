@@ -54,16 +54,10 @@ class SplashENSSuccessPage extends HookConsumerWidget {
             children: [
               Text(
                 FlutterI18n.translate(context, 'successfully_claimed'),
-                style: FontTheme.of(context)
-                    .h6
-                    .white()
-                    .copyWith(fontWeight: FontWeight.bold),
+                style: FontTheme.of(context).h6.white().copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 40),
-              Text(
-                  FlutterI18n.translate(context, 'ready_crypto')
-                      .replaceFirst('{0}', domain),
-                  style: FontTheme.of(context).body1.white()),
+              Text(FlutterI18n.translate(context, 'ready_crypto').replaceFirst('{0}', domain), style: FontTheme.of(context).body1.white()),
             ],
           ),
         ),
@@ -76,8 +70,7 @@ class SplashENSSuccessPage extends HookConsumerWidget {
                 MxcFullRoundedButton(
                   key: const ValueKey('enterPortalButton'),
                   title: FlutterI18n.translate(context, 'enter_protal'),
-                  onTap: () => Navigator.of(context)
-                      .replaceAll(route(const HomeMainPage())),
+                  onTap: () => Navigator.of(context).replaceAll(route(const HomePage())),
                 ),
               ],
             ),

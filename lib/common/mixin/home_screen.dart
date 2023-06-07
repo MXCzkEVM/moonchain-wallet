@@ -1,9 +1,11 @@
+import 'package:datadashwallet/features/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import '../../core/core.dart';
 import '../mxc_icons.dart';
 
 class MenuItem {
@@ -100,6 +102,32 @@ mixin HomeScreenMixin {
         selectedFontSize: 10,
         unselectedFontSize: 10,
         currentIndex: currentIndex,
+        onTap: (int index) {
+          switch (index) {
+            case 0:
+              Navigator.of(context).pushReplacement(
+                route(
+                  const HomePage(),
+                ),
+              );
+              break;
+            case 1:
+              Navigator.of(context).pushReplacement(
+                route(
+                  const HomePage(),
+                ),
+              );
+              break;
+            case 2:
+              Navigator.of(context).pushReplacement(
+                route(
+                  const HomePage(),
+                ),
+              );
+              break;
+            default:
+          }
+        },
         backgroundColor: ColorsTheme.of(context).secondaryBackground,
         selectedIconTheme: IconThemeData(color: ColorsTheme.of(context).focusButton),
         selectedItemColor: ColorsTheme.of(context).secondaryText,
