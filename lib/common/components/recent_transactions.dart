@@ -65,7 +65,7 @@ class _RecentTrxListItemState extends State<RecentTrxListItem> {
             ),
             Text(
               FlutterI18n.translate(context, TransactionType.send.name),
-              style: FontTheme.of(context).h8().copyWith(fontWeight: FontWeight.w400, color: ColorsTheme.of(context).error),
+              style: FontTheme.of(context).h8().copyWith(fontWeight: FontWeight.w400, color: ColorsTheme.of(context).mainRed),
             ),
             Text(
               FlutterI18n.translate(context, 'date'),
