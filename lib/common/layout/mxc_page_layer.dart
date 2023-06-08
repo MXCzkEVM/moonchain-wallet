@@ -71,8 +71,7 @@ class MxcPageLayer extends MxcPage {
     Color? backgroundColor,
   ) {
     return SystemUiOverlayStyle(
-      systemNavigationBarColor:
-          backgroundColor ?? ColorsTheme.of(context).secondaryBackground,
+      systemNavigationBarColor: backgroundColor ?? ColorsTheme.of(context).box,
       systemNavigationBarIconBrightness:
           Theme.of(context).brightness == Brightness.dark
               ? Brightness.light
@@ -92,10 +91,12 @@ class MxcPageLayer extends MxcPage {
   }
 
   @override
-  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) => appBar;
+  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) =>
+      appBar;
 
   @override
-  Widget? buildBottomNavigation(BuildContext context, WidgetRef ref) => bottomNavigationBar;
+  Widget? buildBottomNavigation(BuildContext context, WidgetRef ref) =>
+      bottomNavigationBar;
 
   @override
   Widget buildScrollableContent(BuildContext context, WidgetRef ref) {
@@ -157,11 +158,10 @@ class MxcPageLayer extends MxcPage {
       useSlivers: true,
       footer: footer == null
           ? Container(
-              color: backgroundColor ??
-                  ColorsTheme.of(context).secondaryBackground,
+              color: backgroundColor ?? ColorsTheme.of(context).box,
             )
           : Container(
-              color: ColorsTheme.of(context).secondaryBackground,
+              color: ColorsTheme.of(context).box,
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: (useFooterPadding
@@ -230,7 +230,7 @@ class MxcPageLayer extends MxcPage {
                       ),
                     ),
                     child: ColoredBox(
-                      color: ColorsTheme.of(context).secondaryBackground,
+                      color: ColorsTheme.of(context).box,
                     ),
                   ),
                 ),
@@ -308,7 +308,7 @@ class MxcPageLayer extends MxcPage {
                 topLeft: Radius.circular(bottomFlowDialogRoundedCornersRadius),
                 topRight: Radius.circular(bottomFlowDialogRoundedCornersRadius),
               ),
-              color: ColorsTheme.of(context).secondaryBackground,
+              color: ColorsTheme.of(context).box,
             ),
             child: Column(
               crossAxisAlignment: crossAxisAlignment,

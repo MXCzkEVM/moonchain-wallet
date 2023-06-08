@@ -15,12 +15,15 @@ class MenuItem {
 }
 
 mixin HomeScreenMixin {
-  Widget greyContainer({Key? key, required BuildContext context, required child, padding}) {
+  Widget greyContainer(
+      {Key? key, required BuildContext context, required child, padding}) {
     return Container(
       height: double.infinity,
       width: double.infinity,
       padding: padding ?? const EdgeInsets.all(5),
-      decoration: BoxDecoration(color: ColorsTheme.of(context).secondaryBackground, borderRadius: const BorderRadius.all(Radius.circular(10))),
+      decoration: BoxDecoration(
+          color: ColorsTheme.of(context).box,
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: child,
     );
   }
@@ -64,12 +67,17 @@ mixin HomeScreenMixin {
                       padding: EdgeInsetsDirectional.only(start: 10),
                     ),
                   ),
-                  Text(FlutterI18n.translate(context, 'active'), style: FontTheme.of(context).h8().copyWith(fontWeight: FontWeight.w500)),
+                  Text(FlutterI18n.translate(context, 'active'),
+                      style: FontTheme.of(context)
+                          .h8()
+                          .copyWith(fontWeight: FontWeight.w500)),
                   const SizedBox(width: 12),
                   Container(
                     height: 6,
                     width: 6,
-                    decoration: BoxDecoration(color: ColorsTheme.of(context).active, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                        color: ColorsTheme.of(context).active,
+                        shape: BoxShape.circle),
                   )
                 ],
               ),
@@ -86,7 +94,7 @@ mixin HomeScreenMixin {
           ),
         ],
       ),
-      backgroundColor: ColorsTheme.of(context).secondaryBackground,
+      backgroundColor: ColorsTheme.of(context).box,
     );
   }
 
@@ -128,9 +136,13 @@ mixin HomeScreenMixin {
             default:
           }
         },
-        backgroundColor: ColorsTheme.of(context).secondaryBackground,
-        selectedIconTheme: IconThemeData(color: ColorsTheme.of(context).focusButton),
+        backgroundColor: ColorsTheme.of(context).box,
+        selectedIconTheme:
+            IconThemeData(color: ColorsTheme.of(context).focusButton),
         selectedItemColor: ColorsTheme.of(context).secondaryText,
-        items: menuItemList.map((menuItem) => BottomNavigationBarItem(icon: Icon(menuItem.iconData), label: menuItem.text)).toList());
+        items: menuItemList
+            .map((menuItem) => BottomNavigationBarItem(
+                icon: Icon(menuItem.iconData), label: menuItem.text))
+            .toList());
   }
 }
