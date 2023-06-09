@@ -249,6 +249,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_mailer:
+    dependency: "direct main"
+    description:
+      name: flutter_mailer
+      sha256: "5ec538be34233a62129c3aedc8cfcfaca0c4de390ca43f331f52e972d410b84d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -291,6 +299,70 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  gql:
+    dependency: transitive
+    description:
+      name: gql
+      sha256: "7dd48a2632103154186bf77adb850489efdabe65c05313eab784657df800794a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1-alpha+1682715291314"
+  gql_dedupe_link:
+    dependency: transitive
+    description:
+      name: gql_dedupe_link
+      sha256: "2c76b1006cd7445e026d3bc46c6336f28cbcf3711326f128839cfc746f9e2ec9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4-alpha+1682715291398"
+  gql_error_link:
+    dependency: transitive
+    description:
+      name: gql_error_link
+      sha256: bfdb543137da89448cc5d003fd029c2e8718931d39d4a7dedb16f9169862fbb9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  gql_exec:
+    dependency: transitive
+    description:
+      name: gql_exec
+      sha256: "07f73f4edc00698f67c3fb5bda0d95ab7e6ea844572a670ef270154244fae6d4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1-alpha+1682715291324"
+  gql_http_link:
+    dependency: transitive
+    description:
+      name: gql_http_link
+      sha256: "365c0e72da7e29e007c4a0ed7a470f6c03af1ef00acd2af3c22157c8bb47f314"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  gql_link:
+    dependency: transitive
+    description:
+      name: gql_link
+      sha256: ee781e59527240adf69e044389a7d0a19b890a6e76b6dfff969ef56ba8d4fea7
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1-alpha+1682715291332"
+  gql_transform_link:
+    dependency: transitive
+    description:
+      name: gql_transform_link
+      sha256: "0645fdd874ca1be695fd327271fdfb24c0cd6fa40774a64b946062f321a59709"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  graphql:
+    dependency: transitive
+    description:
+      name: graphql
+      sha256: ad11e6d12de4d73971ae1dd80885b09f3cbc0bf143b1cbc5622a6dc6d85735e7
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.0-beta.4"
   hex:
     dependency: transitive
     description:
@@ -299,6 +371,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  hive:
+    dependency: transitive
+    description:
+      name: hive
+      sha256: "8dcf6db979d7933da8217edcec84e9df1bdb4e4edc7fc77dbd5aa74356d6d941"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.3"
   hooks_riverpod:
     dependency: "direct main"
     description:
@@ -432,6 +512,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  normalize:
+    dependency: transitive
+    description:
+      name: normalize
+      sha256: "8a60e37de5b608eeaf9b839273370c71ebba445e9f73b08eee7725e0d92dbc43"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.2+1"
+  open_mail_app:
+    dependency: "direct main"
+    description:
+      name: open_mail_app
+      sha256: ffc93edc0590ef4586136f505187b25014a336fe0374ad3cc528e727b3f2e726
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.5"
   path:
     dependency: transitive
     description:

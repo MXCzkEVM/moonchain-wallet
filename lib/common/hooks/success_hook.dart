@@ -34,7 +34,7 @@ class _MxcSuccessHookState extends State<MxcSuccessHook> {
           style: FontTheme.of(context, listen: false).body1(),
         ),
         duration: const Duration(seconds: 2),
-        backgroundColor: ColorsTheme.of(context, listen: false).success,
+        backgroundColor: ColorsTheme.of(context, listen: false).mainGreen,
       ),
     );
   }

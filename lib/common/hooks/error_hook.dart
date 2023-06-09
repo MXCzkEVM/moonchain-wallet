@@ -72,7 +72,7 @@ class MxcErrorHookState extends State<MxcErrorHook> {
           style: FontTheme.of(context, listen: false).body1(),
         ),
         duration: const Duration(seconds: 2),
-        backgroundColor: ColorsTheme.of(context, listen: false).error,
+        backgroundColor: ColorsTheme.of(context, listen: false).mainRed,
       ),
     );
 
