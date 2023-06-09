@@ -21,7 +21,7 @@ class AddressBar extends StatelessWidget {
             left: -8,
             bottom: -5,
             child: SvgPicture.asset(
-              'assets/svg/orange_shadow.svg',
+              'assets/svg/ens/orange_shadow_bar.svg',
               width: 302,
             ),
           ),

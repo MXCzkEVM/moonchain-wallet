@@ -17,7 +17,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
 
     return MxcPage(
       layout: LayoutType.scrollable,
-      useAppLinearBackground: true,
+      useSplashBackground: true,
       presenter: presenter,
       footer: Padding(
         padding: const EdgeInsets.all(30),

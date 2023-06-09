@@ -28,7 +28,8 @@ abstract class HomeBasePage extends HookConsumerWidget
       resizeToAvoidBottomInset: true,
       backgroundColor: ColorsTheme.of(context).primaryBackground,
       bottomNavigationBar: bottomNavigationBar(context, bottomNavCurrentIndex),
-      layout: LayoutType.column,
+      layout: LayoutType.scrollable,
+      useContentPadding: false,
       childrenPadding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
       children: setContent(context, ref)
       );

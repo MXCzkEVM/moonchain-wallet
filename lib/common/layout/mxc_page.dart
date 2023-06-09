@@ -33,7 +33,7 @@ abstract class MxcPage extends HookConsumerWidget {
     this.backgroundColor,
     this.useFooterPadding = true,
     this.resizeToAvoidBottomInset = true,
-    this.useAppLinearBackground = false,
+    this.useSplashBackground = false,
   })  : assert(scrollController == null || layout != LayoutType.column),
         super(key: key);
 
@@ -57,7 +57,7 @@ abstract class MxcPage extends HookConsumerWidget {
     Color? backgroundColor,
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
-    bool useAppLinearBackground,
+    bool useSplashBackground,
   }) = MxcPageRegular;
 
   const factory MxcPage.layer({
@@ -80,7 +80,7 @@ abstract class MxcPage extends HookConsumerWidget {
     Color? backgroundColor,
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
-    bool useAppLinearBackground,
+    bool useSplashBackground,
   }) = MxcPageLayer;
 
   final Key? scaffoldKey;
@@ -104,7 +104,7 @@ abstract class MxcPage extends HookConsumerWidget {
   final Color? backgroundColor;
   final bool resizeToAvoidBottomInset;
 
-  final bool useAppLinearBackground;
+  final bool useSplashBackground;
 
   Widget buildChildrenAsSliver(BoxConstraints? constraints) {
     Widget sliver;
@@ -181,7 +181,7 @@ abstract class MxcPage extends HookConsumerWidget {
     return ColorsTheme.of(context).primaryBackground;
   }
 
-  Widget appLinearBackground({
+  Widget splashLinearBackground({
     Widget? child,
     bool visiable = true,
   }) {
@@ -192,8 +192,8 @@ abstract class MxcPage extends HookConsumerWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[
-              Color(0xff8D023F),
-              Color(0xff09379E),
+              Color(0xFF8D023F),
+              Color(0xFF09379E),
             ],
             tileMode: TileMode.mirror,
           ),
@@ -219,14 +219,15 @@ abstract class MxcPage extends HookConsumerWidget {
         bottomNavigationBar: buildBottomNavigation(context, ref),
         body: PresenterHooks(
           presenter: presenter,
-          child: appLinearBackground(
-            visiable: useAppLinearBackground,
+          child: splashLinearBackground(
+            visiable: useSplashBackground,
             child: SafeArea(
               bottom: maintainBottomSafeArea,
               top: topSafeArea,
               child: Column(
                 children: [
-                  Expanded(child: Padding(
+                  Expanded(
+                      child: Padding(
                     padding: childrenPadding ?? EdgeInsets.zero,
                     child: content(context, ref),
                   )),

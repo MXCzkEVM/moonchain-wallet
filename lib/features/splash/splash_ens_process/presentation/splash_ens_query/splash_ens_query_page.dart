@@ -21,7 +21,7 @@ class SplashENSQueryPage extends HookConsumerWidget {
 
     return MxcPage(
       layout: LayoutType.scrollable,
-      useAppLinearBackground: true,
+      useSplashBackground: true,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10),
       presenter: presenter,
       footer: Padding(

@@ -55,7 +55,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
 
     return MxcPage(
       layout: LayoutType.column,
-      useAppLinearBackground: true,
+      useSplashBackground: true,
       presenter: ref.read(presenter),
       children: [
         Expanded(

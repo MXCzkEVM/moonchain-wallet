@@ -28,7 +28,7 @@ class MxcPageRegular extends MxcPage {
     Color? backgroundColor,
     bool useFooterPadding = true,
     bool resizeToAvoidBottomInset = true,
-    bool useAppLinearBackground = false,
+    bool useSplashBackground = false,
   }) : super.internal(
           key: key,
           scaffoldKey: scaffoldKey,
@@ -49,7 +49,7 @@ class MxcPageRegular extends MxcPage {
           backgroundColor: backgroundColor,
           useFooterPadding: useFooterPadding,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          useAppLinearBackground: useAppLinearBackground,
+          useSplashBackground: useSplashBackground,
         );
 
   @override
@@ -62,16 +62,22 @@ class MxcPageRegular extends MxcPage {
     Color? backgroundColor,
   ) {
     return SystemUiOverlayStyle(
-      systemNavigationBarColor: backgroundColor ?? ColorsTheme.of(context).primaryBackground,
-      systemNavigationBarIconBrightness: Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+      systemNavigationBarColor:
+          backgroundColor ?? ColorsTheme.of(context).primaryBackground,
+      systemNavigationBarIconBrightness:
+          Theme.of(context).brightness == Brightness.dark
+              ? Brightness.light
+              : Brightness.dark,
     );
   }
 
   @override
-  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) => appBar;
+  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) =>
+      appBar;
 
   @override
-  Widget? buildBottomNavigation(BuildContext context, WidgetRef ref) => bottomNavigationBar;
+  Widget? buildBottomNavigation(BuildContext context, WidgetRef ref) =>
+      bottomNavigationBar;
 
   @override
   Widget buildScrollableContent(BuildContext context, WidgetRef ref) {
@@ -86,11 +92,14 @@ class MxcPageRegular extends MxcPage {
               color: backgroundColor,
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: useFooterPadding ? MxcScrollableContent.defaultFooterPadding(fixedFooter) : EdgeInsets.zero,
+                padding: useFooterPadding
+                    ? MxcScrollableContent.defaultFooterPadding(fixedFooter)
+                    : EdgeInsets.zero,
                 child: footer,
               ),
             ),
-      footerPadding: fixedFooter ? EdgeInsets.zero : const EdgeInsets.only(bottom: 16),
+      footerPadding:
+          fixedFooter ? EdgeInsets.zero : const EdgeInsets.only(bottom: 16),
       usePadding: false,
       fixedFooter: fixedFooter,
       children: [
@@ -99,9 +108,11 @@ class MxcPageRegular extends MxcPage {
             onRefresh: onRefresh,
           ),
         ],
-        if (appBar != null) const SliverPadding(padding: EdgeInsets.only(top: 16)),
+        if (appBar != null)
+          const SliverPadding(padding: EdgeInsets.only(top: 16)),
         childrenSliver,
-        if (footer == null) const SliverPadding(padding: EdgeInsets.only(top: 32)),
+        if (footer == null)
+          const SliverPadding(padding: EdgeInsets.only(top: 32)),
       ],
     );
   }

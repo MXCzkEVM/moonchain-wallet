@@ -32,7 +32,7 @@ class MxcPageLayer extends MxcPage {
     Color? backgroundColor,
     bool useFooterPadding = true,
     bool resizeToAvoidBottomInset = true,
-    bool useAppLinearBackground = false,
+    bool useSplashBackground = false,
   })  : assert(layout != LayoutType.column2 || footer == null || fixedFooter,
             'layout: column2 and fixedFooter: false isn\'t compatible, pls set fixedFooter: true'),
         super.internal(
@@ -55,7 +55,7 @@ class MxcPageLayer extends MxcPage {
           backgroundColor: backgroundColor,
           useFooterPadding: useFooterPadding,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          useAppLinearBackground: useAppLinearBackground,
+          useSplashBackground: useSplashBackground,
         );
 
   @override
@@ -92,10 +92,12 @@ class MxcPageLayer extends MxcPage {
   }
 
   @override
-  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) => appBar;
+  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) =>
+      appBar;
 
   @override
-  Widget? buildBottomNavigation(BuildContext context, WidgetRef ref) => bottomNavigationBar;
+  Widget? buildBottomNavigation(BuildContext context, WidgetRef ref) =>
+      bottomNavigationBar;
 
   @override
   Widget buildScrollableContent(BuildContext context, WidgetRef ref) {

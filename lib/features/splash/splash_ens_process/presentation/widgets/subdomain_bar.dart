@@ -21,7 +21,7 @@ class SubDomainBar extends StatelessWidget {
             left: -5,
             bottom: -2,
             child: SvgPicture.asset(
-              'assets/svg/green_shadow.svg',
+              'assets/svg/ens/green_shadow_bar.svg',
               width: 200,
               height: 36,
             ),

@@ -193,7 +193,7 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
     return MxcPage(
       layout: LayoutType.column,
       backgroundColor: ColorsTheme.of(context).secondaryBackground,
-      useAppLinearBackground: true,
+      useSplashBackground: true,
       presenter: ref.watch(presenter),
       children: children,
     );

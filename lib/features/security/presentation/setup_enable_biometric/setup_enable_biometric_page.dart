@@ -19,7 +19,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
     return MxcPage(
       layout: LayoutType.scrollable,
       presenter: presenter,
-      useAppLinearBackground: true,
+      useSplashBackground: true,
       footer: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
