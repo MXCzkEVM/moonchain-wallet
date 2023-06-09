@@ -122,7 +122,7 @@ mixin HomeScreenMixin {
             case 1:
               Navigator.of(context).pushReplacement(
                 route(
-                  const HomePage(),
+                  const AppsTab(),
                 ),
               );
               break;
