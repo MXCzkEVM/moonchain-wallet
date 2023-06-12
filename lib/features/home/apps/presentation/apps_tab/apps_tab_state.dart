@@ -1,7 +1,6 @@
+import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:equatable/equatable.dart';
 import 'package:datadashwallet/features/home/home.dart';
-
-import 'entities/app_card_entity.dart';
 
 class AppsTabPageState extends HomeBasePageState with EquatableMixin {
   List<AppCardEntity> appCards = List.from(AppCardEntity.getAppCards());

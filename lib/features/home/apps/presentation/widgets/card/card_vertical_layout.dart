@@ -1,18 +1,19 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/home/apps/widgets/card/app_card_layout.dart';
+import 'package:datadashwallet/features/home/apps/presentation/widgets/card/card_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../../entities/app_card_entity.dart';
+import '../../../entities/app_card_entity.dart';
 
-class CardLargeVerticalLayout extends AppCardLayout {
-  const CardLargeVerticalLayout({
+class CardVerticalLayout extends AppCardLayout {
+  const CardVerticalLayout(
+    AppCardEntity app, {
     Key? key,
-    required AppCardEntity app,
+    VoidCallback? onTap,
   }) : super(
+          app,
           key: key,
-          app: app,
+          onTap: onTap,
         );
 
   @override
@@ -24,6 +25,7 @@ class CardLargeVerticalLayout extends AppCardLayout {
         Text(
           app.description,
           style: FontTheme.of(context).subtitle2.white(),
+          textAlign: TextAlign.center,
           softWrap: true,
         ),
         const SizedBox(height: 10),
@@ -40,18 +42,9 @@ class CardLargeVerticalLayout extends AppCardLayout {
                 fontWeight: FontWeight.w700,
               ),
         ),
-        if (app.image!.contains('.svg'))
-          SvgPicture.asset(
-            app.image!,
-            height: app.imageHeight,
-          ),
-        if (app.image!.contains(RegExp(r'.png|.jpg')))
-          Image(
-            image: AssetImage(
-              app.image!,
-            ),
-            height: app.imageHeight,
-          ),
+        const Spacer(),
+        getImage(),
+        const Spacer(),
       ],
     );
   }

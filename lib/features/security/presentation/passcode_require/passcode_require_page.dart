@@ -8,14 +8,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'passcode_require_presenter.dart';
 import 'passcode_require_state.dart';
 
-// Future showLoginEmailDialog(BuildContext context) {
-// return showModalBottomSheet<bool>(
-//   context: context,
-//   backgroundColor: Colors.transparent,
-//   builder: (context) => const LoginWithPasswordDialog(),
-// );
-// }
-
 class PasscodeRequirePage extends PasscodeBasePage {
   const PasscodeRequirePage({Key? key}) : super(key: key);
 

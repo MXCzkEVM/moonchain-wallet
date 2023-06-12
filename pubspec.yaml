@@ -59,7 +59,9 @@ dependencies:
   fl_shared_link: ^0.0.3
   flutter_mailer: ^2.0.2
   open_mail_app: ^0.4.5
-  webview_flutter: ^4.2.1
+  webview_flutter: 3.0.0
+  wallet_connect: ^1.0.4
+  flutter_inappwebview: ^5.7.2+3
 
 dev_dependencies:
   flutter_test:
