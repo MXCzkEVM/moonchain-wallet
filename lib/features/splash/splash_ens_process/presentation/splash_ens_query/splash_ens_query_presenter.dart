@@ -49,5 +49,5 @@ class SplashENSQueryPresenter extends CompletePresenter<SplashENSQueryState> {
     }
   }
 
-  Future<void> claim() async => navigator?.push(route(const HomePage()));
+  Future<void> claim() async => navigator?.push(route(HomePage()));
 }

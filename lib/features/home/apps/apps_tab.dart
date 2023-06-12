@@ -8,7 +8,7 @@ import 'apps_tab_state.dart';
 import 'entities/app_card_entity.dart';
 import 'widgets/card/app_card_layout.dart';
 
-class AppsTab extends HomeBasePage with HomeScreenMixin {
+class AppsTab extends HookConsumerWidget {
   const AppsTab({Key? key}) : super(key: key);
 
   @override
@@ -18,12 +18,11 @@ class AppsTab extends HomeBasePage with HomeScreenMixin {
   @override
   ProviderBase<AppsTabPageState> get state => appsTabPageContainer.state;
 
-  @override
-  int get bottomNavCurrentIndex => 1;
 
   @override
-  List<Widget> setContent(BuildContext context, WidgetRef ref) {
-    return [
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Expanded(
+        child: ListView(children: [
       Flex(
         direction: Axis.horizontal,
         children: [
@@ -162,6 +161,6 @@ class AppsTab extends HomeBasePage with HomeScreenMixin {
         ],
       ),
       const SizedBox(height: 20),
-    ];
+    ]));
   }
 }

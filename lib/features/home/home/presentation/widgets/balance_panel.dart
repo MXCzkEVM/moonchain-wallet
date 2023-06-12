@@ -1,4 +1,3 @@
-import 'package:datadashwallet/common/mixin/mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -12,11 +11,10 @@ class BalancePanel extends StatefulWidget {
   State<BalancePanel> createState() => _BalancePanelState();
 }
 
-class _BalancePanelState extends State<BalancePanel> with HomeScreenMixin {
+class _BalancePanelState extends State<BalancePanel> {
   @override
   Widget build(BuildContext context) {
-    return greyContainer(
-        context: context,
+    return GreyContainer(
         padding: EdgeInsets.zero,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

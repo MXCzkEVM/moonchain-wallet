@@ -1,13 +1,10 @@
-import 'package:datadashwallet/common/mixin/mixin.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:intl/intl.dart';
 
-enum TransactionType {
-  send,
-  receive
-}
+enum TransactionType { send, receive }
 
 // extension TransactionTypeExtension on TransactionType {
 //   String get name {
@@ -22,11 +19,13 @@ class RecentTransactions extends StatefulWidget {
   State<RecentTransactions> createState() => _RecentTransactionsState();
 }
 
-class _RecentTransactionsState extends State<RecentTransactions> with HomeScreenMixin {
+class _RecentTransactionsState extends State<RecentTransactions> {
   @override
   Widget build(BuildContext context) {
-    return greyContainer(
-        context: context, padding: const EdgeInsets.all(10), child: ListView(children: List.generate(10, (index) => RecentTrxListItem())));
+    return GreyContainer(
+        padding: const EdgeInsets.all(10),
+        child: ListView(
+            children: List.generate(10, (index) => RecentTrxListItem())));
   }
 }
 
@@ -47,7 +46,11 @@ class _RecentTrxListItemState extends State<RecentTrxListItem> {
           children: [
             Row(
               children: [
-                SizedBox(height: 25, width: 25, child: CircleAvatar(backgroundImage: ImagesTheme.of(context).bitcoin)),
+                SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: CircleAvatar(
+                        backgroundImage: ImagesTheme.of(context).bitcoin)),
                 const SizedBox(
                   width: 10,
                 ),
@@ -56,24 +59,36 @@ class _RecentTrxListItemState extends State<RecentTrxListItem> {
                   children: [
                     Text(
                       '428 USC',
-                      style: FontTheme.of(context).h8(),
+                      style: FontTheme.of(context)
+                          .h7()
+                          .copyWith(fontSize: 12, fontWeight: FontWeight.w400),
                     ),
-                    Text('${FlutterI18n.translate(context, 'tx')} 0xC4ba...e07E', style: FontTheme.of(context).h8())
+                    Text(
+                        '${FlutterI18n.translate(context, 'tx')} 0xC4ba...e07E',
+                        style: FontTheme.of(context).h7().copyWith(
+                            fontSize: 12, fontWeight: FontWeight.w400))
                   ],
                 ),
               ],
             ),
             Text(
               FlutterI18n.translate(context, TransactionType.send.name),
-              style: FontTheme.of(context).h8().copyWith(fontWeight: FontWeight.w400, color: ColorsTheme.of(context).mainRed),
+              style: FontTheme.of(context).h7().copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: ColorsTheme.of(context).mainRed),
             ),
             Text(
               FlutterI18n.translate(context, 'date'),
-              style: FontTheme.of(context).h8(),
+              style: FontTheme.of(context)
+                  .h7()
+                  .copyWith(fontSize: 12, fontWeight: FontWeight.w400),
             ),
             Text(
               DateFormat('m/d/y').format(DateTime.now()),
-              style: FontTheme.of(context).h8(),
+              style: FontTheme.of(context)
+                  .h7()
+                  .copyWith(fontSize: 12, fontWeight: FontWeight.w400),
             ),
           ],
         ),

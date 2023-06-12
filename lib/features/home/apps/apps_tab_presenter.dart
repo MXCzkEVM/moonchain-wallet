@@ -5,7 +5,7 @@ import 'apps_tab_state.dart';
 
 final appsTabPageContainer = PresenterContainer<AppsTabPagePresenter, AppsTabPageState>(() => AppsTabPagePresenter());
 
-class AppsTabPagePresenter extends HomeBasePagePresenter<AppsTabPageState> {
+class AppsTabPagePresenter extends CompletePresenter<AppsTabPageState> {
   AppsTabPagePresenter() : super(AppsTabPageState());
 
   @override

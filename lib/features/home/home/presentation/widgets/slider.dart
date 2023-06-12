@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/mixin/mixin.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -9,11 +9,10 @@ class HomeSlider extends StatefulWidget {
   State<HomeSlider> createState() => _HomeSliderState();
 }
 
-class _HomeSliderState extends State<HomeSlider> with HomeScreenMixin {
+class _HomeSliderState extends State<HomeSlider> {
   @override
   Widget build(BuildContext context) {
-    return greyContainer(
-        context: context,
+    return GreyContainer(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           children: [Expanded(flex: 35, child: ImageSlider()), const Expanded(flex: 1, child: SliderIndicator())],
