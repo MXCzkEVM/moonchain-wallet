@@ -41,22 +41,6 @@ class OpenAppPage extends HookConsumerWidget {
           ),
         ),
 
-        // WebView(
-        //         initialUrl:
-        //             url,
-        //         backgroundColor: ColorsTheme.of(context).primaryBackground,
-        //         javascriptMode: JavascriptMode.unrestricted,
-        //         javascriptChannels: {
-        //           JavascriptChannel(
-        //             name: 'Captcha',
-        //             onMessageReceived: (JavascriptMessage msg) async {
-        //             },
-        //           ),
-        //         },
-        //         // onPageFinished: ref.read(actions).onPageFinished,
-
-        //       ),
-
         // WebViewWidget(
         //   controller: state.webViewController
         //     ..setJavaScriptMode(JavaScriptMode.unrestricted)

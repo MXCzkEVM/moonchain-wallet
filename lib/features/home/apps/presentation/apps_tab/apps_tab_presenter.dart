@@ -1,5 +1,4 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/home.dart';
 
 import 'apps_tab_state.dart';
 
@@ -7,7 +6,7 @@ final appsTabPageContainer =
     PresenterContainer<AppsTabPresenter, AppsTabPageState>(
         () => AppsTabPresenter());
 
-class AppsTabPresenter extends HomeBasePagePresenter<AppsTabPageState> {
+class AppsTabPresenter extends CompletePresenter<AppsTabPageState> {
   AppsTabPresenter() : super(AppsTabPageState());
 
   @override
