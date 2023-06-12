@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
-import 'package:flutter/material.dart';
 import 'splash_import_wallet_state.dart';
 
 final splashImportWalletContainer =

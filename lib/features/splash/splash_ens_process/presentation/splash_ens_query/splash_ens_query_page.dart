@@ -42,7 +42,7 @@ class SplashENSQueryPage extends HookConsumerWidget {
                 style: FontTheme.of(context).body2.white(),
               ),
               onTap: () =>
-                  Navigator.of(context).replaceAll(route(const HomePage())),
+                  Navigator.of(context).replaceAll(route(HomePage())),
             ),
           ],
         ),
