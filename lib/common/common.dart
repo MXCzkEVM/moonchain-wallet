@@ -1,6 +1,7 @@
 export 'scroll_behavior.dart';
 export 'serialization.dart';
 export 'hooks/hooks.dart';
+export 'utils/utils.dart';
 export 'flat.dart';
 export 'layout/layout.dart';
 export 'url_launcher.dart';

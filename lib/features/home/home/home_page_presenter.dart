@@ -10,7 +10,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
   HomePresenter() : super(HomeState());
 
   changeIndex(newIndex) {
-    notify(()=>state.currentIndex = newIndex);
+    notify(() => state.currentIndex = newIndex);
   }
 }
 

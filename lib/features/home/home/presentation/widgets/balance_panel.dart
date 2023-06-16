@@ -22,7 +22,8 @@ class _BalancePanelState extends State<BalancePanel> {
             Expanded(
                 child: Center(
                     child: Text(FlutterI18n.translate(context, 'balance'),
-                        style: FontTheme.of(context).h7().copyWith(fontWeight: FontWeight.w300, height: 1.8)))),
+                        style: FontTheme.of(context).h7().copyWith(
+                            fontWeight: FontWeight.w300, height: 1.8)))),
             Expanded(flex: 2, child: getBalanceDetails()),
             Expanded(flex: 2, child: getBalancePanelButtons())
           ],
@@ -74,13 +75,21 @@ class _BalancePanelState extends State<BalancePanel> {
       children: [
         RichText(
             text: TextSpan(children: [
-          TextSpan(text: '\$', style: FontTheme.of(context).h6().copyWith(fontWeight: FontWeight.w300, fontSize: 18, height: 0)),
-          TextSpan(text: '18945', style: FontTheme.of(context).h6().copyWith(fontWeight: FontWeight.w300, fontSize: 18, height: 0)),
+          TextSpan(
+              text: '\$',
+              style: FontTheme.of(context).h6().copyWith(
+                  fontWeight: FontWeight.w300, fontSize: 18, height: 0)),
+          TextSpan(
+              text: '18945',
+              style: FontTheme.of(context).h6().copyWith(
+                  fontWeight: FontWeight.w300, fontSize: 18, height: 0)),
           TextSpan(
               text: '.34',
-              style: FontTheme.of(context)
-                  .h6()
-                  .copyWith(color: ColorsTheme.of(context).secondaryText.withOpacity(0.3), fontWeight: FontWeight.w300, fontSize: 18, height: 0))
+              style: FontTheme.of(context).h6().copyWith(
+                  color: ColorsTheme.of(context).secondaryText.withOpacity(0.3),
+                  fontWeight: FontWeight.w300,
+                  fontSize: 18,
+                  height: 0))
         ])),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -92,8 +101,17 @@ class _BalancePanelState extends State<BalancePanel> {
             ),
             RichText(
                 text: TextSpan(children: [
-              TextSpan(text: '28.20%', style: FontTheme.of(context).h8().copyWith(color: ColorsTheme.of(context).active)),
-              TextSpan(text: '   ${FlutterI18n.translate(context, 'today')}', style: FontTheme.of(context).h8().copyWith(color: ColorsTheme.of(context).secondaryText.withOpacity(0.5))),
+              TextSpan(
+                  text: '28.20%',
+                  style: FontTheme.of(context)
+                      .h8()
+                      .copyWith(color: ColorsTheme.of(context).active)),
+              TextSpan(
+                  text: '   ${FlutterI18n.translate(context, 'today')}',
+                  style: FontTheme.of(context).h8().copyWith(
+                      color: ColorsTheme.of(context)
+                          .secondaryText
+                          .withOpacity(0.5))),
             ]))
           ],
         ),

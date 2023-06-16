@@ -15,7 +15,10 @@ class _HomeSliderState extends State<HomeSlider> {
     return GreyContainer(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
-          children: [Expanded(flex: 35, child: ImageSlider()), const Expanded(flex: 1, child: SliderIndicator())],
+          children: [
+            Expanded(flex: 35, child: ImageSlider()),
+            const Expanded(flex: 1, child: SliderIndicator())
+          ],
         ));
   }
 }
@@ -33,7 +36,10 @@ class _ImageSliderState extends State<ImageSlider> {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: PageView(
-        children: List.generate(7, (index) => getSliderImage(ImagesTheme.of(context).sliderPlaceHolder)),
+        children: List.generate(
+            7,
+            (index) =>
+                getSliderImage(ImagesTheme.of(context).sliderPlaceHolder)),
         onPageChanged: (value) => {},
       ),
     );
@@ -43,7 +49,9 @@ class _ImageSliderState extends State<ImageSlider> {
 Widget getSliderImage(ImageProvider img) {
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 10.0),
-    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)), image: DecorationImage(image: img, fit: BoxFit.fill)),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        image: DecorationImage(image: img, fit: BoxFit.fill)),
   );
 }
 
@@ -68,7 +76,8 @@ class SliderIndicator extends StatelessWidget {
 
 class SliderIndicatorItem extends StatelessWidget {
   final bool indicate;
-  const SliderIndicatorItem({Key? key, required this.indicate}) : super(key: key);
+  const SliderIndicatorItem({Key? key, required this.indicate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +86,9 @@ class SliderIndicatorItem extends StatelessWidget {
       width: 30,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
-          color: (indicate) ? ColorsTheme.of(context).onTertiary : ColorsTheme.of(context).tertiary),
+          color: (indicate)
+              ? ColorsTheme.of(context).onTertiary
+              : ColorsTheme.of(context).tertiary),
     );
   }
 }
