@@ -3,6 +3,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:flutter/material.dart';
 import 'package:wallet_connect/wallet_connect.dart';
+import 'package:web3_provider/web3_provider.dart';
 
 import 'open_app_state.dart';
 
@@ -42,7 +43,7 @@ class OpenAppPresenter extends CompletePresenter<OpenAppState> {
   connectWalletHandler(String value) {
     if (value.contains('bridge') && value.contains('key')) {
       final session = WCSession.from(value);
-      debugPrint('session $session');
+
       final peerMeta = WCPeerMeta(
         name: dapp.name,
         url: dapp.url!,
@@ -54,10 +55,12 @@ class OpenAppPresenter extends CompletePresenter<OpenAppState> {
     }
   }
 
+  void onWebViewCreated(InAppWebViewController controller) =>
+      notify(() => state.webviewController = controller);
+
   _onSessionRequest(int id, WCPeerMeta peerMeta) async {
-    final address = await _walletUseCase.getPublicAddress();
     _walletConnectClient.approveSession(
-      accounts: [address.hex],
+      accounts: [state.address!.hex],
       chainId: Sys.chainId,
     );
   }
