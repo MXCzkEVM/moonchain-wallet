@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:web3dart/credentials.dart';
 
 class OpenAppState with EquatableMixin {
-  // WebViewController webViewController = WebViewController();
+  EthereumAddress? address;
 
   @override
   List<Object?> get props => [
-        // webViewController,
+        address,
       ];
 }

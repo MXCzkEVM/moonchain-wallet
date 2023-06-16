@@ -1,38 +1,35 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:datadashwallet/features/home/apps/presentation/open_app/open_app_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'card_horizontal_layout.dart';
-import 'card_vertical_layout.dart';
-
-import '../../../entities/app_card_entity.dart';
 
 abstract class AppCardLayout extends StatelessWidget {
-  const AppCardLayout(
-    this.app, {
+  const AppCardLayout({
     Key? key,
+    required this.child,
     this.onTap,
   }) : super(key: key);
 
-  const factory AppCardLayout.horizotal(
-    AppCardEntity app, {
+  const factory AppCardLayout.horizotal({
     Key? key,
+    required DAppCard child,
     VoidCallback? onTap,
   }) = CardHorizontalLayout;
 
-  const factory AppCardLayout.vertical(
-    AppCardEntity app, {
+  const factory AppCardLayout.vertical({
     Key? key,
+    required DAppCard child,
     VoidCallback? onTap,
   }) = CardVerticalLayout;
 
-  final AppCardEntity app;
+  final DAppCard child;
   final VoidCallback? onTap;
 
   double getHight() {
-    if (app.direction == CardAxis.horizontal) {
+    if (child.direction == CardAxis.horizontal) {
       return 130;
-    } else if (app.direction == CardAxis.vertical) {
+    } else if (child.direction == CardAxis.vertical) {
       return 247;
     } else {
       return double.infinity;
@@ -42,17 +39,17 @@ abstract class AppCardLayout extends StatelessWidget {
   Widget buildContent(BuildContext context);
 
   Widget getImage() {
-    if (app.image!.contains('.svg')) {
+    if (child.image!.contains('.svg')) {
       return SvgPicture.asset(
-        app.image!,
-        height: app.imageHeight,
+        child.image!,
+        height: child.imageHeight,
       );
-    } else if (app.image!.contains(RegExp(r'.png|.jpg'))) {
+    } else if (child.image!.contains(RegExp(r'.png|.jpg'))) {
       return Image(
         image: AssetImage(
-          app.image!,
+          child.image!,
         ),
-        height: app.imageHeight,
+        height: child.imageHeight,
       );
     } else {
       throw UnimplementedError();
@@ -67,17 +64,18 @@ abstract class AppCardLayout extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: app.backgroundColor ?? const Color(0xFF292929),
-          gradient: app.backgroundGradient,
+          color: child.backgroundColor ?? const Color(0xFF292929),
+          gradient: child.backgroundGradient,
         ),
         child: InkWell(
-          onTap: () => Navigator.of(context).push(
-            route.featureDialog(
-              OpenAppPage(
-                url: app.url,
-              ),
-            ),
-          ),
+          onTap: child.url != null && child.url!.isNotEmpty
+              ? () => Navigator.of(context).push(
+                    route.featureDialog(
+                      maintainState: false,
+                      OpenAppPage(dapp: child),
+                    ),
+                  )
+              : null,
           child: buildContent(context),
         ),
       ),

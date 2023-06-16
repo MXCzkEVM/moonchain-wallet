@@ -6,15 +6,15 @@ enum CardAxis { horizontal, vertical }
 
 enum CardSize { samll, medium, large }
 
-class AppCardEntity {
-  AppCardEntity({
+class DAppCard {
+  DAppCard({
     required this.name,
     required this.description,
     this.image,
     this.direction = CardAxis.horizontal,
     this.size = CardSize.medium,
     this.contentAlgin = CardContentAlgin.center,
-    required this.url,
+    this.url,
     this.nameColor,
     this.backgroundColor,
     this.backgroundGradient,
@@ -32,7 +32,7 @@ class AppCardEntity {
   final CardAxis direction;
   final CardSize size;
   final CardContentAlgin contentAlgin;
-  final String url;
+  final String? url;
   final List<Color>? nameColor;
   final Color? backgroundColor;
   final Gradient? backgroundGradient;
@@ -43,9 +43,9 @@ class AppCardEntity {
   final double? imagePositionLeft;
   final double? imagePositionRight;
 
-  static List<AppCardEntity> getAppCards() {
+  static List<DAppCard> getAppCards() {
     return [
-      AppCardEntity(
+      DAppCard(
         name: 'MXC Swap',
         description: 'Diversify your portfolio',
         image: 'assets/svg/apps/mxc_swap.svg',
@@ -70,7 +70,7 @@ class AppCardEntity {
         imagePositionRight: 0,
         imagePositionLeft: 0,
       ),
-      AppCardEntity(
+      DAppCard(
         name: 'Bridge',
         description: '& Faucet',
         image: '',
@@ -85,7 +85,7 @@ class AppCardEntity {
         imagePositionbottom: 0,
         imagePositionRight: 0,
       ),
-      AppCardEntity(
+      DAppCard(
         name: 'Stablecoin',
         description: 'World’s first un-depeggable',
         image: '',
@@ -97,7 +97,7 @@ class AppCardEntity {
           Color(0xFFEDDE5C),
         ],
       ),
-      AppCardEntity(
+      DAppCard(
         name: 'NFT',
         description: 'Digitalize your assets',
         image: '',
@@ -105,7 +105,7 @@ class AppCardEntity {
         size: CardSize.medium,
         url: 'https://wannsee-nft.mxc.com',
       ),
-      AppCardEntity(
+      DAppCard(
         name: 'ENS',
         description: 'Own your .MXC domain',
         image: '',
@@ -117,7 +117,7 @@ class AppCardEntity {
           Color(0xFF3DA41D),
         ],
       ),
-      AppCardEntity(
+      DAppCard(
         name: 'ISO Launchpad',
         description: 'Accelerating IOT',
         image: 'assets/images/apps/spacecraft.png',
@@ -142,7 +142,7 @@ class AppCardEntity {
         imagePositionRight: 0,
         imagePositionLeft: 0,
       ),
-      AppCardEntity(
+      DAppCard(
         name: 'Explorer',
         description: 'Visualize Blockchain',
         image: '',
