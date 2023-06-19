@@ -1,24 +1,29 @@
+import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:mxc_ui/mxc_ui.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:datadashwallet/features/home/apps/apps.dart';
+import 'package:flutter/material.dart';
+import 'package:wallet_connect/wallet_connect.dart';
+import 'package:web3_provider/web3_provider.dart';
 
 import 'open_app_state.dart';
 
 final openAppPageContainer =
-    PresenterContainerWithParameter<OpenAppPresenter, OpenAppState, String>(
-        (url) => OpenAppPresenter(url));
+    PresenterContainerWithParameter<OpenAppPresenter, OpenAppState, DAppCard>(
+        (dapp) => OpenAppPresenter(dapp));
 
 class OpenAppPresenter extends CompletePresenter<OpenAppState> {
-  OpenAppPresenter(this.url) : super(OpenAppState());
+  OpenAppPresenter(this.dapp) : super(OpenAppState());
 
-  final String url;
+  final DAppCard dapp;
+
+  late final _walletUseCase = ref.read(walletUseCaseProvider);
+  late WCClient _walletConnectClient;
 
   @override
   void initState() {
     super.initState();
 
-    initPage();
+    initDApp();
   }
 
   @override
@@ -26,16 +31,39 @@ class OpenAppPresenter extends CompletePresenter<OpenAppState> {
     return super.dispose();
   }
 
-  Future<void> initPage() async {
-    // final ChromeSafariBrowser browser = ChromeSafariBrowser();
-    // final myxx = InAppBrowser;
-
-    // InAppBrowser.openWithSystemBrowser(url: Uri.parse(url));
-    // browser.open(url: Uri.parse(url));
-    // await state.webViewController
-    //     .setJavaScriptMode(JavaScriptMode.unrestricted);
-    // state.webViewController
-    //     .setBackgroundColor(ColorsTheme.of(context!).primaryBackground);
-    // await state.webViewController.loadRequest(Uri.parse(url));
+  Future<void> initDApp() async {
+    _walletConnectClient = WCClient(
+      onSessionRequest: _onSessionRequest,
+      onFailure: _onSessionError,
+    );
+    final address = await _walletUseCase.getPublicAddress();
+    notify(() => state.address = address);
   }
+
+  connectWalletHandler(String value) {
+    if (value.contains('bridge') && value.contains('key')) {
+      final session = WCSession.from(value);
+
+      final peerMeta = WCPeerMeta(
+        name: dapp.name,
+        url: dapp.url!,
+        description: dapp.description,
+        icons: [],
+      );
+      _walletConnectClient.connectNewSession(
+          session: session, peerMeta: peerMeta);
+    }
+  }
+
+  void onWebViewCreated(InAppWebViewController controller) =>
+      notify(() => state.webviewController = controller);
+
+  _onSessionRequest(int id, WCPeerMeta peerMeta) async {
+    _walletConnectClient.approveSession(
+      accounts: [state.address!.hex],
+      chainId: Sys.chainId,
+    );
+  }
+
+  _onSessionError(dynamic error) => addError(error);
 }

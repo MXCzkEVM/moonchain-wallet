@@ -1,5 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:web3dart/credentials.dart';
 
 class WalletUseCase extends ReactiveUseCase {
   WalletUseCase(this._repository);
@@ -12,5 +13,9 @@ class WalletUseCase extends ReactiveUseCase {
 
   Future<bool> setupFromMnemonic(String mnemonic) async {
     return await _repository.address.setupFromMnemonic(mnemonic);
+  }
+
+  Future<EthereumAddress> getPublicAddress() async {
+    return await _repository.address.getPublicAddress();
   }
 }

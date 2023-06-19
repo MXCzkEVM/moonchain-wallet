@@ -1,4 +1,4 @@
-export 'entities/app_card_entity.dart';
-export 'presentation/widgets/card/card_layout.dart';
-export 'presentation/widgets/card/card_horizontal_layout.dart';
-export 'presentation/widgets/card/card_vertical_layout.dart';
+export 'entities/dapp_card.dart';
+export 'presentation/widgets/card_layout/card_layout.dart';
+export 'presentation/widgets/card_layout/card_horizontal_layout.dart';
+export 'presentation/widgets/card_layout/card_vertical_layout.dart';

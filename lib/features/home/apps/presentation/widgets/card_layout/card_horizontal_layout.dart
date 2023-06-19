@@ -1,20 +1,17 @@
-import 'dart:ui';
-
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/home/apps/presentation/widgets/card/card_layout.dart';
+import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../../../entities/app_card_entity.dart';
-
 class CardHorizontalLayout extends AppCardLayout {
-  const CardHorizontalLayout(
-    AppCardEntity app, {
+  const CardHorizontalLayout({
     Key? key,
+    required DAppCard child,
     VoidCallback? onTap,
   }) : super(
-          app,
           key: key,
+          child: child,
           onTap: onTap,
         );
 
@@ -22,7 +19,7 @@ class CardHorizontalLayout extends AppCardLayout {
     BuildContext context,
     List<Widget> children,
   ) {
-    if (app.contentAlgin == CardContentAlgin.leftBottom) {
+    if (child.contentAlgin == CardContentAlgin.leftBottom) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,9 +45,9 @@ class CardHorizontalLayout extends AppCardLayout {
         context,
         [
           GradientText(
-            app.name,
+            child.name,
             gradient: LinearGradient(
-              colors: app.nameColor ??
+              colors: child.nameColor ??
                   [
                     Colors.white,
                     Colors.white,
@@ -61,7 +58,7 @@ class CardHorizontalLayout extends AppCardLayout {
                 ),
           ),
           Text(
-            app.description,
+            FlutterI18n.translate(context, child.description),
             style: FontTheme.of(context).subtitle2.white(),
             textAlign: TextAlign.center,
             softWrap: true,

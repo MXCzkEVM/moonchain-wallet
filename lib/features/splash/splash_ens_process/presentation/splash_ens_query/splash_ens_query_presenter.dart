@@ -1,6 +1,5 @@
 import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/features/home/home.dart';
-import 'package:datadashwallet/features/splash/splash_ens_process/splash_ens.dart';
 import 'package:ens_dart/ens_dart.dart';
 
 import 'package:datadashwallet/core/core.dart';

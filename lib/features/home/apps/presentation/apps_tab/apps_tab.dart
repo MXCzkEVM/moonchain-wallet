@@ -26,9 +26,9 @@ class AppsTab extends HookConsumerWidget {
                 direction: Axis.horizontal,
                 children: [
                   AppCardLayout.vertical(
-                    AppCardEntity(
+                    child: DAppCard(
                       name: 'MXC Swap',
-                      description: 'Diversify your portfolio',
+                      description: 'diversify_your_portfolio',
                       image: 'assets/svg/apps/mxc_swap.svg',
                       direction: CardAxis.vertical,
                       size: CardSize.large,
@@ -56,7 +56,7 @@ class AppsTab extends HookConsumerWidget {
                         direction: Axis.vertical,
                         children: [
                           AppCardLayout.horizotal(
-                            AppCardEntity(
+                            child: DAppCard(
                               name: 'Bridge',
                               description: '& Faucet',
                               image: 'assets/images/apps/bridge.png',
@@ -84,9 +84,9 @@ class AppsTab extends HookConsumerWidget {
                           ),
                           const SizedBox(height: 20),
                           AppCardLayout.horizotal(
-                            AppCardEntity(
+                            child: DAppCard(
                               name: 'Stablecoin',
-                              description: 'World’s first un-depeggable',
+                              description: 'world_un_depeggable',
                               image: '',
                               direction: CardAxis.horizontal,
                               size: CardSize.medium,
@@ -116,9 +116,9 @@ class AppsTab extends HookConsumerWidget {
                         direction: Axis.vertical,
                         children: [
                           AppCardLayout.horizotal(
-                            AppCardEntity(
+                            child: DAppCard(
                               name: 'NFT',
-                              description: 'Digitalize your assets',
+                              description: 'digitalize_your_assets',
                               image: '',
                               direction: CardAxis.horizontal,
                               size: CardSize.medium,
@@ -131,9 +131,9 @@ class AppsTab extends HookConsumerWidget {
                           ),
                           const SizedBox(height: 20),
                           AppCardLayout.horizotal(
-                            AppCardEntity(
+                            child: DAppCard(
                               name: 'ENS',
-                              description: 'Own your .MXC domain',
+                              description: 'own_your_domain',
                               image: '',
                               direction: CardAxis.horizontal,
                               size: CardSize.medium,
@@ -150,13 +150,12 @@ class AppsTab extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 20),
                   AppCardLayout.vertical(
-                    AppCardEntity(
+                    child: DAppCard(
                       name: 'ISO Launchpad',
-                      description: 'Accelerating IOT',
+                      description: 'accelerating_iot',
                       image: 'assets/images/apps/spacecraft.png',
                       direction: CardAxis.vertical,
                       size: CardSize.large,
-                      url: 'https://wannsee-mns.mxc.com',
                       nameColor: const [
                         Color(0xFF20FFFF),
                         Color(0xFF4A2E60),
@@ -179,26 +178,28 @@ class AppsTab extends HookConsumerWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 113,
-              child: AppCardLayout.horizotal(
-                AppCardEntity(
-                  name: 'Explorer',
-                  description: 'Visualize Blockchain',
-                  image: 'assets/images/apps/screen.png',
-                  direction: CardAxis.horizontal,
-                  size: CardSize.large,
-                  contentAlgin: CardContentAlgin.center,
-                  url: 'https://wannsee-explorer.mxc.com',
-                  nameColor: const [
-                    Color(0xFFF5D459),
-                    Color(0xFFE95A2F),
-                  ],
-                  imageHeight: 60,
-                  imagePositionbottom: 0,
-                  imagePositionLeft: 30,
+            Flex(
+              direction: Axis.horizontal,
+              children: [
+                AppCardLayout.horizotal(
+                  child: DAppCard(
+                    name: 'Explorer',
+                    description: 'visualize_blockchain',
+                    image: 'assets/images/apps/screen.png',
+                    direction: CardAxis.horizontal,
+                    size: CardSize.large,
+                    contentAlgin: CardContentAlgin.center,
+                    url: 'https://wannsee-explorer.mxc.com',
+                    nameColor: const [
+                      Color(0xFFF5D459),
+                      Color(0xFFE95A2F),
+                    ],
+                    imageHeight: 60,
+                    imagePositionbottom: 0,
+                    imagePositionLeft: 30,
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),

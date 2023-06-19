@@ -53,5 +53,11 @@
 	"enter_current_passcode": "Enter your current passcode.",
 	"enter_passcode_hint": "Enter a 6-digit passcode to unlock your wallet. ",
 	"incorrect_passcode": "Incorrect passcode.",
-	"app_will_be_locked_alert": "The app will be locked for 30 minutes after one more failed attempt."
+	"app_will_be_locked_alert": "The app will be locked for 30 minutes after one more failed attempt.",
+	"diversify_your_portfolio": "Diversify your portfolio",
+	"world_un_depeggable": "World’s first un-depeggable",
+	"digitalize_your_assets": "Digitalize your assets",
+	"own_your_domain": "Own your .MXC domain",
+	"accelerating_iot": "Accelerating IOT",
+	"visualize_blockchain": "Visualize Blockchain"
 }

@@ -31,7 +31,9 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
     if (_authUseCase.loggedIn) return;
 
     try {
-      if (filePath == null || filePath.isEmpty) return;
+      if (filePath == null || filePath.isEmpty) {
+        throw UnimplementedError('Mnemonic file is empty or not exists');
+      }
 
       String? file = await (Platform.isAndroid
           ? FlSharedLink().getRealFilePathWithAndroid(filePath)

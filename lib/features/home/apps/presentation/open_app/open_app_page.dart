@@ -1,12 +1,12 @@
-import 'dart:collection';
-
+import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/features/home/apps/apps.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:wallet_connect/wallet_connect.dart';
+import 'package:web3_provider/web3_provider.dart';
 
 import 'open_app_presenter.dart';
 import 'open_app_state.dart';
@@ -14,39 +14,93 @@ import 'open_app_state.dart';
 class OpenAppPage extends HookConsumerWidget {
   const OpenAppPage({
     Key? key,
-    required this.url,
+    required this.dapp,
   }) : super(key: key);
 
-  final String url;
+  final DAppCard dapp;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(openAppPageContainer.actions(url));
-    final state = ref.watch(openAppPageContainer.state(url));
+    final presenter = ref.read(openAppPageContainer.actions(dapp));
+    final state = ref.watch(openAppPageContainer.state(dapp));
+    const primaryVelocity = 500;
 
     return Scaffold(
-      body: PresenterHooks(
-        presenter: presenter,
-        child: InAppWebView(
-          initialUrlRequest: URLRequest(url: Uri.parse(url)),
-          initialOptions: InAppWebViewGroupOptions(
-            crossPlatform: InAppWebViewOptions(
-              useShouldOverrideUrlLoading: true,
-              useShouldInterceptAjaxRequest: true,
-              javaScriptCanOpenWindowsAutomatically: true,
-              javaScriptEnabled: true,
-              useOnLoadResource: true,
-              useShouldInterceptFetchRequest: true,
+      backgroundColor: ColorsTheme.of(context).secondaryBackground,
+      body: SafeArea(
+        child: PresenterHooks(
+          presenter: presenter,
+          child: GestureDetector(
+            onHorizontalDragEnd: (details) async {
+              final webViewController = state.webviewController!;
+
+              if (details.primaryVelocity! < 0 - primaryVelocity &&
+                  (await webViewController.canGoForward())) {
+                webViewController.goForward();
+              }
+
+              if (details.primaryVelocity! > primaryVelocity &&
+                  (await webViewController.canGoBack())) {
+                webViewController.goBack();
+              }
+
+              if (details.primaryVelocity! > primaryVelocity &&
+                  !(await webViewController.canGoBack())) {
+                BottomFlowDialog.of(context).close();
+              }
+            },
+            onDoubleTap: () => state.webviewController!.reload(),
+            child: InAppWebViewEIP1193(
+              chainId: Sys.chainId,
+              rpcUrl: Sys.rpcUrl,
+              isDebug: false,
+              initialOptions: InAppWebViewGroupOptions(
+                crossPlatform: InAppWebViewOptions(
+                  useShouldOverrideUrlLoading: true,
+                ),
+              ),
+              shouldOverrideUrlLoading: (controller, navAction) async {
+                final url = navAction.request.url.toString();
+                debugPrint('URL $url');
+                if (url.contains('wc?uri=')) {
+                  final wcUri = Uri.parse(
+                      Uri.decodeFull(Uri.parse(url).queryParameters['uri']!));
+                  presenter.connectWalletHandler(wcUri.toString());
+
+                  return NavigationActionPolicy.CANCEL;
+                } else if (url.startsWith('wc:')) {
+                  presenter.connectWalletHandler(url);
+
+                  return NavigationActionPolicy.CANCEL;
+                } else {
+                  return NavigationActionPolicy.ALLOW;
+                }
+              },
+              signCallback: (params, eip1193, controller) {
+                final id = params["id"];
+                switch (eip1193) {
+                  case EIP1193.requestAccounts:
+                    if (state.address != null) {
+                      controller?.setAddress(state.address!.hex, id);
+                    }
+                    break;
+                  default:
+                    break;
+                }
+              },
+              initialUrlRequest: URLRequest(
+                url: Uri.parse(dapp.url!),
+              ),
+              onWebViewCreated: (controller) =>
+                  presenter.onWebViewCreated(controller),
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                Factory<VerticalDragGestureRecognizer>(
+                  () => VerticalDragGestureRecognizer(),
+                ),
+              },
             ),
           ),
         ),
-
-        // WebViewWidget(
-        //   controller: state.webViewController
-        //     ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        //     ..setBackgroundColor(ColorsTheme.of(context).primaryBackground)
-        //     ..loadRequest(Uri.parse(url)),
-        // ),
       ),
     );
   }
