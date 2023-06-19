@@ -16,7 +16,6 @@ class MenuItem {
   final String text;
 }
 
-
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
