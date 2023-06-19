@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'splash_base_presenter.dart';
@@ -59,17 +60,39 @@ abstract class SplashBasePage extends HookConsumerWidget {
       presenter: ref.read(presenter),
       children: [
         Expanded(
-          child: appLogo(context),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 72),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: getButtons(context, ref),
-            ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Visibility(
+                visible: false,
+                child: LottieBuilder.asset(
+                  "assets/lottie/data_dash_splash_screen.json",
+                  filterQuality: FilterQuality.high,
+                  frameRate: FrameRate.max,
+                  repeat: true,
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.center,
+                ),
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: appLogo(context),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 72),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: getButtons(context, ref),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-        ),
+        )
       ],
     );
   }
