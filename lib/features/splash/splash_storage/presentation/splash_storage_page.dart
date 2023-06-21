@@ -15,25 +15,34 @@ class SplashStoragePage extends SplashBasePage {
   ProviderBase<SplashBaseState> get state => splashStorageContainer.state;
 
   @override
+  Widget buildAppBar(BuildContext context, WidgetRef ref) {
+    return MxcAppBar.splash(
+        text: FlutterI18n.translate(context, 'create_wallet'));
+  }
+
+  @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     return [
-      MxcFullRoundedButton(
+      MxcButton.secondary(
         key: const ValueKey('telegramButton'),
+        icon: 'assets/svg/splash/ic_telegram.svg',
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: ref.watch(state).applist['telegram'] == true
             ? () => ref.read(presenter).shareToTelegram()
             : null,
       ),
-      MxcFullRoundedButton(
+      MxcButton.secondary(
         key: const ValueKey('wechatButton'),
+        icon: 'assets/svg/splash/ic_wechat.svg',
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap: ref.watch(state).applist['weixin'] == true ||
                 ref.watch(state).applist['wechat'] == true
             ? () => ref.read(presenter).shareToWechat()
             : null,
       ),
-      MxcFullRoundedButton(
+      MxcButton.secondary(
         key: const ValueKey('emailButton'),
+        icon: 'assets/svg/splash/ic_mail.svg',
         title: FlutterI18n.translate(context, 'email_secured_storage'),
         onTap: () => ref.read(presenter).sendEmail(),
       ),

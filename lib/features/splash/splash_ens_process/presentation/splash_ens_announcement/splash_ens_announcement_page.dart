@@ -27,7 +27,7 @@ class SplashENSAnnouncementPage extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MxcFullRoundedButton(
+            MxcButton.primary(
               key: const ValueKey('claimButton'),
               title: FlutterI18n.translate(context, 'claim').toUpperCase(),
               onTap: () =>

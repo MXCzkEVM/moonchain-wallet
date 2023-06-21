@@ -15,40 +15,49 @@ class SplashImportStoragePage extends SplashBasePage {
       splashImportStorageContainer.actions;
 
   @override
-  ProviderBase<SplashBaseState> get state =>
-      splashImportStorageContainer.state;
+  ProviderBase<SplashBaseState> get state => splashImportStorageContainer.state;
+
+  @override
+  Widget buildAppBar(BuildContext context, WidgetRef ref) {
+    return MxcAppBar.splash(
+        text: FlutterI18n.translate(context, 'import_wallet'));
+  }
 
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     return [
-      MxcFullRoundedButton(
+      MxcButton.secondary(
         key: const ValueKey('telegramButton'),
+        icon: 'assets/svg/splash/ic_telegram.svg',
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: ref.watch(state).applist['telegram'] == true
             ? () => ref.read(presenter).openTelegram()
             : null,
       ),
-      MxcFullRoundedButton(
+      MxcButton.secondary(
         key: const ValueKey('wechatButton'),
+        icon: 'assets/svg/splash/ic_wechat.svg',
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap: ref.watch(state).applist['weixin'] == true ||
                 ref.watch(state).applist['wechat'] == true
             ? () => ref.read(presenter).openWechat()
             : null,
       ),
-      MxcFullRoundedButton(
+      MxcButton.secondary(
+        key: const ValueKey('emailButton'),
+        icon: 'assets/svg/splash/ic_mail.svg',
+        title: FlutterI18n.translate(context, 'email_secured_storage'),
+        onTap: () => ref.read(presenter).openEmail(),
+      ),
+      MxcButton.secondary(
         key: const ValueKey('mnemonicButton'),
-        title: FlutterI18n.translate(context, 'mnemonic_phrase'),
+        icon: 'assets/svg/splash/ic_cloud.svg',
+        title: FlutterI18n.translate(context, 'secret_recovery_phrase'),
         onTap: () => Navigator.of(context).pushReplacement(
           route(
             const SplashImportWalletPage(),
           ),
         ),
-      ),
-      MxcFullRoundedButton(
-        key: const ValueKey('emailButton'),
-        title: FlutterI18n.translate(context, 'email_secured_storage'),
-        onTap: () => ref.read(presenter).openEmail(),
       ),
     ];
   }

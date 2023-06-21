@@ -29,7 +29,7 @@ class SplashENSQueryPage extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MxcFullRoundedButton(
+            MxcButton.primary(
               key: const ValueKey('claimMyUsernameButton'),
               title: FlutterI18n.translate(context, 'claim_my_username'),
               onTap: state.isRegistered ? () => presenter.claim() : null,

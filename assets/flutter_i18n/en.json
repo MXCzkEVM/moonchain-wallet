@@ -10,7 +10,7 @@
 	"confirm_passcode_desc": "Re-type your passcode",
 	"yes": "Yes",
 	"no": "No",
-	"mnemonic_phrase": "Mnemonic Phrase",
+	"secret_recovery_phrase": "Secret recovery phrase",
 	"import_your_wallet": "Import Your Wallet",
 	"word_seed_phrase": "12, 18, 24-word seed phrases are supported",
 	"confirm": "Confirm",

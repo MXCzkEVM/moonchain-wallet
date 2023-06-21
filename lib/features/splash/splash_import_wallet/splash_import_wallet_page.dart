@@ -24,7 +24,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MxcFullRoundedButton(
+            MxcButton.primary(
               key: const Key('confrimPhrasesButton'),
               title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
               onTap: () => presenter.confirm(),

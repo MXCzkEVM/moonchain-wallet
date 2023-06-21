@@ -25,7 +25,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MxcFullRoundedButton(
+            MxcButton.primary(
               key: const ValueKey('confrimButton'),
               title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
               onTap: () => presenter.authenticateBiometrics(),

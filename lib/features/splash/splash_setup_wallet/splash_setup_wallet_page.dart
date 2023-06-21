@@ -20,26 +20,28 @@ class SplashSetupWalletPage extends SplashBasePage {
       splashSetupWalletContainer.state;
 
   @override
-  List<Widget> setButtons(BuildContext context, WidgetRef ref) {
-    return [
-      MxcFullRoundedButton(
-        key: const ValueKey('createButton'),
-        title: FlutterI18n.translate(context, 'create_wallet'),
-        onTap: () => Navigator.of(context).push(
-          route(
-            const SplashStoragePage(),
+  Widget? buildFooter(BuildContext context) {
+    return Column(
+      children: [
+        MxcButton.primary(
+          key: const ValueKey('createButton'),
+          title: FlutterI18n.translate(context, 'create_wallet'),
+          onTap: () => Navigator.of(context).push(
+            route(
+              const SplashStoragePage(),
+            ),
           ),
         ),
-      ),
-      MxcFullRoundedButton(
-        key: const ValueKey('importButton'),
-        title: FlutterI18n.translate(context, 'import_wallet'),
-        onTap: () => Navigator.of(context).push(
-          route(
-            const SplashImportStoragePage(),
+        MxcButton.plain(
+          key: const ValueKey('importButton'),
+          title: FlutterI18n.translate(context, 'import_wallet'),
+          onTap: () => Navigator.of(context).push(
+            route(
+              const SplashImportStoragePage(),
+            ),
           ),
         ),
-      ),
-    ];
+      ],
+    );
   }
 }

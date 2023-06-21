@@ -43,7 +43,7 @@ abstract class MxcPage extends HookConsumerWidget {
     required List<Widget> children,
     EdgeInsets? childrenPadding,
     Widget? footer,
-    PreferredSizeWidget? appBar,
+    Widget? appBar,
     Widget? bottomNavigationBar,
     bool useContentPadding,
     Widget? drawer,
@@ -66,7 +66,7 @@ abstract class MxcPage extends HookConsumerWidget {
     required List<Widget> children,
     EdgeInsets? childrenPadding,
     Widget? footer,
-    PreferredSizeWidget? appBar,
+    Widget? appBar,
     Widget? bottomNavigationBar,
     bool useContentPadding,
     Widget? drawer,
@@ -88,7 +88,7 @@ abstract class MxcPage extends HookConsumerWidget {
   final List<Widget> children;
   final EdgeInsets? childrenPadding;
   final Widget? footer;
-  final PreferredSizeWidget? appBar;
+  final Widget? appBar;
   final Widget? bottomNavigationBar;
   final Widget? drawer;
   final bool useContentPadding;
@@ -145,8 +145,6 @@ abstract class MxcPage extends HookConsumerWidget {
     WidgetRef ref,
     Color? backgroundColor,
   );
-
-  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref);
 
   Widget? buildBottomNavigation(BuildContext context, WidgetRef ref);
 
@@ -213,7 +211,6 @@ abstract class MxcPage extends HookConsumerWidget {
         backgroundColor: resolveBackgroundColor(context),
         drawer: drawer,
         key: scaffoldKey,
-        appBar: buildAppBar(context, ref),
         resizeToAvoidBottomInset: false,
         floatingActionButton: floatingActionButton,
         bottomNavigationBar: buildBottomNavigation(context, ref),
@@ -226,6 +223,7 @@ abstract class MxcPage extends HookConsumerWidget {
               top: topSafeArea,
               child: Column(
                 children: [
+                  if (appBar != null) appBar!,
                   Expanded(
                       child: Padding(
                     padding: childrenPadding ?? EdgeInsets.zero,
