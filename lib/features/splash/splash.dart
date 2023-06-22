@@ -1,4 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/splash/ens_process/ens.dart';
 import 'package:flutter/material.dart';
 
 import 'security_notice/security_notice_page.dart';
@@ -22,6 +23,14 @@ Future<void> pushSecurityNoticePage(BuildContext context, String phrases) {
       SecurityNoticePage(
         phrases: phrases,
       ),
+    ),
+  );
+}
+
+Future<void> pushENSAnnouncementPage(BuildContext context) {
+  return Navigator.of(context).replaceAll(
+    route(
+      const SplashENSAnnouncementPage(),
     ),
   );
 }

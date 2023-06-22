@@ -12,12 +12,11 @@
 	"import_your_wallet": "Import Your Wallet",
 	"word_seed_phrase": "12, 18, 24-word seed phrases are supported",
 	"confirm": "Confirm",
-	"claim": "Claim",
+	"choose_my_username": "Choose my username",
 	"mnemonic_passphrase": "Mnemonic Passphrase",
 	"biometrics_setup": "DataDash Biometrics Setup",
-	"meta_x_connect": "Meta x Connect",
 	"mxc_zkevm_username": "MXC zkEVM Username",
-	"ens_announcement_description": "Celebrating MXC’s zkEVM launch, we’re granting everyone the ability to claim a free MXC ENS username. Simplifying complex wallet addresses into your own personalized unique name",
+	"ens_announcement_description": "With your unique MXC zkEVM username, the cumbersome process of handling complex wallet addresses becomes a thing of the past. Now, you can effortlessly employ a customised and exclusive name that sets you apart.",
 	"choose_your_username": "Choose your unique username",
 	"ens_register_description": "Make a smart choice! This option can only be modified once per year, so choose carefully.",
 	"username": "Username",
@@ -76,5 +75,6 @@
 	"protect_your_wallet": "Protect your wallet",
 	"use_biometric_or_passcode": "Use your {0} or proceed with passcode",
 	"use_biometric": "Use {0}",
-	"create_passcode": "Create passcode"
+	"create_passcode": "Create passcode",
+	"skip": "Skip"
 }

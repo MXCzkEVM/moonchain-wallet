@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/presentation/passcode.dart';
 
@@ -18,6 +19,10 @@ class SecurityNoticePresenter extends CompletePresenter<SecurityNoticeState> {
   void confirm() {
     // _walletUseCase.setupFromMnemonic(phrases);
 
-    pushSetupEnableBiometricPage(context!);
+    if (Biometric.available) {
+      pushSetupEnableBiometricPage(context!);
+    } else {
+      pushPasscodeSetPage(context!);
+    }
   }
 }

@@ -105,7 +105,7 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
                     width: double.infinity,
                     alignment: Alignment.center,
                     child: SvgPicture.asset(
-                      'assets/svg/ic_delete.svg',
+                      'assets/svg/security/ic_delete.svg',
                       height: 19,
                       width: 25,
                       colorFilter: filterFor(ColorsTheme.of(context).white),
@@ -152,31 +152,30 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
     });
 
     final children = [
-      Expanded(
-        flex: 6,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title(context, ref),
-                style: FontTheme.of(context).h4.white(),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                hint(context, ref),
-                style: FontTheme.of(context).body1.white(),
-              ),
-              const SizedBox(height: 64),
-              Center(
-                child: numbersRow(context, ref),
-              ),
-            ],
-          ),
+      const SizedBox(height: 40),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title(context, ref),
+              style: FontTheme.of(context).h4.white(),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              hint(context, ref),
+              style: FontTheme.of(context).body1.white(),
+            ),
+            const SizedBox(height: 64),
+            Center(
+              child: numbersRow(context, ref),
+            ),
+          ],
         ),
       ),
+      const SizedBox(height: 32),
       buildErrorMessage(context, ref),
       if (description(context, ref).isNotEmpty)
         Text(

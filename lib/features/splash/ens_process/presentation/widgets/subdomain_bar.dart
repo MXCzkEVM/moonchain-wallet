@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import 'cube_bar.dart';
+
 class SubDomainBar extends StatelessWidget {
   const SubDomainBar({
     Key? key,
@@ -12,34 +14,19 @@ class SubDomainBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      width: 220,
-      child: Stack(
-        children: [
-          Positioned(
-            left: -5,
-            bottom: -2,
-            child: SvgPicture.asset(
-              'assets/svg/ens/green_shadow_bar.svg',
-              width: 200,
-              height: 36,
-            ),
-          ),
-          Center(
-            child: Container(
-              height: 24,
-              width: 200,
-              color: const Color(0xFF385F39),
-              alignment: Alignment.center,
-              child: Text(
-                domain ?? 'ElonMusk.mxc',
-                style: FontTheme.of(context).caption1.white(),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ],
+    return CustomPaint(
+      painter: CubeBarPainter(
+        contentColor: const Color(0xFF3B8A3D),
+        shadowColor: const Color(0xFF2B6F2D),
+      ),
+      child: Container(
+        height: 32,
+        padding: const EdgeInsets.all(6),
+        child: Text(
+          domain ?? 'e.g. elonmusk.mxc',
+          style: FontTheme.of(context).caption1.white(),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
