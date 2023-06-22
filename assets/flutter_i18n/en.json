@@ -42,7 +42,7 @@
 	"show/hide_balance": "Show/Hide Balance",
 	"balance": "Balance",
 	"today": "today",
-	"Receive": "Receive",
+	"receive": "Receive",
 	"send": "Send",
 	"alert": "Alert",
 	"save_related_app": "Did you save the mnemonic to the related app?",

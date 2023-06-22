@@ -1,4 +1,6 @@
-class Formatter {
+import 'dart:math';
+
+class StringFormatter {
   static String formatBigNumber(double number) {
     if (number >= 1000000000) {
       // Convert to millions
@@ -26,5 +28,14 @@ class Formatter {
     String formattedString =
         '${inputString.substring(0, 6)}...${inputString.substring(inputString.length - 4)}';
     return formattedString;
+  }
+
+  static String convertWeiToEth(String inputString){
+    // 10^18 = 1000000000000000000 but we want to have up to 2 digits accuracy 
+    if (double.parse(inputString).toDouble() < 10000000000000000){
+      return '0';
+    }
+    String convertedString = (double.parse(inputString).toDouble() / pow(10, 18)).toStringAsFixed(2);
+    return convertedString;
   }
 }
