@@ -32,7 +32,7 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
         children: [
           for (var i = 0; i < ref.watch(state).expectedNumbersLength; i++) ...[
             SvgPicture.asset(
-              'assets/svg/ic_ring.svg',
+              'assets/svg/security/ic_ring.svg',
               height: 30,
               width: 30,
               colorFilter: filterFor(
@@ -135,7 +135,7 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
             child: Text(
               number.toString(),
               style: FontTheme.of(context).h6.white().copyWith(
-                    fontSize: 35,
+                    fontSize: 28,
                   ),
             ),
           ),

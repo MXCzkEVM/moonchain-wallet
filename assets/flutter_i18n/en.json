@@ -17,8 +17,6 @@
 	"claim": "Claim",
 	"mnemonic_passphrase": "Mnemonic Passphrase",
 	"biometrics_setup": "DataDash Biometrics Setup",
-	"enable_x": "Enable {0} to access your wallet",
-	"maybe_later": "Maybe later",
 	"meta_x_connect": "Meta x Connect",
 	"mxc_zkevm_username": "MXC zkEVM Username",
 	"ens_announcement_description": "Celebrating MXC’s zkEVM launch, we’re granting everyone the ability to claim a free MXC ENS username. Simplifying complex wallet addresses into your own personalized unique name",
@@ -78,5 +76,9 @@
 	"potential_fund_loss": "Potential Fund Loss",
 	"potential_fund_loss_description1": "If your accounts are compromised, you may lose your funds. We will NEVER ask you for your key details.",
 	"potential_fund_loss_description2": "Stay vigilant and prioritize the security of your digital assets. This is a decentralized wallet, your token is 100% your responsibility.",
-	"stored_my_key": "I've securely stored my key"
+	"stored_my_key": "I've securely stored my key",
+	"protect_your_wallet": "Protect your wallet",
+	"use_biometric_or_passcode": "Use your {0} or proceed with passcode",
+	"use_biometric": "Use {0}",
+	"create_passcode": "Create passcode"
 }

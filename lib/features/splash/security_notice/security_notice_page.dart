@@ -48,12 +48,12 @@ class SecurityNoticePage extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 FlutterI18n.translate(context, 'security_notice'),
-                style: FontTheme.of(context).h5(),
+                style: FontTheme.of(context).h5.white(),
               ),
             ),
             Text(
               FlutterI18n.translate(context, 'ensure_saved_platform'),
-              style: FontTheme.of(context).body1(),
+              style: FontTheme.of(context).body1.white(),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),

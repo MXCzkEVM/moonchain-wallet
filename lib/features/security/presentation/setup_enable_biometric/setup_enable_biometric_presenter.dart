@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/ens_process/ens.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:datadashwallet/common/common.dart';
@@ -19,26 +20,20 @@ class SetupEnableBiometricPresenter extends CompletePresenter<void> {
           : 'touch_id';
 
   String getSvg() => (Platform.isAndroid)
-      ? 'assets/svg/ic_face_touch_id.svg'
+      ? 'assets/svg/security/ic_face_touch_id.svg'
       : Biometric.iosSystemBiometric == BiometricType.face
-          ? 'assets/svg/ic_biometric.svg'
-          : 'assets/svg/ic_touch_id.svg';
+          ? 'assets/svg/security/ic_biometric.svg'
+          : 'assets/svg/security/ic_touch_id.svg';
 
   String getDesc() => 'enable_${getAppBarTitle()}_desc';
 
   void authenticateBiometrics() async {
     final res = await Biometric.authenticate(context!);
     ref.read(passcodeUseCaseProvider).setBiometricEnabled(res);
-    _finishPasscodeSetup();
+    _finishBiometricSetup();
   }
 
-  void skip() => _finishPasscodeSetup();
+  void createPasscode() => _finishBiometricSetup();
 
-  void _finishPasscodeSetup() {
-    navigator!.pushReplacement(
-      route(
-        const SplashENSAnnouncementPage(),
-      ),
-    );
-  }
+  void _finishBiometricSetup() => pushPasscodeSetPage(context!);
 }

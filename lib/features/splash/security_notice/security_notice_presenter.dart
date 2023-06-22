@@ -1,4 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/security/presentation/passcode.dart';
 
 import 'security_notice_state.dart';
 
@@ -15,7 +16,8 @@ class SecurityNoticePresenter extends CompletePresenter<SecurityNoticeState> {
   late final _walletUseCase = ref.read(walletUseCaseProvider);
 
   void confirm() {
-    _walletUseCase.setupFromMnemonic(phrases);
-    
+    // _walletUseCase.setupFromMnemonic(phrases);
+
+    pushSetupEnableBiometricPage(context!);
   }
 }

@@ -146,6 +146,8 @@ abstract class MxcPage extends HookConsumerWidget {
     Color? backgroundColor,
   );
 
+  Widget buildAppBar(BuildContext context, WidgetRef ref);
+
   Widget? buildBottomNavigation(BuildContext context, WidgetRef ref);
 
   Widget buildColumnContent(BuildContext context, WidgetRef ref);
@@ -223,7 +225,7 @@ abstract class MxcPage extends HookConsumerWidget {
               top: topSafeArea,
               child: Column(
                 children: [
-                  if (appBar != null) appBar!,
+                  buildAppBar(context, ref),
                   Expanded(
                       child: Padding(
                     padding: childrenPadding ?? EdgeInsets.zero,
