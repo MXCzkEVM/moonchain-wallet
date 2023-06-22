@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
-import 'splash_import_wallet_state.dart';
+
+import 'import_wallet_state.dart';
 
 final splashImportWalletContainer =
     PresenterContainer<SplashImportWalletPresenter, SplashImportWalletState>(

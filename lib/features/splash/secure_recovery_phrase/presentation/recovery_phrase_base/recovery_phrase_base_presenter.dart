@@ -2,23 +2,18 @@ import 'dart:io';
 
 import 'package:appinio_social_share/appinio_social_share.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/security/security.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
-import 'widgets/confirm_storage_dialog.dart';
+import 'recovery_phrase_base_state.dart';
 
-final splashStorageContainer =
-    PresenterContainer<SplashStoragePresenter, SplashBaseState>(
-        () => SplashStoragePresenter());
-
-class SplashStoragePresenter extends SplashBasePresenter<SplashBaseState> {
-  SplashStoragePresenter() : super(SplashBaseState());
+abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
+    extends CompletePresenter<T> {
+  RecoveryPhraseBasePresenter(T state) : super(state);
 
   late final _walletUseCase = ref.read(walletUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
@@ -29,9 +24,10 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashBaseState> {
   @override
   void initState() {
     super.initState();
-
-    isInstallApps();
   }
+
+  void changeAcceptAggreement() =>
+      notify(() => state.acceptAgreement = !state.acceptAgreement);
 
   Future<String> writeToFile(
     dynamic content,
@@ -44,10 +40,8 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashBaseState> {
   }
 
   void shareToTelegram() async {
-    final keys = _walletUseCase.generateMnemonic();
-    final filePath = await writeToFile(keys);
-
-    showSaveToAppDialog(keys);
+    final phrases = _walletUseCase.generateMnemonic();
+    final filePath = await writeToFile(phrases);
 
     if (Platform.isAndroid) {
       await _socialShare.shareToTelegram(
@@ -55,56 +49,49 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashBaseState> {
         filePath: filePath,
       );
     } else {
-      _socialShare.shareToSystem(
+      await _socialShare.shareToSystem(
         _mnemonicTitle,
         '',
         filePath: filePath,
       );
     }
 
-    _walletUseCase.setupFromMnemonic(keys);
+    pushSecurityNoticePage(context!, phrases);
   }
 
   void shareToWechat() async {
-    final keys = _walletUseCase.generateMnemonic();
-    final filePath = await writeToFile(keys);
-
-    showSaveToAppDialog(keys, type: StorageType.wechat);
+    final phrases = _walletUseCase.generateMnemonic();
+    final filePath = await writeToFile(phrases);
 
     if (Platform.isAndroid) {
-      _socialShare.shareToWechat(
+      await _socialShare.shareToWechat(
         _mnemonicTitle,
         filePath: filePath,
       );
     } else {
-      _socialShare.shareToSystem(
+      await _socialShare.shareToSystem(
         _mnemonicTitle,
         '',
         filePath: filePath,
       );
     }
+
+    pushSecurityNoticePage(context!, phrases);
   }
 
-  void showSaveToAppDialog(String keys,
-      {StorageType type = StorageType.others}) {
-    showConfirmStorageAlertDialog(context!, type: type, onOkTap: () {
-      _walletUseCase.setupFromMnemonic(keys);
-
-      pushPasscodeSetPage(context!);
-    });
-  }
-
-  void sendEmail() async {
-    final keys = _walletUseCase.generateMnemonic();
-    final filePath = await writeToFile(keys);
+  void sendEmail(BuildContext ctx) async {
+    final phrases = _walletUseCase.generateMnemonic();
+    final filePath = await writeToFile(phrases);
 
     final email = MailOptions(
-      body: FlutterI18n.translate(context!, 'email_secured_body'),
-      subject: FlutterI18n.translate(context!, 'email_secured_subject'),
+      body: FlutterI18n.translate(ctx, 'email_secured_body'),
+      subject: FlutterI18n.translate(ctx, 'email_secured_subject'),
       attachments: [filePath],
       isHTML: false,
     );
 
     await FlutterMailer.send(email);
+
+    pushSecurityNoticePage(ctx, phrases);
   }
 }

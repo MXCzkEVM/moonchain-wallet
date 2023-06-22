@@ -1,7 +1,7 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 
-import 'splash_setup_wallet_state.dart';
+import 'setup_wallet_state.dart';
 
 final splashSetupWalletContainer = PresenterContainer<
     SplashSetupWalletPresenter,

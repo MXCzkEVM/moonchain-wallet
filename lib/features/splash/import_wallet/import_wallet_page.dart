@@ -4,8 +4,8 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'splash_import_wallet_presenter.dart';
-import 'splash_import_wallet_state.dart';
+import 'import_wallet_presenter.dart';
+import 'import_wallet_state.dart';
 
 class SplashImportWalletPage extends HookConsumerWidget {
   const SplashImportWalletPage({Key? key}) : super(key: key);

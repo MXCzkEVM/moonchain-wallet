@@ -5,8 +5,8 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'splash_setup_wallet_presenter.dart';
-import 'splash_setup_wallet_state.dart';
+import 'setup_wallet_presenter.dart';
+import 'setup_wallet_state.dart';
 
 class SplashSetupWalletPage extends SplashBasePage {
   const SplashSetupWalletPage({Key? key}) : super(key: key);

@@ -1,23 +1,26 @@
+import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-class SplashStoragePage extends SplashBasePage {
-  const SplashStoragePage({Key? key}) : super(key: key);
+import 'import_storage_presenter.dart';
+
+class SplashImportStoragePage extends SplashBasePage {
+  const SplashImportStoragePage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<SplashStoragePresenter> get presenter =>
-      splashStorageContainer.actions;
+  ProviderBase<SplashImportStoragePresenter> get presenter =>
+      splashImportStorageContainer.actions;
 
   @override
-  ProviderBase<SplashBaseState> get state => splashStorageContainer.state;
+  ProviderBase<SplashBaseState> get state => splashImportStorageContainer.state;
 
   @override
   Widget buildAppBar(BuildContext context, WidgetRef ref) {
-    return MxcAppBar.splash(
-        text: FlutterI18n.translate(context, 'create_wallet'));
+    return MxcAppBar.splashBack(
+        text: FlutterI18n.translate(context, 'import_wallet'));
   }
 
   @override
@@ -28,7 +31,7 @@ class SplashStoragePage extends SplashBasePage {
         icon: 'assets/svg/splash/ic_telegram.svg',
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: ref.watch(state).applist['telegram'] == true
-            ? () => ref.read(presenter).shareToTelegram()
+            ? () => ref.read(presenter).openTelegram()
             : null,
       ),
       MxcButton.secondary(
@@ -37,14 +40,24 @@ class SplashStoragePage extends SplashBasePage {
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap: ref.watch(state).applist['weixin'] == true ||
                 ref.watch(state).applist['wechat'] == true
-            ? () => ref.read(presenter).shareToWechat()
+            ? () => ref.read(presenter).openWechat()
             : null,
       ),
       MxcButton.secondary(
         key: const ValueKey('emailButton'),
-        icon: 'assets/svg/splash/ic_mail.svg',
+        icon: 'assets/svg/splash/ic_email.svg',
         title: FlutterI18n.translate(context, 'email_secured_storage'),
-        onTap: () => ref.read(presenter).sendEmail(),
+        onTap: () => ref.read(presenter).openEmail(),
+      ),
+      MxcButton.secondary(
+        key: const ValueKey('mnemonicButton'),
+        icon: 'assets/svg/splash/ic_cloud.svg',
+        title: FlutterI18n.translate(context, 'secret_recovery_phrase'),
+        onTap: () => Navigator.of(context).pushReplacement(
+          route(
+            const SplashImportWalletPage(),
+          ),
+        ),
       ),
     ];
   }

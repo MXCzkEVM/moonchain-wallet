@@ -56,7 +56,7 @@ class DataDashWallet extends HookConsumerWidget {
                 }
 
                 return route(
-                  PasscodeRequireWrapperPage(
+                  const PasscodeRequireWrapperPage(
                     child: HomePage(),
                   ),
                 );

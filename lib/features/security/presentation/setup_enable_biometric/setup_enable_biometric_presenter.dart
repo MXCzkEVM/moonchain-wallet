@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:datadashwallet/features/splash/splash_ens_process/splash_ens.dart';
+import 'package:datadashwallet/features/splash/ens_process/ens.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';

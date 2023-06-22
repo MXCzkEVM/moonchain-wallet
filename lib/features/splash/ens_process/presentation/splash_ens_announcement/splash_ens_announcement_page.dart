@@ -1,6 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/splash_ens_process/splash_ens.dart';
+import 'package:datadashwallet/features/splash/ens_process/ens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
