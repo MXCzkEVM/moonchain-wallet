@@ -33,8 +33,8 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
           for (var i = 0; i < ref.watch(state).expectedNumbersLength; i++) ...[
             SvgPicture.asset(
               'assets/svg/security/ic_ring.svg',
-              height: 30,
-              width: 30,
+              height: 32,
+              width: 32,
               colorFilter: filterFor(
                 ref.watch(state).enteredNumbers.length > i
                     ? ColorsTheme.of(context).purple500
@@ -134,7 +134,7 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
             alignment: Alignment.center,
             child: Text(
               number.toString(),
-              style: FontTheme.of(context).h6.white().copyWith(
+              style: FontTheme.of(context).h5.white().copyWith(
                     fontSize: 28,
                   ),
             ),
@@ -154,17 +154,17 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
     final children = [
       Expanded(
         flex: 6,
-        child: SizedBox(
-          width: 300,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title(context, ref),
-                style: FontTheme.of(context).h5.white(),
+                style: FontTheme.of(context).h4.white(),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 16),
               Text(
                 hint(context, ref),
                 style: FontTheme.of(context).body1.white(),
@@ -187,12 +187,10 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
         ),
       const Spacer(),
       numpad(context, ref),
-      const Spacer(),
     ];
 
     return MxcPage(
       layout: LayoutType.column,
-      backgroundColor: ColorsTheme.of(context).box,
       useSplashBackground: true,
       presenter: ref.watch(presenter),
       children: children,
