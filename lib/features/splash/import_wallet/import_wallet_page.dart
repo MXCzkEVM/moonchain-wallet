@@ -19,52 +19,41 @@ class SplashImportWalletPage extends HookConsumerWidget {
       layout: LayoutType.scrollable,
       useSplashBackground: true,
       presenter: presenter,
+      appBar: MxcAppBar.splashBack(
+        text: FlutterI18n.translate(context, 'secret_recovery_phrase'),
+      ),
       footer: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MxcButton.primary(
-              key: const Key('confrimPhrasesButton'),
-              title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
-              onTap: () => presenter.confirm(),
-            ),
-          ],
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: MxcButton.primary(
+          key: const Key('importWalletButton'),
+          title: FlutterI18n.translate(context, 'import_wallet').toUpperCase(),
+          onTap: state.errorText == null &&
+                  state.mnemonicController.text.isNotEmpty
+              ? () => presenter.confirm()
+              : null,
         ),
       ),
       children: [
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 80),
             Text(
               FlutterI18n.translate(context, 'import_your_wallet'),
-              style: FontTheme.of(context).h5.white(),
+              style: FontTheme.of(context).h4.white(),
             ),
-            const SizedBox(height: 29),
-            Text(
-              FlutterI18n.translate(context, 'word_seed_phrase'),
-              style: FontTheme.of(context).body1.secondary(),
-            ),
-            const SizedBox(height: 50),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              child: TextField(
-                controller: state.mnemonicController,
-                maxLines: 7,
+            Padding(
+              padding: const EdgeInsets.only(top: 16, bottom: 32),
+              child: Text(
+                FlutterI18n.translate(context, 'word_seed_phrase'),
                 style: FontTheme.of(context).body1.white(),
-                decoration: InputDecoration(
-                  hintText:
-                      FlutterI18n.translate(context, 'mnemonic_passphrase'),
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                ),
               ),
-            )
+            ),
+            MxcTextfield(
+              maxLines: 7,
+              controller: state.mnemonicController,
+              onChanged: (v) => presenter.validate(),
+              errorText: state.errorText,
+            ),
           ],
         ),
       ],

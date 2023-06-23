@@ -1,6 +1,6 @@
 {
-	"create_wallet": "CREATE WALLET",
-	"import_wallet": "IMPORT WALLET",
+	"create_wallet": "Create wallet",
+	"import_wallet": "Import wallet",
 	"telegram_secured_storage": "Telegram Secured Storage",
 	"wechat_secured_storage": "WeChat Secured Storage",
 	"email_secured_storage": "Email Secured Storage",
@@ -10,7 +10,7 @@
 	"confirm_passcode_desc": "Re-type your passcode",
 	"secret_recovery_phrase": "Secret recovery phrase",
 	"import_your_wallet": "Import Your Wallet",
-	"word_seed_phrase": "12, 18, 24-word seed phrases are supported",
+	"word_seed_phrase": "Import your existing wallet with your 12, 18 or 24-word secret recovery phrase",
 	"confirm": "Confirm",
 	"choose_my_username": "Choose my username",
 	"mnemonic_passphrase": "Mnemonic Passphrase",
@@ -79,5 +79,6 @@
 	"skip": "Skip",
 	"domain_registered": "Whoa, plot twist! Your dream username? Already taken. Hold the confetti, buddy!",
 	"domain_limit": "Choose a username between 3-30 characters to avoid being too long or resembling a novel or tweet.",
-	"domain_invalid": "Invalid format for name"
+	"domain_invalid": "Invalid format for name",
+	"recovery_phrase_limit": "The entered recovery phrase is incorrect. Please check each word and try again."
 }

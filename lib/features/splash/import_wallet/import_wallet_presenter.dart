@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
@@ -16,24 +17,27 @@ class SplashImportWalletPresenter
   late final _walletUseCase = ref.read(walletUseCaseProvider);
 
   @override
-  Future<void> dispose() {
-    state.mnemonicController.dispose();
+  Future<void> dispose() async {
+    // state.mnemonicController.dispose();
+    super.dispose();
+  }
 
-    return super.dispose();
+  void validate() {
+    final value = state.mnemonicController.text;
+    final count = value.split(' ').length;
+    String? result;
+
+    if (!(count == 12 || count == 18 || count == 24)) {
+      result = 'recovery_phrase_limit';
+    }
+
+    notify(() => state.errorText = result);
   }
 
   void confirm() {
-    String keys = state.mnemonicController.text;
-    try {
-      if (keys.isEmpty) {
-        throw Exception('Mnemonic passphrase is empty');
-      }
+    final value = state.mnemonicController.text;
 
-      _walletUseCase.setupFromMnemonic(keys);
-
-      pushPasscodeSetPage(context!);
-    } catch (error, stackTrace) {
-      addError(error, stackTrace);
-    }
+    _walletUseCase.setupFromMnemonic(value);
+    pushSetupEnableBiometricPage(context!);
   }
 }
