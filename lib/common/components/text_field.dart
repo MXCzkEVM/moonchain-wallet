@@ -12,6 +12,7 @@ class MxcTextfield extends StatefulWidget {
     this.errorText,
     this.label,
     this.maxLines = 1,
+    this.hintText,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -19,6 +20,7 @@ class MxcTextfield extends StatefulWidget {
   final String? errorText;
   final String? label;
   final int? maxLines;
+  final String? hintText;
 
   @override
   State<MxcTextfield> createState() => _MxcTextfieldState();
@@ -75,9 +77,10 @@ class _MxcTextfieldState extends State<MxcTextfield> {
                   controller: widget.controller,
                   focusNode: _focusNode,
                   style: FontTheme.of(context).body1.white(),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
+                    hintText: widget.hintText,
                   ),
                   onChanged: (v) => widget.onChanged!(v),
                 ),

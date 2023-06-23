@@ -66,7 +66,7 @@ class PasscodeRequireWrapperPresenter
       } else if (dateTimeLastSessionEnd != null &&
           current == AppLifecycleState.resumed) {
         // User opened the app
-        if (DateTime.now().difference(dateTimeLastSessionEnd).inMinutes >=
+        if (true || DateTime.now().difference(dateTimeLastSessionEnd).inMinutes <=
                 minutesForUserSession &&
             _passcodeUseCase.passcode.value != null) {
           _passcodeUseCase.setNeedPasscodeForSession(true);

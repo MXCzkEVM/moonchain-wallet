@@ -53,6 +53,8 @@ class SplashImportWalletPage extends HookConsumerWidget {
               controller: state.mnemonicController,
               onChanged: (v) => presenter.validate(),
               errorText: state.errorText,
+              hintText: FlutterI18n.translate(
+                  context, 'enter_secret_recovery_phrase'),
             ),
           ],
         ),

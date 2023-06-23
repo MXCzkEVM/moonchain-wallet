@@ -23,7 +23,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
 
   @override
   Widget icon(BuildContext context) => SvgPicture.asset(
-        'assets/svg/splash/ic_wechat.svg',
+        'assets/svg/splash/ic_email.svg',
         colorFilter: filterFor(themeColor()),
       );
 

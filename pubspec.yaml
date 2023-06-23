@@ -90,6 +90,7 @@ flutter:
   assets:
     - assets/flutter_i18n/
     - assets/images/apps/
+    - assets/images/security/
     - assets/svg/
     - assets/svg/splash/
     - assets/svg/apps/

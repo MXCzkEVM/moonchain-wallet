@@ -43,8 +43,10 @@
 	"email_secured_subject": "Secure Your DataDash Wallet Key - Important Instructions",
 	"face_id": "Face ID",
 	"touch_id": "Touch ID",
-	"enter_current_passcode": "Enter your current passcode.",
-	"enter_passcode_hint": "Enter a 6-digit passcode to unlock your wallet. ",
+	"unlock_datadash_wallet": "Unlock your DataDash wallet",
+	"enter_your_passcode": "Enter your passcode",
+	"attempts_x": "{0} out of 6 attempts",
+	"forgot_passcode": "I forgot my passcode",
 	"incorrect_passcode": "Incorrect passcode.",
 	"app_will_be_locked_alert": "The app will be locked for 30 minutes after one more failed attempt.",
 	"diversify_your_portfolio": "Diversify your portfolio",
@@ -80,5 +82,10 @@
 	"domain_registered": "Whoa, plot twist! Your dream username? Already taken. Hold the confetti, buddy!",
 	"domain_limit": "Choose a username between 3-30 characters to avoid being too long or resembling a novel or tweet.",
 	"domain_invalid": "Invalid format for name",
-	"recovery_phrase_limit": "The entered recovery phrase is incorrect. Please check each word and try again."
+	"recovery_phrase_limit": "The entered recovery phrase is incorrect. Please check each word and try again.",
+	"enter_secret_recovery_phrase": "Enter your secret recovery phrase",
+	"log_out": "Log out",
+	"to_reset_passcode": "To reset your passcode",
+	"create_new_wallet": "Create a new wallet or import an existing one.",
+	"automatically_log_out": "After 6 failed attempts, you’ll be automatically logged out for your security."
 }
