@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Formatter {
   static String formatBigNumber(double number) {
     if (number >= 1000000000) {
@@ -26,5 +28,18 @@ class Formatter {
     String formattedString =
         '${inputString.substring(0, 6)}...${inputString.substring(inputString.length - 4)}';
     return formattedString;
+  }
+
+  static Size boundingTextSize(String text, TextStyle style,
+      {int maxLines = 2 ^ 31, double maxWidth = double.infinity}) {
+    if (text.isEmpty) {
+      return Size.zero;
+    }
+    final TextPainter textPainter = TextPainter(
+        textDirection: TextDirection.ltr,
+        text: TextSpan(text: text, style: style),
+        maxLines: maxLines)
+      ..layout(maxWidth: maxWidth);
+    return textPainter.size;
   }
 }

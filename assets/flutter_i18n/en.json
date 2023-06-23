@@ -17,8 +17,8 @@
 	"biometrics_setup": "DataDash Biometrics Setup",
 	"mxc_zkevm_username": "MXC zkEVM Username",
 	"ens_announcement_description": "With your unique MXC zkEVM username, the cumbersome process of handling complex wallet addresses becomes a thing of the past. Now, you can effortlessly employ a customised and exclusive name that sets you apart.",
-	"choose_your_username": "Choose your unique username",
-	"ens_register_description": "Make a smart choice! This option can only be modified once per year, so choose carefully.",
+	"choose_your_username": "Choose your unique MXC zkEVM username",
+	"ens_register_description": "MXC domain names, rare gems in the hexagon, NFT, and IoT universe, are your ticket to a memorable digital identity. Choose wisely!",
 	"username": "Username",
 	"prowerd_zkevm": "Powered by MXC zkEVM Supernodes",
 	"claim_my_username": "Claim my username",
@@ -76,5 +76,8 @@
 	"use_biometric_or_passcode": "Use your {0} or proceed with passcode",
 	"use_biometric": "Use {0}",
 	"create_passcode": "Create passcode",
-	"skip": "Skip"
+	"skip": "Skip",
+	"domain_registered": "Whoa, plot twist! Your dream username? Already taken. Hold the confetti, buddy!",
+	"domain_limit": "Choose a username between 3-30 characters to avoid being too long or resembling a novel or tweet.",
+	"domain_invalid": "Invalid format for name"
 }

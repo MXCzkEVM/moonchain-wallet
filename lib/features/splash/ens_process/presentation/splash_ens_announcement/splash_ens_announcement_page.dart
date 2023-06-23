@@ -37,19 +37,14 @@ class SplashENSAnnouncementPage extends HookConsumerWidget {
       ),
       footer: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MxcButton.primary(
-              key: const ValueKey('chooseMyUsernameButton'),
-              title: FlutterI18n.translate(context, 'choose_my_username'),
-              onTap: () => Navigator.of(context).push(
-                route(
-                  const SplashENSQueryPage(),
-                ),
-              ),
+        child: MxcButton.primary(
+          key: const ValueKey('chooseMyUsernameButton'),
+          title: FlutterI18n.translate(context, 'choose_my_username'),
+          onTap: () => Navigator.of(context).push(
+            route(
+              const SplashENSQueryPage(),
             ),
-          ],
+          ),
         ),
       ),
       children: [

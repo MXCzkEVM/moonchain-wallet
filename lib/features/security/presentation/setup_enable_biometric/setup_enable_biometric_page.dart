@@ -34,13 +34,9 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
                           context, presenter.getAppBarTitle())),
               onTap: () => presenter.authenticateBiometrics(),
             ),
-            const SizedBox(height: 21),
-            InkWell(
+            MxcButton.plain(
               key: const ValueKey('createPasscodeButton'),
-              child: Text(
-                FlutterI18n.translate(context, 'create_passcode'),
-                style: FontTheme.of(context).body2.white(),
-              ),
+              title: FlutterI18n.translate(context, 'create_passcode'),
               onTap: () => presenter.createPasscode(),
             ),
           ],
