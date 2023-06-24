@@ -20,6 +20,9 @@ class SplashSetupWalletPage extends SplashBasePage {
       splashSetupWalletContainer.state;
 
   @override
+  bool get drawAnimated => true;
+
+  @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     return [
       MxcFullRoundedButton(

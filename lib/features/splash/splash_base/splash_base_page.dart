@@ -16,6 +16,8 @@ abstract class SplashBasePage extends HookConsumerWidget {
 
   ProviderBase<SplashBaseState> get state;
 
+  bool get drawAnimated => false;
+
   Widget separator() {
     return const SizedBox(
       height: 28,
@@ -33,6 +35,8 @@ abstract class SplashBasePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final splashPresenter = ref.read(splashBaseContainer.actions);
+    final splashState = ref.watch(splashBaseContainer.state);
     Widget appLogo(BuildContext context) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -54,46 +58,65 @@ abstract class SplashBasePage extends HookConsumerWidget {
       );
     }
 
+    Widget drawAnimatedLayer() {
+      return Expanded(
+          child: Stack(
+        fit: StackFit.expand,
+        children: [
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 1500),
+            curve: Curves.easeInOut,
+            top: splashState.showLogo ? 50 : -200,
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Center(child: appLogo(context))),
+          ),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 1500),
+            curve: Curves.easeInOut,
+            bottom: splashState.showLogo ? 50 : -200,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 72),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: getButtons(context, ref),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ));
+    }
+
+    List<Widget> drawLayer() {
+      return [
+        Expanded(
+          child: AnimatedPositioned(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+            top: splashState.showLogo ? 50 : -100,
+            child: appLogo(context),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 72),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: getButtons(context, ref),
+            ),
+          ),
+        ),
+      ];
+    }
+
     return MxcPage(
       layout: LayoutType.column,
       useSplashBackground: true,
       presenter: ref.read(presenter),
-      children: [
-        Expanded(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Visibility(
-                visible: false,
-                child: LottieBuilder.asset(
-                  "assets/lottie/data_dash_splash_screen.json",
-                  filterQuality: FilterQuality.high,
-                  frameRate: FrameRate.max,
-                  repeat: true,
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.center,
-                ),
-              ),
-              Column(
-                children: [
-                  Expanded(
-                    child: appLogo(context),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 72),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: getButtons(context, ref),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        )
-      ],
+      children: [if (drawAnimated) drawAnimatedLayer() else ...drawLayer()],
     );
   }
 }
