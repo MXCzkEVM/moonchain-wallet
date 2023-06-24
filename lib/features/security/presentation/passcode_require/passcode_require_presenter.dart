@@ -1,9 +1,9 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
+import 'package:datadashwallet/features/splash/splash.dart';
 
 import 'passcode_require_state.dart';
 import 'wrapper/passcode_require_wrapper_presenter.dart';
-
 
 final passcodeRequirePageContainer =
     PresenterContainer<PasscodeRequirePresenter, PasscodeRequiredPageState>(
@@ -30,14 +30,16 @@ class PasscodeRequirePresenter
   @override
   void onAllNumbersEntered() async {
     if (state.enteredNumbers.join('') != _passcodeUseCase.passcode.value) {
-      if (state.wrongInputCounter < 2) {
-        state.errorText = translate('incorrect_passcode')!;
+      if (state.wrongInputCounter < 6) {
         state.wrongInputCounter++;
+        state.errorText = translate('attempts_x')!
+            .replaceFirst('{0}', '${6 - state.wrongInputCounter}');
       } else {
         state.errorText = null;
         state.wrongInputCounter = 0;
-        ref.read(passcodeUseCaseProvider).penaltyLock();
-        _passcodeUseCase.setPasscodeScreenIsShown(true);
+      
+        ref.read(walletUseCaseProvider).reset();
+        navigator?.replaceAll(route(const SplashSetupWalletPage()));
       }
       state.enteredNumbers = [];
       notify();

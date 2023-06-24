@@ -17,40 +17,51 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
     final presenter = ref.watch(setupEnableBiometricContainer.actions);
 
     return MxcPage(
-      layout: LayoutType.scrollable,
+      layout: LayoutType.column,
       presenter: presenter,
       useSplashBackground: true,
       footer: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MxcFullRoundedButton(
-              key: const ValueKey('confrimButton'),
-              title: FlutterI18n.translate(context, 'confrim').toUpperCase(),
+            MxcButton.primary(
+              key: const ValueKey('useBiometricButton'),
+              title: FlutterI18n.translate(context, 'use_biometric')
+                  .replaceFirst(
+                      '{0}',
+                      FlutterI18n.translate(
+                          context, presenter.getAppBarTitle())),
               onTap: () => presenter.authenticateBiometrics(),
             ),
-            const SizedBox(height: 21),
-            InkWell(
-              key: const ValueKey('skipBiometrics'),
-              child: Text(
-                FlutterI18n.translate(context, 'maybe_later'),
-                style: FontTheme.of(context).body2.white(),
-              ),
-              onTap: () => presenter.skip(),
+            MxcButton.plain(
+              key: const ValueKey('createPasscodeButton'),
+              title: FlutterI18n.translate(context, 'create_passcode'),
+              onTap: () => presenter.createPasscode(),
             ),
           ],
         ),
       ),
       children: [
         const SizedBox(height: 75),
-        Text(
-          FlutterI18n.translate(context, 'biometrics_setup'),
-          style: FontTheme.of(context).h5.white(),
-        ),
-        const SizedBox(height: 24),
         Image(
           image: ImagesTheme.of(context).datadash,
+          width: 80,
+          height: 80,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Text(
+            FlutterI18n.translate(context, 'protect_your_wallet'),
+            style: FontTheme.of(context).h4.white(),
+          ),
+        ),
+        Text(
+          FlutterI18n.translate(context, 'use_biometric_or_passcode')
+              .replaceFirst('{0}',
+                  FlutterI18n.translate(context, presenter.getAppBarTitle())),
+          style: FontTheme.of(context).h6.white(),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 43),
         SvgPicture.asset(
@@ -59,12 +70,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
           width: 64,
           colorFilter: filterFor(ColorsTheme.of(context).purple400),
         ),
-        const SizedBox(height: 32),
-        Text(
-          FlutterI18n.translate(context, 'enable_x').replaceFirst('{0}',
-              FlutterI18n.translate(context, presenter.getAppBarTitle())),
-          style: FontTheme.of(context).body1.white(),
-        ),
+        const Spacer(),
       ],
     );
   }

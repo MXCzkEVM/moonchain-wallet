@@ -18,7 +18,7 @@ class MxcPageLayer extends MxcPage {
     required List<Widget> children,
     EdgeInsets? childrenPadding,
     Widget? footer,
-    PreferredSizeWidget? appBar,
+    Widget? appBar,
     Widget? bottomNavigationBar,
     bool useContentPadding = true,
     Widget? drawer,
@@ -91,8 +91,8 @@ class MxcPageLayer extends MxcPage {
   }
 
   @override
-  PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) =>
-      appBar;
+  Widget buildAppBar(BuildContext context, WidgetRef ref) =>
+      appBar ?? const SizedBox();
 
   @override
   Widget? buildBottomNavigation(BuildContext context, WidgetRef ref) =>

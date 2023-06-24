@@ -90,9 +90,11 @@ flutter:
   assets:
     - assets/flutter_i18n/
     - assets/images/apps/
+    - assets/images/security/
     - assets/svg/
-    - assets/svg/ens/
+    - assets/svg/splash/
     - assets/svg/apps/
+    - assets/svg/security/
     - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see

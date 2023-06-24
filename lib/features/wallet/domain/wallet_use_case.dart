@@ -18,4 +18,6 @@ class WalletUseCase extends ReactiveUseCase {
   Future<EthereumAddress> getPublicAddress() async {
     return await _repository.address.getPublicAddress();
   }
+
+  void reset() => _repository.address.reset();
 }
