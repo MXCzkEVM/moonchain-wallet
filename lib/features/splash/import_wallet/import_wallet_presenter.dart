@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
-
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 
@@ -24,10 +22,9 @@ class SplashImportWalletPresenter
 
   void validate() {
     final value = state.mnemonicController.text;
-    final count = value.split(' ').length;
     String? result;
 
-    if (!(count == 12 || count == 18 || count == 24)) {
+    if (!_walletUseCase.validateMnemonic(value)) {
       result = 'recovery_phrase_limit';
     }
 

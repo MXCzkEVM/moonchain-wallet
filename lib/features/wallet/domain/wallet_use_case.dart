@@ -20,4 +20,7 @@ class WalletUseCase extends ReactiveUseCase {
   }
 
   void reset() => _repository.address.reset();
+
+  bool validateMnemonic(String mnemonic) =>
+      _repository.address.validateMnemonic(mnemonic);
 }
