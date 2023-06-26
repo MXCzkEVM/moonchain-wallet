@@ -1,7 +1,5 @@
-// import 'splash_base_presenter_abstraction.dart' as abstract_presenter;
 import '../../../core/core.dart';
 import 'package:appinio_social_share/appinio_social_share.dart';
-import 'package:datadashwallet/core/core.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 
 import 'splash_base_state.dart';
@@ -37,7 +35,7 @@ class SplashBasePresenterClass extends SplashBasePresenter<SplashBaseState> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 800), () {
-      notify(() => state.showLogo = true);
+      notify(() => state.animate = true);
     });
   }
 }

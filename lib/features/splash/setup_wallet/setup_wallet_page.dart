@@ -20,6 +20,9 @@ class SplashSetupWalletPage extends SplashBasePage {
       splashSetupWalletContainer.state;
 
   @override
+  bool get drawAnimated => true;
+
+  @override
   Widget? buildFooter(BuildContext context) {
     return Column(
       children: [
