@@ -130,7 +130,7 @@ class HomePage extends HookConsumerWidget {
       case 1:
         return const AppsTab();
       case 2:
-        return const HomeTab();
+        return Container();
       default:
         return const HomeTab();
     }

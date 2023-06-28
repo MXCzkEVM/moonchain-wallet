@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide RefreshCallback;
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -225,6 +226,7 @@ abstract class MxcPage extends HookConsumerWidget {
               top: topSafeArea,
               child: Column(
                 children: [
+                 
                   buildAppBar(context, ref),
                   Expanded(
                       child: Padding(

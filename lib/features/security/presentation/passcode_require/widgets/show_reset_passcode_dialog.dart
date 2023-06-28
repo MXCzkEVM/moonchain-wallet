@@ -14,8 +14,7 @@ void showResetPasscodeDialog(BuildContext context, WidgetRef ref) {
     useRootNavigator: true,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (BuildContext context) =>
-        ResetPasscode(
+    builder: (BuildContext context) => ResetPasscode(
       onTap: () {
         ref.read(walletUseCaseProvider).reset();
         Navigator.of(context).replaceAll(
@@ -38,7 +37,7 @@ class ResetPasscode extends StatelessWidget {
 
   Widget content(BuildContext context) {
     return Column(
-      children: ['log_out', 'create_new_wallet', 'create_new_wallet']
+      children: ['log_out', 'create_new_wallet', 'automatically_log_out']
           .mapIndexed((index, item) => Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
