@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-
 import 'splash_base_presenter.dart';
 import 'splash_base_state.dart';
 
@@ -13,6 +12,8 @@ abstract class SplashBasePage extends HookConsumerWidget {
   ProviderBase<SplashBasePresenter> get presenter;
 
   ProviderBase<SplashBaseState> get state;
+
+  bool get drawAnimated => false;
 
   Widget separator() {
     return const SizedBox(
@@ -41,6 +42,8 @@ abstract class SplashBasePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final splashPresenter = ref.read(splashBaseContainer.actions);
+    final splashState = ref.watch(splashBaseContainer.state);
     Widget appLogo(BuildContext context) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -70,36 +73,13 @@ abstract class SplashBasePage extends HookConsumerWidget {
       appBar: buildAppBar(context, ref),
       footer: buildFooter(context),
       children: [
+        const SizedBox(height: 40),
+        appLogo(context),
+        const SizedBox(height: 48),
         Expanded(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Visibility(
-                visible: false,
-                child: LottieBuilder.asset(
-                  "assets/lottie/data_dash_splash_screen.json",
-                  filterQuality: FilterQuality.high,
-                  frameRate: FrameRate.max,
-                  repeat: true,
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.center,
-                ),
-              ),
-              Column(
-                children: [
-                  const SizedBox(height: 40),
-                  appLogo(context),
-                  const SizedBox(height: 48),
-                  Expanded(
-                    child: Column(
-                      children: getButtons(context, ref),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        )
+            child: Column(
+          children: getButtons(context, ref),
+        ))
       ],
     );
   }

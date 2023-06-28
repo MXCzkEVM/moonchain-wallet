@@ -1,1 +1,1 @@
-export 'formatter.dart';
+export 'string_formatter.dart';
