@@ -3,9 +3,9 @@ import 'package:datadashwallet/features/splash/splash.dart';
 
 import 'setup_wallet_state.dart';
 
-final splashSetupWalletContainer = PresenterContainer<
-    SplashSetupWalletPresenter,
-    SplashSetupWalletState>(() => SplashSetupWalletPresenter());
+final splashSetupWalletContainer =
+    PresenterContainer<SplashSetupWalletPresenter, SplashSetupWalletState>(
+        () => SplashSetupWalletPresenter());
 
 class SplashSetupWalletPresenter
     extends SplashBasePresenter<SplashSetupWalletState> {

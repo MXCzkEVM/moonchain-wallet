@@ -88,5 +88,7 @@
 	"to_reset_passcode": "To reset your passcode",
 	"create_new_wallet": "Create a new wallet or import an existing one.",
 	"automatically_log_out": "After 6 failed attempts, you’ll be automatically logged out for your security.",
-	"done": "Done"
+	"done": "Done",
+	"failed": "Failed",
+	"loading": "Loading"
 }

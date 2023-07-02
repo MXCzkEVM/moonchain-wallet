@@ -37,7 +37,7 @@ class PasscodeRequirePresenter
       } else {
         state.errorText = null;
         state.wrongInputCounter = 0;
-      
+
         ref.read(walletUseCaseProvider).reset();
         navigator?.replaceAll(route(const SplashSetupWalletPage()));
       }

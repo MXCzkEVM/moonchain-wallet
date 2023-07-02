@@ -14,8 +14,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
   }
 }
 
-
-
 // final homeContainer = PresenterContainer<HomePresenter, HomeState>(() => HomePresenter(HomeState()));
 
 // class HomePresenter extends HomePresenter<HomeState> {

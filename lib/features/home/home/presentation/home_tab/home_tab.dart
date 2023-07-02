@@ -10,16 +10,16 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Column(
-      children: const [
-        Expanded(flex: 2, child: BalancePanel()),
-        SizedBox(
+      children: [
+        const Expanded(flex: 2, child: BalancePanel()),
+        const SizedBox(
           height: 10,
         ),
         Expanded(flex: 3, child: RecentTransactions()),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
-        Expanded(flex: 3, child: HomeSlider()),
+        const Expanded(flex: 3, child: HomeSlider()),
       ],
     ));
   }

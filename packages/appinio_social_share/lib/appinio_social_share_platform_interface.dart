@@ -33,8 +33,7 @@ abstract class AppinioSocialSharePlatform extends PlatformInterface {
   }
 
   ///filaPath only works for android
-  Future<String> shareToWechat(String message,
-      {String? filePath}) {
+  Future<String> shareToWechat(String message, {String? filePath}) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
