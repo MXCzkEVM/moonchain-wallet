@@ -1,3 +1,4 @@
+import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_repository.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:mxc_logic/internal.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -18,11 +19,13 @@ class GlobalCache extends GlobalCacheContainer {
   final ThemeCacheRepository theme = ThemeCacheRepository();
   final LanguageRepository language = LanguageRepository();
   final PasscodeRepository passcode = PasscodeRepository();
+  final BookmarkRepository bookmarks = BookmarkRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [
         theme,
         language,
         passcode,
+        bookmarks,
       ];
 }

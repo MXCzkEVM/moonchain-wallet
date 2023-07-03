@@ -33,7 +33,3 @@ And also, UseCases are feature-level, while presenters are widget-level. So 1 pr
 This library includes DataDash wallet's UI(User Interface) and business logic. The basic components and images, fonts, colors come from defination of designer's Figma. The logic part is to call the related APIs.
 
 The repository: https://github.com/MXCzkEVM/mxc-shared-flutter
-
-## Figma
-
-The link: https://www.figma.com/file/dFx4fIwI2aiKFGWLDL3Qjv/Untitled?type=design&node-id=0-1&t=neu0ndJvK4jxa7Qj-0

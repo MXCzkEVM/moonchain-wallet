@@ -1,18 +1,14 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
 
-import 'entities/dapp_card.dart';
-import 'presentation/open_app/open_app_page.dart';
+import 'entities/dapp.dart';
+import 'subfeatures/open_dapp/open_dapp_page.dart';
 
-export 'entities/dapp_card.dart';
-export 'presentation/widgets/card_layout/card_layout.dart';
-export 'presentation/widgets/card_layout/card_horizontal_layout.dart';
-export 'presentation/widgets/card_layout/card_vertical_layout.dart';
+export 'entities/dapp.dart';
+export 'subfeatures/add_dapp/presentation/add_dapp.dart';
 
-export 'presentation/edit_apps/edit_apps.dart';
-
-Future<void> openAppPage(BuildContext context, DAppCard dapp) {
-  return Navigator.of(context).replaceAll(
+Future<void> openAppPage(BuildContext context, DApp dapp) {
+  return Navigator.of(context).push(
     route.featureDialog(
       maintainState: false,
       OpenAppPage(dapp: dapp),

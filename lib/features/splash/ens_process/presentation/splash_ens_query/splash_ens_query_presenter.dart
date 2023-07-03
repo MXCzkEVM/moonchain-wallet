@@ -1,6 +1,6 @@
 import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/features/home/apps/apps.dart';
-import 'package:datadashwallet/features/home/apps/presentation/open_app/open_app_page.dart';
+import 'package:datadashwallet/features/home/apps/subfeatures/open_dapp/open_dapp_page.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:ens_dart/ens_dart.dart';
 
@@ -82,7 +82,7 @@ class SplashENSQueryPresenter extends CompletePresenter<SplashENSQueryState> {
     navigator?.push(
       route.featureDialog(
         OpenAppPage(
-          dapp: DAppCard(
+          dapp: DApp(
             name: 'ISO Launchpad',
             description: 'Accelerating IOT',
             url: 'https://wannsee-mns.mxc.com/$name.mxc/register',

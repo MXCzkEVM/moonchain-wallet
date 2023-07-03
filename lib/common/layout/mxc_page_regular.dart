@@ -29,6 +29,9 @@ class MxcPageRegular extends MxcPage {
     bool useFooterPadding = true,
     bool resizeToAvoidBottomInset = true,
     bool useSplashBackground = false,
+    bool isEditMode = false,
+    VoidCallback? onAdd,
+    VoidCallback? onDone,
   }) : super.internal(
           key: key,
           scaffoldKey: scaffoldKey,
@@ -50,6 +53,9 @@ class MxcPageRegular extends MxcPage {
           useFooterPadding: useFooterPadding,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           useSplashBackground: useSplashBackground,
+          isEditMode: isEditMode,
+          onAdd: onAdd,
+          onDone: onDone,
         );
 
   @override

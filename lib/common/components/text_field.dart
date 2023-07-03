@@ -82,7 +82,8 @@ class _MxcTextfieldState extends State<MxcTextfield> {
                     enabledBorder: InputBorder.none,
                     hintText: widget.hintText,
                   ),
-                  onChanged: (v) => widget.onChanged!(v),
+                  onChanged: (v) =>
+                      widget.onChanged != null ? widget.onChanged!(v) : null,
                 ),
               ),
               if (widget.controller.text.isNotEmpty)

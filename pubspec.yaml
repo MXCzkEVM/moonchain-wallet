@@ -63,6 +63,7 @@ dependencies:
   wallet_connect: ^1.0.4
   flutter_inappwebview: ^5.7.2+3
   lottie: ^2.3.2
+  eth_sig_util: ^0.0.9
 
 dev_dependencies:
   flutter_test:

@@ -19,6 +19,8 @@ class WalletUseCase extends ReactiveUseCase {
     return await _repository.address.getPublicAddress();
   }
 
+  String? getPrivateKey() => _repository.address.getLocalstoragePrivateKey();
+
   void reset() => _repository.address.reset();
 
   bool validateMnemonic(String mnemonic) =>

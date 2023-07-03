@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide RefreshCallback;
 import 'package:flutter/services.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -10,6 +9,7 @@ import 'package:datadashwallet/core/core.dart';
 
 import 'mxc_page_regular.dart';
 import 'mxc_page_layer.dart';
+import 'edit_mode_status_bar.dart';
 
 const contentPadding = EdgeInsets.symmetric(horizontal: 16);
 
@@ -35,6 +35,9 @@ abstract class MxcPage extends HookConsumerWidget {
     this.useFooterPadding = true,
     this.resizeToAvoidBottomInset = true,
     this.useSplashBackground = false,
+    this.isEditMode = false,
+    this.onAdd,
+    this.onDone,
   })  : assert(scrollController == null || layout != LayoutType.column),
         super(key: key);
 
@@ -59,6 +62,9 @@ abstract class MxcPage extends HookConsumerWidget {
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
     bool useSplashBackground,
+    bool isEditMode,
+    VoidCallback? onAdd,
+    VoidCallback? onDone,
   }) = MxcPageRegular;
 
   const factory MxcPage.layer({
@@ -107,6 +113,10 @@ abstract class MxcPage extends HookConsumerWidget {
 
   final bool useSplashBackground;
 
+  final bool isEditMode;
+  final VoidCallback? onAdd;
+  final VoidCallback? onDone;
+
   Widget buildChildrenAsSliver(BoxConstraints? constraints) {
     Widget sliver;
     if (layout == LayoutType.slivers) {
@@ -138,7 +148,6 @@ abstract class MxcPage extends HookConsumerWidget {
     );
   }
 
-  @Deprecated('use [buildChildrenAsSliver]')
   Widget get childrenSliver => buildChildrenAsSliver(null);
 
   SystemUiOverlayStyle getSystemStyle(
@@ -208,10 +217,20 @@ abstract class MxcPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // SystemChrome.setEnabledSystemUIMode(
+    //   SystemUiMode.manual,
+    //   overlays: isEditMode
+    //       ? []
+    //       : [
+    //           SystemUiOverlay.top,
+    //         ],
+    // );
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: getSystemStyle(context, ref, backgroundColor),
       child: Scaffold(
         backgroundColor: resolveBackgroundColor(context),
+        extendBodyBehindAppBar: false,
         drawer: drawer,
         key: scaffoldKey,
         resizeToAvoidBottomInset: false,
@@ -226,7 +245,11 @@ abstract class MxcPage extends HookConsumerWidget {
               top: topSafeArea,
               child: Column(
                 children: [
-                 
+                  if (isEditMode)
+                    EditAppsModeStatusBar(
+                      onAdd: onAdd,
+                      onDone: onDone,
+                    ),
                   buildAppBar(context, ref),
                   Expanded(
                       child: Padding(
@@ -241,6 +264,7 @@ abstract class MxcPage extends HookConsumerWidget {
                         height: MediaQuery.of(context).viewInsets.bottom,
                       ),
                     ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

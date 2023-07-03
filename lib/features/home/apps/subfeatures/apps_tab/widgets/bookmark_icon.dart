@@ -7,6 +7,7 @@ class BookmarkIcon extends StatelessWidget {
     required this.title,
     required this.url,
     this.onTap,
+    this.onLongPress,
     this.isEditMode = false,
     this.onRemoveTap,
   });
@@ -14,6 +15,7 @@ class BookmarkIcon extends StatelessWidget {
   final String title;
   final String url;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final bool isEditMode;
   final VoidCallback? onRemoveTap;
 
@@ -21,6 +23,7 @@ class BookmarkIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Stack(
         children: [
           Container(
@@ -47,7 +50,7 @@ class BookmarkIcon extends StatelessWidget {
             Positioned(
               top: 3,
               left: 2,
-              child: GestureDetector(
+              child: InkWell(
                 onTap: onRemoveTap,
                 child: const Icon(
                   Icons.remove_circle_rounded,

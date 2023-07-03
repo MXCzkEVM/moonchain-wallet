@@ -5,6 +5,7 @@ import 'package:datadashwallet/features/home/home.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -46,6 +47,9 @@ class DataDashWallet extends HookConsumerWidget {
           navigatorKey: appNavigatorKey,
           onGenerateRoute: (_) => null,
           builder: (context, child) {
+            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                overlays: [SystemUiOverlay.top]);
+
             child = Navigator(
               key: appNavigatorKey,
               reportsRouteUpdateToEngine: true,
