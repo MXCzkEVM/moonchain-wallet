@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../../../../../common/common.dart';
+import '../home_tab/home_tab_presenter.dart';
 
-class BalancePanel extends StatefulWidget {
-  const BalancePanel({Key? key}) : super(key: key);
+class BalancePanel extends HookConsumerWidget {
+  const BalancePanel({super.key});
 
   @override
-  State<BalancePanel> createState() => _BalancePanelState();
-}
-
-class _BalancePanelState extends State<BalancePanel> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final presenter = ref.read(homeTabContainer.actions);
+    final state = ref.watch(homeTabContainer.state);
     return GreyContainer(
         padding: EdgeInsets.zero,
         child: Column(
@@ -23,14 +22,16 @@ class _BalancePanelState extends State<BalancePanel> {
                 child: Center(
                     child: Text(FlutterI18n.translate(context, 'balance'),
                         style: FontTheme.of(context).h7().copyWith(
-                            fontWeight: FontWeight.w300, height: 1.8)))),
-            Expanded(flex: 2, child: getBalanceDetails()),
-            Expanded(flex: 2, child: getBalancePanelButtons())
+                            fontWeight: FontWeight.w500, height: 1.8)))),
+            Expanded(
+                flex: 2,
+                child: getBalanceDetails(context, state.walletBalance)),
+            Expanded(flex: 2, child: getBalancePanelButtons(context))
           ],
         ));
   }
 
-  Widget getBalancePanelButtons() {
+  Widget getBalancePanelButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -68,7 +69,13 @@ class _BalancePanelState extends State<BalancePanel> {
     );
   }
 
-  Widget getBalanceDetails() {
+  Widget getBalanceDetails(BuildContext context, String balance) {
+    String fractionalPart = "";
+    String integerPart = balance;
+    if (balance.contains('.')) {
+      integerPart = balance.split('.')[0];
+      fractionalPart = ".${balance.split('.')[1]}";
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -78,16 +85,16 @@ class _BalancePanelState extends State<BalancePanel> {
           TextSpan(
               text: '\$',
               style: FontTheme.of(context).h6().copyWith(
-                  fontWeight: FontWeight.w300, fontSize: 18, height: 0)),
+                  fontWeight: FontWeight.w400, fontSize: 18, height: 0)),
           TextSpan(
-              text: '18945',
+              text: integerPart,
               style: FontTheme.of(context).h6().copyWith(
-                  fontWeight: FontWeight.w300, fontSize: 18, height: 0)),
+                  fontWeight: FontWeight.w400, fontSize: 18, height: 0)),
           TextSpan(
-              text: '.34',
+              text: fractionalPart,
               style: FontTheme.of(context).h6().copyWith(
                   color: ColorsTheme.of(context).secondaryText.withOpacity(0.3),
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w400,
                   fontSize: 18,
                   height: 0))
         ])),

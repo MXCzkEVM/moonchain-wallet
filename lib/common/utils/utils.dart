@@ -1,2 +1,2 @@
-export 'string_formatter.dart';
+export 'formatter.dart';
 export 'permission.dart';

@@ -62,7 +62,7 @@ class _RouteBuilder {
     bool maintainState = true,
   }) {
     final routeName = extractNameForRoute<T>();
-  
+
     final routeSettings = RouteSettings(name: routeName);
 
     return BottomFlowDialogRoute(

@@ -7,6 +7,8 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
+import '../../../features/home/home/domain/home_use_case.dart';
+
 final Provider<ThemeUseCase> themeUseCaseProvider = Provider(
   (ref) => ThemeUseCase(
     ref.watch(globalCacheProvider).theme,
@@ -19,6 +21,12 @@ final Provider<LanguageUseCase> languageUseCaseProvider = Provider(
 
 final Provider<WalletUseCase> walletUseCaseProvider = Provider(
   (ref) => WalletUseCase(
+    ref.watch(apiRepositoryProvider),
+  ),
+);
+
+final Provider<HomeUseCase> homeUseCaseProvider = Provider(
+  (ref) => HomeUseCase(
     ref.watch(apiRepositoryProvider),
   ),
 );

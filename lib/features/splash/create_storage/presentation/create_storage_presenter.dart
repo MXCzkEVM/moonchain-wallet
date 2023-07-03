@@ -14,5 +14,4 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashBaseState> {
 
     isInstallApps();
   }
-
 }

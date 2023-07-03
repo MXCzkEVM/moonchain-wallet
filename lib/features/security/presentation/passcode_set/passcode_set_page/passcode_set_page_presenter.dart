@@ -1,7 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 
-
 final passcodeSetPageContainer =
     PresenterContainer<PasscodeSetPagePresenter, PasscodeBasePageState>(
   () => PasscodeSetPagePresenter(),

@@ -92,5 +92,7 @@
 	"add_bookmark": "Add Bookmark",
 	"cancel": "Cancel",
 	"save": "Save",
-	"enter_bookmark_url": "Enter URL to add bookmark"
+	"enter_bookmark_url": "Enter URL to add bookmark",
+	"failed": "Failed",
+	"loading": "Loading"
 }

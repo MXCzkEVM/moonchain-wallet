@@ -17,8 +17,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
   void resetEditMode() => notify(() => state.isEditMode = false);
 }
 
-
-
 // final homeContainer = PresenterContainer<HomePresenter, HomeState>(() => HomePresenter(HomeState()));
 
 // class HomePresenter extends HomePresenter<HomeState> {

@@ -32,15 +32,16 @@ class Formatter {
     return formattedString;
   }
 
-  static String convertWeiToEth(String inputString){
-    // 10^18 = 1000000000000000000 but we want to have up to 2 digits accuracy 
-    if (double.parse(inputString).toDouble() < 10000000000000000){
+  static String convertWeiToEth(String inputString) {
+    // 10^18 = 1000000000000000000 but we want to have up to 2 digits accuracy
+    if (double.parse(inputString).toDouble() < 10000000000000000) {
       return '0';
     }
-    String convertedString = (double.parse(inputString).toDouble() / pow(10, 18)).toStringAsFixed(2);
+    String convertedString =
+        (double.parse(inputString).toDouble() / pow(10, 18)).toStringAsFixed(2);
     return convertedString;
   }
-  
+
   static Size boundingTextSize(String text, TextStyle style,
       {int maxLines = 2 ^ 31, double maxWidth = double.infinity}) {
     if (text.isEmpty) {
