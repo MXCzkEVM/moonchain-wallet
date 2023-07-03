@@ -103,7 +103,34 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Media Library?</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Bluetooth?</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Calendar?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Camera?</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Contacts?</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Would you allow DataDash Wallet to use the Biometric?</string>
+	<key>PermissionGroupNotification</key>
+	<string>Would you allow DataDash Wallet to use the Notification?</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Turn on location services to find LPWAN devices near you</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Turn on location services to find LPWAN devices near you</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Turn on location services to find LPWAN devices near you</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Motion?</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Photo?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Album?</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Would you allow DataDash Wallet to use the Speech Recognition?</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
 </dict>
 </plist>
