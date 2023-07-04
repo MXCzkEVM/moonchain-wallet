@@ -4,124 +4,133 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../../../../../common/common.dart';
-import '../home_tab/home_tab_presenter.dart';
+import '../../home_page_presenter.dart';
 
 class BalancePanel extends HookConsumerWidget {
   const BalancePanel({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(homeTabContainer.actions);
-    final state = ref.watch(homeTabContainer.state);
+    final presenter = ref.read(homeContainer.actions);
+    final state = ref.watch(homeContainer.state);
     return GreyContainer(
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Expanded(
-                child: Center(
-                    child: Text(FlutterI18n.translate(context, 'balance'),
-                        style: FontTheme.of(context).h7().copyWith(
-                            fontWeight: FontWeight.w500, height: 1.8)))),
-            Expanded(
-                flex: 2,
-                child: getBalanceDetails(context, state.walletBalance)),
-            Expanded(flex: 2, child: getBalancePanelButtons(context))
+            getBalanceDetails(context, state.walletBalance, presenter),
+            state.walletBalance == '0.0'
+                ? Container()
+                : getBalanceChange(context),
+            const SizedBox(
+              height: 12,
+            ),
+            Divider(
+              color: ColorsTheme.of(context).primaryBackground,
+            ),
+            getManagePortfolio(context)
           ],
         ));
   }
 
-  Widget getBalancePanelButtons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        MxcCircleButton.icon(
-            key: const Key('managePortfolio'),
-            icon: MXCIcons.wallet,
-            onTap: () {},
-            title: FlutterI18n.translate(context, 'manage_portfolio'),
-            color: ColorsTheme.of(context).primaryText,
-            iconSize: 25,
-            shadowRadius: 30,
-            textSpace: 0,
-            titleStyle: FontTheme.of(context).h8()),
-        MxcCircleButton.icon(
-            key: const Key('fiatOptions'),
-            icon: MXCIcons.wallet,
-            onTap: () {},
-            title: FlutterI18n.translate(context, 'fiat_options'),
-            color: ColorsTheme.of(context).primaryText,
-            iconSize: 25,
-            shadowRadius: 30,
-            textSpace: 0,
-            titleStyle: FontTheme.of(context).h8()),
-        MxcCircleButton.icon(
-            key: const Key('show/hideBalance'),
-            icon: Icons.remove_red_eye_outlined,
-            onTap: () {},
-            title: FlutterI18n.translate(context, 'show/hide_balance'),
-            color: ColorsTheme.of(context).primaryText,
-            iconSize: 25,
-            shadowRadius: 30,
-            textSpace: 0,
-            titleStyle: FontTheme.of(context).h8())
-      ],
-    );
-  }
-
-  Widget getBalanceDetails(BuildContext context, String balance) {
+  Widget getBalanceDetails(
+      BuildContext context, String balance, HomePresenter presenter) {
     String fractionalPart = "";
     String integerPart = balance;
     if (balance.contains('.')) {
       integerPart = balance.split('.')[0];
       fractionalPart = ".${balance.split('.')[1]}";
     }
-    return Column(
+    integerPart = Formatter.intThousandsSeparator(integerPart);
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Text('${FlutterI18n.translate(context, 'balance')} ',
+            style: FontTheme.of(context).h7().copyWith(
+                fontSize: 16, color: ColorsTheme.of(context).secondaryText)),
+        MxcCircleButton.icon(
+          key: const Key("balanceHideButton"),
+          icon: presenter.state.hideBalance ? MXCIcons.show : MXCIcons.hide,
+          // textSpace: 0,
+          shadowRadius: 20,
+          onTap: () {
+            presenter.changeHideBalanceState();
+          },
+          iconSize: 18,
+          color: ColorsTheme.of(context).primaryText,
+          iconFillColor: Colors.transparent,
+        ),
+        const Spacer(),
         RichText(
             text: TextSpan(children: [
           TextSpan(
-              text: '\$',
-              style: FontTheme.of(context).h6().copyWith(
-                  fontWeight: FontWeight.w400, fontSize: 18, height: 0)),
-          TextSpan(
-              text: integerPart,
-              style: FontTheme.of(context).h6().copyWith(
-                  fontWeight: FontWeight.w400, fontSize: 18, height: 0)),
-          TextSpan(
-              text: fractionalPart,
-              style: FontTheme.of(context).h6().copyWith(
-                  color: ColorsTheme.of(context).secondaryText.withOpacity(0.3),
+              text: '$integerPart$fractionalPart',
+              style: FontTheme.of(context).h5().copyWith(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
-                  height: 0))
+                  foreground: presenter.state.hideBalance == true
+                      ? (Paint()
+                        ..style = PaintingStyle.fill
+                        ..color = Colors.white
+                        ..maskFilter =
+                            const MaskFilter.blur(BlurStyle.normal, 6))
+                      : null)),
+          TextSpan(
+              text: ' XSD',
+              style: FontTheme.of(context).h5().copyWith(
+                    color:
+                        ColorsTheme.of(context).primaryText.withOpacity(0.32),
+                    fontWeight: FontWeight.w400,
+                  )),
         ])),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              color: ColorsTheme.of(context).active,
-              MXCIcons.loss,
-              size: 14,
-            ),
-            RichText(
-                text: TextSpan(children: [
-              TextSpan(
-                  text: '28.20%',
-                  style: FontTheme.of(context)
-                      .h8()
-                      .copyWith(color: ColorsTheme.of(context).active)),
-              TextSpan(
-                  text: '   ${FlutterI18n.translate(context, 'today')}',
-                  style: FontTheme.of(context).h8().copyWith(
-                      color: ColorsTheme.of(context)
-                          .secondaryText
-                          .withOpacity(0.5))),
-            ]))
-          ],
+      ],
+    );
+  }
+
+  Widget getBalanceChange(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Icon(
+          MXCIcons.increase,
+          color: ColorsTheme.of(context).systemStatusActive,
+          size: 16,
         ),
+        RichText(
+            text: TextSpan(children: [
+          TextSpan(
+              text: ' 28.20%',
+              style: FontTheme.of(context)
+                  .h7()
+                  .copyWith(color: ColorsTheme.of(context).systemStatusActive)),
+          TextSpan(
+              text: '   ${FlutterI18n.translate(context, 'today')}',
+              style: FontTheme.of(context).h7().copyWith(
+                  color:
+                      ColorsTheme.of(context).primaryText.withOpacity(0.32))),
+        ]))
+      ],
+    );
+  }
+
+  Widget getManagePortfolio(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          MXCIcons.coin,
+          color: ColorsTheme.of(context).secondaryText,
+        ),
+        Text(
+          '  Manage portfolio',
+          style: FontTheme.of(context)
+              .h7()
+              .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
+        ),
+        Spacer(),
+        Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: ColorsTheme.of(context).primaryText.withOpacity(0.32),
+          size: 16,
+        )
       ],
     );
   }
