@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:intl/intl.dart' as intl;
 import 'package:flutter/material.dart';
 
 class Formatter {
@@ -24,6 +24,10 @@ class Formatter {
       }
       return number.toStringAsFixed(accuracy);
     }
+  }
+
+  static String intThousandsSeparator(String inputString) {
+   return intl.NumberFormat('#,##0').format(int.parse(inputString));
   }
 
   static String formatWalletAddress(String inputString) {
