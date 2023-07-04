@@ -118,11 +118,11 @@
 	<key>PermissionGroupNotification</key>
 	<string>Would you allow DataDash Wallet to use the Notification?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Turn on location services to find LPWAN devices near you</string>
+	<string>Would you allow DataDash Wallet to use the Location?</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Turn on location services to find LPWAN devices near you</string>
+	<string>Would you allow DataDash Wallet to use the Location?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Turn on location services to find LPWAN devices near you</string>
+	<string>Would you allow DataDash Wallet to use the Location?</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Would you allow DataDash Wallet to use the Motion?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -132,5 +132,6 @@
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Would you allow DataDash Wallet to use the Speech Recognition?</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>
