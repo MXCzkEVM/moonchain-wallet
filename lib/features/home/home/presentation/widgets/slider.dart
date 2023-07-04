@@ -12,19 +12,26 @@ class HomeSlider extends StatefulWidget {
 class _HomeSliderState extends State<HomeSlider> {
   @override
   Widget build(BuildContext context) {
-    return GreyContainer(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: Column(
-          children: [
-            Expanded(flex: 35, child: ImageSlider()),
-            const Expanded(flex: 1, child: SliderIndicator())
-          ],
-        ));
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Column(
+            children: const [
+              Expanded(flex: 35, child: ImageSlider()),
+              Expanded(flex: 1, child: SliderIndicator())
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
 class ImageSlider extends StatefulWidget {
-  ImageSlider({Key? key}) : super(key: key);
+  const ImageSlider({Key? key}) : super(key: key);
 
   @override
   State<ImageSlider> createState() => _ImageSliderState();
@@ -50,7 +57,7 @@ Widget getSliderImage(ImageProvider img) {
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 10.0),
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
         image: DecorationImage(image: img, fit: BoxFit.fill)),
   );
 }
@@ -61,7 +68,7 @@ class SliderIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+      margin: const EdgeInsets.symmetric(horizontal: 50),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(
@@ -83,12 +90,12 @@ class SliderIndicatorItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 10,
-      width: 30,
+      width: 25,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           color: (indicate)
-              ? ColorsTheme.of(context).onTertiary
-              : ColorsTheme.of(context).tertiary),
+              ? ColorsTheme.of(context).white
+              : ColorsTheme.of(context).white.withOpacity(0.16)),
     );
   }
 }
