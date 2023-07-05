@@ -217,14 +217,14 @@ abstract class MxcPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // SystemChrome.setEnabledSystemUIMode(
-    //   SystemUiMode.manual,
-    //   overlays: isEditMode
-    //       ? []
-    //       : [
-    //           SystemUiOverlay.top,
-    //         ],
-    // );
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: isEditMode
+          ? []
+          : [
+              SystemUiOverlay.top,
+            ],
+    );
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: getSystemStyle(context, ref, backgroundColor),
@@ -245,11 +245,12 @@ abstract class MxcPage extends HookConsumerWidget {
               top: topSafeArea,
               child: Column(
                 children: [
-                  if (isEditMode)
+                  if (isEditMode) ...[
                     EditAppsModeStatusBar(
                       onAdd: onAdd,
                       onDone: onDone,
                     ),
+                  ],
                   buildAppBar(context, ref),
                   Expanded(
                       child: Padding(

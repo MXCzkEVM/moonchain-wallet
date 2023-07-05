@@ -1,5 +1,5 @@
 import 'package:datadashwallet/features/home/apps/apps.dart';
-import 'package:datadashwallet/features/home/home.dart';
+import 'package:datadashwallet/features/home/apps/subfeatures/apps_tab/presentation/apps_page_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,7 +20,7 @@ class DAppIcon extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: GestureDetector(
-        onLongPress: () => ref.read(homeContainer.actions).changeEditMode(),
+        onLongPress: () => ref.read(appsPagePageContainer.actions).changeEditMode(),
         onTap: isEditMode ? null : () => openAppPage(context, dapp),
         child: dapp.image != null
             ? Image(image: AssetImage(dapp.image!))

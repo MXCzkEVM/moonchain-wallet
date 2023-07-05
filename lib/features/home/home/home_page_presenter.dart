@@ -18,9 +18,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
     notify(() => state.currentIndex = newIndex);
   }
 
-  void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
-  void resetEditMode() => notify(() => state.isEditMode = false);
-
   @override
   void initState() {
     super.initState();

@@ -4,14 +4,14 @@ import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_tab/domain/bookmark_pagination_use_case.dart';
 
-import 'apps_tab_state.dart';
+import 'apps_page_state.dart';
 
-final appsTabPageContainer =
-    PresenterContainer<AppsTabPresenter, AppsTabPageState>(
-        () => AppsTabPresenter());
+final appsPagePageContainer =
+    PresenterContainer<AppsPagePresenter, AppsPagePageState>(
+        () => AppsPagePresenter());
 
-class AppsTabPresenter extends CompletePresenter<AppsTabPageState> {
-  AppsTabPresenter() : super(AppsTabPageState());
+class AppsPagePresenter extends CompletePresenter<AppsPagePageState> {
+  AppsPagePresenter() : super(AppsPagePageState());
 
   late final BookmarkUseCase _bookmarksUseCase =
       ref.read(bookmarksUseCaseProvider);
@@ -24,6 +24,7 @@ class AppsTabPresenter extends CompletePresenter<AppsTabPageState> {
     super.initState();
 
     PermissionUtils.requestAllPermissions();
+    _bookmarkPaginationUseCase.resetPage();
 
     listen<List<Bookmark>>(
       _bookmarksUseCase.bookmarks,
@@ -48,4 +49,7 @@ class AppsTabPresenter extends CompletePresenter<AppsTabPageState> {
       _bookmarkPaginationUseCase.updatePage(index, num);
 
   void onPageChage(int index) => notify(() => state.pageIndex = index);
+
+  void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
+  void resetEditMode() => notify(() => state.isEditMode = false);
 }
