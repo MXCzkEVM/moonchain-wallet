@@ -42,8 +42,6 @@ abstract class SplashBasePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final splashPresenter = ref.read(splashBaseContainer.actions);
-    final splashState = ref.watch(splashBaseContainer.state);
     Widget appLogo(BuildContext context) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -77,9 +75,10 @@ abstract class SplashBasePage extends HookConsumerWidget {
         appLogo(context),
         const SizedBox(height: 48),
         Expanded(
-            child: Column(
-          children: getButtons(context, ref),
-        ))
+          child: Column(
+            children: getButtons(context, ref),
+          ),
+        )
       ],
     );
   }

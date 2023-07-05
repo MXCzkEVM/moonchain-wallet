@@ -1,11 +1,11 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'import_wallet_presenter.dart';
-import 'import_wallet_state.dart';
 
 class SplashImportWalletPage extends HookConsumerWidget {
   const SplashImportWalletPage({Key? key}) : super(key: key);
@@ -13,26 +13,34 @@ class SplashImportWalletPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(splashImportWalletContainer.actions);
-    final state = ref.watch(splashImportWalletContainer.state);
+    final formKey = useMemoized(() => GlobalKey<FormState>());
 
     return MxcPage(
-      layout: LayoutType.scrollable,
       useSplashBackground: true,
       presenter: presenter,
       appBar: MxcAppBar.splashBack(
         text: FlutterI18n.translate(context, 'secret_recovery_phrase'),
       ),
-      footer: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: MxcButton.primary(
-          key: const Key('importWalletButton'),
-          title: FlutterI18n.translate(context, 'import_wallet').toUpperCase(),
-          onTap: state.errorText == null &&
-                  state.mnemonicController.text.isNotEmpty
-              ? () => presenter.confirm()
-              : null,
-        ),
-      ),
+      footer: ValueListenableBuilder<TextEditingValue>(
+          valueListenable: presenter.mnemonicController,
+          builder: (ctx, mnemonicValue, _) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: MxcButton.primary(
+                key: const Key('importWalletButton'),
+                title: FlutterI18n.translate(context, 'import_wallet')
+                    .toUpperCase(),
+                onTap: mnemonicValue.text.isNotEmpty
+                    ? () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+
+                        if (!formKey.currentState!.validate()) return;
+                        presenter.confirm();
+                      }
+                    : null,
+              ),
+            );
+          }),
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,13 +56,16 @@ class SplashImportWalletPage extends HookConsumerWidget {
                 style: FontTheme.of(context).body1.white(),
               ),
             ),
-            MxcTextfield(
-              maxLines: 7,
-              controller: state.mnemonicController,
-              onChanged: (v) => presenter.validate(),
-              errorText: state.errorText,
-              hintText: FlutterI18n.translate(
-                  context, 'enter_secret_recovery_phrase'),
+            Form(
+              key: formKey,
+              child: MxcTextField.multiline(
+                key: const ValueKey('mnemonicTextField'),
+                controller: presenter.mnemonicController,
+                hint: FlutterI18n.translate(
+                    context, 'enter_secret_recovery_phrase'),
+                action: TextInputAction.done,
+                validator: (v) => presenter.validate(v),
+              ),
             ),
           ],
         ),

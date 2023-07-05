@@ -94,5 +94,6 @@
 	"save": "Save",
 	"enter_bookmark_url": "Enter URL to add bookmark",
 	"failed": "Failed",
-	"loading": "Loading"
+	"loading": "Loading",
+	"reg_required": "This field is required"
 }

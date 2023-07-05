@@ -1,7 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home.dart';
-import 'package:datadashwallet/features/splash/ens_process/ens.dart';
+import 'package:datadashwallet/features/splash/mns_process/mns.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,16 +9,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../widgets/address_bar.dart';
-import '../widgets/cube_bar.dart';
 import '../widgets/subdomain_bar.dart';
-import 'splash_ens_announcement_presenter.dart';
+import 'mns_announcement_presenter.dart';
 
-class SplashENSAnnouncementPage extends HookConsumerWidget {
-  const SplashENSAnnouncementPage({Key? key}) : super(key: key);
+class SplashMNSAnnouncementPage extends HookConsumerWidget {
+  const SplashMNSAnnouncementPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(splashENSAnnouncementContainer.actions);
+    final presenter = ref.read(splashMNSAnnouncementContainer.actions);
 
     return MxcPage(
       layout: LayoutType.scrollable,
@@ -42,7 +41,7 @@ class SplashENSAnnouncementPage extends HookConsumerWidget {
           title: FlutterI18n.translate(context, 'choose_my_username'),
           onTap: () => Navigator.of(context).push(
             route(
-              const SplashENSQueryPage(),
+              const SplashMNSQueryPage(),
             ),
           ),
         ),
