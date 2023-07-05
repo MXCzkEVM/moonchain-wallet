@@ -20,12 +20,12 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
     return null;
   }
 
-  void confirm() {
+  void confirm() async {
     final value = mnemonicController.text;
     loading = true;
 
     try {
-      _walletUseCase.setupFromMnemonic(value);
+      await _walletUseCase.setupFromMnemonic(value);
       pushSetupEnableBiometricPage(context!);
     } catch (e, s) {
       addError(e, s);

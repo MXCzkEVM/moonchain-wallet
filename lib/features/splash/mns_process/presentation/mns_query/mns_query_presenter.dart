@@ -1,9 +1,6 @@
 import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/open_dapp/open_dapp_page.dart';
-import 'package:datadashwallet/features/home/home.dart';
-import 'package:datadashwallet/features/splash/mns_process/data/ens_format.dart';
-import 'package:datadashwallet/features/splash/mns_process/data/mns_service.dart';
 import 'package:ens_dart/ens_dart.dart';
 
 import 'package:datadashwallet/core/core.dart';
@@ -21,15 +18,16 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
   SplashMNSQueryPresenter() : super(SplashMNSQueryState());
 
   late final Web3Client _web3client;
+  late final Ens _ens;
   late final TextEditingController usernameController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
     _web3client = Web3Client(Sys.rpcUrl, Client(), socketConnector: () {
       return IOWebSocketChannel.connect(Sys.wsUrl).cast<String>();
     });
+    _ens = Ens(client: _web3client, chainId: Sys.chainId);
   }
 
   @override
@@ -41,10 +39,11 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
 
   Future<void> queryNameAvailable() async {
     final name = usernameController.text;
+    loading = true;
 
     try {
-      final res = await MnsService.queryNameAvailable(name);
-      final valid = validateRegistered(res);
+      final res = await _ens.withName(name).getAddress();
+      final valid = validateRegistered(res.hex);
       notify(() => state.errorText = valid);
 
       if (valid == null) {
@@ -52,14 +51,13 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
       }
     } catch (error, tackTrace) {
       addError(error, tackTrace);
+    } finally {
+      loading = false;
     }
   }
 
   String? validateRegistered(String value) {
-    final name = ENSFormat.strip0x(value);
-    if (name.isEmpty) return 'result: $value';
-
-    if (BigInt.parse(name, radix: 16) != BigInt.zero) {
+    if (BigInt.parse(value) != BigInt.zero) {
       return translate('domain_registered');
     }
 

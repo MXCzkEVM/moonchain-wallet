@@ -27,7 +27,7 @@ class ENSUtils {
       }
     }
 
-    return '0x6352211e' + node;
+    return '0x' + node;
   }
 
   static String reverseNameHash(inputName) {
