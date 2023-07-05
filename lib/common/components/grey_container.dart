@@ -4,15 +4,18 @@ import 'package:mxc_ui/mxc_ui.dart';
 class GreyContainer extends StatelessWidget {
   EdgeInsets? padding;
   final Widget child;
-  GreyContainer({Key? key, required this.child, this.padding})
+  final double? height;
+  final double? width;
+  GreyContainer(
+      {Key? key, required this.child, this.padding, this.height, this.width})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity,
-      width: double.infinity,
-      padding: padding ?? const EdgeInsets.all(5),
+      height: height,
+      width: width,
+      padding: padding ?? const EdgeInsets.all(0),
       decoration: BoxDecoration(
           color: ColorsTheme.of(context).box,
           borderRadius: const BorderRadius.all(Radius.circular(10))),

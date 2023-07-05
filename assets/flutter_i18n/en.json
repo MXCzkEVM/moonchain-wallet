@@ -39,6 +39,8 @@
 	"today": "today",
 	"receive": "Receive",
 	"send": "Send",
+	"received": "Received",
+	"sent": "Sent",
 	"email_secured_body": "For the security and privacy of your DataDash wallet it's essential that you keep all information contained in this email strictly confidential. \nPlease follow these next steps carefully: \n1. Ensure you're the sole recipient of this email by replacing the recipient's address with your own. \n2. After confirming the correct email address, proceed to click the 'Send' button to forward this vital information to yourself securely. By adhering to these measures, you'll ensure the utmost safety for your DataDash wallet. Thank you for your diligence in this matter.",
 	"email_secured_subject": "Secure Your DataDash Wallet Key - Important Instructions",
 	"face_id": "Face ID",
@@ -95,5 +97,10 @@
 	"enter_bookmark_url": "Enter URL to add bookmark",
 	"failed": "Failed",
 	"loading": "Loading",
-	"reg_required": "This field is required"
+	"reg_required": "This field is required",
+	"pending": "Pending",
+	"online": "Online",
+	"transaction_history": "Transaction history",
+	"add_token": "Add token",
+	"view_other_transactions": "View other transactions"
 }

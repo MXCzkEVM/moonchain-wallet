@@ -97,7 +97,7 @@ class OpenAppPage extends HookConsumerWidget {
                     }
                   },
                   initialUrlRequest: URLRequest(
-                    url: Uri.parse(dapp.url!),
+                    url: Uri.parse(dapp.url),
                   ),
                   onWebViewCreated: (controller) =>
                       presenter.onWebViewCreated(controller),
