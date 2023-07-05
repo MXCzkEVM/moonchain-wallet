@@ -70,30 +70,38 @@ class HomePage extends HookConsumerWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            MXCDropDown<String>(
-                              itemList: const ["MXC zkEVM", "Testnet"],
-                              onChanged: (String? newValue) {},
-                              selectedItem: "MXC zkEVM",
-                              icon: const Padding(
-                                padding: EdgeInsetsDirectional.only(start: 10),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10,),
+                          decoration: BoxDecoration(
+                            color: ColorsTheme.of(context).white.withOpacity(0.16),
+                            borderRadius: const BorderRadius.all(Radius.circular(30)),
+                            
+                          ),
+                          child: Row(
+                            children: [
+                              MXCDropDown<String>(
+                                itemList: const ["MXC zkEVM", "Testnet"],
+                                onChanged: (String? newValue) {},
+                                selectedItem: "MXC zkEVM",
+                                icon: const Padding(
+                                  padding: EdgeInsetsDirectional.only(start: 10),
+                                ),
                               ),
-                            ),
-                            Container(
-                              height: 8,
-                              width: 8,
-                              decoration: BoxDecoration(
-                                  color: ColorsTheme.of(context)
-                                      .systemStatusActive,
-                                  shape: BoxShape.circle),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(FlutterI18n.translate(context, 'online'),
-                                style: FontTheme.of(context)
-                                    .h7()
-                                    .copyWith(fontWeight: FontWeight.w500)),
-                          ],
+                              Container(
+                                height: 8,
+                                width: 8,
+                                decoration: BoxDecoration(
+                                    color: ColorsTheme.of(context)
+                                        .systemStatusActive,
+                                    shape: BoxShape.circle),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(FlutterI18n.translate(context, 'online'),
+                                  style: FontTheme.of(context)
+                                      .h7()
+                                      .copyWith(fontWeight: FontWeight.w500)),
+                            ],
+                          ),
                         ),
                         MXCDropDown<String>(
                           itemList: [
