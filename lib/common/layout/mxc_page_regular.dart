@@ -32,6 +32,7 @@ class MxcPageRegular extends MxcPage {
     bool isEditMode = false,
     VoidCallback? onAdd,
     VoidCallback? onDone,
+    bool useAppBar = false,
   }) : super.internal(
           key: key,
           scaffoldKey: scaffoldKey,
@@ -56,6 +57,7 @@ class MxcPageRegular extends MxcPage {
           isEditMode: isEditMode,
           onAdd: onAdd,
           onDone: onDone,
+          useAppBar: useAppBar
         );
 
   @override
