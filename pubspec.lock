@@ -121,7 +121,7 @@ packages:
     source: hosted
     version: "1.17.0"
   convert:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: convert
       sha256: "0f08b14755d163f6e2134cb58222dd25ea2a2ee8a195e53983d57c075324d592"
@@ -168,6 +168,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  dotted_line:
+    dependency: "direct main"
+    description:
+      name: dotted_line
+      sha256: c931ba331656154711d9420f369f80cf9e8869ca9933ae5fb35b7669bcbe7d2e
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.2"
   ed25519_hd_key:
     dependency: transitive
     description:
@@ -255,6 +263,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      sha256: "48a1b69be9544e2b03d9a8e843affd89e43f3194c9248776222efcb4206bb1ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.62.0"
   fl_shared_link:
     dependency: "direct main"
     description:
@@ -833,7 +849,7 @@ packages:
     source: hosted
     version: "2.1.3"
   sha3:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sha3
       sha256: efa0ad944b950965e7014ab02f407f0a62a64626259983af0e2f98cd39a73a8a
@@ -1072,9 +1088,10 @@ packages:
   web3dart:
     dependency: transitive
     description:
-      path: "packages/web3dart"
-      relative: true
-    source: path
+      name: web3dart
+      sha256: "0b96223a6b284e3146e65dc842ded139eca68a85c4ab79c5ba1a73284927d3cd"
+      url: "https://pub.dev"
+    source: hosted
     version: "2.6.1"
   web_socket_channel:
     dependency: transitive
