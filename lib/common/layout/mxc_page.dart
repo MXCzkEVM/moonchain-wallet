@@ -231,8 +231,7 @@ abstract class MxcPage extends HookConsumerWidget {
             ],
     );
 
-    final presenter = ref.read(homeContainer.actions);
-    final state = ref.watch(homeContainer.state);
+    final homeState = ref.watch(homeContainer.state);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: getSystemStyle(context, ref, backgroundColor),
@@ -324,15 +323,15 @@ abstract class MxcPage extends HookConsumerWidget {
                         ),
                         MXCDropDown<String>(
                           itemList: [
-                            state.walletAddress != null
+                            homeState.walletAddress != null
                                 ? Formatter.formatWalletAddress(
-                                    state.walletAddress!.hex)
+                                    homeState.walletAddress!.hex)
                                 : "",
                           ],
                           onChanged: (String? newValue) {},
-                          selectedItem: state.walletAddress != null
+                          selectedItem: homeState.walletAddress != null
                               ? Formatter.formatWalletAddress(
-                                  state.walletAddress!.hex)
+                                  homeState.walletAddress!.hex)
                               : "",
                           textStyle: FontTheme.of(context).h7().copyWith(
                               fontSize: 16, fontWeight: FontWeight.w400),
@@ -381,7 +380,6 @@ abstract class MxcPage extends HookConsumerWidget {
                         height: MediaQuery.of(context).viewInsets.bottom,
                       ),
                     ),
-                  const SizedBox(height: 20),
                 ],
               ),
             ),
