@@ -5,17 +5,18 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'add_dapp_presenter.dart';
-import 'add_dapp_state.dart';
+import 'add_token_presenter.dart';
+import 'add_token_state.dart';
 
-class AddDApp extends HookConsumerWidget {
-  const AddDApp({Key? key}) : super(key: key);
-
-  @override
-  ProviderBase<AddDAppPresenter> get presenter => addDAppPageContainer.actions;
+class AddToken extends HookConsumerWidget {
+  const AddToken({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<AddDAppPageState> get state => addDAppPageContainer.state;
+  ProviderBase<AddTokenPresenter> get presenter =>
+      addTokenPageContainer.actions;
+
+  @override
+  ProviderBase<AddTokenPageState> get state => addTokenPageContainer.state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

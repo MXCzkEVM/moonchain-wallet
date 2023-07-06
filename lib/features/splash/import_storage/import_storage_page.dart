@@ -53,7 +53,7 @@ class SplashImportStoragePage extends SplashBasePage {
         key: const ValueKey('mnemonicButton'),
         icon: 'assets/svg/splash/ic_cloud.svg',
         title: FlutterI18n.translate(context, 'secret_recovery_phrase'),
-        onTap: () => Navigator.of(context).pushReplacement(
+        onTap: () => Navigator.of(context).push(
           route(
             const SplashImportWalletPage(),
           ),

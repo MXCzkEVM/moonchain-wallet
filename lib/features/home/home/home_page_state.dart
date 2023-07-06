@@ -6,8 +6,6 @@ import 'package:web3dart/web3dart.dart';
 class HomeState with EquatableMixin {
   int currentIndex = 0;
 
-  bool isEditMode = false;
-
   String walletBalance = "0.0";
 
   WannseeTransactionsModel? txList;
@@ -23,7 +21,6 @@ class HomeState with EquatableMixin {
   @override
   List<Object?> get props => [
         currentIndex,
-        isEditMode,
         walletBalance,
         txList,
         isTxListLoading,

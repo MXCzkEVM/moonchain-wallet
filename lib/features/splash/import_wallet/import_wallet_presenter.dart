@@ -1,40 +1,36 @@
-import 'dart:async';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
-
-import 'import_wallet_state.dart';
+import 'package:flutter/material.dart';
 
 final splashImportWalletContainer =
-    PresenterContainer<SplashImportWalletPresenter, SplashImportWalletState>(
+    PresenterContainer<SplashImportWalletPresenter, void>(
         () => SplashImportWalletPresenter());
 
-class SplashImportWalletPresenter
-    extends CompletePresenter<SplashImportWalletState> {
-  SplashImportWalletPresenter() : super(SplashImportWalletState());
+class SplashImportWalletPresenter extends CompletePresenter<void> {
+  SplashImportWalletPresenter() : super(null);
 
   late final _walletUseCase = ref.read(walletUseCaseProvider);
+  late final TextEditingController mnemonicController = TextEditingController();
 
-  @override
-  Future<void> dispose() async {
-    // state.mnemonicController.dispose();
-    super.dispose();
-  }
-
-  void validate() {
-    final value = state.mnemonicController.text;
-    String? result;
-
-    if (!_walletUseCase.validateMnemonic(value)) {
-      result = 'recovery_phrase_limit';
+  String? validate(String? value) {
+    if (!_walletUseCase.validateMnemonic(value ?? '')) {
+      return translate('recovery_phrase_limit')!;
     }
 
-    notify(() => state.errorText = result);
+    return null;
   }
 
-  void confirm() {
-    final value = state.mnemonicController.text;
+  void confirm() async {
+    final value = mnemonicController.text;
+    loading = true;
 
-    _walletUseCase.setupFromMnemonic(value);
-    pushSetupEnableBiometricPage(context!);
+    try {
+      await _walletUseCase.setupFromMnemonic(value);
+      pushSetupEnableBiometricPage(context!);
+    } catch (e, s) {
+      addError(e, s);
+    } finally {
+      loading = false;
+    }
   }
 }

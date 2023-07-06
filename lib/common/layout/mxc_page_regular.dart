@@ -135,6 +135,7 @@ class MxcPageRegular extends MxcPage {
             padding: const EdgeInsets.only(top: 5, bottom: 20),
             child: footer,
           ),
+        const SizedBox(height: 20),
       ],
     );
   }

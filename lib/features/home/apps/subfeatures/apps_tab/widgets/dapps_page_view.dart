@@ -63,7 +63,7 @@ class _DAppsPageViewState extends State<DAppsPageView> {
 
   @override
   Widget build(BuildContext context) {
-    _pageHeight = MediaQuery.of(context).size.height - 200;
+    _pageHeight = MediaQuery.of(context).size.height - 160;
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return SingleChildScrollView(

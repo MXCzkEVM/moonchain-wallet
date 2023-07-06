@@ -1,5 +1,4 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:datadashwallet/features/home/home/presentation/widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -21,14 +20,7 @@ class HomePage extends HookConsumerWidget {
     final state = ref.watch(homeContainer.state);
 
     return MxcPage(
-        isEditMode: state.isEditMode,
-        onAdd: () => Navigator.of(context).push(
-              route.featureDialog(
-                const AddDApp(),
-              ),
-            ),
         useAppBar: true,
-        onDone: () => presenter.changeEditMode(),
         presenter: presenter,
         resizeToAvoidBottomInset: true,
         backgroundColor: ColorsTheme.of(context).secondaryBackground,

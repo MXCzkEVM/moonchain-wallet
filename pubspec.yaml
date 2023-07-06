@@ -65,6 +65,8 @@ dependencies:
   lottie: ^2.3.2
   eth_sig_util: ^0.0.9
   permission_handler: ^10.4.1
+  sha3: ^0.2.0
+  convert: ^3.1.1
 
 dev_dependencies:
   flutter_test:

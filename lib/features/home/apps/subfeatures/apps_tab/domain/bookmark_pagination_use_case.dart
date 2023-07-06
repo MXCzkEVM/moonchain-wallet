@@ -27,13 +27,13 @@ class BookmarkPaginationUseCase extends ReactiveUseCase {
     nextPage(index, num);
   }
 
-  void nextPage(int index, int preview) {
+  void nextPage(int index, int count) {
     final total = _repository.items.length;
-    if (total - preview * 4 >= 1) {
-      if (items.last == items[index]) {
+    if (total - count * 4 >= 1) {
+      if (items.length == index + 1) {
         items.add(1);
       } else {
-        items[index + 1] = 1;
+        items[index] = count;
       }
     }
 
@@ -47,7 +47,7 @@ class BookmarkPaginationUseCase extends ReactiveUseCase {
     int currentRowCount = 0;
     int leftpages = 0;
 
-    for (int index = 0; index < items.length -1; index++) {
+    for (int index = 0; index < items.length - 1; index++) {
       currentRowCount += items[index];
     }
 

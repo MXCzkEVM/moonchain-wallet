@@ -100,7 +100,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         ? (await _ethClient.getGasPrice()).toString()
         : bridge.gasPrice;
 
-    if (price != null && price.contains('EtherAmount:')) {
+    if (price != null && price.startsWith('EtherAmount:')) {
       price = price.split(' ')[1];
     }
 

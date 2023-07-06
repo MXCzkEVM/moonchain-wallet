@@ -222,16 +222,16 @@ abstract class MxcPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // SystemChrome.setEnabledSystemUIMode(
-    //   SystemUiMode.manual,
-    //   overlays: isEditMode
-    //       ? []
-    //       : [
-    //           SystemUiOverlay.top,
-    //         ],
-    // );
-    final presenter = ref.read(homeContainer.actions);
-    final state = ref.watch(homeContainer.state);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: isEditMode
+          ? []
+          : [
+              SystemUiOverlay.top,
+            ],
+    );
+
+    final homeState = ref.watch(homeContainer.state);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: getSystemStyle(context, ref, backgroundColor),
@@ -243,120 +243,114 @@ abstract class MxcPage extends HookConsumerWidget {
         resizeToAvoidBottomInset: false,
         floatingActionButton: floatingActionButton,
         bottomNavigationBar: buildBottomNavigation(context, ref),
-        appBar: state.isEditMode
-            ? null
-            : useAppBar
-                ? AppBar(
-                    elevation: 0.0,
-                    leading: MxcCircleButton.icon(
-                      key: const Key("burgerMenuButton"),
-                      icon: Icons.menu_rounded,
-                      shadowRadius: 0,
-                      onTap: () {},
+        appBar: useAppBar
+            ? AppBar(
+                elevation: 0.0,
+                leading: MxcCircleButton.icon(
+                  key: const Key("burgerMenuButton"),
+                  icon: Icons.menu_rounded,
+                  shadowRadius: 0,
+                  onTap: () {},
+                  iconSize: 30,
+                  color: ColorsTheme.of(context).primaryText,
+                  iconFillColor: Colors.transparent,
+                ),
+                shadowColor: Colors.transparent,
+                centerTitle: true,
+                actions: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 16),
+                    child: MxcCircleButton.icon(
+                      key: const Key("appsButton"),
+                      icon: MXCIcons.apps_1,
+                      shadowRadius: 30,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          route(
+                            const AppsPage(),
+                          ),
+                        );
+                      },
                       iconSize: 30,
                       color: ColorsTheme.of(context).primaryText,
-                      iconFillColor: Colors.transparent,
+                      iconFillColor:
+                          ColorsTheme.of(context).secondaryBackground,
                     ),
-                    shadowColor: Colors.transparent,
-                    centerTitle: true,
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 16),
-                        child: MxcCircleButton.icon(
-                          key: const Key("appsButton"),
-                          icon: MXCIcons.apps_1,
-                          shadowRadius: 30,
-                          onTap: () {
-                            Navigator.of(context).push(
-                              route(
-                                const AppsTab(),
-                              ),
-                            );
-                          },
-                          iconSize: 30,
-                          color: ColorsTheme.of(context).primaryText,
-                          iconFillColor:
-                              ColorsTheme.of(context).secondaryBackground,
-                        ),
-                      ),
-                    ],
-                    title: Row(
-                      mainAxisSize: MainAxisSize.min,
+                  ),
+                ],
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: ColorsTheme.of(context)
-                                    .white
-                                    .withOpacity(0.16),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(30)),
-                              ),
-                              child: Row(
-                                children: [
-                                  MXCDropDown<String>(
-                                    itemList: const ["MXC zkEVM", "Testnet"],
-                                    onChanged: (String? newValue) {},
-                                    selectedItem: "MXC zkEVM",
-                                    icon: const Padding(
-                                      padding:
-                                          EdgeInsetsDirectional.only(start: 10),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 8,
-                                    width: 8,
-                                    decoration: BoxDecoration(
-                                        color: ColorsTheme.of(context)
-                                            .systemStatusActive,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(FlutterI18n.translate(context, 'online'),
-                                      style: FontTheme.of(context)
-                                          .h7()
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500)),
-                                ],
-                              ),
-                            ),
-                            MXCDropDown<String>(
-                              itemList: [
-                                state.walletAddress != null
-                                    ? Formatter.formatWalletAddress(
-                                        state.walletAddress!.hex)
-                                    : "",
-                              ],
-                              onChanged: (String? newValue) {},
-                              selectedItem: state.walletAddress != null
-                                  ? Formatter.formatWalletAddress(
-                                      state.walletAddress!.hex)
-                                  : "",
-                              textStyle: FontTheme.of(context).h7().copyWith(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
-                              icon: Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.only(start: 0),
-                                child: Icon(
-                                  Icons.arrow_drop_down_rounded,
-                                  size: 32,
-                                  color: ColorsTheme.of(context).purpleMain,
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color:
+                                ColorsTheme.of(context).white.withOpacity(0.16),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(30)),
+                          ),
+                          child: Row(
+                            children: [
+                              MXCDropDown<String>(
+                                itemList: const ["MXC zkEVM", "Testnet"],
+                                onChanged: (String? newValue) {},
+                                selectedItem: "MXC zkEVM",
+                                icon: const Padding(
+                                  padding:
+                                      EdgeInsetsDirectional.only(start: 10),
                                 ),
                               ),
-                            ),
+                              Container(
+                                height: 8,
+                                width: 8,
+                                decoration: BoxDecoration(
+                                    color: ColorsTheme.of(context)
+                                        .systemStatusActive,
+                                    shape: BoxShape.circle),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(FlutterI18n.translate(context, 'online'),
+                                  style: FontTheme.of(context)
+                                      .h7()
+                                      .copyWith(fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                        ),
+                        MXCDropDown<String>(
+                          itemList: [
+                            homeState.walletAddress != null
+                                ? Formatter.formatWalletAddress(
+                                    homeState.walletAddress!.hex)
+                                : "",
                           ],
+                          onChanged: (String? newValue) {},
+                          selectedItem: homeState.walletAddress != null
+                              ? Formatter.formatWalletAddress(
+                                  homeState.walletAddress!.hex)
+                              : "",
+                          textStyle: FontTheme.of(context).h7().copyWith(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                          icon: Padding(
+                            padding: const EdgeInsetsDirectional.only(start: 0),
+                            child: Icon(
+                              Icons.arrow_drop_down_rounded,
+                              size: 32,
+                              color: ColorsTheme.of(context).purpleMain,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    backgroundColor:
-                        ColorsTheme.of(context).secondaryBackground,
-                  )
-                : null,
+                  ],
+                ),
+                backgroundColor: ColorsTheme.of(context).secondaryBackground,
+              )
+            : null,
         body: PresenterHooks(
           presenter: presenter,
           child: splashLinearBackground(
@@ -366,11 +360,12 @@ abstract class MxcPage extends HookConsumerWidget {
               top: topSafeArea,
               child: Column(
                 children: [
-                  if (isEditMode)
+                  if (isEditMode) ...[
                     EditAppsModeStatusBar(
                       onAdd: onAdd,
                       onDone: onDone,
                     ),
+                  ],
                   buildAppBar(context, ref),
                   Expanded(
                       child: Padding(
@@ -385,7 +380,6 @@ abstract class MxcPage extends HookConsumerWidget {
                         height: MediaQuery.of(context).viewInsets.bottom,
                       ),
                     ),
-                  const SizedBox(height: 20),
                 ],
               ),
             ),

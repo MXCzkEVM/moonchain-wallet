@@ -97,6 +97,7 @@
 	"enter_bookmark_url": "Enter URL to add bookmark",
 	"failed": "Failed",
 	"loading": "Loading",
+	"reg_required": "This field is required",
 	"pending": "Pending",
 	"online": "Online",
 	"transaction_history": "Transaction history",

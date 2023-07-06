@@ -45,10 +45,10 @@ class PaymentSheet extends StatefulWidget {
         title: "Receive address",
         content: to,
       ),
-      PaymentSheetText(
-        title: "Free",
-        content: fee,
-      ),
+      // PaymentSheetText(
+      //   title: "Free",
+      //   content: fee,
+      // ),
       PaymentSheetText(
         title: "Remark",
         content: remark,

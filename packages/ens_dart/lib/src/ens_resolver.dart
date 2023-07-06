@@ -24,10 +24,8 @@ enum EnsTextKey {
 }
 
 extension EnsResolve on Ens {
-  String get nameHash => ENSUtils.nameHash(ensName ?? '');
-
   /// Name hash for ENS name
-  Uint8List get nodeHash => hexToBytes(nameHash);
+  Uint8List get nodeHash => hexToBytes(ENSUtils.nameHash(ensName ?? ''));
 
   /// Reverse node hash for ENS name
   Uint8List get reverseNodeHash => hexToBytes(
@@ -39,13 +37,9 @@ extension EnsResolve on Ens {
       throw 'ensName needs to be set first with .withName()';
     }
 
-    final _resolvedAddress = await address(nameHash);
+    final _resolvedAddress = await addr(nodeHash);
     withAddress(_resolvedAddress);
     return _resolvedAddress;
-  }
-
-  bool isRegistered(EthereumAddress address) {
-    return hexToInt(address.hex) == BigInt.zero;
   }
 
   /// Returns the owner/controller for the current ENS name.
