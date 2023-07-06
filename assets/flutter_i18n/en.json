@@ -101,5 +101,10 @@
 	"online": "Online",
 	"transaction_history": "Transaction history",
 	"add_token": "Add token",
-	"view_other_transactions": "View other transactions"
+	"view_other_transactions": "View other transactions",
+	"portfolio" : "Portfolio",
+	"tokens": "Tokens",
+	"nfts": "NFTs",
+	"no_transactions_yet": "No transactions yet",
+	"no_tokens_added_yet": "No tokens added yet"
 }

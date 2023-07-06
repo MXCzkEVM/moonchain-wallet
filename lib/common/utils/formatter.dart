@@ -46,6 +46,19 @@ class Formatter {
     return convertedString;
   }
 
+  /// The input is in wei the output is in Eth 
+  static String formatNumberForUI(String input){
+    input = convertWeiToEth(input);
+    String fractionalPart = "";
+    String integerPart = input;
+    if (input.contains('.')) {
+      integerPart = input.split('.')[0];
+      fractionalPart = ".${input.split('.')[1].substring(0,1)}";
+    }
+    integerPart = intThousandsSeparator(integerPart);
+    return '$integerPart$fractionalPart';
+  }
+
   static Size boundingTextSize(String text, TextStyle style,
       {int maxLines = 2 ^ 31, double maxWidth = double.infinity}) {
     if (text.isEmpty) {
