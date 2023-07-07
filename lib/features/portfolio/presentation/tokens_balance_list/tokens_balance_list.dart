@@ -16,61 +16,66 @@ class TokensBalanceList extends HookConsumerWidget {
     final portfolioState = ref.watch(portfolioContainer.state);
     final homeState = ref.watch(homeContainer.state);
 
-    return portfolioState.tokensBalanceList != null &&
-            portfolioState.tokensBalanceList!.items!.isEmpty
-        ? Container(
-            margin: const EdgeInsets.only(top: 40),
-            child: Text(
-              FlutterI18n.translate(context, 'no_tokens_added_yet'),
-              style: FontTheme.of(context).h6().copyWith(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 18,
-                  ),
-            ),
-          )
-        : Column(
-            children: [
-              GreyContainer(
-                  child: portfolioState.tokensBalanceList == null
-                      ? const SizedBox(
-                          height: 50,
-                          child: Center(child: CircularProgressIndicator()))
-                      : Column(
-                          children: [
-                            ...TokensBalanceListUtils.generateTokensBalanceList(
-                                portfolioState.tokensBalanceList!,
-                                homeState.defaultTokens,
-                                homeState.walletBalance)
-                          ],
-                        )),
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
+    return Column(
+      children: [
+        portfolioState.tokensBalanceList != null &&
+                portfolioState.tokensBalanceList!.items!.isEmpty
+            ? Container(
+                margin: const EdgeInsets.only(top: 100),
+                alignment: Alignment.center,
+                child: Text(
+                  FlutterI18n.translate(context, 'no_tokens_added_yet'),
+                  style: FontTheme.of(context).h6().copyWith(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 18,
+                      ),
+                ),
+              )
+            : Column(
                 children: [
-                  const Spacer(),
-                  MxcChipButton(
-                    key: const Key('addTokenButton'),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    titleStyle:
-                        FontTheme.of(context).h7().copyWith(fontSize: 14),
-                    onTap: () {},
-                    title: FlutterI18n.translate(context, 'add_token'),
-                    icon: const Icon(
-                      Icons.add,
-                      size: 20,
-                    ),
-                    buttonDecoration: BoxDecoration(
-                      color: ColorsTheme.of(context).white.withOpacity(.16),
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    alignIconStart: true,
-                  ),
-                  const Spacer()
+                  GreyContainer(
+                      child: portfolioState.tokensBalanceList == null
+                          ? const SizedBox(
+                              height: 50,
+                              child: Center(child: CircularProgressIndicator()))
+                          : Column(
+                              children: [
+                                ...TokensBalanceListUtils
+                                    .generateTokensBalanceList(
+                                        portfolioState.tokensBalanceList!,
+                                        homeState.defaultTokens,
+                                        homeState.walletBalance)
+                              ],
+                            )),
                 ],
               ),
-            ],
-          );
+        const SizedBox(
+          height: 12,
+        ),
+        Row(
+          children: [
+            const Spacer(),
+            MxcChipButton(
+              key: const Key('addTokenButton'),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              titleStyle: FontTheme.of(context).h7().copyWith(fontSize: 14),
+              onTap: () {},
+              title: FlutterI18n.translate(context, 'add_token'),
+              icon: const Icon(
+                Icons.add,
+                size: 20,
+              ),
+              buttonDecoration: BoxDecoration(
+                color: ColorsTheme.of(context).white.withOpacity(.16),
+                borderRadius: BorderRadius.circular(40),
+              ),
+              alignIconStart: true,
+            ),
+            const Spacer()
+          ],
+        ),
+      ],
+    );
   }
 }
