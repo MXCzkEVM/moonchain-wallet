@@ -103,9 +103,10 @@
 	"transaction_history": "Transaction history",
 	"add_token": "Add token",
 	"view_other_transactions": "View other transactions",
-	"portfolio" : "Portfolio",
+	"portfolio": "Portfolio",
 	"tokens": "Tokens",
 	"nfts": "NFTs",
 	"no_transactions_yet": "No transactions yet",
-	"no_tokens_added_yet": "No tokens added yet"
+	"no_tokens_added_yet": "No tokens added yet",
+	"7_days": "7 days"
 }

@@ -243,6 +243,8 @@ abstract class MxcPage extends HookConsumerWidget {
         resizeToAvoidBottomInset: false,
         floatingActionButton: floatingActionButton,
         bottomNavigationBar: buildBottomNavigation(context, ref),
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterFloat,
         appBar: useAppBar
             ? AppBar(
                 elevation: 0.0,
