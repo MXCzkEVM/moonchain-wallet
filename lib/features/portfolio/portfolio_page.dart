@@ -70,7 +70,7 @@ class PortfolioPage extends HookConsumerWidget {
               ),
               MxcCircleButton.icon(
                 key: const Key('historyButton'),
-                icon: Icons.history,
+                icon: MXCIcons.history,
                 onTap: () {},
                 iconSize: 24,
                 filled: false,

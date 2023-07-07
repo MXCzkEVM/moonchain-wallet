@@ -57,7 +57,7 @@ class AppsPage extends HookConsumerWidget {
             padding: const EdgeInsetsDirectional.only(end: 16),
             child: MxcCircleButton.icon(
               key: const Key("appsButton"),
-              icon: MXCIcons.home,
+              icon: MXCIcons.wallet,
               shadowRadius: 30,
               onTap: () {
                 Navigator.of(context).replaceAll(
@@ -147,8 +147,7 @@ class AppsPage extends HookConsumerWidget {
                     bookmarks: bookmarks,
                     onLayoutChange: (rowCount) =>
                         ref.read(presenter).updatePage(0, rowCount),
-                    onLongPress: () =>
-                        ref.read(presenter).changeEditMode(),
+                    onLongPress: () => ref.read(presenter).changeEditMode(),
                     onRemoveTap: (item) =>
                         ref.read(presenter).removeBookmark(item),
                     isEditMode: ref.watch(state).isEditMode,
@@ -182,8 +181,7 @@ class AppsPage extends HookConsumerWidget {
                                   url: 'https://wannsee-mns.mxc.com',
                                   image: 'assets/images/apps/mns.png',
                                 ),
-                                isEditMode:
-                                    ref.watch(state).isEditMode,
+                                isEditMode: ref.watch(state).isEditMode,
                               ),
                             ),
                             const SizedBox(width: 24),
@@ -195,8 +193,7 @@ class AppsPage extends HookConsumerWidget {
                                   url: 'https://wannsee-nft.mxc.com',
                                   image: 'assets/images/apps/nft.png',
                                 ),
-                                isEditMode:
-                                    ref.watch(state).isEditMode,
+                                isEditMode: ref.watch(state).isEditMode,
                               ),
                             ),
                           ],
@@ -210,8 +207,7 @@ class AppsPage extends HookConsumerWidget {
                           index + 1 < pages.length ? pages[index + 1] : null),
                       onLayoutChange: (rowCount) =>
                           ref.read(presenter).updatePage(index, rowCount),
-                      onLongPress: () =>
-                          ref.read(presenter).changeEditMode(),
+                      onLongPress: () => ref.read(presenter).changeEditMode(),
                       onRemoveTap: (item) =>
                           ref.read(presenter).removeBookmark(item),
                       isEditMode: ref.watch(state).isEditMode,
