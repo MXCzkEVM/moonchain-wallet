@@ -49,6 +49,7 @@ class PortfolioPage extends HookConsumerWidget {
                 color: ColorsTheme.of(context).primaryBackground,
                 iconFillColor: ColorsTheme.of(context).white,
                 shadowRadius: 50,
+                title: FlutterI18n.translate(context, 'send'),
               ),
               const SizedBox(
                 width: 32,
@@ -62,6 +63,7 @@ class PortfolioPage extends HookConsumerWidget {
                 color: ColorsTheme.of(context).primaryBackground,
                 iconFillColor: ColorsTheme.of(context).white,
                 shadowRadius: 50,
+                title: FlutterI18n.translate(context, 'receive'),
               ),
               const SizedBox(
                 width: 32,
@@ -75,6 +77,7 @@ class PortfolioPage extends HookConsumerWidget {
                 color: ColorsTheme.of(context).primaryBackground,
                 iconFillColor: ColorsTheme.of(context).white,
                 shadowRadius: 50,
+                title: FlutterI18n.translate(context, 'history'),
               ),
             ],
           ),
