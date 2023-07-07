@@ -9,7 +9,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'home_page_presenter.dart';
 import 'home_page_state.dart';
-import 'presentation/widgets/balance_panel.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -39,7 +38,7 @@ class HomePage extends HookConsumerWidget {
               const SizedBox(
                 height: 6,
               ),
-              const BalancePanel(),
+              const BalancePanel(false),
               const SizedBox(
                 height: 32,
               ),

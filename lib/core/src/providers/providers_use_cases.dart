@@ -1,5 +1,6 @@
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_tab/domain/bookmark_pagination_use_case.dart';
+import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,6 +28,12 @@ final Provider<WalletUseCase> walletUseCaseProvider = Provider(
 
 final Provider<HomeUseCase> homeUseCaseProvider = Provider(
   (ref) => HomeUseCase(
+    ref.watch(apiRepositoryProvider),
+  ),
+);
+
+final Provider<PortfolioUseCase> portfolioUseCaseProvider = Provider(
+  (ref) => PortfolioUseCase(
     ref.watch(apiRepositoryProvider),
   ),
 );
