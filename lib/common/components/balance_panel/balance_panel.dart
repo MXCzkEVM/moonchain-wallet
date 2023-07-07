@@ -21,15 +21,14 @@ class BalancePanel extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(homeContainer.state);
-    bool showChangeIndicator = state.walletBalance != '0.0';
+    // final state = ref.watch(homeContainer.state);
     return GreyContainer(
         padding: const EdgeInsets.all(16),
         child: showGraph
             ? _showWithGraph(
                 context,
               )
-            : _showSimple(context, showChangeIndicator));
+            : _showSimple(context));
   }
 
   Widget _showWithGraph(
@@ -54,7 +53,9 @@ class BalancePanel extends HookConsumerWidget {
     );
   }
 
-  Widget _showSimple(BuildContext context, bool showChangeIndicator) {
+  Widget _showSimple(
+    BuildContext context,
+  ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -62,7 +63,7 @@ class BalancePanel extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: const [BalanceTitle(), Spacer(), BalanceInXSD()],
         ),
-        showChangeIndicator ? const ChangeIndicator() : Container(),
+        const ChangeIndicator(),
         const SizedBox(
           height: 12,
         ),

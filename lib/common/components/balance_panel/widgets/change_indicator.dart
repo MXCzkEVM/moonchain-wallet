@@ -13,28 +13,30 @@ class ChangeIndicator extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(homeContainer.actions);
     final state = ref.watch(homeContainer.state);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Icon(
-          MXCIcons.increase,
-          color: ColorsTheme.of(context).systemStatusActive,
-          size: 16,
-        ),
-        RichText(
-            text: TextSpan(children: [
-          TextSpan(
-              text: ' 28.20%',
-              style: FontTheme.of(context)
-                  .h7()
-                  .copyWith(color: ColorsTheme.of(context).systemStatusActive)),
-          TextSpan(
-              text: '   ${FlutterI18n.translate(context, 'today')}',
-              style: FontTheme.of(context).h7().copyWith(
-                  color:
-                      ColorsTheme.of(context).primaryText.withOpacity(0.32))),
-        ]))
-      ],
-    );
+    return state.walletBalance != '0.0'
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Icon(
+                MXCIcons.increase,
+                color: ColorsTheme.of(context).systemStatusActive,
+                size: 16,
+              ),
+              RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: ' 28.20%',
+                    style: FontTheme.of(context).h7().copyWith(
+                        color: ColorsTheme.of(context).systemStatusActive)),
+                TextSpan(
+                    text: '   ${FlutterI18n.translate(context, 'today')}',
+                    style: FontTheme.of(context).h7().copyWith(
+                        color: ColorsTheme.of(context)
+                            .primaryText
+                            .withOpacity(0.32))),
+              ]))
+            ],
+          )
+        : Container();
   }
 }
