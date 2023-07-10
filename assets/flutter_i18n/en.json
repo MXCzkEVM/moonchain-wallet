@@ -102,5 +102,10 @@
 	"online": "Online",
 	"transaction_history": "Transaction history",
 	"add_token": "Add token",
-	"view_other_transactions": "View other transactions"
+	"view_other_transactions": "View other transactions",
+	"token_contract_addresss": "Token contract address",
+	"token_symbol": "Token symbol",
+	"token_decimal": "Token decimal",
+	"enter_x": "Enter {0}",
+	"token_contract_addresss_not_empty": "Token contract address can't be empty"
 }

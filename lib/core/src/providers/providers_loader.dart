@@ -1,7 +1,8 @@
 part of 'providers.dart';
 
+DatadashCache? _datadashCache;
 GlobalCache? _globalCache;
-UserSetupStore? _userSetupStore;
+DatadashSetupStore? _datadashSetupStore;
 
 class _ProviderLoader {
   Future<CacheManager> getCacheManager() async {
@@ -13,8 +14,13 @@ class _ProviderLoader {
 
   Future<void> loadProviders() async {
     final cacheManager = await getCacheManager();
-    _userSetupStore = UserSetupStore();
-    await _userSetupStore!.load(cacheManager);
+    _datadashSetupStore = DatadashSetupStore();
+    await _datadashSetupStore!.load(cacheManager);
+
+    _datadashCache = await DatadashCache.load(
+      cacheManager,
+      _datadashSetupStore!.publicAddress,
+    );
 
     _globalCache = await GlobalCache.load(cacheManager);
   }

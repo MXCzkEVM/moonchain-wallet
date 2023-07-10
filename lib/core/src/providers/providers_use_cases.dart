@@ -1,3 +1,4 @@
+import 'package:datadashwallet/features/home/add_token/domain/custom_tokens_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_tab/domain/bookmark_pagination_use_case.dart';
 import 'package:datadashwallet/features/security/security.dart';
@@ -7,7 +8,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-import '../../../features/home/home/domain/home_use_case.dart';
+import 'package:datadashwallet/features/home/home/domain/contract_use_case.dart';
 
 final Provider<ThemeUseCase> themeUseCaseProvider = Provider(
   (ref) => ThemeUseCase(
@@ -25,8 +26,8 @@ final Provider<WalletUseCase> walletUseCaseProvider = Provider(
   ),
 );
 
-final Provider<HomeUseCase> homeUseCaseProvider = Provider(
-  (ref) => HomeUseCase(
+final Provider<ContractUseCase> contractUseCaseProvider = Provider(
+  (ref) => ContractUseCase(
     ref.watch(apiRepositoryProvider),
   ),
 );
@@ -40,9 +41,13 @@ final Provider<AuthUseCase> authUseCaseProvider = Provider(
 );
 
 final Provider<BookmarkUseCase> bookmarksUseCaseProvider = Provider(
-  (ref) => BookmarkUseCase(ref.watch(globalCacheProvider).bookmarks),
+  (ref) => BookmarkUseCase(ref.watch(datadashCacheProvider).bookmarks),
 );
 
 final Provider<BookmarkPaginationUseCase> bookmarkPaginationUseCaseProvider =
     Provider((ref) =>
-        BookmarkPaginationUseCase(ref.watch(globalCacheProvider).bookmarks));
+        BookmarkPaginationUseCase(ref.watch(datadashCacheProvider).bookmarks));
+
+final Provider<CustomTokensUseCase> customTokensCaseProvider = Provider(
+  (ref) => CustomTokensUseCase(ref.watch(datadashCacheProvider).custonTokens),
+);

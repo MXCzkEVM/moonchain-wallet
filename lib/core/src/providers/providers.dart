@@ -4,6 +4,7 @@ import 'package:mxc_logic/internal.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:datadashwallet/core/src/cached_types.dart';
+import '../cache/datadash_cache.dart';
 import '../cache/global_cache.dart';
 export 'providers_aliases.dart';
 
@@ -17,10 +18,13 @@ ValueNotifier<ProviderContainer> containerNotifier =
 void resetProviders() => containerNotifier.value = ProviderContainer();
 
 final Provider<AuthenticationStorageRepository> userSetupProvider =
-    Provider((ref) => AuthenticationStorageRepository(_userSetupStore!));
+    Provider((ref) => AuthenticationStorageRepository(_datadashSetupStore!));
 
 final Provider<GlobalCache> globalCacheProvider =
     Provider((ref) => _globalCache!);
+
+final Provider<DatadashCache> datadashCacheProvider =
+    Provider((ref) => _datadashCache!);
 
 final Provider<ApiRepository> apiRepositoryProvider = Provider(
   (ref) => ApiRepository(authStorageRepository: ref.watch(userSetupProvider)),
