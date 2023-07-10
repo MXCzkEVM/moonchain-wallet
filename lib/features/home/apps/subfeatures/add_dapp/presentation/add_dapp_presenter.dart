@@ -5,16 +5,17 @@ import 'package:http/http.dart' as http;
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../domain/bookmark_use_case.dart';
-import 'add_dapp_state.dart';
 
 final addDAppPageContainer =
-    PresenterContainer<AddDAppPresenter, AddDAppPageState>(
+    PresenterContainer<AddDAppPresenter, void>(
         () => AddDAppPresenter());
 
-class AddDAppPresenter extends CompletePresenter<AddDAppPageState> {
-  AddDAppPresenter() : super(AddDAppPageState());
+class AddDAppPresenter extends CompletePresenter<void> {
+  AddDAppPresenter() : super(null);
+
   late final BookmarkUseCase _bookmarksUseCase =
       ref.read(bookmarksUseCaseProvider);
+  late final TextEditingController urlController = TextEditingController();
 
   @override
   void initState() {
@@ -23,19 +24,15 @@ class AddDAppPresenter extends CompletePresenter<AddDAppPageState> {
 
   @override
   Future<void> dispose() async {
-    // state.urlController.dispose();
+    // urlController.dispose();
 
     super.dispose();
   }
 
   Future<void> onSave() async {
-    final url = state.urlController.text;
+    final url = urlController.text;
 
     try {
-      RegExp urlExp = RegExp(
-          r"(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
-      if (!urlExp.hasMatch(url)) throw Exception('Invalid format');
-
       final response = await http.get(Uri.parse(url));
       final startIndex = response.body.indexOf('<title>');
       final endIndex = response.body.indexOf('</title>');

@@ -39,6 +39,7 @@ class AppsPage extends HookConsumerWidget {
       onDone: () => ref.read(presenter).changeEditMode(),
       layout: LayoutType.column,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      backgroundColor: ColorsTheme.of(context).secondaryBackground,
       appBar: AppBar(
         elevation: 0.0,
         leading: MxcCircleButton.icon(
@@ -51,6 +52,7 @@ class AppsPage extends HookConsumerWidget {
           iconFillColor: Colors.transparent,
         ),
         shadowColor: Colors.transparent,
+        backgroundColor: ColorsTheme.of(context).secondaryBackground,
         centerTitle: true,
         actions: [
           Padding(
@@ -133,7 +135,6 @@ class AppsPage extends HookConsumerWidget {
             ),
           ],
         ),
-        backgroundColor: ColorsTheme.of(context).secondaryBackground,
       ),
       children: [
         Expanded(
@@ -147,8 +148,7 @@ class AppsPage extends HookConsumerWidget {
                     bookmarks: bookmarks,
                     onLayoutChange: (rowCount) =>
                         ref.read(presenter).updatePage(0, rowCount),
-                    onLongPress: () =>
-                        ref.read(presenter).changeEditMode(),
+                    onLongPress: () => ref.read(presenter).changeEditMode(),
                     onRemoveTap: (item) =>
                         ref.read(presenter).removeBookmark(item),
                     isEditMode: ref.watch(state).isEditMode,
@@ -182,8 +182,7 @@ class AppsPage extends HookConsumerWidget {
                                   url: 'https://wannsee-mns.mxc.com',
                                   image: 'assets/images/apps/mns.png',
                                 ),
-                                isEditMode:
-                                    ref.watch(state).isEditMode,
+                                isEditMode: ref.watch(state).isEditMode,
                               ),
                             ),
                             const SizedBox(width: 24),
@@ -195,8 +194,7 @@ class AppsPage extends HookConsumerWidget {
                                   url: 'https://wannsee-nft.mxc.com',
                                   image: 'assets/images/apps/nft.png',
                                 ),
-                                isEditMode:
-                                    ref.watch(state).isEditMode,
+                                isEditMode: ref.watch(state).isEditMode,
                               ),
                             ),
                           ],
@@ -210,8 +208,7 @@ class AppsPage extends HookConsumerWidget {
                           index + 1 < pages.length ? pages[index + 1] : null),
                       onLayoutChange: (rowCount) =>
                           ref.read(presenter).updatePage(index, rowCount),
-                      onLongPress: () =>
-                          ref.read(presenter).changeEditMode(),
+                      onLongPress: () => ref.read(presenter).changeEditMode(),
                       onRemoveTap: (item) =>
                           ref.read(presenter).removeBookmark(item),
                       isEditMode: ref.watch(state).isEditMode,
