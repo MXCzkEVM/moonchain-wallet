@@ -7,11 +7,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'portfolio_page_state.dart';
 
 final portfolioContainer =
-    PresenterContainer<PortfolioPresenter, PortfolioState>(
+    PresenterContainer<PortfolioPresenter
+    , PortfolioState>(
         () => PortfolioPresenter());
 
 class PortfolioPresenter extends CompletePresenter<PortfolioState> {
-  late final _homeUseCase = ref.read(homeUseCaseProvider);
+  late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _portfolioUseCase = ref.read(portfolioUseCaseProvider);
   late final _walletUserCase = ref.read(walletUseCaseProvider);
   PortfolioPresenter() : super(PortfolioState());
