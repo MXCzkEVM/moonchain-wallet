@@ -59,7 +59,7 @@ class AppsPage extends HookConsumerWidget {
             padding: const EdgeInsetsDirectional.only(end: 16),
             child: MxcCircleButton.icon(
               key: const Key("appsButton"),
-              icon: MXCIcons.home,
+              icon: MXCIcons.wallet,
               shadowRadius: 30,
               onTap: () {
                 Navigator.of(context).replaceAll(

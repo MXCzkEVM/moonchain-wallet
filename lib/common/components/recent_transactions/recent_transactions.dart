@@ -21,7 +21,7 @@ class RecentTransactions extends HookConsumerWidget {
     return state.txList != null && state.txList!.items!.isEmpty
         ? Center(
             child: Text(
-              'No transactions yet',
+              FlutterI18n.translate(context, 'no_transactions_yet'),
               style: FontTheme.of(context).h6().copyWith(
                     fontWeight: FontWeight.w300,
                     fontSize: 18,

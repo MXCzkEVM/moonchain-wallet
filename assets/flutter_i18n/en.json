@@ -107,5 +107,12 @@
 	"token_symbol": "Token symbol",
 	"token_decimal": "Token decimal",
 	"enter_x": "Enter {0}",
-	"token_contract_addresss_not_empty": "Token contract address can't be empty"
+	"token_contract_addresss_not_empty": "Token contract address can't be empty",
+	"portfolio": "Portfolio",
+	"tokens": "Tokens",
+	"nfts": "NFTs",
+	"no_transactions_yet": "No transactions yet",
+	"no_tokens_added_yet": "No tokens added yet",
+	"7_days": "7 days",
+	"history": "History"
 }

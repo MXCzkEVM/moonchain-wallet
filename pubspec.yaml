@@ -2,7 +2,7 @@ name: datadashwallet
 description: DataDash wallet using an ERC-20 smart contract.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: ">=2.19.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,63 +28,51 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  appinio_social_share:
+    path: packages/appinio_social_share
+  convert: ^3.1.1
+  cupertino_icons: ^1.0.2
+  dotted_line: ^3.2.2
+  ens_dart:
+    path: packages/ens_dart
+  equatable: ^2.0.3
+  eth_sig_util: ^0.0.9
+  fl_chart: ^0.62.0
+  fl_shared_link: ^0.0.3
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-
+  flutter_hooks: ^0.18.5+1
+  flutter_i18n: ^0.32.4
+  flutter_inappwebview: ^5.7.2+3
+  flutter_mailer: ^2.0.2
+  flutter_svg: ^2.0.1
+  hooks_riverpod: ^1.0.3
+  local_auth:
+    path: packages/local_auth/local_auth
+  lottie: ^2.3.2
   mxc_logic:
     path: packages/shared/logic
   mxc_ui:
     path: packages/shared/ui
-  appinio_social_share:
-    path: packages/appinio_social_share
-  local_auth:
-    path: packages/local_auth/local_auth
-  ens_dart:
-    path: packages/ens_dart
-
-  flutter_i18n: ^0.32.4
-  riverpod: ^1.0.3
-  hooks_riverpod: ^1.0.3
-  flutter_hooks: ^0.18.5+1
-  equatable: ^2.0.3
+  open_mail_app: ^0.4.5
   path_provider: ^2.0.12
-  flutter_svg: ^2.0.1
+  permission_handler: ^10.4.1
+  riverpod: ^1.0.3
+  sha3: ^0.2.0
   sliver_tools: ^0.2.5
   url_launcher: ^6.1.11
-  fl_shared_link: ^0.0.3
-  flutter_mailer: ^2.0.2
-  open_mail_app: ^0.4.5
-  web3_provider: ^1.1.3
   wallet_connect: ^1.0.4
-  flutter_inappwebview: ^5.7.2+3
-  lottie: ^2.3.2
-  eth_sig_util: ^0.0.9
-  permission_handler: ^10.4.1
-  sha3: ^0.2.0
-  convert: ^3.1.1
+  web3_provider: ^1.1.3
 
 dev_dependencies:
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^2.0.0
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -102,10 +90,8 @@ flutter:
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
@@ -124,7 +110,7 @@ flutter:
           weight: 400
         - asset: assets/fonts/Roboto-Medium.ttf
           weight: 500
-    - family:  MXCIcons
+    - family: MXCIcons
       fonts:
         - asset: assets/icons/MXCIcons.ttf
   # For details regarding fonts from package dependencies,
