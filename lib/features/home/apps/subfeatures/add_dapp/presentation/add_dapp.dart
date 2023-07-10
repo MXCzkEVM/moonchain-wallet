@@ -6,16 +6,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_dapp_presenter.dart';
-import 'add_dapp_state.dart';
 
 class AddDApp extends HookConsumerWidget {
   const AddDApp({Key? key}) : super(key: key);
 
   @override
   ProviderBase<AddDAppPresenter> get presenter => addDAppPageContainer.actions;
-
-  @override
-  ProviderBase<AddDAppPageState> get state => addDAppPageContainer.state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,34 +21,21 @@ class AddDApp extends HookConsumerWidget {
       presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        ValueListenableBuilder<TextEditingValue>(
+            valueListenable: ref.watch(presenter).urlController,
+            builder: (ctx, urlValue, _) {
+              return MxcAppBarEvenly.text(
+                titleText: 'add_bookmark',
+                actionText: 'save',
+                onActionTap: () {
+                  if (!formKey.currentState!.validate()) return;
+                  ref.watch(presenter).onSave();
+                },
+                isActionTap: urlValue.text.isNotEmpty,
+              );
+            }),
         Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () => BottomFlowDialog.of(context).close(),
-                child: Text(
-                  FlutterI18n.translate(context, 'cancel'),
-                  style: FontTheme.of(context).body1(),
-                ),
-              ),
-              Text(
-                FlutterI18n.translate(context, 'add_bookmark'),
-                style: FontTheme.of(context).body2(),
-              ),
-              InkWell(
-                onTap: () => ref.watch(presenter).onSave(),
-                child: Text(
-                  FlutterI18n.translate(context, 'save'),
-                  style: FontTheme.of(context).body2.secondary(),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
             FlutterI18n.translate(context, 'enter_bookmark_url'),
             style: FontTheme.of(context).body2.secondary(),
@@ -62,8 +45,10 @@ class AddDApp extends HookConsumerWidget {
           key: formKey,
           child: MxcTextField(
             key: const ValueKey('urlTextField'),
-            controller: ref.watch(state).urlController,
+            label: 'URL',
+            controller: ref.read(presenter).urlController,
             action: TextInputAction.done,
+            validator: (v) => Validation.checkUrl(context, v),
           ),
         ),
       ],

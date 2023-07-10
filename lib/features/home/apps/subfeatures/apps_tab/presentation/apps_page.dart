@@ -39,6 +39,7 @@ class AppsPage extends HookConsumerWidget {
       onDone: () => ref.read(presenter).changeEditMode(),
       layout: LayoutType.column,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      backgroundColor: ColorsTheme.of(context).secondaryBackground,
       appBar: AppBar(
         elevation: 0.0,
         leading: MxcCircleButton.icon(
@@ -51,6 +52,7 @@ class AppsPage extends HookConsumerWidget {
           iconFillColor: Colors.transparent,
         ),
         shadowColor: Colors.transparent,
+        backgroundColor: ColorsTheme.of(context).secondaryBackground,
         centerTitle: true,
         actions: [
           Padding(
@@ -133,7 +135,6 @@ class AppsPage extends HookConsumerWidget {
             ),
           ],
         ),
-        backgroundColor: ColorsTheme.of(context).secondaryBackground,
       ),
       children: [
         Expanded(

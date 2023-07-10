@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 class AddTokenPageState with EquatableMixin {
-  TextEditingController urlController = TextEditingController();
+  Token? token;
 
   @override
   List<Object?> get props => [
-        urlController,
+        token,
       ];
 }

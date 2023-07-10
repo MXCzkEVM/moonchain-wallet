@@ -19,13 +19,11 @@ class GlobalCache extends GlobalCacheContainer {
   final ThemeCacheRepository theme = ThemeCacheRepository();
   final LanguageRepository language = LanguageRepository();
   final PasscodeRepository passcode = PasscodeRepository();
-  final BookmarkRepository bookmarks = BookmarkRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [
         theme,
         language,
         passcode,
-        bookmarks,
       ];
 }

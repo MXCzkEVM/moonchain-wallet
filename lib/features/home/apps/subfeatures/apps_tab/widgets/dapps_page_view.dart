@@ -50,8 +50,6 @@ class _DAppsPageViewState extends State<DAppsPageView> {
     _contentHeight = newSize.height;
     _rowCount = ((_pageHeight - (_contentHeight ?? 0)) / 80).floor();
 
-    // if (_rowCount <= 0) return;
-
     setState(() {});
     if (widget.onLayoutChange != null) widget.onLayoutChange!(_rowCount);
   }

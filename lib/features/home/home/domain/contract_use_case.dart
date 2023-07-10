@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
 
-class HomeUseCase extends ReactiveUseCase {
-  HomeUseCase(this._repository);
+class ContractUseCase extends ReactiveUseCase {
+  ContractUseCase(this._repository);
 
   final ApiRepository _repository;
 
@@ -18,27 +17,27 @@ class HomeUseCase extends ReactiveUseCase {
 
   void subscribeToBalance(
       String event, void Function(dynamic) listeningCallBack) async {
-    (await _repository.contract)
-        .subscribeToBalanceEvent(event, listeningCallBack);
+    _repository.contract.subscribeToBalanceEvent(event, listeningCallBack);
   }
 
   Future<WannseeTransactionsModel?> getTransactionsByAddress(
       EthereumAddress address) async {
-    return (await _repository.contract).getTransactionsByAddress(address);
+    return _repository.contract.getTransactionsByAddress(address);
   }
 
   Future<WannseeTransactionModel?> getTransactionByHash(String hash) async {
-    return (await _repository.contract).getTransactionByHash(hash);
+    return _repository.contract.getTransactionByHash(hash);
   }
 
   Future<WannseeTokenTransfersModel?> getTokenTransfersByAddress(
       EthereumAddress address) async {
-    return (await _repository.contract).getTokenTransfersByAddress(address);
+    return _repository.contract.getTokenTransfersByAddress(address);
   }
 
   Future<DefaultTokens?> getDefaultTokens() async {
-    return ((await _repository.contract).getDefaultTokens());
+    return _repository.contract.getDefaultTokens();
   }
 
-  // Future<Token> getTokenTransfers(){}
+  Future<Token?> getToken(String address) async =>
+      await _repository.contract.getToken(address);
 }

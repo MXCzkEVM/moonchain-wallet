@@ -10,7 +10,7 @@ final homeContainer =
     PresenterContainer<HomePresenter, HomeState>(() => HomePresenter());
 
 class HomePresenter extends CompletePresenter<HomeState> {
-  late final _homeTabUseCase = ref.read(homeUseCaseProvider);
+  late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _walletUserCase = ref.read(walletUseCaseProvider);
   HomePresenter() : super(HomeState());
 
@@ -35,7 +35,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
 
   getBalance() async {
     try {
-      final balanceUpdate = await _homeTabUseCase
+      final balanceUpdate = await _contractUseCase
           .getWalletNativeTokenBalance(state.walletAddress!);
       notify(() => state.walletBalance = balanceUpdate);
     } catch (e) {
@@ -48,7 +48,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
   }
 
   void createBalanceSubscription() async {
-    _homeTabUseCase.subscribeToBalance(
+    _contractUseCase.subscribeToBalance(
       "addresses:${state.walletAddress}".toLowerCase(),
       (dynamic event) {
         switch (event.event.value as String) {
@@ -126,11 +126,11 @@ class HomePresenter extends CompletePresenter<HomeState> {
     // final walletAddress = await _walletUserCase.getPublicAddress();
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer
-    _homeTabUseCase
+    _contractUseCase
         .getTransactionsByAddress(state.walletAddress!)
         .then((newTransactionsList) async {
       // token transfer list contains only one kind transaction which is token transfer
-      final newTokenTransfersList = await _homeTabUseCase
+      final newTokenTransfersList = await _contractUseCase
           .getTokenTransfersByAddress(state.walletAddress!);
 
       if (newTokenTransfersList != null && newTransactionsList != null) {
@@ -185,7 +185,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
   void getTransaction(
     String hash,
   ) async {
-    final newTx = await _homeTabUseCase.getTransactionByHash(hash);
+    final newTx = await _contractUseCase.getTransactionByHash(hash);
 
     if (newTx != null) {
       final oldTx = state.txList!.items!
@@ -199,7 +199,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
   }
 
   getDefaultTokens() async {
-    final defaultTokens = await _homeTabUseCase.getDefaultTokens();
+    final defaultTokens = await _contractUseCase.getDefaultTokens();
     if (defaultTokens == null) {
       // retry till success
       getDefaultTokens();
