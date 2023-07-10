@@ -155,12 +155,6 @@ abstract class MxcPage extends HookConsumerWidget {
 
   Widget get childrenSliver => buildChildrenAsSliver(null);
 
-  SystemUiOverlayStyle getSystemStyle(
-    BuildContext context,
-    WidgetRef ref,
-    Color? backgroundColor,
-  );
-
   Widget buildAppBar(BuildContext context, WidgetRef ref);
 
   Widget? buildBottomNavigation(BuildContext context, WidgetRef ref);
@@ -222,19 +216,22 @@ abstract class MxcPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: isEditMode
-          ? []
-          : [
-              SystemUiOverlay.top,
-            ],
-    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     final homeState = ref.watch(homeContainer.state);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: getSystemStyle(context, ref, backgroundColor),
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarContrastEnforced: false,
+        statusBarColor: Colors.transparent,
+        systemStatusBarContrastEnforced: false,
+        systemNavigationBarIconBrightness:
+            Theme.of(context).brightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
+      ),
       child: Scaffold(
         backgroundColor: resolveBackgroundColor(context),
         extendBodyBehindAppBar: false,

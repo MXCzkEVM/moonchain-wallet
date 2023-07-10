@@ -63,22 +63,6 @@ class MxcPageRegular extends MxcPage {
   final bool topSafeArea = true;
 
   @override
-  SystemUiOverlayStyle getSystemStyle(
-    BuildContext context,
-    WidgetRef ref,
-    Color? backgroundColor,
-  ) {
-    return SystemUiOverlayStyle(
-      systemNavigationBarColor:
-          backgroundColor ?? ColorsTheme.of(context).primaryBackground,
-      systemNavigationBarIconBrightness:
-          Theme.of(context).brightness == Brightness.dark
-              ? Brightness.light
-              : Brightness.dark,
-    );
-  }
-
-  @override
   Widget buildAppBar(BuildContext context, WidgetRef ref) =>
       appBar ?? const SizedBox();
 
@@ -132,10 +116,11 @@ class MxcPageRegular extends MxcPage {
         ...children,
         if (footer != null)
           Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 20),
+            padding: useFooterPadding
+                ? const EdgeInsets.only(top: 5, bottom: 16)
+                : EdgeInsets.zero,
             child: footer,
           ),
-        const SizedBox(height: 20),
       ],
     );
   }

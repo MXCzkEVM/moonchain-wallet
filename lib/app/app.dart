@@ -47,9 +47,6 @@ class DataDashWallet extends HookConsumerWidget {
           navigatorKey: appNavigatorKey,
           onGenerateRoute: (_) => null,
           builder: (context, child) {
-            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-                overlays: [SystemUiOverlay.top]);
-
             child = Navigator(
               key: appNavigatorKey,
               reportsRouteUpdateToEngine: true,

@@ -66,21 +66,6 @@ class MxcPageLayer extends MxcPage {
   bool get maintainBottomSafeArea => false;
 
   @override
-  SystemUiOverlayStyle getSystemStyle(
-    BuildContext context,
-    WidgetRef ref,
-    Color? backgroundColor,
-  ) {
-    return SystemUiOverlayStyle(
-      systemNavigationBarColor: backgroundColor ?? ColorsTheme.of(context).box,
-      systemNavigationBarIconBrightness:
-          Theme.of(context).brightness == Brightness.dark
-              ? Brightness.light
-              : Brightness.dark,
-    );
-  }
-
-  @override
   Color resolveBackgroundColor(BuildContext context) {
     if (backgroundColor != null) {
       return backgroundColor!;
