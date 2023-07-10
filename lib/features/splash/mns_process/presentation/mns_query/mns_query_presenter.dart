@@ -1,6 +1,7 @@
 import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/open_dapp/open_dapp_page.dart';
+import 'package:datadashwallet/features/home/home.dart';
 import 'package:ens_dart/ens_dart.dart';
 
 import 'package:datadashwallet/core/core.dart';
@@ -65,16 +66,24 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
   }
 
   Future<void> claim(String name) async {
-    navigator?.push(
-      route.featureDialog(
-        OpenAppPage(
-          dapp: DApp(
-            name: 'MNS',
-            description: 'Own your .MXC domain',
-            url: 'https://wannsee-mns.mxc.com/$name.mxc/register',
+    await navigator
+        ?.push(
+          route.featureDialog(
+            OpenAppPage(
+              dapp: DApp(
+                name: 'MNS',
+                description: 'Own your .MXC domain',
+                url: 'https://wannsee-mns.mxc.com/$name.mxc/register',
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        )
+        .then(
+          (_) => navigator?.replaceAll(
+            route(
+              const HomePage(),
+            ),
+          ),
+        );
   }
 }

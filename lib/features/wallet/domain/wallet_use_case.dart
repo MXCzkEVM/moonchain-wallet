@@ -15,8 +15,8 @@ class WalletUseCase extends ReactiveUseCase {
     return await _repository.address.setupFromMnemonic(mnemonic);
   }
 
-  Future<EthereumAddress> getPublicAddress() async {
-    return await _repository.address.getPublicAddress();
+  Future<EthereumAddress?> getPublicAddress() async {
+    return await _repository.address.getLocalstoragePublicAddress();
   }
 
   String? getPrivateKey() => _repository.address.getLocalstoragePrivateKey();
