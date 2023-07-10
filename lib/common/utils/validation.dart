@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
 class Validation {
-  static String? notEmpty(BuildContext context, String? value) {
+  static String? notEmpty(BuildContext context, String? value,
+      [String? errorText]) {
     if (value?.trim().isEmpty ?? true) {
-      return FlutterI18n.translate(context, 'reg_required');
+      return FlutterI18n.translate(context, errorText ?? 'reg_required');
     }
 
     return null;
@@ -17,6 +18,16 @@ class Validation {
 
     if (!RegExp(r'^[ZA-ZZa-z0-9]+$').hasMatch(value)) {
       return FlutterI18n.translate(context, 'domain_invalid');
+    }
+
+    return null;
+  }
+
+  static String? checkUrl(BuildContext context, String? value) {
+    RegExp urlExp = RegExp(
+        r"(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
+    if (!urlExp.hasMatch(value!)) {
+      return FlutterI18n.translate(context, 'Invalid format');
     }
 
     return null;
