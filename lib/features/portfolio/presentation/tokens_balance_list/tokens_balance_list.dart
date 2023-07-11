@@ -1,5 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/portfolio/portfolio_page_presenter.dart';
+import 'package:datadashwallet/features/token/add_token/add_token_page.dart';
 import './utils.dart';
 import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +62,11 @@ class TokensBalanceList extends HookConsumerWidget {
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               titleStyle: FontTheme.of(context).h7().copyWith(fontSize: 14),
-              onTap: () {},
+              onTap: () => Navigator.of(context).push(
+                route.featureDialog(
+                  const AddTokenPage(),
+                ),
+              ),
               title: FlutterI18n.translate(context, 'add_token'),
               icon: const Icon(
                 Icons.add,

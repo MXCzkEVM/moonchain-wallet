@@ -1,4 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/home/home/domain/contract_use_case.dart';
+import 'package:datadashwallet/features/wallet/domain/wallet_use_case.dart';
 
 import 'app_nav_bar_state.dart';
 
@@ -8,16 +10,20 @@ final appNavBarContainer = PresenterContainer<AppNavPresenter, AppNavBarState>(
 class AppNavPresenter extends CompletePresenter<AppNavBarState> {
   AppNavPresenter() : super(AppNavBarState());
 
-  late final _walletUseCase = ref.read(walletUseCaseProvider);
+  late final WalletUseCase _walletUseCase = ref.read(walletUseCaseProvider);
+  late final ContractUseCase _contractTabUseCase =
+      ref.read(contractUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
 
-    listen(_walletUseCase.publicAddress, (value) {
+    listen(_walletUseCase.publicAddress, (value) async {
+      final name = await _contractTabUseCase.getName(value);
+
       notify(() {
-        state.accounts = [value];
-        state.currentAccount = value;
+        state.accounts = [name];
+        state.currentAccount = name;
       });
     });
 

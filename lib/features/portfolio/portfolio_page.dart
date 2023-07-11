@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar.dart';
 import 'package:datadashwallet/features/portfolio/presentation/tokens_balance_list/tokens_balance_list.dart';
+import 'package:datadashwallet/features/token/send_token/choose_crypto/choose_crypto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -60,7 +60,8 @@ class PortfolioPage extends HookConsumerWidget {
                         MxcCircleButton.icon(
                           key: const Key('sendButton'),
                           icon: MXCIcons.send,
-                          onTap: () {},
+                          onTap: () => Navigator.of(context)
+                              .push(route(const ChooseCryptoPage())),
                           iconSize: 24,
                           filled: false,
                           color: ColorsTheme.of(context).primaryBackground,
@@ -107,11 +108,8 @@ class PortfolioPage extends HookConsumerWidget {
             key: const ValueKey('appsButton'),
             icon: const Icon(MXCIcons.dapps),
             iconSize: 24,
-            onPressed: () => Navigator.of(context).push(
-              route(
-                const AppsPage(),
-              ),
-            ),
+            onPressed: () =>
+                Navigator.of(context).replaceAll(route(const AppsPage())),
             color: ColorsTheme.of(context).primaryButton,
           ),
         ),

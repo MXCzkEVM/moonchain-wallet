@@ -44,7 +44,6 @@ class AppNavBar extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -89,13 +88,10 @@ class AppNavBar extends HookConsumerWidget {
                       selectedItem:
                           Formatter.formatWalletAddress(state.currentAccount),
                       textStyle: FontTheme.of(context).subtitle1(),
-                      icon: Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 0),
-                        child: Icon(
-                          Icons.arrow_drop_down_rounded,
-                          size: 32,
-                          color: ColorsTheme.of(context).purpleMain,
-                        ),
+                      icon: Icon(
+                        Icons.arrow_drop_down_rounded,
+                        size: 32,
+                        color: ColorsTheme.of(context).purpleMain,
                       ),
                     ),
                   ],

@@ -40,4 +40,7 @@ class ContractUseCase extends ReactiveUseCase {
 
   Future<Token?> getToken(String address) async =>
       await _repository.contract.getToken(address);
+
+  Future<String> getName(String address) async =>
+      await _repository.contract.getName(address);
 }

@@ -1,11 +1,9 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar.dart';
 import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/widgets/dapps_page_view.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
