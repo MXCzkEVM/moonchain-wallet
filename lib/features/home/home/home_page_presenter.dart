@@ -155,7 +155,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
             newTransactionsList.items!
                 .add(WannseeTransactionModel(tokenTransfers: [item]));
           }
-
+          if (newTransactionsList.items!.isNotEmpty) {
           newTransactionsList.items!.sort((a, b) {
             if (b.timestamp == null && a.timestamp == null) {
               // both token transfer
@@ -172,6 +172,8 @@ class HomePresenter extends CompletePresenter<HomeState> {
               return b.timestamp!.compareTo(a.tokenTransfers![0].timestamp!);
             }
           });
+
+          }
 
           notify(() => state.txList = newTransactionsList);
         }
