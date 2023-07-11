@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/layout/layout.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -12,7 +14,12 @@ import 'app_nav_bar_state.dart';
 class AppNavBar extends HookConsumerWidget {
   const AppNavBar({
     Key? key,
+    this.leading,
+    this.action,
   }) : super(key: key);
+
+  final Widget? leading;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,14 +33,17 @@ class AppNavBar extends HookConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            MxcCircleButton.icon(
-              key: const Key("burgerMenuButton"),
-              icon: Icons.menu_rounded,
-              iconSize: 30,
-              onTap: () {},
-              color: ColorsTheme.of(context).primaryText,
-              iconFillColor: Colors.transparent,
-            ),
+            if (leading == null) ...[
+              IconButton(
+                key: const ValueKey('backButton'),
+                icon: const Icon(Icons.arrow_back),
+                iconSize: 24,
+                onPressed: appBarPopHandlerBuilder(context),
+                color: ColorsTheme.of(context).primaryButton,
+              ),
+            ] else ...[
+              leading!,
+            ],
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -96,14 +106,11 @@ class AppNavBar extends HookConsumerWidget {
                 ),
               ],
             ),
-            MxcCircleButton.icon(
-              key: const Key("appsButton"),
-              icon: MXCIcons.dapps,
-              iconSize: 30,
-              onTap: () {},
-              color: ColorsTheme.of(context).primaryText,
-              iconFillColor: ColorsTheme.of(context).secondaryBackground,
-            ),
+            if (action == null) ...[
+              const SizedBox(width: 24),
+            ] else ...[
+              action!,
+            ]
           ],
         ),
       ),
