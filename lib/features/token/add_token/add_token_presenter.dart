@@ -1,6 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_use_case.dart';
-import 'package:datadashwallet/features/home/home/domain/contract_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 

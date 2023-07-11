@@ -1,18 +1,25 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/home/home.dart';
 import 'package:datadashwallet/features/portfolio/portfolio_page.dart';
+import 'package:datadashwallet/features/portfolio/portfolio_page_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../../../common.dart';
 
-class ManagePortfolioSection extends StatelessWidget {
-  const ManagePortfolioSection({super.key});
+class ManagePortfolioSection extends HookConsumerWidget {
+  const ManagePortfolioSection({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final portfolioPresenter = ref.read(portfolioContainer.actions);
     return GestureDetector(
       onTap: () {
+        portfolioPresenter.initializePortfolioPage();
         Navigator.of(context).push(
           route(
             const PortfolioPage(),

@@ -1,6 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:web3dart/credentials.dart';
+import 'package:web3dart/web3dart.dart';
 
 class WalletUseCase extends ReactiveUseCase {
   WalletUseCase(this._repository);
