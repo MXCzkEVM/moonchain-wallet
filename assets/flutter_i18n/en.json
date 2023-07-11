@@ -114,5 +114,8 @@
 	"no_transactions_yet": "No transactions yet",
 	"no_tokens_added_yet": "No tokens added yet",
 	"7_days": "7 days",
-	"history": "History"
+	"history": "History",
+	"send_token": "Send Token",
+	"choose_token": "Choose token",
+	"find_your_token": "Find your token"
 }

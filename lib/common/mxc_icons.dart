@@ -37,7 +37,7 @@ class MXCIcons {
       IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData burger_menu =
       IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData apps_1 =
+  static const IconData dapps =
       IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData increase =
       IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);

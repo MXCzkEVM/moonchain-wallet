@@ -1,5 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/add_token/add_token_page.dart';
+import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar.dart';
+import 'package:datadashwallet/features/token/add_token/add_token_page.dart';
 import 'package:datadashwallet/features/home/home/presentation/widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -27,6 +28,26 @@ class HomePage extends HookConsumerWidget {
         layout: LayoutType.column,
         useContentPadding: false,
         childrenPadding: const EdgeInsets.only(top: 25, right: 24, left: 24),
+        appBar: AppNavBar(
+          leading: IconButton(
+            key: const ValueKey('menusButton'),
+            icon: const Icon(MXCIcons.burger_menu),
+            iconSize: 24,
+            onPressed: () {},
+            color: ColorsTheme.of(context).primaryButton,
+          ),
+          action: IconButton(
+            key: const ValueKey('appsButton'),
+            icon: const Icon(MXCIcons.dapps),
+            iconSize: 24,
+            onPressed: () => Navigator.of(context).push(
+              route(
+                const AppsPage(),
+              ),
+            ),
+            color: ColorsTheme.of(context).primaryButton,
+          ),
+        ),
         children: [
           Expanded(
               child: ListView(

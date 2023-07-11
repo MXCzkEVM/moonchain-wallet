@@ -1,7 +1,8 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar.dart';
 import 'package:datadashwallet/features/home/apps/apps.dart';
-import 'package:datadashwallet/features/home/apps/subfeatures/apps_tab/widgets/dapps_page_view.dart';
+import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/widgets/dapps_page_view.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -40,100 +41,24 @@ class AppsPage extends HookConsumerWidget {
       layout: LayoutType.column,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       backgroundColor: ColorsTheme.of(context).secondaryBackground,
-      appBar: AppBar(
-        elevation: 0.0,
-        leading: MxcCircleButton.icon(
-          key: const Key("burgerMenuButton"),
-          icon: Icons.menu_rounded,
-          shadowRadius: 0,
-          onTap: () {},
-          iconSize: 30,
-          color: ColorsTheme.of(context).primaryText,
-          iconFillColor: Colors.transparent,
+      appBar: AppNavBar(
+        leading: IconButton(
+          key: const ValueKey('menusButton'),
+          icon: const Icon(MXCIcons.burger_menu),
+          iconSize: 24,
+          onPressed: () {},
+          color: ColorsTheme.of(context).primaryButton,
         ),
-        shadowColor: Colors.transparent,
-        backgroundColor: ColorsTheme.of(context).secondaryBackground,
-        centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsetsDirectional.only(end: 16),
-            child: MxcCircleButton.icon(
-              key: const Key("appsButton"),
-              icon: MXCIcons.wallet,
-              shadowRadius: 30,
-              onTap: () {
-                Navigator.of(context).replaceAll(
-                  route(
-                    const HomePage(),
-                  ),
-                );
-              },
-              iconSize: 30,
-              color: ColorsTheme.of(context).primaryText,
-              iconFillColor: ColorsTheme.of(context).secondaryBackground,
+        action: IconButton(
+          key: const ValueKey('walletButton'),
+          icon: const Icon(MXCIcons.wallet),
+          iconSize: 24,
+          onPressed: () => Navigator.of(context).replaceAll(
+            route(
+              const HomePage(),
             ),
           ),
-        ],
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorsTheme.of(context).white.withOpacity(0.16),
-                    borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  ),
-                  child: Row(
-                    children: [
-                      MXCDropDown<String>(
-                        itemList: const ["MXC zkEVM", "Testnet"],
-                        onChanged: (String? newValue) {},
-                        selectedItem: "MXC zkEVM",
-                        icon: const Padding(
-                          padding: EdgeInsetsDirectional.only(start: 10),
-                        ),
-                      ),
-                      Container(
-                        height: 8,
-                        width: 8,
-                        decoration: BoxDecoration(
-                            color: ColorsTheme.of(context).systemStatusActive,
-                            shape: BoxShape.circle),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(FlutterI18n.translate(context, 'online'),
-                          style: FontTheme.of(context)
-                              .h7()
-                              .copyWith(fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                ),
-                // MXCDropDown<String>(
-                //   itemList: [
-                //     "",
-                //   ],
-                //   onChanged: (String? newValue) {},
-                //   selectedItem: "",
-                //   textStyle: FontTheme.of(context)
-                //       .h7()
-                //       .copyWith(fontSize: 16, fontWeight: FontWeight.w400),
-                //   icon: Padding(
-                //     padding: const EdgeInsetsDirectional.only(start: 0),
-                //     child: Icon(
-                //       Icons.arrow_drop_down_rounded,
-                //       size: 32,
-                //       color: ColorsTheme.of(context).purpleMain,
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-          ],
+          color: ColorsTheme.of(context).primaryButton,
         ),
       ),
       children: [

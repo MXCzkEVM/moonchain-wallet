@@ -7,6 +7,8 @@ class WalletUseCase extends ReactiveUseCase {
 
   final ApiRepository _repository;
 
+  late final ValueStream<String> publicAddress = reactive('');
+
   String generateMnemonic() {
     return _repository.address.generateMnemonic();
   }
@@ -16,7 +18,10 @@ class WalletUseCase extends ReactiveUseCase {
   }
 
   Future<EthereumAddress?> getPublicAddress() async {
-    return await _repository.address.getLocalstoragePublicAddress();
+    final res = _repository.address.getLocalstoragePublicAddress();
+    update(publicAddress, res!.hex);
+
+    return res;
   }
 
   String? getPrivateKey() => _repository.address.getLocalstoragePrivateKey();

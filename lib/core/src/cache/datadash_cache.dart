@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/home/add_token/domain/custom_tokens_repository.dart';
+import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_repository.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_repository.dart';
 import 'package:mxc_logic/internal.dart';
 

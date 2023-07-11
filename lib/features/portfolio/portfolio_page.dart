@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar.dart';
 import 'package:datadashwallet/features/portfolio/presentation/tokens_balance_list/tokens_balance_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -19,7 +21,6 @@ class PortfolioPage extends HookConsumerWidget {
     final state = ref.watch(homeContainer.state);
 
     return MxcPage(
-        useAppBar: true,
         presenter: presenter,
         resizeToAvoidBottomInset: true,
         backgroundColor: ColorsTheme.of(context).secondaryBackground,
@@ -41,7 +42,8 @@ class PortfolioPage extends HookConsumerWidget {
                         // width: 100,
                         decoration: BoxDecoration(
                           border: Border.all(color: Color(0xff4F4E54)),
-                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
                           color:
                               ColorsTheme.of(context).white.withOpacity(0.02),
                         ),
@@ -100,6 +102,19 @@ class PortfolioPage extends HookConsumerWidget {
                 ],
               ),
             )),
+        appBar: AppNavBar(
+          action: IconButton(
+            key: const ValueKey('appsButton'),
+            icon: const Icon(MXCIcons.dapps),
+            iconSize: 24,
+            onPressed: () => Navigator.of(context).push(
+              route(
+                const AppsPage(),
+              ),
+            ),
+            color: ColorsTheme.of(context).primaryButton,
+          ),
+        ),
         children: [
           Expanded(
               child: ListView(
