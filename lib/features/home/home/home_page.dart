@@ -40,11 +40,8 @@ class HomePage extends HookConsumerWidget {
             key: const ValueKey('appsButton'),
             icon: const Icon(MXCIcons.dapps),
             iconSize: 24,
-            onPressed: () => Navigator.of(context).push(
-              route(
-                const AppsPage(),
-              ),
-            ),
+            onPressed: () =>
+                Navigator.of(context).replaceAll(route(const AppsPage())),
             color: ColorsTheme.of(context).primaryButton,
           ),
         ),
