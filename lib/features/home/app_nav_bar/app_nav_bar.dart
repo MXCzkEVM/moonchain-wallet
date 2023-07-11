@@ -68,12 +68,15 @@ class AppNavBar extends HookConsumerWidget {
                             height: 8,
                             width: 8,
                             decoration: BoxDecoration(
-                                color:
-                                    ColorsTheme.of(context).systemStatusActive,
+                                color: state.online
+                                    ? ColorsTheme.of(context).systemStatusActive
+                                    : ColorsTheme.of(context).mainRed,
                                 shape: BoxShape.circle),
                           ),
                           const SizedBox(width: 6),
-                          Text(FlutterI18n.translate(context, 'online'),
+                          Text(
+                              FlutterI18n.translate(
+                                  context, state.online ? 'online' : 'offline'),
                               style:
                                   FontTheme.of(context).caption1.secondary()),
                         ],

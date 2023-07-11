@@ -18,6 +18,9 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
   void initState() {
     super.initState();
 
+    listen(_contractTabUseCase.online,
+        (value) => notify(() => state.online = value));
+
     listen(_walletUseCase.publicAddress, (value) async {
       final name = await _contractTabUseCase.getName(value);
 
@@ -27,7 +30,14 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
       });
     });
 
-    _walletUseCase.getPublicAddress();
+    loadPage();
+  }
+
+  void loadPage() {
+    Future.wait([
+      _contractTabUseCase.checkConnectionToNetwork(),
+      _walletUseCase.getPublicAddress(),
+    ]);
   }
 
   void onAccountChange(String value) =>

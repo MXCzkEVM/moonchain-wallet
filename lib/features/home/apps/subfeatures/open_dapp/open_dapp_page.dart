@@ -65,7 +65,7 @@ class OpenAppPage extends HookConsumerWidget {
                   onProgressChanged: (controller, progress) =>
                       presenter.changeProgress(progress),
                   signCallback: (params, eip1193, controller) {
-                    final id = params["id"];
+                    final id = params['id'];
                     switch (eip1193) {
                       case EIP1193.requestAccounts:
                         if (state.address != null) {
@@ -73,7 +73,7 @@ class OpenAppPage extends HookConsumerWidget {
                         }
                         break;
                       case EIP1193.signTransaction:
-                        Map<String, dynamic> object = params["object"];
+                        Map<String, dynamic> object = params['object'];
                         BridgeParams bridge = BridgeParams.fromJson(object);
                         presenter.signTransaction(
                             bridge: bridge,
