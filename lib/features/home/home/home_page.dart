@@ -1,4 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar.dart';
 import 'package:datadashwallet/features/token/add_token/add_token_page.dart';
 import 'package:datadashwallet/features/home/home/presentation/widgets/slider.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class HomePage extends HookConsumerWidget {
         layout: LayoutType.column,
         useContentPadding: false,
         childrenPadding: const EdgeInsets.only(top: 25, right: 24, left: 24),
+        appBar: const AppNavBar(),
         children: [
           Expanded(
               child: ListView(
@@ -53,8 +55,8 @@ class HomePage extends HookConsumerWidget {
                   const Spacer(),
                   MxcChipButton(
                     key: const Key('addTokenButton'),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8),
                     titleStyle:
                         FontTheme.of(context).h7().copyWith(fontSize: 14),
                     onTap: () => Navigator.of(context).push(

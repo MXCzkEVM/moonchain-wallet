@@ -27,10 +27,11 @@ class Formatter {
   }
 
   static String intThousandsSeparator(String inputString) {
-   return intl.NumberFormat('#,##0').format(int.parse(inputString));
+    return intl.NumberFormat('#,##0').format(int.parse(inputString));
   }
 
   static String formatWalletAddress(String inputString) {
+    if (inputString.isEmpty) return inputString;
     String formattedString =
         '${inputString.substring(0, 6)}...${inputString.substring(inputString.length - 4)}';
     return formattedString;
@@ -46,19 +47,18 @@ class Formatter {
     return convertedString;
   }
 
-  /// The input is in wei the output is in Eth 
-  static String formatNumberForUI(String input, {bool isWei= true}){
-    if (isWei){
+  /// The input is in wei the output is in Eth
+  static String formatNumberForUI(String input, {bool isWei = true}) {
+    if (isWei) {
       input = convertWeiToEth(input);
     }
     String fractionalPart = "";
     String integerPart = input;
     if (input.contains('.')) {
       integerPart = input.split('.')[0];
-      fractionalPart = ".${input.split('.')[1].substring(0,1)}";
+      fractionalPart = ".${input.split('.')[1].substring(0, 1)}";
     }
     integerPart = intThousandsSeparator(integerPart);
     return '$integerPart$fractionalPart';
   }
-
 }
