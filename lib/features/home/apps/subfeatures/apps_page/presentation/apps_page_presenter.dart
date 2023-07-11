@@ -2,7 +2,7 @@ import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
-import 'package:datadashwallet/features/home/apps/subfeatures/apps_tab/domain/bookmark_pagination_use_case.dart';
+import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/domain/bookmark_pagination_use_case.dart';
 
 import 'apps_page_state.dart';
 

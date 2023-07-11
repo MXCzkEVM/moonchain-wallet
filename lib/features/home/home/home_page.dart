@@ -28,7 +28,26 @@ class HomePage extends HookConsumerWidget {
         layout: LayoutType.column,
         useContentPadding: false,
         childrenPadding: const EdgeInsets.only(top: 25, right: 24, left: 24),
-        appBar: const AppNavBar(),
+        appBar: AppNavBar(
+          leading: IconButton(
+            key: const ValueKey('menusButton'),
+            icon: const Icon(MXCIcons.burger_menu),
+            iconSize: 24,
+            onPressed: () {},
+            color: ColorsTheme.of(context).primaryButton,
+          ),
+          action: IconButton(
+            key: const ValueKey('appsButton'),
+            icon: const Icon(MXCIcons.dapps),
+            iconSize: 24,
+            onPressed: () => Navigator.of(context).push(
+              route(
+                const AppsPage(),
+              ),
+            ),
+            color: ColorsTheme.of(context).primaryButton,
+          ),
+        ),
         children: [
           Expanded(
               child: ListView(
@@ -55,8 +74,8 @@ class HomePage extends HookConsumerWidget {
                   const Spacer(),
                   MxcChipButton(
                     key: const Key('addTokenButton'),
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 8),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     titleStyle:
                         FontTheme.of(context).h7().copyWith(fontSize: 14),
                     onTap: () => Navigator.of(context).push(

@@ -1,5 +1,5 @@
 import 'package:datadashwallet/features/home/apps/apps.dart';
-import 'package:datadashwallet/features/home/apps/subfeatures/apps_tab/presentation/apps_page_presenter.dart';
+import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/presentation/apps_page_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
