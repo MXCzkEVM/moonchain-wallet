@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter/material.dart';
+import 'package:web3dart/web3dart.dart';
 
 class Formatter {
   static String formatBigNumber(double number) {
@@ -31,7 +32,11 @@ class Formatter {
   }
 
   static String formatWalletAddress(String inputString) {
+    if (!RegExp(r'^(0x)?[0-9a-f]{40}', caseSensitive: false)
+        .hasMatch(inputString)) return inputString;
+
     if (inputString.isEmpty) return inputString;
+
     String formattedString =
         '${inputString.substring(0, 6)}...${inputString.substring(inputString.length - 4)}';
     return formattedString;
