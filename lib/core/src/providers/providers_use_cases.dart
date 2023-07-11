@@ -1,15 +1,13 @@
+import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/domain/bookmark_pagination_use_case.dart';
 import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';
 import 'package:datadashwallet/features/security/security.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-
-import 'package:datadashwallet/features/home/home/domain/contract_use_case.dart';
 
 final Provider<ThemeUseCase> themeUseCaseProvider = Provider(
   (ref) => ThemeUseCase(

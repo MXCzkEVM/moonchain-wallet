@@ -68,22 +68,23 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
   Future<void> claim(String name) async {
     await navigator
         ?.push(
-          route.featureDialog(
-            OpenAppPage(
-              dapp: DApp(
-                name: 'MNS',
-                description: 'Own your .MXC domain',
-                url: 'https://wannsee-mns.mxc.com/$name.mxc/register',
-              ),
-            ),
+      route.featureDialog(
+        OpenAppPage(
+          dapp: DApp(
+            name: 'MNS',
+            description: 'Own your .MXC domain',
+            url: 'https://wannsee-mns.mxc.com/$name.mxc/register',
           ),
-        )
-        .then(
-          (_) => navigator?.replaceAll(
-            route(
-              const HomePage(),
-            ),
-          ),
-        );
+        ),
+      ),
+    )
+        .then((_) {
+      ref.read(homeContainer.actions).initializeHomePage();
+      navigator?.replaceAll(
+        route(
+          const HomePage(),
+        ),
+      );
+    });
   }
 }

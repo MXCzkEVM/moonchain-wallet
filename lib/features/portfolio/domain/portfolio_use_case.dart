@@ -18,12 +18,12 @@ class PortfolioUseCase extends ReactiveUseCase {
 
   void subscribeToBalance(
       String event, void Function(dynamic) listeningCallBack) async {
-    (await _repository.contract)
-        .subscribeToBalanceEvent(event, listeningCallBack);
+    _repository.contract.subscribeToBalanceEvent(event, listeningCallBack);
   }
 
-  Future<WannseeTokensBalanceModel?> getTokensBalanceByAddress(
-      EthereumAddress address) async {
-    return (await _repository.contract).getTokensBalance(address);
+  Future<List<Token>> getTokensBalanceByAddress(List<Token> tokenList) async {
+    return (await _repository.contract.getTokensBalance(tokenList));
   }
+
+
 }

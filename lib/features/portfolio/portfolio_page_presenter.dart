@@ -17,9 +17,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   late final _walletUserCase = ref.read(walletUseCaseProvider);
   PortfolioPresenter() : super(PortfolioState());
 
-  @override
-  void initState() {
-    super.initState();
+  initializePortfolioPage(){
     _walletUserCase.getPublicAddress().then(
       (walletAddress) {
         // All other services are dependent on the wallet pubic address
@@ -30,9 +28,9 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   }
 
   void getWalletTokensBalance() async {
-    final tokensBalanceList =
-        await _portfolioUseCase.getTokensBalanceByAddress(state.walletAddress!);
-    notify(() => state.tokensBalanceList = tokensBalanceList);
+    // final tokensBalanceList =
+    //     await _portfolioUseCase.getTokensBalanceByAddress(state.walletAddress!);
+    // notify(() => state.tokensBalanceList = tokensBalanceList);
   }
 
   void getWalletNFTs() {}

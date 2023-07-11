@@ -62,35 +62,13 @@ class HomePage extends HookConsumerWidget {
                 height: 32,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(FlutterI18n.translate(context, 'transaction_history'),
                       style: FontTheme.of(context).h7().copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color: ColorsTheme.of(context).secondaryText)),
-                  const Spacer(),
-                  MxcChipButton(
-                    key: const Key('addTokenButton'),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    titleStyle:
-                        FontTheme.of(context).h7().copyWith(fontSize: 14),
-                    onTap: () => Navigator.of(context).push(
-                      route.featureDialog(
-                        const AddTokenPage(),
-                      ),
-                    ),
-                    title: FlutterI18n.translate(context, 'add_token'),
-                    icon: const Icon(
-                      Icons.add,
-                      size: 20,
-                    ),
-                    buttonDecoration: BoxDecoration(
-                      color: ColorsTheme.of(context).white.withOpacity(.16),
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    alignIconStart: true,
-                  )
                 ],
               ),
               const SizedBox(

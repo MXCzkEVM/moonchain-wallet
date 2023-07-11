@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'home_page_state.dart';
+import 'package:web3dart/web3dart.dart';
 
 final homeContainer =
     PresenterContainer<HomePresenter, HomeState>(() => HomePresenter());
@@ -18,9 +19,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
     notify(() => state.currentIndex = newIndex);
   }
 
-  @override
-  void initState() {
-    super.initState();
+  initializeHomePage() {
     _walletUserCase.getPublicAddress().then(
       (walletAddress) {
         // All other services are dependent on the wallet pubic address
@@ -39,6 +38,8 @@ class HomePresenter extends CompletePresenter<HomeState> {
           .getWalletNativeTokenBalance(state.walletAddress!);
       notify(() => state.walletBalance = balanceUpdate);
     } catch (e) {
+      // Balance not found error happens if the wallet is new
+      // But the error object that is thrown is not exported be used here
       // RPCError
       // if (e.message == 'Balance not found') {
 
@@ -156,23 +157,22 @@ class HomePresenter extends CompletePresenter<HomeState> {
                 .add(WannseeTransactionModel(tokenTransfers: [item]));
           }
           if (newTransactionsList.items!.isNotEmpty) {
-          newTransactionsList.items!.sort((a, b) {
-            if (b.timestamp == null && a.timestamp == null) {
-              // both token transfer
-              return b.tokenTransfers![0].timestamp!
-                  .compareTo(a.tokenTransfers![0].timestamp!);
-            } else if (b.timestamp != null && a.timestamp != null) {
-              // both coin transfer
-              return b.timestamp!.compareTo(a.timestamp!);
-            } else if (b.timestamp == null) {
-              // b is token transfer
-              return b.tokenTransfers![0].timestamp!.compareTo(a.timestamp!);
-            } else {
-              // a is token transfer
-              return b.timestamp!.compareTo(a.tokenTransfers![0].timestamp!);
-            }
-          });
-
+            newTransactionsList.items!.sort((a, b) {
+              if (b.timestamp == null && a.timestamp == null) {
+                // both token transfer
+                return b.tokenTransfers![0].timestamp!
+                    .compareTo(a.tokenTransfers![0].timestamp!);
+              } else if (b.timestamp != null && a.timestamp != null) {
+                // both coin transfer
+                return b.timestamp!.compareTo(a.timestamp!);
+              } else if (b.timestamp == null) {
+                // b is token transfer
+                return b.tokenTransfers![0].timestamp!.compareTo(a.timestamp!);
+              } else {
+                // a is token transfer
+                return b.timestamp!.compareTo(a.tokenTransfers![0].timestamp!);
+              }
+            });
           }
 
           notify(() => state.txList = newTransactionsList);
