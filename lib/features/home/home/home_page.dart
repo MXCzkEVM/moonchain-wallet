@@ -1,5 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/add_token/add_token_page.dart';
+import 'package:datadashwallet/features/token/add_token/add_token_page.dart';
 import 'package:datadashwallet/features/home/home/presentation/widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';

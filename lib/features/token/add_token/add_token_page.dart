@@ -32,8 +32,8 @@ class AddTokenPage extends HookConsumerWidget {
             valueListenable: ref.watch(presenter).addressController,
             builder: (ctx, addressValue, _) {
               return MxcAppBarEvenly.text(
-                titleText: 'add_token',
-                actionText: 'save',
+                titleText: translate('add_token'),
+                actionText: translate('save'),
                 onActionTap: () => ref.read(presenter).onSave(),
                 isActionTap: addressValue.text.isNotEmpty,
               );

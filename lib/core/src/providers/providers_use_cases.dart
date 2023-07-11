@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/home/add_token/domain/custom_tokens_use_case.dart';
+import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_tab/domain/bookmark_pagination_use_case.dart';
 import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';
