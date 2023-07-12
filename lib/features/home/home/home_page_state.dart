@@ -12,7 +12,7 @@ class HomeState with EquatableMixin {
 
   bool isTxListLoading = true;
 
-  DefaultTokens defaultTokens = DefaultTokens();
+  List<Token> tokensList = [];
 
   EthereumAddress? walletAddress;
 
@@ -24,7 +24,7 @@ class HomeState with EquatableMixin {
         walletBalance,
         txList,
         isTxListLoading,
-        defaultTokens,
+        tokensList,
         walletAddress,
         hideBalance
       ];

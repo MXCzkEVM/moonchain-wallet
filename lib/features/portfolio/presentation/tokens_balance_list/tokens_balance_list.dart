@@ -20,8 +20,7 @@ class TokensBalanceList extends HookConsumerWidget {
 
     return Column(
       children: [
-        portfolioState.tokensBalanceList != null &&
-                portfolioState.tokensBalanceList!.items!.isEmpty
+        portfolioState.tokensList != null && portfolioState.tokensList!.isEmpty
             ? Container(
                 margin: const EdgeInsets.only(top: 100),
                 alignment: Alignment.center,
@@ -36,7 +35,7 @@ class TokensBalanceList extends HookConsumerWidget {
             : Column(
                 children: [
                   GreyContainer(
-                      child: portfolioState.tokensBalanceList == null
+                      child: portfolioState.tokensList == null
                           ? const SizedBox(
                               height: 50,
                               child: Center(child: CircularProgressIndicator()))
@@ -44,8 +43,7 @@ class TokensBalanceList extends HookConsumerWidget {
                               children: [
                                 ...TokensBalanceListUtils
                                     .generateTokensBalanceList(
-                                        portfolioState.tokensBalanceList!,
-                                        homeState.defaultTokens,
+                                        portfolioState.tokensList!,
                                         homeState.walletBalance)
                               ],
                             )),

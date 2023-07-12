@@ -40,7 +40,7 @@ class RecentTransactions extends HookConsumerWidget {
                             ...RecentTransactionsUtils.generateTx(
                                 state.txList!.items!,
                                 state.walletAddress!.hex,
-                                state.defaultTokens.tokens)
+                                state.tokensList)
                           ],
                         )),
               const SizedBox(

@@ -9,13 +9,11 @@ import 'widgets/token_balance_item.dart';
 
 class TokensBalanceListUtils {
   static List<TokenBalanceItem> generateTokensBalanceList(
-      WannseeTokensBalanceModel tokensBalanceModel,
-      DefaultTokens defaultTokensList,
-      String mxcBalance) {
+      List<Token> tokensBalanceModel, String mxcBalance) {
     List<TokenBalanceItem> widgets = [];
 
-    for (int i = 0; i < defaultTokensList.tokens!.length; i++) {
-      final currentToken = defaultTokensList.tokens![i];
+    for (int i = 0; i < tokensBalanceModel.length; i++) {
+      final currentToken = tokensBalanceModel[i];
 
       String logoUrl = currentToken.logoUri!;
 
@@ -25,14 +23,16 @@ class TokensBalanceListUtils {
       String tokenName = currentToken.name!;
       String symbol = currentToken.symbol!;
 
-      if (tokensBalanceModel.items != null) {
-        final tokenIndex = tokensBalanceModel.items!.indexWhere(
-          (element) => element.token!.address == currentToken.address,
+      if (tokensBalanceModel.isNotEmpty) {
+        final tokenIndex = tokensBalanceModel.indexWhere(
+          (element) => element.address == currentToken.address,
         );
         if (tokenIndex != -1) {
-          final selectedToken = tokensBalanceModel.items![tokenIndex];
-          balance = Formatter.formatNumberForUI(selectedToken.value!);
-          balanceInXsd = Formatter.formatNumberForUI(selectedToken.value!);
+          final selectedToken = tokensBalanceModel[tokenIndex];
+          balance =
+              Formatter.formatNumberForUI(selectedToken.balance!.toString());
+          balanceInXsd =
+              Formatter.formatNumberForUI(selectedToken.balance!.toString());
         }
       }
 

@@ -75,13 +75,13 @@ class RecentTransactionsUtils {
   }
 
   static List<RecentTrxListItem> generateTx(List<WannseeTransactionModel> items,
-      String walletAddressHash, defaultTokensList) {
+      String walletAddressHash, List<Token> tokensList) {
     List<RecentTrxListItem> widgets = [];
 
     for (int i = 0; i < (items.length > 6 ? 6 : items.length); i++) {
       final currentTx = items[i];
       String amount = '0';
-      String symbol = 'MXC';
+      String symbol = 'Unknown';
       String timeStamp = 'Unknown';
       String hash = currentTx.hash ?? 'Unknown';
       TransactionType transactionType = TransactionType.sent;
@@ -98,25 +98,28 @@ class RecentTransactionsUtils {
         transactionStatus = TransactionStatus.pending;
         final time = DateTime.now();
         timeStamp =
-            '${time.day}-${time.day}-${time.year.toString().substring(2, 4)} ${time.hour}:${time.minute}';
+            '${time.month}-${time.day}-${time.year.toString().substring(2, 4)} ${time.hour}:${time.minute}';
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
         amount = Formatter.convertWeiToEth(currentTx.value ?? '0');
 
         if (currentTx.txTypes!.contains('contract_call')) {
-          if (defaultTokensList != null) {
-            final tokenIndex = defaultTokensList!.indexWhere((element) =>
+          if (tokensList != null) {
+            final tokenIndex = tokensList.indexWhere((element) =>
                 element.address ==
                 (currentTx.from!.isContract!
                     ? currentTx.from!.hash!
                     : currentTx.to!.hash!));
-            logoUrl = defaultTokensList[tokenIndex].logoUri!;
+            logoUrl = tokensList[tokenIndex].logoUri!;
           }
         }
       } else if (currentTx.txTypes != null &&
           currentTx.txTypes!.contains('coin_transfer')) {
+        logoUrl =
+            'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg';
+        symbol = 'MXC';
         timeStamp =
-            '${currentTx.timestamp!.day}-${currentTx.timestamp!.day}-${currentTx.timestamp!.year.toString().substring(2, 4)} ${currentTx.timestamp!.hour}:${currentTx.timestamp!.minute}';
+            '${currentTx.timestamp!.month}-${currentTx.timestamp!.day}-${currentTx.timestamp!.year.toString().substring(2, 4)} ${currentTx.timestamp!.hour}:${currentTx.timestamp!.minute}';
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
         amount = Formatter.convertWeiToEth(currentTx.value ?? '0');
@@ -126,15 +129,14 @@ class RecentTransactionsUtils {
         symbol = currentTx.tokenTransfers![0].token!.name!;
 
         if (currentTx.tokenTransfers![0].token!.name != null) {
-          if (defaultTokensList != null) {
-            final tokenIndex = defaultTokensList!.indexWhere((element) =>
-                element.address ==
-                currentTx.tokenTransfers![0].token!.address!);
-            logoUrl = defaultTokensList[tokenIndex].logoUri!;
+          final tokenIndex = tokensList.indexWhere((element) =>
+              element.address == currentTx.tokenTransfers![0].token!.address!);
+          if (tokenIndex != -1) {
+            logoUrl = tokensList[tokenIndex].logoUri!;
           }
         }
         timeStamp =
-            '${currentTx.tokenTransfers![0].timestamp!.day}-${currentTx.tokenTransfers![0].timestamp!.day}-${currentTx.tokenTransfers![0].timestamp!.year.toString().substring(2, 4)} ${currentTx.tokenTransfers![0].timestamp!.hour}:${currentTx.tokenTransfers![0].timestamp!.minute}';
+            '${currentTx.tokenTransfers![0].timestamp!.month}-${currentTx.tokenTransfers![0].timestamp!.day}-${currentTx.tokenTransfers![0].timestamp!.year.toString().substring(2, 4)} ${currentTx.tokenTransfers![0].timestamp!.hour}:${currentTx.tokenTransfers![0].timestamp!.minute}';
         amount = Formatter.convertWeiToEth(
             currentTx.tokenTransfers![0].total!.value ?? '0');
         hash = currentTx.tokenTransfers![0].txHash ?? "Unknown";

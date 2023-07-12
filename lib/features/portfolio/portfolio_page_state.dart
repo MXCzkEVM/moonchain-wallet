@@ -8,7 +8,7 @@ import 'package:web3dart/web3dart.dart';
 class PortfolioState with EquatableMixin {
   String walletBalance = "0.0";
 
-  WannseeTokensBalanceModel? tokensBalanceList;
+  List<Token>? tokensList;
 
   EthereumAddress? walletAddress;
 
@@ -17,7 +17,7 @@ class PortfolioState with EquatableMixin {
   @override
   List<Object?> get props => [
         walletBalance,
-        tokensBalanceList,
+        tokensList,
         // tabController
       ];
 }

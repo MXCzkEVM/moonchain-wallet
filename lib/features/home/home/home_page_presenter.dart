@@ -15,6 +15,18 @@ class HomePresenter extends CompletePresenter<HomeState> {
   late final _walletUserCase = ref.read(walletUseCaseProvider);
   HomePresenter() : super(HomeState());
 
+  @override
+  void initState() {
+    super.initState();
+    listen(_contractUseCase.tokensList, (newTokenList) {
+      if (newTokenList.isNotEmpty) {
+        state.tokensList.clear();
+        state.tokensList.addAll(newTokenList);
+        getTransactions();
+      }
+    });
+  }
+
   changeIndex(newIndex) {
     notify(() => state.currentIndex = newIndex);
   }
@@ -26,7 +38,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
         state.walletAddress = walletAddress;
         getDefaultTokens();
         getBalance();
-        getTransactions();
         createBalanceSubscription();
       },
     );
@@ -200,14 +211,8 @@ class HomePresenter extends CompletePresenter<HomeState> {
     }
   }
 
-  getDefaultTokens() async {
-    final defaultTokens = await _contractUseCase.getDefaultTokens();
-    if (defaultTokens == null) {
-      // retry till success
-      getDefaultTokens();
-    } else {
-      state.defaultTokens = defaultTokens;
-    }
+  void getDefaultTokens() async {
+    _contractUseCase.getDefaultTokens();
   }
 
   void changeHideBalanceState() {

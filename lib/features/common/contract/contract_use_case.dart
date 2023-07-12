@@ -12,9 +12,11 @@ class ContractUseCase extends ReactiveUseCase {
 
   late final ValueStream<bool> online = reactive(false);
 
+  late final ValueStream<List<Token>> tokensList = reactive([]);
+
   Future<String> getWalletNativeTokenBalance(EthereumAddress address) async {
-    final wallet = await _repository.contract.getEthBalance(address);
-    return (wallet.getInWei.toDouble() / pow(10, 18)).toStringAsFixed(2);
+    final balance = await _repository.contract.getEthBalance(address);
+    return (balance.getInWei.toDouble() / pow(10, 18)).toStringAsFixed(2);
   }
 
   void subscribeToBalance(
@@ -37,7 +39,12 @@ class ContractUseCase extends ReactiveUseCase {
   }
 
   Future<DefaultTokens?> getDefaultTokens() async {
-    return _repository.contract.getDefaultTokens();
+    final result = await _repository.contract.getDefaultTokens();
+    if (result != null) {
+      tokensList.value.addAll(result.tokens ?? []);
+      update(tokensList, tokensList.value);
+    }
+    return result;
   }
 
   Future<Token?> getToken(String address) async =>
@@ -50,5 +57,12 @@ class ContractUseCase extends ReactiveUseCase {
     final result = await _repository.contract.checkConnectionToNetwork();
 
     update(online, result);
+  }
+
+  Future<void> getTokensBalanceByAddress() async {
+    final result =
+        await _repository.contract.getTokensBalance(tokensList.value);
+
+    update(tokensList, result);
   }
 }
