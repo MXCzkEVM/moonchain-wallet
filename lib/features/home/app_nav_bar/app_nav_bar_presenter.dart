@@ -9,17 +9,17 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
   AppNavPresenter() : super(AppNavBarState());
 
   late final _walletUseCase = ref.read(walletUseCaseProvider);
-  late final _contractTabUseCase = ref.read(contractUseCaseProvider);
+  late final _contractUseCase = ref.read(contractUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
 
-    listen(_contractTabUseCase.online,
-        (value) => notify(() => state.online = value));
+    listen(
+        _contractUseCase.online, (value) => notify(() => state.online = value));
 
     listen(_walletUseCase.publicAddress, (value) async {
-      final name = await _contractTabUseCase.getName(value);
+      final name = await _contractUseCase.getName(value);
 
       notify(() {
         state.accounts = [name];
@@ -32,7 +32,7 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
 
   void loadPage() {
     Future.wait([
-      _contractTabUseCase.checkConnectionToNetwork(),
+      _contractUseCase.checkConnectionToNetwork(),
       _walletUseCase.getPublicAddress(),
     ]);
   }
