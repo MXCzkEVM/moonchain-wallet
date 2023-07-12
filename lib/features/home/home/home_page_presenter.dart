@@ -13,6 +13,7 @@ final homeContainer =
 class HomePresenter extends CompletePresenter<HomeState> {
   late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _walletUserCase = ref.read(walletUseCaseProvider);
+  late final _customTokenUseCase = ref.read(customTokensCaseProvider);
   HomePresenter() : super(HomeState());
 
   @override
@@ -23,6 +24,12 @@ class HomePresenter extends CompletePresenter<HomeState> {
         state.tokensList.clear();
         state.tokensList.addAll(newTokenList);
         getTransactions();
+      }
+    });
+
+    listen(_customTokenUseCase.tokens, (customTokens) {
+      if (customTokens.isNotEmpty) {
+        _contractUseCase.addCustomTokens(customTokens);
       }
     });
   }

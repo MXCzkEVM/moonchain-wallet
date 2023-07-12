@@ -64,4 +64,9 @@ class ContractUseCase extends ReactiveUseCase {
         tokensList.value, _repository.address.getLocalstoragePublicAddress()!);
     update(tokensList, result);
   }
+
+  void addCustomTokens(List<Token> customTokens) {
+    tokensList.value.addAll(customTokens);
+    update(tokensList, tokensList.value);
+  }
 }

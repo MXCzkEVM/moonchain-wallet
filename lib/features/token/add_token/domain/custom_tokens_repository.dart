@@ -13,6 +13,10 @@ class CustomTokensRepository extends ControlledCacheRepository {
               'name': e.name,
               'symbol': e.symbol,
               'decimals': e.decimals,
+              'address': e.address,
+              'balance': e.balance,
+              'chainId': e.chainId,
+              'logoUri': e.logoUri
             })
         .toList(),
     deserializer: (t) => (t as List)
@@ -20,6 +24,10 @@ class CustomTokensRepository extends ControlledCacheRepository {
               name: e['name'],
               symbol: e['symbol'],
               decimals: e['decimals'],
+              address: e['address'],
+              balance: e['balance'],
+              chainId: e['chainId'],
+              logoUri: e['logoUr'],
             ))
         .toList(),
   );
