@@ -20,11 +20,12 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   void initState() {
     super.initState();
     listen(_contractUseCase.tokensList, (newTokenList) {
-      if (state.tokensList != null) {
-        state.tokensList!.clear();
-        state.tokensList!.addAll(newTokenList);
-      } else {
-        state.tokensList = newTokenList;
+      if (newTokenList.isNotEmpty) {
+        if (state.tokensList != null) {
+          notify(() => state.tokensList = newTokenList);
+        } else {
+          state.tokensList = newTokenList;
+        }
       }
     });
   }
@@ -33,15 +34,14 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     _walletUserCase.getPublicAddress().then(
       (walletAddress) {
         // All other services are dependent on the wallet pubic address
-        state.walletAddress = walletAddress;
+        //  state.walletAddress = walletAddress;
         getWalletTokensBalance();
       },
     );
   }
 
-  void getWalletTokensBalance() async {
-    final tokensBalanceList =
-        await _contractUseCase.getTokensBalanceByAddress();
+  void getWalletTokensBalance() {
+    _contractUseCase.getTokensBalance();
   }
 
   void getWalletNFTs() {}

@@ -59,10 +59,9 @@ class ContractUseCase extends ReactiveUseCase {
     update(online, result);
   }
 
-  Future<void> getTokensBalanceByAddress() async {
-    final result =
-        await _repository.contract.getTokensBalance(tokensList.value);
-
+  Future<void> getTokensBalance() async {
+    final result = await _repository.contract.getTokensBalance(
+        tokensList.value, _repository.address.getLocalstoragePublicAddress()!);
     update(tokensList, result);
   }
 }
