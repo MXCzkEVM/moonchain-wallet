@@ -118,5 +118,11 @@
 	"history": "History",
 	"send_token": "Send Token",
 	"choose_token": "Choose token",
-	"find_your_token": "Find your token"
+	"find_your_token": "Find your token",
+	"send_x": "Send {0}",
+	"network": "Network",
+	"amount_to_send": "Amount to send",
+	"recipient": "Recipient",
+	"wallet_address_or_mns": "Wallet address or MNS",
+	"next": "Next"
 }

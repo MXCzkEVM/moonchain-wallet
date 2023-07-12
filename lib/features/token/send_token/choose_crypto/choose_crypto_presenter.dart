@@ -12,13 +12,31 @@ final addTokenPageContainer =
 class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   ChooseCryptoPresenter() : super(ChooseCryptoState());
 
-  late final ContractUseCase _contractTabUseCase =
-      ref.read(contractUseCaseProvider);
+  late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
+    listen(_contractUseCase.tokensList, (newTokens) {
+      if (newTokens.isNotEmpty) {
+        notify(() {
+          state.tokens = newTokens;
+          state.fliterTokens = newTokens;
+        });
+      }
+    });
+  }
+
+  void fliterTokenByName(String value) {
+    final tokens = state.tokens
+        ?.where((item) =>
+            item.name!.contains(RegExp(value, caseSensitive: false)) ||
+            item.symbol!.contains(RegExp(value, caseSensitive: false)))
+        .toList();
+
+    notify(() => state.fliterTokens = tokens);
   }
 
   @override

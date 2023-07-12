@@ -1,5 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_repository.dart';
+import 'package:collection/collection.dart';
 
 class BookmarkPaginationUseCase extends ReactiveUseCase {
   BookmarkPaginationUseCase(this._repository);
@@ -16,7 +17,7 @@ class BookmarkPaginationUseCase extends ReactiveUseCase {
   }
 
   void updatePage(int index, int num) {
-    if (items.isEmpty) {
+    if (index >= items.length) {
       items.add(num);
     } else {
       items[index] = num;
@@ -29,8 +30,18 @@ class BookmarkPaginationUseCase extends ReactiveUseCase {
 
   void nextPage(int index, int count) {
     final total = _repository.items.length;
-    if (total - count * 4 >= 1) {
-      if (items.length == index + 1) {
+
+    int rowCount = 0;
+    int leftpages = 0;
+
+    for (int index = 0; index < items.length; index++) {
+      rowCount += items[index];
+    }
+
+    leftpages = total - rowCount * 4;
+
+    if (leftpages >= 1) {
+      if (index + 1 >= items.length) {
         items.add(1);
       } else {
         items[index] = count;
@@ -44,14 +55,14 @@ class BookmarkPaginationUseCase extends ReactiveUseCase {
     if (items.length == 1) return;
 
     final total = _repository.items.length;
-    int currentRowCount = 0;
+    int rowCount = 0;
     int leftpages = 0;
 
     for (int index = 0; index < items.length - 1; index++) {
-      currentRowCount += items[index];
+      rowCount += items[index];
     }
 
-    leftpages = total - currentRowCount * 4;
+    leftpages = total - rowCount * 4;
 
     if (leftpages == 0) {
       items.removeLast();

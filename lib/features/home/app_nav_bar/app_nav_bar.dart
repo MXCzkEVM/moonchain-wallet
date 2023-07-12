@@ -57,9 +57,9 @@ class AppNavBar extends HookConsumerWidget {
                       child: Row(
                         children: [
                           MXCDropDown<String>(
-                            itemList: const ["MXC zkEVM"],
+                            itemList: const ['MXC zkEVM'],
                             onChanged: (String? newValue) {},
-                            selectedItem: "MXC zkEVM",
+                            selectedItem: 'MXC zkEVM',
                             icon: const Padding(
                               padding: EdgeInsetsDirectional.only(start: 10),
                             ),

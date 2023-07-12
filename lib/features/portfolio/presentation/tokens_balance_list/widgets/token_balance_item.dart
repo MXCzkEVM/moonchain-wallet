@@ -28,67 +28,59 @@ class TokenBalanceItem extends HookConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ColorsTheme.of(context).primaryBackground),
-                    height: 40,
-                    width: 40,
-                    child: SvgPicture.network(logoUrl)),
-                const SizedBox(
-                  width: 8,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    SizedBox(
-                      width: 180,
-                      child: Text(
+            Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorsTheme.of(context).primaryBackground),
+                height: 40,
+                width: 40,
+                child: SvgPicture.network(logoUrl)),
+            const SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
                         tokenName,
                         style: FontTheme.of(context).body1().copyWith(
                               overflow: TextOverflow.ellipsis,
                             ),
-                        softWrap: true,
                       ),
-                    ),
-                    Text(
-                      symbol,
-                      style: FontTheme.of(context).body1().copyWith(
-                          overflow: TextOverflow.ellipsis,
-                          color: ColorsTheme.of(context).white400),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  balance.toString(),
-                  style: FontTheme.of(context).caption1().copyWith(
-                        fontSize: 16,
+                      Text(
+                        balance.toString(),
+                        style: FontTheme.of(context).caption1().copyWith(
+                              fontSize: 16,
+                            ),
+                        textAlign: TextAlign.right,
                       ),
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  '$balanceInXsd XSD',
-                  style: FontTheme.of(context)
-                      .subtitle1()
-                      .copyWith(color: ColorsTheme.of(context).white400),
-                ),
-              ],
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        symbol,
+                        style: FontTheme.of(context).body1().copyWith(
+                            overflow: TextOverflow.ellipsis,
+                            color: ColorsTheme.of(context).white400),
+                      ),
+                      Text(
+                        '$balanceInXsd XSD',
+                        style: FontTheme.of(context)
+                            .subtitle1()
+                            .copyWith(color: ColorsTheme.of(context).white400),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             if (onTap != null)
               Padding(
