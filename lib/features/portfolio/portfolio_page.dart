@@ -27,6 +27,16 @@ class PortfolioPage extends HookConsumerWidget {
         layout: LayoutType.column,
         useContentPadding: false,
         childrenPadding: const EdgeInsets.only(top: 25, right: 24, left: 24),
+        appBar: AppNavBar(
+          action: IconButton(
+            key: const ValueKey('appsButton'),
+            icon: const Icon(MXCIcons.dapps),
+            iconSize: 24,
+            onPressed: () =>
+                Navigator.of(context).replaceAll(route(const AppsPage())),
+            color: ColorsTheme.of(context).primaryButton,
+          ),
+        ),
         floatingActionButton: Container(
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -103,16 +113,6 @@ class PortfolioPage extends HookConsumerWidget {
                 ],
               ),
             )),
-        appBar: AppNavBar(
-          action: IconButton(
-            key: const ValueKey('appsButton'),
-            icon: const Icon(MXCIcons.dapps),
-            iconSize: 24,
-            onPressed: () =>
-                Navigator.of(context).replaceAll(route(const AppsPage())),
-            color: ColorsTheme.of(context).primaryButton,
-          ),
-        ),
         children: [
           Expanded(
               child: ListView(
