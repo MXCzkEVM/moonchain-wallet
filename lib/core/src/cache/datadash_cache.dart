@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/features/settings/subfeatures/recipient/domain/recipients_repository.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_repository.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_repository.dart';
 import 'package:mxc_logic/internal.dart';
@@ -26,8 +27,13 @@ class DatadashCache extends CacheContainer {
   final BookmarkRepository bookmarks = BookmarkRepository();
   final CustomTokensRepository custonTokens = CustomTokensRepository();
   final BalanceRepository balanceHistory = BalanceRepository();
+  final RecipientsRepository recipients = RecipientsRepository();
 
   @override
-  List<BaseCacheRepository> get repositories =>
-      [bookmarks, custonTokens, balanceHistory];
+  List<BaseCacheRepository> get repositories => [
+        bookmarks,
+        custonTokens,
+        balanceHistory,
+        recipients,
+      ];
 }

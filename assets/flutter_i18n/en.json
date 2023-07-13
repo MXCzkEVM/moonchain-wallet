@@ -126,6 +126,11 @@
 	"max": "Max",
 	"recipient": "Recipient",
 	"wallet_address_or_mns": "Wallet address or MNS",
+	"address_or_mns": "Address or MNS",
 	"next": "Next",
-	"invalid_format": "Invalid format"
+	"invalid_format": "Invalid format",
+	"new_recipient": "New Recipient",
+	"name": "Name",
+	"recipient_name": "Recipient name",
+	"new": "New"
 }

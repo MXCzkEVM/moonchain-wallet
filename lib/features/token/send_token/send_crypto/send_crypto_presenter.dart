@@ -39,7 +39,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void changeDiscount(int value) {
-    amountController.text = (token.balance! * value / 100).toString();
+    amountController.text = ((token.balance ?? 0) * value / 100).toString();
     notify(() => state.discount = value);
   }
 

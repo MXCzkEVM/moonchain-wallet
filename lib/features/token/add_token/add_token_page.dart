@@ -16,7 +16,7 @@ class AddTokenPage extends HookConsumerWidget {
       addTokenPageContainer.actions;
 
   @override
-  ProviderBase<AddTokenPageState> get state => addTokenPageContainer.state;
+  ProviderBase<AddTokenState> get state => addTokenPageContainer.state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,6 +31,7 @@ class AddTokenPage extends HookConsumerWidget {
         ValueListenableBuilder<TextEditingValue>(
             valueListenable: ref.watch(presenter).addressController,
             builder: (ctx, addressValue, _) {
+  
               return MxcAppBarEvenly.text(
                 titleText: translate('add_token'),
                 actionText: translate('save'),
@@ -66,7 +67,8 @@ class AddTokenPage extends HookConsumerWidget {
                   if (!formKey.currentState!.validate()) return;
                   ref.read(presenter).onChanged(value);
                 },
-                onFocused: (focused) => focused ? null : formKey.currentState!.validate(),
+                onFocused: (focused) =>
+                    focused ? null : formKey.currentState!.validate(),
               ),
               MxcTextField(
                 key: const ValueKey('symbolTextField'),

@@ -1,6 +1,6 @@
-import 'package:convert/convert.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/subfeatures/recipient/recipient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -35,22 +35,27 @@ class SendCryptoPage extends HookConsumerWidget {
       presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.start,
       footer: ValueListenableBuilder<TextEditingValue>(
-          valueListenable: ref.read(presenter).recipientController,
-          builder: (ctx, usernameValue, _) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: MxcButton.primary(
-                key: const ValueKey('nextButton'),
-                title: FlutterI18n.translate(context, 'next'),
-                onTap: usernameValue.text.isNotEmpty
-                    ? () {
-                        FocusManager.instance.primaryFocus?.unfocus();
+          valueListenable: ref.read(presenter).amountController,
+          builder: (ctx, amountValue, _) {
+            return ValueListenableBuilder<TextEditingValue>(
+                valueListenable: ref.read(presenter).recipientController,
+                builder: (ctx, recipientValue, _) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: MxcButton.primary(
+                      key: const ValueKey('nextButton'),
+                      title: FlutterI18n.translate(context, 'next'),
+                      onTap: amountValue.text.isNotEmpty &&
+                              recipientValue.text.isNotEmpty
+                          ? () {
+                              FocusManager.instance.primaryFocus?.unfocus();
 
-                        if (!formKey.currentState!.validate()) return;
-                      }
-                    : null,
-              ),
-            );
+                              if (!formKey.currentState!.validate()) return;
+                            }
+                          : null,
+                    ),
+                  );
+                });
           }),
       children: [
         MxcAppBarEvenly.text(
@@ -156,7 +161,13 @@ class SendCryptoPage extends HookConsumerWidget {
                 hint: translate('wallet_address_or_mns'),
                 suffixButton: MxcTextFieldButton.svg(
                   svg: 'assets/svg/ic_contact.svg',
-                  onTap: () {},
+                  onTap: () async {
+                    Recipient res = await Navigator.of(context)
+                        .push(route(const SelectRecipientPage()));
+
+                    ref.read(presenter).recipientController.text =
+                        res.address ?? res.mns ?? '';
+                  },
                 ),
                 onFocused: (focused) =>
                     focused ? null : formKey.currentState!.validate(),
