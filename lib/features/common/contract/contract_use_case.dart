@@ -17,7 +17,7 @@ class ContractUseCase extends ReactiveUseCase {
 
   Future<String> getWalletNativeTokenBalance(EthereumAddress address) async {
     final balance = await _repository.contract.getEthBalance(address);
-    return Formatter.formatNumberForUI(balance.getInWei.toString(), isWei: true);
+    return Formatter.convertWeiToEth(balance.getInWei.toString());
   }
 
   void subscribeToBalance(

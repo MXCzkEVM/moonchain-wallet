@@ -37,13 +37,19 @@ class BalanceRepository extends ControlledCacheRepository {
 
   void addItem(BalanceData item) {
     // if already added today update It
-    final itemIndex =
-        balanceHistory.value.indexWhere((e) => e.timeStamp.day == item.timeStamp.day && e.timeStamp.month == item.timeStamp.month && e.timeStamp.year == item.timeStamp.year);
+    final itemIndex = balanceHistory.value.indexWhere((e) =>
+        e.timeStamp.day == item.timeStamp.day &&
+        e.timeStamp.month == item.timeStamp.month &&
+        e.timeStamp.year == item.timeStamp.year);
     if (itemIndex == -1) {
       // doesn't exist
       balanceHistory.value = [...balanceHistory.value, item];
     } else {
-      balanceHistory.value[itemIndex] = item;
+      // print(item);
+      final newList = balanceHistory.value;
+      newList.removeAt(itemIndex);
+      newList.insert(itemIndex, item);
+      balanceHistory.value = newList;
     }
   }
 

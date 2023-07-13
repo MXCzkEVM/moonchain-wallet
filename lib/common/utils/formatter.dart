@@ -48,7 +48,7 @@ class Formatter {
       return '0';
     }
     String convertedString =
-        (double.parse(inputString).toDouble() / pow(10, 18)).toStringAsFixed(2);
+        (double.parse(inputString).toDouble() / pow(10, 18)).toStringAsFixed(1);
     return convertedString;
   }
 
@@ -66,4 +66,5 @@ class Formatter {
     integerPart = intThousandsSeparator(integerPart);
     return '$integerPart$fractionalPart';
   }
+
 }
