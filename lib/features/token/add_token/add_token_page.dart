@@ -34,7 +34,10 @@ class AddTokenPage extends HookConsumerWidget {
               return MxcAppBarEvenly.text(
                 titleText: translate('add_token'),
                 actionText: translate('save'),
-                onActionTap: () => ref.read(presenter).onSave(),
+                onActionTap: () {
+                  if (!formKey.currentState!.validate()) return;
+                  ref.read(presenter).onSave();
+                },
                 isActionTap: addressValue.text.isNotEmpty,
               );
             }),
@@ -49,9 +52,21 @@ class AddTokenPage extends HookConsumerWidget {
                     '{0}', translate('token_contract_addresss').toLowerCase()),
                 controller: ref.read(presenter).addressController,
                 action: TextInputAction.done,
-                validator: (value) => Validation.notEmpty(
-                    context, value, 'token_contract_addresss_not_empty'),
-                onChanged: (value) => ref.read(presenter).onChanged(value),
+                validator: (value) {
+                  final res = Validation.notEmpty(
+                      context,
+                      value,
+                      translate('x_not_empty').replaceFirst(
+                          '{0}', translate('token_contract_addresss')));
+                  if (res != null) return res;
+
+                  return Validation.checkEthereumAddress(context, value!);
+                },
+                onChanged: (value) {
+                  if (!formKey.currentState!.validate()) return;
+                  ref.read(presenter).onChanged(value);
+                },
+                onFocused: (focused) => focused ? null : formKey.currentState!.validate(),
               ),
               MxcTextField(
                 key: const ValueKey('symbolTextField'),

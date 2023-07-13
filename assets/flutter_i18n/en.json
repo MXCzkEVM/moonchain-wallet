@@ -108,7 +108,7 @@
 	"token_symbol": "Token symbol",
 	"token_decimal": "Token decimal",
 	"enter_x": "Enter {0}",
-	"token_contract_addresss_not_empty": "Token contract address can't be empty",
+	"x_not_empty": "{0} can't be empty",
 	"portfolio": "Portfolio",
 	"tokens": "Tokens",
 	"nfts": "NFTs",
@@ -122,7 +122,10 @@
 	"send_x": "Send {0}",
 	"network": "Network",
 	"amount_to_send": "Amount to send",
+	"amount": "Amount",
+	"max": "Max",
 	"recipient": "Recipient",
 	"wallet_address_or_mns": "Wallet address or MNS",
-	"next": "Next"
+	"next": "Next",
+	"invalid_format": "Invalid format"
 }

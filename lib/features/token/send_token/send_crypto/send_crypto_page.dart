@@ -1,3 +1,4 @@
+import 'package:convert/convert.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +21,10 @@ class SendCryptoPage extends HookConsumerWidget {
 
   @override
   ProviderBase<SendCryptoPresenter> get presenter =>
-      addTokenPageContainer.actions;
+      addTokenPageContainer.actions(token);
 
   @override
-  ProviderBase<SendCryptoState> get state => addTokenPageContainer.state;
+  ProviderBase<SendCryptoState> get state => addTokenPageContainer.state(token);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,6 +34,24 @@ class SendCryptoPage extends HookConsumerWidget {
     return MxcPage.layer(
       presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.start,
+      footer: ValueListenableBuilder<TextEditingValue>(
+          valueListenable: ref.read(presenter).recipientController,
+          builder: (ctx, usernameValue, _) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: MxcButton.primary(
+                key: const ValueKey('nextButton'),
+                title: FlutterI18n.translate(context, 'next'),
+                onTap: usernameValue.text.isNotEmpty
+                    ? () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+
+                        if (!formKey.currentState!.validate()) return;
+                      }
+                    : null,
+              ),
+            );
+          }),
       children: [
         MxcAppBarEvenly.text(
             titleText:
@@ -78,25 +97,44 @@ class SendCryptoPage extends HookConsumerWidget {
                 key: const ValueKey('amountTextField'),
                 label: '${translate('amount_to_send')} *',
                 controller: ref.read(presenter).amountController,
+                keyboardType: TextInputType.number,
                 action: TextInputAction.next,
-                // validator: (v) => Validation.checkUrl(context, v),
+                validator: (v) => Validation.notEmpty(
+                    context,
+                    v,
+                    translate('x_not_empty')
+                        .replaceFirst('{0}', translate('amount'))),
                 hint: 'e.g 100',
+                suffixText: token.symbol,
+                suffixButton: MxcTextFieldButton.text(
+                  text: translate('max'),
+                  onTap: () => ref.read(presenter).changeDiscount(100),
+                ),
+                onFocused: (focused) =>
+                    focused ? null : formKey.currentState!.validate(),
               ),
               Row(
-                  children: ['25%', '50%', '75%']
+                  children: [25, 50, 75]
                       .map((item) => Padding(
                             padding: const EdgeInsets.only(top: 8, left: 8),
                             child: MxcChipButton(
-                              key: Key('button$item'),
+                              key: ValueKey('button$item'),
                               contentPadding:
                                   const EdgeInsets.symmetric(vertical: 8),
-                              titleStyle:
-                                  FontTheme.of(context).subtitle1.primary(),
-                              onTap: () {},
+                              titleStyle: ref.watch(state).discount == item
+                                  ? FontTheme.of(context).subtitle2().copyWith(
+                                        color: ColorsTheme.of(context)
+                                            .chipTextBlack,
+                                      )
+                                  : FontTheme.of(context).subtitle2.primary(),
+                              onTap: () =>
+                                  ref.read(presenter).changeDiscount(item),
                               width: 80,
-                              title: item,
+                              title: '$item%',
                               buttonDecoration: BoxDecoration(
-                                  // color: ColorsTheme.of(context).white,
+                                  color: ref.watch(state).discount == item
+                                      ? ColorsTheme.of(context).white
+                                      : null,
                                   borderRadius: BorderRadius.circular(40),
                                   border: Border.all(
                                     color: ColorsTheme.of(context).white,
@@ -110,8 +148,18 @@ class SendCryptoPage extends HookConsumerWidget {
                 label: '${translate('recipient')} *',
                 controller: ref.read(presenter).recipientController,
                 action: TextInputAction.done,
-                // validator: (v) => Validation.checkUrl(context, v),
+                validator: (v) => Validation.notEmpty(
+                    context,
+                    v,
+                    translate('x_not_empty')
+                        .replaceFirst('{0}', translate('recipient'))),
                 hint: translate('wallet_address_or_mns'),
+                suffixButton: MxcTextFieldButton.svg(
+                  svg: 'assets/svg/ic_contact.svg',
+                  onTap: () {},
+                ),
+                onFocused: (focused) =>
+                    focused ? null : formKey.currentState!.validate(),
               ),
             ],
           ),

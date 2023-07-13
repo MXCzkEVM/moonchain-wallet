@@ -1,16 +1,20 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'send_crypto_state.dart';
 
-final addTokenPageContainer =
-    PresenterContainer<SendCryptoPresenter, SendCryptoState>(
-        () => SendCryptoPresenter());
+final addTokenPageContainer = PresenterContainerWithParameter<
+    SendCryptoPresenter,
+    SendCryptoState,
+    Token>((token) => SendCryptoPresenter(token));
 
 class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
-  SendCryptoPresenter() : super(SendCryptoState());
+  SendCryptoPresenter(this.token) : super(SendCryptoState());
+
+  final Token token;
 
   late final ContractUseCase _contractUseCase =
       ref.read(contractUseCaseProvider);
@@ -24,6 +28,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     listen(
         _contractUseCase.online, (value) => notify(() => state.online = value));
+
     loadPage();
   }
 
@@ -31,6 +36,11 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     Future.wait([
       _contractUseCase.checkConnectionToNetwork(),
     ]);
+  }
+
+  void changeDiscount(int value) {
+    amountController.text = (token.balance! * value / 100).toString();
+    notify(() => state.discount = value);
   }
 
   @override
