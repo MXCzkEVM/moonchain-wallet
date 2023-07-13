@@ -12,7 +12,8 @@ class TokensBalanceListUtils {
     for (int i = 0; i < tokensBalanceModel.length; i++) {
       final currentToken = tokensBalanceModel[i];
 
-      String logoUrl = currentToken.logoUri!;
+      String logoUrl = currentToken.logoUri ??
+          'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg';
 
       // final currentToken = tokensBalanceModel.items![i];
       String balance = '0';

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
@@ -16,7 +17,7 @@ class ContractUseCase extends ReactiveUseCase {
 
   Future<String> getWalletNativeTokenBalance(EthereumAddress address) async {
     final balance = await _repository.contract.getEthBalance(address);
-    return (balance.getInWei.toDouble() / pow(10, 18)).toStringAsFixed(2);
+    return Formatter.formatNumberForUI(balance.getInWei.toString(), isWei: true);
   }
 
   void subscribeToBalance(
@@ -63,5 +64,10 @@ class ContractUseCase extends ReactiveUseCase {
     final result = await _repository.contract.getTokensBalance(
         tokensList.value, _repository.address.getLocalstoragePublicAddress()!);
     update(tokensList, result);
+  }
+
+  void addCustomTokens(List<Token> customTokens) {
+    tokensList.value.addAll(customTokens);
+    update(tokensList, tokensList.value);
   }
 }

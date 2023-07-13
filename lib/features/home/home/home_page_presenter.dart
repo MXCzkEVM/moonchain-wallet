@@ -1,5 +1,7 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -13,16 +15,33 @@ final homeContainer =
 class HomePresenter extends CompletePresenter<HomeState> {
   late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _walletUserCase = ref.read(walletUseCaseProvider);
+  late final _customTokenUseCase = ref.read(customTokensCaseProvider);
+  late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
+
   HomePresenter() : super(HomeState());
 
   @override
   void initState() {
     super.initState();
+
+    listen(_balanceUseCase.balanceHistory, (newBalanceHistory) {
+      print(newBalanceHistory);
+      if (newBalanceHistory.isNotEmpty) {
+        generateChartData(newBalanceHistory);
+      }
+    });
+
     listen(_contractUseCase.tokensList, (newTokenList) {
       if (newTokenList.isNotEmpty) {
         state.tokensList.clear();
         state.tokensList.addAll(newTokenList);
         getTransactions();
+      }
+    });
+
+    listen(_customTokenUseCase.tokens, (customTokens) {
+      if (customTokens.isNotEmpty) {
+        _contractUseCase.addCustomTokens(customTokens);
       }
     });
   }
@@ -48,6 +67,8 @@ class HomePresenter extends CompletePresenter<HomeState> {
       final balanceUpdate = await _contractUseCase
           .getWalletNativeTokenBalance(state.walletAddress!);
       notify(() => state.walletBalance = balanceUpdate);
+      _balanceUseCase.addItem(BalanceData(
+          timeStamp: DateTime.now(), balance: double.parse(balanceUpdate)));
     } catch (e) {
       // Balance not found error happens if the wallet is new
       // But the error object that is thrown is not exported be used here
@@ -235,6 +256,41 @@ class HomePresenter extends CompletePresenter<HomeState> {
 
     if ((await canLaunchUrl(addressUrl))) {
       await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
+    }
+  }
+
+  void generateChartData(List<BalanceData> balanceData) {
+    // TODO: update data balance to be seven  days data
+    // TODO: update balance in DB every time balance update
+    // TODO: update the amounts to be the UI fit balance
+    final List<FlSpot> newBalanceSpots = [];
+    double newMaxValue = 0.0;
+    if (balanceData.length == 1) {
+      // we have only one day data
+      final balance = balanceData[0].balance;
+      newMaxValue = balance * 2.0;
+      newBalanceSpots.addAll(
+          List.generate(7, (index) => FlSpot(index.toDouble(), balance)));
+    } else {
+      for (int i = 0; i < balanceData.length; i++) {
+        final data = balanceData.elementAt(i);
+        final balance = data.balance;
+        if (newMaxValue < balance) {
+          newMaxValue = balance;
+        }
+
+        // final balance = data.balance.toString();
+
+        // final formattedStringBalance = Formatter.formatNumberForUI(balance);
+        // final formattedDoubleBalance = double.parse(formattedStringBalance);
+
+        newBalanceSpots.add(FlSpot(i.toDouble(), balance));
+      }
+    }
+    // print(newBalanceSpots);
+    // print(newBalanceSpots);
+    if (newBalanceSpots.isNotEmpty) {
+      notify(() => state.balanceSpots = newBalanceSpots);
     }
   }
 }

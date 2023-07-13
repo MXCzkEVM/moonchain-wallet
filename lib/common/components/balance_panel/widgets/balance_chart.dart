@@ -1,3 +1,4 @@
+import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ class BalanceChart extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final presenter = ref.read(homeContainer.actions);
+    final state = ref.watch(homeContainer.state);
     return Column(
       children: [
         Row(
@@ -43,21 +46,13 @@ class BalanceChart extends HookConsumerWidget {
                   minX: 0,
                   minY: 0,
                   maxX: 6,
-                  maxY: 891,
+                  maxY: state.chartMaxAmount,
                   borderData: FlBorderData(
                       show: true,
                       border: Border.all(color: Colors.transparent)),
                   lineBarsData: [
                     LineChartBarData(
-                        spots: const [
-                          FlSpot(0, 891),
-                          FlSpot(1, 100),
-                          FlSpot(2, 520),
-                          FlSpot(3, 400),
-                          FlSpot(4, 530),
-                          FlSpot(5, 500),
-                          FlSpot(6, 800)
-                        ],
+                        spots: state.balanceSpots,
                         isCurved: true,
                         isStrokeCapRound: true,
                         dotData: FlDotData(
