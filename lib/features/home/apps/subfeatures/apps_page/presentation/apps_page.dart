@@ -38,7 +38,7 @@ class AppsPage extends HookConsumerWidget {
       onDone: () => ref.read(presenter).changeEditMode(),
       layout: LayoutType.column,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      backgroundColor: ColorsTheme.of(context).secondaryBackground,
+      backgroundColor: ColorsTheme.of(context).screenBackground,
       appBar: AppNavBar(
         leading: IconButton(
           key: const ValueKey('menusButton'),

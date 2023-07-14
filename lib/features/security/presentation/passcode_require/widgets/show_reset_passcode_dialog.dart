@@ -69,7 +69,7 @@ class ResetPasscode extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ColorsTheme.of(context).secondaryBackground,
+          color: ColorsTheme.of(context).screenBackground,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),

@@ -1,6 +1,4 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar.dart';
-import 'package:datadashwallet/features/token/add_token/add_token_page.dart';
 import 'package:datadashwallet/features/home/home/presentation/widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -24,7 +22,7 @@ class HomePage extends HookConsumerWidget {
         useAppBar: true,
         presenter: presenter,
         resizeToAvoidBottomInset: true,
-        backgroundColor: ColorsTheme.of(context).secondaryBackground,
+        backgroundColor: ColorsTheme.of(context).screenBackground,
         layout: LayoutType.column,
         useContentPadding: false,
         childrenPadding: const EdgeInsets.only(top: 25, right: 24, left: 24),
