@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide RefreshCallback;
 import 'package:flutter/services.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 
-import '../../features/home/home.dart';
 import 'mxc_page_regular.dart';
 import 'mxc_page_layer.dart';
 import 'edit_mode_status_bar.dart';
@@ -214,8 +212,6 @@ abstract class MxcPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
-    final homeState = ref.watch(homeContainer.state);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(

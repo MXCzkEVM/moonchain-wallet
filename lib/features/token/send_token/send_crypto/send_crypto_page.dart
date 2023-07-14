@@ -126,25 +126,13 @@ class SendCryptoPage extends HookConsumerWidget {
                               key: ValueKey('button$item'),
                               contentPadding:
                                   const EdgeInsets.symmetric(vertical: 8),
-                              // titleStyle: ref.watch(state).discount == item
-                              //     ? FontTheme.of(context).subtitle2().copyWith(
-                              //           color: ColorsTheme.of(context)
-                              //               .chipTextBlack,
-                              //         )
-                              //     : FontTheme.of(context).subtitle2.primary(),
                               onTap: () =>
                                   ref.read(presenter).changeDiscount(item),
                               width: 80,
                               title: '$item%',
-                              buttonState: ref.watch(state).discount == item ? ChipButtonStates.activeState : ChipButtonStates.inactiveState,
-                              // buttonDecoration: BoxDecoration(
-                              //     color: ref.watch(state).discount == item
-                              //         ? ColorsTheme.of(context).white
-                              //         : null,
-                              //     borderRadius: BorderRadius.circular(40),
-                              //     border: Border.all(
-                              //       color: ColorsTheme.of(context).white,
-                              //     )),
+                              buttonState: ref.watch(state).discount == item
+                                  ? ChipButtonStates.activeState
+                                  : ChipButtonStates.inactiveState,
                             ),
                           ))
                       .toList()),

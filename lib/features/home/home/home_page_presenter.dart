@@ -13,12 +13,12 @@ final homeContainer =
     PresenterContainer<HomePresenter, HomeState>(() => HomePresenter());
 
 class HomePresenter extends CompletePresenter<HomeState> {
+  HomePresenter() : super(HomeState());
+
   late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _walletUserCase = ref.read(walletUseCaseProvider);
   late final _customTokenUseCase = ref.read(customTokensCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
-
-  HomePresenter() : super(HomeState());
 
   @override
   void initState() {
@@ -35,7 +35,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
       if (newTokenList.isNotEmpty) {
         state.tokensList.clear();
         state.tokensList.addAll(newTokenList);
-        getTransactions();
       }
     });
 
@@ -44,6 +43,8 @@ class HomePresenter extends CompletePresenter<HomeState> {
         _contractUseCase.addCustomTokens(customTokens);
       }
     });
+
+    initializeHomePage();
   }
 
   changeIndex(newIndex) {
@@ -58,6 +59,9 @@ class HomePresenter extends CompletePresenter<HomeState> {
         getDefaultTokens();
         getBalance();
         createBalanceSubscription();
+        getTransactions();
+        _balanceUseCase.getBalanceHistory();
+        _customTokenUseCase.getTokens();
       },
     );
   }

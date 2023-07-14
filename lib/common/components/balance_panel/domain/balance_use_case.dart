@@ -11,6 +11,8 @@ class BalanceUseCase extends ReactiveUseCase {
   late final ValueStream<List<BalanceData>> balanceHistory =
       reactiveField(_repository.balanceHistory);
 
+  List<BalanceData> getBalanceHistory() => _repository.items;
+
   void addItem(BalanceData item) {
     _repository.addItem(item);
     update(balanceHistory, _repository.items);

@@ -27,12 +27,9 @@ class SplashMNSAnnouncementPage extends HookConsumerWidget {
         text: '',
         action: MxcAppBarButton.text(
           FlutterI18n.translate(context, 'skip'),
-          onTap: () {
-            ref.read(homeContainer.actions).initializeHomePage();
-            Navigator.of(context).replaceAll(
-              route(const HomePage()),
-            );
-          },
+          onTap: () => Navigator.of(context).replaceAll(
+            route(const HomePage()),
+          ),
         ),
       ),
       footer: Padding(
