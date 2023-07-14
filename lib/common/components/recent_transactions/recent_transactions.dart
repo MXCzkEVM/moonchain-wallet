@@ -53,21 +53,12 @@ class RecentTransactions extends HookConsumerWidget {
                     key: const Key('viewOtherTransactions'),
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    titleStyle:
-                        FontTheme.of(context).h7().copyWith(fontSize: 14),
                     onTap: () {
                       presenter.viewMoreTransactions();
                     },
                     title:
                         '${FlutterI18n.translate(context, 'view_other_transactions')}  ',
-                    icon: const Icon(
-                      MXCIcons.external_link,
-                      size: 20,
-                    ),
-                    buttonDecoration: BoxDecoration(
-                      color: ColorsTheme.of(context).white.withOpacity(.16),
-                      borderRadius: BorderRadius.circular(40),
-                    ),
+                    iconData: MXCIcons.external_link,
                     alignIconStart: false,
                   ),
                   const Spacer()

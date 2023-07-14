@@ -88,19 +88,12 @@ class SendCryptoPage extends HookConsumerWidget {
                             padding: const EdgeInsets.only(top: 8, left: 8),
                             child: MxcChipButton(
                               key: Key('button$item'),
+                              buttonState: ChipButtonStates.inactiveState,
                               contentPadding:
                                   const EdgeInsets.symmetric(vertical: 8),
-                              titleStyle:
-                                  FontTheme.of(context).subtitle1.primary(),
                               onTap: () {},
                               width: 80,
                               title: item,
-                              buttonDecoration: BoxDecoration(
-                                  // color: ColorsTheme.of(context).white,
-                                  borderRadius: BorderRadius.circular(40),
-                                  border: Border.all(
-                                    color: ColorsTheme.of(context).white,
-                                  )),
                             ),
                           ))
                       .toList()),

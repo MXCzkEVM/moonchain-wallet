@@ -143,10 +143,11 @@ class MxcPageLayer extends MxcPage {
       useSlivers: true,
       footer: footer == null
           ? Container(
-              color: backgroundColor ?? ColorsTheme.of(context).box,
+              color: backgroundColor ??
+                  ColorsTheme.of(context).layerSheetBackground,
             )
           : Container(
-              color: ColorsTheme.of(context).box,
+              color: ColorsTheme.of(context).layerSheetBackground,
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: (useFooterPadding
@@ -215,7 +216,7 @@ class MxcPageLayer extends MxcPage {
                       ),
                     ),
                     child: ColoredBox(
-                      color: ColorsTheme.of(context).box,
+                      color: ColorsTheme.of(context).layerSheetBackground,
                     ),
                   ),
                 ),
@@ -293,7 +294,7 @@ class MxcPageLayer extends MxcPage {
                 topLeft: Radius.circular(bottomFlowDialogRoundedCornersRadius),
                 topRight: Radius.circular(bottomFlowDialogRoundedCornersRadius),
               ),
-              color: ColorsTheme.of(context).box,
+              color: ColorsTheme.of(context).layerSheetBackground,
             ),
             child: Column(
               crossAxisAlignment: crossAxisAlignment,

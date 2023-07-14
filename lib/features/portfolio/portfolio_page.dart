@@ -51,7 +51,8 @@ class PortfolioPage extends HookConsumerWidget {
                       child: Container(
                         // width: 100,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xff4F4E54)),
+                          border:
+                              Border.all(color: ColorsTheme.of(context).grey4),
                           borderRadius:
                               const BorderRadius.all(Radius.circular(15)),
                           color:
@@ -133,19 +134,11 @@ class PortfolioPage extends HookConsumerWidget {
                 children: [
                   MxcChipButton(
                     key: const Key('tokensTabButton'),
+                    buttonState: ChipButtonStates.activeState,
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                    titleStyle: FontTheme.of(context).h7().copyWith(
-                          fontSize: 14,
-                        ),
                     onTap: () {},
                     title: FlutterI18n.translate(context, 'tokens'),
-                    buttonDecoration: BoxDecoration(
-                        color: ColorsTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(40),
-                        border: Border.all(
-                          color: ColorsTheme.of(context).white,
-                        )),
                     alignIconStart: true,
                   ),
                   const SizedBox(
@@ -155,17 +148,12 @@ class PortfolioPage extends HookConsumerWidget {
                     key: const Key('nftsTabButton'),
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                    titleStyle: FontTheme.of(context).h7().copyWith(
-                        fontSize: 14,
-                        color: ColorsTheme.of(context).secondaryBackground),
+                    buttonState: ChipButtonStates.inactiveState,
+                    // titleStyle: FontTheme.of(context).h7().copyWith(
+                    //     fontSize: 14,
+                    //     color: ColorsTheme.of(context).secondaryBackground),
                     onTap: () {},
                     title: FlutterI18n.translate(context, 'nfts'),
-                    buttonDecoration: BoxDecoration(
-                        color: ColorsTheme.of(context).white,
-                        borderRadius: BorderRadius.circular(40),
-                        border: Border.all(
-                          color: ColorsTheme.of(context).secondaryBackground,
-                        )),
                     alignIconStart: true,
                   )
                 ],
