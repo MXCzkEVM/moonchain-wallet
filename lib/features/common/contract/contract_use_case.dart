@@ -1,21 +1,21 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:web3dart/web3dart.dart';
 
 class ContractUseCase extends ReactiveUseCase {
-  ContractUseCase(this._repository);
+  ContractUseCase(
+    this._repository,
+  );
 
-  final ApiRepository _repository;
+  final Web3Repository _repository;
 
   late final ValueStream<bool> online = reactive(false);
 
   late final ValueStream<List<Token>> tokensList = reactive([]);
 
-  Future<String> getWalletNativeTokenBalance(EthereumAddress address) async {
+  Future<String> getWalletNativeTokenBalance(String address) async {
     final balance = await _repository.contract.getEthBalance(address);
     return Formatter.convertWeiToEth(balance.getInWei.toString());
   }
@@ -26,7 +26,7 @@ class ContractUseCase extends ReactiveUseCase {
   }
 
   Future<WannseeTransactionsModel?> getTransactionsByAddress(
-      EthereumAddress address) async {
+      String address) async {
     return _repository.contract.getTransactionsByAddress(address);
   }
 
@@ -35,7 +35,7 @@ class ContractUseCase extends ReactiveUseCase {
   }
 
   Future<WannseeTokenTransfersModel?> getTokenTransfersByAddress(
-      EthereumAddress address) async {
+      String address) async {
     return _repository.contract.getTokenTransfersByAddress(address);
   }
 
@@ -60,9 +60,9 @@ class ContractUseCase extends ReactiveUseCase {
     update(online, result);
   }
 
-  Future<void> getTokensBalance() async {
-    final result = await _repository.contract.getTokensBalance(
-        tokensList.value, _repository.address.getLocalstoragePublicAddress()!);
+  Future<void> getTokensBalance(String walletAddress) async {
+    final result = await _repository.contract
+        .getTokensBalance(tokensList.value, walletAddress);
     update(tokensList, result);
   }
 

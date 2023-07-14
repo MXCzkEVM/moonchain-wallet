@@ -39,7 +39,7 @@ class RecentTransactions extends HookConsumerWidget {
                           children: [
                             ...RecentTransactionsUtils.generateTx(
                                 state.txList!.items!,
-                                state.walletAddress!.hex,
+                                state.walletAddress!,
                                 state.tokensList)
                           ],
                         )),

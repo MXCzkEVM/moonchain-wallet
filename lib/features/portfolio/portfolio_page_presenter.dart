@@ -11,14 +11,23 @@ final portfolioContainer =
         () => PortfolioPresenter());
 
 class PortfolioPresenter extends CompletePresenter<PortfolioState> {
+  PortfolioPresenter() : super(PortfolioState());
+
+  late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _portfolioUseCase = ref.read(portfolioUseCaseProvider);
-  late final _walletUserCase = ref.read(walletUseCaseProvider);
-  PortfolioPresenter() : super(PortfolioState());
 
   @override
   void initState() {
     super.initState();
+
+    listen(_accountUserCase.walletAddress, (value) {
+      if (value != null) {
+        notify(() => state.walletAddress = value);
+        initializePortfolioPage();
+      }
+    });
+
     listen(_contractUseCase.tokensList, (newTokenList) {
       if (newTokenList.isNotEmpty) {
         if (state.tokensList != null) {
@@ -28,20 +37,16 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
         }
       }
     });
+
+    _accountUserCase.refreshWallet();
   }
 
   initializePortfolioPage() {
-    _walletUserCase.getPublicAddress().then(
-      (walletAddress) {
-        // All other services are dependent on the wallet pubic address
-        //  state.walletAddress = walletAddress;
-        getWalletTokensBalance();
-      },
-    );
+    getWalletTokensBalance();
   }
 
   void getWalletTokensBalance() {
-    _contractUseCase.getTokensBalance();
+    _contractUseCase.getTokensBalance(state.walletAddress!);
   }
 
   void getWalletNFTs() {}

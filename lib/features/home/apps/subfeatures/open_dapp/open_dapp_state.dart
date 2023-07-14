@@ -3,7 +3,7 @@ import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/credentials.dart';
 
 class OpenDAppState with EquatableMixin {
-  EthereumAddress? address;
+  String? address;
   InAppWebViewController? webviewController;
   int progress = 0;
 

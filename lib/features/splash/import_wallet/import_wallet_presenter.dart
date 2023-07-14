@@ -9,11 +9,11 @@ final splashImportWalletContainer =
 class SplashImportWalletPresenter extends CompletePresenter<void> {
   SplashImportWalletPresenter() : super(null);
 
-  late final _walletUseCase = ref.read(walletUseCaseProvider);
+  late final _authUseCase = ref.read(authUseCaseProvider);
   late final TextEditingController mnemonicController = TextEditingController();
 
   String? validate(String? value) {
-    if (!_walletUseCase.validateMnemonic(value ?? '')) {
+    if (!_authUseCase.validateMnemonic(value ?? '')) {
       return translate('recovery_phrase_limit')!;
     }
 
@@ -25,7 +25,7 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
     loading = true;
 
     try {
-      await _walletUseCase.setupFromMnemonic(value);
+      _authUseCase.createWallet(value);
       pushSetupEnableBiometricPage(context!);
     } catch (e, s) {
       addError(e, s);

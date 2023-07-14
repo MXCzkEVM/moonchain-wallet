@@ -16,10 +16,8 @@ class ManagePortfolioSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final portfolioPresenter = ref.read(portfolioContainer.actions);
     return GestureDetector(
       onTap: () {
-        portfolioPresenter.initializePortfolioPage();
         Navigator.of(context).push(
           route(
             const PortfolioPage(),

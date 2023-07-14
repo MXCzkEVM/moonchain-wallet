@@ -3,7 +3,7 @@ import 'package:datadashwallet/core/core.dart';
 
 class CustomTokensRepository extends ControlledCacheRepository {
   @override
-  String get zone => 'custom_token';
+  final String zone = 'custom-token';
 
   late final Field<List<Token>> tokens = fieldWithDefault<List<Token>>(
     'items',

@@ -4,7 +4,7 @@ import 'package:datadashwallet/core/core.dart';
 
 class RecipientsRepository extends ControlledCacheRepository {
   @override
-  String get zone => 'recipients';
+  final String zone = 'recipients';
 
   late final Field<List<Recipient>> recipients =
       fieldWithDefault<List<Recipient>>(

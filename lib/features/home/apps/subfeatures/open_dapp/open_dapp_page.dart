@@ -69,7 +69,7 @@ class OpenAppPage extends HookConsumerWidget {
                     switch (eip1193) {
                       case EIP1193.requestAccounts:
                         if (state.address != null) {
-                          controller?.setAddress(state.address!.hex, id);
+                          controller?.setAddress(state.address!, id);
                         }
                         break;
                       case EIP1193.signTransaction:

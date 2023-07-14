@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/features/common/account/account_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/recipient/recipient.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_use_case.dart';
@@ -21,21 +22,15 @@ final Provider<LanguageUseCase> languageUseCaseProvider = Provider(
   (ref) => LanguageUseCase(ref.watch(globalCacheProvider).language),
 );
 
-final Provider<WalletUseCase> walletUseCaseProvider = Provider(
-  (ref) => WalletUseCase(
-    ref.watch(apiRepositoryProvider),
-  ),
-);
-
 final Provider<ContractUseCase> contractUseCaseProvider = Provider(
   (ref) => ContractUseCase(
-    ref.watch(apiRepositoryProvider),
+    ref.watch(web3RepositoryProvider),
   ),
 );
 
 final Provider<PortfolioUseCase> portfolioUseCaseProvider = Provider(
   (ref) => PortfolioUseCase(
-    ref.watch(apiRepositoryProvider),
+    ref.watch(web3RepositoryProvider),
   ),
 );
 
@@ -44,7 +39,18 @@ final Provider<PasscodeUseCase> passcodeUseCaseProvider = Provider(
 );
 
 final Provider<AuthUseCase> authUseCaseProvider = Provider(
-  (ref) => AuthUseCase(ref.watch(userSetupProvider)),
+  (ref) => AuthUseCase(
+    ref.watch(web3RepositoryProvider).walletAddress,
+    ref.watch(userSetupProvider),
+    ref.watch(authenticationCacheRepository),
+  ),
+);
+
+final Provider<AccountUseCase> accountUseCaseProvider = Provider(
+  (ref) => AccountUseCase(
+    ref.watch(userSetupProvider),
+    ref.watch(datadashCacheProvider).account,
+  ),
 );
 
 final Provider<BookmarkUseCase> bookmarksUseCaseProvider = Provider(

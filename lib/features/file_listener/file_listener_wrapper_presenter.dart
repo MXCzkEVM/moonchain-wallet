@@ -14,7 +14,6 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
   FileListenerWrapperPresenter() : super(null);
 
   late final _authUseCase = ref.read(authUseCaseProvider);
-  late final _walletUseCase = ref.read(walletUseCaseProvider);
 
   @override
   void initState() {
@@ -42,11 +41,15 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
       String? mnemonic = await readMnemonicFile(file);
 
       if (mnemonic != null && mnemonic.isNotEmpty) {
-        _walletUseCase.setupFromMnemonic(mnemonic);
+        if (_authUseCase.validateMnemonic(mnemonic)) {
+          _authUseCase.createWallet(mnemonic);
 
-        pushPasscodeSetPage();
+          pushPasscodeSetPage();
+        } else {
+          throw UnimplementedError('Mnemonic format is invalid.');
+        }
       } else {
-        throw UnimplementedError('Mnemonic file is empty or not exists');
+        throw UnimplementedError('Mnemonic file is empty or not exists.');
       }
     } catch (error, stackTrace) {
       addError(error, stackTrace);

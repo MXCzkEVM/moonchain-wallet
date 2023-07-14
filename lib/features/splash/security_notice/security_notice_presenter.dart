@@ -14,10 +14,10 @@ class SecurityNoticePresenter extends CompletePresenter<SecurityNoticeState> {
 
   final String phrases;
 
-  late final _walletUseCase = ref.read(walletUseCaseProvider);
+  late final _authUseCase = ref.read(authUseCaseProvider);
 
   void confirm() {
-    _walletUseCase.setupFromMnemonic(phrases);
+    _authUseCase.createWallet(phrases);
 
     if (Biometric.available) {
       pushSetupEnableBiometricPage(context!);

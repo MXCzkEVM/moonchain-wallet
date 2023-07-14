@@ -22,14 +22,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   final DApp dapp;
 
-  late final _walletUseCase = ref.read(walletUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
   late Web3Client _ethClient;
 
   @override
   void initState() {
     super.initState();
 
-    initDApp();
+    loadPage();
   }
 
   @override
@@ -37,10 +37,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return super.dispose();
   }
 
-  Future<void> initDApp() async {
+  Future<void> loadPage() async {
     _ethClient = Web3Client(Sys.rpcUrl, Client());
 
-    final address = await _walletUseCase.getPublicAddress();
+    final address = _accountUseCase.getWalletAddress();
     notify(() => state.address = address);
   }
 
@@ -91,7 +91,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     required VoidCallback cancel,
     required Function(String idHaethClientsh) success,
   }) async {
-    final credentials = EthPrivateKey.fromHex(_walletUseCase.getPrivateKey()!);
+    final credentials = EthPrivateKey.fromHex(state.address!);
     final sender = EthereumAddress.fromHex(bridge.from ?? '');
     final signto = EthereumAddress.fromHex(bridge.to ?? '');
     final input = hexToBytes(bridge.data ?? '');
@@ -121,7 +121,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         beanValue: maxGas.toString(), offsetValue: price.toString());
 
     showModalConfirm(
-        from: state.address!.hex,
+        from: state.address!,
         to: bridge.to ?? '',
         value: bridge.value ?? BigInt.zero,
         fee: fee,

@@ -1,4 +1,3 @@
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -7,7 +6,6 @@ import 'dart:math';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'home_page_state.dart';
-import 'package:web3dart/web3dart.dart';
 
 final homeContainer =
     PresenterContainer<HomePresenter, HomeState>(() => HomePresenter());
@@ -15,14 +13,21 @@ final homeContainer =
 class HomePresenter extends CompletePresenter<HomeState> {
   HomePresenter() : super(HomeState());
 
+  late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
-  late final _walletUserCase = ref.read(walletUseCaseProvider);
   late final _customTokenUseCase = ref.read(customTokensCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
+
+    listen(_accountUserCase.walletAddress, (value) {
+      if (value != null) {
+        notify(() => state.walletAddress = value);
+        initializeHomePage();
+      }
+    });
 
     listen(_balanceUseCase.balanceHistory, (newBalanceHistory) {
       print(newBalanceHistory);
@@ -44,7 +49,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
       }
     });
 
-    initializeHomePage();
+    _accountUserCase.refreshWallet();
   }
 
   changeIndex(newIndex) {
@@ -52,18 +57,12 @@ class HomePresenter extends CompletePresenter<HomeState> {
   }
 
   initializeHomePage() {
-    _walletUserCase.getPublicAddress().then(
-      (walletAddress) {
-        // All other services are dependent on the wallet pubic address
-        state.walletAddress = walletAddress;
-        getDefaultTokens();
-        getBalance();
-        createBalanceSubscription();
-        getTransactions();
-        _balanceUseCase.getBalanceHistory();
-        _customTokenUseCase.getTokens();
-      },
-    );
+    getDefaultTokens();
+    getBalance();
+    createBalanceSubscription();
+    getTransactions();
+    _balanceUseCase.getBalanceHistory();
+    _customTokenUseCase.getTokens();
   }
 
   getBalance() async {
@@ -247,7 +246,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
   void viewMoreTransactions() async {
     if (state.walletAddress != null) {
       final addressUrl = Uri.parse(
-          'https://wannsee-explorer.mxc.com/address/${state.walletAddress!.hex}');
+          'https://wannsee-explorer.mxc.com/address/${state.walletAddress}');
 
       if ((await canLaunchUrl(addressUrl))) {
         await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);

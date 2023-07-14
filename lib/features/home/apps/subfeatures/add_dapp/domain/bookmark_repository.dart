@@ -4,7 +4,7 @@ import 'package:datadashwallet/core/core.dart';
 
 class BookmarkRepository extends GlobalCacheRepository {
   @override
-  String get zone => 'bookmarks';
+  final String zone = 'bookmarks';
 
   late final Field<List<Bookmark>> bookmarks = fieldWithDefault<List<Bookmark>>(
     'items',

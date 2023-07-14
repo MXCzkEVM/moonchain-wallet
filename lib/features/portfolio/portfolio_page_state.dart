@@ -10,7 +10,7 @@ class PortfolioState with EquatableMixin {
 
   List<Token>? tokensList;
 
-  EthereumAddress? walletAddress;
+  String? walletAddress;
 
   // TabController? tabController = TabController(length: 2, vsync: useSingleTickerProvider());
 

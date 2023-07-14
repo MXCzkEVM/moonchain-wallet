@@ -16,16 +16,11 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     extends CompletePresenter<T> {
   RecoveryPhraseBasePresenter(T state) : super(state);
 
-  late final _walletUseCase = ref.read(walletUseCaseProvider);
+  late final _authUseCase = ref.read(authUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
   final _mnemonicTitle = 'DataDash Wallet Mnemonic Key';
   final _mnemonicFileName =
       '${DateFormat('y-M-d').format(DateTime.now())}-datadash-key.txt';
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void changeAcceptAggreement() =>
       notify(() => state.acceptAgreement = !state.acceptAgreement);
@@ -41,7 +36,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   void shareToTelegram() async {
-    final phrases = _walletUseCase.generateMnemonic();
+    final phrases = _authUseCase.generateMnemonic();
     final filePath = await writeToFile(phrases);
 
     if (Platform.isAndroid) {
@@ -61,7 +56,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   void shareToWechat() async {
-    final phrases = _walletUseCase.generateMnemonic();
+    final phrases = _authUseCase.generateMnemonic();
     final filePath = await writeToFile(phrases);
 
     if (Platform.isAndroid) {
@@ -81,7 +76,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   void sendEmail(BuildContext ctx) async {
-    final phrases = _walletUseCase.generateMnemonic();
+    final phrases = _authUseCase.generateMnemonic();
     final filePath = await writeToFile(phrases);
 
     final email = MailOptions(

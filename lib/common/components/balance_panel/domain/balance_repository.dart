@@ -3,7 +3,7 @@ import 'package:datadashwallet/core/core.dart';
 
 class BalanceRepository extends ControlledCacheRepository {
   @override
-  String get zone => 'balance_history';
+  final String zone = 'balance-history';
 
   late final Field<List<BalanceData>> balanceHistory =
       fieldWithDefault<List<BalanceData>>(

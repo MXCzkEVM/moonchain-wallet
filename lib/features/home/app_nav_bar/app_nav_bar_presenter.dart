@@ -8,7 +8,7 @@ final appNavBarContainer = PresenterContainer<AppNavPresenter, AppNavBarState>(
 class AppNavPresenter extends CompletePresenter<AppNavBarState> {
   AppNavPresenter() : super(AppNavBarState());
 
-  late final _walletUseCase = ref.read(walletUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
 
   @override
@@ -18,23 +18,23 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
     listen(
         _contractUseCase.online, (value) => notify(() => state.online = value));
 
-    listen(_walletUseCase.publicAddress, (value) async {
-      final name = await _contractUseCase.getName(value);
+    listen(_accountUseCase.walletAddress, (value) async {
+      if (value != null) {
+        final name = await _contractUseCase.getName(value);
 
-      notify(() {
-        state.accounts = [name];
-        state.currentAccount = name;
-      });
+        notify(() {
+          state.accounts = [name];
+          state.currentAccount = name;
+        });
+      }
     });
 
     loadPage();
   }
 
   void loadPage() {
-    Future.wait([
-      _contractUseCase.checkConnectionToNetwork(),
-      _walletUseCase.getPublicAddress(),
-    ]);
+    _contractUseCase.checkConnectionToNetwork();
+    _accountUseCase.refreshWallet();
   }
 
   void onAccountChange(String value) =>

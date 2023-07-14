@@ -9,9 +9,9 @@ import 'package:web3dart/web3dart.dart';
 class PortfolioUseCase extends ReactiveUseCase {
   PortfolioUseCase(this._repository);
 
-  final ApiRepository _repository;
+  final Web3Repository _repository;
 
-  Future<String> getWalletNativeTokenBalance(EthereumAddress address) async {
+  Future<String> getWalletNativeTokenBalance(String address) async {
     final wallet = await (await _repository.contract).getEthBalance(address);
     return (wallet.getInWei.toDouble() / pow(10, 18)).toStringAsFixed(2);
   }
