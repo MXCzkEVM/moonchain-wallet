@@ -27,7 +27,7 @@ class OpenAppPage extends HookConsumerWidget {
     const primaryVelocity = 500;
 
     return Scaffold(
-      backgroundColor: ColorsTheme.of(context).secondaryBackground,
+      backgroundColor: ColorsTheme.of(context).screenBackground,
       body: SafeArea(
         child: PresenterHooks(
           presenter: presenter,

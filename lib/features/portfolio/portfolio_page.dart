@@ -23,7 +23,7 @@ class PortfolioPage extends HookConsumerWidget {
     return MxcPage(
         presenter: presenter,
         resizeToAvoidBottomInset: true,
-        backgroundColor: ColorsTheme.of(context).secondaryBackground,
+        backgroundColor: ColorsTheme.of(context).screenBackground,
         layout: LayoutType.column,
         useContentPadding: false,
         childrenPadding: const EdgeInsets.only(top: 25, right: 24, left: 24),
