@@ -27,7 +27,15 @@ class Validation {
     RegExp urlExp = RegExp(
         r"(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
     if (!urlExp.hasMatch(value!)) {
-      return FlutterI18n.translate(context, 'Invalid format');
+      return FlutterI18n.translate(context, 'invalid_format');
+    }
+
+    return null;
+  }
+
+  static String? checkEthereumAddress(BuildContext context, String value) {
+    if (!RegExp(r'^(0x)?[0-9a-f]{40}', caseSensitive: false).hasMatch(value)) {
+      return FlutterI18n.translate(context, 'invalid_format');
     }
 
     return null;

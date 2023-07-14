@@ -7,11 +7,11 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'add_token_state.dart';
 
 final addTokenPageContainer =
-    PresenterContainer<AddTokenPresenter, AddTokenPageState>(
+    PresenterContainer<AddTokenPresenter, AddTokenState>(
         () => AddTokenPresenter());
 
-class AddTokenPresenter extends CompletePresenter<AddTokenPageState> {
-  AddTokenPresenter() : super(AddTokenPageState());
+class AddTokenPresenter extends CompletePresenter<AddTokenState> {
+  AddTokenPresenter() : super(AddTokenState());
 
   late final ContractUseCase _contractUseCase =
       ref.read(contractUseCaseProvider);

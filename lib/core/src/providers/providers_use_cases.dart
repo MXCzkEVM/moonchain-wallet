@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/settings/subfeatures/recipient/recipient.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/domain/bookmark_pagination_use_case.dart';
@@ -60,4 +61,8 @@ final Provider<CustomTokensUseCase> customTokensCaseProvider = Provider(
 
 final Provider<BalanceUseCase> balanceHistoryUseCaseProvider = Provider(
   (ref) => BalanceUseCase(ref.watch(datadashCacheProvider).balanceHistory),
+);
+
+final Provider<RecipientsUseCase> recipientsCaseProvider = Provider(
+  (ref) => RecipientsUseCase(ref.watch(datadashCacheProvider).recipients),
 );

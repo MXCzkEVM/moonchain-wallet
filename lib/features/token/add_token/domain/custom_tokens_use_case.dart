@@ -3,7 +3,6 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 import 'custom_tokens_repository.dart';
 
-
 class CustomTokensUseCase extends ReactiveUseCase {
   CustomTokensUseCase(this._repository);
 
@@ -11,6 +10,8 @@ class CustomTokensUseCase extends ReactiveUseCase {
 
   late final ValueStream<List<Token>> tokens =
       reactiveField(_repository.tokens);
+
+  List<Token> getTokens() => _repository.items;
 
   void addItem(Token item) {
     _repository.addItem(item);
