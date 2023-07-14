@@ -33,7 +33,7 @@ class BalanceInXSD extends HookConsumerWidget {
           text: ' XSD',
           style: FontTheme.of(context).h5().copyWith(
                 fontSize: fontSize,
-                color: ColorsTheme.of(context).primaryText.withOpacity(0.32),
+                color: ColorsTheme.of(context).textPrimary.withOpacity(0.32),
                 fontWeight: FontWeight.w400,
               )),
     ]));

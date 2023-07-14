@@ -31,7 +31,7 @@ Future<T?> showGeneralBottomSheet<T>(
                 width: 44,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: ColorsTheme.of(context).secondaryText,
+                  color: ColorsTheme.of(context).textSecondary,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   ),

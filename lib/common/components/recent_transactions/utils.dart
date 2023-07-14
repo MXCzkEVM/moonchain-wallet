@@ -63,7 +63,7 @@ class RecentTransactionsUtils {
     late Color txColor;
     switch (transactionStatus) {
       case TransactionStatus.pending:
-        txColor = ColorsTheme.of(context).orangeText;
+        txColor = ColorsTheme.of(context).textOrange;
         break;
       case TransactionStatus.failed:
         txColor = ColorsTheme.of(context).mainRed;

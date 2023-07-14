@@ -1,9 +1,4 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/home.dart';
-import 'dart:convert';
-import 'dart:math';
-import 'package:mxc_logic/mxc_logic.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'portfolio_page_state.dart';
 
 final portfolioContainer =
@@ -15,7 +10,6 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
-  late final _portfolioUseCase = ref.read(portfolioUseCaseProvider);
 
   @override
   void initState() {
