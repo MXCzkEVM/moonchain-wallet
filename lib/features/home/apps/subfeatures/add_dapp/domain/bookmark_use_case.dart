@@ -11,6 +11,8 @@ class BookmarkUseCase extends ReactiveUseCase {
   late final ValueStream<List<Bookmark>> bookmarks =
       reactiveField(_repository.bookmarks);
 
+  List<Bookmark> getBookmarks() => _repository.items;
+
   void addItem(Bookmark item) {
     _repository.addItem(item);
     update(bookmarks, _repository.items);
