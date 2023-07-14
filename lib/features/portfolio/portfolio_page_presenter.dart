@@ -11,10 +11,11 @@ final portfolioContainer =
         () => PortfolioPresenter());
 
 class PortfolioPresenter extends CompletePresenter<PortfolioState> {
+  PortfolioPresenter() : super(PortfolioState());
+
   late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _portfolioUseCase = ref.read(portfolioUseCaseProvider);
   late final _walletUserCase = ref.read(walletUseCaseProvider);
-  PortfolioPresenter() : super(PortfolioState());
 
   @override
   void initState() {

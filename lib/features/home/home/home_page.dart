@@ -51,7 +51,7 @@ class HomePage extends HookConsumerWidget {
                   style: FontTheme.of(context).h4().copyWith(
                       fontSize: 34,
                       fontWeight: FontWeight.w400,
-                      color: ColorsTheme.of(context).primaryText)),
+                      color: ColorsTheme.of(context).textPrimary)),
               const SizedBox(
                 height: 6,
               ),
@@ -66,7 +66,7 @@ class HomePage extends HookConsumerWidget {
                       style: FontTheme.of(context).h7().copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: ColorsTheme.of(context).secondaryText)),
+                          color: ColorsTheme.of(context).textSecondary)),
                 ],
               ),
               const SizedBox(

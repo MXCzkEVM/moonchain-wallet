@@ -32,7 +32,7 @@ class ChangeIndicator extends HookConsumerWidget {
                     text: '   ${FlutterI18n.translate(context, 'today')}',
                     style: FontTheme.of(context).h7().copyWith(
                         color: ColorsTheme.of(context)
-                            .primaryText
+                            .textPrimary
                             .withOpacity(0.32))),
               ]))
             ],

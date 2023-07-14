@@ -135,7 +135,7 @@ class RecentTrxListItem extends HookConsumerWidget {
                       '  $formattedTXHash',
                       style: FontTheme.of(context).caption1().copyWith(
                           fontSize: 14,
-                          color: ColorsTheme.of(context).secondaryText),
+                          color: ColorsTheme.of(context).textSecondary),
                     ),
                     Icon(
                       MXCIcons.external_link,

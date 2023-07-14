@@ -41,7 +41,7 @@ class BookmarkIcon extends StatelessWidget {
             child: Text(
               title,
               style: FontTheme.of(context).subtitle2().copyWith(
-                    color: ColorsTheme.of(context).secondaryText,
+                    color: ColorsTheme.of(context).textSecondary,
                   ),
               overflow: TextOverflow.ellipsis,
             ),

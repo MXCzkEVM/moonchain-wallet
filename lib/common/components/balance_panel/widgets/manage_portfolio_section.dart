@@ -30,7 +30,7 @@ class ManagePortfolioSection extends HookConsumerWidget {
         children: [
           Icon(
             MXCIcons.coin,
-            color: ColorsTheme.of(context).secondaryText,
+            color: ColorsTheme.of(context).textSecondary,
           ),
           Text(
             '  ${FlutterI18n.translate(context, 'manage_portfolio')}',
@@ -41,7 +41,7 @@ class ManagePortfolioSection extends HookConsumerWidget {
           const Spacer(),
           Icon(
             Icons.arrow_forward_ios_rounded,
-            color: ColorsTheme.of(context).primaryText.withOpacity(0.32),
+            color: ColorsTheme.of(context).textPrimary.withOpacity(0.32),
             size: 16,
           )
         ],
