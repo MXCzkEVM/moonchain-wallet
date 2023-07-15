@@ -20,16 +20,21 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
 
     listen(_accountUseCase.walletAddress, (value) async {
       if (value != null) {
-        final name = await _contractUseCase.getName(value);
+        updateAccount(value);
 
-        notify(() {
-          state.accounts = [name];
-          state.currentAccount = name;
-        });
+        final name = await _contractUseCase.getName(value);
+        updateAccount(name);
       }
     });
 
     loadPage();
+  }
+
+  void updateAccount(String value) {
+    notify(() {
+      state.accounts = [value];
+      state.currentAccount = value;
+    });
   }
 
   void loadPage() {
