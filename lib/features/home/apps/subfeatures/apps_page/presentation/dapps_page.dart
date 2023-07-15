@@ -45,7 +45,7 @@ class DAppsPage extends HookConsumerWidget {
       for (itemIndex; itemIndex < bookmarks.length; itemIndex++) {
         final currentGridRows = bookmarks[itemIndex].occupyGrid;
         if (currentGridRows == 4) {
-          if(sumItems + 8 > gridRows * 4){
+          if (sumItems + 8 > gridRows * 4) {
             break;
           }
         }
