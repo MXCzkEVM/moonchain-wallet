@@ -85,7 +85,8 @@ class DAppsPage extends HookConsumerWidget {
             ),
           ),
           children: [
-            Expanded(
+            SizedBox(
+              height: bodyHeight,
               child: PageView(
                 onPageChanged: (index) =>
                     ref.read(presenter).onPageChage(index),
