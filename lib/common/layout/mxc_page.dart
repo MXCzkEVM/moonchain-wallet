@@ -9,7 +9,6 @@ import 'package:datadashwallet/core/core.dart';
 
 import 'mxc_page_regular.dart';
 import 'mxc_page_layer.dart';
-import 'edit_mode_status_bar.dart';
 
 const contentPadding = EdgeInsets.symmetric(horizontal: 16);
 
@@ -35,9 +34,6 @@ abstract class MxcPage extends HookConsumerWidget {
     this.useFooterPadding = true,
     this.resizeToAvoidBottomInset = true,
     this.useSplashBackground = false,
-    this.isEditMode = false,
-    this.onAdd,
-    this.onDone,
   })  : assert(scrollController == null || layout != LayoutType.column),
         super(key: key);
 
@@ -62,9 +58,6 @@ abstract class MxcPage extends HookConsumerWidget {
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
     bool useSplashBackground,
-    bool isEditMode,
-    VoidCallback? onAdd,
-    VoidCallback? onDone,
     bool useAppBar,
   }) = MxcPageRegular;
 
@@ -114,9 +107,6 @@ abstract class MxcPage extends HookConsumerWidget {
 
   final bool useSplashBackground;
 
-  final bool isEditMode;
-  final VoidCallback? onAdd;
-  final VoidCallback? onDone;
   Widget buildChildrenAsSliver(BoxConstraints? constraints) {
     Widget sliver;
     if (layout == LayoutType.slivers) {
@@ -244,12 +234,6 @@ abstract class MxcPage extends HookConsumerWidget {
               top: topSafeArea,
               child: Column(
                 children: [
-                  if (isEditMode) ...[
-                    EditAppsModeStatusBar(
-                      onAdd: onAdd,
-                      onDone: onDone,
-                    ),
-                  ],
                   buildAppBar(context, ref),
                   Expanded(
                       child: Padding(

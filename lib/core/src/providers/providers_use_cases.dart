@@ -1,10 +1,8 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/common/account/account_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/recipient/recipient.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
-import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/domain/bookmark_pagination_use_case.dart';
 import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -56,10 +54,6 @@ final Provider<AccountUseCase> accountUseCaseProvider = Provider(
 final Provider<BookmarkUseCase> bookmarksUseCaseProvider = Provider(
   (ref) => BookmarkUseCase(ref.watch(datadashCacheProvider).bookmarks),
 );
-
-final Provider<BookmarkPaginationUseCase> bookmarkPaginationUseCaseProvider =
-    Provider((ref) =>
-        BookmarkPaginationUseCase(ref.watch(datadashCacheProvider).bookmarks));
 
 final Provider<CustomTokensUseCase> customTokensCaseProvider = Provider(
   (ref) => CustomTokensUseCase(ref.watch(datadashCacheProvider).custonTokens),

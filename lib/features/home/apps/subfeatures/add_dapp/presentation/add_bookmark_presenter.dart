@@ -6,12 +6,11 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import '../domain/bookmark_use_case.dart';
 
-final addDAppPageContainer =
-    PresenterContainer<AddDAppPresenter, void>(
-        () => AddDAppPresenter());
+final addBookmarkPageContainer = PresenterContainer<AddBookmarkPresenter, void>(
+    () => AddBookmarkPresenter());
 
-class AddDAppPresenter extends CompletePresenter<void> {
-  AddDAppPresenter() : super(null);
+class AddBookmarkPresenter extends CompletePresenter<void> {
+  AddBookmarkPresenter() : super(null);
 
   late final BookmarkUseCase _bookmarksUseCase =
       ref.read(bookmarksUseCaseProvider);
@@ -31,6 +30,7 @@ class AddDAppPresenter extends CompletePresenter<void> {
 
   Future<void> onSave() async {
     final url = urlController.text;
+    loading = true;
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -51,6 +51,8 @@ class AddDAppPresenter extends CompletePresenter<void> {
       BottomFlowDialog.of(context!).close();
     } catch (e, s) {
       addError(e, s);
+    } finally {
+      loading = false;
     }
   }
 }

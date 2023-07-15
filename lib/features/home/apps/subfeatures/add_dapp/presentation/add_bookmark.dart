@@ -5,13 +5,14 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'add_dapp_presenter.dart';
+import 'add_bookmark_presenter.dart';
 
-class AddDApp extends HookConsumerWidget {
-  const AddDApp({Key? key}) : super(key: key);
+class addBookmark extends HookConsumerWidget {
+  const addBookmark({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<AddDAppPresenter> get presenter => addDAppPageContainer.actions;
+  ProviderBase<AddBookmarkPresenter> get presenter =>
+      addBookmarkPageContainer.actions;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,8 +26,8 @@ class AddDApp extends HookConsumerWidget {
             valueListenable: ref.watch(presenter).urlController,
             builder: (ctx, urlValue, _) {
               return MxcAppBarEvenly.text(
-                titleText: 'add_bookmark',
-                actionText: 'save',
+                titleText: FlutterI18n.translate(context, 'add_bookmark'),
+                actionText: FlutterI18n.translate(context, 'save'),
                 onActionTap: () {
                   if (!formKey.currentState!.validate()) return;
                   ref.watch(presenter).onSave();

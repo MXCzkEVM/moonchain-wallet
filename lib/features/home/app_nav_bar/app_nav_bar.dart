@@ -93,7 +93,7 @@ class AppNavBar extends HookConsumerWidget {
                       textStyle: FontTheme.of(context).subtitle1(),
                       icon: Icon(
                         Icons.arrow_drop_down_rounded,
-                        size: 32,
+                        size: 26,
                         color: ColorsTheme.of(context).purpleMain,
                       ),
                     ),

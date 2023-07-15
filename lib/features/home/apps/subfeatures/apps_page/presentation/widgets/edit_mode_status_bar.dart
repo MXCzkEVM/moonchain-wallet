@@ -15,13 +15,14 @@ class EditAppsModeStatusBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 22),
       child: Row(
         children: [
           EditModeButton(
             onTap: onAdd,
             child: const Icon(
               Icons.add,
+              size: 20,
               color: Colors.black,
             ),
           ),
@@ -31,7 +32,7 @@ class EditAppsModeStatusBar extends StatelessWidget {
             child: Text(
               FlutterI18n.translate(context, 'done'),
               style: FontTheme.of(context)
-                  .body2()
+                  .subtitle1()
                   .copyWith(color: Colors.black, fontWeight: FontWeight.w700),
             ),
           )
@@ -56,8 +57,8 @@ class EditModeButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 66,
-        height: 28,
+        width: 56,
+        height: 22,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(

@@ -9,18 +9,19 @@ import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
 import 'package:http/http.dart';
 
+import '../../entities/bookmark.dart';
 import 'open_dapp_state.dart';
 import 'widgets/js_bridge_bean.dart';
 import 'widgets/payment_sheet_page.dart';
 
 final openDAppPageContainer =
-    PresenterContainerWithParameter<OpenDAppPresenter, OpenDAppState, DApp>(
-        (dapp) => OpenDAppPresenter(dapp));
+    PresenterContainerWithParameter<OpenDAppPresenter, OpenDAppState, Bookmark>(
+        (bookmark) => OpenDAppPresenter(bookmark));
 
 class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
-  OpenDAppPresenter(this.dapp) : super(OpenDAppState());
+  OpenDAppPresenter(this.bookmark) : super(OpenDAppState());
 
-  final DApp dapp;
+  final Bookmark bookmark;
 
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late Web3Client _ethClient;

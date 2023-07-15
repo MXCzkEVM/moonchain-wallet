@@ -16,7 +16,9 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
     super.initState();
 
     listen(
-        _contractUseCase.online, (value) => notify(() => state.online = value));
+      _contractUseCase.online,
+      (value) => notify(() => state.online = value),
+    );
 
     listen(_accountUseCase.walletAddress, (value) async {
       if (value != null) {
