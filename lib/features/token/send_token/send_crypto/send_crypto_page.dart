@@ -29,34 +29,28 @@ class SendCryptoPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useMemoized(() => GlobalKey<FormState>());
+
     String translate(String text) => FlutterI18n.translate(context, text);
 
     return MxcPage.layer(
       presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.start,
-      footer: ValueListenableBuilder<TextEditingValue>(
-          valueListenable: ref.read(presenter).amountController,
-          builder: (ctx, amountValue, _) {
-            return ValueListenableBuilder<TextEditingValue>(
-                valueListenable: ref.read(presenter).recipientController,
-                builder: (ctx, recipientValue, _) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: MxcButton.primary(
-                      key: const ValueKey('nextButton'),
-                      title: FlutterI18n.translate(context, 'next'),
-                      onTap: amountValue.text.isNotEmpty &&
-                              recipientValue.text.isNotEmpty
-                          ? () {
-                              FocusManager.instance.primaryFocus?.unfocus();
+      footer: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: MxcButton.primary(
+          key: const ValueKey('nextButton'),
+          title: FlutterI18n.translate(context, 'next'),
+          onTap: ref.watch(state).valid
+              ? () {
+                  FocusManager.instance.primaryFocus?.unfocus();
 
-                              if (!formKey.currentState!.validate()) return;
-                            }
-                          : null,
-                    ),
-                  );
-                });
-          }),
+                  // if (!formKey.currentState!.validate()) return;
+
+                  ref.read(presenter).transactionProcess();
+                }
+              : null,
+        ),
+      ),
       children: [
         MxcAppBarEvenly.text(
             titleText:
@@ -85,7 +79,7 @@ class SendCryptoPage extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    translate('MXC zkEVM'),
+                    'MXC zkEVM',
                     style: FontTheme.of(context).body1.secondary(),
                   ),
                 ],
@@ -113,7 +107,10 @@ class SendCryptoPage extends HookConsumerWidget {
                 suffixText: token.symbol,
                 suffixButton: MxcTextFieldButton.text(
                   text: translate('max'),
-                  onTap: () => ref.read(presenter).changeDiscount(100),
+                  onTap: () {
+                    ref.read(presenter).changeDiscount(100);
+                    formKey.currentState!.validate();
+                  },
                 ),
                 onFocused: (focused) =>
                     focused ? null : formKey.currentState!.validate(),
@@ -126,8 +123,10 @@ class SendCryptoPage extends HookConsumerWidget {
                               key: ValueKey('button$item'),
                               contentPadding:
                                   const EdgeInsets.symmetric(vertical: 8),
-                              onTap: () =>
-                                  ref.read(presenter).changeDiscount(item),
+                              onTap: () {
+                                ref.read(presenter).changeDiscount(item);
+                                formKey.currentState!.validate();
+                              },
                               width: 80,
                               title: '$item%',
                               buttonState: ref.watch(state).discount == item
@@ -156,6 +155,7 @@ class SendCryptoPage extends HookConsumerWidget {
 
                     ref.read(presenter).recipientController.text =
                         res.address ?? res.mns ?? '';
+                    formKey.currentState!.validate();
                   },
                 ),
                 onFocused: (focused) =>

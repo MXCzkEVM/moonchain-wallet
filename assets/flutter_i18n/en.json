@@ -132,5 +132,10 @@
 	"new_recipient": "New Recipient",
 	"name": "Name",
 	"recipient_name": "Recipient name",
-	"new": "New"
+	"new": "New",
+	"from": "From",
+	"to": "To",
+	"estimated_fee": "Estimated Fee",
+	"sending": "Sending",
+	"confirm_transaction": "Confirm transaction"
 }

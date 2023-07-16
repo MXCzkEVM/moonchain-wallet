@@ -61,8 +61,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
     getBalance();
     createBalanceSubscription();
     getTransactions();
-    _balanceUseCase.getBalanceHistory();
-    _customTokenUseCase.getTokens();
   }
 
   getBalance() async {

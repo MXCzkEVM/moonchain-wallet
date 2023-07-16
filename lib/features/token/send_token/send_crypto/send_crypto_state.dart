@@ -5,11 +5,13 @@ class SendCryptoState with EquatableMixin {
   bool online = false;
   Token? token;
   int discount = 0;
+  bool valid = false;
 
   @override
   List<Object?> get props => [
         token,
         online,
         discount,
+        valid,
       ];
 }

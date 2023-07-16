@@ -33,7 +33,7 @@ class RecipientItem extends StatelessWidget {
                   Text(
                     address,
                     style: FontTheme.of(context).subtitle1().copyWith(
-                          color: ColorsTheme.of(context).white100,
+                          color: ColorsTheme.of(context).white200,
                         ),
                     overflow: TextOverflow.ellipsis,
                   ),
