@@ -113,7 +113,7 @@ class ResetPasscode extends StatelessWidget {
               buttonSize: MxcButtonSize.xl,
               onTap: onTap,
             ),
-            const SizedBox(height: 22),
+            const SizedBox(height: 26),
           ],
         ),
       ),

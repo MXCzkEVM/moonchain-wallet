@@ -1,10 +1,11 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:mxc_ui/mxc_ui.dart';
 
 import 'send_crypto_state.dart';
+import 'widgets/transaction_dialog.dart';
 
 final addTokenPageContainer = PresenterContainerWithParameter<
     SendCryptoPresenter,
@@ -18,6 +19,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
   late final ContractUseCase _contractUseCase =
       ref.read(contractUseCaseProvider);
+  late final accountInfo = ref.read(appNavBarContainer.state);
   late final TextEditingController amountController = TextEditingController();
   late final TextEditingController recipientController =
       TextEditingController();
@@ -27,7 +29,12 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     super.initState();
 
     listen(
-        _contractUseCase.online, (value) => notify(() => state.online = value));
+      _contractUseCase.online,
+      (value) => notify(() => state.online = value),
+    );
+
+    amountController.addListener(_onValidChange);
+    recipientController.addListener(_onValidChange);
 
     loadPage();
   }
@@ -43,8 +50,32 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     notify(() => state.discount = value);
   }
 
+  void _onValidChange() {
+    final result =
+        amountController.text.isNotEmpty && recipientController.text.isNotEmpty;
+    notify(() => state.valid = result);
+  }
+
+  void transactionProcess() {
+    final amount = amountController.text;
+    final recipient = recipientController.text;
+
+    showTransactionDialog(
+      context!,
+      title: 'confirm_transaction',
+      amount: amount,
+      balance: '${token.balance! - double.parse(amount)}',
+      token: token,
+      newtork: 'MXC zkEVM',
+      from: accountInfo.currentAccount,
+      to: recipient,
+    );
+  }
+
   @override
   Future<void> dispose() async {
     super.dispose();
+
+    amountController.removeListener(_onValidChange);
   }
 }
