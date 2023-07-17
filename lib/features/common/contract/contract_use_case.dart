@@ -4,6 +4,14 @@ import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
+extension Unique<E, T> on List<E> {
+  void unique([T Function(E element)? id, bool inplace = true]) {
+    final ids = Set();
+    var list = inplace ? this : List<E>.from(this);
+    list.retainWhere((x) => ids.add(id != null ? id(x) : x as T));
+  }
+}
+
 class ContractUseCase extends ReactiveUseCase {
   ContractUseCase(
     this._repository,
@@ -43,6 +51,7 @@ class ContractUseCase extends ReactiveUseCase {
     final result = await _repository.contract.getDefaultTokens();
     if (result != null) {
       tokensList.value.addAll(result.tokens ?? []);
+      tokensList.value.unique((x) => x.address);
       update(tokensList, tokensList.value);
     }
     return result;
@@ -68,6 +77,8 @@ class ContractUseCase extends ReactiveUseCase {
 
   void addCustomTokens(List<Token> customTokens) {
     tokensList.value.addAll(customTokens);
+    tokensList.value.unique((x) => x.address);
+
     update(tokensList, tokensList.value);
   }
 }
