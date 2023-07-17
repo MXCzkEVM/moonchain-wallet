@@ -69,7 +69,20 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       newtork: 'MXC zkEVM',
       from: accountInfo.currentAccount,
       to: recipient,
+      processType: state.processType,
+      onTap: _nextTransactionStep,
     );
+  }
+
+  void _nextTransactionStep() async {
+    if (TransactionProcessType.confirm == state.processType) {
+      notify(() => state.processType = TransactionProcessType.send);
+      Future.delayed(const Duration(seconds: 1),transactionProcess);
+    } else if (TransactionProcessType.send == state.processType) {
+      notify(() => state.processType = TransactionProcessType.done);
+    } else {
+      notify(() => state.processType = TransactionProcessType.confirm);
+    }
   }
 
   @override

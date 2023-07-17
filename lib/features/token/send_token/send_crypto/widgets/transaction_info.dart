@@ -4,7 +4,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-enum TransactionProcessType { confirm, send, done }
+import 'transaction_dialog.dart';
 
 class TransactionInfo extends StatelessWidget {
   const TransactionInfo({
@@ -16,6 +16,7 @@ class TransactionInfo extends StatelessWidget {
     required this.from,
     required this.to,
     this.estimatedFee,
+    this.processType = TransactionProcessType.confirm,
     this.onTap,
   }) : super(key: key);
 
@@ -26,6 +27,7 @@ class TransactionInfo extends StatelessWidget {
   final String from;
   final String to;
   final String? estimatedFee;
+  final TransactionProcessType? processType;
   final VoidCallback? onTap;
 
   @override
@@ -47,13 +49,31 @@ class TransactionInfo extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        MxcButton.primary(
-          key: const ValueKey('transactionButton'),
-          buttonSize: MxcButtonSize.xl,
-          title: FlutterI18n.translate(context, 'done'),
-          onTap: onTap,
-        ),
+        transactionButton(context),
       ],
+    );
+  }
+
+  Widget transactionButton(BuildContext context) {
+    String titleText = 'confirm';
+    MxcButtonType buttonType = MxcButtonType.primary;
+
+    if (processType == TransactionProcessType.send) {
+      titleText = 'send';
+    } else if (processType == TransactionProcessType.done) {
+      titleText = 'done';
+      buttonType = MxcButtonType.sucess;
+    }
+
+    return MxcButton.primary(
+      key: const ValueKey('transactionButton'),
+      buttonSize: MxcButtonSize.xl,
+      title: FlutterI18n.translate(context, titleText),
+      buttonType: buttonType,
+      onTap: () {
+        if (onTap != null) onTap!();
+        Navigator.of(context).pop();
+      },
     );
   }
 

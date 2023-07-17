@@ -5,6 +5,8 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'transaction_info.dart';
 
+enum TransactionProcessType { confirm, send, done }
+
 void showTransactionDialog(
   BuildContext context, {
   String? title,
@@ -15,9 +17,10 @@ void showTransactionDialog(
   required String from,
   required String to,
   String? estimatedFee,
+  TransactionProcessType? processType,
   VoidCallback? onTap,
 }) {
-  showModalBottomSheet<bool>(
+  showModalBottomSheet<void>(
     context: context,
     useRootNavigator: true,
     isScrollControlled: true,
@@ -52,7 +55,8 @@ void showTransactionDialog(
             from: from,
             to: to,
             estimatedFee: estimatedFee,
-            onTap: () {},
+            processType: processType,
+            onTap: onTap,
           ),
         ],
       ),
