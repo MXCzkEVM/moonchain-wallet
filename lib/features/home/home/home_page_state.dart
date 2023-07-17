@@ -17,11 +17,13 @@ class HomeState with EquatableMixin {
 
   bool hideBalance = false;
 
-  List<FlSpot> balanceSpots =  [];
+  List<FlSpot> balanceSpots = [];
 
   double chartMaxAmount = 1.0;
 
   double chartMinAmount = 0.0;
+
+  double? changeIndicator;
 
   @override
   List<Object?> get props => [

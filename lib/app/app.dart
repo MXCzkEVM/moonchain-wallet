@@ -55,10 +55,10 @@ class DataDashWallet extends HookConsumerWidget {
                 if (!isLoggedIn) {
                   return route(const SplashSetupWalletPage());
                 }
-                
+
                 return route(
                   const PasscodeRequireWrapperPage(
-                    child: HomePage(),
+                    child: DAppsPage(),
                   ),
                 );
               },

@@ -50,7 +50,7 @@ class AppNavBar extends HookConsumerWidget {
                         horizontal: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: ColorsTheme.of(context).white.withOpacity(0.16),
+                        color: ColorsTheme.of(context).grey5,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(30)),
                       ),
