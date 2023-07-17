@@ -13,21 +13,28 @@ class ChangeIndicator extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(homeContainer.actions);
     final state = ref.watch(homeContainer.state);
-    return state.walletBalance != '0.0'
+    return state.changeIndicator != null
         ? Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Icon(
-                MXCIcons.increase,
-                color: ColorsTheme.of(context).systemStatusActive,
+                state.changeIndicator!.isNegative
+                    ? MXCIcons.decrease
+                    : MXCIcons.increase,
+                color: state.changeIndicator!.isNegative
+                    ? ColorsTheme.of(context).systemStatusInActive
+                    : ColorsTheme.of(context).systemStatusActive,
                 size: 16,
               ),
               RichText(
                   text: TextSpan(children: [
                 TextSpan(
-                    text: ' 28.20%',
+                    text: ' ${state.changeIndicator!.toStringAsFixed(2)}%',
                     style: FontTheme.of(context).h7().copyWith(
-                        color: ColorsTheme.of(context).systemStatusActive)),
+                          color: state.changeIndicator!.isNegative
+                              ? ColorsTheme.of(context).systemStatusInActive
+                              : ColorsTheme.of(context).systemStatusActive,
+                        )),
                 TextSpan(
                     text: '   ${FlutterI18n.translate(context, 'today')}',
                     style: FontTheme.of(context).h7().copyWith(
