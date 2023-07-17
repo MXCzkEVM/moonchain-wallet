@@ -74,6 +74,9 @@ class ContractUseCase extends ReactiveUseCase {
   Future<String> getName(String address) async =>
       await _repository.contract.getName(address);
 
+  Future<String> getAddress(String? name) async =>
+      await _repository.contract.getAddress(name);
+
   Future<void> checkConnectionToNetwork() async {
     final result = await _repository.contract.checkConnectionToNetwork();
 
