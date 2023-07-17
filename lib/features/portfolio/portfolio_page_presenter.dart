@@ -39,8 +39,8 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     getWalletTokensBalance();
   }
 
-  void getWalletTokensBalance() {
-    _contractUseCase.getTokensBalance(state.walletAddress!);
+  void getWalletTokensBalance() async {
+    await _contractUseCase.getTokensBalance(state.walletAddress!);
   }
 
   void getWalletNFTs() {}
