@@ -72,7 +72,7 @@ class TokensBalanceList extends HookConsumerWidget {
           ],
         ),
         const SizedBox(
-          height: 90,
+          height: 120,
         ),
       ],
     );
