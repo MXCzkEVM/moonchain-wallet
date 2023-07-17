@@ -50,8 +50,7 @@ class BookmarkWidget extends StatelessWidget {
             ? Image(image: AssetImage(bookmark.image!))
             : const SizedBox(),
       );
-    }
-    if (bookmark.occupyGrid == 4) {
+    } else if (bookmark.occupyGrid == 4) {
       return containerWrap(
         context: context,
         bookmark: bookmark,
@@ -61,19 +60,22 @@ class BookmarkWidget extends StatelessWidget {
             : const SizedBox(),
       );
     } else {
-      return containerWrap(
-        context: context,
-        bookmark: bookmark,
-        width: MediaQuery.of(context).size.width / 4 - 22,
-        height: 66,
-        child: Padding(
-          padding: const EdgeInsets.all(2),
-          child: Text(
-            bookmark.title,
-            style: FontTheme.of(context).subtitle2().copyWith(
-                  color: ColorsTheme.of(context).textSecondary,
-                ),
-            overflow: TextOverflow.ellipsis,
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        child: containerWrap(
+          context: context,
+          bookmark: bookmark,
+          width: 60,
+          height: 60,
+          child: Padding(
+            padding: const EdgeInsets.all(2),
+            child: Text(
+              bookmark.title,
+              style: FontTheme.of(context).subtitle2().copyWith(
+                    color: ColorsTheme.of(context).textSecondary,
+                  ),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       );

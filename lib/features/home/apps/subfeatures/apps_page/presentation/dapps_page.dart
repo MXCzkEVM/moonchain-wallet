@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/apps/apps.dart';
@@ -7,7 +5,6 @@ import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/presentation/widgets/bookmark.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -62,27 +59,40 @@ class DAppsPage extends HookConsumerWidget {
     return Stack(
       children: [
         MxcPage(
-          layout: LayoutType.column,
+          layout: LayoutType.scrollable,
+          useContentPadding: false,
           childrenPadding:
               const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           backgroundColor: ColorsTheme.of(context).screenBackground,
-          appBar: AppNavBar(
-            leading: IconButton(
-              key: const ValueKey('menusButton'),
-              icon: const Icon(MXCIcons.burger_menu),
-              iconSize: 24,
-              onPressed: () {},
-              color: ColorsTheme.of(context).primaryButton,
-            ),
-            action: IconButton(
-              key: const ValueKey('walletButton'),
-              icon: const Icon(MXCIcons.wallet),
-              iconSize: 24,
-              onPressed: () => Navigator.of(context).replaceAll(
-                route(const HomePage()),
+          appBar: Column(
+            children: [
+              if (ref.watch(state).isEditMode) ...[
+                EditAppsModeStatusBar(
+                  onAdd: () => Navigator.of(context).push(
+                    route.featureDialog(const addBookmark()),
+                  ),
+                  onDone: () => ref.read(presenter).changeEditMode(),
+                ),
+              ],
+              AppNavBar(
+                leading: IconButton(
+                  key: const ValueKey('menusButton'),
+                  icon: const Icon(MXCIcons.burger_menu),
+                  iconSize: 24,
+                  onPressed: () {},
+                  color: ColorsTheme.of(context).primaryButton,
+                ),
+                action: IconButton(
+                  key: const ValueKey('walletButton'),
+                  icon: const Icon(MXCIcons.wallet),
+                  iconSize: 24,
+                  onPressed: () => Navigator.of(context).replaceAll(
+                    route(const HomePage()),
+                  ),
+                  color: ColorsTheme.of(context).primaryButton,
+                ),
               ),
-              color: ColorsTheme.of(context).primaryButton,
-            ),
+            ],
           ),
           children: [
             SizedBox(
@@ -113,14 +123,6 @@ class DAppsPage extends HookConsumerWidget {
             ),
           ],
         ),
-        if (ref.watch(state).isEditMode) ...[
-          EditAppsModeStatusBar(
-            onAdd: () => Navigator.of(context).push(
-              route.featureDialog(const addBookmark()),
-            ),
-            onDone: () => ref.read(presenter).changeEditMode(),
-          ),
-        ],
         if (pages.length > 1)
           Positioned(
             left: 0,
