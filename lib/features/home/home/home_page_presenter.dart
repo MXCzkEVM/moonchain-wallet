@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -30,7 +32,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
     });
 
     listen(_balanceUseCase.balanceHistory, (newBalanceHistory) {
-      print(newBalanceHistory);
       if (newBalanceHistory.isNotEmpty) {
         generateChartData(newBalanceHistory);
       }
@@ -72,6 +73,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
       notify(() => state.walletBalance = balanceUpdate);
       _balanceUseCase.addItem(BalanceData(
           timeStamp: DateTime.now(), balance: double.parse(balanceUpdate)));
+      calculateTheChange();
     } catch (e) {
       // Balance not found error happens if the wallet is new
       // But the error object that is thrown is not exported be used here
@@ -150,6 +152,9 @@ class HomePresenter extends CompletePresenter<HomeState> {
                   (double.parse(wannseeBalanceEvent.balance!).toDouble() /
                           pow(10, 18))
                       .toStringAsFixed(2));
+              _balanceUseCase.addItem(BalanceData(
+                  timeStamp: DateTime.now(),
+                  balance: double.parse(wannseeBalanceEvent.balance!)));
             }
             break;
           default:
@@ -263,37 +268,80 @@ class HomePresenter extends CompletePresenter<HomeState> {
   }
 
   void generateChartData(List<BalanceData> balanceData) {
-    // TODO: update data balance to be seven  days data
-    // TODO: update balance in DB every time balance update
-    // TODO: update the amounts to be the UI fit balance
     final List<FlSpot> newBalanceSpots = [];
     double newMaxValue = 0.0;
     if (balanceData.length == 1) {
       // we have only one day data
       final balance = balanceData[0].balance;
       newMaxValue = balance * 2.0;
-      newBalanceSpots.addAll(
-          List.generate(7, (index) => FlSpot(index.toDouble(), balance)));
-    } else {
-      for (int i = 0; i < balanceData.length; i++) {
-        final data = balanceData.elementAt(i);
-        final balance = data.balance;
-        if (newMaxValue < balance) {
-          newMaxValue = balance;
+    }
+
+    for (int i = 0; i < balanceData.length; i++) {
+      final data = balanceData.elementAt(i);
+
+      final balance = data.balance;
+      if (newMaxValue < balance) {
+        newMaxValue = balance;
+      }
+
+      if ((i + 1) == balanceData.length) {
+        // last data
+        // fill the list
+        newBalanceSpots.addAll(List.generate(
+            7 - newBalanceSpots.length,
+            (index) =>
+                FlSpot((newBalanceSpots.length + index).toDouble(), balance)));
+      } else {
+        final nextData = balanceData.elementAt(i + 1);
+        final sevenDaysBefore =
+            DateTime.now().subtract(const Duration(days: 7));
+
+        if (i == 0) {
+          newBalanceSpots.addAll(List.generate(
+              data.timeStamp.difference(sevenDaysBefore).inDays,
+              (index) => FlSpot(
+                  (newBalanceSpots.length + index).toDouble(), balance)));
         }
 
-        // final balance = data.balance.toString();
-
-        // final formattedStringBalance = Formatter.formatNumberForUI(balance);
-        // final formattedDoubleBalance = double.parse(formattedStringBalance);
-
-        newBalanceSpots.add(FlSpot(i.toDouble(), balance));
+        newBalanceSpots.addAll(List.generate(
+            nextData.timeStamp
+                .difference(
+                  data.timeStamp,
+                )
+                .inDays,
+            (index) =>
+                FlSpot((newBalanceSpots.length + index).toDouble(), balance)));
       }
     }
-    // print(newBalanceSpots);
-    // print(newBalanceSpots);
+
     if (newBalanceSpots.isNotEmpty) {
-      notify(() => state.balanceSpots = newBalanceSpots);
+      if (newBalanceSpots.length < 7) {
+        final lastBalance = newBalanceSpots[newBalanceSpots.length - 1].y;
+        final endingBalances = List.generate(
+            7 - newBalanceSpots.length,
+            (index) => FlSpot(
+                (newBalanceSpots.length + index).toDouble(), lastBalance));
+        newBalanceSpots.addAll(endingBalances);
+      }
+      state.balanceSpots.clear();
+      notify(() => state.balanceSpots.addAll(newBalanceSpots));
+      notify(() => state.chartMaxAmount = newMaxValue);
     }
+  }
+
+  void calculateTheChange() {
+    try {
+      final yesterdayBalance = state.balanceSpots[5].y;
+
+      final balanceDifference =
+          double.parse(state.walletBalance) - yesterdayBalance;
+
+      if (balanceDifference == 0) {
+        notify(() => state.changeIndicator = 0);
+      } else {
+        notify(() =>
+            state.changeIndicator = balanceDifference * 100 / yesterdayBalance);
+      }
+    } catch (e) {}
   }
 }
