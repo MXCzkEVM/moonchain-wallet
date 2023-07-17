@@ -20,10 +20,10 @@ class EditAppsModeStatusBar extends StatelessWidget {
         children: [
           EditModeButton(
             onTap: onAdd,
-            child: const Icon(
+            child: Icon(
               Icons.add,
               size: 20,
-              color: Colors.black,
+              color: ColorsTheme.of(context).iconPrimary,
             ),
           ),
           const Spacer(),
@@ -31,9 +31,9 @@ class EditAppsModeStatusBar extends StatelessWidget {
             onTap: onDone,
             child: Text(
               FlutterI18n.translate(context, 'done'),
-              style: FontTheme.of(context)
-                  .subtitle1()
-                  .copyWith(color: Colors.black, fontWeight: FontWeight.w700),
+              style: FontTheme.of(context).subtitle1().copyWith(
+                  color: ColorsTheme.of(context).textPrimary,
+                  fontWeight: FontWeight.w700),
             ),
           )
         ],
@@ -64,7 +64,7 @@ class EditModeButton extends StatelessWidget {
           borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
-          color: ColorsTheme.of(context).white.withOpacity(0.5),
+          color: ColorsTheme.of(context).grey3,
         ),
         child: child,
       ),

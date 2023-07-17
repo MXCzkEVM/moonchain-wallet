@@ -210,6 +210,12 @@ abstract class MxcPage extends HookConsumerWidget {
         systemNavigationBarContrastEnforced: false,
         statusBarColor: Colors.transparent,
         systemStatusBarContrastEnforced: false,
+        statusBarBrightness: Theme.of(context).brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarIconBrightness: Theme.of(context).brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark,
         systemNavigationBarIconBrightness:
             Theme.of(context).brightness == Brightness.dark
                 ? Brightness.light
