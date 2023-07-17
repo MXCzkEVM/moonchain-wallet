@@ -76,7 +76,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
       url: 'https://wannsee-mns.mxc.com/$name.mxc/register',
     ))))
         .then((_) {
-      navigator?.replaceAll(route(const HomePage()));
+      navigator?.replaceAll(route(const DAppsPage()));
     });
   }
 }
