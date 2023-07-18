@@ -164,7 +164,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
     // final walletAddress = await _walletUserCase.getPublicAddress();
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer
-    _contractUseCase
+    await _contractUseCase
         .getTransactionsByAddress(state.walletAddress!)
         .then((newTransactionsList) async {
       // token transfer list contains only one kind transaction which is token transfer
@@ -238,7 +238,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
   }
 
   void getDefaultTokens() async {
-    _contractUseCase.getDefaultTokens();
+    await _contractUseCase.getDefaultTokens(state.walletAddress!);
   }
 
   void changeHideBalanceState() {

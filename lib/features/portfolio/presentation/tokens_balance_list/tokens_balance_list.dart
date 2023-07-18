@@ -43,8 +43,8 @@ class TokensBalanceList extends HookConsumerWidget {
                               children: [
                                 ...TokensBalanceListUtils
                                     .generateTokensBalanceList(
-                                        portfolioState.tokensList!,
-                                        homeState.walletBalance)
+                                  portfolioState.tokensList!,
+                                )
                               ],
                             )),
                 ],

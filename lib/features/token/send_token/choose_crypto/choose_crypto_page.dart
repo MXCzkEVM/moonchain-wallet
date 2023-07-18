@@ -74,7 +74,6 @@ class ChooseCryptoPage extends HookConsumerWidget {
             children: [
               ...TokensBalanceListUtils.generateTokensBalanceList(
                 ref.watch(state).fliterTokens!,
-                homeState.walletBalance,
                 onSelected: ((token) => Navigator.of(context).push(
                       route.featureDialog(
                         SendCryptoPage(
