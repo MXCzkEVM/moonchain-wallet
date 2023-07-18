@@ -94,7 +94,7 @@ class SliderIndicatorItem extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           color: (indicate)
-              ? ColorsTheme.of(context).whiteInverted
+              ? ColorsTheme.of(context).whiteInvert
               : ColorsTheme.of(context).grey4),
     );
   }
