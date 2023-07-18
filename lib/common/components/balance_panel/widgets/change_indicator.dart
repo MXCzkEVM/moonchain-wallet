@@ -17,31 +17,38 @@ class ChangeIndicator extends HookConsumerWidget {
         ? Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Icon(
-                state.changeIndicator!.isNegative
-                    ? MXCIcons.decrease
-                    : MXCIcons.increase,
-                color: state.changeIndicator!.isNegative
-                    ? ColorsTheme.of(context).systemStatusInActive
-                    : ColorsTheme.of(context).systemStatusActive,
-                size: 16,
+              state.changeIndicator == 0.0
+                  ? Text(
+                      '≈',
+                      style: FontTheme.of(context).caption2().copyWith(
+                          color: ColorsTheme.of(context).textSecondary),
+                    )
+                  : Icon(
+                      state.changeIndicator!.isNegative
+                          ? MXCIcons.decrease
+                          : MXCIcons.increase,
+                      color: state.changeIndicator!.isNegative
+                          ? ColorsTheme.of(context).systemStatusInActive
+                          : ColorsTheme.of(context).systemStatusActive,
+                      size: 16,
+                    ),
+              Text(
+                  ' ${state.changeIndicator == 0.0 ? 0 : state.changeIndicator!.toStringAsFixed(2)}%',
+                  style: FontTheme.of(context).h7().copyWith(
+                        color: state.changeIndicator == 0.0
+                            ? ColorsTheme.of(context).textSecondary
+                            : state.changeIndicator!.isNegative
+                                ? ColorsTheme.of(context).systemStatusInActive
+                                : ColorsTheme.of(context).systemStatusActive,
+                      )),
+              const SizedBox(
+                width: 4,
               ),
-              RichText(
-                  text: TextSpan(children: [
-                TextSpan(
-                    text: ' ${state.changeIndicator!.toStringAsFixed(2)}%',
-                    style: FontTheme.of(context).h7().copyWith(
-                          color: state.changeIndicator!.isNegative
-                              ? ColorsTheme.of(context).systemStatusInActive
-                              : ColorsTheme.of(context).systemStatusActive,
-                        )),
-                TextSpan(
-                    text: '   ${FlutterI18n.translate(context, 'today')}',
-                    style: FontTheme.of(context).h7().copyWith(
-                        color: ColorsTheme.of(context)
-                            .textPrimary
-                            .withOpacity(0.32))),
-              ]))
+              Text('  ${FlutterI18n.translate(context, 'today')}',
+                  style: FontTheme.of(context).h7().copyWith(
+                      color: ColorsTheme.of(context)
+                          .textPrimary
+                          .withOpacity(0.32))),
             ],
           )
         : Container();
