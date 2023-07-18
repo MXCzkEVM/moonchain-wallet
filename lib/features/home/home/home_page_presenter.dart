@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -60,7 +61,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
   initializeHomePage() {
     getDefaultTokens();
     getBalance();
-    createBalanceSubscription();
+    createSubscriptions();
     getTransactions();
   }
 
@@ -71,7 +72,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
       notify(() => state.walletBalance = balanceUpdate);
       _balanceUseCase.addItem(BalanceData(
           timeStamp: DateTime.now(), balance: double.parse(balanceUpdate)));
-      calculateTheChange();
     } catch (e) {
       // Balance not found error happens if the wallet is new
       // But the error object that is thrown is not exported be used here
@@ -83,7 +83,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
     }
   }
 
-  void createBalanceSubscription() async {
+  void createSubscriptions() async {
     _contractUseCase.subscribeToBalance(
       "addresses:${state.walletAddress}".toLowerCase(),
       (dynamic event) {
@@ -146,13 +146,12 @@ class HomePresenter extends CompletePresenter<HomeState> {
             final wannseeBalanceEvent =
                 WannseeBalanceModel.fromJson(event.payload);
             if (wannseeBalanceEvent.balance != null) {
-              notify(() => state.walletBalance =
-                  (double.parse(wannseeBalanceEvent.balance!).toDouble() /
-                          pow(10, 18))
-                      .toStringAsFixed(2));
+              final newBalance =
+                  Formatter.convertWeiToEth(wannseeBalanceEvent.balance!);
+              notify(() => state.walletBalance = newBalance);
               _balanceUseCase.addItem(BalanceData(
                   timeStamp: DateTime.now(),
-                  balance: double.parse(wannseeBalanceEvent.balance!)));
+                  balance: double.parse(newBalance)));
             }
             break;
           default:
@@ -268,6 +267,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
   void generateChartData(List<BalanceData> balanceData) {
     final List<FlSpot> newBalanceSpots = [];
     double newMaxValue = 0.0;
+
     if (balanceData.length == 1) {
       // we have only one day data
       final balance = balanceData[0].balance;
@@ -295,18 +295,23 @@ class HomePresenter extends CompletePresenter<HomeState> {
             DateTime.now().subtract(const Duration(days: 7));
 
         if (i == 0) {
-          newBalanceSpots.addAll(List.generate(
-              data.timeStamp.difference(sevenDaysBefore).inDays,
-              (index) => FlSpot(
-                  (newBalanceSpots.length + index).toDouble(), balance)));
+          final difference = data.timeStamp.difference(sevenDaysBefore).inDays;
+          if (!difference.isNegative) {
+            newBalanceSpots.addAll(List.generate(
+                difference,
+                (index) => FlSpot(
+                    (newBalanceSpots.length + index).toDouble(), balance)));
+          }
         }
 
+        final timeGap = nextData.timeStamp
+            .difference(
+              data.timeStamp,
+            )
+            .inDays;
+
         newBalanceSpots.addAll(List.generate(
-            nextData.timeStamp
-                .difference(
-                  data.timeStamp,
-                )
-                .inDays,
+            timeGap,
             (index) =>
                 FlSpot((newBalanceSpots.length + index).toDouble(), balance)));
       }
@@ -324,6 +329,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
       state.balanceSpots.clear();
       notify(() => state.balanceSpots.addAll(newBalanceSpots));
       notify(() => state.chartMaxAmount = newMaxValue);
+      calculateTheChange();
     }
   }
 
