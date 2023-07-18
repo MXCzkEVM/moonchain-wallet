@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'choose_crypto_state.dart';
 
-final addTokenPageContainer =
+final chooseCryptoPageContainer =
     PresenterContainer<ChooseCryptoPresenter, ChooseCryptoState>(
         () => ChooseCryptoPresenter());
 
@@ -11,20 +11,32 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   ChooseCryptoPresenter() : super(ChooseCryptoState());
 
   late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
+    listen(_accountUserCase.walletAddress, (value) {
+      if (value != null) {
+        notify(() => state.walletAddress = value);
+        loadPage();
+      }
+    });
+
     listen(_contractUseCase.tokensList, (newTokens) {
       if (newTokens.isNotEmpty) {
         notify(() {
           state.tokens = newTokens;
-          state.fliterTokens = newTokens;
+          state.filterTokens = newTokens;
         });
       }
     });
+  }
+
+  Future<void> loadPage() async {
+    await _contractUseCase.getTokensBalance(state.walletAddress);
   }
 
   void fliterTokenByName(String value) {
@@ -34,7 +46,7 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
             item.symbol!.contains(RegExp(value, caseSensitive: false)))
         .toList();
 
-    notify(() => state.fliterTokens = tokens);
+    notify(() => state.filterTokens = tokens);
   }
 
   @override

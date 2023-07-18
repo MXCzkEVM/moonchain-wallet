@@ -9,6 +9,8 @@ class SendCryptoState with EquatableMixin {
   int discount = 0;
   bool valid = false;
   TransactionProcessType processType = TransactionProcessType.confirm;
+  String? walletAddress;
+  EstimatedGasFee? estimatedGasFee;
 
   @override
   List<Object?> get props => [
@@ -17,5 +19,7 @@ class SendCryptoState with EquatableMixin {
         discount,
         valid,
         processType,
+        walletAddress,
+        estimatedGasFee,
       ];
 }

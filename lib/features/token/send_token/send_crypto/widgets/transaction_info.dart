@@ -43,7 +43,7 @@ class TransactionInfo extends StatelessWidget {
               textItem(context, 'network', newtork),
               addressItem(context, 'from', from),
               addressItem(context, 'to', to),
-              if (estimatedFee != null)
+              if (TransactionProcessType.confirm != processType)
                 priceItem(context, 'estimated_fee', estimatedFee),
             ],
           ),
@@ -72,7 +72,7 @@ class TransactionInfo extends StatelessWidget {
       buttonType: buttonType,
       onTap: () {
         if (onTap != null) onTap!();
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(true);
       },
     );
   }

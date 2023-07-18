@@ -17,10 +17,10 @@ class ChooseCryptoPage extends HookConsumerWidget {
 
   @override
   ProviderBase<ChooseCryptoPresenter> get presenter =>
-      addTokenPageContainer.actions;
+      chooseCryptoPageContainer.actions;
 
   @override
-  ProviderBase<ChooseCryptoState> get state => addTokenPageContainer.state;
+  ProviderBase<ChooseCryptoState> get state => chooseCryptoPageContainer.state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,6 +30,7 @@ class ChooseCryptoPage extends HookConsumerWidget {
 
     return MxcPage(
       presenter: ref.watch(presenter),
+      onRefresh: () => ref.read(presenter).loadPage(),
       crossAxisAlignment: CrossAxisAlignment.start,
       appBar: AppNavBar(
         action: IconButton(
@@ -68,12 +69,12 @@ class ChooseCryptoPage extends HookConsumerWidget {
           ],
         ),
         const SizedBox(height: 12),
-        if (ref.watch(state).fliterTokens != null)
+        if (ref.watch(state).filterTokens != null)
           GreyContainer(
               child: Column(
             children: [
               ...TokensBalanceListUtils.generateTokensBalanceList(
-                ref.watch(state).fliterTokens!,
+                ref.watch(state).filterTokens!,
                 onSelected: ((token) => Navigator.of(context).push(
                       route.featureDialog(
                         SendCryptoPage(
