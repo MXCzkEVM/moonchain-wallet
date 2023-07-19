@@ -33,7 +33,7 @@ class AppNavBar extends HookConsumerWidget {
               IconButton(
                 key: const ValueKey('backButton'),
                 icon: const Icon(Icons.arrow_back),
-                iconSize: 24,
+                iconSize: 32,
                 onPressed: appBarPopHandlerBuilder(context),
                 color: ColorsTheme.of(context).primaryButton,
               ),
@@ -78,7 +78,7 @@ class AppNavBar extends HookConsumerWidget {
                               FlutterI18n.translate(
                                   context, state.online ? 'online' : 'offline'),
                               style:
-                                  FontTheme.of(context).caption1.secondary()),
+                                  FontTheme.of(context).subtitle2.secondary()),
                         ],
                       ),
                     ),
@@ -90,7 +90,7 @@ class AppNavBar extends HookConsumerWidget {
                           presenter.onAccountChange(value!),
                       selectedItem:
                           Formatter.formatWalletAddress(state.currentAccount),
-                      textStyle: FontTheme.of(context).subtitle1(),
+                      textStyle: FontTheme.of(context).subtitle2.primary(),
                       icon: Icon(
                         Icons.arrow_drop_down_rounded,
                         size: 26,

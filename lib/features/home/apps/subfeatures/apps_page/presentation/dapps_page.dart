@@ -78,14 +78,14 @@ class DAppsPage extends HookConsumerWidget {
                 leading: IconButton(
                   key: const ValueKey('menusButton'),
                   icon: const Icon(MXCIcons.burger_menu),
-                  iconSize: 24,
+                  iconSize: 32,
                   onPressed: () {},
                   color: ColorsTheme.of(context).primaryButton,
                 ),
                 action: IconButton(
                   key: const ValueKey('walletButton'),
                   icon: const Icon(MXCIcons.wallet),
-                  iconSize: 24,
+                  iconSize: 32,
                   onPressed: () => Navigator.of(context).replaceAll(
                     route(const HomePage()),
                   ),
