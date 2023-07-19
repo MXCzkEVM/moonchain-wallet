@@ -16,19 +16,22 @@ class BalanceTitle extends HookConsumerWidget {
     final state = ref.watch(homeContainer.state);
     return Row(
       children: [
-        Text('${FlutterI18n.translate(context, 'balance')} ',
+        Text(FlutterI18n.translate(context, 'balance'),
             style: FontTheme.of(context).h7().copyWith(
                 fontSize: fontSize,
                 color: ColorsTheme.of(context).textSecondary)),
+        const SizedBox(
+          width: 4,
+        ),
         MxcCircleButton.icon(
           key: const Key("balanceHideButton"),
           icon: state.hideBalance ? MXCIcons.show : MXCIcons.hide,
-          shadowRadius: 20,
+          shadowRadius: 16,
           onTap: () {
             presenter.changeHideBalanceState();
           },
           iconSize: 16,
-          color: ColorsTheme.of(context).textPrimary,
+          color: ColorsTheme.of(context).iconPrimary,
           iconFillColor: Colors.transparent,
         )
       ],

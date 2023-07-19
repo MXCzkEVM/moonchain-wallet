@@ -32,8 +32,11 @@ class ChangeIndicator extends HookConsumerWidget {
                           : ColorsTheme.of(context).systemStatusActive,
                       size: 16,
                     ),
+              const SizedBox(
+                width: 4,
+              ),
               Text(
-                  ' ${state.changeIndicator == 0.0 ? 0 : state.changeIndicator!.toStringAsFixed(2)}%',
+                  '${state.changeIndicator == 0.0 ? 0 : state.changeIndicator!.toStringAsFixed(2)}%',
                   style: FontTheme.of(context).h7().copyWith(
                         color: state.changeIndicator == 0.0
                             ? ColorsTheme.of(context).textSecondary
@@ -44,11 +47,10 @@ class ChangeIndicator extends HookConsumerWidget {
               const SizedBox(
                 width: 4,
               ),
-              Text('  ${FlutterI18n.translate(context, 'today')}',
-                  style: FontTheme.of(context).h7().copyWith(
-                      color: ColorsTheme.of(context)
-                          .textPrimary
-                          .withOpacity(0.32))),
+              Text(FlutterI18n.translate(context, 'today'),
+                  style: FontTheme.of(context)
+                      .h7()
+                      .copyWith(color: ColorsTheme.of(context).textSecondary)),
             ],
           )
         : Container();

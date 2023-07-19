@@ -16,26 +16,25 @@ class BalanceInXSD extends HookConsumerWidget {
     final balance =
         Formatter.formatNumberForUI(state.walletBalance, isWei: false);
 
-    return RichText(
-        text: TextSpan(children: [
-      TextSpan(
-          text: balance,
+    return Row(children: [
+      Text(balance,
           style: FontTheme.of(context).h5().copyWith(
               fontSize: fontSize,
               fontWeight: FontWeight.w400,
+              color: ColorsTheme.of(context).textPrimary,
               foreground: presenter.state.hideBalance == true
                   ? (Paint()
                     ..style = PaintingStyle.fill
                     ..color = Colors.white
                     ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6))
                   : null)),
-      TextSpan(
-          text: ' XSD',
+      const SizedBox(width: 4),
+      Text('XSD',
           style: FontTheme.of(context).h5().copyWith(
                 fontSize: fontSize,
-                color: ColorsTheme.of(context).textPrimary.withOpacity(0.32),
+                color: ColorsTheme.of(context).textSecondary,
                 fontWeight: FontWeight.w400,
               )),
-    ]));
+    ]);
   }
 }

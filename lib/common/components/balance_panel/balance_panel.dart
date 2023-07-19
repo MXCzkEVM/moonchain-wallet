@@ -66,6 +66,8 @@ class BalancePanel extends HookConsumerWidget {
         ),
         Divider(
           color: ColorsTheme.of(context).primaryBackground,
+          height: 24,
+          thickness: 0.5,
         ),
         const ManagePortfolioSection()
       ],

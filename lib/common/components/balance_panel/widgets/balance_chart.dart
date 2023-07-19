@@ -87,10 +87,9 @@ class BalanceChart extends HookConsumerWidget {
         ),
         Text(
           FlutterI18n.translate(context, '7_days'),
-          style: FontTheme.of(context).h7().copyWith(
-              fontSize: 10,
-              color: ColorsTheme.of(context).purpleMain,
-              fontWeight: FontWeight.w400),
+          style: FontTheme.of(context).caption1().copyWith(
+                color: ColorsTheme.of(context).purpleMain,
+              ),
         )
       ],
     );
