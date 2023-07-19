@@ -21,8 +21,10 @@ class BalanceInXSD extends HookConsumerWidget {
           style: FontTheme.of(context).h5().copyWith(
               fontSize: fontSize,
               fontWeight: FontWeight.w400,
-              color: ColorsTheme.of(context).textPrimary,
-              foreground: presenter.state.hideBalance == true
+              color: state.hideBalance == true
+                  ? null
+                  : ColorsTheme.of(context).textPrimary,
+              foreground: state.hideBalance == true
                   ? (Paint()
                     ..style = PaintingStyle.fill
                     ..color = Colors.white
