@@ -18,6 +18,8 @@ class addBookmark extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useMemoized(() => GlobalKey<FormState>());
 
+    String translate(String text) => FlutterI18n.translate(context, text);
+
     return MxcPage.layer(
       presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,8 +28,9 @@ class addBookmark extends HookConsumerWidget {
             valueListenable: ref.watch(presenter).urlController,
             builder: (ctx, urlValue, _) {
               return MxcAppBarEvenly.text(
-                titleText: FlutterI18n.translate(context, 'add_bookmark'),
-                actionText: FlutterI18n.translate(context, 'save'),
+                titleText: translate('add_x')
+                    .replaceFirst('{0}', translate('bookmark')),
+                actionText: translate('save'),
                 onActionTap: () {
                   if (!formKey.currentState!.validate()) return;
                   ref.watch(presenter).onSave();

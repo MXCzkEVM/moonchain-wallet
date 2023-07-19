@@ -32,7 +32,7 @@ class AppNavBar extends HookConsumerWidget {
             if (leading == null) ...[
               IconButton(
                 key: const ValueKey('backButton'),
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back_rounded),
                 iconSize: 32,
                 onPressed: appBarPopHandlerBuilder(context),
                 color: ColorsTheme.of(context).primaryButton,

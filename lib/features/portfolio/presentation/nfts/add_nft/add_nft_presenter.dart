@@ -1,13 +1,11 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/portfolio/presentation/nfts/entities/nft.dart';
-import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_nft_state.dart';
 
-final addTokenPageContainer =
+final addNFTPageContainer =
     PresenterContainer<AddNFTPresenter, AddNFTState>(() => AddNFTPresenter());
 
 class AddNFTPresenter extends CompletePresenter<AddNFTState> {
@@ -27,6 +25,9 @@ class AddNFTPresenter extends CompletePresenter<AddNFTState> {
 
   @override
   Future<void> dispose() async {
+    addressController.removeListener(_onValidChange);
+    idController.removeListener(_onValidChange);
+
     super.dispose();
   }
 
