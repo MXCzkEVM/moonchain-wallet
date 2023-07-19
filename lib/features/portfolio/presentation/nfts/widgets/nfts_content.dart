@@ -10,12 +10,14 @@ class NFTsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String text) => FlutterI18n.translate(context, text);
+
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 100),
           child: Text(
-            FlutterI18n.translate(context, 'no_nfts_added_yet'),
+            translate('no_nfts_added_yet'),
             style: FontTheme.of(context).h6().copyWith(
                   fontSize: 18,
                 ),
@@ -26,7 +28,7 @@ class NFTsContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MxcChipButton(
-              key: const Key('addTokenButton'),
+              key: const Key('addNFTButton'),
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               onTap: () => Navigator.of(context).push(
@@ -34,7 +36,7 @@ class NFTsContent extends StatelessWidget {
                   const AddNFTPage(),
                 ),
               ),
-              title: FlutterI18n.translate(context, 'add_token'),
+              title: translate('add_x').replaceFirst('{0}', 'NFT'),
               iconData: Icons.add,
               alignIconStart: true,
             ),
