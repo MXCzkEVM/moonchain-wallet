@@ -30,6 +30,7 @@ environment:
 dependencies:
   appinio_social_share:
     path: packages/appinio_social_share
+  clipboard: ^0.1.3
   convert: ^3.1.1
   cupertino_icons: ^1.0.2
   dotted_line: ^3.2.2
@@ -57,6 +58,7 @@ dependencies:
   open_mail_app: ^0.4.5
   path_provider: ^2.0.12
   permission_handler: ^10.4.1
+  qr_flutter: ^4.1.0
   riverpod: ^1.0.3
   sha3: ^0.2.0
   sliver_tools: ^0.2.5

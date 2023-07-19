@@ -137,5 +137,8 @@
 	"to": "To",
 	"estimated_fee": "Estimated Fee",
 	"sending": "Sending",
-	"confirm_transaction": "Confirm transaction"
+	"confirm_transaction": "Confirm transaction",
+	"scan_or_copy_address_below_to_receive_tokens_or_nfts": "Scan or copy the address below to receive tokens or NFTs",
+	"copy_address": "Copy Address",
+	"copied": "Copied"
 }

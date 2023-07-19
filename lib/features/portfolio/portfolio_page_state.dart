@@ -12,12 +12,8 @@ class PortfolioState with EquatableMixin {
 
   String? walletAddress;
 
-  // TabController? tabController = TabController(length: 2, vsync: useSingleTickerProvider());
+  bool isWalletAddressCopied = false;
 
   @override
-  List<Object?> get props => [
-        walletBalance,
-        tokensList,
-        // tabController
-      ];
+  List<Object?> get props => [walletBalance, tokensList, isWalletAddressCopied];
 }
