@@ -32,7 +32,6 @@ class RecentTrxListItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(homeContainer.actions);
     final formattedTXHash = Formatter.formatWalletAddress(txHash);
-    // amount = Formatter.intThousandsSeparator(amount);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -41,13 +40,15 @@ class RecentTrxListItem extends HookConsumerWidget {
           Row(
             children: [
               Container(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(6.55),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: ColorsTheme.of(context).primaryBackground),
-                  height: 40,
-                  width: 40,
-                  child: SvgPicture.network(logoUrl)),
+                  child: SvgPicture.network(
+                    logoUrl,
+                    height: 24,
+                    width: 24,
+                  )),
               const SizedBox(
                 width: 8,
               ),
@@ -71,19 +72,17 @@ class RecentTrxListItem extends HookConsumerWidget {
                           RecentTransactionsUtils.getTransactionTypeIcon(
                               transactionType)),
                   const SizedBox(
-                    height: 2,
+                    height: 4,
                   ),
                   Row(
                     children: [
                       Text(
-                        '$amount',
-                        style: FontTheme.of(context).h7().copyWith(
-                              fontSize: 16,
-                            ),
+                        amount.toString(),
+                        style: FontTheme.of(context).body2.primary(),
                         softWrap: true,
                       ),
                       const SizedBox(
-                        width: 6,
+                        width: 4,
                       ),
                       SizedBox(
                         width: 60,
@@ -93,9 +92,7 @@ class RecentTrxListItem extends HookConsumerWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
-                              color: ColorsTheme.of(context)
-                                  .white
-                                  .withOpacity(.32)),
+                              color: ColorsTheme.of(context).textSecondary),
                           softWrap: true,
                         ),
                       ),
@@ -114,7 +111,7 @@ class RecentTrxListItem extends HookConsumerWidget {
                 style: FontTheme.of(context).h7().copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: ColorsTheme.of(context).white.withOpacity(.32)),
+                    color: ColorsTheme.of(context).textGrey2),
               ),
               const SizedBox(
                 width: 4,
@@ -128,19 +125,25 @@ class RecentTrxListItem extends HookConsumerWidget {
                     Text(
                       FlutterI18n.translate(context, 'tx'),
                       style: FontTheme.of(context).caption1().copyWith(
-                            fontSize: 14,
-                          ),
+                          fontSize: 14,
+                          color: ColorsTheme.of(context).textSecondary),
+                    ),
+                    const SizedBox(
+                      width: 4,
                     ),
                     Text(
-                      '  $formattedTXHash',
+                      formattedTXHash,
                       style: FontTheme.of(context).caption1().copyWith(
                           fontSize: 14,
                           color: ColorsTheme.of(context).textSecondary),
                     ),
+                    const SizedBox(
+                      width: 4,
+                    ),
                     Icon(
                       MXCIcons.external_link,
-                      size: 18,
-                      color: ColorsTheme.of(context).white.withOpacity(0.32),
+                      size: 20,
+                      color: ColorsTheme.of(context).iconSecondary,
                     )
                   ],
                 ),

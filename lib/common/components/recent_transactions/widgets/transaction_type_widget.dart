@@ -20,7 +20,7 @@ class TransactionTypeWidget extends StatelessWidget {
       children: [
         Icon(
           transactionTypeIcon,
-          size: 18,
+          size: 12,
           color: transactionTypeColor,
         ),
         const SizedBox(

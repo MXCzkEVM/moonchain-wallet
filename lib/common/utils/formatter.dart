@@ -38,7 +38,7 @@ class Formatter {
     if (inputString.isEmpty) return inputString;
 
     String formattedString =
-        '${inputString.substring(0, 6)}...${inputString.substring(inputString.length - 4)}';
+        '${inputString.substring(0, 4)}...${inputString.substring(inputString.length - 4)}';
     return formattedString;
   }
 
@@ -66,5 +66,4 @@ class Formatter {
     integerPart = intThousandsSeparator(integerPart);
     return '$integerPart$fractionalPart';
   }
-
 }
