@@ -8,23 +8,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'send_crypto_presenter.dart';
-import 'send_crypto_state.dart';
+import '../entities/nft.dart';
+import 'send_nft_presenter.dart';
+import 'send_nft_state.dart';
 
-class SendCryptoPage extends HookConsumerWidget {
-  const SendCryptoPage({
+class SendNFTPage extends HookConsumerWidget {
+  const SendNFTPage({
     Key? key,
-    required this.token,
+    required this.nft,
   }) : super(key: key);
 
-  final Token token;
+  final NFT nft;
 
   @override
-  ProviderBase<SendCryptoPresenter> get presenter =>
-      sendTokenPageContainer.actions(token);
+  ProviderBase<SendNFTPresenter> get presenter =>
+      sendNFTPageContainer.actions(nft);
 
   @override
-  ProviderBase<SendCryptoState> get state => sendTokenPageContainer.state(token);
+  ProviderBase<SendNFTState> get state => sendNFTPageContainer.state(nft);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,7 +55,7 @@ class SendCryptoPage extends HookConsumerWidget {
       children: [
         MxcAppBarEvenly.text(
             titleText:
-                translate('send_x').replaceFirst('{0}', token.name ?? '')),
+                translate('send_x').replaceFirst('{0}', 'NFT')),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -92,50 +93,6 @@ class SendCryptoPage extends HookConsumerWidget {
           key: formKey,
           child: Column(
             children: [
-              MxcTextField(
-                key: const ValueKey('amountTextField'),
-                label: '${translate('amount_to_send')} *',
-                controller: ref.read(presenter).amountController,
-                keyboardType: TextInputType.number,
-                action: TextInputAction.next,
-                validator: (v) => Validation.notEmpty(
-                    context,
-                    v,
-                    translate('x_not_empty')
-                        .replaceFirst('{0}', translate('amount'))),
-                hint: 'e.g 100',
-                suffixText: token.symbol,
-                suffixButton: MxcTextFieldButton.text(
-                  text: translate('max'),
-                  onTap: () {
-                    ref.read(presenter).changeDiscount(100);
-                    formKey.currentState!.validate();
-                  },
-                ),
-                onFocused: (focused) =>
-                    focused ? null : formKey.currentState!.validate(),
-              ),
-              Row(
-                  children: [25, 50, 75]
-                      .map((item) => Padding(
-                            padding: const EdgeInsets.only(top: 8, left: 8),
-                            child: MxcChipButton(
-                              key: ValueKey('button$item'),
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 8),
-                              onTap: () {
-                                ref.read(presenter).changeDiscount(item);
-                                formKey.currentState!.validate();
-                              },
-                              width: 80,
-                              title: '$item%',
-                              buttonState: ref.watch(state).discount == item
-                                  ? ChipButtonStates.activeState
-                                  : ChipButtonStates.inactiveState,
-                            ),
-                          ))
-                      .toList()),
-              const SizedBox(height: 24),
               MxcTextField(
                 key: const ValueKey('recipientTextField'),
                 label: '${translate('recipient')} *',

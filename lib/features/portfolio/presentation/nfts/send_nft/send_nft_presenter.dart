@@ -7,18 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'send_crypto_state.dart';
+import '../entities/nft.dart';
+import 'send_nft_state.dart';
 import 'widgets/transaction_dialog.dart';
 
-final sendTokenPageContainer = PresenterContainerWithParameter<
-    SendCryptoPresenter,
-    SendCryptoState,
-    Token>((token) => SendCryptoPresenter(token));
+final sendNFTPageContainer = PresenterContainerWithParameter<
+    SendNFTPresenter,
+    SendNFTState,
+    NFT>((nft) => SendNFTPresenter(nft));
 
-class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
-  SendCryptoPresenter(this.token) : super(SendCryptoState());
+class SendNFTPresenter extends CompletePresenter<SendNFTState> {
+  SendNFTPresenter(this.nft) : super(SendNFTState());
 
-  final Token token;
+  final NFT nft;
 
   late final ContractUseCase _contractUseCase =
       ref.read(contractUseCaseProvider);
@@ -52,11 +53,6 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     await _contractUseCase.checkConnectionToNetwork();
   }
 
-  void changeDiscount(int value) {
-    amountController.text = ((token.balance ?? 0) * value / 100).toString();
-    notify(() => state.discount = value);
-  }
-
   void _onValidChange() {
     final result =
         amountController.text.isNotEmpty && recipientController.text.isNotEmpty;
@@ -64,37 +60,37 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void transactionProcess() async {
-    final amount = amountController.text;
-    final recipient = recipientController.text;
-    EstimatedGasFee? estimatedGasFee;
+    // final amount = amountController.text;
+    // final recipient = recipientController.text;
+    // EstimatedGasFee? estimatedGasFee;
 
-    double sumBalance = token.balance! - double.parse(amount);
+    // double sumBalance = token.balance! - double.parse(amount);
 
-    if (TransactionProcessType.confirm != state.processType) {
-      if (TransactionProcessType.send == state.processType) {
-        estimatedGasFee = await _estimatedFee();
-        notify(() => state.estimatedGasFee = estimatedGasFee);
-      }
-      sumBalance -= state.estimatedGasFee?.gasFee ?? 0.0;
-    }
+    // if (TransactionProcessType.confirm != state.processType) {
+    //   if (TransactionProcessType.send == state.processType) {
+    //     estimatedGasFee = await _estimatedFee();
+    //     notify(() => state.estimatedGasFee = estimatedGasFee);
+    //   }
+    //   sumBalance -= state.estimatedGasFee?.gasFee ?? 0.0;
+    // }
 
-    final result = await showTransactionDialog(
-      context!,
-      title: _getDialogTitle(token.name ?? ''),
-      amount: amount,
-      balance: sumBalance.toString(),
-      token: token,
-      newtork: 'MXC zkEVM',
-      from: state.walletAddress!,
-      to: recipient,
-      processType: state.processType,
-      estimatedFee: state.estimatedGasFee?.gasFee.toString(),
-      onTap: _nextTransactionStep,
-    );
+    // final result = await showTransactionDialog(
+    //   context!,
+    //   title: _getDialogTitle(token.name ?? ''),
+    //   amount: amount,
+    //   balance: sumBalance.toString(),
+    //   token: token,
+    //   newtork: 'MXC zkEVM',
+    //   from: state.walletAddress!,
+    //   to: recipient,
+    //   processType: state.processType,
+    //   estimatedFee: state.estimatedGasFee?.gasFee.toString(),
+    //   onTap: _nextTransactionStep,
+    // );
 
-    if (result != null && !result) {
-      notify(() => state.processType = TransactionProcessType.confirm);
-    }
+    // if (result != null && !result) {
+    //   notify(() => state.processType = TransactionProcessType.confirm);
+    // }
   }
 
   String _getDialogTitle(String tokenName) {

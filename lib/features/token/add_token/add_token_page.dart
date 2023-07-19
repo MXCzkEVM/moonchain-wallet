@@ -31,9 +31,11 @@ class AddTokenPage extends HookConsumerWidget {
         ValueListenableBuilder<TextEditingValue>(
             valueListenable: ref.watch(presenter).addressController,
             builder: (ctx, addressValue, _) {
-  
               return MxcAppBarEvenly.text(
-                titleText: translate('add_token'),
+                titleText: translate('add_x').replaceFirst(
+                  '{0}',
+                  translate('token').toLowerCase(),
+                ),
                 actionText: translate('save'),
                 onActionTap: () {
                   if (!formKey.currentState!.validate()) return;

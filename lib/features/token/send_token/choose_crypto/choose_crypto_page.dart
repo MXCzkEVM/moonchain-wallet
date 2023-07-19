@@ -24,8 +24,6 @@ class ChooseCryptoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeState = ref.watch(homeContainer.state);
-
     String translate(String text) => FlutterI18n.translate(context, text);
 
     return MxcPage(
@@ -36,7 +34,7 @@ class ChooseCryptoPage extends HookConsumerWidget {
         action: IconButton(
           key: const ValueKey('appsButton'),
           icon: const Icon(MXCIcons.apps),
-          iconSize: 24,
+          iconSize: 32,
           onPressed: () =>
               Navigator.of(context).replaceAll(route(const DAppsPage())),
           color: ColorsTheme.of(context).primaryButton,
@@ -44,7 +42,8 @@ class ChooseCryptoPage extends HookConsumerWidget {
       ),
       children: [
         Text(
-          FlutterI18n.translate(context, 'send_token'),
+          translate('send_x')
+              .replaceFirst('{0}', translate('token').toLowerCase()),
           style: FontTheme.of(context).h4(),
         ),
         const SizedBox(height: 12),
@@ -52,7 +51,8 @@ class ChooseCryptoPage extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              FlutterI18n.translate(context, 'choose_token'),
+              translate('choose_x')
+                  .replaceFirst('{0}', translate('token').toLowerCase()),
               style: FontTheme.of(context).body1.secondary(),
             ),
             MxcTextField.search(
@@ -60,7 +60,8 @@ class ChooseCryptoPage extends HookConsumerWidget {
               width: 150,
               backgroundColor: ColorsTheme.of(context).chipDefaultBg,
               prefix: const Icon(Icons.search_rounded),
-              hint: translate('find_your_token'),
+              hint: translate('find_your_x')
+                  .replaceFirst('{0}', translate('token').toLowerCase()),
               controller: ref.read(presenter).searchController,
               action: TextInputAction.done,
               onChanged: (value) =>
