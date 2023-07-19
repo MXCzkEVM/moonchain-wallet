@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/account/account_cache_repository.dart';
+import 'package:datadashwallet/features/portfolio/presentation/nfts/domain/nfts_repository.dart';
 import 'package:datadashwallet/features/settings/subfeatures/recipient/domain/recipients_repository.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_repository.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_repository.dart';
@@ -30,6 +31,7 @@ class DatadashCache extends CacheContainer {
   final CustomTokensRepository custonTokens = CustomTokensRepository();
   final BalanceRepository balanceHistory = BalanceRepository();
   final RecipientsRepository recipients = RecipientsRepository();
+  final NFTsRepository nfts = NFTsRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [
@@ -38,5 +40,6 @@ class DatadashCache extends CacheContainer {
         custonTokens,
         balanceHistory,
         recipients,
+        nfts,
       ];
 }

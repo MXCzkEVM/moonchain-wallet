@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/portfolio/presentation/nfts/domain/nfts_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/recipient/recipient.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
@@ -55,7 +56,7 @@ final Provider<BookmarkUseCase> bookmarksUseCaseProvider = Provider(
   (ref) => BookmarkUseCase(ref.watch(datadashCacheProvider).bookmarks),
 );
 
-final Provider<CustomTokensUseCase> customTokensCaseProvider = Provider(
+final Provider<CustomTokensUseCase> customTokensUseCaseProvider = Provider(
   (ref) => CustomTokensUseCase(ref.watch(datadashCacheProvider).custonTokens),
 );
 
@@ -65,4 +66,8 @@ final Provider<BalanceUseCase> balanceHistoryUseCaseProvider = Provider(
 
 final Provider<RecipientsUseCase> recipientsCaseProvider = Provider(
   (ref) => RecipientsUseCase(ref.watch(datadashCacheProvider).recipients),
+);
+
+final Provider<NFTsUseCase> nFTsUseCaseProvider = Provider(
+  (ref) => NFTsUseCase(ref.watch(datadashCacheProvider).nfts),
 );

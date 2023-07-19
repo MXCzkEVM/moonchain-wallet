@@ -16,7 +16,7 @@ class AddTokenPresenter extends CompletePresenter<AddTokenState> {
   late final ContractUseCase _contractUseCase =
       ref.read(contractUseCaseProvider);
   late final CustomTokensUseCase _customTokensUseCase =
-      ref.read(customTokensCaseProvider);
+      ref.read(customTokensUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController symbolController = TextEditingController();
   late final TextEditingController decimalController = TextEditingController();

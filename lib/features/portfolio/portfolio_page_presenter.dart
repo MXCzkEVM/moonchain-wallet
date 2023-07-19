@@ -44,4 +44,8 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   }
 
   void getWalletNFTs() {}
+
+  void changeTokensOrNFTsTab() {
+    notify(() => state.switchTokensOrNFTs = !state.switchTokensOrNFTs);
+  }
 }

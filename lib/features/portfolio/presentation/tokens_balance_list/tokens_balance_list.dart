@@ -14,9 +14,7 @@ class TokensBalanceList extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final portfolioPresenter = ref.read(portfolioContainer.actions);
     final portfolioState = ref.watch(portfolioContainer.state);
-    final homeState = ref.watch(homeContainer.state);
 
     return Column(
       children: [

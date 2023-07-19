@@ -114,6 +114,7 @@
 	"nfts": "NFTs",
 	"no_transactions_yet": "No transactions yet",
 	"no_tokens_added_yet": "No tokens added yet",
+	"no_nfts_added_yet": "No NFTs added yet",
 	"7_days": "7 days",
 	"history": "History",
 	"send_token": "Send Token",
@@ -137,5 +138,10 @@
 	"to": "To",
 	"estimated_fee": "Estimated Fee",
 	"sending": "Sending",
-	"confirm_transaction": "Confirm transaction"
+	"confirm_transaction": "Confirm transaction",
+	"add_nft": "Add NFT",
+	"address": "Address",
+	"id": "ID",
+	"collection_id": "Collection ID",
+	"wallet_address": "Wallet address"
 }

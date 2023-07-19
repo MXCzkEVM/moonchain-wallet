@@ -62,7 +62,7 @@ class TransactionInfo extends StatelessWidget {
       titleText = 'send';
     } else if (processType == TransactionProcessType.done) {
       titleText = 'done';
-      buttonType = MxcButtonType.sucess;
+      buttonType = MxcButtonType.success;
     }
 
     return MxcButton.primary(

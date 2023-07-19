@@ -11,14 +11,15 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'portfolio_page_presenter.dart';
 import 'portfolio_page_state.dart';
+import 'presentation/nfts/nfts.dart';
 
 class PortfolioPage extends HookConsumerWidget {
   const PortfolioPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(homeContainer.actions);
-    final state = ref.watch(homeContainer.state);
+    final presenter = ref.read(portfolioContainer.actions);
+    final state = ref.watch(portfolioContainer.state);
 
     return MxcPage(
         presenter: presenter,
@@ -134,10 +135,12 @@ class PortfolioPage extends HookConsumerWidget {
                 children: [
                   MxcChipButton(
                     key: const Key('tokensTabButton'),
-                    buttonState: ChipButtonStates.activeState,
+                    buttonState: state.switchTokensOrNFTs
+                        ? ChipButtonStates.activeState
+                        : ChipButtonStates.inactiveState,
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                    onTap: () {},
+                    onTap: () => presenter.changeTokensOrNFTsTab(),
                     title: FlutterI18n.translate(context, 'tokens'),
                     alignIconStart: true,
                   ),
@@ -146,13 +149,12 @@ class PortfolioPage extends HookConsumerWidget {
                   ),
                   MxcChipButton(
                     key: const Key('nftsTabButton'),
+                    buttonState: !state.switchTokensOrNFTs
+                        ? ChipButtonStates.activeState
+                        : ChipButtonStates.inactiveState,
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                    buttonState: ChipButtonStates.inactiveState,
-                    // titleStyle: FontTheme.of(context).h7().copyWith(
-                    //     fontSize: 14,
-                    //     color: ColorsTheme.of(context).secondaryBackground),
-                    onTap: () {},
+                    onTap: () => presenter.changeTokensOrNFTsTab(),
                     title: FlutterI18n.translate(context, 'nfts'),
                     alignIconStart: true,
                   )
@@ -161,7 +163,11 @@ class PortfolioPage extends HookConsumerWidget {
               const SizedBox(
                 height: 12,
               ),
-              const TokensBalanceList(),
+              if (state.switchTokensOrNFTs) ...[
+                const TokensBalanceList(),
+              ] else ...[
+                const NFTsContent(),
+              ]
             ],
           ))
         ]);
