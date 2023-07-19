@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'portfolio_page_state.dart';
 
@@ -47,5 +48,14 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
   void changeTokensOrNFTsTab() {
     notify(() => state.switchTokensOrNFTs = !state.switchTokensOrNFTs);
+  }
+  
+  void copyWalletAddressToClipboard() async {
+    FlutterClipboard.copy(state.walletAddress ?? '')
+        .then((value) => notify(() => state.isWalletAddressCopied = true));
+  }
+
+  void resetCopyState() {
+    notify(() => state.isWalletAddressCopied = false);
   }
 }

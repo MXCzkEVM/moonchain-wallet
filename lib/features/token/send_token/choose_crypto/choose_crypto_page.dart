@@ -35,7 +35,7 @@ class ChooseCryptoPage extends HookConsumerWidget {
       appBar: AppNavBar(
         action: IconButton(
           key: const ValueKey('appsButton'),
-          icon: const Icon(MXCIcons.dapps),
+          icon: const Icon(MXCIcons.apps),
           iconSize: 24,
           onPressed: () =>
               Navigator.of(context).replaceAll(route(const DAppsPage())),

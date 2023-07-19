@@ -143,5 +143,8 @@
 	"address": "Address",
 	"id": "ID",
 	"collection_id": "Collection ID",
-	"wallet_address": "Wallet address"
+	"wallet_address": "Wallet address",
+	"scan_or_copy_address_below_to_receive_tokens_or_nfts": "Scan or copy the address below to receive tokens or NFTs",
+	"copy_address": "Copy Address",
+	"copied": "Copied"
 }

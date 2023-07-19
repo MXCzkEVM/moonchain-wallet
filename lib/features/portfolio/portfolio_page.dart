@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/portfolio/presentation/tokens_balance_list/tokens_balance_list.dart';
+import 'package:datadashwallet/features/portfolio/presentation/widgets/show_wallet_address_dialog.dart';
 import 'package:datadashwallet/features/token/send_token/choose_crypto/choose_crypto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -31,8 +32,8 @@ class PortfolioPage extends HookConsumerWidget {
         appBar: AppNavBar(
           action: IconButton(
             key: const ValueKey('appsButton'),
-            icon: const Icon(MXCIcons.dapps),
-            iconSize: 24,
+            icon: const Icon(MXCIcons.apps),
+            iconSize: 32,
             onPressed: () =>
                 Navigator.of(context).replaceAll(route(const DAppsPage())),
             color: ColorsTheme.of(context).primaryButton,
@@ -87,7 +88,10 @@ class PortfolioPage extends HookConsumerWidget {
                         MxcCircleButton.icon(
                           key: const Key('receiveButton'),
                           icon: MXCIcons.receive,
-                          onTap: () {},
+                          onTap: () {
+                            presenter.resetCopyState();
+                            showWalletAddressDialog(context, ref);
+                          },
                           iconSize: 24,
                           filled: false,
                           color: ColorsTheme.of(context).primaryBackground,

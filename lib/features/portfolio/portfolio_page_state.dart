@@ -10,11 +10,14 @@ class PortfolioState with EquatableMixin {
 
   bool switchTokensOrNFTs = true;
 
+  bool isWalletAddressCopied = false;
+
   @override
   List<Object?> get props => [
         walletBalance,
         tokensList,
         walletAddress,
         switchTokensOrNFTs,
+        isWalletAddressCopied,
       ];
 }

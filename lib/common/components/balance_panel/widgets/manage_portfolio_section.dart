@@ -27,20 +27,22 @@ class ManagePortfolioSection extends HookConsumerWidget {
       child: Row(
         children: [
           Icon(
-            MXCIcons.coin,
-            color: ColorsTheme.of(context).textSecondary,
+            MXCIcons.coins,
+            color: ColorsTheme.of(context).iconSecondary,
+            size: 20,
           ),
+          const SizedBox(width: 8),
           Text(
-            '  ${FlutterI18n.translate(context, 'manage_portfolio')}',
+            FlutterI18n.translate(context, 'manage_portfolio'),
             style: FontTheme.of(context)
-                .h7()
-                .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
+                .body1()
+                .copyWith(color: ColorsTheme.of(context).textPrimary),
           ),
           const Spacer(),
           Icon(
             Icons.arrow_forward_ios_rounded,
-            color: ColorsTheme.of(context).textPrimary.withOpacity(0.32),
-            size: 16,
+            color: ColorsTheme.of(context).iconGrey3,
+            size: 20,
           )
         ],
       ),

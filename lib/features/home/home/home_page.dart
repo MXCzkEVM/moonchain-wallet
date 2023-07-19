@@ -2,6 +2,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home/presentation/widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:datadashwallet/common/common.dart';
@@ -25,19 +26,17 @@ class HomePage extends HookConsumerWidget {
         backgroundColor: ColorsTheme.of(context).screenBackground,
         layout: LayoutType.column,
         useContentPadding: false,
-        childrenPadding: const EdgeInsets.only(top: 25, right: 24, left: 24),
+        childrenPadding: const EdgeInsets.only(top: 24, right: 24, left: 24),
         appBar: AppNavBar(
           leading: IconButton(
             key: const ValueKey('menusButton'),
-            icon: const Icon(MXCIcons.burger_menu),
-            iconSize: 24,
+            icon: const Icon(MXCIcons.burger_menu, size: 32),
             onPressed: () {},
             color: ColorsTheme.of(context).primaryButton,
           ),
           action: IconButton(
             key: const ValueKey('appsButton'),
-            icon: const Icon(MXCIcons.dapps),
-            iconSize: 24,
+            icon: const Icon(MXCIcons.apps, size: 32),
             onPressed: () =>
                 Navigator.of(context).replaceAll(route(const DAppsPage())),
             color: ColorsTheme.of(context).primaryButton,

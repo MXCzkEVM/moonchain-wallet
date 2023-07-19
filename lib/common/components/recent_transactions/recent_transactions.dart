@@ -56,8 +56,8 @@ class RecentTransactions extends HookConsumerWidget {
                     onTap: () {
                       presenter.viewMoreTransactions();
                     },
-                    title:
-                        '${FlutterI18n.translate(context, 'view_other_transactions')}  ',
+                    title: FlutterI18n.translate(
+                        context, 'view_other_transactions'),
                     iconData: MXCIcons.external_link,
                     alignIconStart: false,
                   ),
