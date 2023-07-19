@@ -58,13 +58,14 @@ class ContractUseCase extends ReactiveUseCase {
       name: 'MXC Token',
     );
 
+    tokensList.value.clear();
     tokensList.value.add(mxcToken);
 
     if (result != null) {
-      tokensList.value.addAll(result.tokens ?? []);
-      tokensList.value.unique((x) => x.address);
-      update(tokensList, tokensList.value);
+      tokensList.value.addAll(result.tokens!);
     }
+
+    update(tokensList, tokensList.value);
     return result;
   }
 
@@ -73,6 +74,9 @@ class ContractUseCase extends ReactiveUseCase {
 
   Future<String> getName(String address) async =>
       await _repository.contract.getName(address);
+
+  Future<String> getAddress(String? name) async =>
+      await _repository.contract.getAddress(name);
 
   Future<void> checkConnectionToNetwork() async {
     final result = await _repository.contract.checkConnectionToNetwork();
@@ -92,4 +96,25 @@ class ContractUseCase extends ReactiveUseCase {
 
     update(tokensList, tokensList.value);
   }
+
+  Future<EstimatedGasFee> estimateGesFee({
+    required String from,
+    required String to,
+  }) async =>
+      await _repository.contract.estimateGesFee(
+        from: from,
+        to: to,
+      );
+
+  Future<String> sendTransaction({
+    required String privateKey,
+    required String to,
+    required String amount,
+    estimatedGasFee
+  }) async =>
+      await _repository.contract.sendTransaction(
+        privateKey: privateKey,
+        to: to,
+        amount: amount,
+      );
 }

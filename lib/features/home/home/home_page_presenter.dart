@@ -57,7 +57,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
     notify(() => state.currentIndex = newIndex);
   }
 
-  initializeHomePage() {
+  Future<void> initializeHomePage() async {
     getDefaultTokens();
     getBalance();
     createSubscriptions();

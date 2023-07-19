@@ -42,7 +42,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     _ethClient = Web3Client(Sys.rpcUrl, Client());
 
     final address = _accountUseCase.getWalletAddress();
-    notify(() => state.address = address);
+    notify(() => state.wallletAddress = address);
   }
 
   void onWebViewCreated(InAppWebViewController controller) =>
@@ -73,9 +73,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
               from: from,
               to: to,
               remark: '',
-              fee: "$fee MXC",
+              fee: '$fee MXC',
             ),
-            amount: "${value.tokenString(18)} MXC",
+            amount: '${value.tokenString(18)} MXC',
             nextAction: () async {
               confirm.call();
             },
@@ -92,7 +92,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     required VoidCallback cancel,
     required Function(String idHaethClientsh) success,
   }) async {
-    final credentials = EthPrivateKey.fromHex(state.address!);
+    final credentials = EthPrivateKey.fromHex(_accountUseCase.getPravateKey()!);
     final sender = EthereumAddress.fromHex(bridge.from ?? '');
     final signto = EthereumAddress.fromHex(bridge.to ?? '');
     final input = hexToBytes(bridge.data ?? '');
@@ -122,7 +122,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         beanValue: maxGas.toString(), offsetValue: price.toString());
 
     showModalConfirm(
-        from: state.address!,
+        from: state.wallletAddress!,
         to: bridge.to ?? '',
         value: bridge.value ?? BigInt.zero,
         fee: fee,
@@ -143,7 +143,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           } catch (e) {
             if (e.toString().contains('-32000')) {
               ScaffoldMessenger.of(context!).showSnackBar(const SnackBar(
-                content: Text("gasLow"),
+                content: Text('gasLow'),
               ));
             } else {
               ScaffoldMessenger.of(context!).showSnackBar(SnackBar(

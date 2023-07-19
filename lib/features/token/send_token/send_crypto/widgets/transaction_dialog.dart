@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -7,7 +6,7 @@ import 'transaction_info.dart';
 
 enum TransactionProcessType { confirm, send, done }
 
-void showTransactionDialog(
+Future<bool?> showTransactionDialog(
   BuildContext context, {
   String? title,
   required String amount,
@@ -20,7 +19,7 @@ void showTransactionDialog(
   TransactionProcessType? processType,
   VoidCallback? onTap,
 }) {
-  showModalBottomSheet<void>(
+  return showModalBottomSheet<bool>(
     context: context,
     useRootNavigator: true,
     isScrollControlled: true,
@@ -38,12 +37,12 @@ void showTransactionDialog(
         mainAxisSize: MainAxisSize.min,
         children: [
           MxcAppBarEvenly.title(
-            titleText: FlutterI18n.translate(context, title ?? ''),
+            titleText: title ?? '',
             action: Container(
               alignment: Alignment.centerRight,
               child: InkWell(
                 child: const Icon(Icons.close),
-                onTap: () => Navigator.of(context).pop(),
+                onTap: () => Navigator.of(context).pop(false),
               ),
             ),
           ),
@@ -58,6 +57,7 @@ void showTransactionDialog(
             processType: processType,
             onTap: onTap,
           ),
+          const SizedBox(height: 10),
         ],
       ),
     ),
