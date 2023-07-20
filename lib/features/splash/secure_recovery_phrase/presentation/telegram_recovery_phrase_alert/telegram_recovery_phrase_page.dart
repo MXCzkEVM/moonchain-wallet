@@ -125,7 +125,8 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
                       const SizedBox(width: 10),
                       Text(
                         name(context),
-                        style: FontTheme.of(context).body2().copyWith(
+                        style: FontTheme.of(context).body1().copyWith(
+                              fontWeight: FontWeight.w500,
                               color: const Color(0xFF25282B),
                             ),
                       ),

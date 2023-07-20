@@ -26,7 +26,9 @@ class WarningItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Text(
             FlutterI18n.translate(context, title),
-            style: FontTheme.of(context).body2.white(),
+            style: FontTheme.of(context).body1.white().copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
             textAlign: TextAlign.center,
           ),
         ),

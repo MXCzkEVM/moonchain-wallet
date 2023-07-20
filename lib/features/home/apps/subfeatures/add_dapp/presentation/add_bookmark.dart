@@ -42,7 +42,9 @@ class addBookmark extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
             FlutterI18n.translate(context, 'enter_bookmark_url'),
-            style: FontTheme.of(context).body2.secondary(),
+            style: FontTheme.of(context).body1.secondary().copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
           ),
         ),
         Form(

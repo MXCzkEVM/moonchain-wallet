@@ -76,7 +76,8 @@ class WechatRecoveryPhrasePage extends RecoveryPhraseBasePage {
               const SizedBox(width: 20),
               Text(
                 FlutterI18n.translate(context, 'wechat'),
-                style: FontTheme.of(context).body2().copyWith(
+                style: FontTheme.of(context).body1().copyWith(
+                      fontWeight: FontWeight.w500,
                       color: const Color(0xFFCACACA),
                     ),
               ),
