@@ -31,6 +31,7 @@ void main() async {
 
 Future<void> _startAppCenter() async {
   String appSecret = "d6920fcc-d680-42a1-afaf-4cf292d223ac";
+  AppCenter.start(getApplication(), "d6920fcc-d680-42a1-afaf-4cf292d223ac", Analytics.class, Crashes.class);
   await AppCenter.start(appSecret: appSecret, enableAnalytics: true);
   await AppCenterAnalytics.setEnabled(true);
   await AppCenterCrashes.setEnabled(true);
