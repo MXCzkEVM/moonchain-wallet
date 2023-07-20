@@ -72,7 +72,7 @@ dependencies {
 }
 
 dependencies {
-    def appCenterSdkVersion = '5.0.0'
+    def appCenterSdkVersion = '4.1.0'
     compile "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     compile "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 }
