@@ -17,8 +17,9 @@ class BalanceTitle extends HookConsumerWidget {
     return Row(
       children: [
         Text(FlutterI18n.translate(context, 'balance'),
-            style: FontTheme.of(context).h7().copyWith(
+            style: FontTheme.of(context).body1().copyWith(
                 fontSize: fontSize,
+                fontWeight: FontWeight.w400,
                 color: ColorsTheme.of(context).textSecondary)),
         const SizedBox(
           width: 4,
