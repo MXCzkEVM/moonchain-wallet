@@ -73,9 +73,6 @@ class TokensBalanceList extends HookConsumerWidget {
             const Spacer()
           ],
         ),
-        const SizedBox(
-          height: 120,
-        ),
       ],
     );
   }
