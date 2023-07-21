@@ -78,7 +78,9 @@ class RecentTrxListItem extends HookConsumerWidget {
                     children: [
                       Text(
                         amount.toString(),
-                        style: FontTheme.of(context).body2.primary(),
+                        style: FontTheme.of(context).body1.primary().copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
                         softWrap: true,
                       ),
                       const SizedBox(

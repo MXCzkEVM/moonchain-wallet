@@ -27,7 +27,9 @@ class RecipientItem extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: FontTheme.of(context).body2.primary(),
+                    style: FontTheme.of(context).body1.primary().copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
