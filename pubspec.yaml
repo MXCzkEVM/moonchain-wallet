@@ -31,6 +31,7 @@ dependencies:
   appinio_social_share:
     path: packages/appinio_social_share
   clipboard: ^0.1.3
+  collection: ^1.17.2
   convert: ^3.1.1
   cupertino_icons: ^1.0.2
   dotted_line: ^3.2.2
