@@ -5,7 +5,7 @@ class DAppsState with EquatableMixin {
   List<Bookmark> bookmarks = [];
   int pageIndex = 0;
   bool isEditMode = false;
-  
+
   @override
   List<Object?> get props => [
         bookmarks,

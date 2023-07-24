@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:web3dart/web3dart.dart';
 
 extension Unique<E, T> on List<E> {
   void unique([T Function(E element)? id, bool inplace = true]) {
@@ -50,6 +51,7 @@ class ContractUseCase extends ReactiveUseCase {
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
     final result = await _repository.contract.getDefaultTokens();
     final mxcBalance = await getWalletNativeTokenBalance(walletAddress);
+
     final mxcToken = Token(
       logoUri:
           'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg',
@@ -92,7 +94,7 @@ class ContractUseCase extends ReactiveUseCase {
 
   void addCustomTokens(List<Token> customTokens) {
     tokensList.value.addAll(customTokens);
-    tokensList.value.unique((x) => x.address);
+    tokensList.value.unique((token) => token.address);
 
     update(tokensList, tokensList.value);
   }
@@ -106,15 +108,32 @@ class ContractUseCase extends ReactiveUseCase {
         to: to,
       );
 
-  Future<String> sendTransaction({
-    required String privateKey,
-    required String to,
-    required String amount,
-    estimatedGasFee
-  }) async =>
+  Future<String> sendTransaction(
+          {required String privateKey,
+          required String to,
+          required String amount,
+          estimatedGasFee}) async =>
       await _repository.contract.sendTransaction(
         privateKey: privateKey,
         to: to,
         amount: amount,
       );
+
+  Future<WannseeTokenMetaData?> getTokenInfo(
+    EthereumAddress collectionAddress,
+    int tokenId,
+    EthereumAddress userAddress,
+  ) async {
+    return await _repository.contract
+        .getTokenInfo(collectionAddress, tokenId, userAddress);
+  }
+
+  Future<bool?> checkTokenOwnership(
+    EthereumAddress collectionAddress,
+    int tokenId,
+    EthereumAddress userAddress,
+  ) async {
+    return await _repository.contract
+        .checkTokenOwnership(collectionAddress, tokenId, userAddress);
+  }
 }

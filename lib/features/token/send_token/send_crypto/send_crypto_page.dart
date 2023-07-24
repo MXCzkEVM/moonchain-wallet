@@ -24,7 +24,8 @@ class SendCryptoPage extends HookConsumerWidget {
       sendTokenPageContainer.actions(token);
 
   @override
-  ProviderBase<SendCryptoState> get state => sendTokenPageContainer.state(token);
+  ProviderBase<SendCryptoState> get state =>
+      sendTokenPageContainer.state(token);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

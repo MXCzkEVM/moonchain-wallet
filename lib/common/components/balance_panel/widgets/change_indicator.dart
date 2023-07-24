@@ -49,7 +49,7 @@ class ChangeIndicator extends HookConsumerWidget {
               ),
               Text(FlutterI18n.translate(context, 'today'),
                   style: FontTheme.of(context)
-                      .h7()
+                      .caption1()
                       .copyWith(color: ColorsTheme.of(context).textSecondary)),
             ],
           )

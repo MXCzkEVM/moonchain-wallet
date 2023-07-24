@@ -16,8 +16,7 @@ class FileListenerWrapper extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MxcContextHook(
-      bridge:
-          ref.watch(fileListenerWrapperContainer.actions).bridge,
+      bridge: ref.watch(fileListenerWrapperContainer.actions).bridge,
       child: child,
     );
   }
