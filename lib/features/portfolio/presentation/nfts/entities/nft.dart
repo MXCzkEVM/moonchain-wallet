@@ -1,11 +1,12 @@
 class NFT {
-  const NFT({
-    required this.address,
-    required this.collectionID,
-    this.image,
-  });
+  const NFT(
+      {required this.address,
+      required this.tokenId,
+      required this.image,
+      required this.name});
 
   final String address;
-  final String collectionID;
-  final String? image;
+  final String tokenId;
+  final String image;
+  final String name;
 }

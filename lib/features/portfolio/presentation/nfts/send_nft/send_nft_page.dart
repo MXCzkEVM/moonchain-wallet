@@ -8,7 +8,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../entities/nft.dart';
 import 'send_nft_presenter.dart';
 import 'send_nft_state.dart';
 
@@ -54,8 +53,7 @@ class SendNFTPage extends HookConsumerWidget {
       ),
       children: [
         MxcAppBarEvenly.text(
-            titleText:
-                translate('send_x').replaceFirst('{0}', 'NFT')),
+            titleText: translate('send_x').replaceFirst('{0}', 'NFT')),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
