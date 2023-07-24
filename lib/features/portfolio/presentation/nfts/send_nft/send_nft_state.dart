@@ -3,7 +3,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 import 'widgets/transaction_dialog.dart';
 
-class SendNFTState with EquatableMixin {
+class SendNftState with EquatableMixin {
   bool online = false;
   Token? token;
   int discount = 0;

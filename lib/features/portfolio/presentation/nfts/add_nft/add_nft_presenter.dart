@@ -6,16 +6,16 @@ import 'package:web3dart/web3dart.dart';
 import 'add_nft_state.dart';
 
 final addNFTPageContainer =
-    PresenterContainer<AddNFTPresenter, AddNFTState>(() => AddNFTPresenter());
+    PresenterContainer<AddNftPresenter, AddNftState>(() => AddNftPresenter());
 
-class AddNFTPresenter extends CompletePresenter<AddNFTState> {
-  AddNFTPresenter() : super(AddNFTState());
+class AddNftPresenter extends CompletePresenter<AddNftState> {
+  AddNftPresenter() : super(AddNftState());
 
-  late final _nFTsUseCase = ref.read(nFTsUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
-  late final _accountUserCase = ref.read(accountUseCaseProvider);
+  late final _nftsUseCase = ref.read(nftsUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
-  late final TextEditingController idController = TextEditingController();
+  late final TextEditingController tokeIdController = TextEditingController();
   EthereumAddress? walletAddress;
 
   @override
@@ -23,9 +23,9 @@ class AddNFTPresenter extends CompletePresenter<AddNFTState> {
     super.initState();
 
     addressController.addListener(_onValidChange);
-    idController.addListener(_onValidChange);
+    tokeIdController.addListener(_onValidChange);
 
-    listen(_accountUserCase.walletAddress, (value) {
+    listen(_accountUseCase.walletAddress, (value) {
       if (value != null) {
         walletAddress = EthereumAddress.fromHex(value);
       }
@@ -35,34 +35,40 @@ class AddNFTPresenter extends CompletePresenter<AddNFTState> {
   @override
   Future<void> dispose() async {
     addressController.removeListener(_onValidChange);
-    idController.removeListener(_onValidChange);
+    tokeIdController.removeListener(_onValidChange);
 
     super.dispose();
   }
 
   void _onValidChange() {
     final result =
-        addressController.text.isNotEmpty && idController.text.isNotEmpty;
+        addressController.text.isNotEmpty && tokeIdController.text.isNotEmpty;
     notify(() => state.valid = result);
   }
 
   Future<void> onSave() async {
     final address = addressController.text;
-    final id = idController.text;
+    final tokeId = int.parse(tokeIdController.text);
 
     loading = true;
 
     try {
-      final tokenMetaData = await getTokenInfo();
+      final owner =
+          await _contractUseCase.getOwerOfNft(address: address, tokeId: tokeId);
+      final account = _accountUseCase.getWalletAddress();
 
-      if (tokenMetaData != null) {
-        _nFTsUseCase.addItem(NFT(
-            address: address,
-            tokenId: id,
-            image: tokenMetaData.image!,
-            name: tokenMetaData.name!));
-        BottomFlowDialog.of(context!).close();
+      if (owner != account) {
+        addError(translate('nft_not_match'));
+        return;
       }
+
+      final nft = await _contractUseCase.getNft(
+        address: address,
+        tokeId: tokeId,
+      );
+
+      _nftsUseCase.addItem(nft);
+      BottomFlowDialog.of(context!).close();
     } catch (error, stackTrace) {
       addError(error, stackTrace);
     } finally {
@@ -72,7 +78,7 @@ class AddNFTPresenter extends CompletePresenter<AddNFTState> {
 
   Future<WannseeTokenMetaData?> getTokenInfo() async {
     final collectionAddress = EthereumAddress.fromHex(addressController.text);
-    final tokenId = int.parse(idController.text);
+    final tokenId = int.parse(tokeIdController.text);
 
     if (walletAddress != null) {
       final isCurrentWalletOwner = await _contractUseCase.checkTokenOwnership(

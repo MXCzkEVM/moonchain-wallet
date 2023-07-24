@@ -108,15 +108,50 @@ class ContractUseCase extends ReactiveUseCase {
         to: to,
       );
 
-  Future<String> sendTransaction(
-          {required String privateKey,
-          required String to,
-          required String amount,
-          estimatedGasFee}) async =>
+  Future<String> sendTransaction({
+    required String privateKey,
+    required String to,
+    required String amount,
+    EstimatedGasFee? estimatedGasFee,
+  }) async =>
       await _repository.contract.sendTransaction(
         privateKey: privateKey,
         to: to,
         amount: amount,
+        estimatedGasFee: estimatedGasFee,
+      );
+
+  Future<String> getOwerOfNft({
+    required String address,
+    required int tokeId,
+  }) async =>
+      await _repository.contract.getOwnerOfNft(
+        address: address,
+        tokenId: tokeId,
+      );
+
+  Future<Nft> getNft({
+    required String address,
+    required int tokeId,
+  }) async =>
+      await _repository.contract.getNft(
+        address: address,
+        tokenId: tokeId,
+      );
+
+  Future<String> sendTransactionOfNft({
+    required String address,
+    required int tokenId,
+    required String privateKey,
+    required String to,
+    EstimatedGasFee? estimatedGasFee,
+  }) async =>
+      await _repository.contract.sendTransactionOfNft(
+        address: address,
+        tokenId: tokenId,
+        privateKey: privateKey,
+        to: to,
+        estimatedGasFee: estimatedGasFee,
       );
 
   Future<WannseeTokenMetaData?> getTokenInfo(

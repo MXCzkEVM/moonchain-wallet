@@ -9,9 +9,7 @@ enum TransactionProcessType { confirm, send, done }
 Future<bool?> showTransactionDialog(
   BuildContext context, {
   String? title,
-  required String amount,
-  required String balance,
-  required Token token,
+  required Nft nft,
   required String newtork,
   required String from,
   required String to,
@@ -47,9 +45,7 @@ Future<bool?> showTransactionDialog(
             ),
           ),
           TransactionInfo(
-            amount: amount,
-            balance: balance,
-            token: token,
+            nft: nft,
             newtork: newtork,
             from: from,
             to: to,

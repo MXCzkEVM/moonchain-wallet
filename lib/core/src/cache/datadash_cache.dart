@@ -31,7 +31,7 @@ class DatadashCache extends CacheContainer {
   final CustomTokensRepository custonTokens = CustomTokensRepository();
   final BalanceRepository balanceHistory = BalanceRepository();
   final RecipientsRepository recipients = RecipientsRepository();
-  final NFTsRepository nfts = NFTsRepository();
+  final NftsRepository nfts = NftsRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [

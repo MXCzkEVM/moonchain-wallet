@@ -10,20 +10,20 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'send_nft_state.dart';
 import 'widgets/transaction_dialog.dart';
 
-final sendNFTPageContainer =
-    PresenterContainerWithParameter<SendNFTPresenter, SendNFTState, NFT>(
-        (nft) => SendNFTPresenter(nft));
+final sendNftPageContainer = PresenterContainerWithParameter<
+    SendNftPresenter,
+    SendNftState,
+    Nft>((nft) => SendNftPresenter(nft));
 
-class SendNFTPresenter extends CompletePresenter<SendNFTState> {
-  SendNFTPresenter(this.nft) : super(SendNFTState());
+class SendNftPresenter extends CompletePresenter<SendNftState> {
+  SendNftPresenter(this.nft) : super(SendNftState());
 
-  final NFT nft;
+  final Nft nft;
 
   late final ContractUseCase _contractUseCase =
       ref.read(contractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final accountInfo = ref.read(appNavBarContainer.state);
-  late final TextEditingController amountController = TextEditingController();
   late final TextEditingController recipientController =
       TextEditingController();
 
@@ -41,9 +41,6 @@ class SendNFTPresenter extends CompletePresenter<SendNFTState> {
       (value) => notify(() => state.online = value),
     );
 
-    amountController.addListener(_onValidChange);
-    recipientController.addListener(_onValidChange);
-
     loadPage();
   }
 
@@ -51,44 +48,32 @@ class SendNFTPresenter extends CompletePresenter<SendNFTState> {
     await _contractUseCase.checkConnectionToNetwork();
   }
 
-  void _onValidChange() {
-    final result =
-        amountController.text.isNotEmpty && recipientController.text.isNotEmpty;
-    notify(() => state.valid = result);
-  }
-
   void transactionProcess() async {
-    // final amount = amountController.text;
-    // final recipient = recipientController.text;
-    // EstimatedGasFee? estimatedGasFee;
+    final recipient = recipientController.text;
+    EstimatedGasFee? estimatedGasFee;
 
-    // double sumBalance = token.balance! - double.parse(amount);
+    if (TransactionProcessType.confirm != state.processType) {
+      if (TransactionProcessType.send == state.processType) {
+        estimatedGasFee = await _estimatedFee();
+        notify(() => state.estimatedGasFee = estimatedGasFee);
+      }
+    }
 
-    // if (TransactionProcessType.confirm != state.processType) {
-    //   if (TransactionProcessType.send == state.processType) {
-    //     estimatedGasFee = await _estimatedFee();
-    //     notify(() => state.estimatedGasFee = estimatedGasFee);
-    //   }
-    //   sumBalance -= state.estimatedGasFee?.gasFee ?? 0.0;
-    // }
+    final result = await showTransactionDialog(
+      context!,
+      title: _getDialogTitle(nft.name),
+      nft: nft,
+      newtork: 'MXC zkEVM',
+      from: state.walletAddress!,
+      to: recipient,
+      processType: state.processType,
+      estimatedFee: state.estimatedGasFee?.gasFee.toString(),
+      onTap: _nextTransactionStep,
+    );
 
-    // final result = await showTransactionDialog(
-    //   context!,
-    //   title: _getDialogTitle(token.name ?? ''),
-    //   amount: amount,
-    //   balance: sumBalance.toString(),
-    //   token: token,
-    //   newtork: 'MXC zkEVM',
-    //   from: state.walletAddress!,
-    //   to: recipient,
-    //   processType: state.processType,
-    //   estimatedFee: state.estimatedGasFee?.gasFee.toString(),
-    //   onTap: _nextTransactionStep,
-    // );
-
-    // if (result != null && !result) {
-    //   notify(() => state.processType = TransactionProcessType.confirm);
-    // }
+    if (result != null && !result) {
+      notify(() => state.processType = TransactionProcessType.confirm);
+    }
   }
 
   String _getDialogTitle(String tokenName) {
@@ -135,18 +120,17 @@ class SendNFTPresenter extends CompletePresenter<SendNFTState> {
   }
 
   void _sendTransaction() async {
-    final amount = amountController.text;
     final recipient = recipientController.text;
 
     loading = true;
     try {
-      final res = await _contractUseCase.sendTransaction(
+      final res = await _contractUseCase.sendTransactionOfNft(
+        address: nft.address,
+        tokenId: nft.tokenId,
         privateKey: _accountUseCase.getPravateKey()!,
         to: recipient,
-        amount: amount,
       );
 
-      print(res);
       notify(() => state.processType = TransactionProcessType.done);
       transactionProcess();
     } catch (e, s) {
@@ -161,6 +145,5 @@ class SendNFTPresenter extends CompletePresenter<SendNFTState> {
   Future<void> dispose() async {
     super.dispose();
 
-    amountController.removeListener(_onValidChange);
   }
 }

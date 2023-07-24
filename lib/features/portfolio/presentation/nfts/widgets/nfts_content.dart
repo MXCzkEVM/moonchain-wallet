@@ -1,9 +1,12 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/portfolio/presentation/nfts/choose_nft/choose_nft_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../add_nft/add_nft_page.dart';
+import '../send_nft/send_nft_page.dart';
 
 class NFTsContent extends StatelessWidget {
   const NFTsContent({super.key});
@@ -33,7 +36,14 @@ class NFTsContent extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               onTap: () => Navigator.of(context).push(
                 route.featureDialog(
-                  const AddNFTPage(),
+                  const SendNftPage(
+                    nft: Nft(
+                        address: 'address',
+                        tokenId: 1,
+                        image:
+                            'https://ipfs.io/ipfs/QmQ5LSMxNyZjyrn85zA86aGwTrWWuBsAuXSsCtrarAAFeF',
+                        name: 'xx'),
+                  ),
                 ),
               ),
               title: translate('add_x').replaceFirst('{0}', 'NFT'),

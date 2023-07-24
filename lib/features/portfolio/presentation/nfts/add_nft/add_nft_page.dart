@@ -8,14 +8,14 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'add_nft_presenter.dart';
 import 'add_nft_state.dart';
 
-class AddNFTPage extends HookConsumerWidget {
-  const AddNFTPage({Key? key}) : super(key: key);
+class AddNftPage extends HookConsumerWidget {
+  const AddNftPage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<AddNFTPresenter> get presenter => addNFTPageContainer.actions;
+  ProviderBase<AddNftPresenter> get presenter => addNFTPageContainer.actions;
 
   @override
-  ProviderBase<AddNFTState> get state => addNFTPageContainer.state;
+  ProviderBase<AddNftState> get state => addNFTPageContainer.state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,7 +46,7 @@ class AddNFTPage extends HookConsumerWidget {
                 hint: translate('enter_x')
                     .replaceFirst('{0}', translate('address').toLowerCase()),
                 controller: ref.read(presenter).addressController,
-                action: TextInputAction.done,
+                action: TextInputAction.next,
                 validator: (value) {
                   final res = Validation.notEmpty(
                       context,
@@ -65,7 +65,7 @@ class AddNFTPage extends HookConsumerWidget {
                 label: '${translate('id')} *',
                 hint: translate('enter_x').replaceFirst(
                     '{0}', translate('collection_id').toLowerCase()),
-                controller: ref.read(presenter).idController,
+                controller: ref.read(presenter).tokeIdController,
                 action: TextInputAction.done,
                 validator: (value) => Validation.notEmpty(
                     context,
