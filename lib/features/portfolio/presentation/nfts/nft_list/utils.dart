@@ -3,8 +3,8 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 class NFTListUtils {
   static List<NFTCollectionExpandableItem> generateNFTList(
-      List<NFT> nftCollectionList,
-      {Function(NFT token)? onSelected}) {
+      List<Nft> nftCollectionList,
+      {Function(Nft token)? onSelected}) {
     List<NFTCollectionExpandableItem> widgets = [];
 
     // nftCollectionList.

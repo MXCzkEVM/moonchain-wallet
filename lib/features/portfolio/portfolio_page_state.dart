@@ -6,7 +6,7 @@ class PortfolioState with EquatableMixin {
 
   List<Token>? tokensList;
 
-  List<NFT>? nftList;
+  List<Nft>? nftList;
 
   String? walletAddress;
 

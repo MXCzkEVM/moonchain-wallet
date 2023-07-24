@@ -154,21 +154,5 @@ class ContractUseCase extends ReactiveUseCase {
         estimatedGasFee: estimatedGasFee,
       );
 
-  Future<WannseeTokenMetaData?> getTokenInfo(
-    EthereumAddress collectionAddress,
-    int tokenId,
-    EthereumAddress userAddress,
-  ) async {
-    return await _repository.contract
-        .getTokenInfo(collectionAddress, tokenId, userAddress);
-  }
 
-  Future<bool?> checkTokenOwnership(
-    EthereumAddress collectionAddress,
-    int tokenId,
-    EthereumAddress userAddress,
-  ) async {
-    return await _repository.contract
-        .checkTokenOwnership(collectionAddress, tokenId, userAddress);
-  }
 }

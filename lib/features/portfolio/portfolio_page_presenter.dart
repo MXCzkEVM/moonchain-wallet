@@ -13,7 +13,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
-  late final _nftUseCase = ref.read(nFTsUseCaseProvider);
+  late final _nftUseCase = ref.read(nftsUseCaseProvider);
 
   @override
   void initState() {

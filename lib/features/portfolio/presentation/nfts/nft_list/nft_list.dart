@@ -48,7 +48,7 @@ class NFTList extends HookConsumerWidget {
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               onTap: () => Navigator.of(context).push(
                 route.featureDialog(
-                  const AddNFTPage(),
+                  const AddNftPage(),
                 ),
               ),
               title: translate('add_x').replaceFirst('{0}', 'NFT'),

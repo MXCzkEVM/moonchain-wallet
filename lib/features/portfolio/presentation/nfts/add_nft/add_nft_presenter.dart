@@ -76,27 +76,5 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
     }
   }
 
-  Future<WannseeTokenMetaData?> getTokenInfo() async {
-    final collectionAddress = EthereumAddress.fromHex(addressController.text);
-    final tokenId = int.parse(tokeIdController.text);
 
-    if (walletAddress != null) {
-      final isCurrentWalletOwner = await _contractUseCase.checkTokenOwnership(
-          collectionAddress, tokenId, walletAddress!);
-
-      if (isCurrentWalletOwner != null && isCurrentWalletOwner == true) {
-        // we have ownership response & It's owned by current wallet
-
-        return await _contractUseCase.getTokenInfo(
-            collectionAddress, tokenId, walletAddress!);
-      } else {
-        ScaffoldMessenger.of(context!).showSnackBar(const SnackBar(
-          content: Text('NFT does not belong to this user.'),
-        ));
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
 }
