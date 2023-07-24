@@ -9,9 +9,7 @@ import 'transaction_dialog.dart';
 class TransactionInfo extends StatelessWidget {
   const TransactionInfo({
     Key? key,
-    required this.amount,
-    required this.balance,
-    required this.token,
+    required this.nft,
     required this.newtork,
     required this.from,
     required this.to,
@@ -20,9 +18,7 @@ class TransactionInfo extends StatelessWidget {
     this.onTap,
   }) : super(key: key);
 
-  final String amount;
-  final String balance;
-  final Token token;
+  final Nft nft;
   final String newtork;
   final String from;
   final String to;
@@ -38,9 +34,9 @@ class TransactionInfo extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: Column(
             children: [
-              amountItem(context),
-              priceItem(context, 'balance', balance),
-              textItem(context, 'network', newtork),
+              imageItem(context, nft),
+              // textItem(context, 'network', newtork),
+              addressItem(context, 'creator_address', nft.address),
               addressItem(context, 'from', from),
               addressItem(context, 'to', to),
               if (TransactionProcessType.confirm != processType)
@@ -77,29 +73,25 @@ class TransactionInfo extends StatelessWidget {
     );
   }
 
-  Widget amountItem(BuildContext context) {
+  Widget imageItem(BuildContext context, Nft nft) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          FlutterI18n.translate(context, 'sending'),
+          FlutterI18n.translate(context, 'sending_x')
+              .replaceFirst('{0}', nft.name),
           style: FontTheme.of(context).subtitle1.secondary(),
         ),
-        const SizedBox(width: 4),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              Formatter.formatNumberForUI(amount, isWei: false),
-              style: FontTheme.of(context).h5(),
-            ),
-            const SizedBox(width: 4),
-            Text(
-              token.symbol ?? '--',
-              style: FontTheme.of(context).h5.secondary(),
-            ),
-            const SizedBox(height: 4),
-          ],
-        )
+        Image.network(
+          'https://ipfs.io/ipfs/${nft.image}',
+          width: 95,
+          height: 95,
+          errorBuilder: (context, error, stackTrace) => Text(
+            error.toString(),
+          ),
+          loadingBuilder: (context, child, loadingProgress) =>
+              const CircularProgressIndicator(),
+        ),
       ],
     );
   }
@@ -122,7 +114,7 @@ class TransactionInfo extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           Text(
-            token.symbol ?? '--',
+            'MXC',
             style: FontTheme.of(context).body1().copyWith(
                   color: ColorsTheme.of(context).grey2,
                 ),

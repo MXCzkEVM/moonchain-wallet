@@ -1,53 +1,66 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/presentation/nfts/entities/nft.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_nft_state.dart';
 
 final addNFTPageContainer =
-    PresenterContainer<AddNFTPresenter, AddNFTState>(() => AddNFTPresenter());
+    PresenterContainer<AddNftPresenter, AddNftState>(() => AddNftPresenter());
 
-class AddNFTPresenter extends CompletePresenter<AddNFTState> {
-  AddNFTPresenter() : super(AddNFTState());
+class AddNftPresenter extends CompletePresenter<AddNftState> {
+  AddNftPresenter() : super(AddNftState());
 
-  late final _nFTsUseCase = ref.read(nFTsUseCaseProvider);
+  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _nftsUseCase = ref.read(nftsUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
-  late final TextEditingController idController = TextEditingController();
+  late final TextEditingController tokeIdController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
     addressController.addListener(_onValidChange);
-    idController.addListener(_onValidChange);
+    tokeIdController.addListener(_onValidChange);
   }
 
   @override
   Future<void> dispose() async {
     addressController.removeListener(_onValidChange);
-    idController.removeListener(_onValidChange);
+    tokeIdController.removeListener(_onValidChange);
 
     super.dispose();
   }
 
   void _onValidChange() {
     final result =
-        addressController.text.isNotEmpty && idController.text.isNotEmpty;
+        addressController.text.isNotEmpty && tokeIdController.text.isNotEmpty;
     notify(() => state.valid = result);
   }
 
   Future<void> onSave() async {
     final address = addressController.text;
-    final id = idController.text;
+    final tokeId = int.parse(tokeIdController.text);
 
     loading = true;
 
     try {
-      _nFTsUseCase.addItem(NFT(
+      final owner =
+          await _contractUseCase.getOwerOfNft(address: address, tokeId: tokeId);
+      final account = _accountUseCase.getWalletAddress();
+
+      if (owner != account) {
+        addError(translate('nft_not_match'));
+        return;
+      }
+
+      final nft = await _contractUseCase.getNft(
         address: address,
-        collectionID: id,
-      ));
+        tokeId: tokeId,
+      );
+
+      _nftsUseCase.addItem(nft);
       BottomFlowDialog.of(context!).close();
     } catch (error, stackTrace) {
       addError(error, stackTrace);

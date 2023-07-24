@@ -68,6 +68,6 @@ final Provider<RecipientsUseCase> recipientsCaseProvider = Provider(
   (ref) => RecipientsUseCase(ref.watch(datadashCacheProvider).recipients),
 );
 
-final Provider<NFTsUseCase> nFTsUseCaseProvider = Provider(
-  (ref) => NFTsUseCase(ref.watch(datadashCacheProvider).nfts),
+final Provider<NftsUseCase> nftsUseCaseProvider = Provider(
+  (ref) => NftsUseCase(ref.watch(datadashCacheProvider).nfts),
 );

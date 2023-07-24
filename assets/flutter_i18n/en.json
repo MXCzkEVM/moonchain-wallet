@@ -146,5 +146,8 @@
 	"wallet_address": "Wallet address",
 	"scan_or_copy_address_below_to_receive_tokens_or_nfts": "Scan or copy the address below to receive tokens or NFTs",
 	"copy_address": "Copy Address",
-	"copied": "Copied"
+	"copied": "Copied",
+	"nft_not_match": "NFT can’t be added as the ownership details do not match. Make sure you have entered correct information.",
+	"creator_address": "Creator address",
+	"sending_x": "Sending {0}"
 }

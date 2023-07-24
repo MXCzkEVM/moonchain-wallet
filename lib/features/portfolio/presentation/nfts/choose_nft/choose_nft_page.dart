@@ -10,15 +10,15 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'choose_nft_presenter.dart';
 import 'choose_nft_state.dart';
 
-class ChooseNFTPage extends HookConsumerWidget {
-  const ChooseNFTPage({Key? key}) : super(key: key);
+class ChooseNftPage extends HookConsumerWidget {
+  const ChooseNftPage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<ChooseNFTPresenter> get presenter =>
-      chooseNFTPageContainer.actions;
+  ProviderBase<ChooseNftPresenter> get presenter =>
+      chooseNftPageContainer.actions;
 
   @override
-  ProviderBase<ChooseNFTState> get state => chooseNFTPageContainer.state;
+  ProviderBase<ChooseNftState> get state => chooseNftPageContainer.state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,12 +59,12 @@ class ChooseNFTPage extends HookConsumerWidget {
               hint: translate('find_your_x').replaceFirst('{0}', 'NFT'),
               controller: ref.read(presenter).searchController,
               action: TextInputAction.done,
-              onChanged: (value) => ref.read(presenter).fliterNFTs(value),
+              onChanged: (value) => ref.read(presenter).fliterNfts(value),
             ),
           ],
         ),
         const SizedBox(height: 12),
-        if (ref.watch(state).filterNFTs != null)
+        if (ref.watch(state).filterNfts != null)
           GreyContainer(
               child: Column(
             children: [],

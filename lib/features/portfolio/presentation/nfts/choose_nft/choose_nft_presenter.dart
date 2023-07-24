@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 import 'choose_nft_state.dart';
 
-final chooseNFTPageContainer =
-    PresenterContainer<ChooseNFTPresenter, ChooseNFTState>(
-        () => ChooseNFTPresenter());
+final chooseNftPageContainer =
+    PresenterContainer<ChooseNftPresenter, ChooseNftState>(
+        () => ChooseNftPresenter());
 
-class ChooseNFTPresenter extends CompletePresenter<ChooseNFTState> {
-  ChooseNFTPresenter() : super(ChooseNFTState());
+class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
+  ChooseNftPresenter() : super(ChooseNftState());
 
   late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
+  late final _nftsUseCase = ref.read(nftsUseCaseProvider);
   late final TextEditingController searchController = TextEditingController();
 
   @override
@@ -25,28 +26,32 @@ class ChooseNFTPresenter extends CompletePresenter<ChooseNFTState> {
       }
     });
 
-    listen(_contractUseCase.tokensList, (newTokens) {
-      if (newTokens.isNotEmpty) {
+    listen(_nftsUseCase.nfts, (nfts) {
+      if (nfts.isNotEmpty) {
         notify(() {
-          // state.tokens = newTokens;
-          // state.filterTokens = newTokens;
+          state.nfts = nfts;
+          state.filterNfts = nfts;
         });
       }
     });
+
+    loadPage();
   }
 
   Future<void> loadPage() async {
-    await _contractUseCase.getTokensBalance(state.walletAddress);
+    _nftsUseCase.getNfts();
   }
 
-  void fliterNFTs(String value) {
+  void fliterNfts(String value) {
     final tokens = state.nfts
         ?.where((item) =>
             item.address.contains(RegExp(value, caseSensitive: false)) ||
-            item.collectionID.contains(RegExp(value, caseSensitive: false)))
+            item.tokenId
+                .toString()
+                .contains(RegExp(value, caseSensitive: false)))
         .toList();
 
-    notify(() => state.filterNFTs = tokens);
+    notify(() => state.filterNfts = tokens);
   }
 
   @override

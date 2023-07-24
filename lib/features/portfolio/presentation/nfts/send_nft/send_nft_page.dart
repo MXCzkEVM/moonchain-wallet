@@ -8,24 +8,23 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../entities/nft.dart';
 import 'send_nft_presenter.dart';
 import 'send_nft_state.dart';
 
-class SendNFTPage extends HookConsumerWidget {
-  const SendNFTPage({
+class SendNftPage extends HookConsumerWidget {
+  const SendNftPage({
     Key? key,
     required this.nft,
   }) : super(key: key);
 
-  final NFT nft;
+  final Nft nft;
 
   @override
-  ProviderBase<SendNFTPresenter> get presenter =>
-      sendNFTPageContainer.actions(nft);
+  ProviderBase<SendNftPresenter> get presenter =>
+      sendNftPageContainer.actions(nft);
 
   @override
-  ProviderBase<SendNFTState> get state => sendNFTPageContainer.state(nft);
+  ProviderBase<SendNftState> get state => sendNftPageContainer.state(nft);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,30 +37,46 @@ class SendNFTPage extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       footer: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: MxcButton.primary(
-          key: const ValueKey('nextButton'),
-          title: FlutterI18n.translate(context, 'next'),
-          onTap: ref.watch(state).valid
-              ? () {
-                  FocusManager.instance.primaryFocus?.unfocus();
+        child: ValueListenableBuilder<TextEditingValue>(
+            valueListenable: ref.watch(presenter).recipientController,
+            builder: (ctx, recipientValue, _) {
+              return MxcButton.primary(
+                key: const ValueKey('nextButton'),
+                title: FlutterI18n.translate(context, 'next'),
+                onTap: recipientValue.text.isNotEmpty
+                    ? () {
+                        FocusManager.instance.primaryFocus?.unfocus();
 
-                  // if (!formKey.currentState!.validate()) return;
+                        if (!formKey.currentState!.validate()) return;
 
-                  ref.read(presenter).transactionProcess();
-                }
-              : null,
-        ),
+                        ref.read(presenter).transactionProcess();
+                      }
+                    : null,
+              );
+            }),
       ),
       children: [
         MxcAppBarEvenly.text(
-            titleText:
-                translate('send_x').replaceFirst('{0}', 'NFT')),
+            titleText: translate('send_x').replaceFirst('{0}', 'NFT')),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child: Image.network(
+                  'https://ipfs.io/ipfs/${nft.image}',
+                  width: 95,
+                  height: 95,
+                  errorBuilder: (context, error, stackTrace) => Text(
+                    error.toString(),
+                  ),
+                  loadingBuilder: (context, child, loadingProgress) =>
+                      const CircularProgressIndicator(),
+                ),
+              ),
+              const SizedBox(height: 24),
               Text(
                 translate('network'),
                 style: FontTheme.of(context).caption1.primary(),

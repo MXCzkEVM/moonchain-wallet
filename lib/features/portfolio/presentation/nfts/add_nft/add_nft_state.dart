@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class AddNFTState with EquatableMixin {
+class AddNftState with EquatableMixin {
   bool valid = false;
 
   @override
