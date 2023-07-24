@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/portfolio/presentation/nfts/nft_list/nft_list.dart';
 import 'package:datadashwallet/features/portfolio/presentation/tokens_balance_list/tokens_balance_list.dart';
 import 'package:datadashwallet/features/portfolio/presentation/widgets/show_wallet_address_dialog.dart';
 import 'package:datadashwallet/features/token/send_token/choose_crypto/choose_crypto_page.dart';
@@ -11,8 +12,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'portfolio_page_presenter.dart';
-import 'portfolio_page_state.dart';
-import 'presentation/nfts/nfts.dart';
+
 
 class PortfolioPage extends HookConsumerWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -171,7 +171,7 @@ class PortfolioPage extends HookConsumerWidget {
               if (state.switchTokensOrNFTs) ...[
                 const TokensBalanceList(),
               ] else ...[
-                const NFTsContent(),
+                const NFTList(),
               ]
             ],
           ))

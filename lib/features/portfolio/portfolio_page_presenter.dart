@@ -1,6 +1,8 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'portfolio_page_state.dart';
+import 'package:web3dart/web3dart.dart';
 
 final portfolioContainer =
     PresenterContainer<PortfolioPresenter, PortfolioState>(
@@ -11,6 +13,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _nftUseCase = ref.read(nFTsUseCaseProvider);
 
   @override
   void initState() {
@@ -33,6 +36,10 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
       }
     });
 
+    listen(_nftUseCase.nfts, (newNFTList) {
+      notify(() => state.nftCollectionList = newNFTList);
+    });
+
     _accountUserCase.refreshWallet();
   }
 
@@ -49,7 +56,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   void changeTokensOrNFTsTab() {
     notify(() => state.switchTokensOrNFTs = !state.switchTokensOrNFTs);
   }
-  
+
   void copyWalletAddressToClipboard() async {
     FlutterClipboard.copy(state.walletAddress ?? '')
         .then((value) => notify(() => state.isWalletAddressCopied = true));
