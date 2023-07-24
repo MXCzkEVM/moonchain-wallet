@@ -1,6 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/presentation/nfts/entities/nft.dart';
-
+import 'package:mxc_logic/mxc_logic.dart';
 import 'nfts_repository.dart';
 
 class NFTsUseCase extends ReactiveUseCase {
@@ -8,8 +7,7 @@ class NFTsUseCase extends ReactiveUseCase {
 
   final NFTsRepository _repository;
 
-  late final ValueStream<List<NFT>> nfts =
-      reactiveField(_repository.nfts);
+  late final ValueStream<List<NFT>> nfts = reactiveField(_repository.nfts);
 
   List<NFT> getTokens() => _repository.items;
 

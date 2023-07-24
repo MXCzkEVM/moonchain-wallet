@@ -43,8 +43,8 @@ class AddNFTPage extends HookConsumerWidget {
               MxcTextField(
                 key: const ValueKey('addressTextField'),
                 label: '${translate('address')} *',
-                hint: translate('enter_x').replaceFirst(
-                    '{0}', translate('wallet_address').toLowerCase()),
+                hint: translate('enter_x')
+                    .replaceFirst('{0}', translate('address').toLowerCase()),
                 controller: ref.read(presenter).addressController,
                 action: TextInputAction.done,
                 validator: (value) {

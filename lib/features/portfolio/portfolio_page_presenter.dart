@@ -37,7 +37,13 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     });
 
     listen(_nftUseCase.nfts, (newNFTList) {
-      notify(() => state.nftCollectionList = newNFTList);
+      if (newNFTList.isNotEmpty) {
+        if (state.tokensList != null) {
+          notify(() => state.nftList = newNFTList);
+        } else {
+          state.nftList = newNFTList;
+        }
+      }
     });
 
     _accountUserCase.refreshWallet();

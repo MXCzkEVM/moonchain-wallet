@@ -1,8 +1,8 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/presentation/nfts/entities/nft.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-
+import 'package:web3dart/web3dart.dart';
 import 'add_nft_state.dart';
 
 final addNFTPageContainer =
@@ -12,8 +12,11 @@ class AddNFTPresenter extends CompletePresenter<AddNFTState> {
   AddNFTPresenter() : super(AddNFTState());
 
   late final _nFTsUseCase = ref.read(nFTsUseCaseProvider);
+  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController idController = TextEditingController();
+  EthereumAddress? walletAddress;
 
   @override
   void initState() {
@@ -21,6 +24,12 @@ class AddNFTPresenter extends CompletePresenter<AddNFTState> {
 
     addressController.addListener(_onValidChange);
     idController.addListener(_onValidChange);
+
+    listen(_accountUserCase.walletAddress, (value) {
+      if (value != null) {
+        walletAddress = EthereumAddress.fromHex(value);
+      }
+    });
   }
 
   @override
@@ -44,15 +53,44 @@ class AddNFTPresenter extends CompletePresenter<AddNFTState> {
     loading = true;
 
     try {
-      _nFTsUseCase.addItem(NFT(
-        address: address,
-        collectionID: id,
-      ));
-      BottomFlowDialog.of(context!).close();
+      final tokenMetaData = await getTokenInfo();
+
+      if (tokenMetaData != null) {
+        _nFTsUseCase.addItem(NFT(
+            address: address,
+            tokenId: id,
+            image: tokenMetaData.image!,
+            name: tokenMetaData.name!));
+        BottomFlowDialog.of(context!).close();
+      }
     } catch (error, stackTrace) {
       addError(error, stackTrace);
     } finally {
       loading = false;
+    }
+  }
+
+  Future<WannseeTokenMetaData?> getTokenInfo() async {
+    final collectionAddress = EthereumAddress.fromHex(addressController.text);
+    final tokenId = int.parse(idController.text);
+
+    if (walletAddress != null) {
+      final isCurrentWalletOwner = await _contractUseCase.checkTokenOwnership(
+          collectionAddress, tokenId, walletAddress!);
+
+      if (isCurrentWalletOwner != null && isCurrentWalletOwner == true) {
+        // we have ownership response & It's owned by current wallet
+
+        return await _contractUseCase.getTokenInfo(
+            collectionAddress, tokenId, walletAddress!);
+      } else {
+        ScaffoldMessenger.of(context!).showSnackBar(const SnackBar(
+          content: Text('NFT does not belong to this user.'),
+        ));
+        return null;
+      }
+    } else {
+      return null;
     }
   }
 }

@@ -43,7 +43,7 @@ class ChooseNFTPresenter extends CompletePresenter<ChooseNFTState> {
     final tokens = state.nfts
         ?.where((item) =>
             item.address.contains(RegExp(value, caseSensitive: false)) ||
-            item.collectionID.contains(RegExp(value, caseSensitive: false)))
+            item.tokenId.contains(RegExp(value, caseSensitive: false)))
         .toList();
 
     notify(() => state.filterNFTs = tokens);

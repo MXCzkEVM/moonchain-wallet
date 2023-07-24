@@ -4,7 +4,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class NFTCollectionExpandableItem extends StatefulWidget {
-  final NFTCollection collection;
+  final List<NFT> collection;
 
   const NFTCollectionExpandableItem({
     super.key,
@@ -28,14 +28,14 @@ class _NFTCollectionState extends State<NFTCollectionExpandableItem> {
         title: Row(
           children: [
             Text(
-              widget.collection.name,
+              widget.collection[0].name,
               style: FontTheme.of(context).body2.primary(),
             ),
             const SizedBox(
               width: 4,
             ),
             Text(
-              '(${widget.collection.tokens.length})',
+              '(${widget.collection.length})',
               style: FontTheme.of(context).body2.secondary(),
             )
           ],
@@ -63,7 +63,7 @@ class _NFTCollectionState extends State<NFTCollectionExpandableItem> {
             crossAxisSpacing: 20.0,
             mainAxisSpacing: 10.0,
             shrinkWrap: true,
-            children: widget.collection.tokens
+            children: widget.collection
                 .map((e) => NFTItem(imageUrl: e.image))
                 .toList(),
           ),

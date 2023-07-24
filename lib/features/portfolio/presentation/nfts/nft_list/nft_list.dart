@@ -20,8 +20,7 @@ class NFTList extends HookConsumerWidget {
 
     return Column(
       children: [
-        portfolioState.nftCollectionList != null &&
-                portfolioState.nftCollectionList!.isEmpty
+        portfolioState.nftList != null && portfolioState.nftList!.isEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 100),
                 child: Text(
@@ -31,13 +30,13 @@ class NFTList extends HookConsumerWidget {
                       ),
                 ),
               )
-            : portfolioState.nftCollectionList == null
+            : portfolioState.nftList == null
                 ? const SizedBox(
                     height: 50,
                     child: Center(child: CircularProgressIndicator()))
                 : Column(
-                    children: NFTListUtils.generateNFTList(
-                        portfolioState.nftCollectionList!),
+                    children:
+                        NFTListUtils.generateNFTList(portfolioState.nftList!),
                   ),
         const SizedBox(height: 8),
         Row(

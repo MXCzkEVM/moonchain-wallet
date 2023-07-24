@@ -1,4 +1,3 @@
-import 'package:datadashwallet/features/portfolio/presentation/nfts/entities/nft.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 
@@ -12,15 +11,17 @@ class NFTsRepository extends ControlledCacheRepository {
     serializer: (t) => t
         .map((e) => {
               'address': e.address,
-              'collectionID': e.collectionID,
+              'collectionID': e.tokenId,
               'image': e.image,
+              'name': e.name
             })
         .toList(),
     deserializer: (t) => (t as List)
         .map((e) => NFT(
               address: e['address'],
-              collectionID: e['collectionID'],
+              tokenId: e['collectionID'],
               image: e['image'],
+              name: e['name']
             ))
         .toList(),
   );
@@ -31,6 +32,6 @@ class NFTsRepository extends ControlledCacheRepository {
 
   void removeItem(NFT item) => nfts.value = nfts.value
       .where((e) =>
-          e.address != item.address && e.collectionID != item.collectionID)
+          e.address != item.address && e.tokenId != item.tokenId)
       .toList();
 }
