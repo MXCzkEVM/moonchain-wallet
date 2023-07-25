@@ -3,7 +3,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/tokens_balance_list/utils.dart';
-import 'package:datadashwallet/features/token/send_token/send_crypto/send_crypto_page.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/send_crypto/send_crypto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
