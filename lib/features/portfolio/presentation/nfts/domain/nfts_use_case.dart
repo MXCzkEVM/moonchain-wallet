@@ -7,8 +7,7 @@ class NftsUseCase extends ReactiveUseCase {
 
   final NftsRepository _repository;
 
-  late final ValueStream<List<Nft>> nfts =
-      reactiveField(_repository.nfts);
+  late final ValueStream<List<Nft>> nfts = reactiveField(_repository.nfts);
 
   List<Nft> getNfts() => _repository.items;
 

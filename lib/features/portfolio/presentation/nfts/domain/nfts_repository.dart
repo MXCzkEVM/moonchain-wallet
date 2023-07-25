@@ -28,7 +28,14 @@ class NftsRepository extends ControlledCacheRepository {
 
   List<Nft> get items => nfts.value;
 
-  void addItem(Nft item) => nfts.value = [...nfts.value, item];
+  void addItem(Nft item) {
+    final foundItemIndex = nfts.value.indexWhere((element) =>
+        (element.address == item.address && element.tokenId == item.tokenId));
+
+    if (foundItemIndex == -1) {
+      nfts.value = [...nfts.value, item];
+    }
+  }
 
   void removeItem(Nft item) => nfts.value = nfts.value
       .where((e) => e.address != item.address && e.tokenId != item.tokenId)
