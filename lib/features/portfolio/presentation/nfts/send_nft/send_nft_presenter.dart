@@ -22,7 +22,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
   late final ContractUseCase _contractUseCase =
       ref.read(contractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
-  late final accountInfo = ref.read(appNavBarContainer.state);
+  late final _nftsUseCase = ref.read(nftsUseCaseProvider);
   late final TextEditingController recipientController =
       TextEditingController();
 
@@ -130,6 +130,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
         to: recipient,
       );
 
+      _nftsUseCase.removeItem(nft);
       notify(() => state.processType = TransactionProcessType.done);
       transactionProcess();
     } catch (e, s) {

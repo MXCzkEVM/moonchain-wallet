@@ -26,36 +26,29 @@ class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
       }
     });
 
-    listen(_nftsUseCase.nfts, (nfts) {
-      if (nfts.isNotEmpty) {
-        notify(() {
-          state.nfts = nfts;
-          state.filterNfts = nfts;
-        });
-      }
+    listen(_nftsUseCase.nfts, (value) {
+      notify(() {
+        state.nfts = value;
+        state.filterNfts = value;
+      });
     });
-
-    loadPage();
   }
 
-  Future<void> loadPage() async {
-    _nftsUseCase.getNfts();
+  void loadPage() async {
+    _nftsUseCase.removeAll();
+    // final nfts = await _contractUseCase.getNftsByAddress(state.walletAddress);
+    // _nftsUseCase.mergeNewList(nfts);
   }
 
   void fliterNfts(String value) {
-    final tokens = state.nfts
-        ?.where((item) =>
-            item.address.contains(RegExp(value, caseSensitive: false)) ||
-            item.tokenId
+    final result = state.nfts
+        .where((item) =>
+            item.name.contains(RegExp(value, caseSensitive: false)) ||
+            item.address
                 .toString()
                 .contains(RegExp(value, caseSensitive: false)))
         .toList();
 
-    notify(() => state.filterNfts = tokens);
-  }
-
-  @override
-  Future<void> dispose() async {
-    super.dispose();
+    notify(() => state.filterNfts = result);
   }
 }

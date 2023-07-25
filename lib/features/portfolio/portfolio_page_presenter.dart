@@ -1,8 +1,6 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:mxc_logic/mxc_logic.dart';
 import 'portfolio_page_state.dart';
-import 'package:web3dart/web3dart.dart';
 
 final portfolioContainer =
     PresenterContainer<PortfolioPresenter, PortfolioState>(

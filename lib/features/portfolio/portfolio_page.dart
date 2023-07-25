@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/portfolio/presentation/nfts/choose_nft/choose_nft_page.dart';
 import 'package:datadashwallet/features/portfolio/presentation/nfts/nft_list/nft_list.dart';
 import 'package:datadashwallet/features/portfolio/presentation/tokens_balance_list/tokens_balance_list.dart';
 import 'package:datadashwallet/features/portfolio/presentation/transaction_history/transaction_history_page.dart';
@@ -13,7 +14,6 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'portfolio_page_presenter.dart';
-
 
 class PortfolioPage extends HookConsumerWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -48,7 +48,7 @@ class PortfolioPage extends HookConsumerWidget {
                 fit: StackFit.passthrough,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
                       child: Container(
@@ -74,8 +74,10 @@ class PortfolioPage extends HookConsumerWidget {
                         MxcCircleButton.icon(
                           key: const Key('sendButton'),
                           icon: MXCIcons.send,
-                          onTap: () => Navigator.of(context)
-                              .push(route(const ChooseCryptoPage())),
+                          onTap: () => Navigator.of(context).push(route(
+                              state.switchTokensOrNFTs
+                                  ? const ChooseCryptoPage()
+                                  : const ChooseNftPage())),
                           iconSize: 24,
                           filled: false,
                           color: ColorsTheme.of(context).primaryBackground,
@@ -169,7 +171,9 @@ class PortfolioPage extends HookConsumerWidget {
               if (state.switchTokensOrNFTs) ...[
                 const TokensBalanceList(),
               ] else ...[
-                const NFTList(),
+                NFTList(
+                  nfts: state.nftList,
+                ),
               ]
             ],
           ))

@@ -4,12 +4,14 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class NFTCollectionExpandableItem extends StatefulWidget {
-  final List<Nft> collection;
-
   const NFTCollectionExpandableItem({
     super.key,
     required this.collection,
+    this.onSelected,
   });
+
+  final List<Nft> collection;
+  final Function(Nft token)? onSelected;
 
   @override
   State<NFTCollectionExpandableItem> createState() => _NFTCollectionState();
@@ -64,7 +66,14 @@ class _NFTCollectionState extends State<NFTCollectionExpandableItem> {
             mainAxisSpacing: 10.0,
             shrinkWrap: true,
             children: widget.collection
-                .map((e) => NFTItem(imageUrl: e.image))
+                .map(
+                  (e) => InkWell(
+                    onTap: widget.onSelected != null
+                        ? () => widget.onSelected!(e)
+                        : null,
+                    child: NFTItem(imageUrl: e.image),
+                  ),
+                )
                 .toList(),
           ),
         ],

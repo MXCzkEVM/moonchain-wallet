@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/features/portfolio/presentation/nfts/nft_list/widgets/nft_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -35,8 +36,6 @@ class TransactionInfo extends StatelessWidget {
           child: Column(
             children: [
               imageItem(context, nft),
-              // textItem(context, 'network', newtork),
-              addressItem(context, 'creator_address', nft.address),
               addressItem(context, 'from', from),
               addressItem(context, 'to', to),
               if (TransactionProcessType.confirm != processType)
@@ -82,15 +81,11 @@ class TransactionInfo extends StatelessWidget {
               .replaceFirst('{0}', nft.name),
           style: FontTheme.of(context).subtitle1.secondary(),
         ),
-        Image.network(
-          'https://ipfs.io/ipfs/${nft.image}',
-          width: 95,
-          height: 95,
-          errorBuilder: (context, error, stackTrace) => Text(
-            error.toString(),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: NFTItem(
+            imageUrl: nft.image,
           ),
-          loadingBuilder: (context, child, loadingProgress) =>
-              const CircularProgressIndicator(),
         ),
       ],
     );

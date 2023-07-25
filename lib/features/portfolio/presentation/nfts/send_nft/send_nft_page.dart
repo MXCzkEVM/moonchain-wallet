@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/portfolio/presentation/nfts/nft_list/widgets/nft_item.dart';
 import 'package:datadashwallet/features/settings/subfeatures/recipient/recipient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -65,15 +66,8 @@ class SendNftPage extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Image.network(
-                  'https://ipfs.io/ipfs/${nft.image}',
-                  width: 95,
-                  height: 95,
-                  errorBuilder: (context, error, stackTrace) => Text(
-                    error.toString(),
-                  ),
-                  loadingBuilder: (context, child, loadingProgress) =>
-                      const CircularProgressIndicator(),
+                child: NFTItem(
+                  imageUrl: nft.image,
                 ),
               ),
               const SizedBox(height: 24),
