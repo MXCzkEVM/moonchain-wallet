@@ -3,7 +3,7 @@ import 'package:datadashwallet/features/common/account/account_cache_repository.
 import 'package:datadashwallet/features/portfolio/subfeatures/nfts/domain/nfts_repository.dart';
 import 'package:datadashwallet/features/settings/subfeatures/recipient/domain/recipients_repository.dart';
 import 'package:datadashwallet/features/token/add_token/domain/custom_tokens_repository.dart';
-import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_repository.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_repository.dart';
 import 'package:mxc_logic/internal.dart';
 
 import 'base_cache.dart';

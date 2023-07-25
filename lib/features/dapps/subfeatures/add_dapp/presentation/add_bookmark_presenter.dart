@@ -1,5 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
+import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mxc_ui/mxc_ui.dart';

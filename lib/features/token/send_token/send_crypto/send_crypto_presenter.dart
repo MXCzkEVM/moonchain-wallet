@@ -1,6 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar_presenter.dart';
+import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
 import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
 import 'package:datadashwallet/features/token/send_token/choose_crypto/choose_crypto_presenter.dart';
 import 'package:flutter/material.dart';

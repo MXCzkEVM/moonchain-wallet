@@ -1,11 +1,9 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import 'package:web3dart/web3dart.dart';
 import 'add_nft_state.dart';
 
-final addNFTPageContainer =
+final addNftPageContainer =
     PresenterContainer<AddNftPresenter, AddNftState>(() => AddNftPresenter());
 
 class AddNftPresenter extends CompletePresenter<AddNftState> {
@@ -16,7 +14,6 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController tokeIdController = TextEditingController();
-  EthereumAddress? walletAddress;
 
   @override
   void initState() {
@@ -24,12 +21,6 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
 
     addressController.addListener(_onValidChange);
     tokeIdController.addListener(_onValidChange);
-
-    listen(_accountUseCase.walletAddress, (value) {
-      if (value != null) {
-        walletAddress = EthereumAddress.fromHex(value);
-      }
-    });
   }
 
   @override

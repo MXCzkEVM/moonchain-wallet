@@ -1,5 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
+import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 
 import 'bookmark_repository.dart';
 

@@ -1,7 +1,7 @@
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
-import 'package:datadashwallet/features/home/apps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
+import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 
 import 'dapps_state.dart';
 

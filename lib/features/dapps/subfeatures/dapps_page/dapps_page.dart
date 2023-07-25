@@ -1,8 +1,9 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/apps/apps.dart';
-import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
-import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/presentation/widgets/bookmark.dart';
+import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/dapps_page/widgets/bookmark.dart';
 import 'package:datadashwallet/features/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

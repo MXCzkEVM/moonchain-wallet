@@ -12,10 +12,10 @@ class AddNftPage extends HookConsumerWidget {
   const AddNftPage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<AddNftPresenter> get presenter => addNFTPageContainer.actions;
+  ProviderBase<AddNftPresenter> get presenter => addNftPageContainer.actions;
 
   @override
-  ProviderBase<AddNftState> get state => addNFTPageContainer.state;
+  ProviderBase<AddNftState> get state => addNftPageContainer.state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

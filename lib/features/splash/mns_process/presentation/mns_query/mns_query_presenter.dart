@@ -1,5 +1,5 @@
-import 'package:datadashwallet/features/home/apps/apps.dart';
-import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:datadashwallet/features/home/home.dart';
 
 import 'package:datadashwallet/core/core.dart';

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
+import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:equatable/equatable.dart';
 
 class DAppsState with EquatableMixin {

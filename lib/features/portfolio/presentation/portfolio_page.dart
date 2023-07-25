@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nfts/choose_nft/choose_nft_page.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nfts/nft_list/nft_list.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/tokens_balance_list/tokens_balance_list.dart';
@@ -9,7 +11,6 @@ import 'package:datadashwallet/features/token/send_token/choose_crypto/choose_cr
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:datadashwallet/features/home/home.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 

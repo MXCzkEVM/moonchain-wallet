@@ -1,7 +1,7 @@
 import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/home/apps/apps.dart';
-import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
