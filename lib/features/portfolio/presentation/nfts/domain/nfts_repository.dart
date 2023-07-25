@@ -40,4 +40,9 @@ class NftsRepository extends ControlledCacheRepository {
   void removeItem(Nft item) => nfts.value = nfts.value
       .where((e) => e.address != item.address && e.tokenId != item.tokenId)
       .toList();
+
+  void removeAll() => nfts.value.clear();
+
+  void addAll(List<Nft> nftList) => nfts.value = nftList;
+
 }
