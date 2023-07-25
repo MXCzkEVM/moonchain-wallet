@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
+import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,8 +12,8 @@ class BalanceTitle extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(homeContainer.actions);
-    final state = ref.watch(homeContainer.state);
+    final presenter = ref.read(walletContainer.actions);
+    final state = ref.watch(walletContainer.state);
     return Row(
       children: [
         Text(FlutterI18n.translate(context, 'balance'),

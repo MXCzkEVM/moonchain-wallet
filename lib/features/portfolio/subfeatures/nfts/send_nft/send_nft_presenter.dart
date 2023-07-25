@@ -1,6 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
+import 'package:datadashwallet/features/wallet/presentation/wallet_page_presenter.dart';
 import 'package:datadashwallet/features/token/send_token/choose_crypto/choose_crypto_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -93,7 +93,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
       BottomFlowDialog.of(context!).close();
 
       ref.read(chooseCryptoPageContainer.actions).loadPage();
-      ref.read(homeContainer.actions).initializeHomePage();
+      ref.read(walletContainer.actions).initializeWalletPage();
     }
   }
 

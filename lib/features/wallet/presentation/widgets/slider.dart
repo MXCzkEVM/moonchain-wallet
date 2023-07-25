@@ -2,14 +2,14 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-class HomeSlider extends StatefulWidget {
-  const HomeSlider({Key? key}) : super(key: key);
+class WalletSlider extends StatefulWidget {
+  const WalletSlider({Key? key}) : super(key: key);
 
   @override
-  State<HomeSlider> createState() => _HomeSliderState();
+  State<WalletSlider> createState() => _WalletSliderState();
 }
 
-class _HomeSliderState extends State<HomeSlider> {
+class _WalletSliderState extends State<WalletSlider> {
   @override
   Widget build(BuildContext context) {
     return Align(

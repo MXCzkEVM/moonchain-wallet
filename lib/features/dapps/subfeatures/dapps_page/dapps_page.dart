@@ -4,7 +4,7 @@ import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/dapps_page/widgets/bookmark.dart';
-import 'package:datadashwallet/features/home/home.dart';
+import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -88,7 +88,7 @@ class DAppsPage extends HookConsumerWidget {
                   icon: const Icon(MXCIcons.wallet),
                   iconSize: 32,
                   onPressed: () => Navigator.of(context).replaceAll(
-                    route(const HomePage()),
+                    route(const WalletPage()),
                   ),
                   color: ColorsTheme.of(context).primaryButton,
                 ),

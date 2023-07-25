@@ -1,6 +1,7 @@
+import 'package:datadashwallet/features/wallet/wallet.dart';
+
 import './transaction_status_chip.dart';
 import './transaction_type_widget.dart';
-import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,7 +31,7 @@ class RecentTrxListItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(homeContainer.actions);
+    final presenter = ref.read(walletContainer.actions);
     final formattedTXHash = Formatter.formatWalletAddress(txHash);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

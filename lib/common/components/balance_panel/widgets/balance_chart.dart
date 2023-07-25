@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
+import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ class BalanceChart extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(homeContainer.actions);
-    final state = ref.watch(homeContainer.state);
+    final presenter = ref.read(walletContainer.actions);
+    final state = ref.watch(walletContainer.state);
     return Column(
       children: [
         Row(

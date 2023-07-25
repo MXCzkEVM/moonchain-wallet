@@ -1,17 +1,17 @@
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/home.dart';
+import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'home_page_state.dart';
+import 'wallet_page_state.dart';
 
-final homeContainer =
-    PresenterContainer<HomePresenter, HomeState>(() => HomePresenter());
+final walletContainer =
+    PresenterContainer<WalletPresenter, WalletState>(() => WalletPresenter());
 
-class HomePresenter extends CompletePresenter<HomeState> {
-  HomePresenter() : super(HomeState());
+class WalletPresenter extends CompletePresenter<WalletState> {
+  WalletPresenter() : super(WalletState());
 
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
@@ -25,7 +25,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
     listen(_accountUserCase.walletAddress, (value) {
       if (value != null) {
         notify(() => state.walletAddress = value);
-        initializeHomePage();
+        initializeWalletPage();
       }
     });
 
@@ -55,7 +55,7 @@ class HomePresenter extends CompletePresenter<HomeState> {
     notify(() => state.currentIndex = newIndex);
   }
 
-  Future<void> initializeHomePage() async {
+  Future<void> initializeWalletPage() async {
     getDefaultTokens();
     getBalance();
     createSubscriptions();
