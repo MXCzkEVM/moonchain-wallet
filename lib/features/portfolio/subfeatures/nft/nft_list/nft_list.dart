@@ -1,5 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/nfts/nft_list/utils.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
