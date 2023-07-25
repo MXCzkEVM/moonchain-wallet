@@ -6,6 +6,8 @@ class PortfolioState with EquatableMixin {
 
   List<Token>? tokensList;
 
+  List<Nft>? nftList;
+
   String? walletAddress;
 
   bool switchTokensOrNFTs = true;
@@ -19,5 +21,6 @@ class PortfolioState with EquatableMixin {
         walletAddress,
         switchTokensOrNFTs,
         isWalletAddressCopied,
+        nftList
       ];
 }

@@ -31,7 +31,7 @@ class BridgeParams {
     value = BigInt.tryParse((json['value'] ?? '0').replaceAll('0x', ''),
             radix: 16) ??
         BigInt.zero;
-        
+
     from = json['from'];
     to = json['to'];
     data = json['data'];

@@ -11,7 +11,6 @@ class RecipientsUseCase extends ReactiveUseCase {
   late final ValueStream<List<Recipient>> recipients =
       reactiveField(_repository.recipients);
 
-
   List<Recipient> getRecipients() => _repository.items;
 
   void addItem(Recipient item) {

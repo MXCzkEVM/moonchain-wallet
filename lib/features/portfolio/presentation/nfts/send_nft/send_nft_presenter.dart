@@ -10,10 +10,9 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'send_nft_state.dart';
 import 'widgets/transaction_dialog.dart';
 
-final sendNftPageContainer = PresenterContainerWithParameter<
-    SendNftPresenter,
-    SendNftState,
-    Nft>((nft) => SendNftPresenter(nft));
+final sendNftPageContainer =
+    PresenterContainerWithParameter<SendNftPresenter, SendNftState, Nft>(
+        (nft) => SendNftPresenter(nft));
 
 class SendNftPresenter extends CompletePresenter<SendNftState> {
   SendNftPresenter(this.nft) : super(SendNftState());
@@ -144,6 +143,5 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
   @override
   Future<void> dispose() async {
     super.dispose();
-
   }
 }

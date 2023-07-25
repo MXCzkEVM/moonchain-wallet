@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:web3dart/web3dart.dart';
 
 extension Unique<E, T> on List<E> {
-  void unique([T Function(E element)? id, bool inplace = true]) {
-    final ids = Set();
-    var list = inplace ? this : List<E>.from(this);
+  void unique([T Function(E element)? id, bool inPlace = true]) {
+    final ids = <dynamic>{};
+    var list = inPlace ? this : List<E>.from(this);
     list.retainWhere((x) => ids.add(id != null ? id(x) : x as T));
   }
 }
@@ -22,7 +23,7 @@ class ContractUseCase extends ReactiveUseCase {
   late final ValueStream<bool> online = reactive(false);
 
   late final ValueStream<List<Token>> tokensList = reactive([]);
-
+  
   Future<String> getWalletNativeTokenBalance(String address) async {
     final balance = await _repository.contract.getEthBalance(address);
     return Formatter.convertWeiToEth(balance.getInWei.toString());
@@ -50,6 +51,7 @@ class ContractUseCase extends ReactiveUseCase {
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
     final result = await _repository.contract.getDefaultTokens();
     final mxcBalance = await getWalletNativeTokenBalance(walletAddress);
+
     final mxcToken = Token(
       logoUri:
           'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg',
@@ -92,7 +94,7 @@ class ContractUseCase extends ReactiveUseCase {
 
   void addCustomTokens(List<Token> customTokens) {
     tokensList.value.addAll(customTokens);
-    tokensList.value.unique((x) => x.address);
+    tokensList.value.unique((token) => token.address);
 
     update(tokensList, tokensList.value);
   }
@@ -151,4 +153,10 @@ class ContractUseCase extends ReactiveUseCase {
         to: to,
         estimatedGasFee: estimatedGasFee,
       );
+
+  Future<List<Nft>?> getNftsByAddress(
+    String address,
+  ) async {
+    return await _repository.contract.getNftsByAddress(address);
+  }
 }

@@ -9,7 +9,8 @@ class Biometric {
   static final LocalAuthentication _localAuth = LocalAuthentication();
 
   static List<BiometricType>? _availableBiometrics;
-  static List<BiometricType> get availableBiometrics => _availableBiometrics ?? [];
+  static List<BiometricType> get availableBiometrics =>
+      _availableBiometrics ?? [];
 
   static bool get available => availableBiometrics.isNotEmpty;
 

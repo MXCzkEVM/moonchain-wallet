@@ -7,7 +7,6 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'home_page_state.dart';
 
-
 final homeContainer =
     PresenterContainer<HomePresenter, HomeState>(() => HomePresenter());
 
@@ -255,7 +254,11 @@ class HomePresenter extends CompletePresenter<HomeState> {
     final List<FlSpot> newBalanceSpots = [];
     double newMaxValue = 0.0;
 
-    if (balanceData.length == 1) {
+    final sampleBalance = balanceData[0].balance;
+    final allSame =
+        balanceData.every((element) => element.balance == sampleBalance);
+
+    if (allSame == true) {
       // we have only one day data
       final balance = balanceData[0].balance;
       newMaxValue = balance * 2.0;

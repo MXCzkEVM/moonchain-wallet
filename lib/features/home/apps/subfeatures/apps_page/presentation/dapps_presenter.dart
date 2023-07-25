@@ -20,16 +20,15 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     super.initState();
 
     PermissionUtils.requestAllPermissions();
-  
+
     listen<List<Bookmark>>(
       _bookmarksUseCase.bookmarks,
       (v) {
         List<Bookmark> allBookmarks = [...Bookmark.fixedBookmarks(), ...v];
-        
+
         notify(() => state.bookmarks = allBookmarks);
       },
     );
-
   }
 
   @override
