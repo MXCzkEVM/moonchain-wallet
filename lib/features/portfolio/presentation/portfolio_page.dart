@@ -1,10 +1,10 @@
 import 'dart:ui';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/presentation/nfts/choose_nft/choose_nft_page.dart';
-import 'package:datadashwallet/features/portfolio/presentation/nfts/nft_list/nft_list.dart';
-import 'package:datadashwallet/features/portfolio/presentation/tokens_balance_list/tokens_balance_list.dart';
-import 'package:datadashwallet/features/portfolio/presentation/transaction_history/transaction_history_page.dart';
-import 'package:datadashwallet/features/portfolio/presentation/widgets/show_wallet_address_dialog.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/nfts/choose_nft/choose_nft_page.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/nfts/nft_list/nft_list.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/tokens_balance_list/tokens_balance_list.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/transaction_history/transaction_history_page.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/widgets/show_wallet_address_dialog.dart';
 import 'package:datadashwallet/features/token/send_token/choose_crypto/choose_crypto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';

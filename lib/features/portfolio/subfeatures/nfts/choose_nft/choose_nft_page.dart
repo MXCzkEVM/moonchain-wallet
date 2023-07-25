@@ -1,9 +1,8 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home.dart';
-import 'package:datadashwallet/features/portfolio/portfolio_page_presenter.dart';
-import 'package:datadashwallet/features/portfolio/presentation/nfts/nft_list/nft_list.dart';
-import 'package:datadashwallet/features/portfolio/presentation/nfts/send_nft/send_nft_page.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/nfts/nft_list/nft_list.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/nfts/send_nft/send_nft_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -26,7 +25,6 @@ class ChooseNftPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String translate(String text) => FlutterI18n.translate(context, text);
-    final nfts = ref.read(portfolioContainer.state).nftList;
 
     return MxcPage(
       presenter: ref.watch(presenter),

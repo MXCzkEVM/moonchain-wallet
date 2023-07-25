@@ -1,6 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/portfolio_page_presenter.dart';
+import 'package:datadashwallet/features/portfolio/portfolio.dart';
 import 'package:datadashwallet/features/token/add_token/add_token_page.dart';
 import './utils.dart';
 import 'package:flutter/material.dart';

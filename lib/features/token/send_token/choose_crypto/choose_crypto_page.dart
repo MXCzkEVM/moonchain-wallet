@@ -1,7 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home.dart';
-import 'package:datadashwallet/features/portfolio/presentation/tokens_balance_list/utils.dart';
+import 'package:datadashwallet/features/portfolio/subfeatures/tokens_balance_list/utils.dart';
 import 'package:datadashwallet/features/token/send_token/send_crypto/send_crypto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

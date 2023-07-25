@@ -1,8 +1,7 @@
 import 'dart:ui';
 
 import 'package:datadashwallet/common/utils/utils.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/portfolio_page_presenter.dart';
+import 'package:datadashwallet/features/portfolio/portfolio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,9 +14,7 @@ void showWalletAddressDialog(BuildContext context, WidgetRef ref) {
     useRootNavigator: true,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (BuildContext context) => WalletAddress(
-      onTap: () {},
-    ),
+    builder: (BuildContext context) => const WalletAddress(),
   );
 }
 
