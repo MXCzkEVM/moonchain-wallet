@@ -35,9 +35,8 @@ class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
   }
 
   void loadPage() async {
-    _nftsUseCase.removeAll();
-    // final nfts = await _contractUseCase.getNftsByAddress(state.walletAddress);
-    // _nftsUseCase.mergeNewList(nfts);
+    final nfts = await _contractUseCase.getNftsByAddress(state.walletAddress);
+    _nftsUseCase.mergeNewList(nfts);
   }
 
   void fliterNfts(String value) {

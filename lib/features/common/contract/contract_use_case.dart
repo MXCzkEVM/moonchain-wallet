@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:web3dart/web3dart.dart';
 
 extension Unique<E, T> on List<E> {
   void unique([T Function(E element)? id, bool inPlace = true]) {
