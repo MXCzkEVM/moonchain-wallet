@@ -32,8 +32,6 @@ class NFTsContent extends StatelessWidget {
           children: [
             MxcChipButton(
               key: const Key('addNFTButton'),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               onTap: () => Navigator.of(context).push(
                 route.featureDialog(
                   const SendNftPage(

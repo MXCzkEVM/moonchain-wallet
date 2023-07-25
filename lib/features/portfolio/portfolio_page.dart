@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/portfolio/presentation/tokens_balance_list/tokens_balance_list.dart';
+import 'package:datadashwallet/features/portfolio/presentation/transaction_history/transaction_history_page.dart';
 import 'package:datadashwallet/features/portfolio/presentation/widgets/show_wallet_address_dialog.dart';
 import 'package:datadashwallet/features/token/send_token/choose_crypto/choose_crypto_page.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +106,8 @@ class PortfolioPage extends HookConsumerWidget {
                         MxcCircleButton.icon(
                           key: const Key('historyButton'),
                           icon: MXCIcons.history,
-                          onTap: () {},
+                          onTap: () => Navigator.of(context)
+                              .push(route(const TransactionHistoryPage())),
                           iconSize: 24,
                           filled: false,
                           color: ColorsTheme.of(context).primaryBackground,
@@ -143,8 +145,6 @@ class PortfolioPage extends HookConsumerWidget {
                     buttonState: state.switchTokensOrNFTs
                         ? ChipButtonStates.activeState
                         : ChipButtonStates.inactiveState,
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                     onTap: () => presenter.changeTokensOrNFTsTab(),
                     title: FlutterI18n.translate(context, 'tokens'),
                     alignIconStart: true,
@@ -157,8 +157,6 @@ class PortfolioPage extends HookConsumerWidget {
                     buttonState: !state.switchTokensOrNFTs
                         ? ChipButtonStates.activeState
                         : ChipButtonStates.inactiveState,
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                     onTap: () => presenter.changeTokensOrNFTsTab(),
                     title: FlutterI18n.translate(context, 'nfts'),
                     alignIconStart: true,

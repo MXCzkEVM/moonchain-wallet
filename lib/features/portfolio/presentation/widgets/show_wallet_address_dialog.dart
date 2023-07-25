@@ -126,8 +126,6 @@ class WalletAddress extends HookConsumerWidget {
                       backgroundColor: state.isWalletAddressCopied
                           ? ColorsTheme.of(context).systemStatusActive
                           : null,
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 12),
                     )
                   ]),
             )

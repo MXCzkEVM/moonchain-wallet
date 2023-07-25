@@ -56,8 +56,6 @@ class TokensBalanceList extends HookConsumerWidget {
             const Spacer(),
             MxcChipButton(
               key: const Key('addTokenButton'),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               onTap: () => Navigator.of(context).push(
                 route.featureDialog(
                   const AddTokenPage(),

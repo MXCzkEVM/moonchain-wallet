@@ -10,7 +10,7 @@ import '../../../common.dart';
 import '../utils.dart';
 
 class RecentTrxListItem extends HookConsumerWidget {
-  final double amount;
+  final String amount;
   final String symbol;
   final String txHash;
   final String timestamp;
@@ -77,7 +77,7 @@ class RecentTrxListItem extends HookConsumerWidget {
                   Row(
                     children: [
                       Text(
-                        amount.toString(),
+                        amount,
                         style: FontTheme.of(context).body1.primary().copyWith(
                               fontWeight: FontWeight.w500,
                             ),

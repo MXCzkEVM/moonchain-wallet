@@ -243,17 +243,6 @@ class HomePresenter extends CompletePresenter<HomeState> {
     notify(() => state.hideBalance = !state.hideBalance);
   }
 
-  void viewMoreTransactions() async {
-    if (state.walletAddress != null) {
-      final addressUrl = Uri.parse(
-          'https://wannsee-explorer.mxc.com/address/${state.walletAddress}');
-
-      if ((await canLaunchUrl(addressUrl))) {
-        await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
-      }
-    }
-  }
-
   void viewTransaction(String txHash) async {
     final addressUrl = Uri.parse('https://wannsee-explorer.mxc.com/tx/$txHash');
 

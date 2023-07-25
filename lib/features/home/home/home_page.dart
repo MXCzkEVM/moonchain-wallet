@@ -71,7 +71,11 @@ class HomePage extends HookConsumerWidget {
               const SizedBox(
                 height: 12,
               ),
-              const RecentTransactions(),
+              RecentTransactions(
+                walletAddress: state.walletAddress,
+                transactions: state.txList?.items,
+                tokens: state.tokensList,
+              ),
               const SizedBox(
                 height: 32,
               ),

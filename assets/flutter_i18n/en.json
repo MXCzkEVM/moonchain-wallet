@@ -149,5 +149,16 @@
 	"copied": "Copied",
 	"nft_not_match": "NFT can’t be added as the ownership details do not match. Make sure you have entered correct information.",
 	"creator_address": "Creator address",
-	"sending_x": "Sending {0}"
+	"sending_x": "Sending {0}",
+	"transactions": "Transactions",
+	"filter_&_sort": "Filter & Sort",
+	"filter": "Filter",
+	"all_transactions": "All transactions",
+	"send_transactions": "Send transactions",
+	"receive_transactions": "Receive transactions",
+	"sort": "Sort",
+	"new_to_old": "New to Old",
+	"old_to_new": "Old to New",
+	"low_to_high": "Low to High",
+	"high_to_low": "High to Low"
 }
