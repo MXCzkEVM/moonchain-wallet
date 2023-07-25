@@ -45,6 +45,13 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
   initializePortfolioPage() {
     getWalletTokensBalance();
+    getNfts();
+  }
+
+  getNfts() async {
+    final newNftList =
+        await _contractUseCase.getNftsByAddress(state.walletAddress!);
+    _nftUseCase.mergeNewList(newNftList);
   }
 
   void getWalletTokensBalance() async {

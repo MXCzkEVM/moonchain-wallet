@@ -75,6 +75,4 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
       loading = false;
     }
   }
-
-
 }

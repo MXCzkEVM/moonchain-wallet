@@ -8,5 +8,5 @@ class AddNftState with EquatableMixin {
   @override
   List<Object?> get props => [
         valid,
-    ];
+      ];
 }
