@@ -1,11 +1,6 @@
 import 'package:clipboard/clipboard.dart';
-import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'dart:convert';
-import 'package:mxc_logic/mxc_logic.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'settings_page_state.dart';
 
 final settingsContainer = PresenterContainer<SettingsPresenter, SettingsState>(

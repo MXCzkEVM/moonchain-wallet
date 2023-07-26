@@ -8,7 +8,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'settings_page_presenter.dart';
 import 'widgets/account_managment/account_managment_panel.dart';
-import 'widgets/account_managment/copyable_item.dart';
 import 'widgets/settings_item.dart';
 
 class SettingsPage extends HookConsumerWidget {
@@ -18,15 +17,11 @@ class SettingsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(settingsContainer.actions);
     final state = ref.watch(settingsContainer.state);
-    
+
     return MxcPage(
       presenter: presenter,
       resizeToAvoidBottomInset: true,
       backgroundColor: ColorsTheme.of(context).screenBackground,
-      layout: LayoutType.column,
-      useContentPadding: false,
-      childrenPadding: const EdgeInsets.only(
-          top: 25, right: Sizes.spaceXLarge, left: Sizes.spaceXLarge),
       appBar: AppNavBar(
         title: Text(
           FlutterI18n.translate(context, 'settings'),
