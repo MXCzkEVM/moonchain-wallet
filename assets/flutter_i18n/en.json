@@ -95,6 +95,7 @@
 	"bookmark": "Bookmark",
 	"cancel": "Cancel",
 	"save": "Save",
+	"delete": "Delete",
 	"enter_bookmark_url": "Enter URL to add bookmark",
 	"failed": "Failed",
 	"loading": "Loading",
