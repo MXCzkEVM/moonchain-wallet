@@ -31,14 +31,14 @@ class Formatter {
     return intl.NumberFormat('#,##0').format(int.parse(inputString));
   }
 
-  static String formatWalletAddress(String inputString) {
+  static String formatWalletAddress(String inputString, {int? nCharacters}) {
     if (!RegExp(r'^(0x)?[0-9a-f]{40}', caseSensitive: false)
         .hasMatch(inputString)) return inputString;
 
     if (inputString.isEmpty) return inputString;
 
     String formattedString =
-        '${inputString.substring(0, 4)}...${inputString.substring(inputString.length - 4)}';
+        '${inputString.substring(0, nCharacters ?? 4)}...${inputString.substring(inputString.length - 4)}';
     return formattedString;
   }
 

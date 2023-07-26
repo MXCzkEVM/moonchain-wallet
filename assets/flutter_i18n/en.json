@@ -149,5 +149,14 @@
 	"copied": "Copied",
 	"nft_not_match": "NFT can’t be added as the ownership details do not match. Make sure you have entered correct information.",
 	"creator_address": "Creator address",
-	"sending_x": "Sending {0}"
+	"sending_x": "Sending {0}",
+	"settings": "Settings",
+	"app_version": "App version",
+	"security": "Security",
+	"chain_configuration": "Chain configuration",
+	"xsd_conversions": "XSD conversions",
+	"language": "Language",
+	"address_book": "Address book",
+	"costumer_support": "Costumer support",
+	"about": "About"
 }

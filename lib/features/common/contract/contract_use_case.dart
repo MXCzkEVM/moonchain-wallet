@@ -23,7 +23,9 @@ class ContractUseCase extends ReactiveUseCase {
   late final ValueStream<bool> online = reactive(false);
 
   late final ValueStream<List<Token>> tokensList = reactive([]);
-  
+
+  late final ValueStream<String?> name = reactive();
+
   Future<String> getWalletNativeTokenBalance(String address) async {
     final balance = await _repository.contract.getEthBalance(address);
     return Formatter.convertWeiToEth(balance.getInWei.toString());
@@ -74,8 +76,11 @@ class ContractUseCase extends ReactiveUseCase {
   Future<Token?> getToken(String address) async =>
       await _repository.contract.getToken(address);
 
-  Future<String> getName(String address) async =>
-      await _repository.contract.getName(address);
+  Future<String> getName(String address) async {
+    final result = await _repository.contract.getName(address);
+    update(name, result);
+    return result;
+  }
 
   Future<String> getAddress(String? name) async =>
       await _repository.contract.getAddress(name);
