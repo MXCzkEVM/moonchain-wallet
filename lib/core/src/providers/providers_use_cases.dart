@@ -1,7 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
-import 'package:datadashwallet/features/settings/subfeatures/recipient/recipient.dart';
+import 'package:datadashwallet/features/settings/subfeatures/address_book/address_book.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';

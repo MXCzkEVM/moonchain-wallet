@@ -18,6 +18,11 @@ class RecipientsUseCase extends ReactiveUseCase {
     update(recipients, _repository.items);
   }
 
+  void updateItem(Recipient item) {
+    _repository.updateItem(item);
+    update(recipients, _repository.items);
+  }
+
   void removeItem(Recipient item) {
     _repository.removeItem(item);
     update(recipients, _repository.items);

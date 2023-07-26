@@ -168,5 +168,6 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     super.dispose();
 
     amountController.removeListener(_onValidChange);
+    recipientController.removeListener(_onValidChange);
   }
 }

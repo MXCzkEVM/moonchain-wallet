@@ -38,13 +38,15 @@ class Setting {
       ),
       Setting(
         title: FlutterI18n.translate(context, 'theme'),
-        icon: MXCIcons.language,
+        icon: MXCIcons.theme,
         page: const ThemeSettingsPage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'address_book'),
         icon: MXCIcons.address,
-        page: const AboutPage(),
+        page: const SelectRecipientPage(
+          editFlow: true,
+        ),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'costumer_support'),

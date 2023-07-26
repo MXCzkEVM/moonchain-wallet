@@ -94,7 +94,7 @@ class _FilterAndSortItemsState extends State<FilterAndSortItems> {
         const SizedBox(height: 8),
         MxcButton.primary(
             key: const ValueKey('transactionButton'),
-            buttonSize: MxcButtonSize.xl,
+            size: MxcButtonSize.xl,
             title: FlutterI18n.translate(context, 'done'),
             onTap: () {
               Navigator.of(context).pop();

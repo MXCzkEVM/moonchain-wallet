@@ -31,7 +31,7 @@ class SecurityNoticePage extends HookConsumerWidget {
         child: MxcButton.primary(
           key: const Key('confrimButton'),
           title: FlutterI18n.translate(context, 'stored_my_key'),
-          buttonSize: MxcButtonSize.xl,
+          size: MxcButtonSize.xl,
           onTap: () => presenter.confirm(),
         ),
       ),

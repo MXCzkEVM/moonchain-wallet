@@ -19,7 +19,7 @@ class ThemeSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final option = ref.watch(state).option;
+    final option = ref.watch(state.select((v) => v.option));
 
     return MxcPage(
       appBar: AppNavBar(
@@ -28,7 +28,6 @@ class ThemeSettingsPage extends ConsumerWidget {
           style: FontTheme.of(context).body1.primary(),
         ),
       ),
-      presenter: ref.watch(presenter),
       children: [
         for (final item in ThemeOption.values)
           Column(

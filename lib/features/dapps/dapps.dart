@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'entities/bookmark.dart';
 import 'subfeatures/open_dapp/open_dapp_page.dart';
 
-export 'entities/dapp.dart';
 export 'subfeatures/add_dapp/presentation/add_bookmark.dart';
 export 'subfeatures/open_dapp/open_dapp_page.dart';
 export 'presentation/dapps_page.dart';

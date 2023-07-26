@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class AboutState with EquatableMixin {
+class EditRecipientState with EquatableMixin {
+  bool valid = false;
 
   @override
   List<Object?> get props => [
+        valid,
       ];
 }

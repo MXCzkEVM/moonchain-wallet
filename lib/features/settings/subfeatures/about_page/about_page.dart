@@ -8,25 +8,14 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'about_presenter.dart';
-import 'about_state.dart';
-
 class AboutPage extends HookConsumerWidget {
   const AboutPage({Key? key}) : super(key: key);
 
   @override
-  ProviderBase<AboutPresenter> get presenter => aboutContainer.actions;
-
-  @override
-  ProviderBase<AboutState> get state => aboutContainer.state;
-
-  @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String translate(String text) => FlutterI18n.translate(context, text);
     final settingsState = ref.watch(settingsContainer.state);
 
     return MxcPage(
-      presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.center,
       appBar: AppNavBar(
         title: Text(

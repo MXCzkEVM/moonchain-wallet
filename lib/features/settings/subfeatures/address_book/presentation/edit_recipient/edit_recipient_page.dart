@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,18 +5,28 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'add_recipient_presenter.dart';
-import 'add_recipient_state.dart';
+import '../../entities/recipient.dart';
+import 'edit_recipient_presenter.dart';
+import 'edit_recipient_state.dart';
+import 'widgets/delete_dialog.dart';
 
-class AddRecipientPage extends HookConsumerWidget {
-  const AddRecipientPage({Key? key}) : super(key: key);
+class EditRecipientPage extends HookConsumerWidget {
+  const EditRecipientPage({
+    Key? key,
+    this.editFlow = false,
+    this.recipient,
+  }) : super(key: key);
+
+  final bool editFlow;
+  final Recipient? recipient;
 
   @override
-  ProviderBase<AddRecipientPresenter> get presenter =>
-      addRecipientPageContainer.actions;
+  ProviderBase<EditRecipientPresenter> get presenter =>
+      editRecipientContainer.actions(recipient);
 
   @override
-  ProviderBase<AddRecipientState> get state => addRecipientPageContainer.state;
+  ProviderBase<EditRecipientState> get state =>
+      editRecipientContainer.state(recipient);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,12 +34,12 @@ class AddRecipientPage extends HookConsumerWidget {
 
     String translate(String text) => FlutterI18n.translate(context, text);
 
-    return MxcPage.layer(
+    return (editFlow ? MxcPage.new : MxcPage.layer)(
       presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         MxcAppBarEvenly.text(
-          titleText: translate('new_recipient'),
+          titleText: translate(editFlow ? 'edit_recipient' : 'new_recipient'),
           actionText: translate('save'),
           onActionTap: () {
             if (!formKey.currentState!.validate()) return;
@@ -55,10 +63,7 @@ class AddRecipientPage extends HookConsumerWidget {
                     translate('x_not_empty')
                         .replaceFirst('{0}', translate('name'))),
                 onFocused: (focused) {
-                  if (!focused) {
-                    final res = formKey.currentState!.validate();
-                    ref.read(presenter).onValidChange(res);
-                  }
+                  if (!focused) formKey.currentState!.validate();
                 },
               ),
               MxcTextField(
@@ -83,11 +88,24 @@ class AddRecipientPage extends HookConsumerWidget {
                 },
                 onFocused: (focused) {
                   if (!focused) {
-                    final res = formKey.currentState!.validate();
-                    ref.read(presenter).onValidChange(res);
+                    if (!focused) formKey.currentState!.validate();
                   }
                 },
               ),
+              if (editFlow) ...[
+                const SizedBox(height: Sizes.spaceXLarge),
+                MxcButton.plain(
+                  key: const ValueKey('deleteButton'),
+                  title: FlutterI18n.translate(context, 'delete_recipient'),
+                  titleColor: ColorsTheme.of(context).textCritical,
+                  onTap: () async {
+                    final result = await showDeleteDialog(context);
+                    if (result != null && result) {
+                      ref.read(presenter).deleteRecipient(recipient!);
+                    }
+                  },
+                ),
+              ]
             ],
           ),
         ),

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/settings/subfeatures/recipient/entities/recipient.dart';
+import 'package:datadashwallet/features/settings/subfeatures/address_book/entities/recipient.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 
@@ -31,6 +31,9 @@ class RecipientsRepository extends ControlledCacheRepository {
   List<Recipient> get items => recipients.value;
 
   void addItem(Recipient item) => recipients.value = [...items, item];
+
+  void updateItem(Recipient item) =>
+      recipients.value = items.map((e) => item.id == e.id ? item : e).toList();
 
   void removeItem(Recipient item) =>
       recipients.value = items.where((e) => e.id != item.id).toList();
