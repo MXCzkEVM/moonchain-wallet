@@ -57,8 +57,8 @@ class DAppsDot extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isSelected
-            ? ColorsTheme.of(context).primaryButton
-            : ColorsTheme.of(context).primaryButton.withOpacity(0.3),
+            ? ColorsTheme.of(context).iconPrimary
+            : ColorsTheme.of(context).iconPrimary.withOpacity(0.3),
       ),
     );
   }
