@@ -49,38 +49,24 @@ class WalletAddress extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16, top: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Spacer(),
-                  Text(FlutterI18n.translate(context, 'receive'),
-                      style: FontTheme.of(context).body1.primary()),
-                  const Spacer(),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      child: Icon(
-                        Icons.close,
-                        size: 32,
-                        color: ColorsTheme.of(context).iconPrimary,
-                      ),
-                      onTap: () => Navigator.of(context).pop(),
-                    ),
-                  ),
-                ],
+            MxcAppBarEvenly.title(
+              titleText: FlutterI18n.translate(context, 'receive'),
+              action: Container(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  child: const Icon(Icons.close),
+                  onTap: () => Navigator.of(context).pop(false),
+                ),
               ),
             ),
             QrImageView(
               data: state.walletAddress ?? '',
               size: 215,
               dataModuleStyle: QrDataModuleStyle(
-                  color: ColorsTheme.of(context).whiteInvert,
+                  color: ColorsTheme.of(context).textPrimary,
                   dataModuleShape: QrDataModuleShape.square),
-              backgroundColor: Colors.transparent,
               eyeStyle: QrEyeStyle(
-                  color: ColorsTheme.of(context).whiteInvert,
+                  color: ColorsTheme.of(context).textPrimary,
                   eyeShape: QrEyeShape.square),
             ),
             const SizedBox(height: 16),

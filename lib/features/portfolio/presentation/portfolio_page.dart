@@ -6,7 +6,6 @@ import 'package:datadashwallet/features/portfolio/subfeatures/nft/choose_nft/cho
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/nft_list.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/tokens_balance_list/tokens_balance_list.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/transaction_history/transaction_history_page.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/widgets/show_wallet_address_dialog.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/choose_crypto/choose_crypto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -15,6 +14,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'portfolio_page_presenter.dart';
+import 'widgets/show_wallet_address_dialog.dart';
 
 class PortfolioPage extends HookConsumerWidget {
   const PortfolioPage({Key? key}) : super(key: key);
