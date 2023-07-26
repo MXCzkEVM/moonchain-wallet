@@ -4,14 +4,14 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
-import 'language_page_state.dart';
+import 'language_state.dart';
 
 final languageContainer =
-    PresenterContainer<LanguagePagePresenter, LanguagePageState>(
-        () => LanguagePagePresenter());
+    PresenterContainer<LanguagePresenter, LanguageState>(
+        () => LanguagePresenter());
 
-class LanguagePagePresenter extends CompletePresenter<LanguagePageState> {
-  LanguagePagePresenter() : super(LanguagePageState());
+class LanguagePresenter extends CompletePresenter<LanguageState> {
+  LanguagePresenter() : super(LanguageState());
 
   late final LanguageUseCase _languageUseCase =
       ref.read(languageUseCaseProvider);

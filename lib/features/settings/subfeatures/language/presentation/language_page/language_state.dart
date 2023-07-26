@@ -1,7 +1,7 @@
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:equatable/equatable.dart';
 
-class LanguagePageState with EquatableMixin {
+class LanguageState with EquatableMixin {
   late Language? currentLanguage;
   late final List<Language> languages;
 
