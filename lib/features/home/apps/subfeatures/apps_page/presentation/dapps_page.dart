@@ -4,6 +4,7 @@ import 'package:datadashwallet/features/home/apps/apps.dart';
 import 'package:datadashwallet/features/home/apps/entities/bookmark.dart';
 import 'package:datadashwallet/features/home/apps/subfeatures/apps_page/presentation/widgets/bookmark.dart';
 import 'package:datadashwallet/features/home/home.dart';
+import 'package:datadashwallet/features/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -76,10 +77,16 @@ class DAppsPage extends HookConsumerWidget {
               ],
               AppNavBar(
                 leading: IconButton(
-                  key: const ValueKey('menusButton'),
-                  icon: const Icon(MXCIcons.burger_menu),
+                  key: const ValueKey('settingsButton'),
+                  icon: const Icon(MXCIcons.settings),
                   iconSize: 32,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      route(
+                        const SettingsPage(),
+                      ),
+                    );
+                  },
                   color: ColorsTheme.of(context).primaryButton,
                 ),
                 action: IconButton(

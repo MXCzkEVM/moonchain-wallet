@@ -1,5 +1,6 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/home/home/presentation/widgets/slider.dart';
+import 'package:datadashwallet/features/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,9 +30,15 @@ class HomePage extends HookConsumerWidget {
         childrenPadding: const EdgeInsets.only(top: 24, right: 24, left: 24),
         appBar: AppNavBar(
           leading: IconButton(
-            key: const ValueKey('menusButton'),
-            icon: const Icon(MXCIcons.burger_menu, size: 32),
-            onPressed: () {},
+            key: const ValueKey('settingsButton'),
+            icon: const Icon(MXCIcons.settings, size: 32),
+            onPressed: () {
+              Navigator.of(context).push(
+                route(
+                  const SettingsPage(),
+                ),
+              );
+            },
             color: ColorsTheme.of(context).primaryButton,
           ),
           action: IconButton(
