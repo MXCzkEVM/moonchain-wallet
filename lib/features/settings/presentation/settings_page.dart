@@ -1,15 +1,15 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/entities/setting.dart';
-import 'package:datadashwallet/features/settings/settings_page_presenter.dart';
-import 'package:datadashwallet/features/settings/widgets/account_managment/account_managment_panel.dart';
-import 'package:datadashwallet/features/settings/widgets/settings_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import 'settings_page_presenter.dart';
+import 'widgets/account_managment/account_managment_panel.dart';
 import 'widgets/account_managment/copyable_item.dart';
+import 'widgets/settings_item.dart';
 
 class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
