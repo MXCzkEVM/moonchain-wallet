@@ -158,5 +158,16 @@
 	"language": "Language",
 	"address_book": "Address book",
 	"costumer_support": "Costumer support",
-	"about": "About"
+	"about": "About",
+	"transactions": "Transactions",
+	"filter_&_sort": "Filter & Sort",
+	"filter": "Filter",
+	"all_transactions": "All transactions",
+	"send_transactions": "Send transactions",
+	"receive_transactions": "Receive transactions",
+	"sort": "Sort",
+	"new_to_old": "New to Old",
+	"old_to_new": "Old to New",
+	"low_to_high": "Low to High",
+	"high_to_low": "High to Low"
 }

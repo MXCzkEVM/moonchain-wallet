@@ -66,4 +66,14 @@ class Formatter {
     integerPart = intThousandsSeparator(integerPart);
     return '$integerPart$fractionalPart';
   }
+
+  static String localTime(DateTime time) {
+    final localTime = time.toLocal();
+    final month = localTime.month.toString().padLeft(2, '0');
+    final day = localTime.day.toString().padLeft(2, '0');
+    final year = localTime.year.toString().substring(2, 4);
+    final hour = localTime.hour.toString().padLeft(2, '0');
+    final minute = localTime.minute.toString().padLeft(2, '0');
+    return '$month-$day-$year $hour:$minute';
+  }
 }

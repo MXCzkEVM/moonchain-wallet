@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
+import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -11,8 +11,8 @@ class BalanceInXSD extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(homeContainer.actions);
-    final state = ref.watch(homeContainer.state);
+    final presenter = ref.read(walletContainer.actions);
+    final state = ref.watch(walletContainer.state);
     final balance =
         Formatter.formatNumberForUI(state.walletBalance, isWei: false);
 
