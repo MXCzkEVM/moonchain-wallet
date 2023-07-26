@@ -8,14 +8,12 @@ import 'app_nav_bar_presenter.dart';
 import 'app_nav_bar_state.dart';
 
 class AppNavBar extends HookConsumerWidget {
-  const AppNavBar({
-    Key? key,
-    this.leading,
-    this.action,
-  }) : super(key: key);
+  const AppNavBar({Key? key, this.leading, this.action, this.title})
+      : super(key: key);
 
   final Widget? leading;
   final Widget? action;
+  final Widget? title;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,67 +38,73 @@ class AppNavBar extends HookConsumerWidget {
             ] else ...[
               leading!,
             ],
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: ColorsTheme.of(context).grey5,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                      ),
-                      child: Row(
-                        children: [
-                          MXCDropDown<String>(
-                            itemList: const ['MXC zkEVM'],
-                            onChanged: (String? newValue) {},
-                            selectedItem: 'MXC zkEVM',
-                            icon: const Padding(
-                              padding: EdgeInsetsDirectional.only(start: 10),
+            if (title == null) ...[
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: ColorsTheme.of(context).grey5,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30)),
+                        ),
+                        child: Row(
+                          children: [
+                            MXCDropDown<String>(
+                              itemList: const ['MXC zkEVM'],
+                              onChanged: (String? newValue) {},
+                              selectedItem: 'MXC zkEVM',
+                              icon: const Padding(
+                                padding: EdgeInsetsDirectional.only(start: 10),
+                              ),
                             ),
-                          ),
-                          Container(
-                            height: 8,
-                            width: 8,
-                            decoration: BoxDecoration(
-                                color: state.online
-                                    ? ColorsTheme.of(context).systemStatusActive
-                                    : ColorsTheme.of(context).mainRed,
-                                shape: BoxShape.circle),
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                              FlutterI18n.translate(
-                                  context, state.online ? 'online' : 'offline'),
-                              style:
-                                  FontTheme.of(context).subtitle2.secondary()),
-                        ],
+                            Container(
+                              height: 8,
+                              width: 8,
+                              decoration: BoxDecoration(
+                                  color: state.online
+                                      ? ColorsTheme.of(context)
+                                          .systemStatusActive
+                                      : ColorsTheme.of(context).mainRed,
+                                  shape: BoxShape.circle),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                                FlutterI18n.translate(context,
+                                    state.online ? 'online' : 'offline'),
+                                style: FontTheme.of(context)
+                                    .subtitle2
+                                    .secondary()),
+                          ],
+                        ),
                       ),
-                    ),
-                    MXCDropDown<String>(
-                      itemList: state.accounts
-                          .map((i) => Formatter.formatWalletAddress(i))
-                          .toList(),
-                      onChanged: (String? value) =>
-                          presenter.onAccountChange(value!),
-                      selectedItem:
-                          Formatter.formatWalletAddress(state.currentAccount),
-                      textStyle: FontTheme.of(context).subtitle2.primary(),
-                      icon: Icon(
-                        Icons.arrow_drop_down_rounded,
-                        size: 26,
-                        color: ColorsTheme.of(context).purpleMain,
+                      MXCDropDown<String>(
+                        itemList: state.accounts
+                            .map((i) => Formatter.formatWalletAddress(i))
+                            .toList(),
+                        onChanged: (String? value) =>
+                            presenter.onAccountChange(value!),
+                        selectedItem:
+                            Formatter.formatWalletAddress(state.currentAccount),
+                        textStyle: FontTheme.of(context).subtitle2.primary(),
+                        icon: Icon(
+                          Icons.arrow_drop_down_rounded,
+                          size: 26,
+                          color: ColorsTheme.of(context).purpleMain,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                ],
+              ),
+            ] else ...[
+              title!
+            ],
             if (action == null) ...[
               const SizedBox(width: 24),
             ] else ...[
