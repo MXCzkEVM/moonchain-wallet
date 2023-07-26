@@ -33,7 +33,7 @@ class AppNavBar extends HookConsumerWidget {
                 icon: const Icon(Icons.arrow_back_rounded),
                 iconSize: 32,
                 onPressed: appBarPopHandlerBuilder(context),
-                color: ColorsTheme.of(context).primaryButton,
+                color: ColorsTheme.of(context).iconPrimary,
               ),
             ] else ...[
               leading!,
@@ -106,7 +106,7 @@ class AppNavBar extends HookConsumerWidget {
               title!
             ],
             if (action == null) ...[
-              const SizedBox(width: 24),
+              const SizedBox(width: 32),
             ] else ...[
               action!,
             ]

@@ -10,7 +10,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'mxc_page_regular.dart';
 import 'mxc_page_layer.dart';
 
-const contentPadding = EdgeInsets.symmetric(horizontal: 16);
+const contentPadding = EdgeInsets.symmetric(horizontal: Sizes.spaceXLarge);
 
 abstract class MxcPage extends HookConsumerWidget {
   const MxcPage.internal({

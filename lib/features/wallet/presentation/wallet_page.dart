@@ -40,14 +40,14 @@ class WalletPage extends HookConsumerWidget {
                 ),
               );
             },
-            color: ColorsTheme.of(context).primaryButton,
+            color: ColorsTheme.of(context).iconPrimary,
           ),
           action: IconButton(
             key: const ValueKey('appsButton'),
             icon: const Icon(MXCIcons.apps, size: 32),
             onPressed: () =>
                 Navigator.of(context).replaceAll(route(const DAppsPage())),
-            color: ColorsTheme.of(context).primaryButton,
+            color: ColorsTheme.of(context).iconPrimary,
           ),
         ),
         children: [

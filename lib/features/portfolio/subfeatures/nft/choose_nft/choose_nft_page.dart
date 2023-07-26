@@ -37,7 +37,7 @@ class ChooseNftPage extends HookConsumerWidget {
           iconSize: 32,
           onPressed: () =>
               Navigator.of(context).replaceAll(route(const DAppsPage())),
-          color: ColorsTheme.of(context).primaryButton,
+          color: ColorsTheme.of(context).iconPrimary,
         ),
       ),
       children: [

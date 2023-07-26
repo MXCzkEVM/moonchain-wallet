@@ -37,7 +37,7 @@ class TransactionHistoryPage extends HookConsumerWidget {
           iconSize: 32,
           onPressed: () =>
               Navigator.of(context).replaceAll(route(const DAppsPage())),
-          color: ColorsTheme.of(context).primaryButton,
+          color: ColorsTheme.of(context).iconPrimary,
         ),
       ),
       children: [
@@ -49,11 +49,12 @@ class TransactionHistoryPage extends HookConsumerWidget {
         Container(
           alignment: Alignment.centerRight,
           child: MxcChipButton(
-              key: const Key('filterAndSortButton'),
-              onTap: () => ref.read(presenter).fliterAndSort(),
-              title: FlutterI18n.translate(context, 'filter_&_sort'),
-              alignIconStart: true,
-              iconData: Icons.sort_rounded),
+            key: const Key('filterAndSortButton'),
+            onTap: () => ref.read(presenter).fliterAndSort(),
+            title: FlutterI18n.translate(context, 'filter_&_sort'),
+            alignIconStart: true,
+            iconData: MXCIcons.filter,
+          ),
         ),
         const SizedBox(height: 12),
         RecentTransactions(
