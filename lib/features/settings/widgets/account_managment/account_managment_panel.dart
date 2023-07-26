@@ -50,6 +50,7 @@ class AccountManagementPanel extends HookConsumerWidget {
                     state.name != null
                         ? CopyableItem(
                             text: state.name!,
+                            copyableText: state.name!,
                           )
                         : Container(),
                     const SizedBox(
@@ -57,6 +58,7 @@ class AccountManagementPanel extends HookConsumerWidget {
                     ),
                     CopyableItem(
                       text: walletAddress,
+                      copyableText: state.walletAddress!,
                     ),
                   ],
                 ),

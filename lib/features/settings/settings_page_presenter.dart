@@ -16,8 +16,6 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
 
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
-  late final _customTokenUseCase = ref.read(customTokensUseCaseProvider);
-  late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
 
   @override
   void initState() {
@@ -27,7 +25,6 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     listen(_accountUserCase.walletAddress, (value) {
       if (value != null) {
         notify(() => state.walletAddress = value);
-        initializeSettings();
       }
     });
 
@@ -37,15 +34,11 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
       }
     });
 
-
     _accountUserCase.refreshWallet();
   }
 
-  Future<void> initializeSettings() async {}
-
   void copyToClipboard(String text) async {
-    FlutterClipboard.copy(text)
-        .then((value) => null);
+    FlutterClipboard.copy(text).then((value) => null);
   }
 
   void getAppVersion() async {
