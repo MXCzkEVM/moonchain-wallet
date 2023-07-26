@@ -1,6 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/about_page/about_page.dart';
-import 'package:datadashwallet/features/settings/subfeatures/theme/presentation/theme_settings/theme_settings_page.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
@@ -35,7 +34,7 @@ class Setting {
       Setting(
         title: FlutterI18n.translate(context, 'language'),
         icon: MXCIcons.language,
-        page: const AboutPage(),
+        page: const LanguagePage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'theme'),
