@@ -25,7 +25,7 @@ class TokensBalanceListUtils {
           : Formatter.formatNumberForUI(balance);
       balanceInXsd = tokenName == 'MXC Token'
           ? balance
-          : Formatter.formatNumberForUI(balance);
+          : Formatter.formatNumberForUI(balanceInXsd);
 
       widgets.add(TokenBalanceItem(
         logoUrl: logoUrl,
