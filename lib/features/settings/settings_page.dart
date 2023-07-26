@@ -1,5 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/home/app_nav_bar/app_nav_bar.dart';
+import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/entities/setting.dart';
 import 'package:datadashwallet/features/settings/settings_page_presenter.dart';
 import 'package:datadashwallet/features/settings/widgets/account_managment/account_managment_panel.dart';
