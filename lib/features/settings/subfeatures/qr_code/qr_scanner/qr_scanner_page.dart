@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/choose_crypto/choose_crypto_page.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/send_crypto/send_crypto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -68,8 +67,8 @@ class _QrScannerPageState extends State<QrScannerPage> {
             await controller!.toggleFlash();
             setState(() => flashEnabled = !flashEnabled);
           },
-          child: const Icon(
-            Icons.flash_off_rounded,
+          child: Icon(
+            flashEnabled ? Icons.flash_on_rounded : Icons.flash_off_rounded,
             size: 32,
           ),
         ),
