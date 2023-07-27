@@ -185,5 +185,8 @@
 	"ipfs_gateway": "IPFS gateway",
 	"default": "Default",
 	"gas_limit": "Gas limit",
-	"x_must_numeric": "{0} Must be numeric"
+	"x_must_numeric": "{0} Must be numeric",
+	"qr_code": "QR Code",
+	"scan_qr_code": "Scan QR code",
+	"show_qr_code": "Show my QR code"
 }

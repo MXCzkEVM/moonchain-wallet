@@ -15,17 +15,25 @@ class SendCryptoPage extends HookConsumerWidget {
   const SendCryptoPage({
     Key? key,
     required this.token,
+    this.qrCode,
   }) : super(key: key);
 
   final Token token;
+  final String? qrCode;
 
   @override
   ProviderBase<SendCryptoPresenter> get presenter =>
-      sendTokenPageContainer.actions(token);
+      sendTokenPageContainer.actions(MultiParameters(
+        token: token,
+        qrCode: qrCode,
+      ));
 
   @override
   ProviderBase<SendCryptoState> get state =>
-      sendTokenPageContainer.state(token);
+      sendTokenPageContainer.state(MultiParameters(
+        token: token,
+        qrCode: qrCode,
+      ));
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

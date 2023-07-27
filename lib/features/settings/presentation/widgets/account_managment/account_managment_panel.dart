@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/settings/presentation/settings_page_presenter.dart';
+import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -15,6 +16,7 @@ class AccountManagementPanel extends HookConsumerWidget {
     final state = ref.watch(settingsContainer.state);
     final walletAddress =
         Formatter.formatWalletAddress(state.walletAddress!, nCharacters: 10);
+
     return GreyContainer(
         padding: const EdgeInsetsDirectional.only(
             bottom: Sizes.spaceSmall,
@@ -63,15 +65,21 @@ class AccountManagementPanel extends HookConsumerWidget {
                   ],
                 ),
                 const Spacer(),
-                Container(
-                  padding: const EdgeInsets.all(Sizes.spaceXSmall),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: ColorsTheme.of(context).backgroundGrey6),
-                  child: Icon(
-                    MXCIcons.qr_code,
-                    size: 32,
-                    color: ColorsTheme.of(context).iconPrimary,
+                InkWell(
+                  onTap: () => Navigator.of(context).push(route(QrCodePage(
+                    name: state.name,
+                    address: state.walletAddress,
+                  ))),
+                  child: Container(
+                    padding: const EdgeInsets.all(Sizes.spaceXSmall),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: ColorsTheme.of(context).backgroundGrey6),
+                    child: Icon(
+                      MXCIcons.qr_code,
+                      size: 32,
+                      color: ColorsTheme.of(context).iconPrimary,
+                    ),
                   ),
                 )
               ],

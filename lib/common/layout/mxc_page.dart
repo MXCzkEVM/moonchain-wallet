@@ -172,7 +172,7 @@ abstract class MxcPage extends HookConsumerWidget {
     if (backgroundColor != null) {
       return backgroundColor!;
     }
-    return ColorsTheme.of(context).primaryBackground;
+    return ColorsTheme.of(context).screenBackground;
   }
 
   Widget splashLinearBackground({

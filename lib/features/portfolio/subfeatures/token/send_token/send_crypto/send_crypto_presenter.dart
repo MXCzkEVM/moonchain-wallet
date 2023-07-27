@@ -10,15 +10,25 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'send_crypto_state.dart';
 import 'widgets/transaction_dialog.dart';
 
+class MultiParameters {
+  const MultiParameters({
+    required this.token,
+    this.qrCode,
+  });
+
+  final Token token;
+  final String? qrCode;
+}
+
 final sendTokenPageContainer = PresenterContainerWithParameter<
     SendCryptoPresenter,
     SendCryptoState,
-    Token>((token) => SendCryptoPresenter(token));
+    MultiParameters>((params) => SendCryptoPresenter(params));
 
 class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
-  SendCryptoPresenter(this.token) : super(SendCryptoState());
+  SendCryptoPresenter(this.params) : super(SendCryptoState());
 
-  final Token token;
+  final MultiParameters params;
 
   late final ContractUseCase _contractUseCase =
       ref.read(contractUseCaseProvider);
@@ -45,6 +55,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     amountController.addListener(_onValidChange);
     recipientController.addListener(_onValidChange);
 
+    recipientController.text = params.qrCode ?? '';
+
     loadPage();
   }
 
@@ -53,7 +65,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void changeDiscount(int value) {
-    amountController.text = ((token.balance ?? 0) * value / 100).toString();
+    amountController.text =
+        ((params.token.balance ?? 0) * value / 100).toString();
     notify(() => state.discount = value);
   }
 
@@ -68,7 +81,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     final recipient = recipientController.text;
     EstimatedGasFee? estimatedGasFee;
 
-    double sumBalance = token.balance! - double.parse(amount);
+    double sumBalance = params.token.balance! - double.parse(amount);
 
     if (TransactionProcessType.confirm != state.processType) {
       if (TransactionProcessType.send == state.processType) {
@@ -80,10 +93,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     final result = await showTransactionDialog(
       context!,
-      title: _getDialogTitle(token.name ?? ''),
+      title: _getDialogTitle(params.token.name ?? ''),
       amount: amount,
       balance: sumBalance.toString(),
-      token: token,
+      token: params.token,
       newtork: 'MXC zkEVM',
       from: state.walletAddress!,
       to: recipient,

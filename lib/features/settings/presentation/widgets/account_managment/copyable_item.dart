@@ -20,7 +20,7 @@ class CopyableItem extends HookConsumerWidget {
         presenter.copyToClipboard(copyableText);
       },
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             text,
