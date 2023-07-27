@@ -50,9 +50,9 @@ class Setting {
         ),
       ),
       Setting(
-        title: FlutterI18n.translate(context, 'costumer_support'),
+        title: FlutterI18n.translate(context, 'costomer_support'),
         icon: MXCIcons.faq,
-        page: const AboutPage(),
+        page: const CustomerSupportPage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'about'),

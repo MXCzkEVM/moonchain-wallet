@@ -9,3 +9,4 @@ export 'subfeatures/language/presentation/language_page/language_page.dart';
 export 'subfeatures/address_book/presentation/select_recipient/select_recipient_page.dart';
 export 'subfeatures/qr_code/show_qa_code/qr_code_page.dart';
 export 'subfeatures/xsd_conversion_rate/xsd_conversion_rate_page.dart';
+export 'subfeatures/customer_support/customer_support_page.dart';
