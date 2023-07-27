@@ -55,14 +55,14 @@ class AppNavBar extends HookConsumerWidget {
                         ),
                         child: Row(
                           children: [
-                            MXCDropDown<String>(
-                              itemList: const ['MXC zkEVM'],
-                              onChanged: (String? newValue) {},
-                              selectedItem: 'MXC zkEVM',
-                              icon: const Padding(
-                                padding: EdgeInsetsDirectional.only(start: 10),
-                              ),
-                            ),
+                            // MXCDropDown<String>(
+                            //   itemList: const ['MXC zkEVM'],
+                            //   onChanged: (String? newValue) {},
+                            //   selectedItem: 'MXC zkEVM',
+                            //   icon: const Padding(
+                            //     padding: EdgeInsetsDirectional.only(start: 10),
+                            //   ),
+                            // ),
                             Container(
                               height: 8,
                               width: 8,
@@ -83,21 +83,21 @@ class AppNavBar extends HookConsumerWidget {
                           ],
                         ),
                       ),
-                      MXCDropDown<String>(
-                        itemList: state.accounts
-                            .map((i) => Formatter.formatWalletAddress(i))
-                            .toList(),
-                        onChanged: (String? value) =>
-                            presenter.onAccountChange(value!),
-                        selectedItem:
-                            Formatter.formatWalletAddress(state.currentAccount),
-                        textStyle: FontTheme.of(context).subtitle2.primary(),
-                        icon: Icon(
-                          Icons.arrow_drop_down_rounded,
-                          size: 26,
-                          color: ColorsTheme.of(context).purpleMain,
-                        ),
-                      ),
+                      // MXCDropDown<String>(
+                      //   itemList: state.accounts
+                      //       .map((i) => Formatter.formatWalletAddress(i))
+                      //       .toList(),
+                      //   onChanged: (String? value) =>
+                      //       presenter.onAccountChange(value!),
+                      //   selectedItem:
+                      //       Formatter.formatWalletAddress(state.currentAccount),
+                      //   textStyle: FontTheme.of(context).subtitle2.primary(),
+                      //   icon: Icon(
+                      //     Icons.arrow_drop_down_rounded,
+                      //     size: 26,
+                      //     color: ColorsTheme.of(context).purpleMain,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],

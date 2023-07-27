@@ -88,6 +88,7 @@ flutter:
     - assets/images/apps/
     - assets/images/security/
     - assets/svg/
+    - assets/svg/networks/
     - assets/svg/splash/
     - assets/svg/security/
     - assets/lottie/
