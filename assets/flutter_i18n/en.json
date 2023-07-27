@@ -188,5 +188,11 @@
 	"x_must_numeric": "{0} Must be numeric",
 	"qr_code": "QR Code",
 	"scan_qr_code": "Scan QR code",
-	"show_qr_code": "Show my QR code"
+	"show_qr_code": "Show my QR code",
+	"xsd_conversion_rate": "XSD Conversion Rate",
+	"xsd_conversion_rate_note1": "Change XSD conversion rate to your own fiat currency rate for your own better bookkeeping.",
+	"xsd_conversion_rate_note2": "After changing the rate, \"XSD\" will be renamed to \"X\".",
+	"xsd_conversion_rate_note3": "Based on the criteria of the Howey Test, this wallet does not facilitate monetary investments. Users establish all units within the wallet independently, eliminating the prospect of accruing profits. Furthermore, given that these units represent arbitrary values assigned by users for personal reference, there is no inherent expectation of profit or economic gain.",
+	"reset_xsd_rate": "Reset XSD rate",
+	"xsd_conversion_rate_not_zero": "XSD conversion rate can't be 0"
 }

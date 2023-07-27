@@ -30,7 +30,7 @@ class Setting {
       Setting(
         title: FlutterI18n.translate(context, 'xsd_conversions'),
         icon: MXCIcons.conversion,
-        page: const AboutPage(),
+        page: const XsdConversionRatePage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'language'),
