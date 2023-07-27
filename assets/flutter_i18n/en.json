@@ -178,5 +178,12 @@
 	"system": "System",
 	"system_appearance": "We’ll adjust your app appearance based on your device’s system settings.",
 	"delete_recipient": "Delete recipient",
-	"edit_recipient": "Edit Recipient"
+	"edit_recipient": "Edit Recipient",
+	"added_networks": "Added networks",
+	"add_network": "Add network",
+	"customize_gas_limit": "Customize gas limit",
+	"ipfs_gateway": "IPFS gateway",
+	"default": "Default",
+	"gas_limit": "Gas limit",
+	"x_must_numeric": "{0} Must be numeric"
 }

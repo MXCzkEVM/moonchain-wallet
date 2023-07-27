@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
@@ -24,7 +25,7 @@ class Setting {
       Setting(
         title: FlutterI18n.translate(context, 'chain_configuration'),
         icon: MXCIcons.chain_configuration,
-        page: const AboutPage(),
+        page: const ChainConfigurationPage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'xsd_conversions'),
