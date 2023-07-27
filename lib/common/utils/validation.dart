@@ -40,4 +40,16 @@ class Validation {
 
     return null;
   }
+
+  static String? isNumeric(BuildContext context, String str) {
+    String translate(String text) => FlutterI18n.translate(context, text);
+    const pattern = r'^-?[0-9]+$';
+    final regExp = RegExp(pattern);
+    if (!regExp.hasMatch(str)) {
+      return translate('x_must_numeric')
+          .replaceFirst('{0}', translate('gas_limit'));
+    } else {
+      return null;
+    }
+  }
 }
