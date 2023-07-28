@@ -92,6 +92,7 @@
 	"automatically_log_out": "After 6 failed attempts, you’ll be automatically logged out for your security.",
 	"done": "Done",
 	"add_x": "Add {0}",
+	"select_x": "Add {0}",
 	"bookmark": "Bookmark",
 	"cancel": "Cancel",
 	"save": "Save",
@@ -185,5 +186,11 @@
 	"ipfs_gateway": "IPFS gateway",
 	"default": "Default",
 	"gas_limit": "Gas limit",
-	"x_must_numeric": "{0} Must be numeric"
+	"x_must_numeric": "{0} Must be numeric",
+	"chain": "chain",
+	"network_name": "Network Name",
+	"rpc_url": "RPC URL",
+	"chain_id": "Chain ID",
+	"symbol": "Symbol",
+	"set_as_default": "set_as_default"
 }

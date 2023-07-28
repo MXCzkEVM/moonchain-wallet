@@ -1,7 +1,8 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/chians_dialog.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/ipfs_gate_ways_dialog.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/network_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -44,12 +45,10 @@ class ChainConfigurationPage extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: Sizes.spaceSmall),
               child: Column(
                 children: [
-                  ...Network.fixedNetworks()
+                  ...state.networks
                       .map((e) => NetworkItem(
-                            networkLogo: e.logo,
-                            networkName: e.label,
-                            isDefault: e.enabled,
-                            onTap: () {},
+                            network: e,
+                            onTap: presenter.setAsDefault,
                           ))
                       .toList()
                 ],
@@ -73,8 +72,13 @@ class ChainConfigurationPage extends HookConsumerWidget {
             ),
             MXCDropDown(
               key: const Key('gasLimitChainDropDown'),
-              onTap: () {},
-              selectedItem: 'MXC ZKevm',
+              onTap: () {
+                showChainsDialog(context,
+                    networks: state.networks, onTap: presenter.selectNetwork);
+              },
+              selectedItem: state.selectedNetwork == null
+                  ? ''
+                  : state.selectedNetwork!.label,
             ),
             const SizedBox(
               height: Sizes.spaceNormal,
@@ -82,6 +86,7 @@ class ChainConfigurationPage extends HookConsumerWidget {
             MxcTextField(
               key: const Key('gasLimitTextField'),
               controller: presenter.gasLimitController,
+              width: double.maxFinite,
               hint: translate('gas_limit'),
               keyboardType: TextInputType.number,
               validator: (value) {
@@ -104,6 +109,15 @@ class ChainConfigurationPage extends HookConsumerWidget {
             ),
             const SizedBox(
               height: Sizes.spaceNormal,
+            ),
+            MXCDropDown(
+              key: const Key('ipfsGateWayDropDown'),
+              onTap: () {
+                showIpfsGateWayDialog(context,
+                    ipfsGateWays: state.ipfsGateWays,
+                    onTap: presenter.selectIpfsGateWay);
+              },
+              selectedItem: state.selectedIpfsGateWay ?? '',
             ),
           ],
         ))
