@@ -60,6 +60,7 @@ dependencies:
   path_provider: ^2.0.12
   permission_handler: ^10.4.1
   qr_flutter: ^4.1.0
+  qr_code_scanner: ^1.0.1
   riverpod: ^1.0.3
   sha3: ^0.2.0
   sliver_tools: ^0.2.5
@@ -91,6 +92,7 @@ flutter:
     - assets/svg/networks/
     - assets/svg/splash/
     - assets/svg/security/
+    - assets/svg/settings/
     - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -43,7 +43,7 @@ class PortfolioPage extends HookConsumerWidget {
         ),
         floatingActionButton: Container(
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 30),
             child: IntrinsicHeight(
               child: Stack(
                 fit: StackFit.passthrough,

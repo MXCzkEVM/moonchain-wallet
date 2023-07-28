@@ -14,7 +14,12 @@ import 'choose_crypto_presenter.dart';
 import 'choose_crypto_state.dart';
 
 class ChooseCryptoPage extends HookConsumerWidget {
-  const ChooseCryptoPage({Key? key}) : super(key: key);
+  const ChooseCryptoPage({
+    Key? key,
+    this.qrCode,
+  }) : super(key: key);
+
+  final String? qrCode;
 
   @override
   ProviderBase<ChooseCryptoPresenter> get presenter =>
@@ -81,6 +86,7 @@ class ChooseCryptoPage extends HookConsumerWidget {
                       route.featureDialog(
                         SendCryptoPage(
                           token: token,
+                          qrCode: qrCode,
                         ),
                       ),
                     )),
