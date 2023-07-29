@@ -31,10 +31,15 @@ class ChainConfigurationPresenter
         notify(() => state.networks = defaultList);
         notify(() => state.selectedNetwork =
             state.networks.firstWhere((element) => element.enabled == true));
+        updateGasLimitTextfield();
       } else {
         notify(() => state.networks = value);
-        notify(() => state.selectedNetwork =
-            state.networks.firstWhere((element) => element.enabled == true));
+
+        if (state.selectedNetwork == null) {
+          notify(() => state.selectedNetwork =
+              state.networks.firstWhere((element) => element.enabled == true));
+          updateGasLimitTextfield();
+        }
       }
     });
 
@@ -54,7 +59,8 @@ class ChainConfigurationPresenter
   void selectNetwork(int chainId) {
     final selectedItem =
         state.networks.firstWhere((element) => element.chainId == chainId);
-    state.selectedNetwork = selectedItem;
+    notify(() => state.selectedNetwork = selectedItem);
+    updateGasLimitTextfield();
   }
 
   void setAsDefault(Network newDefault) {
@@ -68,13 +74,20 @@ class ChainConfigurationPresenter
     }
   }
 
-  void updateGasLimit() {
+  void updateGasLimit(String newGasLimit) {
     try {
-      final gasLimit = int.parse(gasLimitController.text);
-      state.selectedNetwork!.copyWith(gasLimit: gasLimit);
-      _chainConfigurationUseCase.updateItem(state.selectedNetwork!);
+      final gasLimit = int.parse(newGasLimit);
+      final updatedNetwork =
+          state.selectedNetwork!.copyWith(gasLimit: gasLimit);
+      _chainConfigurationUseCase.updateItem(updatedNetwork);
     } catch (e) {
       addError(e);
     }
+  }
+
+  void updateGasLimitTextfield() {
+    gasLimitController.text = state.selectedNetwork!.gasLimit != null
+        ? state.selectedNetwork!.gasLimit.toString()
+        : '';
   }
 }

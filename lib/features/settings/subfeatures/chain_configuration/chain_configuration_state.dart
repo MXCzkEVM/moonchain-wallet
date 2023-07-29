@@ -6,7 +6,7 @@ import 'entities/network.dart';
 class ChainConfigurationState with EquatableMixin {
   List<Network> networks = [];
 
-  // The one that is selected is always up 
+  // The one that is selected is always up
   List<String> ipfsGateWays = [
     "https://ipfs.thirdwebstorage.com/ipfs/",
     "https://ipfs.w3s.link",
@@ -21,9 +21,6 @@ class ChainConfigurationState with EquatableMixin {
   Network? selectedNetwork;
 
   @override
-  List<Object?> get props => [
-        networks,
-        ipfsGateWays,
-        selectedIpfsGateWay
-      ];
+  List<Object?> get props =>
+      [networks, ipfsGateWays, selectedIpfsGateWay, selectedNetwork];
 }

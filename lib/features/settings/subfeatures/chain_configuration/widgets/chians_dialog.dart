@@ -5,11 +5,10 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<bool?> showChainsDialog(
-  BuildContext context, {
-  required List<Network> networks,
-  required void Function(int chainId) onTap,
-}) {
+Future<bool?> showChainsDialog(BuildContext context,
+    {required List<Network> networks,
+    required void Function(int chainId) onTap,
+    required selectedChainId}) {
   String translate(String text) => FlutterI18n.translate(context, text);
 
   return showModalBottomSheet<bool>(
@@ -49,35 +48,41 @@ Future<bool?> showChainsDialog(
             ),
           ),
           ...networks
-              .map((e) => Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: Sizes.spaceSmall,
-                        horizontal: Sizes.spaceXLarge),
-                    child: Row(children: [
-                      SvgPicture.asset(
-                        e.logo,
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(
-                        width: Sizes.spaceXSmall,
-                      ),
-                      Text(
-                        e.label,
-                        style: FontTheme.of(context).body2.primary(),
-                      ),
-                      const Spacer(),
-                      if (e.enabled == true)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Sizes.spaceNormal),
-                          child: Icon(
-                            MXCIcons.check,
-                            size: 24,
-                            color: ColorsTheme.of(context).white400,
-                          ),
+              .map((e) => InkWell(
+                    onTap: () {
+                      onTap(e.chainId);
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: Sizes.spaceSmall,
+                          horizontal: Sizes.spaceXLarge),
+                      child: Row(children: [
+                        SvgPicture.asset(
+                          e.logo,
+                          height: 24,
+                          width: 24,
                         ),
-                    ]),
+                        const SizedBox(
+                          width: Sizes.spaceXSmall,
+                        ),
+                        Text(
+                          e.label,
+                          style: FontTheme.of(context).body2.primary(),
+                        ),
+                        const Spacer(),
+                        if (selectedChainId == e.chainId)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.spaceNormal),
+                            child: Icon(
+                              MXCIcons.check,
+                              size: 24,
+                              color: ColorsTheme.of(context).white400,
+                            ),
+                          ),
+                      ]),
+                    ),
                   ))
               .toList(),
         ],
