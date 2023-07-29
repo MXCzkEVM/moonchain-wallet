@@ -44,6 +44,8 @@ class ChainConfigurationPresenter
     });
 
     listen(_chainConfigurationUseCase.selectedIpfsGateWay, (value) {
+      print('object');
+      print(value);
       if (value.isNotEmpty) {
         notify(() => state.selectedIpfsGateWay = value);
       }

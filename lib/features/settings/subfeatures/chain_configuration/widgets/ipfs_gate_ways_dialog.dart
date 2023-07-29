@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<bool?> showIpfsGateWayDialog(
-  BuildContext context, {
-  required List<String> ipfsGateWays,
-  required void Function(String text) onTap,
-}) {
+Future<bool?> showIpfsGateWayDialog(BuildContext context,
+    {required List<String> ipfsGateWays,
+    required void Function(String text) onTap,
+    required selectedIpfsGateway}) {
   String translate(String text) => FlutterI18n.translate(context, text);
 
   return showModalBottomSheet<bool>(
@@ -53,18 +52,36 @@ Future<bool?> showIpfsGateWayDialog(
               .map((e) => InkWell(
                     onTap: () {
                       onTap(e);
+                      Navigator.of(context).pop(false);
                     },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Sizes.spaceXLarge,
-                          vertical: Sizes.spaceSmall),
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text(
-                        e,
-                        style: FontTheme.of(context).body2.primary(),
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.spaceXLarge,
+                                vertical: Sizes.spaceSmall),
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(
+                              e,
+                              style: FontTheme.of(context).body2.primary(),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        if (selectedIpfsGateway == e)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.spaceNormal),
+                            child: Icon(
+                              MXCIcons.check,
+                              size: 24,
+                              color: ColorsTheme.of(context).white400,
+                            ),
+                          ),
+                      ],
                     ),
                   ))
               .toList(),

@@ -126,7 +126,8 @@ class ChainConfigurationPage extends HookConsumerWidget {
               onTap: () {
                 showIpfsGateWayDialog(context,
                     ipfsGateWays: state.ipfsGateWays,
-                    onTap: presenter.selectIpfsGateWay);
+                    onTap: presenter.selectIpfsGateWay,
+                    selectedIpfsGateway: state.selectedIpfsGateWay);
               },
               selectedItem: state.selectedIpfsGateWay ?? '',
             ),
