@@ -193,7 +193,7 @@
 	"rpc_url": "RPC URL",
 	"chain_id": "Chain ID",
 	"symbol": "Symbol",
-	"set_as_default": "set_as_default",
+	"set_as_default": 	"Set as default",
 	"qr_code": "QR Code",
 	"scan_qr_code": "Scan QR code",
 	"show_qr_code": "Show my QR code",

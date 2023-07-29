@@ -1,15 +1,13 @@
+import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/chain_details.dart';
+import './network_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class NetworkItem extends StatelessWidget {
-  const NetworkItem(
-      {super.key,
-      required this.network,
-      required this.onTap});
+  const NetworkItem({super.key, required this.network, required this.onTap});
 
   final Network network;
   final void Function(Network network) onTap;
@@ -17,8 +15,12 @@ class NetworkItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        showChainDialog(context, network: network, onTap: onTap);
+      onTap: () {
+        Navigator.of(context).push(
+          route.featureDialog(
+            NetworkDetailsPage(network: network),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: Sizes.spaceNormal),
@@ -41,7 +43,8 @@ class NetworkItem extends StatelessWidget {
               network.enabled
                   ? Text(
                       FlutterI18n.translate(context, 'default'),
-                      style: FontTheme.of(context).body1().copyWith(color: ColorsTheme.of(context).textWhite100),
+                      style: FontTheme.of(context).body1().copyWith(
+                          color: ColorsTheme.of(context).textWhite100),
                     )
                   : Container(),
             ],
@@ -49,7 +52,8 @@ class NetworkItem extends StatelessWidget {
           const Spacer(),
           if (onTap != null)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceNormal),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Sizes.spaceNormal),
               child: Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
