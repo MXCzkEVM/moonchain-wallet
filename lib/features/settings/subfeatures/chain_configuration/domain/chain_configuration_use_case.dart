@@ -24,7 +24,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   }
 
   void updateItem(Network network) {
-    _repository.addItem(network);
+    _repository.updateItem(network);
     update(networks, _repository.items);
   }
 

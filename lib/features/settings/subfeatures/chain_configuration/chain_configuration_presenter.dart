@@ -29,17 +29,19 @@ class ChainConfigurationPresenter
         _chainConfigurationUseCase.addItems(defaultList);
 
         notify(() => state.networks = defaultList);
-        notify(() => state.selectedNetwork = state.networks.firstWhere((element) => element.enabled == true));
+        notify(() => state.selectedNetwork =
+            state.networks.firstWhere((element) => element.enabled == true));
       } else {
         notify(() => state.networks = value);
-        notify(() => state.selectedNetwork = state.networks.firstWhere((element) => element.enabled == true));
+        notify(() => state.selectedNetwork =
+            state.networks.firstWhere((element) => element.enabled == true));
       }
     });
 
     listen(_chainConfigurationUseCase.selectedIpfsGateWay, (value) {
       if (value.isNotEmpty) {
         notify(() => state.selectedIpfsGateWay = value);
-      } 
+      }
     });
   }
 
@@ -59,11 +61,10 @@ class ChainConfigurationPresenter
     final itemIndex =
         state.networks.indexWhere((element) => element.enabled == true);
     if (itemIndex != -1) {
-      final currentDefault = state.networks[itemIndex];
-      currentDefault.copyWith(enabled: false);
-      newDefault.copyWith(enabled: true);
-      _chainConfigurationUseCase.updateItem(currentDefault);
+      final currentDefault = state.networks[itemIndex].copyWith(enabled: false);
+      newDefault = newDefault.copyWith(enabled: true);
       _chainConfigurationUseCase.updateItem(newDefault);
+      _chainConfigurationUseCase.updateItem(currentDefault);
     }
   }
 
