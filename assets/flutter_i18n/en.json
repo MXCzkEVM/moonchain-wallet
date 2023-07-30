@@ -193,7 +193,7 @@
 	"rpc_url": "RPC URL",
 	"chain_id": "Chain ID",
 	"symbol": "Symbol",
-	"set_as_default": 	"Set as default",
+	"set_as_default": "Set as default",
 	"qr_code": "QR Code",
 	"scan_qr_code": "Scan QR code",
 	"show_qr_code": "Show my QR code",
@@ -224,6 +224,7 @@
 	"confirm_delete_wallet": "Are you sure you want to delete your wallet?",
 	"confirm_delete_wallet_note": "Please be aware that this action is irreversible. Once your wallet is deleted, all the stored data, including your payment methods, transaction history, and any digital currencies (if applicable) will be permanently removed.\n\nIf you have not backed up your wallet, we highly recommend doing so now to ensure you do not lose any vital information or assets.",
 	"understand_delete": "I understand, delete",
-	"delete_wallet_warning": "Type “yes” to permanently erase your current wallet",
-	"type_yes": "Type \"yes\""
+	"delete_wallet_warning": "Type \"yes\" to permanently erase your current wallet",
+	"type_yes": "Type \"yes\"",
+	"clear_browser_successfully": "Successfully cleared history and cookies"
 }

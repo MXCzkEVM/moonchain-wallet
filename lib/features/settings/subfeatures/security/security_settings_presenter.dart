@@ -2,6 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/security/widgets/delet_wallet_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_ui/mxc_ui.dart';
 import 'security_settings_state.dart';
 
 final securitySettingsContainer =
@@ -31,6 +32,13 @@ class SecuritySettingsPresenter
       content: translate('clear_browser_warning')!,
       ok: translate('clear')!,
     );
+
+    if (result != null && result) {
+      showSnackBar(
+        context: context!,
+        content: 'clear_browser_successfully',
+      );
+    }
   }
 
   void deleteWallet() async {
