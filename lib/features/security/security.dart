@@ -17,3 +17,7 @@ export 'presentation/passcode.dart';
 
 export 'presentation/passcode_require/wrapper/passcode_require_wrapper_page.dart';
 export 'presentation/passcode_require/passcode_require_page.dart';
+
+export 'presentation/passcode_change/passcode_change_enter_new_page/passcode_change_enter_new_page.dart';
+export 'presentation/passcode_change/passcode_change_confirm_page/passcode_change_confirm_page.dart';
+export 'presentation/passcode_change/passcode_change_confirm_page/passcode_change_confirm_page_presenter.dart';
