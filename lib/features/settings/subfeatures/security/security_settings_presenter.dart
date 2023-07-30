@@ -13,11 +13,17 @@ class SecuritySettingsPresenter
     extends CompletePresenter<SecuritySettingsState> {
   SecuritySettingsPresenter() : super(SecuritySettingsState());
 
+  late final _passcodeUseCase = ref.read(passcodeUseCaseProvider);
   late final TextEditingController yesController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
+    listen(
+      _passcodeUseCase.biometricEnabled,
+      (v) => notify(() => state.biometricEnabled = v),
+    );
   }
 
   @override
@@ -66,4 +72,7 @@ class SecuritySettingsPresenter
       //delete wallet
     }
   }
+
+  void changeBiometric(bool value) =>
+      _passcodeUseCase.setBiometricEnabled(value);
 }

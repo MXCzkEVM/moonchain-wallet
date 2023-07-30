@@ -103,8 +103,8 @@ class SecuritySettingsPage extends HookConsumerWidget {
               style: FontTheme.of(context).body2(),
             ),
             CupertinoSwitch(
-              value: true,
-              onChanged: (value) {},
+              value: ref.watch(state).biometricEnabled,
+              onChanged: (value) => ref.read(presenter).changeBiometric(value),
             ),
           ],
         )
