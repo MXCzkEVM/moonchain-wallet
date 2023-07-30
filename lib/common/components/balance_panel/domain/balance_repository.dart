@@ -51,7 +51,6 @@ class BalanceRepository extends ControlledCacheRepository {
       // doesn't exist
       balanceHistory.value = [...balanceHistory.value, newItem];
     } else {
-      // print(newItem);
       final newList = balanceHistory.value;
       newList.removeAt(itemIndex);
       newList.insert(itemIndex, newItem);

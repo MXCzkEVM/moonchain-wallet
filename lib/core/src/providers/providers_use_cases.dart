@@ -6,6 +6,7 @@ import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/do
 import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';
 import 'package:datadashwallet/features/security/security.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
@@ -70,4 +71,9 @@ final Provider<RecipientsUseCase> recipientsCaseProvider = Provider(
 
 final Provider<NftsUseCase> nftsUseCaseProvider = Provider(
   (ref) => NftsUseCase(ref.watch(datadashCacheProvider).nfts),
+);
+
+final Provider<ChainConfigurationUseCase> chainConfigurationUseCase = Provider(
+  (ref) => ChainConfigurationUseCase(
+      ref.watch(datadashCacheProvider).chainConfigurationRepository),
 );
