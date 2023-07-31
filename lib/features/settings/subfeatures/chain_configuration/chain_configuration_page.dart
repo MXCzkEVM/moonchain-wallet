@@ -1,6 +1,8 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/subfeatures/add_network/add_netwrok_page.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/chians_dialog.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/ipfs_gate_ways_dialog.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/network_item.dart';
@@ -59,7 +61,13 @@ class ChainConfigurationPage extends HookConsumerWidget {
             MxcButton.secondary(
               key: const ValueKey('addNetworkButton'),
               title: translate('add_network'),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  route.featureDialog(
+                    const AddNetworkPage(),
+                  ),
+                );
+              },
               size: MxcButtonSize.xl,
             ),
             const SizedBox(
