@@ -193,7 +193,7 @@
 	"rpc_url": "RPC URL",
 	"chain_id": "Chain ID",
 	"symbol": "Symbol",
-	"set_as_default": 	"Set as default",
+	"set_as_default": "Set as default",
 	"qr_code": "QR Code",
 	"scan_qr_code": "Scan QR code",
 	"show_qr_code": "Show my QR code",
@@ -207,5 +207,18 @@
 	"diagnosing_logs": "To assist others in diagnosing your issue, please download and provide the transaction logs from your wallet. This information can offer valuable insight into the nature of the problem you're encountering.",
 	"export_logs": "Export logs",
 	"contact_chatgpt_support": "Contact MXC ChatGPT support",
-	"jump_to_telegram": "Jump to Telegram"
+	"jump_to_telegram": "Jump to Telegram",
+	"custom_network": "Custom Network",
+	"mainnet": "Mainnet",
+	"testnet": "Testnet",
+	"added": "Added",
+	"want_to_add_this_network": "Want to add this network?",
+	"network_adding_usage_notice": "Adding this network, allows it to be used within DataDash",
+	"custom_network_security_alert": "DataDash does not endorse custom networks or their security.",
+	"block_explorer_url": "Block explorer url",
+	"new_network_added": "New network added",
+	"x_is_now_available": "\"{0}\" is now available in the network selector.",
+	"switch_to_network": "Switch to network",
+	"optional": "Optional",
+	"currency": "Currency"
 }

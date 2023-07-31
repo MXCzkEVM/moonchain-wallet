@@ -50,11 +50,8 @@ class AddNetworkItem extends HookConsumerWidget {
             contentPadding: const EdgeInsets.symmetric(
                 horizontal: Sizes.spaceSmall, vertical: Sizes.spaceXSmall),
             onTap: () {
-              showAddNetworkDialog(
-                context,
-                network: network,
-                onTap: presenter.switchNetwork
-              );
+              showAddNetworkDialog(context,
+                  network: network, onTap: presenter.switchNetwork);
             },
             title: translate('add_x').replaceFirst('{0}', ''),
             buttonState: ChipButtonStates.defaultState,
