@@ -1,4 +1,3 @@
-import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
@@ -24,28 +23,25 @@ class ChainConfigurationPresenter
 
     listen(_chainConfigurationUseCase.networks, (value) {
       if (value.isEmpty) {
-        // populates the
+        // populates the default list
         final defaultList = Network.fixedNetworks();
         _chainConfigurationUseCase.addItems(defaultList);
 
-        notify(() => state.networks = defaultList);
-        notify(() => state.selectedNetwork =
-            state.networks.firstWhere((element) => element.enabled == true));
+        notify(() => state.networks =
+            defaultList.where((element) => element.isAdded == true).toList());
+        updateSelectedNetwork();
         updateGasLimitTextfield();
       } else {
-        notify(() => state.networks = value);
-
+        notify(() => state.networks =
+            value.where((element) => element.isAdded == true).toList());
         if (state.selectedNetwork == null) {
-          notify(() => state.selectedNetwork =
-              state.networks.firstWhere((element) => element.enabled == true));
+          updateSelectedNetwork();
           updateGasLimitTextfield();
         }
       }
     });
 
     listen(_chainConfigurationUseCase.selectedIpfsGateWay, (value) {
-      print('object');
-      print(value);
       if (value.isNotEmpty) {
         notify(() => state.selectedIpfsGateWay = value);
       }
@@ -91,5 +87,10 @@ class ChainConfigurationPresenter
     gasLimitController.text = state.selectedNetwork!.gasLimit != null
         ? state.selectedNetwork!.gasLimit.toString()
         : '';
+  }
+
+  void updateSelectedNetwork() {
+    notify(() => state.selectedNetwork =
+        state.networks.firstWhere((element) => element.enabled == true));
   }
 }
