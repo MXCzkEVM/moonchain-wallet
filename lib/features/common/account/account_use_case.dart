@@ -24,6 +24,8 @@ class AccountUseCase extends ReactiveUseCase {
     update(walletPrivate, privateKey);
   }
 
+  String? getMnemonic() => _authenticationStorageRepository.mnemonic;
+
   String? getWalletAddress() => _authenticationStorageRepository.publicAddress;
 
   String? getPravateKey() => _authenticationStorageRepository.privateKey;

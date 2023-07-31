@@ -23,7 +23,7 @@ void showSnackBar({
         Icon(
           SnackBarType.success == type
               ? Icons.check_circle_rounded
-              : Icons.close_rounded,
+              : Icons.warning_rounded,
           color: ColorsTheme.of(context, listen: false).iconBlack200,
           size: 20,
         ),

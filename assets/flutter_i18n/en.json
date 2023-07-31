@@ -226,5 +226,6 @@
 	"understand_delete": "I understand, delete",
 	"delete_wallet_warning": "Type \"yes\" to permanently erase your current wallet",
 	"type_yes": "Type \"yes\"",
-	"clear_browser_successfully": "Successfully cleared history and cookies"
+	"clear_browser_successfully": "Successfully cleared history and cookies",
+	"exported_logs_successfully": "Exported logs successfully"
 }
