@@ -8,7 +8,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 import '../../entities/recipient.dart';
 import 'edit_recipient_presenter.dart';
 import 'edit_recipient_state.dart';
-import 'widgets/delete_dialog.dart';
 
 class EditRecipientPage extends HookConsumerWidget {
   const EditRecipientPage({
@@ -99,7 +98,11 @@ class EditRecipientPage extends HookConsumerWidget {
                   title: FlutterI18n.translate(context, 'delete_recipient'),
                   titleColor: ColorsTheme.of(context).textCritical,
                   onTap: () async {
-                    final result = await showDeleteDialog(context);
+                    final result = await showAlertDialog(
+                      context: context,
+                      title: 'delete_recipient',
+                      ok: 'delete',
+                    );
                     if (result != null && result) {
                       ref.read(presenter).deleteRecipient(recipient!);
                     }

@@ -54,6 +54,7 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
   }
 
   void onRemoveNumber() {
+    if(state.enteredNumbers.isEmpty) return;
     notify(() => state.enteredNumbers.removeLast());
   }
 }

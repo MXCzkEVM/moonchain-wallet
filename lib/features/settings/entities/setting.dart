@@ -20,7 +20,7 @@ class Setting {
       Setting(
         title: FlutterI18n.translate(context, 'security'),
         icon: MXCIcons.security,
-        page: const AboutPage(),
+        page: const SecuritySettingsPage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'chain_configuration'),
