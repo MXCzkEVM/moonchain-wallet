@@ -1,0 +1,65 @@
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_ui/mxc_ui.dart';
+
+import '../add_network_presenter.dart';
+import 'add_network_dialog.dart';
+
+class AddNetworkItem extends HookConsumerWidget {
+  final Network network;
+
+  const AddNetworkItem({super.key, required this.network});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final presenter = ref.read(addNetworkContainer.actions);
+    String translate(String text) => FlutterI18n.translate(context, text);
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: Sizes.spaceSmall,
+      ),
+      child: Row(children: [
+        SvgPicture.asset(
+          network.logo,
+          height: 24,
+          width: 24,
+        ),
+        const SizedBox(
+          width: Sizes.spaceXSmall,
+        ),
+        Text(
+          network.label,
+          style: FontTheme.of(context).body2.primary(),
+        ),
+        const Spacer(),
+        if (network.isAdded == true)
+          MxcChipButton(
+            key: const Key('addedNetworkButton'),
+            contentPadding: const EdgeInsets.symmetric(
+                horizontal: Sizes.spaceSmall, vertical: Sizes.spaceXSmall),
+            onTap: () {},
+            title: translate('added'),
+            buttonState: ChipButtonStates.disabled,
+          )
+        else
+          MxcChipButton(
+            key: const Key('addNetworkButton'),
+            contentPadding: const EdgeInsets.symmetric(
+                horizontal: Sizes.spaceSmall, vertical: Sizes.spaceXSmall),
+            onTap: () {
+              showAddNetworkDialog(
+                context,
+                network: network,
+                onTap: presenter.switchNetwork
+              );
+            },
+            title: translate('add_x').replaceFirst('{0}', ''),
+            buttonState: ChipButtonStates.defaultState,
+          )
+      ]),
+    );
+  }
+}
