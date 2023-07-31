@@ -1,9 +1,11 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/security/widgets/delet_wallet_dialog.dart';
+import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:mxc_ui/mxc_ui.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'security_settings_state.dart';
+
+import 'widgets/delet_wallet_dialog.dart';
 
 final securitySettingsContainer =
     PresenterContainer<SecuritySettingsPresenter, SecuritySettingsState>(
@@ -14,6 +16,7 @@ class SecuritySettingsPresenter
   SecuritySettingsPresenter() : super(SecuritySettingsState());
 
   late final _passcodeUseCase = ref.read(passcodeUseCaseProvider);
+  late final _authUseCase = ref.read(authUseCaseProvider);
   late final TextEditingController yesController = TextEditingController();
 
   @override
@@ -40,6 +43,7 @@ class SecuritySettingsPresenter
     );
 
     if (result != null && result) {
+      //to do - clear browser cache
       showSnackBar(
         context: context!,
         content: 'clear_browser_successfully',
@@ -68,8 +72,14 @@ class SecuritySettingsPresenter
     );
 
     if (result2 != null && result2) {
-      //todo
-      //delete wallet
+      FlutterLogs.clearLogs();
+      resetProviders();
+      _authUseCase.resetWallet();
+      navigator?.replaceAll(
+        route(
+          const SplashSetupWalletPage(),
+        ),
+      );
     }
   }
 

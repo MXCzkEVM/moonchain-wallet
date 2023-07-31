@@ -15,6 +15,8 @@ class XsdConversionRatePresenter
   @override
   void initState() {
     super.initState();
+
+    rateController.text = '2';
   }
 
   @override

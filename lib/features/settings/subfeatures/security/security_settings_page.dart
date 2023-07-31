@@ -5,6 +5,7 @@ import 'package:datadashwallet/features/security/presentation/passcode_change/pa
 import 'package:datadashwallet/features/security/presentation/passcode_change/passcode_change_enter_new_page/passcode_change_enter_new_page.dart';
 import 'package:datadashwallet/features/security/presentation/passcode_require/passcode_require_presenter.dart';
 import 'package:datadashwallet/features/security/presentation/passcode_require/wrapper/passcode_require_wrapper_presenter.dart';
+import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -92,7 +93,11 @@ class SecuritySettingsPage extends HookConsumerWidget {
           key: const ValueKey('exportWalletButton'),
           title: translate('export_wallet'),
           size: MxcButtonSize.xl,
-          onTap: () {},
+          onTap: () => Navigator.of(context).push(
+            route(const SplashStoragePage(
+              settingsFlow: true,
+            )),
+          ),
         ),
         const SizedBox(height: Sizes.space4XLarge),
         Row(

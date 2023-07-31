@@ -7,7 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class SplashStoragePage extends SplashBasePage {
-  const SplashStoragePage({Key? key}) : super(key: key);
+  const SplashStoragePage({
+    Key? key,
+    this.settingsFlow = false,
+  }) : super(key: key);
+
+  final bool settingsFlow;
 
   @override
   ProviderBase<SplashStoragePresenter> get presenter =>
@@ -32,7 +37,9 @@ class SplashStoragePage extends SplashBasePage {
         onTap: ref.watch(state).applist['telegram'] == true
             ? () => Navigator.of(context).push(
                   route.featureDialog(
-                    const TelegramRecoveryPhrasePage(),
+                    TelegramRecoveryPhrasePage(
+                      settingsFlow: settingsFlow,
+                    ),
                   ),
                 )
             : null,
@@ -45,7 +52,9 @@ class SplashStoragePage extends SplashBasePage {
                 ref.watch(state).applist['wechat'] == true
             ? () => Navigator.of(context).push(
                   route.featureDialog(
-                    const WechatRecoveryPhrasePage(),
+                    WechatRecoveryPhrasePage(
+                      settingsFlow: settingsFlow,
+                    ),
                   ),
                 )
             : null,
@@ -56,7 +65,9 @@ class SplashStoragePage extends SplashBasePage {
         title: FlutterI18n.translate(context, 'email_secured_storage'),
         onTap: () => Navigator.of(context).push(
           route.featureDialog(
-            const EmailRecoveryPhrasePage(),
+            EmailRecoveryPhrasePage(
+              settingsFlow: settingsFlow,
+            ),
           ),
         ),
       ),
