@@ -29,6 +29,10 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       }
     });
 
+    listen(_accountUserCase.xsdConversionRate, (value) {
+      notify(() => state.xsdConversionRate = value);
+    });
+
     listen(_balanceUseCase.balanceHistory, (newBalanceHistory) {
       if (newBalanceHistory.isNotEmpty) {
         generateChartData(newBalanceHistory);

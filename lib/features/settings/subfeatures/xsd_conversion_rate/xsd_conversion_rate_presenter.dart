@@ -10,13 +10,16 @@ class XsdConversionRatePresenter
     extends CompletePresenter<XsdConversionRateState> {
   XsdConversionRatePresenter() : super(XsdConversionRateState());
 
+  late final _accountUseCase = ref.watch(accountUseCaseProvider);
   late final TextEditingController rateController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    rateController.text = '2';
+    listen(_accountUseCase.xsdConversionRate, (value) {
+      rateController.text = value.toString();
+    });
   }
 
   @override
@@ -28,7 +31,12 @@ class XsdConversionRatePresenter
     final rate = rateController.text;
 
     loading = true;
-    try {} catch (e, s) {
+    try {
+      final data = double.parse(rate);
+      if (_accountUseCase.xsdConversionRate.value == data) return;
+      _accountUseCase.resetXsdConversionRate(data);
+      addMessage('Reset xsd conversion rate successfully.');
+    } catch (e, s) {
       addError(e, s);
     } finally {
       loading = false;

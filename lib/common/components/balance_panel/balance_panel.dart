@@ -18,7 +18,6 @@ class BalancePanel extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final state = ref.watch(walletContainer.state);
     return GreyContainer(
         padding: const EdgeInsetsDirectional.all(16),
         child: showGraph
