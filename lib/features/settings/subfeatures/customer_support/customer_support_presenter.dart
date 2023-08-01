@@ -18,7 +18,7 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
 
     FlutterLogs.channel.setMethodCallHandler((call) async {
       if (call.method == 'logsExported') {
-        var zipName = '${call.arguments.toString()}';
+        var zipName = call.arguments.toString();
 
         Directory? externalDirectory;
 

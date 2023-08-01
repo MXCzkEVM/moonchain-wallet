@@ -1,4 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 import 'app_nav_bar_state.dart';
 
@@ -15,35 +16,27 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
   void initState() {
     super.initState();
 
-    listen(
-      _contractUseCase.online,
-      (value) => notify(() => state.online = value),
-    );
+    listen(_accountUseCase.account, (account) async {
+      if (account != null) {
+        updateAccount(account);
 
-    listen(_accountUseCase.walletAddress, (value) async {
-      if (value != null) {
-        updateAccount(value);
-
-        final name = await _contractUseCase.getName(value);
-        updateAccount(name);
+        if (account.mns == null) {
+          final mns = await _contractUseCase.getName(account.address);
+          account.mns = mns;
+          _accountUseCase.updateAccount(account);
+        }
       }
     });
 
     loadPage();
   }
 
-  void updateAccount(String value) {
-    notify(() {
-      state.accounts = [value];
-      state.currentAccount = value;
-    });
+  void updateAccount(Account value) {
+    notify(() => state.account = value);
   }
 
   void loadPage() {
     _contractUseCase.checkConnectionToNetwork();
     _accountUseCase.refreshWallet();
   }
-
-  void onAccountChange(String value) =>
-      notify(() => state.currentAccount = value);
 }

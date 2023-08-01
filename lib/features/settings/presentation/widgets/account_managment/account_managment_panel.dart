@@ -15,8 +15,9 @@ class AccountManagementPanel extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(settingsContainer.actions);
     final state = ref.watch(settingsContainer.state);
+    final account = state.account;
     final walletAddress =
-        Formatter.formatWalletAddress(state.walletAddress!, nCharacters: 10);
+        Formatter.formatWalletAddress(account?.address ?? '', nCharacters: 10);
 
     return GreyContainer(
         padding: const EdgeInsetsDirectional.only(
@@ -27,15 +28,21 @@ class AccountManagementPanel extends HookConsumerWidget {
         child: Column(
           children: [
             InkWell(
-              onTap: () => showAccountsDialog(context: context),
+              onTap: () => showAccountsDialog(
+                  context: context,
+                  currentAccount: state.account!,
+                  accounts: state.accounts,
+                  isLoading: state.isLoading,
+                  onAdd: () => presenter.addNewAccount(),
+                  onSelect: (item) => presenter.changeAccount(item)),
               child: Row(
                 children: [
                   Portrait(
-                    name: state.name ?? state.walletAddress ?? '',
+                    name: account!.address,
                   ),
                   const SizedBox(width: Sizes.space2XSmall),
                   Text(
-                    state.name ?? 'Acount 1',
+                    account.name,
                     style: FontTheme.of(context).body2.primary(),
                   ),
                   const Spacer(),
@@ -57,10 +64,10 @@ class AccountManagementPanel extends HookConsumerWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    state.name != null
+                    account.mns != null
                         ? CopyableItem(
-                            text: state.name!,
-                            copyableText: state.name!,
+                            text: account.mns!,
+                            copyableText: account.mns!,
                           )
                         : Container(),
                     const SizedBox(
@@ -68,15 +75,15 @@ class AccountManagementPanel extends HookConsumerWidget {
                     ),
                     CopyableItem(
                       text: walletAddress,
-                      copyableText: state.walletAddress!,
+                      copyableText: account.address,
                     ),
                   ],
                 ),
                 const Spacer(),
                 InkWell(
                   onTap: () => Navigator.of(context).push(route(QrCodePage(
-                    name: state.name,
-                    address: state.walletAddress,
+                    name: account.mns,
+                    address: walletAddress,
                   ))),
                   child: Container(
                     padding: const EdgeInsets.all(Sizes.spaceXSmall),

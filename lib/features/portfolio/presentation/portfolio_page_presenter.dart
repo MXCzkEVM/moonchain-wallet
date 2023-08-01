@@ -17,9 +17,9 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   void initState() {
     super.initState();
 
-    listen(_accountUserCase.walletAddress, (value) {
+    listen(_accountUserCase.account, (value) {
       if (value != null) {
-        notify(() => state.walletAddress = value);
+        notify(() => state.walletAddress = value.address);
         initializePortfolioPage();
       }
     });

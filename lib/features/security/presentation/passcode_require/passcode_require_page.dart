@@ -22,7 +22,7 @@ class PasscodeRequirePage extends PasscodeBasePage {
 
   @override
   String title(BuildContext context, WidgetRef ref) =>
-      FlutterI18n.translate(context, 'unlock_datadash_wallet');
+      FlutterI18n.translate(context, 'unlock_AXS_wallet');
 
   @override
   String hint(BuildContext context, WidgetRef ref) =>
