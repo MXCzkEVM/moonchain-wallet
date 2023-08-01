@@ -1,29 +1,29 @@
-enum NetworkType { testnet, mainnet }
+enum NetworkType { testnet, mainnet, custom }
 
 class Network {
   const Network({
-    required this.logo,
+    this.logo,
     required this.web3RpcHttpUrl,
     required this.web3RpcWebsocketUrl,
-    required this.web3WebSocketUrl,
+    this.web3WebSocketUrl,
     required this.symbol,
-    required this.explorerUrl,
+    this.explorerUrl,
     required this.enabled,
-    required this.label,
+    this.label,
     required this.chainId,
     required this.isAdded,
     required this.networkType,
     this.gasLimit,
   });
 
-  final String logo;
+  final String? logo;
   final String web3RpcHttpUrl;
   final String web3RpcWebsocketUrl;
-  final String web3WebSocketUrl;
+  final String? web3WebSocketUrl;
   final String symbol;
-  final String explorerUrl;
+  final String? explorerUrl;
   final bool enabled;
-  final String label;
+  final String? label;
   final int chainId;
   final int? gasLimit;
   final bool isAdded;
