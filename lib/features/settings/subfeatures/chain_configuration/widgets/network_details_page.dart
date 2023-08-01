@@ -34,13 +34,15 @@ class NetworkDetailsPage extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         MxcAppBarEvenly.text(
-          titleText: network.label,
+          titleText: network.label ?? network.web3RpcHttpUrl,
           actionText: translate('done'),
           onActionTap: () => BottomFlowDialog.of(context).close(),
           isActionTap: true,
           showCancel: false,
         ),
-        PropertyItem(title: translate('network_name'), value: network.label),
+        PropertyItem(
+            title: translate('network_name'),
+            value: network.label ?? network.web3RpcHttpUrl),
         PropertyItem(
             title: translate('rpc_url'), value: network.web3RpcHttpUrl),
         PropertyItem(
@@ -64,5 +66,3 @@ class NetworkDetailsPage extends HookConsumerWidget {
     );
   }
 }
-
-

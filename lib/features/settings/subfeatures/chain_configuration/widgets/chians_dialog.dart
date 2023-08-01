@@ -2,8 +2,9 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mxc_ui/mxc_ui.dart';
+
+import 'chain_logo_widget.dart';
 
 Future<bool?> showChainsDialog(BuildContext context,
     {required List<Network> networks,
@@ -58,16 +59,12 @@ Future<bool?> showChainsDialog(BuildContext context,
                           vertical: Sizes.spaceSmall,
                           horizontal: Sizes.spaceXLarge),
                       child: Row(children: [
-                        SvgPicture.asset(
-                          e.logo,
-                          height: 24,
-                          width: 24,
-                        ),
+                        ChainLogoWidget(logo: e.logo),
                         const SizedBox(
                           width: Sizes.spaceXSmall,
                         ),
                         Text(
-                          e.label,
+                          e.label ?? e.web3RpcHttpUrl,
                           style: FontTheme.of(context).body2.primary(),
                         ),
                         const Spacer(),

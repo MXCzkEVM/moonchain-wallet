@@ -42,7 +42,7 @@ Future<bool?> showAddNetworkDialog(
                   end: Sizes.spaceNormal,
                   bottom: Sizes.space2XLarge),
               child: MxcAppBarEvenly.title(
-                titleText: network.label,
+                titleText: network.label ?? network.web3RpcHttpUrl,
               ),
             ),
             Column(
@@ -85,16 +85,19 @@ Future<bool?> showAddNetworkDialog(
               height: Sizes.spaceXSmall,
             ),
             PropertyItem(
-                title: translate('network_name'), value: network.label),
+                title: translate('network_name'),
+                value: network.label ?? network.web3RpcHttpUrl),
             PropertyItem(
                 title: translate('rpc_url'), value: network.web3RpcHttpUrl),
             PropertyItem(
                 title: translate('chain_id'),
                 value: network.chainId.toString()),
             PropertyItem(title: translate('symbol'), value: network.symbol),
-            PropertyItem(
-                title: translate('block_explorer_url'),
-                value: network.explorerUrl),
+            network.explorerUrl != null
+                ? PropertyItem(
+                    title: translate('block_explorer_url'),
+                    value: network.explorerUrl!)
+                : Container(),
             const SizedBox(
               height: Sizes.spaceXSmall,
             ),
@@ -112,7 +115,8 @@ Future<bool?> showAddNetworkDialog(
               title: translate('approve'),
               onTap: () {
                 Navigator.of(context).pop(false);
-                showSwitchNetworkDialog(context, network: network, onTap: onTap);
+                showSwitchNetworkDialog(context,
+                    network: network, onTap: onTap);
               },
               size: MxcButtonSize.xl,
             ),

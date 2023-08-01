@@ -43,7 +43,7 @@ Future<bool?> showSwitchNetworkDialog(
             ),
             Text(
               translate('x_is_now_available')
-                  .replaceFirst('{0}', network.label),
+                  .replaceFirst('{0}', network.label ?? network.web3RpcHttpUrl),
               style: FontTheme.of(context).body2.primary(),
               textAlign: TextAlign.center,
             ),
