@@ -1,6 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/subfeatures/add_custim_network/add_custom_network_page.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/subfeatures/add_custom_network/add_custom_network_page.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/subfeatures/add_network/utils/add_network_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
