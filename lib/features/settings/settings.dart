@@ -11,3 +11,4 @@ export 'subfeatures/qr_code/show_qa_code/qr_code_page.dart';
 export 'subfeatures/xsd_conversion_rate/xsd_conversion_rate_page.dart';
 export 'subfeatures/customer_support/customer_support_page.dart';
 export 'subfeatures/security/security_settings_page.dart';
+export 'subfeatures/account/portrait.dart';

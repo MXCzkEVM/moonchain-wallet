@@ -1,6 +1,9 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -39,68 +42,25 @@ class AppNavBar extends HookConsumerWidget {
               leading!,
             ],
             if (title == null) ...[
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: ColorsTheme.of(context).grey5,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                        ),
-                        child: Row(
-                          children: [
-                            // MXCDropDown<String>(
-                            //   itemList: const ['MXC zkEVM'],
-                            //   onChanged: (String? newValue) {},
-                            //   selectedItem: 'MXC zkEVM',
-                            //   icon: const Padding(
-                            //     padding: EdgeInsetsDirectional.only(start: 10),
-                            //   ),
-                            // ),
-                            Container(
-                              height: 8,
-                              width: 8,
-                              decoration: BoxDecoration(
-                                  color: state.online
-                                      ? ColorsTheme.of(context)
-                                          .systemStatusActive
-                                      : ColorsTheme.of(context).mainRed,
-                                  shape: BoxShape.circle),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                                FlutterI18n.translate(context,
-                                    state.online ? 'online' : 'offline'),
-                                style: FontTheme.of(context)
-                                    .subtitle2
-                                    .secondary()),
-                          ],
-                        ),
-                      ),
-                      // MXCDropDown<String>(
-                      //   itemList: state.accounts
-                      //       .map((i) => Formatter.formatWalletAddress(i))
-                      //       .toList(),
-                      //   onChanged: (String? value) =>
-                      //       presenter.onAccountChange(value!),
-                      //   selectedItem:
-                      //       Formatter.formatWalletAddress(state.currentAccount),
-                      //   textStyle: FontTheme.of(context).subtitle2.primary(),
-                      //   icon: Icon(
-                      //     Icons.arrow_drop_down_rounded,
-                      //     size: 26,
-                      //     color: ColorsTheme.of(context).purpleMain,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ],
+              Container(
+                padding: const EdgeInsets.all(Sizes.space2XSmall),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: ColorsTheme.of(context).backgroundDisabled,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Portrait(
+                      name: state.currentAccount,
+                    ),
+                    const SizedBox(width: Sizes.space2XSmall),
+                    Text(
+                      Formatter.formatWalletAddress(state.currentAccount),
+                      style: FontTheme.of(context).subtitle1(),
+                    )
+                  ],
+                ),
               ),
             ] else ...[
               title!

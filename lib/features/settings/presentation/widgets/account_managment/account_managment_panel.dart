@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:datadashwallet/features/settings/subfeatures/account/show_accounts_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -25,19 +26,26 @@ class AccountManagementPanel extends HookConsumerWidget {
             end: Sizes.spaceSmall),
         child: Column(
           children: [
-            Row(
-              children: [
-                Text(
-                  state.accountName ?? 'Acount 1',
-                  style: FontTheme.of(context).body2.primary(),
-                ),
-                const Spacer(),
-                Icon(
-                  MXCIcons.dropdown_down,
-                  size: 24,
-                  color: ColorsTheme.of(context).iconPrimary,
-                )
-              ],
+            InkWell(
+              onTap: () => showAccountsDialog(context: context),
+              child: Row(
+                children: [
+                  Portrait(
+                    name: state.name ?? state.walletAddress ?? '',
+                  ),
+                  const SizedBox(width: Sizes.space2XSmall),
+                  Text(
+                    state.name ?? 'Acount 1',
+                    style: FontTheme.of(context).body2.primary(),
+                  ),
+                  const Spacer(),
+                  Icon(
+                    MXCIcons.dropdown_down,
+                    size: 24,
+                    color: ColorsTheme.of(context).iconPrimary,
+                  )
+                ],
+              ),
             ),
             Divider(
               color: ColorsTheme.of(context).grey3,

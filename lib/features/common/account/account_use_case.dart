@@ -13,7 +13,7 @@ class AccountUseCase extends ReactiveUseCase {
 
   late final ValueStream<String?> walletAddress =
       reactiveField(_accountCacheRepository.publicAddress);
-  late final ValueStream<String?> walletPrivate =
+  late final ValueStream<String?> walletPrivateKey =
       reactiveField(_accountCacheRepository.privateKey);
 
   late final ValueStream<double> xsdConversionRate = reactive(2.0);
@@ -23,7 +23,7 @@ class AccountUseCase extends ReactiveUseCase {
     final privateKey = _authenticationStorageRepository.privateKey;
 
     update(walletAddress, publicAddress);
-    update(walletPrivate, privateKey);
+    update(walletPrivateKey, privateKey);
     update(xsdConversionRate, _accountCacheRepository.getXsdConversionRate());
   }
 

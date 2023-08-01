@@ -6,9 +6,8 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 
 import 'language_state.dart';
 
-final languageContainer =
-    PresenterContainer<LanguagePresenter, LanguageState>(
-        () => LanguagePresenter());
+final languageContainer = PresenterContainer<LanguagePresenter, LanguageState>(
+    () => LanguagePresenter());
 
 class LanguagePresenter extends CompletePresenter<LanguageState> {
   LanguagePresenter() : super(LanguageState());
@@ -22,7 +21,9 @@ class LanguagePresenter extends CompletePresenter<LanguageState> {
     state.languages = _languageUseCase.supportedLocales;
     listen<Language?>(
       _languageUseCase.currentLocale,
-      (v) => notify(() => state.currentLanguage = v),
+      (v) => notify(
+        () => state.currentLanguage = v ?? const Language('en', 'English'),
+      ),
     );
   }
 
