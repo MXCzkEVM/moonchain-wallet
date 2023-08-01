@@ -11,7 +11,12 @@ import 'email_recovery_phrase_presenter.dart';
 import 'email_recovery_phrase_state.dart';
 
 class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
-  const EmailRecoveryPhrasePage({Key? key}) : super(key: key);
+  const EmailRecoveryPhrasePage({
+    Key? key,
+    this.settingsFlow = false,
+  }) : super(key: key);
+
+  final bool settingsFlow;
 
   @override
   ProviderBase<EmailRecoveryPhrasePresenter> get presenter =>
@@ -75,6 +80,9 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
         titleColor: Colors.white,
         color: themeColor(),
         borderColor: themeColor(),
-        onTap: () => ref.read(presenter).sendEmail(context),
+        onTap: () => ref.read(presenter).sendEmail(
+              context,
+              settingsFlow,
+            ),
       );
 }

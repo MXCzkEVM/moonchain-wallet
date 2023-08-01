@@ -1,3 +1,6 @@
+import 'package:datadashwallet/core/src/providers/providers_use_cases.dart';
+import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,6 +26,8 @@ class TokenBalanceItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _accountUseCase = ref.watch(accountUseCaseProvider);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -71,7 +76,7 @@ class TokenBalanceItem extends HookConsumerWidget {
                             color: ColorsTheme.of(context).white400),
                       ),
                       Text(
-                        '$balanceInXsd XSD',
+                        '$balanceInXsd ${_accountUseCase.getXsdUnit()}',
                         style: FontTheme.of(context)
                             .subtitle1()
                             .copyWith(color: ColorsTheme.of(context).white400),

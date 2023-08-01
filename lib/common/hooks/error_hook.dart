@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:provider/provider.dart';
@@ -65,15 +66,10 @@ class MxcErrorHookState extends State<MxcErrorHook> {
       return true; // don't display anything
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          errorMessage,
-          style: FontTheme.of(context, listen: false).body1(),
-        ),
-        duration: const Duration(seconds: 2),
-        backgroundColor: ColorsTheme.of(context, listen: false).mainRed,
-      ),
+    showSnackBar(
+      context: context,
+      content: errorMessage,
+      type: SnackBarType.fail,
     );
 
     return true;

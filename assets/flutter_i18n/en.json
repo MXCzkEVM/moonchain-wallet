@@ -249,5 +249,6 @@
 	"custom_network_switch_without_title__notice": "You have switched to \"{0}\"",
 	"custom_network_switch_text__notice": "1. This network is unknown and may use a special token for gas fees.\n\n2. If you attempt to send assets directly from on network to another, this may result in permanent asset loss. Make sure to use a bridge.\n\n3. Your tokens and NFTs may not automatically show up in your wallet.\n\n4.The history of your transactions will not be fetched.",
 	"got_it": "Got it",
-	"chain_already_exists": "Chain already exists."
+	"chain_already_exists": "Chain already exists.",
+	"exported_logs_successfully": "Exported logs successfully"
 }

@@ -11,7 +11,12 @@ import 'wechat_recovery_phrase_presenter.dart';
 import 'wechat_recovery_phrase_state.dart';
 
 class WechatRecoveryPhrasePage extends RecoveryPhraseBasePage {
-  const WechatRecoveryPhrasePage({Key? key}) : super(key: key);
+  const WechatRecoveryPhrasePage({
+    Key? key,
+    this.settingsFlow = false,
+  }) : super(key: key);
+
+  final bool settingsFlow;
 
   @override
   ProviderBase<WechatRecoveryPhrasePresenter> get presenter =>
@@ -155,7 +160,7 @@ class WechatRecoveryPhrasePage extends RecoveryPhraseBasePage {
         color: themeColor(),
         borderColor: themeColor(),
         onTap: ref.watch(state).acceptAgreement
-            ? () => ref.read(presenter).shareToWechat()
+            ? () => ref.read(presenter).shareToWechat(settingsFlow)
             : null,
       );
 }

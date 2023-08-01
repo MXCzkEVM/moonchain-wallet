@@ -1,3 +1,5 @@
+import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/common/account/account_use_case.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,7 +33,7 @@ class BalanceInXSD extends HookConsumerWidget {
                     ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6))
                   : null)),
       const SizedBox(width: 4),
-      Text('XSD',
+      Text(state.xsdConversionRate == 2.0 ? 'XSD' : 'X',
           style: FontTheme.of(context).h5().copyWith(
                 fontSize: fontSize,
                 color: ColorsTheme.of(context).textSecondary,

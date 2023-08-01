@@ -11,7 +11,12 @@ import 'telegram_recovery_phrase_presenter.dart';
 import 'telegram_recovery_phrase_state.dart';
 
 class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
-  const TelegramRecoveryPhrasePage({Key? key}) : super(key: key);
+  const TelegramRecoveryPhrasePage({
+    Key? key,
+    this.settingsFlow = false,
+  }) : super(key: key);
+
+  final bool settingsFlow;
 
   @override
   ProviderBase<TelegramRecoveryPhrasePresenter> get presenter =>
@@ -165,7 +170,7 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
         color: themeColor(),
         borderColor: themeColor(),
         onTap: ref.watch(state).acceptAgreement
-            ? () => ref.read(presenter).shareToTelegram()
+            ? () => ref.read(presenter).shareToTelegram(settingsFlow)
             : null,
       );
 }

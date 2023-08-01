@@ -25,6 +25,8 @@ class WalletState with EquatableMixin {
 
   double? changeIndicator;
 
+  double xsdConversionRate = 2.0;
+
   @override
   List<Object?> get props => [
         currentIndex,

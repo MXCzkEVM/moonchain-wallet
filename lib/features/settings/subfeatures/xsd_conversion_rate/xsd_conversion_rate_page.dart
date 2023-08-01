@@ -88,6 +88,7 @@ class XsdConversionRatePage extends HookConsumerWidget {
                 onTap: rateValue.text.isNotEmpty
                     ? () {
                         if (!formKey.currentState!.validate()) return;
+                        ref.read(presenter).onReset();
                       }
                     : null,
               );

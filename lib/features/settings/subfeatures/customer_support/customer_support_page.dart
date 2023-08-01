@@ -3,6 +3,7 @@ import 'package:datadashwallet/features/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -48,8 +49,17 @@ class CustomerSupportPage extends HookConsumerWidget {
           key: const ValueKey('exportLogsButton'),
           title: FlutterI18n.translate(context, 'export_logs'),
           size: MxcButtonSize.xl,
-          onTap: () {},
+          onTap: () => ref.read(presenter).exportedLogs(),
         ),
+        if (ref.watch(state.select((v) => v.exportedLogsPath)).isNotEmpty) ...[
+          const SizedBox(height: Sizes.spaceNormal),
+          Text(
+            ref.watch(state).exportedLogsPath,
+            style: FontTheme.of(context).subtitle1.secondary().copyWith(
+                  color: ColorsTheme.of(context).mainRed,
+                ),
+          ),
+        ],
         const SizedBox(height: Sizes.space4XLarge),
         Text(
           FlutterI18n.translate(context, 'contact_chatgpt_support'),
