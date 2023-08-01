@@ -90,7 +90,9 @@ class ChainConfigurationPage extends HookConsumerWidget {
               },
               selectedItem: state.selectedNetwork == null
                   ? ''
-                  : state.selectedNetwork!.label,
+                  : state.selectedNetwork!.label == null
+                      ? state.selectedNetwork!.web3RpcHttpUrl
+                      : state.selectedNetwork!.label!,
             ),
             const SizedBox(
               height: Sizes.spaceNormal,
@@ -111,7 +113,9 @@ class ChainConfigurationPage extends HookConsumerWidget {
                           .replaceFirst('{0}', translate('gas_limit')));
                   if (res != null) return res;
 
-                  return Validation.isNumeric(context, value!);
+                  return Validation.checkNumeric(context, value!,
+                      errorText: translate('x_must_numeric')
+                          .replaceFirst('{0}', translate('gas_limit')));
                 },
                 onChanged: (value) {
                   if (!formKey.currentState!.validate()) return;

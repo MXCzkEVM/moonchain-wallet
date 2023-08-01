@@ -1,9 +1,9 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/chain_logo_widget.dart';
 import './network_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class NetworkItem extends StatelessWidget {
@@ -25,11 +25,7 @@ class NetworkItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: Sizes.spaceNormal),
         child: Row(children: [
-          SvgPicture.asset(
-            network.logo,
-            height: 24,
-            width: 24,
-          ),
+          ChainLogoWidget(logo: network.logo),
           const SizedBox(
             width: Sizes.spaceXLarge,
           ),
@@ -37,7 +33,7 @@ class NetworkItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                network.label,
+                network.label ?? network.web3RpcHttpUrl,
                 style: FontTheme.of(context).body2.primary(),
               ),
               network.enabled

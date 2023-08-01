@@ -163,4 +163,8 @@ class ContractUseCase extends ReactiveUseCase {
   ) async {
     return await _repository.contract.getNftsByAddress(address);
   }
+
+  Future<int> getChainId(String rpcUrl) async {
+    return await _repository.contract.getChainId(rpcUrl);
+  }
 }
