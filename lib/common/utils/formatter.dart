@@ -76,4 +76,13 @@ class Formatter {
     final minute = localTime.minute.toString().padLeft(2, '0');
     return '$month-$day-$year $hour:$minute';
   }
+
+  static int hexToDecimal(String value) {
+    try {
+      if (value.isEmpty) return -1;
+      return value.startsWith('0x') ? int.parse(value) : int.parse(value, radix: 16);
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }
