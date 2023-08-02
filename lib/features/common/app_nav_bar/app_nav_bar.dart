@@ -1,9 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -52,11 +49,13 @@ class AppNavBar extends HookConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Portrait(
-                      name: state.currentAccount,
+                      name: state.account?.address ?? '',
                     ),
                     const SizedBox(width: Sizes.space2XSmall),
                     Text(
-                      Formatter.formatWalletAddress(state.currentAccount),
+                      state.account?.mns ??
+                          Formatter.formatWalletAddress(
+                              state.account?.address ?? ''),
                       style: FontTheme.of(context).subtitle1(),
                     )
                   ],

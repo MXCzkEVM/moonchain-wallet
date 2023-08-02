@@ -25,9 +25,9 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
       }
     });
 
-    listen(_accountUserCase.walletAddress, (value) {
+    listen(_accountUserCase.account, (value) {
       if (value != null) {
-        notify(() => state.walletAddress = value);
+        notify(() => state.walletAddress = value.address);
         initializePortfolioPage();
       }
     });
