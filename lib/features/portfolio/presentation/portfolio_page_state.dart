@@ -14,6 +14,8 @@ class PortfolioState with EquatableMixin {
 
   bool isWalletAddressCopied = false;
 
+  String? ipfsGateway;
+
   @override
   List<Object?> get props => [
         walletBalance,

@@ -74,59 +74,6 @@ class ChainConfigurationPage extends HookConsumerWidget {
               height: Sizes.space4XLarge,
             ),
             Text(
-              translate('customize_gas_limit'),
-              style: FontTheme.of(context).body2.primary(),
-            ),
-            const SizedBox(
-              height: Sizes.spaceNormal,
-            ),
-            MXCDropDown(
-              key: const Key('gasLimitChainDropDown'),
-              onTap: () {
-                showChainsDialog(context,
-                    selectedChainId: state.selectedNetwork!.chainId,
-                    networks: state.networks,
-                    onTap: presenter.selectNetwork);
-              },
-              selectedItem: state.selectedNetwork == null
-                  ? ''
-                  : state.selectedNetwork!.label == null
-                      ? state.selectedNetwork!.web3RpcHttpUrl
-                      : state.selectedNetwork!.label!,
-            ),
-            const SizedBox(
-              height: Sizes.spaceNormal,
-            ),
-            Form(
-              key: formKey,
-              child: MxcTextField(
-                key: const Key('gasLimitTextField'),
-                controller: presenter.gasLimitController,
-                width: double.maxFinite,
-                hint: translate('gas_limit'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  final res = Validation.notEmpty(
-                      context,
-                      value,
-                      translate('x_not_empty')
-                          .replaceFirst('{0}', translate('gas_limit')));
-                  if (res != null) return res;
-
-                  return Validation.checkNumeric(context, value!,
-                      errorText: translate('x_must_numeric')
-                          .replaceFirst('{0}', translate('gas_limit')));
-                },
-                onChanged: (value) {
-                  if (!formKey.currentState!.validate()) return;
-                  presenter.updateGasLimit(value);
-                },
-              ),
-            ),
-            const SizedBox(
-              height: Sizes.space4XLarge,
-            ),
-            Text(
               translate('ipfs_gateway'),
               style: FontTheme.of(context).body2.primary(),
             ),
@@ -136,10 +83,12 @@ class ChainConfigurationPage extends HookConsumerWidget {
             MXCDropDown(
               key: const Key('ipfsGateWayDropDown'),
               onTap: () {
-                showIpfsGateWayDialog(context,
-                    ipfsGateWays: state.ipfsGateWays,
-                    onTap: presenter.selectIpfsGateWay,
-                    selectedIpfsGateway: state.selectedIpfsGateWay);
+                state.ipfsGateWays != null
+                    ? showIpfsGateWayDialog(context,
+                        ipfsGateWays: state.ipfsGateWays!,
+                        onTap: presenter.selectIpfsGateWay,
+                        selectedIpfsGateway: state.selectedIpfsGateWay)
+                    : null;
               },
               selectedItem: state.selectedIpfsGateWay ?? '',
             ),

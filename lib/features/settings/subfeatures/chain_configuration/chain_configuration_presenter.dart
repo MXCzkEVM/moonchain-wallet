@@ -1,6 +1,8 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'chain_configuration_state.dart';
 
 final chainConfigurationContainer =
@@ -13,7 +15,8 @@ class ChainConfigurationPresenter
 
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
-  late final _chainConfigurationUseCase = ref.read(chainConfigurationUseCase);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
 
   final TextEditingController gasLimitController = TextEditingController();
 
@@ -41,16 +44,27 @@ class ChainConfigurationPresenter
       }
     });
 
+    listen(_chainConfigurationUseCase.ipfsGateWayList, (newIpfsGateWayList) {
+      if (newIpfsGateWayList.isNotEmpty) {
+        if (state.ipfsGateWays == null) {
+          notify(() => state.ipfsGateWays = newIpfsGateWayList);
+        } else {
+          state.ipfsGateWays!.clear();
+          notify(() => state.ipfsGateWays!.addAll(newIpfsGateWayList));
+        }
+      }
+    });
+
     listen(_chainConfigurationUseCase.selectedIpfsGateWay, (value) {
-      if (value.isNotEmpty) {
+      if (value != null) {
         notify(() => state.selectedIpfsGateWay = value);
       }
     });
   }
 
   void selectIpfsGateWay(String text) async {
-    final selectedItemIndex = state.ipfsGateWays.indexOf(text);
-    final selectedIpfsGateWay = state.ipfsGateWays[selectedItemIndex];
+    final selectedItemIndex = state.ipfsGateWays!.indexOf(text);
+    final selectedIpfsGateWay = state.ipfsGateWays![selectedItemIndex];
     _chainConfigurationUseCase.changeIpfsGateWay(selectedIpfsGateWay);
   }
 
@@ -72,15 +86,11 @@ class ChainConfigurationPresenter
     }
   }
 
-  void updateGasLimit(String newGasLimit) {
-    try {
-      final gasLimit = int.parse(newGasLimit);
-      final updatedNetwork =
-          state.selectedNetwork!.copyWith(gasLimit: gasLimit);
-      _chainConfigurationUseCase.updateItem(updatedNetwork);
-    } catch (e) {
-      addError(e);
-    }
+    //   _chainConfigurationUseCase.updateItem(
+    //       newDefault, newDefaultItemIndex);
+    //   _chainConfigurationUseCase.updateItem(
+    //       currentDefault, currentDefaultItemIndex);
+    // }
   }
 
   void updateGasLimitTextfield() {

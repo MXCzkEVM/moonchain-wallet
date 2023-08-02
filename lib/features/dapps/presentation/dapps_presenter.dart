@@ -14,10 +14,15 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   late final BookmarkUseCase _bookmarksUseCase =
       ref.read(bookmarksUseCaseProvider);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
+  late final _contractUseCase = ref.read(contractUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
+
+    getIpfsGateWays();
 
     PermissionUtils.requestAllPermissions();
 
@@ -44,4 +49,13 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
   void resetEditMode() => notify(() => state.isEditMode = false);
+
+  void getIpfsGateWays() async {
+    try {
+      final newList = await _contractUseCase.getDefaultIpfsGateWays();
+      _chainConfigurationUseCase.updateIpfsGateWayList(newList);
+    } catch (e) {
+      addError(e.toString());
+    }
+  }
 }

@@ -12,10 +12,18 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
   late final _nftUseCase = ref.read(nftsUseCaseProvider);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
+
+    listen(_chainConfigurationUseCase.selectedIpfsGateWay, (newIpfsGateWay) {
+      if (newIpfsGateWay != null) {
+        notify(() => state.ipfsGateway = newIpfsGateWay);
+      }
+    });
 
     listen(_accountUserCase.walletAddress, (value) {
       if (value != null) {

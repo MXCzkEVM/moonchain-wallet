@@ -340,6 +340,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         notify(() =>
             state.changeIndicator = balanceDifference * 100 / yesterdayBalance);
       }
-    } catch (e) {}
+    } catch (e) {
+      addError(e.toString());
+    }
   }
 }

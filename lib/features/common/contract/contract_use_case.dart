@@ -72,6 +72,17 @@ class ContractUseCase extends ReactiveUseCase {
     return result;
   }
 
+  Future<List<String>> getDefaultIpfsGateWays() async {
+    final result = await _repository.contract.getDefaultIpfsGateways();
+    final List<String> list = [];
+
+    if (result != null) {
+      list.addAll(result.gateways ?? []);
+    }
+
+    return list;
+  }
+
   Future<Token?> getToken(String address) async =>
       await _repository.contract.getToken(address);
 

@@ -73,7 +73,8 @@ final Provider<NftsUseCase> nftsUseCaseProvider = Provider(
   (ref) => NftsUseCase(ref.watch(datadashCacheProvider).nfts),
 );
 
-final Provider<ChainConfigurationUseCase> chainConfigurationUseCase = Provider(
+final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
+    Provider(
   (ref) => ChainConfigurationUseCase(
       ref.watch(datadashCacheProvider).chainConfigurationRepository),
 );
