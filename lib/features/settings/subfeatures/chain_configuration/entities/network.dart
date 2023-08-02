@@ -123,7 +123,7 @@ class Network {
           explorerUrl: 'https://goerli-rollup-explorer.arbitrum.io/',
           enabled: false,
           label: 'Arbitrum Goerli',
-          chainId: 42161,
+          chainId: 421613,
           gasLimit: null,
           isAdded: false,
           networkType: NetworkType.testnet)

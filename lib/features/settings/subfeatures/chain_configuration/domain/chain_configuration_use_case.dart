@@ -25,8 +25,8 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
     update(networks, _repository.items);
   }
 
-  void updateItem(Network network) {
-    _repository.updateItem(network);
+  void updateItem(Network network, int index) {
+    _repository.updateItem(network, index);
     update(networks, _repository.items);
   }
 
@@ -50,5 +50,23 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
       _repository.changeIpfsGateWay(newIpfsGateWayList[0]);
     }
     update(ipfsGateWayList, newIpfsGateWayList);
+  }
+
+  void switchDefaultNetwork(Network newDefault) {
+    final currentDefaultItemIndex =
+        networks.value.indexWhere((element) => element.enabled == true);
+    final newDefaultItemIndex = networks.value
+        .indexWhere((element) => element.chainId == newDefault.chainId);
+
+    if (currentDefaultItemIndex != -1 &&
+        newDefaultItemIndex != -1 &&
+        currentDefaultItemIndex != newDefaultItemIndex) {
+      final currentDefault =
+          networks.value[currentDefaultItemIndex].copyWith(enabled: false);
+      newDefault = newDefault.copyWith(enabled: true);
+
+      updateItem(newDefault, newDefaultItemIndex);
+      updateItem(currentDefault, currentDefaultItemIndex);
+    }
   }
 }

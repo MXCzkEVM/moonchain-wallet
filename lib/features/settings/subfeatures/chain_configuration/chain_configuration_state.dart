@@ -11,9 +11,10 @@ class ChainConfigurationState with EquatableMixin {
 
   String? selectedIpfsGateWay;
 
-  Network? selectedNetwork;
-
   @override
-  List<Object?> get props =>
-      [networks, ipfsGateWays, selectedIpfsGateWay, selectedNetwork];
+  List<Object?> get props => [
+        networks,
+        ipfsGateWays,
+        selectedIpfsGateWay,
+      ];
 }

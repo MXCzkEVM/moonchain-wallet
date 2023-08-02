@@ -32,15 +32,9 @@ class ChainConfigurationPresenter
 
         notify(() => state.networks =
             defaultList.where((element) => element.isAdded == true).toList());
-        updateSelectedNetwork();
-        updateGasLimitTextfield();
       } else {
         notify(() => state.networks =
             value.where((element) => element.isAdded == true).toList());
-        if (state.selectedNetwork == null) {
-          updateSelectedNetwork();
-          updateGasLimitTextfield();
-        }
       }
     });
 
@@ -68,39 +62,15 @@ class ChainConfigurationPresenter
     _chainConfigurationUseCase.changeIpfsGateWay(selectedIpfsGateWay);
   }
 
-  void selectNetwork(int chainId) {
-    final selectedItem =
-        state.networks.firstWhere((element) => element.chainId == chainId);
-    notify(() => state.selectedNetwork = selectedItem);
-    updateGasLimitTextfield();
-  }
-
   void setAsDefault(Network newDefault) {
-    final itemIndex =
-        state.networks.indexWhere((element) => element.enabled == true);
-    if (itemIndex != -1) {
-      final currentDefault = state.networks[itemIndex].copyWith(enabled: false);
-      newDefault = newDefault.copyWith(enabled: true);
-      _chainConfigurationUseCase.updateItem(newDefault);
-      _chainConfigurationUseCase.updateItem(currentDefault);
-    }
-  }
-
-    //   _chainConfigurationUseCase.updateItem(
-    //       newDefault, newDefaultItemIndex);
-    //   _chainConfigurationUseCase.updateItem(
-    //       currentDefault, currentDefaultItemIndex);
-    // }
-  }
-
-  void updateGasLimitTextfield() {
-    gasLimitController.text = state.selectedNetwork!.gasLimit != null
-        ? state.selectedNetwork!.gasLimit.toString()
-        : '';
-  }
-
-  void updateSelectedNetwork() {
-    notify(() => state.selectedNetwork =
-        state.networks.firstWhere((element) => element.enabled == true));
+    String translate(String text) => FlutterI18n.translate(context!, text);
+    _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
+    showSnackBar(
+        context: context!,
+        content: translate('x_is_now_active').replaceFirst(
+            '{0}',
+            newDefault.label ??
+                '${newDefault.web3RpcHttpUrl.substring(0, 16)}...'),
+        isContentTranslated: true);
   }
 }
