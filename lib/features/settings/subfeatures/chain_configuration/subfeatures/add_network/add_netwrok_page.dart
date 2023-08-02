@@ -19,10 +19,12 @@ class AddNetworkPage extends HookConsumerWidget {
     String translate(String text) => FlutterI18n.translate(context, text);
     final presenter = ref.read(addNetworkContainer.actions);
     final state = ref.watch(addNetworkContainer.state);
+    final mainnetList = AddNetworkUtils.generateMainnetList(state.networks);
+    final testnetList = AddNetworkUtils.generateTestnetList(state.networks);
+    final customList = AddNetworkUtils.generateCustomList(state.networks);
     return MxcPage.layer(
       presenter: presenter,
       crossAxisAlignment: CrossAxisAlignment.start,
-      layout: LayoutType.column,
       children: [
         MxcAppBarEvenly.text(
           titleText:
@@ -32,41 +34,49 @@ class AddNetworkPage extends HookConsumerWidget {
           isActionTap: true,
           showCancel: false,
         ),
-        Expanded(
-          child: ListView(
-            children: [
-              Text(
-                translate('mainnet'),
+        mainnetList.isNotEmpty
+            ? Text(
+                '${translate('mainnet')} ${translate('networks')}',
                 style: FontTheme.of(context).body1.secondary(),
-              ),
-              ...AddNetworkUtils.generateMainnetList(state.networks),
-              const SizedBox(
-                height: Sizes.spaceNormal,
-              ),
-              Text(
-                translate('testnet'),
-                style: FontTheme.of(context).body1.secondary(),
-              ),
-              ...AddNetworkUtils.generateTestnetList(state.networks),
-            ],
-          ),
+              )
+            : Container(),
+        ...mainnetList,
+        const SizedBox(
+          height: Sizes.spaceNormal,
         ),
-        Container(
-          margin: const EdgeInsets.only(bottom: 30),
-          child: MxcButton.primary(
-            key: const ValueKey('add_custom_network'),
-            title: translate('add_x')
-                .replaceFirst('{0}', translate('custom_network')),
-            onTap: () {
-              Navigator.of(context).push(
-                route.featureDialog(
-                  const AddCustomNetworkPage(),
-                ),
-              );
-            },
-            size: MxcButtonSize.xl,
-          ),
-        )
+        testnetList.isNotEmpty
+            ? Text(
+                '${translate('testnet')} ${translate('networks')}',
+                style: FontTheme.of(context).body1.secondary(),
+              )
+            : Container(),
+        ...testnetList,
+        const SizedBox(
+          height: Sizes.spaceNormal,
+        ),
+        customList.isNotEmpty
+            ? Text(
+                '${translate('custom')} ${translate('networks')}',
+                style: FontTheme.of(context).body1.secondary(),
+              )
+            : Container(),
+        ...customList,
+        const SizedBox(
+          height: Sizes.spaceNormal,
+        ),
+        MxcButton.secondary(
+          key: const ValueKey('add_custom_network'),
+          title: translate('add_x')
+              .replaceFirst('{0}', translate('custom_network')),
+          onTap: () {
+            Navigator.of(context).push(
+              route.featureDialog(
+                const AddCustomNetworkPage(),
+              ),
+            );
+          },
+          size: MxcButtonSize.xl,
+        ),
       ],
     );
   }

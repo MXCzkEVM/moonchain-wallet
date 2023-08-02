@@ -63,6 +63,7 @@ Future<bool?> showSwitchNetworkDialog(
               key: const ValueKey('switchToNetwork'),
               title: translate('switch_to_network'),
               onTap: () {
+                onTap(network);
                 Navigator.of(context).pop(false);
               },
               size: MxcButtonSize.xl,

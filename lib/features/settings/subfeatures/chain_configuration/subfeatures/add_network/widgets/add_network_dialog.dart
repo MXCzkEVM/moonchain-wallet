@@ -6,11 +6,10 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import '../../../widgets/property_item.dart';
 
-Future<bool?> showAddNetworkDialog(
-  BuildContext context, {
-  required Network network,
-  required void Function(Network network) onTap,
-}) {
+Future<bool?> showAddNetworkDialog(BuildContext context,
+    {required Network network,
+    required void Function(Network network) switchFunction,
+    required void Function(Network network) approveFunction}) {
   String translate(String text) => FlutterI18n.translate(context, text);
 
   return showModalBottomSheet<bool>(
@@ -114,9 +113,10 @@ Future<bool?> showAddNetworkDialog(
               key: const ValueKey('approveButton'),
               title: translate('approve'),
               onTap: () {
+                approveFunction(network);
                 Navigator.of(context).pop(false);
                 showSwitchNetworkDialog(context,
-                    network: network, onTap: onTap);
+                    network: network, onTap: switchFunction);
               },
               size: MxcButtonSize.xl,
             ),

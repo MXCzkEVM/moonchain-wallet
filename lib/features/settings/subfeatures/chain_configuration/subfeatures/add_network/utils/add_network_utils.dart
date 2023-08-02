@@ -17,4 +17,11 @@ class AddNetworkUtils {
         .map((e) => AddNetworkItem(network: e))
         .toList();
   }
+
+  static List<Widget> generateCustomList(List<Network> networkList) {
+    return networkList
+        .where((element) => element.networkType == NetworkType.custom)
+        .map((e) => AddNetworkItem(network: e))
+        .toList();
+  }
 }

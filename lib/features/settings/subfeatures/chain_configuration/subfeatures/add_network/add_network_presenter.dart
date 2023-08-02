@@ -1,7 +1,9 @@
 import 'package:clipboard/clipboard.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 
 import 'add_network_state.dart';
 
@@ -12,7 +14,8 @@ final addNetworkContainer =
 class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
   AddNetworkPresenter() : super(AddNetworkState());
 
-  late final _chainConfigurationUseCase = ref.read(chainConfigurationUseCase);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
 
   final TextEditingController gasLimitController = TextEditingController();
 
@@ -33,14 +36,24 @@ class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
     });
   }
 
-  void addNetwork(Network network) async {
+  void addNetworkToNetworkSelector(Network network) async {
     final itemIndex = state.networks
         .indexWhere((element) => element.chainId == network.chainId);
     if (itemIndex != -1) {
       final selectedNetwork = state.networks[itemIndex].copyWith(isAdded: true);
-      _chainConfigurationUseCase.updateItem(selectedNetwork);
+      _chainConfigurationUseCase.updateItem(selectedNetwork, itemIndex);
     }
   }
 
-  void switchNetwork(Network network) {}
+  void switchNetwork(Network newDefault) {
+    String translate(String text) => FlutterI18n.translate(context!, text);
+    _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
+    showSnackBar(
+        context: context!,
+        content: translate('x_is_now_active').replaceFirst(
+            '{0}',
+            newDefault.label ??
+                '${newDefault.web3RpcHttpUrl.substring(0, 16)}...'),
+        isContentTranslated: true);
+  }
 }
