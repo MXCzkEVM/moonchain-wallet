@@ -24,38 +24,39 @@ class NetworkItem extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: Sizes.spaceNormal),
-        child: Row(children: [
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
           ChainLogoWidget(logo: network.logo),
           const SizedBox(
             width: Sizes.spaceXLarge,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                network.label ?? network.web3RpcHttpUrl,
-                style: FontTheme.of(context).body2.primary(),
-              ),
-              network.enabled
-                  ? Text(
-                      FlutterI18n.translate(context, 'default'),
-                      style: FontTheme.of(context).body1().copyWith(
-                          color: ColorsTheme.of(context).textWhite100),
-                    )
-                  : Container(),
-            ],
-          ),
-          const Spacer(),
-          if (onTap != null)
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: Sizes.spaceNormal),
-              child: Icon(
-                Icons.arrow_forward_ios,
-                size: 16,
-                color: ColorsTheme.of(context).white400,
-              ),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  network.label ?? network.web3RpcHttpUrl,
+                  style: FontTheme.of(context).body2.primary(),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                network.enabled
+                    ? Text(
+                        FlutterI18n.translate(context, 'default'),
+                        style: FontTheme.of(context).body1().copyWith(
+                            color: ColorsTheme.of(context).textWhite100),
+                      )
+                    : Container(),
+              ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceNormal),
+            child: Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: ColorsTheme.of(context).white400,
+            ),
+          ),
         ]),
       ),
     );

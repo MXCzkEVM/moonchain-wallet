@@ -26,11 +26,13 @@ class AddNetworkItem extends HookConsumerWidget {
         const SizedBox(
           width: Sizes.spaceXSmall,
         ),
-        Text(
-          network.label ?? network.web3RpcHttpUrl,
-          style: FontTheme.of(context).body2.primary(),
+        Expanded(
+          child: Text(
+            network.label ?? network.web3RpcHttpUrl,
+            style: FontTheme.of(context).body2.primary(),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        const Spacer(),
         if (network.isAdded == true)
           MxcChipButton(
             key: const Key('addedNetworkButton'),
@@ -47,7 +49,9 @@ class AddNetworkItem extends HookConsumerWidget {
                 horizontal: Sizes.spaceSmall, vertical: Sizes.spaceXSmall),
             onTap: () {
               showAddNetworkDialog(context,
-                  network: network, onTap: presenter.switchNetwork);
+                  network: network,
+                  approveFunction: presenter.addNetworkToNetworkSelector,
+                  switchFunction: presenter.switchNetwork);
             },
             title: translate('add_x').replaceFirst('{0}', ''),
             buttonState: ChipButtonStates.defaultState,
