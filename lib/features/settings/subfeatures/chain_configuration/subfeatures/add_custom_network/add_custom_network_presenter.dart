@@ -3,7 +3,6 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_custom_network_state.dart';
 
@@ -15,7 +14,8 @@ class AddCustomNetworkPresenter
     extends CompletePresenter<AddCustomNetworkState> {
   AddCustomNetworkPresenter() : super(AddCustomNetworkState());
 
-  late final _chainConfigurationUseCase = ref.read(chainConfigurationUseCase);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
   late final _contractUseCase = ref.read(contractUseCaseProvider);
 
   final TextEditingController networkNameController = TextEditingController();
@@ -41,7 +41,7 @@ class AddCustomNetworkPresenter
     });
   }
 
-  void addNetwork() async {
+  void addNewNetwork() async {
     final web3RpcHttpUrl = rpcUrlController.text;
     final web3RpcWebsocketUrl =
         rpcUrlController.text.replaceAll('https', 'wss');
@@ -64,26 +64,31 @@ class AddCustomNetworkPresenter
         isAdded: true,
         networkType: NetworkType.custom);
 
-    final itemIndex = state.networks
-        .indexWhere((element) => element.chainId == newNetwork.chainId);
-    final currentEnabledIndex =
-        state.networks.indexWhere((element) => element.enabled == true);
+    _chainConfigurationUseCase.addItem(newNetwork);
 
-    if (itemIndex == -1 && currentEnabledIndex != -1) {
-      final currentEnabledNetwork =
-          state.networks.elementAt(currentEnabledIndex);
-      final updatedCurrentEnabledNetwork =
-          currentEnabledNetwork.copyWith(enabled: false);
-      _chainConfigurationUseCase.updateItem(updatedCurrentEnabledNetwork);
-      _chainConfigurationUseCase.addItem(newNetwork);
-    }
+    _chainConfigurationUseCase.switchDefaultNetwork(newNetwork);
   }
 
-  void onSave() {
+  void onSave(BuildContext context) {
     loading = true;
     try {
-      addNetwork();
-      BottomFlowDialog.of(context!).close();
+      addNewNetwork();
+      final networkTitle = networkNameController.text.isNotEmpty
+          ? networkNameController.text
+          : rpcUrlController.text;
+      // BottomFlowDialog.of(context)..close()..close();
+      // Navigator.of(context).replaceAll(route)
+      // Navigator.pushAndRemoveUntil(
+      //   context,
+      //   route.featureDialog(
+      //     const ChainConfigurationPage(),
+      //   ),
+      //   (Route<dynamic> route) => route.currentResult,
+      // ).then((value) {
+      //   if (value != null && value) {
+      //     showCustomNetworkSwitchDialog(context, networkTitle);
+      //   }
+      // });
     } catch (error, stackTrace) {
       addError(error, stackTrace);
     } finally {

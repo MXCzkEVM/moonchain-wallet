@@ -21,7 +21,7 @@ class AddCustomNetworkPage extends HookConsumerWidget {
     return MxcPage.layer(
       presenter: presenter,
       crossAxisAlignment: CrossAxisAlignment.start,
-      layout: LayoutType.column,
+      layout: LayoutType.scrollable,
       children: [
         MxcAppBarEvenly.text(
           titleText: translate('add_x')
@@ -29,7 +29,7 @@ class AddCustomNetworkPage extends HookConsumerWidget {
           actionText: translate('save'),
           onActionTap: () {
             if (!formKey.currentState!.validate()) return;
-            presenter.onSave();
+            presenter.onSave(context);
           },
           isActionTap: state.ableToSave,
         ),
