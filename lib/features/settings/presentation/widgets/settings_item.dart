@@ -13,7 +13,10 @@ class SettingItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: Sizes.spaceNormal),
       child: InkWell(
-        onTap: () => Navigator.of(context).push(route(settingData.page)),
+        onTap: settingData.onTap ??
+            () => Navigator.of(context).push(route(
+                  settingData.page!,
+                )),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: Sizes.spaceSmall),
           child: Row(

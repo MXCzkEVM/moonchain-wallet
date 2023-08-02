@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_page.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,14 @@ class Setting {
   const Setting({
     required this.title,
     required this.icon,
-    required this.page,
+    this.page,
+    this.onTap,
   });
 
   final String title;
   final IconData icon;
-  final Widget page;
+  final Widget? page;
+  final VoidCallback? onTap;
 
   static List<Setting> fixedSettings(BuildContext context) {
     return [
@@ -23,10 +26,10 @@ class Setting {
         page: const SecuritySettingsPage(),
       ),
       Setting(
-        title: FlutterI18n.translate(context, 'chain_configuration'),
-        icon: MXCIcons.chain_configuration,
-        page: const ChainConfigurationPage(),
-      ),
+          title: FlutterI18n.translate(context, 'chain_configuration'),
+          icon: MXCIcons.chain_configuration,
+          onTap: () => Navigator.of(context)
+              .push(route(const ChainConfigurationPage()))),
       Setting(
         title: FlutterI18n.translate(context, 'xsd_conversions'),
         icon: MXCIcons.conversion,
