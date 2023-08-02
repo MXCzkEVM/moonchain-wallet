@@ -42,27 +42,23 @@ class ChainConfigurationRepository extends ControlledCacheRepository {
                       (element) => element.name == e['networkType'])))
               .toList());
 
-  late final Field<String> selectedIpfsGateWay = fieldWithDefault<String>(
-      'selectedIpfsGateWay', '',
+  late final Field<String?> selectedIpfsGateWay = fieldWithDefault<String?>(
+      'selectedIpfsGateWay', null,
       serializer: (b) => b, deserializer: (b) => b);
 
   List<network.Network> get items => networks.value;
 
-  String get selectedIpfsGatewayItem => selectedIpfsGateWay.value;
+  String? get selectedIpfsGatewayItem => selectedIpfsGateWay.value;
 
   /// Add
   void addItem(network.Network item) =>
       networks.value = [...networks.value, item];
 
-  void updateItem(network.Network item) {
-    final itemIndex =
-        networks.value.indexWhere((element) => element.chainId == item.chainId);
-    if (itemIndex != -1) {
-      final newList = networks.value;
-      newList.removeAt(itemIndex);
-      newList.insert(itemIndex, item);
-      networks.value = newList;
-    }
+  void updateItem(network.Network item, int index) {
+    final newList = networks.value;
+    newList.removeAt(index);
+    newList.insert(index, item);
+    networks.value = newList;
   }
 
   void addItems(List<network.Network> items) =>
