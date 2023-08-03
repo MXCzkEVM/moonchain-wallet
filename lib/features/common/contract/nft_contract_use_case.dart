@@ -3,14 +3,6 @@ import 'dart:async';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-extension Unique<E, T> on List<E> {
-  void unique([T Function(E element)? id, bool inPlace = true]) {
-    final ids = <dynamic>{};
-    var list = inPlace ? this : List<E>.from(this);
-    list.retainWhere((x) => ids.add(id != null ? id(x) : x as T));
-  }
-}
-
 class NftContractUseCase extends ReactiveUseCase {
   NftContractUseCase(
     this._repository,
