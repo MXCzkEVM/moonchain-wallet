@@ -41,7 +41,9 @@ class TokenBalanceItem extends HookConsumerWidget {
                     color: ColorsTheme.of(context).primaryBackground),
                 height: 40,
                 width: 40,
-                child: SvgPicture.network(logoUrl)),
+                child: logoUrl.contains('https')
+                    ? SvgPicture.network(logoUrl)
+                    : SvgPicture.asset(logoUrl)),
             const SizedBox(
               width: 8,
             ),
