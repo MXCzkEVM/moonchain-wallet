@@ -2,7 +2,7 @@ enum NetworkType { testnet, mainnet, custom }
 
 class Network {
   const Network({
-    this.logo,
+    required this.logo,
     required this.web3RpcHttpUrl,
     required this.web3RpcWebsocketUrl,
     this.web3WebSocketUrl,
@@ -15,7 +15,7 @@ class Network {
     required this.networkType,
   });
 
-  final String? logo;
+  final String logo;
   final String web3RpcHttpUrl;
   final String web3RpcWebsocketUrl;
   final String? web3WebSocketUrl;
