@@ -8,7 +8,6 @@ void showSnackBar({
   required BuildContext context,
   required String content,
   SnackBarType? type = SnackBarType.success,
-  bool isContentTranslated = false
 }) {
   final snackBar = SnackBar(
     shape: const RoundedRectangleBorder(
@@ -30,7 +29,7 @@ void showSnackBar({
         ),
         const SizedBox(width: Sizes.space2XSmall),
         Text(
-          isContentTranslated ? content : FlutterI18n.translate(context, content),
+          content,
           style: FontTheme.of(context, listen: false).body1(),
           textAlign: TextAlign.center,
         ),

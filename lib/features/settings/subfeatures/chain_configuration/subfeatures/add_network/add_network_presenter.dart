@@ -46,14 +46,13 @@ class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
   }
 
   void switchNetwork(Network newDefault) {
-    String translate(String text) => FlutterI18n.translate(context!, text);
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
-    showSnackBar(
-        context: context!,
-        content: translate('x_is_now_active').replaceFirst(
-            '{0}',
-            newDefault.label ??
-                '${newDefault.web3RpcHttpUrl.substring(0, 16)}...'),
-        isContentTranslated: true);
+
+    addMessage(
+      translate('x_is_now_active')!.replaceFirst(
+          '{0}',
+          newDefault.label ??
+              '${newDefault.web3RpcHttpUrl.substring(0, 16)}...'),
+    );
   }
 }
