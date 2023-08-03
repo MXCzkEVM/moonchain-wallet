@@ -10,7 +10,7 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
   AppNavPresenter() : super(AppNavBarState());
 
   late final _accountUseCase = ref.read(accountUseCaseProvider);
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
         updateAccount(account);
 
         if (account.mns == null) {
-          final mns = await _contractUseCase.getName(account.address);
+          final mns = await _tokenContractUseCase.getName(account.address);
           account.mns = mns;
           _accountUseCase.updateAccount(account);
         }
@@ -36,7 +36,7 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
   }
 
   void loadPage() {
-    _contractUseCase.checkConnectionToNetwork();
+    _tokenContractUseCase.checkConnectionToNetwork();
     _accountUseCase.refreshWallet();
   }
 }

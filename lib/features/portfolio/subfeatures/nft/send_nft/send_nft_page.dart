@@ -121,7 +121,7 @@ class SendNftPage extends HookConsumerWidget {
 
                     ref.read(presenter).recipientController.text =
                         res.address ?? res.mns ?? '';
-                    formKey.currentState!.validate();
+                    // formKey.currentState!.validate();
                   },
                 ),
                 onFocused: (focused) =>

@@ -1,9 +1,9 @@
 import 'package:datadashwallet/app/app.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 import 'delete_custom_network_state.dart';
 
@@ -17,7 +17,7 @@ class DeleteCustomNetworkPresenter
 
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
 
   late final TextEditingController networkNameController =
       TextEditingController();
@@ -84,7 +84,7 @@ class DeleteCustomNetworkPresenter
   void onRpcUrlChange(String value) async {
     loading = true;
     try {
-      state.chainId = await _contractUseCase.getChainId(value);
+      state.chainId = await _tokenContractUseCase.getChainId(value);
     } catch (error, stackTrace) {
       addError(error, stackTrace);
     } finally {

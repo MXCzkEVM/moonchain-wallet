@@ -12,8 +12,8 @@ extension Unique<E, T> on List<E> {
   }
 }
 
-class ContractUseCase extends ReactiveUseCase {
-  ContractUseCase(
+class TokenContractUseCase extends ReactiveUseCase {
+  TokenContractUseCase(
     this._repository,
   );
 
@@ -26,31 +26,31 @@ class ContractUseCase extends ReactiveUseCase {
   late final ValueStream<String?> name = reactive();
 
   Future<String> getWalletNativeTokenBalance(String address) async {
-    final balance = await _repository.contract.getEthBalance(address);
+    final balance = await _repository.tokenContract.getEthBalance(address);
     return Formatter.convertWeiToEth(balance.getInWei.toString());
   }
 
   void subscribeToBalance(
       String event, void Function(dynamic) listeningCallBack) async {
-    _repository.contract.subscribeToBalanceEvent(event, listeningCallBack);
+    _repository.tokenContract.subscribeToBalanceEvent(event, listeningCallBack);
   }
 
   Future<WannseeTransactionsModel?> getTransactionsByAddress(
       String address) async {
-    return _repository.contract.getTransactionsByAddress(address);
+    return _repository.tokenContract.getTransactionsByAddress(address);
   }
 
   Future<WannseeTransactionModel?> getTransactionByHash(String hash) async {
-    return _repository.contract.getTransactionByHash(hash);
+    return _repository.tokenContract.getTransactionByHash(hash);
   }
 
   Future<WannseeTokenTransfersModel?> getTokenTransfersByAddress(
       String address) async {
-    return _repository.contract.getTokenTransfersByAddress(address);
+    return _repository.tokenContract.getTokenTransfersByAddress(address);
   }
 
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
-    final result = await _repository.contract.getDefaultTokens();
+    final result = await _repository.tokenContract.getDefaultTokens();
     final mxcBalance = await getWalletNativeTokenBalance(walletAddress);
 
     final mxcToken = Token(
@@ -73,7 +73,7 @@ class ContractUseCase extends ReactiveUseCase {
   }
 
   Future<List<String>> getDefaultIpfsGateWays() async {
-    final result = await _repository.contract.getDefaultIpfsGateways();
+    final result = await _repository.tokenContract.getDefaultIpfsGateways();
     final List<String> list = [];
 
     if (result != null) {
@@ -84,25 +84,25 @@ class ContractUseCase extends ReactiveUseCase {
   }
 
   Future<Token?> getToken(String address) async =>
-      await _repository.contract.getToken(address);
+      await _repository.tokenContract.getToken(address);
 
   Future<String> getName(String address) async {
-    final result = await _repository.contract.getName(address);
+    final result = await _repository.tokenContract.getName(address);
     update(name, result);
     return result;
   }
 
   Future<String> getAddress(String? name) async =>
-      await _repository.contract.getAddress(name);
+      await _repository.tokenContract.getAddress(name);
 
   Future<void> checkConnectionToNetwork() async {
-    final result = await _repository.contract.checkConnectionToNetwork();
+    final result = await _repository.tokenContract.checkConnectionToNetwork();
 
     update(online, result);
   }
 
   Future<void> getTokensBalance(String walletAddress) async {
-    final result = await _repository.contract
+    final result = await _repository.tokenContract
         .getTokensBalance(tokensList.value, walletAddress);
     update(tokensList, result);
   }
@@ -118,7 +118,7 @@ class ContractUseCase extends ReactiveUseCase {
     required String from,
     required String to,
   }) async =>
-      await _repository.contract.estimateGesFee(
+      await _repository.tokenContract.estimateGesFee(
         from: from,
         to: to,
       );
@@ -129,53 +129,14 @@ class ContractUseCase extends ReactiveUseCase {
     required String amount,
     EstimatedGasFee? estimatedGasFee,
   }) async =>
-      await _repository.contract.sendTransaction(
+      await _repository.tokenContract.sendTransaction(
         privateKey: privateKey,
         to: to,
         amount: amount,
         estimatedGasFee: estimatedGasFee,
       );
 
-  Future<String> getOwerOfNft({
-    required String address,
-    required int tokeId,
-  }) async =>
-      await _repository.contract.getOwnerOfNft(
-        address: address,
-        tokenId: tokeId,
-      );
-
-  Future<Nft> getNft({
-    required String address,
-    required int tokeId,
-  }) async =>
-      await _repository.contract.getNft(
-        address: address,
-        tokenId: tokeId,
-      );
-
-  Future<String> sendTransactionOfNft({
-    required String address,
-    required int tokenId,
-    required String privateKey,
-    required String to,
-    EstimatedGasFee? estimatedGasFee,
-  }) async =>
-      await _repository.contract.sendTransactionOfNft(
-        address: address,
-        tokenId: tokenId,
-        privateKey: privateKey,
-        to: to,
-        estimatedGasFee: estimatedGasFee,
-      );
-
-  Future<List<Nft>?> getNftsByAddress(
-    String address,
-  ) async {
-    return await _repository.contract.getNftsByAddress(address);
-  }
-
   Future<int> getChainId(String rpcUrl) async {
-    return await _repository.contract.getChainId(rpcUrl);
+    return await _repository.tokenContract.getChainId(rpcUrl);
   }
 }

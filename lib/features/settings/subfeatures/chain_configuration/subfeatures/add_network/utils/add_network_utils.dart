@@ -1,5 +1,5 @@
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 import '../widgets/add_network_item.dart';
 

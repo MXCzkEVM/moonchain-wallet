@@ -12,16 +12,16 @@ class PortfolioUseCase extends ReactiveUseCase {
   final Web3Repository _repository;
 
   Future<String> getWalletNativeTokenBalance(String address) async {
-    final wallet = await (await _repository.contract).getEthBalance(address);
+    final wallet = await (await _repository.tokenContract).getEthBalance(address);
     return (wallet.getInWei.toDouble() / pow(10, 18)).toStringAsFixed(2);
   }
 
   void subscribeToBalance(
       String event, void Function(dynamic) listeningCallBack) async {
-    _repository.contract.subscribeToBalanceEvent(event, listeningCallBack);
+    _repository.tokenContract.subscribeToBalanceEvent(event, listeningCallBack);
   }
 
   // Future<List<Token>> getTokensBalanceByAddress(List<Token> tokenList) async {
-  //   return (await _repository.contract.getTokensBalance(tokenList));
+  //   return (await _repository.tokenContract.getTokensBalance(tokenList));
   // }
 }

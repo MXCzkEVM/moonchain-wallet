@@ -30,8 +30,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
   final MultiParameters params;
 
-  late final ContractUseCase _contractUseCase =
-      ref.read(contractUseCaseProvider);
+  late final TokenContractUseCase _tokenContractUseCase =
+      ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final accountInfo = ref.read(appNavBarContainer.state);
   late final TextEditingController amountController = TextEditingController();
@@ -48,7 +48,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     );
 
     listen(
-      _contractUseCase.online,
+      _tokenContractUseCase.online,
       (value) => notify(() => state.online = value),
     );
 
@@ -61,7 +61,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void loadPage() async {
-    await _contractUseCase.checkConnectionToNetwork();
+    await _tokenContractUseCase.checkConnectionToNetwork();
   }
 
   void changeDiscount(int value) {
@@ -138,7 +138,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     loading = true;
     try {
-      final gasFee = await _contractUseCase.estimateGesFee(
+      final gasFee = await _tokenContractUseCase.estimateGesFee(
         from: state.walletAddress!,
         to: recipient,
       );
@@ -159,7 +159,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     loading = true;
     try {
-      final res = await _contractUseCase.sendTransaction(
+      final res = await _tokenContractUseCase.sendTransaction(
         privateKey: _accountUseCase.getPravateKey()!,
         to: recipient,
         amount: amount,

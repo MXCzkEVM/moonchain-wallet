@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/address_book/address_book.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_use_case.dart';
@@ -22,8 +23,14 @@ final Provider<LanguageUseCase> languageUseCaseProvider = Provider(
   (ref) => LanguageUseCase(ref.watch(globalCacheProvider).language),
 );
 
-final Provider<ContractUseCase> contractUseCaseProvider = Provider(
-  (ref) => ContractUseCase(
+final Provider<TokenContractUseCase> tokenContractUseCaseProvider = Provider(
+  (ref) => TokenContractUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
+final Provider<NftContractUseCase> nftContractUseCaseProvider = Provider(
+  (ref) => NftContractUseCase(
     ref.watch(web3RepositoryProvider),
   ),
 );
@@ -41,14 +48,14 @@ final Provider<PasscodeUseCase> passcodeUseCaseProvider = Provider(
 final Provider<AuthUseCase> authUseCaseProvider = Provider(
   (ref) => AuthUseCase(
     ref.watch(web3RepositoryProvider).walletAddress,
-    ref.watch(userSetupProvider),
+    ref.watch(authenticationStorageProvider),
     ref.watch(authenticationCacheRepository),
   ),
 );
 
 final Provider<AccountUseCase> accountUseCaseProvider = Provider(
   (ref) => AccountUseCase(
-    ref.watch(userSetupProvider),
+    ref.watch(authenticationStorageProvider),
     ref.watch(datadashCacheProvider).account,
   ),
 );

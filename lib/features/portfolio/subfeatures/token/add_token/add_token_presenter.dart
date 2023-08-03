@@ -13,8 +13,8 @@ final addTokenPageContainer =
 class AddTokenPresenter extends CompletePresenter<AddTokenState> {
   AddTokenPresenter() : super(AddTokenState());
 
-  late final ContractUseCase _contractUseCase =
-      ref.read(contractUseCaseProvider);
+  late final TokenContractUseCase _tokenContractUseCase =
+      ref.read(tokenContractUseCaseProvider);
   late final CustomTokensUseCase _customTokensUseCase =
       ref.read(customTokensUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
@@ -30,7 +30,7 @@ class AddTokenPresenter extends CompletePresenter<AddTokenState> {
     loading = true;
 
     try {
-      final token = await _contractUseCase.getToken(value);
+      final token = await _tokenContractUseCase.getToken(value);
       state.token = token;
       symbolController.text = token!.symbol ?? '';
       decimalController.text = token.decimals.toString();

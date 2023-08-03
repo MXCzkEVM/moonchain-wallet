@@ -10,7 +10,8 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   PortfolioPresenter() : super(PortfolioState());
 
   late final _accountUserCase = ref.read(accountUseCaseProvider);
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _nftUseCase = ref.read(nftsUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
@@ -32,7 +33,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
       }
     });
 
-    listen(_contractUseCase.tokensList, (newTokenList) {
+    listen(_tokenContractUseCase.tokensList, (newTokenList) {
       if (newTokenList.isNotEmpty) {
         if (state.tokensList != null) {
           notify(() => state.tokensList = newTokenList);
@@ -56,12 +57,12 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
   getNfts() async {
     final newNftList =
-        await _contractUseCase.getNftsByAddress(state.walletAddress!);
+        await _nftContractUseCase.getNftsByAddress(state.walletAddress!);
     _nftUseCase.mergeNewList(newNftList);
   }
 
   void getWalletTokensBalance() async {
-    await _contractUseCase.getTokensBalance(state.walletAddress!);
+    await _tokenContractUseCase.getTokensBalance(state.walletAddress!);
   }
 
   void changeTokensOrNFTsTab() {

@@ -13,14 +13,22 @@ final walletContainer =
 class WalletPresenter extends CompletePresenter<WalletState> {
   WalletPresenter() : super(WalletState());
 
+  late final _chainConfigurationUserCase =
+      ref.read(chainConfigurationUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _customTokenUseCase = ref.read(customTokensUseCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
+
+    listen(_chainConfigurationUserCase.selectedNetwork, (value) {
+      if (value != null) {
+        initializeWalletPage();
+      }
+    });
 
     listen(_accountUserCase.account, (value) {
       if (value != null) {
@@ -39,7 +47,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       }
     });
 
-    listen(_contractUseCase.tokensList, (newTokenList) {
+    listen(_tokenContractUseCase.tokensList, (newTokenList) {
       if (newTokenList.isNotEmpty) {
         state.tokensList.clear();
         state.tokensList.addAll(newTokenList);
@@ -48,7 +56,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     listen(_customTokenUseCase.tokens, (customTokens) {
       if (customTokens.isNotEmpty) {
-        _contractUseCase.addCustomTokens(customTokens);
+        _tokenContractUseCase.addCustomTokens(customTokens);
       }
     });
 
@@ -68,7 +76,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   getBalance() async {
     try {
-      final balanceUpdate = await _contractUseCase
+      final balanceUpdate = await _tokenContractUseCase
           .getWalletNativeTokenBalance(state.walletAddress!);
       notify(() => state.walletBalance = balanceUpdate);
       _balanceUseCase.addItem(BalanceData(
@@ -85,7 +93,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void createSubscriptions() async {
-    _contractUseCase.subscribeToBalance(
+    _tokenContractUseCase.subscribeToBalance(
       "addresses:${state.walletAddress}".toLowerCase(),
       (dynamic event) {
         switch (event.event.value as String) {
@@ -165,11 +173,11 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     // final walletAddress = await _walletUserCase.getPublicAddress();
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer
-    await _contractUseCase
+    await _tokenContractUseCase
         .getTransactionsByAddress(state.walletAddress!)
         .then((newTransactionsList) async {
       // token transfer list contains only one kind transaction which is token transfer
-      final newTokenTransfersList = await _contractUseCase
+      final newTokenTransfersList = await _tokenContractUseCase
           .getTokenTransfersByAddress(state.walletAddress!);
 
       if (newTokenTransfersList != null && newTransactionsList != null) {
@@ -225,7 +233,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   void getTransaction(
     String hash,
   ) async {
-    final newTx = await _contractUseCase.getTransactionByHash(hash);
+    final newTx = await _tokenContractUseCase.getTransactionByHash(hash);
 
     if (newTx != null) {
       final oldTx = state.txList!.items!
@@ -239,7 +247,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void getDefaultTokens() async {
-    await _contractUseCase.getDefaultTokens(state.walletAddress!);
+    await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
   }
 
   void changeHideBalanceState() {

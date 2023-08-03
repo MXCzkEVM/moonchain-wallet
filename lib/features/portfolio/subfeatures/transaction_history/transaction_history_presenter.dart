@@ -16,7 +16,7 @@ class TransactionHistoryPresenter
     extends CompletePresenter<TransactionHistoryState> {
   TransactionHistoryPresenter() : super(TransactionHistoryState());
 
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
 
   @override
@@ -34,7 +34,7 @@ class TransactionHistoryPresenter
   }
 
   Future<void> loadPage() async {
-    await _contractUseCase.getDefaultTokens(state.walletAddress!);
+    await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
     getTransactions();
   }
 
@@ -42,11 +42,11 @@ class TransactionHistoryPresenter
     // final walletAddress = await _walletUserCase.getPublicAddress();
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer
-    await _contractUseCase
+    await _tokenContractUseCase
         .getTransactionsByAddress(state.walletAddress!)
         .then((newTransactionsList) async {
       // token transfer list contains only one kind transaction which is token transfer
-      final newTokenTransfersList = await _contractUseCase
+      final newTokenTransfersList = await _tokenContractUseCase
           .getTokenTransfersByAddress(state.walletAddress!);
 
       if (newTokenTransfersList != null && newTransactionsList != null) {

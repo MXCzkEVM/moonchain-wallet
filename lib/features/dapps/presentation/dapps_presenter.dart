@@ -16,7 +16,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       ref.read(bookmarksUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   void getIpfsGateWays() async {
     try {
-      final newList = await _contractUseCase.getDefaultIpfsGateWays();
+      final newList = await _tokenContractUseCase.getDefaultIpfsGateWays();
       _chainConfigurationUseCase.updateIpfsGateWayList(newList);
     } catch (e) {
       addError(e.toString());
