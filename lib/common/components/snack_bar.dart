@@ -4,12 +4,11 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 enum SnackBarType { success, fail }
 
-void showSnackBar({
-  required BuildContext context,
-  required String content,
-  SnackBarType? type = SnackBarType.success,
-  bool isContentTranslated = false
-}) {
+void showSnackBar(
+    {required BuildContext context,
+    required String content,
+    SnackBarType? type = SnackBarType.success,
+    bool isContentTranslated = false}) {
   final snackBar = SnackBar(
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -30,8 +29,12 @@ void showSnackBar({
         ),
         const SizedBox(width: Sizes.space2XSmall),
         Text(
-          isContentTranslated ? content : FlutterI18n.translate(context, content),
-          style: FontTheme.of(context, listen: false).body1(),
+          isContentTranslated
+              ? content
+              : FlutterI18n.translate(context, content),
+          style: FontTheme.of(context, listen: false)
+              .body1()
+              .copyWith(color: ColorsTheme.of(context).snackbarText),
           textAlign: TextAlign.center,
         ),
       ],
