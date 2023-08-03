@@ -147,7 +147,13 @@ class DeleteCustomNetworkPresenter
     if (selectedNetwork!.enabled) {
       setNewDefault();
     }
-    _chainConfigurationUseCase.removeItem(selectedNetwork!);
+    final itemIndex = state.networks
+        .indexWhere((element) => element.chainId == selectedNetwork!.chainId);
+    if (itemIndex != -1) {
+      final selectedNetwork =
+          state.networks[itemIndex].copyWith(isAdded: false);
+      _chainConfigurationUseCase.updateItem(selectedNetwork, itemIndex);
+    }
   }
 
   void setAsDefault() {
