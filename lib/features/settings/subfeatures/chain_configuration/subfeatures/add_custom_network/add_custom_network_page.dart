@@ -29,7 +29,7 @@ class AddCustomNetworkPage extends HookConsumerWidget {
           actionText: translate('save'),
           onActionTap: () {
             if (!formKey.currentState!.validate()) return;
-            presenter.onSave(context);
+            presenter.onSave();
           },
           isActionTap: state.ableToSave,
         ),

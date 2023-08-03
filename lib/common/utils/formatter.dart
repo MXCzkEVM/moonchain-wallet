@@ -80,7 +80,7 @@ class Formatter {
   static int hexToDecimal(String value) {
     try {
       if (value.isEmpty) return -1;
-      return value.startsWith('0x') ? int.parse(value) : int.parse(value, radix: 16);
+      return int.parse(value);
     } catch (e) {
       throw e.toString();
     }
