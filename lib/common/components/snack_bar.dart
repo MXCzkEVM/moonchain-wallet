@@ -34,7 +34,7 @@ void showSnackBar(
               : FlutterI18n.translate(context, content),
           style: FontTheme.of(context, listen: false)
               .body1()
-              .copyWith(color: ColorsTheme.of(context).snackbarText),
+              .copyWith(color: ColorsTheme.of(context, listen: false).snackbarText),
           textAlign: TextAlign.center,
         ),
       ],

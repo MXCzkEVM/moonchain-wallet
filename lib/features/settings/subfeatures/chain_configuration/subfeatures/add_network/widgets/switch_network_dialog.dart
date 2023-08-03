@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -64,7 +65,11 @@ Future<bool?> showSwitchNetworkDialog(
               title: translate('switch_to_network'),
               onTap: () {
                 onTap(network);
-                Navigator.of(context).pop(false);
+                Navigator.of(context).popUntil((route) {
+                  return route.settings.name
+                          ?.contains('ChainConfigurationPage') ??
+                      false;
+                });
               },
               size: MxcButtonSize.xl,
             ),
