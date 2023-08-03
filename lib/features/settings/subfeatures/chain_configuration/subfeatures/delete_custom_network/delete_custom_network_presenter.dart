@@ -157,29 +157,21 @@ class DeleteCustomNetworkPresenter
   }
 
   void setAsDefault() {
-    String translate(String text) => FlutterI18n.translate(context!, text);
     _chainConfigurationUseCase.switchDefaultNetwork(selectedNetwork!);
-    showSnackBar(
-      context: context!,
-      content: translate('x_is_now_active').replaceFirst(
-          '{0}',
-          selectedNetwork!.label ??
-              '${selectedNetwork!.web3RpcHttpUrl.substring(0, 16)}...'),
-      isContentTranslated: true,
-    );
+
+    addMessage(translate('x_is_now_active')!.replaceFirst(
+        '{0}',
+        selectedNetwork!.label ??
+            '${selectedNetwork!.web3RpcHttpUrl.substring(0, 16)}...'));
   }
 
   void setNewDefault() {
     final newDefault = state.networks[0];
-    String translate(String text) => FlutterI18n.translate(context!, text);
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
-    showSnackBar(
-      context: context!,
-      content: translate('x_is_now_active').replaceFirst(
-          '{0}',
-          newDefault.label ??
-              '${newDefault.web3RpcHttpUrl.substring(0, 16)}...'),
-      isContentTranslated: true,
-    );
+
+    addMessage(translate('x_is_now_active')!.replaceFirst(
+        '{0}',
+        newDefault.label ??
+            '${newDefault.web3RpcHttpUrl.substring(0, 16)}...'));
   }
 }

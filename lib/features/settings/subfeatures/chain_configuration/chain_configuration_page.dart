@@ -20,6 +20,7 @@ class ChainConfigurationPage extends HookConsumerWidget {
     final state = ref.watch(chainConfigurationContainer.state);
     final formKey = useMemoized(() => GlobalKey<FormState>());
     String translate(String text) => FlutterI18n.translate(context, text);
+    
     return MxcPage(
       presenter: presenter,
       resizeToAvoidBottomInset: true,
