@@ -74,4 +74,8 @@ class ChainConfigurationPresenter
       isContentTranslated: true,
     );
   }
+
+  void selectNetwork(Network network) {
+    _chainConfigurationUseCase.selectNetwork(network);
+  }
 }

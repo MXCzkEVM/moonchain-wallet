@@ -16,6 +16,8 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
 
   late final ValueStream<List<String>> ipfsGateWayList = reactive([]);
 
+  late final ValueStream<Network?> selectedNetwork = reactive();
+
   List<Network> getNetworks() => _repository.items;
 
   String? getIpfsGateWay() => _repository.selectedIpfsGatewayItem;
@@ -68,5 +70,9 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
       updateItem(newDefault, newDefaultItemIndex);
       updateItem(currentDefault, currentDefaultItemIndex);
     }
+  }
+
+  void selectNetwork(Network network) {
+    update(selectedNetwork, network);
   }
 }

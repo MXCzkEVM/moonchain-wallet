@@ -59,7 +59,7 @@ class NetworkDetailsPage extends HookConsumerWidget {
                   ref.read(presenter).setAsDefault(network);
                   BottomFlowDialog.of(context).close();
                 },
-                size: MxcButtonSize.xxl,
+                size: MxcButtonSize.xl,
               )
             : Container()
       ],
