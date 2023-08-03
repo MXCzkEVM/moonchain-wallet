@@ -64,12 +64,16 @@ class ChainConfigurationPresenter
 
   void setAsDefault(Network newDefault) {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
-    
+
     addMessage(
       translate('x_is_now_active')!.replaceFirst(
           '{0}',
           newDefault.label ??
               '${newDefault.web3RpcHttpUrl.substring(0, 16)}...'),
     );
+  }
+
+  void selectNetwork(Network network) {
+    _chainConfigurationUseCase.selectNetwork(network);
   }
 }
