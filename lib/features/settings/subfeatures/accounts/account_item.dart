@@ -35,8 +35,9 @@ class AccountItem extends StatelessWidget {
                   style: FontTheme.of(context).body2.secondary(),
                 ),
                 Text(
-                  Formatter.formatWalletAddress(account.address,
-                      nCharacters: 10),
+                  account.mns ??
+                      Formatter.formatWalletAddress(account.address,
+                          nCharacters: 10),
                   style: FontTheme.of(context).body1.primary(),
                 ),
               ],
