@@ -59,6 +59,7 @@ class AddCustomNetworkPresenter
         : null;
 
     final newNetwork = Network(
+        logo: 'assets/svg/networks/unknown.svg',
         web3RpcHttpUrl: web3RpcHttpUrl,
         web3RpcWebsocketUrl: web3RpcWebsocketUrl,
         symbol: symbol,

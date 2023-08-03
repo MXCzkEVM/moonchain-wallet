@@ -69,15 +69,16 @@ Future<bool?> showAddNetworkDialog(BuildContext context,
                 const SizedBox(
                   height: Sizes.spaceXSmall,
                 ),
-                Text(
-                  translate(
-                    'custom_network_security_alert',
-                  ),
-                  style: FontTheme.of(context)
-                      .body1()
-                      .copyWith(color: ColorsTheme.of(context).textCritical),
-                  textAlign: TextAlign.center,
-                ),
+                network.networkType == NetworkType.custom
+                    ? Text(
+                        translate(
+                          'custom_network_security_alert',
+                        ),
+                        style: FontTheme.of(context).body1().copyWith(
+                            color: ColorsTheme.of(context).textCritical),
+                        textAlign: TextAlign.center,
+                      )
+                    : Container()
               ],
             ),
             const SizedBox(

@@ -12,8 +12,7 @@ class TokensBalanceListUtils {
     for (int i = 0; i < tokensBalanceModel.length; i++) {
       final currentToken = tokensBalanceModel[i];
 
-      final logoUrl = currentToken.logoUri ??
-          'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg';
+      final logoUrl = currentToken.logoUri ?? 'assets/svg/networks/unknown.svg';
 
       String balance = currentToken.balance?.toString() ?? '0.0';
       String balanceInXsd = currentToken.balance?.toString() ?? '0.0';

@@ -113,6 +113,9 @@ class DeleteCustomNetworkPresenter
   }
 
   void updateNetwork(Network oldNetwork) async {
+    final itemIndex = state.networks
+        .indexWhere((element) => element.chainId == oldNetwork.chainId);
+
     final web3RpcHttpUrl = rpcUrlController.text;
     final web3RpcWebsocketUrl =
         rpcUrlController.text.replaceAll('https', 'wss');
@@ -124,7 +127,7 @@ class DeleteCustomNetworkPresenter
         ? networkNameController.text
         : null;
 
-    final newNetwork = Network(
+    final newNetwork = oldNetwork.copyWith(
         web3RpcHttpUrl: web3RpcHttpUrl,
         web3RpcWebsocketUrl: web3RpcWebsocketUrl,
         symbol: symbol,
@@ -135,9 +138,6 @@ class DeleteCustomNetworkPresenter
         isAdded: true,
         networkType: NetworkType.custom);
 
-    final itemIndex = state.networks
-        .indexWhere((element) => element.chainId == oldNetwork.chainId);
-
     if (itemIndex != -1) {
       _chainConfigurationUseCase.updateItem(newNetwork, itemIndex);
     }
@@ -147,7 +147,13 @@ class DeleteCustomNetworkPresenter
     if (selectedNetwork!.enabled) {
       setNewDefault();
     }
-    _chainConfigurationUseCase.removeItem(selectedNetwork!);
+    final itemIndex = state.networks
+        .indexWhere((element) => element.chainId == selectedNetwork!.chainId);
+    if (itemIndex != -1) {
+      final selectedNetwork =
+          state.networks[itemIndex].copyWith(isAdded: false);
+      _chainConfigurationUseCase.updateItem(selectedNetwork, itemIndex);
+    }
   }
 
   void setAsDefault() {
