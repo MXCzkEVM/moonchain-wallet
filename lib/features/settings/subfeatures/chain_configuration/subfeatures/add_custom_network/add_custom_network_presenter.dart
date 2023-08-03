@@ -1,10 +1,15 @@
+import 'dart:developer';
+
+import 'package:datadashwallet/app/app.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_custom_network_state.dart';
+import 'widgets/custom_network_swtich_dialog.dart';
 
 final addCustomNetworkContainer =
     PresenterContainer<AddCustomNetworkPresenter, AddCustomNetworkState>(
@@ -64,31 +69,27 @@ class AddCustomNetworkPresenter
         isAdded: true,
         networkType: NetworkType.custom);
 
-    _chainConfigurationUseCase.addItem(newNetwork);
+    if (!state.networks
+        .any((element) => element.chainId == newNetwork.chainId)) {
+      _chainConfigurationUseCase.addItem(newNetwork);
 
-    _chainConfigurationUseCase.switchDefaultNetwork(newNetwork);
+      _chainConfigurationUseCase.switchDefaultNetwork(newNetwork);
+    }
   }
 
-  void onSave(BuildContext context) {
+  void onSave() {
     loading = true;
+
     try {
       addNewNetwork();
       final networkTitle = networkNameController.text.isNotEmpty
           ? networkNameController.text
           : rpcUrlController.text;
-      // BottomFlowDialog.of(context)..close()..close();
-      // Navigator.of(context).replaceAll(route)
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   route.featureDialog(
-      //     const ChainConfigurationPage(),
-      //   ),
-      //   (Route<dynamic> route) => route.currentResult,
-      // ).then((value) {
-      //   if (value != null && value) {
-      //     showCustomNetworkSwitchDialog(context, networkTitle);
-      //   }
-      // });
+      appNavigatorKey.currentState!.popUntil((route) {
+        return route.settings.name?.contains('ChainConfigurationPage') ?? false;
+      });
+      showCustomNetworkSwitchDialog(
+          appNavigatorKey.currentContext!, networkTitle);
     } catch (error, stackTrace) {
       addError(error, stackTrace);
     } finally {

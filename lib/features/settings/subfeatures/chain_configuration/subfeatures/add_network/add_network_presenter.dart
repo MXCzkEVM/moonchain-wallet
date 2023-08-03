@@ -36,13 +36,15 @@ class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
     });
   }
 
-  void addNetworkToNetworkSelector(Network network) async {
+  Network? addNetworkToNetworkSelector(Network network) {
     final itemIndex = state.networks
         .indexWhere((element) => element.chainId == network.chainId);
     if (itemIndex != -1) {
       final selectedNetwork = state.networks[itemIndex].copyWith(isAdded: true);
       _chainConfigurationUseCase.updateItem(selectedNetwork, itemIndex);
+      return selectedNetwork;
     }
+    return null;
   }
 
   void switchNetwork(Network newDefault) {

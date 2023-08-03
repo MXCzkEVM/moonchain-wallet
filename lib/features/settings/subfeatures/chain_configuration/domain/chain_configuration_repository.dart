@@ -20,7 +20,6 @@ class ChainConfigurationRepository extends ControlledCacheRepository {
                     'enabled': e.enabled,
                     'label': e.label,
                     'chainId': e.chainId,
-                    'gasLimit': e.gasLimit,
                     'isAdded': e.isAdded,
                     'networkType': e.networkType.name
                   })
@@ -36,7 +35,6 @@ class ChainConfigurationRepository extends ControlledCacheRepository {
                   enabled: e['enabled'],
                   label: e['label'],
                   chainId: e['chainId'],
-                  gasLimit: e['gasLimit'],
                   isAdded: e['isAdded'],
                   networkType: network.NetworkType.values.firstWhere(
                       (element) => element.name == e['networkType'])))

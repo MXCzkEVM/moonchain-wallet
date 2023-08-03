@@ -5,10 +5,10 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'add_custom_network_presenter.dart';
+import 'delete_custom_network_presenter.dart';
 
-class AddCustomNetworkPage extends HookConsumerWidget {
-  const AddCustomNetworkPage({
+class DeleteCustomNetworkPage extends HookConsumerWidget {
+  const DeleteCustomNetworkPage({
     super.key,
   });
 
@@ -16,8 +16,8 @@ class AddCustomNetworkPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useMemoized(() => GlobalKey<FormState>());
     String translate(String text) => FlutterI18n.translate(context, text);
-    final presenter = ref.read(addCustomNetworkContainer.actions);
-    final state = ref.watch(addCustomNetworkContainer.state);
+    final presenter = ref.read(deleteCustomNetworkContainer.actions);
+    final state = ref.watch(deleteCustomNetworkContainer.state);
     return MxcPage.layer(
       presenter: presenter,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,12 +26,13 @@ class AddCustomNetworkPage extends HookConsumerWidget {
         MxcAppBarEvenly.text(
           titleText: translate('add_x')
               .replaceFirst('{0}', translate('custom_network')),
-          actionText: translate('save'),
+          actionText: translate('done'),
           onActionTap: () {
             if (!formKey.currentState!.validate()) return;
             presenter.onSave();
           },
           isActionTap: state.ableToSave,
+          showCancel: false,
         ),
         Form(
           key: formKey,
@@ -73,7 +74,7 @@ class AddCustomNetworkPage extends HookConsumerWidget {
                 label: translate('chain_id'),
                 hint: translate('chain_id'),
                 controller: presenter.chainIdController,
-                action: TextInputAction.done,
+                action: TextInputAction.next,
                 validator: (value) {
                   if (value == null) return translate('chain_id_empty_notice');
 
@@ -129,6 +130,37 @@ class AddCustomNetworkPage extends HookConsumerWidget {
                     '${translate('block_explorer_url')} (${translate('optional')})',
                 controller: presenter.explorerController,
                 action: TextInputAction.done,
+              ),
+              state.isEnabled == false
+                  ? Column(
+                      children: [
+                        const SizedBox(
+                          height: Sizes.spaceXLarge,
+                        ),
+                        MxcButton.secondary(
+                          key: const ValueKey('setAsDefaultButton'),
+                          title: translate('set_as_default'),
+                          onTap: () {
+                            presenter.setAsDefault();
+                            BottomFlowDialog.of(context).close();
+                          },
+                          size: MxcButtonSize.xl,
+                        ),
+                      ],
+                    )
+                  : Container(),
+              const SizedBox(
+                height: Sizes.spaceXLarge,
+              ),
+              MxcButton.secondaryWarning(
+                key: const ValueKey('delete_custom_network'),
+                title:
+                    "${translate('delete')} ${translate('network').toLowerCase()}",
+                onTap: () {
+                  presenter.deleteNetwork();
+                  BottomFlowDialog.of(context).close();
+                },
+                size: MxcButtonSize.xl,
               ),
             ],
           ),
