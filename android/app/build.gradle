@@ -21,8 +21,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-// apply plugin: 'com.android.application'
-// apply plugin: 'kotlin-android'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 plugins {
@@ -78,6 +78,7 @@ dependencies {
 
 dependencies {
     def appCenterSdkVersion = '4.1.0'
+    id("com.android.application")
     compile "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     compile "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 }
