@@ -36,7 +36,9 @@ class PasscodeRequirePage extends PasscodeBasePage {
         textAlign: TextAlign.center,
         style: ref.watch(state).wrongInputCounter > 3
             ? FontTheme.of(context).subtitle2.error()
-            : FontTheme.of(context).subtitle2.secondary(),
+            : FontTheme.of(context)
+                .subtitle2()
+                .copyWith(color: ColorsTheme.of(context).textGrey1),
       );
     } else {
       return const SizedBox();
@@ -59,13 +61,13 @@ class PasscodeRequirePage extends PasscodeBasePage {
               children: [
                 Text(
                   title(context, ref),
-                  style: FontTheme.of(context).h4.white(),
+                  style: FontTheme.of(context).h4.textWhite(),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
                 Text(
                   hint(context, ref),
-                  style: FontTheme.of(context).body1.white(),
+                  style: FontTheme.of(context).body1.textWhite(),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40),
