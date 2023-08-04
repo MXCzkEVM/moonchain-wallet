@@ -1,5 +1,4 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/wallet/presentation/wallet_page_presenter.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/choose_crypto/choose_crypto_presenter.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +17,8 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
 
   final Nft nft;
 
-  late final ContractUseCase _contractUseCase =
-      ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _nftsUseCase = ref.read(nftsUseCaseProvider);
   late final TextEditingController recipientController =
@@ -35,7 +34,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
     );
 
     listen(
-      _contractUseCase.online,
+      _nftContractUseCase.online,
       (value) => notify(() => state.online = value),
     );
 
@@ -43,7 +42,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
   }
 
   void loadPage() async {
-    await _contractUseCase.checkConnectionToNetwork();
+    await _nftContractUseCase.checkConnectionToNetwork();
   }
 
   void transactionProcess() async {
@@ -102,7 +101,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
 
     loading = true;
     try {
-      final gasFee = await _contractUseCase.estimateGesFee(
+      final gasFee = await _tokenContractUseCase.estimateGesFee(
         from: state.walletAddress!,
         to: recipient,
       );
@@ -122,7 +121,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
 
     loading = true;
     try {
-      final res = await _contractUseCase.sendTransactionOfNft(
+      final res = await _nftContractUseCase.sendTransaction(
         address: nft.address,
         tokenId: nft.tokenId,
         privateKey: _accountUseCase.getPravateKey()!,

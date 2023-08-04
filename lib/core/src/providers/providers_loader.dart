@@ -19,7 +19,7 @@ class _ProviderLoader {
 
     _datadashCache = await DatadashCache.load(
       cacheManager,
-      _datadashSetupStore!.mnemonic?.split(' ').join() ?? '',
+      _datadashSetupStore!.mnemonic?.split(' ').join(),
     );
 
     _globalCache = await GlobalCache.load(cacheManager);

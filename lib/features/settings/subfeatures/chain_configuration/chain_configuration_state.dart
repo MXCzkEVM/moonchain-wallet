@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:fl_chart/fl_chart.dart';
-
-import 'entities/network.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 class ChainConfigurationState with EquatableMixin {
   List<Network> networks = [];

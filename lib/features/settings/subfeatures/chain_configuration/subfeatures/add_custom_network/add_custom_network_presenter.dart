@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:datadashwallet/app/app.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
+import 'package:mxc_logic/src/domain/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -21,7 +21,7 @@ class AddCustomNetworkPresenter
 
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
 
   final TextEditingController networkNameController = TextEditingController();
   final TextEditingController rpcUrlController = TextEditingController();
@@ -101,7 +101,7 @@ class AddCustomNetworkPresenter
   void onRpcUrlChange(String value) async {
     loading = true;
     try {
-      state.chainId = await _contractUseCase.getChainId(value);
+      state.chainId = await _tokenContractUseCase.getChainId(value);
     } catch (error, stackTrace) {
       addError(error, stackTrace);
     } finally {

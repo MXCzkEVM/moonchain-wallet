@@ -1,6 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/entities/network.dart';
+import 'package:mxc_logic/src/domain/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'chain_configuration_state.dart';
@@ -14,7 +14,7 @@ class ChainConfigurationPresenter
   ChainConfigurationPresenter() : super(ChainConfigurationState());
 
   late final _accountUserCase = ref.read(accountUseCaseProvider);
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _authUseCase = ref.read(authUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
 
@@ -64,6 +64,7 @@ class ChainConfigurationPresenter
 
   void setAsDefault(Network newDefault) {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
+    _authUseCase.resetNetwork(newDefault);
 
     addMessage(
       translate('x_is_now_active')!.replaceFirst(

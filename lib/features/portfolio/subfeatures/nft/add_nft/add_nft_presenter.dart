@@ -9,7 +9,7 @@ final addNftPageContainer =
 class AddNftPresenter extends CompletePresenter<AddNftState> {
   AddNftPresenter() : super(AddNftState());
 
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _nftsUseCase = ref.read(nftsUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
@@ -44,8 +44,8 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
     loading = true;
 
     try {
-      final owner =
-          await _contractUseCase.getOwerOfNft(address: address, tokeId: tokeId);
+      final owner = await _nftContractUseCase.getOwerOf(
+          address: address, tokeId: tokeId);
       final account = _accountUseCase.getWalletAddress();
 
       if (owner != account) {
@@ -53,7 +53,7 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
         return;
       }
 
-      final nft = await _contractUseCase.getNft(
+      final nft = await _nftContractUseCase.getNft(
         address: address,
         tokeId: tokeId,
       );

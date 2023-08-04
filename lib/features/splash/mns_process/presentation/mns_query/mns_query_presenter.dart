@@ -13,7 +13,7 @@ final splashMNSQueryContainer =
 class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
   SplashMNSQueryPresenter() : super(SplashMNSQueryState());
 
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final TextEditingController usernameController = TextEditingController();
 
   Future<void> queryNameAvailable() async {
@@ -21,7 +21,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
     loading = true;
 
     try {
-      final result = await _contractUseCase.getAddress(name);
+      final result = await _tokenContractUseCase.getAddress(name);
       final valid = validateRegistered(result);
       notify(() => state.errorText = valid);
 

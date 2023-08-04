@@ -43,7 +43,9 @@ class AccountItem extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            if (isSelected) ...[const Icon(Icons.check_rounded)]
+            if (isSelected) ...[
+              const Icon(Icons.check_rounded),
+            ]
           ],
         ),
       ),

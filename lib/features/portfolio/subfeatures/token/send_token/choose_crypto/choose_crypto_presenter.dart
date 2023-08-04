@@ -10,7 +10,7 @@ final chooseCryptoPageContainer =
 class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   ChooseCryptoPresenter() : super(ChooseCryptoState());
 
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final TextEditingController searchController = TextEditingController();
 
@@ -25,7 +25,7 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
       }
     });
 
-    listen(_contractUseCase.tokensList, (newTokens) {
+    listen(_tokenContractUseCase.tokensList, (newTokens) {
       if (newTokens.isNotEmpty) {
         notify(() {
           state.tokens = newTokens;
@@ -36,7 +36,7 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   }
 
   Future<void> loadPage() async {
-    await _contractUseCase.getTokensBalance(state.walletAddress);
+    await _tokenContractUseCase.getTokensBalance(state.walletAddress);
   }
 
   void fliterTokenByName(String value) {

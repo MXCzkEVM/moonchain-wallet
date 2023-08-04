@@ -10,7 +10,7 @@ final chooseNftPageContainer =
 class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
   ChooseNftPresenter() : super(ChooseNftState());
 
-  late final _contractUseCase = ref.read(contractUseCaseProvider);
+  late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _nftsUseCase = ref.read(nftsUseCaseProvider);
   late final TextEditingController searchController = TextEditingController();
@@ -35,7 +35,8 @@ class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
   }
 
   void loadPage() async {
-    final nfts = await _contractUseCase.getNftsByAddress(state.walletAddress);
+    final nfts =
+        await _nftContractUseCase.getNftsByAddress(state.walletAddress);
     _nftsUseCase.mergeNewList(nfts);
   }
 
