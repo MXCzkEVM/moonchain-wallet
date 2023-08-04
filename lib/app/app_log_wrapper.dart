@@ -14,7 +14,6 @@ class AppLogWrapper extends StatefulWidget {
 }
 
 class _AppLogWrapperState extends State<AppLogWrapper> {
-  String filePath = '';
 
   @override
   void initState() {

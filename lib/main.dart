@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -9,14 +10,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'app/app.dart';
 
 void collectLog(String line) {
-  FlutterLogs.logThis(tag: 'log', logMessage: line);
+  if (!Platform.isIOS) {
+    FlutterLogs.logThis(tag: 'log', logMessage: line);
+  }
 }
 
 void reportErrorAndLog(FlutterErrorDetails details) {
-  FlutterLogs.logThis(
-    tag: 'error',
-    errorMessage: '${details.exception.toString()} ${details.stack}',
-  );
+  if (!Platform.isIOS) {
+    FlutterLogs.logThis(
+      tag: 'error',
+      errorMessage: '${details.exception.toString()} ${details.stack}',
+    );
+  }
 }
 
 void main() {
