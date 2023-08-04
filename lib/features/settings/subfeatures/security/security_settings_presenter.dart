@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
@@ -15,6 +16,7 @@ class SecuritySettingsPresenter
     extends CompletePresenter<SecuritySettingsState> {
   SecuritySettingsPresenter() : super(SecuritySettingsState());
 
+  late final _webviewUseCase = WebviewUseCase();
   late final _passcodeUseCase = ref.read(passcodeUseCaseProvider);
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final TextEditingController yesController = TextEditingController();
@@ -43,10 +45,10 @@ class SecuritySettingsPresenter
     );
 
     if (result != null && result) {
-      //to do - clear browser cache
+      await _webviewUseCase.clearCache();
       showSnackBar(
         context: context!,
-        content: 'clear_browser_successfully',
+        content: translate('clear_browser_successfully')!,
       );
     }
   }

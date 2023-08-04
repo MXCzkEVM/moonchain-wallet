@@ -12,3 +12,4 @@ export 'subfeatures/xsd_conversion_rate/xsd_conversion_rate_page.dart';
 export 'subfeatures/customer_support/customer_support_page.dart';
 export 'subfeatures/security/security_settings_page.dart';
 export 'subfeatures/accounts/portrait.dart';
+export 'domain/webview_use_case.dart';

@@ -52,6 +52,7 @@ class OpenAppPage extends HookConsumerWidget {
                 },
                 onDoubleTap: () => state.webviewController!.reload(),
                 child: InAppWebViewEIP1193(
+                  customWalletName: 'AXS Wallet',
                   chainId: Sys.chainId,
                   rpcUrl: Sys.rpcUrl,
                   isDebug: false,
