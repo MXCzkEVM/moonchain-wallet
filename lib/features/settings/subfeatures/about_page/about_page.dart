@@ -38,12 +38,8 @@ class AboutPage extends HookConsumerWidget {
         ),
         const SizedBox(height: Sizes.space2XLarge),
         const AppTerm(
-          name: 'privacy_policy',
-          externalLink: 'https://www.mxc.org/privacy-policy',
-        ),
-        const AppTerm(
-          name: 'terms_of_use',
-          externalLink: 'https://www.mxc.org/terms-and-conditions',
+          name: 'terms_and_service',
+          externalLink: 'https://doc.mxc.com/docs/Resources/tns',
         ),
       ],
     );
