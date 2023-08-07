@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
@@ -38,5 +39,12 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
   void loadPage() {
     _tokenContractUseCase.checkConnectionToNetwork();
     _accountUseCase.refreshWallet();
+  }
+
+  void copy() {
+    FlutterClipboard.copy(state.account?.mns ?? state.account!.address);
+
+    final tip = translate('copied_x')!.replaceAll('{0}', translate('address')!);
+    addMessage(tip);
   }
 }

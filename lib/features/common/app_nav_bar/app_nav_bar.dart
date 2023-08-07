@@ -45,20 +45,23 @@ class AppNavBar extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(50),
                   color: ColorsTheme.of(context).backgroundDisabled,
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Portrait(
-                      name: state.account?.address ?? '',
-                    ),
-                    const SizedBox(width: Sizes.space2XSmall),
-                    Text(
-                      state.account?.mns ??
-                          Formatter.formatWalletAddress(
-                              state.account?.address ?? ''),
-                      style: FontTheme.of(context).subtitle1(),
-                    )
-                  ],
+                child: GestureDetector(
+                  onTap: () => presenter.copy(),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Portrait(
+                        name: state.account?.address ?? '',
+                      ),
+                      const SizedBox(width: Sizes.space2XSmall),
+                      Text(
+                        state.account?.mns ??
+                            Formatter.formatWalletAddress(
+                                state.account?.address ?? ''),
+                        style: FontTheme.of(context).subtitle1(),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ] else ...[
