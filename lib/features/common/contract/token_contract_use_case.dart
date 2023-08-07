@@ -139,4 +139,8 @@ class TokenContractUseCase extends ReactiveUseCase {
   Future<int> getChainId(String rpcUrl) async {
     return await _repository.tokenContract.getChainId(rpcUrl);
   }
+
+  Future<bool> checkIpfsGatewayStatus(String url) async {
+    return await _repository.tokenContract.checkIpfsGateway(url);
+  }
 }

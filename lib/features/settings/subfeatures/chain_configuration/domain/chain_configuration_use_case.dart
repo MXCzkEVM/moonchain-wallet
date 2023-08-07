@@ -48,9 +48,6 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   }
 
   void updateIpfsGateWayList(List<String> newIpfsGateWayList) {
-    if (selectedIpfsGateWay.value == null) {
-      _repository.changeIpfsGateWay(newIpfsGateWayList[0]);
-    }
     update(ipfsGateWayList, newIpfsGateWayList);
   }
 

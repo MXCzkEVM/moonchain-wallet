@@ -22,7 +22,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void initState() {
     super.initState();
 
-    getIpfsGateWays();
+    initializeIpfsGateways();
 
     PermissionUtils.requestAllPermissions();
 
@@ -50,12 +50,37 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
   void resetEditMode() => notify(() => state.isEditMode = false);
 
-  void getIpfsGateWays() async {
+  void initializeIpfsGateways() async {
+    final List<String>? list = await getIpfsGateWays();
+
+    if (list != null) {
+      checkIpfsGateways(list);
+    } else {
+      initializeIpfsGateways();
+    }
+  }
+
+  Future<List<String>?> getIpfsGateWays() async {
+    List<String>? newList;
     try {
-      final newList = await _tokenContractUseCase.getDefaultIpfsGateWays();
+      newList = await _tokenContractUseCase.getDefaultIpfsGateWays();
       _chainConfigurationUseCase.updateIpfsGateWayList(newList);
     } catch (e) {
       addError(e.toString());
+    }
+
+    return newList;
+  }
+
+  void checkIpfsGateways(List<String> list) async {
+    for (int i = 0; i < list.length; i++) {
+      final cUrl = list[i];
+      final response = await _tokenContractUseCase.checkIpfsGatewayStatus(cUrl);
+
+      if (response != false) {
+        _chainConfigurationUseCase.changeIpfsGateWay(cUrl);
+        break;
+      }
     }
   }
 }
