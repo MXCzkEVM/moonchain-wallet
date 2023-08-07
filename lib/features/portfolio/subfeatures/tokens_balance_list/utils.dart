@@ -37,8 +37,8 @@ class TokensBalanceListUtils {
       ));
     }
 
-    widgets.sort((a, b) =>
-        double.parse(b.balanceInXsd).compareTo(double.parse(a.balanceInXsd)));
+    widgets.sort((a, b) => double.parse(b.balanceInXsd.replaceAll(',', ''))
+        .compareTo(double.parse(a.balanceInXsd.replaceAll(',', ''))));
 
     return widgets;
   }
