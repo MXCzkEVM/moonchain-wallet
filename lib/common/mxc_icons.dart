@@ -85,6 +85,8 @@ class MXCIcons {
       IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData close =
       IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData network_status =
+      IconData(0xe83d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData down_dir =
       IconData(0xe887, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData up_dir =

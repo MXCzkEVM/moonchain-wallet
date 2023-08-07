@@ -257,5 +257,6 @@
 	"got_it": "Got it",
 	"chain_already_exists": "Chain already exists.",
 	"x_is_now_active": "{0} is now active",
-	"buy_x": "Buy {0}"
+	"buy_x": "Buy {0}",
+	"network_status": "Network status"
 }

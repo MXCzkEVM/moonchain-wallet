@@ -4,19 +4,21 @@ import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Setting {
-  const Setting({
-    required this.title,
-    required this.icon,
-    this.page,
-    this.onTap,
-  });
+  const Setting(
+      {required this.title,
+      required this.icon,
+      this.page,
+      this.onTap,
+      this.trailingIcon});
 
   final String title;
   final IconData icon;
   final Widget? page;
   final VoidCallback? onTap;
+  final IconData? trailingIcon;
 
   static List<Setting> fixedSettings(BuildContext context) {
     return [
@@ -62,6 +64,15 @@ class Setting {
         icon: MXCIcons.information,
         page: const AboutPage(),
       ),
+      Setting(
+          title: FlutterI18n.translate(context, 'network_status'),
+          icon: MXCIcons.network_status,
+          page: const AboutPage(),
+          trailingIcon: MXCIcons.external_link,
+          onTap: () async {
+            final uri = Uri.parse(Urls.mxcStatus);
+            if (await canLaunchUrl(uri)) launchUrl(uri);
+          }),
     ];
   }
 }
