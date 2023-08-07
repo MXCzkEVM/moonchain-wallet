@@ -11,3 +11,4 @@ export 'biometric.dart';
 export 'components/components.dart';
 export 'mxc_icons.dart';
 export 'dialogs/dialogs.dart';
+export 'urls.dart';

@@ -1,5 +1,8 @@
 import 'package:clipboard/clipboard.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:mxc_logic/mxc_logic.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'portfolio_page_state.dart';
 
 final portfolioContainer =
@@ -76,5 +79,24 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
   void resetCopyState() {
     notify(() => state.isWalletAddressCopied = false);
+  }
+
+  void buyNFt() {
+    if (_chainConfigurationUseCase.networks.value
+            .where((element) => element.enabled)
+            .toList()[0]
+            .chainId ==
+        Network.fixedNetworks()[0].chainId) {
+      openUrl(Urls.mxcTestnetNftMarketPlace);
+    } else if (_chainConfigurationUseCase.selectedNetwork.value!.chainId ==
+        Network.fixedNetworks()[1].chainId) {
+      openUrl(Urls.mxcMainnetNftMarketPlace);
+    }
+  }
+
+  void openUrl(String url) async {
+    (await canLaunchUrl(Uri.parse(url))) == true
+        ? launchUrl(Uri.parse(url))
+        : null;
   }
 }
