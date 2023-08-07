@@ -35,11 +35,11 @@ class BalancePanel extends HookConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            BalanceTitle(fontSize: 18),
+            BalanceTitle(),
             SizedBox(
               height: 4,
             ),
-            BalanceInXSD(fontSize: 18),
+            BalanceInXSD(),
             ChangeIndicator()
           ],
         ),

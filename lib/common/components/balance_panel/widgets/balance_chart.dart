@@ -11,8 +11,8 @@ class BalanceChart extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(walletContainer.actions);
     final state = ref.watch(walletContainer.state);
+
     return Column(
       children: [
         Row(
@@ -58,15 +58,15 @@ class BalanceChart extends HookConsumerWidget {
                         dotData: FlDotData(
                           show: false,
                         ),
-                        color: ColorsTheme.of(context).purpleMain,
+                        color: ColorsTheme.of(context).borderPrimary200,
                         belowBarData: BarAreaData(
                             show: true,
                             gradient: LinearGradient(colors: [
                               ColorsTheme.of(context)
-                                  .purpleMain
-                                  .withOpacity(0.8),
+                                  .primary400
+                                  .withOpacity(0.25),
                               ColorsTheme.of(context)
-                                  .purpleMain
+                                  .primary400
                                   .withOpacity(0.0)
                             ], stops: const [
                               0,
@@ -80,7 +80,7 @@ class BalanceChart extends HookConsumerWidget {
                 direction: Axis.vertical,
                 dashLength: 3,
                 dashGapLength: 3,
-                dashColor: ColorsTheme.of(context).purpleMain,
+                dashColor: ColorsTheme.of(context).borderPrimary100,
               ),
             )
           ],
@@ -88,7 +88,7 @@ class BalanceChart extends HookConsumerWidget {
         Text(
           FlutterI18n.translate(context, '7_days'),
           style: FontTheme.of(context).caption1().copyWith(
-                color: ColorsTheme.of(context).purpleMain,
+                color: ColorsTheme.of(context).textSecondary,
               ),
         )
       ],

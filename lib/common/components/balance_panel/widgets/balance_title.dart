@@ -7,8 +7,7 @@ import 'package:mxc_ui/mxc_ui.dart';
 import '../../../common.dart';
 
 class BalanceTitle extends HookConsumerWidget {
-  final double? fontSize;
-  const BalanceTitle({super.key, this.fontSize = 16});
+  const BalanceTitle({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,9 +16,7 @@ class BalanceTitle extends HookConsumerWidget {
     return Row(
       children: [
         Text(FlutterI18n.translate(context, 'balance'),
-            style: FontTheme.of(context).body1().copyWith(
-                fontSize: fontSize,
-                fontWeight: FontWeight.w400,
+            style: FontTheme.of(context).body2().copyWith(
                 color: ColorsTheme.of(context).textSecondary)),
         const SizedBox(
           width: 4,
