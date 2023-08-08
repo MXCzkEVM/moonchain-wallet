@@ -75,6 +75,13 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path_android: "assets/icons/axs.png"
+  image_path_ios: "assets/icons/axs.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -119,8 +126,8 @@ flutter:
           weight: 400
         - asset: assets/fonts/Roboto-Medium.ttf
           weight: 500
-    - family: MXCIcons
+    - family: MxcIcons
       fonts:
-        - asset: assets/icons/MXCIcons.ttf
+        - asset: assets/icons/mxc-icons.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
