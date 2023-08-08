@@ -60,8 +60,14 @@ class OpenAppPage extends HookConsumerWidget {
                       useShouldOverrideUrlLoading: true,
                     ),
                   ),
-                  onProgressChanged: (controller, progress) =>
-                      presenter.changeProgress(progress),
+                  onProgressChanged: (controller, progress) async {
+                    presenter.changeProgress(progress);
+                    if (progress == 100) {
+                      await controller.evaluateJavascript(
+                        source: 'window.ethereum.isMetaMask = true;',
+                      );
+                    }
+                  },
                   signCallback: (params, eip1193, controller) {
                     final id = params['id'];
                     switch (eip1193) {
