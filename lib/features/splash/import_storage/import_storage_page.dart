@@ -26,7 +26,7 @@ class SplashImportStoragePage extends SplashBasePage {
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     return [
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('telegramButton'),
         icon: MxcIcons.telegram,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
@@ -34,7 +34,7 @@ class SplashImportStoragePage extends SplashBasePage {
             ? () => ref.read(presenter).openTelegram()
             : null,
       ),
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('wechatButton'),
         icon: MxcIcons.wechat,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
@@ -43,15 +43,17 @@ class SplashImportStoragePage extends SplashBasePage {
             ? () => ref.read(presenter).openWechat()
             : null,
       ),
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('emailButton'),
         icon: MxcIcons.email,
+        iconSize: 20,
         title: FlutterI18n.translate(context, 'email_secured_storage'),
         onTap: () => ref.read(presenter).openEmail(),
       ),
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('mnemonicButton'),
         icon: MxcIcons.cloud,
+        iconSize: 20,
         title: FlutterI18n.translate(context, 'secret_recovery_phrase'),
         onTap: () => Navigator.of(context).push(
           route(
