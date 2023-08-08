@@ -19,8 +19,8 @@ class NFTList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(portfolioContainer.actions);
+    final state = ref.read(portfolioContainer.state);
     String translate(String text) => FlutterI18n.translate(context, text);
-
     return Column(
       children: [
         nfts.isEmpty
@@ -51,6 +51,9 @@ class NFTList extends HookConsumerWidget {
               title: translate('buy_x').replaceFirst('{0}', 'NFT'),
               iconData: Icons.add,
               alignIconStart: true,
+              buttonState: state.buyEnabled
+                  ? ChipButtonStates.defaultState
+                  : ChipButtonStates.disabled,
             ),
           ],
         ),

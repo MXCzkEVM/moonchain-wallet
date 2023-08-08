@@ -16,7 +16,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       ref.read(bookmarksUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   Future<List<String>?> getIpfsGateWays() async {
     List<String>? newList;
     try {
-      newList = await _tokenContractUseCase.getDefaultIpfsGateWays();
+      newList = await _nftContractUseCase.getDefaultIpfsGateWays();
       _chainConfigurationUseCase.updateIpfsGateWayList(newList);
     } catch (e) {
       addError(e.toString());
@@ -75,7 +75,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void checkIpfsGateways(List<String> list) async {
     for (int i = 0; i < list.length; i++) {
       final cUrl = list[i];
-      final response = await _tokenContractUseCase.checkIpfsGatewayStatus(cUrl);
+      final response = await _nftContractUseCase.checkIpfsGatewayStatus(cUrl);
 
       if (response != false) {
         _chainConfigurationUseCase.changeIpfsGateWay(cUrl);
