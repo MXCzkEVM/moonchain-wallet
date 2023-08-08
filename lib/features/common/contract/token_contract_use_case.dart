@@ -72,17 +72,6 @@ class TokenContractUseCase extends ReactiveUseCase {
     return result;
   }
 
-  Future<List<String>> getDefaultIpfsGateWays() async {
-    final result = await _repository.tokenContract.getDefaultIpfsGateways();
-    final List<String> list = [];
-
-    if (result != null) {
-      list.addAll(result.gateways ?? []);
-    }
-
-    return list;
-  }
-
   Future<Token?> getToken(String address) async =>
       await _repository.tokenContract.getToken(address);
 
@@ -138,9 +127,5 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<int> getChainId(String rpcUrl) async {
     return await _repository.tokenContract.getChainId(rpcUrl);
-  }
-
-  Future<bool> checkIpfsGatewayStatus(String url) async {
-    return await _repository.tokenContract.checkIpfsGateway(url);
   }
 }
