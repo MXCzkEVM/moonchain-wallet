@@ -10,6 +10,8 @@ class WalletSlider extends StatefulWidget {
 }
 
 class _WalletSliderState extends State<WalletSlider> {
+  int _index = 0;
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -19,9 +21,19 @@ class _WalletSliderState extends State<WalletSlider> {
         child: AspectRatio(
           aspectRatio: 16 / 9,
           child: Column(
-            children: const [
-              Expanded(flex: 35, child: ImageSlider()),
-              Expanded(flex: 1, child: SliderIndicator())
+            children: [
+              Expanded(
+                flex: 35,
+                child: ImageSlider(
+                  onPageChanged: (index) => setState(() => _index = index),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: SliderIndicator(
+                  index: _index,
+                ),
+              )
             ],
           ),
         ),
@@ -31,7 +43,12 @@ class _WalletSliderState extends State<WalletSlider> {
 }
 
 class ImageSlider extends StatefulWidget {
-  const ImageSlider({Key? key}) : super(key: key);
+  const ImageSlider({
+    Key? key,
+    this.onPageChanged,
+  }) : super(key: key);
+
+  final Function(int)? onPageChanged;
 
   @override
   State<ImageSlider> createState() => _ImageSliderState();
@@ -43,11 +60,11 @@ class _ImageSliderState extends State<ImageSlider> {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: PageView(
+        onPageChanged: widget.onPageChanged,
         children: List.generate(
             7,
             (index) =>
                 getSliderImage(ImagesTheme.of(context).sliderPlaceHolder)),
-        onPageChanged: (value) => {},
       ),
     );
   }
@@ -63,7 +80,12 @@ Widget getSliderImage(ImageProvider img) {
 }
 
 class SliderIndicator extends StatelessWidget {
-  const SliderIndicator({Key? key}) : super(key: key);
+  const SliderIndicator({
+    Key? key,
+    this.index = 0,
+  }) : super(key: key);
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +95,8 @@ class SliderIndicator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(
             7,
-            (index) => const SliderIndicatorItem(
-              indicate: false,
+            (i) => SliderIndicatorItem(
+              indicate: index == i,
             ),
           )),
     );
@@ -94,8 +116,8 @@ class SliderIndicatorItem extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           color: (indicate)
-              ? ColorsTheme.of(context).whiteInvert
-              : ColorsTheme.of(context).grey4),
+              ? ColorsTheme.of(context).chipBgActive
+              : ColorsTheme.of(context).iconGrey4),
     );
   }
 }

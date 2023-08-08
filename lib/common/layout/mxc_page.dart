@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide RefreshCallback;
 import 'package:flutter/services.dart';
@@ -182,14 +183,13 @@ abstract class MxcPage extends HookConsumerWidget {
     if (visiable) {
       return Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          gradient: SweepGradient(
             colors: <Color>[
               Color(0xFF0F46F4),
               Color(0xFF082FAF),
             ],
             tileMode: TileMode.clamp,
+            transform: GradientRotation(2.5),
           ),
         ),
         child: child,
