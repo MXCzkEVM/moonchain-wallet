@@ -64,7 +64,7 @@ class SplashSetupWalletPage extends SplashBasePage {
                     ),
                 recognizer: TapGestureRecognizer()
                   ..onTap =
-                      () => openUrl('https://www.mxc.org/terms-and-conditions'),
+                      () => openUrl('https://doc.mxc.com/docs/Resources/tns'),
               ),
             ],
           ),
