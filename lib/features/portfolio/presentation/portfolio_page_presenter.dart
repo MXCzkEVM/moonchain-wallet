@@ -29,6 +29,10 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
       }
     });
 
+    listen(_chainConfigurationUseCase.networks, (value) {
+      getBuyEnabled();
+    });
+
     listen(_accountUserCase.account, (value) {
       if (value != null) {
         notify(() => state.walletAddress = value.address);
@@ -56,6 +60,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   initializePortfolioPage() {
     getWalletTokensBalance();
     getNfts();
+    getBuyEnabled();
   }
 
   getNfts() async {
@@ -81,22 +86,33 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     notify(() => state.isWalletAddressCopied = false);
   }
 
+  getBuyEnabled() {
+    final enabledNetwork = _chainConfigurationUseCase.networks.value
+        .where((element) => element.enabled)
+        .toList()[0];
+    if (enabledNetwork.chainId == Config.mxcTestnetChainId) {
+      notify(() => state.buyEnabled = true);
+    } else if (enabledNetwork.chainId == Config.mxcMainnetChainId) {
+      notify(() => state.buyEnabled = true);
+    } else {
+      notify(() => state.buyEnabled = false);
+    }
+  }
+
   void buyNFt() {
-    if (_chainConfigurationUseCase.networks.value
-            .where((element) => element.enabled)
-            .toList()[0]
-            .chainId ==
-        Network.fixedNetworks()[0].chainId) {
+    final enabledNetwork = _chainConfigurationUseCase.networks.value
+        .where((element) => element.enabled)
+        .toList()[0];
+    if (enabledNetwork.chainId == Config.mxcTestnetChainId) {
       openUrl(Urls.mxcTestnetNftMarketPlace);
-    } else if (_chainConfigurationUseCase.selectedNetwork.value!.chainId ==
-        Network.fixedNetworks()[1].chainId) {
+    } else if (enabledNetwork.chainId == Config.mxcMainnetChainId) {
       openUrl(Urls.mxcMainnetNftMarketPlace);
     }
   }
 
   void openUrl(String url) async {
     (await canLaunchUrl(Uri.parse(url))) == true
-        ? launchUrl(Uri.parse(url))
+        ? launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)
         : null;
   }
 }

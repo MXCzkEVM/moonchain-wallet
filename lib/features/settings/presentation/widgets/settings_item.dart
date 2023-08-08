@@ -24,8 +24,8 @@ class SettingItem extends HookConsumerWidget {
         )
         .toList()[0];
     final show = isNetworkStatus
-        ? (selectedNetwork.chainId == Config.mxcMainnet ||
-            selectedNetwork.chainId == Config.mxcTestnet)
+        ? (selectedNetwork.chainId == Config.mxcMainnetChainId ||
+            selectedNetwork.chainId == Config.mxcTestnetChainId)
         : true;
 
     return show

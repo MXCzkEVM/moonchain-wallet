@@ -16,6 +16,8 @@ class PortfolioState with EquatableMixin {
 
   String? ipfsGateway;
 
+  bool buyEnabled = true;
+
   @override
   List<Object?> get props => [
         walletBalance,
