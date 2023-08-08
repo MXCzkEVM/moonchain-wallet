@@ -54,23 +54,29 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
               child: Row(
-                children: const [
-                  Text('10:00'),
-                  Spacer(),
-                  Icon(
+                children: [
+                  Text(
+                    '10:00',
+                    style: FontTheme.of(context).subtitle1.white(),
+                  ),
+                  const Spacer(),
+                  const Icon(
                     Icons.signal_cellular_4_bar,
                     size: 18,
+                    color: Colors.white,
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 6, right: 2),
                     child: Icon(
                       Icons.signal_wifi_statusbar_4_bar,
                       size: 18,
+                      color: Colors.white,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.battery_full,
                     size: 18,
+                    color: Colors.white,
                   ),
                 ],
               ),
@@ -80,17 +86,23 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
                   const EdgeInsets.symmetric(horizontal: 18.4, vertical: 10.5),
               child: Row(
                 children: [
-                  const Icon(Icons.arrow_back),
+                  const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: Text(
                         FlutterI18n.translate(context, 'select_chat'),
-                        style: FontTheme.of(context).body1(),
+                        style: FontTheme.of(context).body1.white(),
                       ),
                     ),
                   ),
-                  const Icon(Icons.search),
+                  const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
                 ],
               ),
             )
@@ -166,7 +178,7 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'store_to')
             .replaceFirst('{0}', name(context)),
-        titleColor: Colors.white,
+        titleColor: ColorsTheme.of(context).textBlack200,
         color: themeColor(),
         borderColor: themeColor(),
         onTap: ref.watch(state).acceptAgreement

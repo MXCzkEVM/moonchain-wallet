@@ -55,7 +55,7 @@ Future<bool?> showSwitchNetworkDialog(
               key: const ValueKey('closeButton'),
               title: translate('close'),
               onTap: () => Navigator.of(context).pop(false),
-              size: MxcButtonSize.xl,
+              size: AxsButtonSize.xl,
             ),
             const SizedBox(
               height: Sizes.spaceXLarge,
@@ -71,7 +71,7 @@ Future<bool?> showSwitchNetworkDialog(
                       false;
                 });
               },
-              size: MxcButtonSize.xl,
+              size: AxsButtonSize.xl,
             ),
           ],
         ),

@@ -32,7 +32,7 @@ class WalletPage extends HookConsumerWidget {
         appBar: AppNavBar(
           leading: IconButton(
             key: const ValueKey('settingsButton'),
-            icon: const Icon(MXCIcons.settings, size: 32),
+            icon: const Icon(MxcIcons.settings, size: 32),
             onPressed: () {
               Navigator.of(context).push(
                 route(
@@ -44,7 +44,7 @@ class WalletPage extends HookConsumerWidget {
           ),
           action: IconButton(
             key: const ValueKey('appsButton'),
-            icon: const Icon(MXCIcons.apps, size: 32),
+            icon: const Icon(MxcIcons.apps, size: 32),
             onPressed: () =>
                 Navigator.of(context).replaceAll(route(const DAppsPage())),
             color: ColorsTheme.of(context).iconPrimary,

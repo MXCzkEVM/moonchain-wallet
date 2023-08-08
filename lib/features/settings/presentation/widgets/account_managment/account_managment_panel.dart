@@ -47,7 +47,7 @@ class AccountManagementPanel extends HookConsumerWidget {
                   ),
                   const Spacer(),
                   Icon(
-                    MXCIcons.dropdown_down,
+                    MxcIcons.dropdown_down,
                     size: 24,
                     color: ColorsTheme.of(context).iconPrimary,
                   )
@@ -91,7 +91,7 @@ class AccountManagementPanel extends HookConsumerWidget {
                         shape: BoxShape.circle,
                         color: ColorsTheme.of(context).backgroundGrey6),
                     child: Icon(
-                      MXCIcons.qr_code,
+                      MxcIcons.qr_code,
                       size: 32,
                       color: ColorsTheme.of(context).iconPrimary,
                     ),

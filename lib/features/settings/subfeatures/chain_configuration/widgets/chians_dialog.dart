@@ -41,7 +41,7 @@ Future<bool?> showChainsDialog(BuildContext context,
               action: Container(
                 alignment: Alignment.centerRight,
                 child: InkWell(
-                  child: Icon(MXCIcons.close,
+                  child: Icon(MxcIcons.close,
                       size: 32, color: ColorsTheme.of(context).iconPrimary),
                   onTap: () => Navigator.of(context).pop(false),
                 ),
@@ -73,7 +73,7 @@ Future<bool?> showChainsDialog(BuildContext context,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: Sizes.spaceNormal),
                             child: Icon(
-                              MXCIcons.check,
+                              MxcIcons.check,
                               size: 24,
                               color: ColorsTheme.of(context).white400,
                             ),

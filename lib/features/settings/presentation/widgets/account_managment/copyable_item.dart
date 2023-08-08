@@ -30,7 +30,7 @@ class CopyableItem extends HookConsumerWidget {
             width: Sizes.spaceXSmall,
           ),
           Icon(
-            MXCIcons.copy,
+            MxcIcons.copy,
             size: 20,
             color: ColorsTheme.of(context).iconGrey1,
           )

@@ -17,7 +17,7 @@ class GreyContainer extends StatelessWidget {
       width: width,
       padding: padding ?? const EdgeInsets.all(0),
       decoration: BoxDecoration(
-          color: ColorsTheme.of(context).box,
+          color: ColorsTheme.of(context).cardBackground,
           borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: child,
     );

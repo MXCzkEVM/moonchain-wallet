@@ -57,7 +57,7 @@ Future<bool?> showCustomNetworkSwitchDialog(
               onTap: () {
                 Navigator.of(context).pop(false);
               },
-              size: MxcButtonSize.xl,
+              size: AxsButtonSize.xl,
             ),
           ],
         ),

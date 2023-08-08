@@ -58,8 +58,6 @@ class NftsUseCase extends ReactiveUseCase {
           update(nfts, _repository.items);
         }
       }
-
-      
     }
   }
 }

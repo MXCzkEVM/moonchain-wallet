@@ -51,18 +51,18 @@ class TransactionInfo extends StatelessWidget {
 
   Widget transactionButton(BuildContext context) {
     String titleText = 'confirm';
-    MxcButtonType type = MxcButtonType.primary;
+    AxsButtonType type = AxsButtonType.primary;
 
     if (processType == TransactionProcessType.send) {
       titleText = 'send';
     } else if (processType == TransactionProcessType.done) {
       titleText = 'done';
-      type = MxcButtonType.pass;
+      type = AxsButtonType.pass;
     }
 
     return MxcButton.primary(
       key: const ValueKey('transactionButton'),
-      size: MxcButtonSize.xl,
+      size: AxsButtonSize.xl,
       title: FlutterI18n.translate(context, titleText),
       type: type,
       onTap: () {
@@ -161,7 +161,7 @@ class TransactionInfo extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Icon(
-              MXCIcons.external_link,
+              MxcIcons.external_link,
               size: 24,
               color: ColorsTheme.of(context).textSecondary,
             ),

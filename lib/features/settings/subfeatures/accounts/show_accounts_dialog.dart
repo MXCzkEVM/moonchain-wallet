@@ -58,7 +58,7 @@ void showAccountsDialog({
             title: FlutterI18n.translate(
                 context, isLoading ? 'adding_account' : 'add_new_account'),
             onTap: onAdd,
-            size: MxcButtonSize.xl,
+            size: AxsButtonSize.xl,
           ),
         ],
       ),

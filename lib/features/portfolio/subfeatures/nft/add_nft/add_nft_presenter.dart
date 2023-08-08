@@ -44,8 +44,8 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
     loading = true;
 
     try {
-      final owner = await _nftContractUseCase.getOwerOf(
-          address: address, tokeId: tokeId);
+      final owner =
+          await _nftContractUseCase.getOwerOf(address: address, tokeId: tokeId);
       final account = _accountUseCase.getWalletAddress();
 
       if (owner != account) {

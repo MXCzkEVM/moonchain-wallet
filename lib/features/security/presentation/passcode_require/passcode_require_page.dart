@@ -81,10 +81,10 @@ class PasscodeRequirePage extends PasscodeBasePage {
           buildErrorMessage(context, ref),
           Padding(
             padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
-            child: MxcButton.secondary(
+            child: MxcButton.secondaryWhite(
               key: const ValueKey('forgotPasscodeButton'),
               title: FlutterI18n.translate(context, 'forgot_passcode'),
-              size: MxcButtonSize.xl,
+              size: AxsButtonSize.xl,
               onTap: () => showResetPasscodeDialog(context, ref),
             ),
           ),

@@ -34,7 +34,9 @@ class BookmarkWidget extends StatelessWidget {
         borderRadius: const BorderRadius.all(
           Radius.circular(12),
         ),
-        color: bookmark.occupyGrid == 1 ? ColorsTheme.of(context).box : null,
+        color: bookmark.occupyGrid == 1
+            ? ColorsTheme.of(context).cardBackground
+            : null,
       ),
       child: child,
     );

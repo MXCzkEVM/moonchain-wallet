@@ -44,5 +44,4 @@ class NftsRepository extends ControlledCacheRepository {
   void removeAll() => nfts.value = [];
 
   void addAll(List<Nft> nftList) => nfts.value = nftList;
-
 }

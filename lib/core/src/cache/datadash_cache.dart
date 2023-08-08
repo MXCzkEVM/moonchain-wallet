@@ -33,7 +33,8 @@ class DatadashCache extends CacheContainer {
   final BalanceRepository balanceHistory = BalanceRepository();
   final RecipientsRepository recipients = RecipientsRepository();
   final NftsRepository nfts = NftsRepository();
-  final ChainConfigurationRepository chainConfigurationRepository = ChainConfigurationRepository();
+  final ChainConfigurationRepository chainConfigurationRepository =
+      ChainConfigurationRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [

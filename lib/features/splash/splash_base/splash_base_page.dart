@@ -47,17 +47,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Image(
-            image: ImagesTheme.of(context).datadash,
-          ),
-          Text(
-            'DataDash',
-            style: FontTheme.of(context).h4.white().copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-          Text(
-            'WALLET',
-            style: FontTheme.of(context).h5.white(),
+            image: ImagesTheme.of(context).axsWithTitle,
           ),
         ],
       );

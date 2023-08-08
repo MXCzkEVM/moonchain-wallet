@@ -48,7 +48,7 @@ class CustomerSupportPage extends HookConsumerWidget {
         MxcButton.secondary(
           key: const ValueKey('exportLogsButton'),
           title: FlutterI18n.translate(context, 'export_logs'),
-          size: MxcButtonSize.xl,
+          size: AxsButtonSize.xl,
           onTap: () => ref.read(presenter).exportedLogs(),
         ),
         if (ref.watch(state.select((v) => v.exportedLogsPath)).isNotEmpty) ...[
@@ -69,7 +69,7 @@ class CustomerSupportPage extends HookConsumerWidget {
         MxcButton.secondary(
           key: const ValueKey('jumpToTelegramButton'),
           title: FlutterI18n.translate(context, 'jump_to_telegram'),
-          size: MxcButtonSize.xl,
+          size: AxsButtonSize.xl,
           onTap: () => openUrl('tg://'),
         ),
       ],

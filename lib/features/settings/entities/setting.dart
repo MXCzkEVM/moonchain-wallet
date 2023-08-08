@@ -1,3 +1,4 @@
+import 'package:mxc_ui/mxc_ui.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
@@ -24,51 +25,51 @@ class Setting {
     return [
       Setting(
         title: FlutterI18n.translate(context, 'security'),
-        icon: MXCIcons.security,
+        icon: MxcIcons.security,
         page: const SecuritySettingsPage(),
       ),
       Setting(
           title: FlutterI18n.translate(context, 'chain_configuration'),
-          icon: MXCIcons.chain_configuration,
+          icon: MxcIcons.chain_configuration,
           onTap: () => Navigator.of(context)
               .push(route(const ChainConfigurationPage()))),
       Setting(
         title: FlutterI18n.translate(context, 'xsd_conversions'),
-        icon: MXCIcons.conversion,
+        icon: MxcIcons.conversion,
         page: const XsdConversionRatePage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'language'),
-        icon: MXCIcons.language,
+        icon: MxcIcons.language,
         page: const LanguagePage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'theme'),
-        icon: MXCIcons.theme,
+        icon: MxcIcons.theme,
         page: const ThemeSettingsPage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'address_book'),
-        icon: MXCIcons.address,
+        icon: MxcIcons.address,
         page: const SelectRecipientPage(
           editFlow: true,
         ),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'costomer_support'),
-        icon: MXCIcons.faq,
+        icon: MxcIcons.faq,
         page: const CustomerSupportPage(),
       ),
       Setting(
         title: FlutterI18n.translate(context, 'about'),
-        icon: MXCIcons.information,
+        icon: MxcIcons.information,
         page: const AboutPage(),
       ),
       Setting(
           title: FlutterI18n.translate(context, 'network_status'),
-          icon: MXCIcons.network_status,
+          icon: MxcIcons.network_status,
           page: const AboutPage(),
-          trailingIcon: MXCIcons.external_link,
+          trailingIcon: MxcIcons.external_link,
           onTap: () async {
             final uri = Uri.parse(Urls.mxcStatus);
             if (await canLaunchUrl(uri)) launchUrl(uri);

@@ -79,7 +79,7 @@ class DAppsPage extends HookConsumerWidget {
               AppNavBar(
                 leading: IconButton(
                   key: const ValueKey('settingsButton'),
-                  icon: const Icon(MXCIcons.settings),
+                  icon: const Icon(MxcIcons.settings),
                   iconSize: 32,
                   onPressed: () {
                     Navigator.of(context).push(
@@ -92,7 +92,7 @@ class DAppsPage extends HookConsumerWidget {
                 ),
                 action: IconButton(
                   key: const ValueKey('walletButton'),
-                  icon: const Icon(MXCIcons.wallet),
+                  icon: const Icon(MxcIcons.wallet),
                   iconSize: 32,
                   onPressed: () => Navigator.of(context).replaceAll(
                     route(const WalletPage()),

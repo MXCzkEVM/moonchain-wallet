@@ -12,7 +12,7 @@ Future<T?> showGeneralBottomSheet<T>(
     builder: (context) {
       return Container(
         decoration: ShapeDecoration(
-          color: ColorsTheme.of(context).box,
+          color: ColorsTheme.of(context).cardBackground,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(8),

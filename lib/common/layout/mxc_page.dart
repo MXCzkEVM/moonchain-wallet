@@ -183,13 +183,13 @@ abstract class MxcPage extends HookConsumerWidget {
       return Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: <Color>[
-              Color(0xFF8D023F),
-              Color(0xFF09379E),
+              Color(0xFF0F46F4),
+              Color(0xFF082FAF),
             ],
-            tileMode: TileMode.mirror,
+            tileMode: TileMode.clamp,
           ),
         ),
         child: child,

@@ -39,7 +39,7 @@ Future<bool?> showIpfsGateWayDialog(BuildContext context,
                 alignment: Alignment.centerRight,
                 child: InkWell(
                   child: Icon(
-                    MXCIcons.close,
+                    MxcIcons.close,
                     size: 32,
                     color: ColorsTheme.of(context).iconPrimary,
                   ),
@@ -76,7 +76,7 @@ Future<bool?> showIpfsGateWayDialog(BuildContext context,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: Sizes.spaceNormal),
                             child: Icon(
-                              MXCIcons.check,
+                              MxcIcons.check,
                               size: 24,
                               color: ColorsTheme.of(context).white400,
                             ),

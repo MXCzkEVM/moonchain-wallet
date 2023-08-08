@@ -27,7 +27,7 @@ class AboutPage extends HookConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: Sizes.spaceNormal),
           child: Image(
-            image: ImagesTheme.of(context).datadash,
+            image: ImagesTheme.of(context).axs,
           ),
         ),
         Text(

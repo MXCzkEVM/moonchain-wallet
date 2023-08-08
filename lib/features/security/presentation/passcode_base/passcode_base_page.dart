@@ -37,7 +37,7 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
               width: 32,
               colorFilter: filterFor(
                 ref.watch(state).enteredNumbers.length > i
-                    ? ColorsTheme.of(context).purple500
+                    ? ColorsTheme.of(context).primary60
                     : ColorsTheme.of(context).iconWhite,
               ),
             ),

@@ -26,7 +26,7 @@ class AppTerm extends StatelessWidget {
               FlutterI18n.translate(context, name),
               style: FontTheme.of(context).body2(),
             ),
-            const Icon(MXCIcons.external_link),
+            const Icon(MxcIcons.external_link),
           ],
         ),
       ),

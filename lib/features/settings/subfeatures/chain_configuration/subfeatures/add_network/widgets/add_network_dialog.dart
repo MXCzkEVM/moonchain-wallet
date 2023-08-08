@@ -105,7 +105,7 @@ Future<bool?> showAddNetworkDialog(BuildContext context,
               key: const ValueKey('cancelButton'),
               title: translate('cancel'),
               onTap: () => Navigator.of(context).pop(false),
-              size: MxcButtonSize.xl,
+              size: AxsButtonSize.xl,
             ),
             const SizedBox(
               height: Sizes.spaceNormal,
@@ -121,7 +121,7 @@ Future<bool?> showAddNetworkDialog(BuildContext context,
                       network: updatedNetwork, onTap: switchFunction);
                 }
               },
-              size: MxcButtonSize.xl,
+              size: AxsButtonSize.xl,
             ),
           ],
         ),

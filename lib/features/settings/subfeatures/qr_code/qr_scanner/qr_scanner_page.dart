@@ -96,7 +96,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
         MxcButton.primary(
           key: const ValueKey('showQrCodeButton'),
           title: FlutterI18n.translate(context, 'show_qr_code'),
-          icon: 'assets/svg/settings/qr_code.svg',
+          icon: MxcIcons.qr_code,
           onTap: () => BottomFlowDialog.of(context).close(),
         ),
       ],

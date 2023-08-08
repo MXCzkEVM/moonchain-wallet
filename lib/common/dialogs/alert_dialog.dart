@@ -17,7 +17,7 @@ Future<bool?> showAlertDialog({
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
-        backgroundColor: ColorsTheme.of(context).box,
+        backgroundColor: ColorsTheme.of(context).cardBackground,
         title: Text(
           '${FlutterI18n.translate(context, title)}?',
           style: FontTheme.of(context).h6().copyWith(
@@ -45,7 +45,7 @@ Future<bool?> showAlertDialog({
                 MxcButton.secondary(
                   key: const ValueKey('cancelButton'),
                   title: FlutterI18n.translate(context, cancel ?? 'cancel'),
-                  size: MxcButtonSize.xl,
+                  size: AxsButtonSize.xl,
                   width: 120,
                   onTap: () => Navigator.of(context).pop(false),
                 ),
@@ -53,7 +53,7 @@ Future<bool?> showAlertDialog({
                   key: const ValueKey('deleteButton'),
                   title: FlutterI18n.translate(context, ok ?? 'delete'),
                   titleColor: ColorsTheme.of(context).textBlack200,
-                  size: MxcButtonSize.xl,
+                  size: AxsButtonSize.xl,
                   width: 120,
                   onTap: () => Navigator.of(context).pop(true),
                 ),

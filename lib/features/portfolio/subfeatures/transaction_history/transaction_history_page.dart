@@ -33,7 +33,7 @@ class TransactionHistoryPage extends HookConsumerWidget {
       appBar: AppNavBar(
         action: IconButton(
           key: const ValueKey('appsButton'),
-          icon: const Icon(MXCIcons.apps),
+          icon: const Icon(MxcIcons.apps),
           iconSize: 32,
           onPressed: () =>
               Navigator.of(context).replaceAll(route(const DAppsPage())),
@@ -53,7 +53,7 @@ class TransactionHistoryPage extends HookConsumerWidget {
             onTap: () => ref.read(presenter).fliterAndSort(),
             title: FlutterI18n.translate(context, 'filter_&_sort'),
             alignIconStart: true,
-            iconData: MXCIcons.filter,
+            iconData: MxcIcons.filter,
           ),
         ),
         const SizedBox(height: 12),

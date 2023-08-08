@@ -40,7 +40,7 @@ class WalletAddress extends HookConsumerWidget {
       child: Container(
         padding: const EdgeInsets.only(right: 24, left: 24, bottom: 34),
         decoration: BoxDecoration(
-          color: ColorsTheme.of(context).box,
+          color: ColorsTheme.of(context).cardBackground,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),

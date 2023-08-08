@@ -58,7 +58,7 @@ class SettingItem extends HookConsumerWidget {
                     ),
                     settingData.trailingIcon != null
                         ? Icon(
-                            MXCIcons.external_link,
+                            MxcIcons.external_link,
                             size: 24,
                             color: ColorsTheme.of(context).iconPrimary,
                           )

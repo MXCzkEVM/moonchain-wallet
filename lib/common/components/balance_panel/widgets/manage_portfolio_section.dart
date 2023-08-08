@@ -25,7 +25,7 @@ class ManagePortfolioSection extends HookConsumerWidget {
       child: Row(
         children: [
           Icon(
-            MXCIcons.coins,
+            MxcIcons.coins,
             color: ColorsTheme.of(context).iconSecondary,
             size: 20,
           ),

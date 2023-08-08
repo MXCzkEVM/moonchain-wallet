@@ -1,3 +1,4 @@
+import 'package:mxc_ui/mxc_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -5,9 +6,11 @@ class CircleIcon extends StatelessWidget {
   const CircleIcon({
     Key? key,
     required this.icon,
+    this.size,
   }) : super(key: key);
 
-  final String icon;
+  final IconData icon;
+  final double? size;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +22,10 @@ class CircleIcon extends StatelessWidget {
         shape: BoxShape.circle,
         color: const Color(0xFFFFFFFF).withOpacity(0.32),
       ),
-      child: SvgPicture.asset(
+      child: Icon(
         icon,
-        fit: BoxFit.scaleDown,
+        color: ColorsTheme.of(context).white100,
+        size: size,
       ),
     );
   }

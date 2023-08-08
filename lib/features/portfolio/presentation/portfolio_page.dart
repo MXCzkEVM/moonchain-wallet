@@ -34,7 +34,7 @@ class PortfolioPage extends HookConsumerWidget {
         appBar: AppNavBar(
           action: IconButton(
             key: const ValueKey('appsButton'),
-            icon: const Icon(MXCIcons.apps),
+            icon: const Icon(MxcIcons.apps),
             iconSize: 32,
             onPressed: () =>
                 Navigator.of(context).replaceAll(route(const DAppsPage())),
@@ -43,7 +43,7 @@ class PortfolioPage extends HookConsumerWidget {
         ),
         floatingActionButton: Container(
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 30),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
             child: IntrinsicHeight(
               child: Stack(
                 fit: StackFit.passthrough,
@@ -74,7 +74,7 @@ class PortfolioPage extends HookConsumerWidget {
                       children: [
                         MxcCircleButton.icon(
                           key: const Key('sendButton'),
-                          icon: MXCIcons.send,
+                          icon: MxcIcons.send,
                           onTap: () => Navigator.of(context).push(route(
                               state.switchTokensOrNFTs
                                   ? const ChooseCryptoPage()
@@ -89,7 +89,7 @@ class PortfolioPage extends HookConsumerWidget {
                         ),
                         MxcCircleButton.icon(
                           key: const Key('receiveButton'),
-                          icon: MXCIcons.receive,
+                          icon: MxcIcons.receive,
                           onTap: () {
                             presenter.resetCopyState();
                             showWalletAddressDialog(context, ref);
@@ -104,7 +104,7 @@ class PortfolioPage extends HookConsumerWidget {
                         ),
                         MxcCircleButton.icon(
                           key: const Key('historyButton'),
-                          icon: MXCIcons.history,
+                          icon: MxcIcons.history,
                           onTap: () => Navigator.of(context)
                               .push(route(const TransactionHistoryPage())),
                           iconSize: 24,

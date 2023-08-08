@@ -59,7 +59,7 @@ class RecentTransactions extends HookConsumerWidget {
                       'https://wannsee-explorer.mxc.com/address/$walletAddress'),
                   title:
                       FlutterI18n.translate(context, 'view_other_transactions'),
-                  iconData: MXCIcons.external_link,
+                  iconData: MxcIcons.external_link,
                   alignIconStart: false,
                 ),
             ],

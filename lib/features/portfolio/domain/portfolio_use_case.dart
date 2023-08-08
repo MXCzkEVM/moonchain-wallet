@@ -12,7 +12,8 @@ class PortfolioUseCase extends ReactiveUseCase {
   final Web3Repository _repository;
 
   Future<String> getWalletNativeTokenBalance(String address) async {
-    final wallet = await (await _repository.tokenContract).getEthBalance(address);
+    final wallet =
+        await (await _repository.tokenContract).getEthBalance(address);
     return (wallet.getInWei.toDouble() / pow(10, 18)).toStringAsFixed(2);
   }
 

@@ -2,7 +2,6 @@ import 'package:datadashwallet/common/components/recent_transactions/widgets/rec
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import '../../mxc_icons.dart';
 import '../../utils/formatter.dart';
 import 'recent_transactions.dart';
 
@@ -47,10 +46,10 @@ class RecentTransactionsUtils {
     late IconData txIcon;
     switch (transactionType) {
       case TransactionType.sent:
-        txIcon = MXCIcons.send;
+        txIcon = MxcIcons.send;
         break;
       case TransactionType.received:
-        txIcon = MXCIcons.receive;
+        txIcon = MxcIcons.receive;
         break;
       default:
         txIcon = Icons.question_mark;

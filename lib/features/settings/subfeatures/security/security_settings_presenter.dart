@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'security_settings_state.dart';
 
-import 'widgets/delet_wallet_dialog.dart';
+import 'widgets/delete_wallet_dialog.dart';
 
 final securitySettingsContainer =
     PresenterContainer<SecuritySettingsPresenter, SecuritySettingsState>(

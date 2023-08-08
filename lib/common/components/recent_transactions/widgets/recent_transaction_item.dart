@@ -144,7 +144,7 @@ class RecentTrxListItem extends HookConsumerWidget {
                       width: 4,
                     ),
                     Icon(
-                      MXCIcons.external_link,
+                      MxcIcons.external_link,
                       size: 20,
                       color: ColorsTheme.of(context).iconSecondary,
                     )

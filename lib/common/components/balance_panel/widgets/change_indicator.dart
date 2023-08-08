@@ -25,8 +25,8 @@ class ChangeIndicator extends HookConsumerWidget {
                     )
                   : Icon(
                       state.changeIndicator!.isNegative
-                          ? MXCIcons.decrease
-                          : MXCIcons.increase,
+                          ? MxcIcons.decrease
+                          : MxcIcons.increase,
                       color: state.changeIndicator!.isNegative
                           ? ColorsTheme.of(context).systemStatusInActive
                           : ColorsTheme.of(context).systemStatusActive,

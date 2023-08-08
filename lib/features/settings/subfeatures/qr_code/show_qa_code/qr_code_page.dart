@@ -72,7 +72,7 @@ class QrCodePage extends HookConsumerWidget {
         MxcButton.primary(
           key: const ValueKey('scanQrCodeButton'),
           title: FlutterI18n.translate(context, 'scan_qr_code'),
-          icon: 'assets/svg/settings/qr_code.svg',
+          icon: MxcIcons.qr_code,
           onTap: () => Navigator.of(context).push(
             route.featureDialog(const QrScannerPage()),
           ),
