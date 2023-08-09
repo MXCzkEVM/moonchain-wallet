@@ -75,10 +75,14 @@ class PortfolioPage extends HookConsumerWidget {
                         MxcCircleButton.icon(
                           key: const Key('sendButton'),
                           icon: MxcIcons.send,
+                          iconFillColor: ColorsTheme.of(context)
+                              .iconButtonBackgroundActive,
+                          color: ColorsTheme.of(context).iconButtonInvertActive,
                           onTap: () => Navigator.of(context).push(route(
                               state.switchTokensOrNFTs
                                   ? const ChooseCryptoPage()
                                   : const ChooseNftPage())),
+                          titleStyle: FontTheme.of(context).subtitle1.primary(),
                           iconSize: 24,
                           filled: false,
                           shadowRadius: 50,
@@ -89,11 +93,15 @@ class PortfolioPage extends HookConsumerWidget {
                         ),
                         MxcCircleButton.icon(
                           key: const Key('receiveButton'),
+                          iconFillColor: ColorsTheme.of(context)
+                              .iconButtonBackgroundActive,
+                          color: ColorsTheme.of(context).iconButtonInvertActive,
                           icon: MxcIcons.receive,
                           onTap: () {
                             presenter.resetCopyState();
                             showWalletAddressDialog(context, ref);
                           },
+                          titleStyle: FontTheme.of(context).subtitle1.primary(),
                           iconSize: 24,
                           filled: false,
                           shadowRadius: 50,
@@ -104,9 +112,13 @@ class PortfolioPage extends HookConsumerWidget {
                         ),
                         MxcCircleButton.icon(
                           key: const Key('historyButton'),
+                          iconFillColor: ColorsTheme.of(context)
+                              .iconButtonBackgroundActive,
+                          color: ColorsTheme.of(context).iconButtonInvertActive,
                           icon: MxcIcons.history,
                           onTap: () => Navigator.of(context)
                               .push(route(const TransactionHistoryPage())),
+                          titleStyle: FontTheme.of(context).subtitle1.primary(),
                           iconSize: 24,
                           filled: false,
                           shadowRadius: 50,
@@ -142,8 +154,7 @@ class PortfolioPage extends HookConsumerWidget {
                     buttonState: state.switchTokensOrNFTs
                         ? ChipButtonStates.activeState
                         : ChipButtonStates.inactiveState,
-                    onTap: () => presenter
-                        .changeTokensOrNFTsTab(true),
+                    onTap: () => presenter.changeTokensOrNFTsTab(true),
                     title: FlutterI18n.translate(context, 'tokens'),
                     alignIconStart: true,
                   ),
@@ -155,8 +166,7 @@ class PortfolioPage extends HookConsumerWidget {
                     buttonState: !state.switchTokensOrNFTs
                         ? ChipButtonStates.activeState
                         : ChipButtonStates.inactiveState,
-                    onTap: () => presenter
-                        .changeTokensOrNFTsTab(false),
+                    onTap: () => presenter.changeTokensOrNFTsTab(false),
                     title: FlutterI18n.translate(context, 'nfts'),
                     alignIconStart: true,
                   )

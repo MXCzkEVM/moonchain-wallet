@@ -265,5 +265,6 @@
 	"swipe_right": "Swipe right to switch back to a previous DApp, or to all DApps, if any.",
 	"swipe_left": "Swipe left to switch to the next opened DApp.",
 	"double_tap_reload": "Double tap to reload your DApp.",
-	"pinch_all_dapps": "Pinch to view all opened DApps."
+	"pinch_all_dapps": "Pinch to view all opened DApps.",
+	"try_again": "Try again"
 }
