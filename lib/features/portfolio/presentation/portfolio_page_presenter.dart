@@ -73,8 +73,9 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     await _tokenContractUseCase.getTokensBalance(state.walletAddress!);
   }
 
-  void changeTokensOrNFTsTab() {
-    notify(() => state.switchTokensOrNFTs = !state.switchTokensOrNFTs);
+  void changeTokensOrNFTsTab(bool toggle) {
+    if(toggle == state.switchTokensOrNFTs) return;
+    notify(() => state.switchTokensOrNFTs = toggle);
   }
 
   void copyWalletAddressToClipboard() async {

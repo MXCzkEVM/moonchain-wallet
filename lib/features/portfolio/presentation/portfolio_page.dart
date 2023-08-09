@@ -142,7 +142,8 @@ class PortfolioPage extends HookConsumerWidget {
                     buttonState: state.switchTokensOrNFTs
                         ? ChipButtonStates.activeState
                         : ChipButtonStates.inactiveState,
-                    onTap: () => presenter.changeTokensOrNFTsTab(),
+                    onTap: () => presenter
+                        .changeTokensOrNFTsTab(true),
                     title: FlutterI18n.translate(context, 'tokens'),
                     alignIconStart: true,
                   ),
@@ -154,7 +155,8 @@ class PortfolioPage extends HookConsumerWidget {
                     buttonState: !state.switchTokensOrNFTs
                         ? ChipButtonStates.activeState
                         : ChipButtonStates.inactiveState,
-                    onTap: () => presenter.changeTokensOrNFTsTab(),
+                    onTap: () => presenter
+                        .changeTokensOrNFTsTab(false),
                     title: FlutterI18n.translate(context, 'nfts'),
                     alignIconStart: true,
                   )
