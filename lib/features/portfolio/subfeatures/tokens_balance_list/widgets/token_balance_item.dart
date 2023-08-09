@@ -27,7 +27,7 @@ class TokenBalanceItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _accountUseCase = ref.watch(accountUseCaseProvider);
-
+    final walletState = ref.watch(walletContainer.state);
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -62,8 +62,14 @@ class TokenBalanceItem extends HookConsumerWidget {
                       Text(
                         balance.toString(),
                         style: FontTheme.of(context).caption1().copyWith(
-                              fontSize: 16,
-                            ),
+                            fontSize: 16,
+                            foreground: walletState.hideBalance == true
+                                ? (Paint()
+                                  ..style = PaintingStyle.fill
+                                  ..color = Colors.white
+                                  ..maskFilter = const MaskFilter.blur(
+                                      BlurStyle.normal, 6))
+                                : null),
                         textAlign: TextAlign.right,
                       ),
                     ],
@@ -79,9 +85,18 @@ class TokenBalanceItem extends HookConsumerWidget {
                       ),
                       Text(
                         '$balanceInXsd ${_accountUseCase.getXsdUnit()}',
-                        style: FontTheme.of(context)
-                            .subtitle1()
-                            .copyWith(color: ColorsTheme.of(context).white400),
+                        style: FontTheme.of(context).subtitle1().copyWith(
+                              color: walletState.hideBalance == true
+                                  ? null
+                                  : ColorsTheme.of(context).white400,
+                              foreground: walletState.hideBalance == true
+                                  ? (Paint()
+                                    ..style = PaintingStyle.fill
+                                    ..color = Colors.white
+                                    ..maskFilter = const MaskFilter.blur(
+                                        BlurStyle.normal, 6))
+                                  : null,
+                            ),
                         textAlign: TextAlign.right,
                       ),
                     ],
