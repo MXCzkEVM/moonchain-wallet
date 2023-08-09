@@ -7,9 +7,10 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'passcode_change_enter_new_page_presenter.dart';
 
 class PasscodeChangeEnterNewPage extends PasscodeBasePage {
-  const PasscodeChangeEnterNewPage({
-    Key? key,
-  }) : super(key: key);
+  const PasscodeChangeEnterNewPage({Key? key, this.dismissedDest})
+      : super(key: key);
+
+  final String? dismissedDest;
 
   @override
   String title(BuildContext context, WidgetRef ref) =>
@@ -18,6 +19,9 @@ class PasscodeChangeEnterNewPage extends PasscodeBasePage {
   @override
   String hint(BuildContext context, WidgetRef ref) =>
       FlutterI18n.translate(context, 'change_passcode_hint');
+
+  @override
+  String? dismissedPage() => dismissedDest;
 
   @override
   ProviderBase<PasscodeBasePagePresenter> get presenter =>

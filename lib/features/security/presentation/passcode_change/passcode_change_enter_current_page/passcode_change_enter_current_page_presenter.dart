@@ -1,4 +1,3 @@
-
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 
@@ -18,7 +17,7 @@ class PasscodeChangeEnterCurrentPagePresenter
       ref.read(passcodeUseCaseProvider);
 
   @override
-  void onAllNumbersEntered() async {
+  void onAllNumbersEntered(String? dismissedPage) async {
     if (state.enteredNumbers.join('') != _passcodeUseCase.passcode.value) {
       if (state.wrongInputCounter < 2) {
         state.errorText = translate('incorrect_passcode')!;
@@ -39,7 +38,8 @@ class PasscodeChangeEnterCurrentPagePresenter
     );
 
     final res = await navigator
-        ?.push(route.featureDialogPage(const PasscodeChangeEnterNewPage()))
+        ?.push(route.featureDialogPage(
+            PasscodeChangeEnterNewPage(dismissedDest: dismissedPage)))
         .then((v) => v as String?);
 
     if (res == null) {

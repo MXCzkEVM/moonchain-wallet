@@ -28,7 +28,7 @@ class PasscodeRequirePresenter
   }
 
   @override
-  void onAllNumbersEntered() async {
+  void onAllNumbersEntered(String? dismissedPage) async {
     if (state.enteredNumbers.join('') != _passcodeUseCase.passcode.value) {
       if (state.wrongInputCounter < 6) {
         state.wrongInputCounter++;

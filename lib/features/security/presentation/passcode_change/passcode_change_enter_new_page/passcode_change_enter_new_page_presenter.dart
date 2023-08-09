@@ -1,4 +1,3 @@
-
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 
@@ -10,7 +9,7 @@ class PasscodeChangeEnterNewPagePresenter extends PasscodeBasePagePresenter {
   PasscodeChangeEnterNewPagePresenter() : super(PasscodeBasePageState());
 
   @override
-  void onAllNumbersEntered() async {
+  void onAllNumbersEntered(String? dismissedPage) async {
     Future.delayed(
       passcodeTransitionDuration,
       () => notify(() => state.enteredNumbers = []),

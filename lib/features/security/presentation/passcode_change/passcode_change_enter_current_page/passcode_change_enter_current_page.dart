@@ -8,12 +8,12 @@ import 'passcode_change_enter_current_page_presenter.dart';
 import 'passcode_change_enter_current_page_state.dart';
 
 class PasscodeChangeEnterCurrentPage extends PasscodeBasePage {
-  const PasscodeChangeEnterCurrentPage({
-    Key? key,
-    this.change = false,
-  }) : super(key: key);
+  const PasscodeChangeEnterCurrentPage(
+      {Key? key, this.change = false, this.dismissedDest})
+      : super(key: key);
 
   final bool change;
+  final String? dismissedDest;
 
   @override
   String title(BuildContext context, WidgetRef ref) =>
@@ -22,6 +22,9 @@ class PasscodeChangeEnterCurrentPage extends PasscodeBasePage {
   @override
   String hint(BuildContext context, WidgetRef ref) =>
       FlutterI18n.translate(context, 'enter_current_passcode');
+
+  @override
+  String? dismissedPage() => dismissedDest;
 
   @override
   ProviderBase<PasscodeBasePagePresenter> get presenter =>

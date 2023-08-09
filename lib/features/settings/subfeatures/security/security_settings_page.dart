@@ -52,7 +52,10 @@ class SecuritySettingsPage extends HookConsumerWidget {
           title: translate('change_passcode'),
           size: AxsButtonSize.xl,
           onTap: () => Navigator.of(context).push(
-            route.featureDialog(const PasscodeChangeEnterCurrentPage()),
+            route.featureDialog<PasscodeChangeEnterCurrentPage>(
+                const PasscodeChangeEnterCurrentPage(
+              dismissedDest: 'SecuritySettingsPage',
+            )),
           ),
         ),
         const SizedBox(height: Sizes.space4XLarge),

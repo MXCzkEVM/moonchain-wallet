@@ -21,7 +21,7 @@ class PasscodeChangeConfirmPagePresenter extends PasscodeBasePagePresenter {
       ref.read(passcodeUseCaseProvider);
 
   @override
-  void onAllNumbersEntered() {
+  void onAllNumbersEntered(String? dismissedPage) {
     if (!const DeepCollectionEquality()
         .equals(state.enteredNumbers, expectedNumbers)) {
       navigator?.pop(PasscodeChangeConfirmResult.dontMatch);
