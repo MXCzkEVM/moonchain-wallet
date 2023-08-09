@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
@@ -103,7 +105,9 @@ class SecuritySettingsPage extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              translate('face_id'),
+              Platform.isAndroid
+                  ? translate("fingerprint")
+                  : translate('face_id'),
               style: FontTheme.of(context).body2(),
             ),
             CupertinoSwitch(

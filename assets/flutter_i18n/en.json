@@ -44,6 +44,7 @@
 	"email_secured_body": "For the security and privacy of your AXS wallet it's essential that you keep all information contained in this email strictly confidential. \nPlease follow these next steps carefully: \n1. Ensure you're the sole recipient of this email by replacing the recipient's address with your own. \n2. After confirming the correct email address, proceed to click the 'Send' button to forward this vital information to yourself securely. By adhering to these measures, you'll ensure the utmost safety for your AXS wallet. Thank you for your diligence in this matter.",
 	"email_secured_subject": "Secure Your AXS Wallet Key - Important Instructions",
 	"face_id": "Face ID",
+	"fingerprint": "Fingerprint",
 	"touch_id": "Touch ID",
 	"unlock_axs_wallet": "Unlock your AXS wallet",
 	"enter_your_passcode": "Enter your passcode",
