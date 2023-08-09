@@ -32,6 +32,7 @@ class RecentTrxListItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(walletContainer.actions);
+    final state = ref.watch(walletContainer.state);
     final formattedTXHash = Formatter.formatWalletAddress(txHash);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -81,6 +82,13 @@ class RecentTrxListItem extends HookConsumerWidget {
                         amount,
                         style: FontTheme.of(context).body1.primary().copyWith(
                               fontWeight: FontWeight.w500,
+                              foreground: state.hideBalance == true
+                                  ? (Paint()
+                                    ..style = PaintingStyle.fill
+                                    ..color = Colors.white
+                                    ..maskFilter = const MaskFilter.blur(
+                                        BlurStyle.normal, 6))
+                                  : null,
                             ),
                         softWrap: true,
                       ),
