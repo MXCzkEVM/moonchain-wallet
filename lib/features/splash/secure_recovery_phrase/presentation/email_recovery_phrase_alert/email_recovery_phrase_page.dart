@@ -27,9 +27,10 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
       emailRecoveryPhraseContainer.state;
 
   @override
-  Widget icon(BuildContext context) => SvgPicture.asset(
-        'assets/svg/splash/ic_email.svg',
-        colorFilter: filterFor(themeColor()),
+  Widget icon(BuildContext context) => Icon(
+        MxcIcons.email,
+        size: 40,
+        color: themeColor(),
       );
 
   @override

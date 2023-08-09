@@ -27,9 +27,10 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
       telegramRecoveryPhraseContainer.state;
 
   @override
-  Widget icon(BuildContext context) => SvgPicture.asset(
-        'assets/svg/splash/ic_telegram.svg',
-        colorFilter: filterFor(themeColor()),
+  Widget icon(BuildContext context) => Icon(
+        MxcIcons.telegram,
+        size: 52,
+        color: themeColor(),
       );
 
   String name(BuildContext context) =>
@@ -135,8 +136,9 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
                           shape: BoxShape.circle,
                           color: Color(0xFF37AEE2),
                         ),
-                        child: SvgPicture.asset(
-                          'assets/svg/splash/ic_saved_messages.svg',
+                        child: const Icon(
+                          MxcIcons.saved_messages,
+                          size: 20,
                         ),
                       ),
                       const SizedBox(width: 10),

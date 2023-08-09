@@ -102,7 +102,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final email = MailOptions(
       body: FlutterI18n.translate(ctx, 'email_secured_body'),
       subject: FlutterI18n.translate(ctx, 'email_secured_subject'),
-      attachments: res['filePath'],
+      attachments: [res['filePath']],
       isHTML: false,
     );
 
