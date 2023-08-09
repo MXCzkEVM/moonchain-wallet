@@ -32,8 +32,9 @@ void showSnackBar({
         Expanded(
           child: Text(
             content,
-            style: FontTheme.of(context, listen: false).body1(),
-            textAlign: TextAlign.center,
+            style: FontTheme.of(context, listen: false).body1().copyWith(
+                color: ColorsTheme.of(context, listen: false).snackbarText),
+            textAlign: TextAlign.start,
             softWrap: true,
           ),
         ),
@@ -41,6 +42,6 @@ void showSnackBar({
     ),
     behavior: SnackBarBehavior.floating,
   );
-
+  ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
