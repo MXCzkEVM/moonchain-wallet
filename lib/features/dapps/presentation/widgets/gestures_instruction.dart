@@ -51,6 +51,11 @@ class _GesturesInstructionState extends State<GesturesInstruction> {
       image: 'assets/lottie/gestures/double-tap.json',
       description: 'double_tap_reload',
     ),
+    // Next sprint needs to do this feature
+    // const GesturesInstructionItem(
+    //   image: 'assets/lottie/gestures/pinch.json',
+    //   description: 'pinch_all_dapps',
+    // ),
   ];
 
   @override
