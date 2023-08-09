@@ -10,6 +10,7 @@ void showSnackBar({
   SnackBarType? type = SnackBarType.success,
 }) {
   final snackBar = SnackBar(
+    elevation: 1000,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
@@ -28,10 +29,13 @@ void showSnackBar({
           size: 20,
         ),
         const SizedBox(width: Sizes.space2XSmall),
-        Text(
-          content,
-          style: FontTheme.of(context, listen: false).body1(),
-          textAlign: TextAlign.center,
+        Expanded(
+          child: Text(
+            content,
+            style: FontTheme.of(context, listen: false).body1(),
+            textAlign: TextAlign.center,
+            softWrap: true,
+          ),
         ),
       ],
     ),

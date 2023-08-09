@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:web3dart/web3dart.dart';
 
 extension Unique<E, T> on List<E> {
   void unique([T Function(E element)? id, bool inPlace = true]) {
@@ -103,13 +105,20 @@ class TokenContractUseCase extends ReactiveUseCase {
     update(tokensList, tokensList.value);
   }
 
+  Future<EtherAmount> getGasPrice() async =>
+      await _repository.tokenContract.getGasPrice();
+
   Future<EstimatedGasFee> estimateGesFee({
     required String from,
     required String to,
+    EtherAmount? gasPrice,
+    Uint8List? data,
   }) async =>
       await _repository.tokenContract.estimateGesFee(
         from: from,
         to: to,
+        gasPrice: gasPrice,
+        data: data,
       );
 
   Future<String> sendTransaction({
@@ -117,12 +126,14 @@ class TokenContractUseCase extends ReactiveUseCase {
     required String to,
     required String amount,
     EstimatedGasFee? estimatedGasFee,
+    Uint8List? data,
   }) async =>
       await _repository.tokenContract.sendTransaction(
         privateKey: privateKey,
         to: to,
         amount: amount,
         estimatedGasFee: estimatedGasFee,
+        data: data,
       );
 
   Future<int> getChainId(String rpcUrl) async {

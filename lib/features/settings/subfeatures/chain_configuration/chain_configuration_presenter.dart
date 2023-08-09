@@ -1,8 +1,7 @@
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:mxc_logic/src/domain/entities/network.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'chain_configuration_state.dart';
 
 final chainConfigurationContainer =
@@ -13,7 +12,7 @@ class ChainConfigurationPresenter
     extends CompletePresenter<ChainConfigurationState> {
   ChainConfigurationPresenter() : super(ChainConfigurationState());
 
-  late final _accountUserCase = ref.read(accountUseCaseProvider);
+  late final _webviewUseCase = WebviewUseCase();
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
@@ -65,6 +64,7 @@ class ChainConfigurationPresenter
   void setAsDefault(Network newDefault) {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
     _authUseCase.resetNetwork(newDefault);
+    _webviewUseCase.clearCache();
 
     addMessage(
       translate('x_is_now_active')!.replaceFirst(

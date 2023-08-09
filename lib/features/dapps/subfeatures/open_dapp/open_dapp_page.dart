@@ -1,6 +1,5 @@
 import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -11,7 +10,7 @@ import 'package:web3_provider/web3_provider.dart';
 
 import 'open_dapp_presenter.dart';
 import 'open_dapp_state.dart';
-import 'widgets/js_bridge_bean.dart';
+import 'widgets/bridge_params.dart';
 
 class OpenAppPage extends HookConsumerWidget {
   const OpenAppPage({Key? key, required this.bookmark}) : super(key: key);
@@ -52,8 +51,8 @@ class OpenAppPage extends HookConsumerWidget {
                 },
                 onDoubleTap: () => state.webviewController!.reload(),
                 child: InAppWebViewEIP1193(
-                  chainId: Sys.chainId,
-                  rpcUrl: Sys.rpcUrl,
+                  chainId: state.network?.chainId,
+                  rpcUrl: state.network?.web3RpcHttpUrl,
                   isDebug: false,
                   initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
@@ -81,7 +80,6 @@ class OpenAppPage extends HookConsumerWidget {
                         BridgeParams bridge = BridgeParams.fromJson(object);
                         presenter.signTransaction(
                             bridge: bridge,
-                            chainId: Sys.chainId,
                             cancel: () {
                               controller?.cancel(id);
                             },

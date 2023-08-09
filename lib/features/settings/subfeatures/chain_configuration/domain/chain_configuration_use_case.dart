@@ -71,6 +71,12 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
     }
   }
 
+  void getCurrentNetwork() {
+    final currentNetwork =
+        _repository.items.where((item) => item.enabled).first;
+    update(selectedNetwork, currentNetwork);
+  }
+
   void selectNetwork(Network network) {
     update(selectedNetwork, network);
   }

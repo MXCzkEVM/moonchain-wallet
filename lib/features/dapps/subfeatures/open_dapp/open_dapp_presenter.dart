@@ -1,18 +1,14 @@
-import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:flutter/material.dart';
-import 'package:wallet_connect/wallet_connect.dart';
+import 'package:flutter/services.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
-import 'package:web3dart/json_rpc.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
-import 'package:http/http.dart';
 
 import '../../entities/bookmark.dart';
 import 'open_dapp_state.dart';
-import 'widgets/js_bridge_bean.dart';
-import 'widgets/payment_sheet_page.dart';
+import 'widgets/bridge_params.dart';
+import 'widgets/transaction_dialog.dart';
 
 final openDAppPageContainer =
     PresenterContainerWithParameter<OpenDAppPresenter, OpenDAppState, Bookmark>(
@@ -23,12 +19,20 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   final Bookmark bookmark;
 
+  late final _chainConfigurationUserCase =
+      ref.read(chainConfigurationUseCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
-  late Web3Client _ethClient;
 
   @override
   void initState() {
     super.initState();
+
+    listen(_chainConfigurationUserCase.selectedNetwork, (value) {
+      if (value != null) {
+        notify(() => state.network = value);
+      }
+    });
 
     loadPage();
   }
@@ -39,7 +43,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<void> loadPage() async {
-    _ethClient = Web3Client(Sys.rpcUrl, Client());
+    _chainConfigurationUserCase.getCurrentNetwork();
 
     final address = _accountUseCase.getWalletAddress();
     notify(() => state.wallletAddress = address);
@@ -48,113 +52,110 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void onWebViewCreated(InAppWebViewController controller) =>
       notify(() => state.webviewController = controller);
 
-  void showModalConfirm({
-    required String from,
-    required String to,
-    required BigInt value,
-    required String fee,
-    required VoidCallback confirm,
-    required VoidCallback cancel,
-  }) {
-    showModalBottomSheet(
-        context: context!,
-        elevation: 0,
-        isDismissible: true,
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        builder: (_) {
-          return PaymentSheet(
-            datas: PaymentSheet.getTransStyleList(
-              from: from,
-              to: to,
-              remark: '',
-              fee: '$fee MXC',
-            ),
-            amount: '${value.tokenString(18)} MXC',
-            nextAction: () async {
-              confirm.call();
-            },
-            cancelAction: () {
-              cancel.call();
-            },
-          );
-        });
+  Future<EstimatedGasFee?> _estimatedFee(
+    String from,
+    String to,
+    EtherAmount? gasPrice,
+    Uint8List? data,
+  ) async {
+    loading = true;
+    try {
+      final gasFee = await _tokenContractUseCase.estimateGesFee(
+        from: from,
+        to: to,
+        gasPrice: gasPrice,
+        data: data,
+      );
+      loading = false;
+
+      return gasFee;
+    } catch (e, s) {
+      addError(e, s);
+    } finally {
+      loading = false;
+    }
+  }
+
+  Future<String?> _sendTransaction(
+    String to,
+    String amount,
+    Uint8List? data,
+  ) async {
+    loading = true;
+    try {
+      final res = await _tokenContractUseCase.sendTransaction(
+        privateKey: _accountUseCase.getPravateKey()!,
+        to: to,
+        amount: amount,
+        data: data,
+      );
+
+      return res;
+    } catch (e, s) {
+      addError(e, s);
+    } finally {
+      loading = false;
+    }
   }
 
   void signTransaction({
     required BridgeParams bridge,
-    required int chainId,
     required VoidCallback cancel,
     required Function(String idHaethClientsh) success,
   }) async {
-    final credentials = EthPrivateKey.fromHex(_accountUseCase.getPravateKey()!);
-    final sender = EthereumAddress.fromHex(bridge.from ?? '');
-    final signto = EthereumAddress.fromHex(bridge.to ?? '');
-    final input = hexToBytes(bridge.data ?? '');
+    final amount = EtherAmount.inWei(bridge.value ?? BigInt.zero);
+    final bridgeData = hexToBytes(bridge.data ?? '');
+    EtherAmount? gasPrice;
+    EtherAmount? gasFee;
+    EstimatedGasFee? estimatedGasFee;
 
-    String? price = (bridge.gasPrice == null)
-        ? (await _ethClient.getGasPrice()).toString()
-        : bridge.gasPrice;
-
-    if (price != null && price.startsWith('EtherAmount:')) {
-      price = price.split(' ')[1];
+    if (bridge.gasPrice != null) {
+      gasPrice = EtherAmount.fromBase10String(EtherUnit.wei, bridge.gasPrice!);
     }
 
-    int? maxGas;
+    if (bridge.gas != null) {
+      gasPrice = gasPrice ?? await _tokenContractUseCase.getGasPrice();
+      gasFee = EtherAmount.fromBigInt(EtherUnit.wei,
+          gasPrice.getInWei * BigInt.parse(bridge.gas.toString()));
+    } else {
+      estimatedGasFee = await _estimatedFee(
+        bridge.from!,
+        bridge.to!,
+        gasPrice,
+        bridgeData,
+      );
+
+      if (estimatedGasFee == null) {
+        cancel.call();
+        return;
+      }
+    }
+
     try {
-      maxGas = (bridge.gas ??
-          await _ethClient.estimateGas(
-            sender: sender,
-            to: signto,
-            data: input,
-          )) as int?;
-    } catch (e) {
-      RPCError err = e as RPCError;
-      cancel.call();
-      return;
-    }
-    String fee = FormatterBalance.configFeeValue(
-        beanValue: maxGas.toString(), offsetValue: price.toString());
+      final result = await showTransactionDialog(
+        context!,
+        title: translate('confirm_transaction')!,
+        amount: '${MxcAmount.toDoubleByEther(amount.getInWei.toString())}',
+        from: bridge.from!,
+        to: bridge.to!,
+        estimatedFee:
+            '${gasFee?.getInWei != null ? MxcAmount.toDoubleByEther(gasFee!.getInWei.toString()) : (estimatedGasFee?.gasFee ?? 0)}',
+      );
 
-    showModalConfirm(
-        from: state.wallletAddress!,
-        to: bridge.to ?? '',
-        value: bridge.value ?? BigInt.zero,
-        fee: fee,
-        confirm: () async {
-          try {
-            String result = await _ethClient.sendTransaction(
-              credentials,
-              Transaction(
-                  to: signto,
-                  value: EtherAmount.inWei(bridge.value ?? BigInt.zero),
-                  gasPrice: null,
-                  maxGas: maxGas,
-                  data: input),
-              chainId: chainId,
-              fetchChainIdFromNetworkId: false,
-            );
-            success.call(result);
-          } catch (e) {
-            if (e.toString().contains('-32000')) {
-              ScaffoldMessenger.of(context!).showSnackBar(const SnackBar(
-                content: Text('gasLow'),
-              ));
-            } else {
-              ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
-                content: Text(e.toString()),
-              ));
-            }
-          }
-        },
-        cancel: () {
-          cancel.call();
-        });
+      if (result != null && result) {
+        final hash = await _sendTransaction(
+          bridge.to!,
+          amount.getInWei.toString(),
+          bridgeData,
+        );
+        success.call(hash!);
+      } else {
+        cancel.call();
+      }
+    } catch (e, s) {
+      cancel.call();
+      addError(e, s);
+    }
   }
 
   void changeProgress(int progress) => notify(() => state.progress = progress);
