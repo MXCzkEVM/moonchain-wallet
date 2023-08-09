@@ -203,62 +203,62 @@ abstract class MxcPage extends HookConsumerWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarDividerColor: Colors.transparent,
-        systemNavigationBarContrastEnforced: false,
-        statusBarColor: Colors.transparent,
-        systemStatusBarContrastEnforced: false,
-        statusBarBrightness: Theme.of(context).brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark,
-        statusBarIconBrightness: Theme.of(context).brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark,
-        systemNavigationBarIconBrightness:
-            Theme.of(context).brightness == Brightness.dark
-                ? Brightness.light
-                : Brightness.dark,
-      ),
-      child: Scaffold(
-        backgroundColor: resolveBackgroundColor(context),
-        extendBodyBehindAppBar: false,
-        drawer: drawer,
-        key: scaffoldKey,
-        resizeToAvoidBottomInset: false,
-        floatingActionButton: floatingActionButton,
-        bottomNavigationBar: buildBottomNavigation(context, ref),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.miniCenterFloat,
-        body: PresenterHooks(
-          presenter: presenter,
-          child: splashLinearBackground(
-            visiable: useSplashBackground,
-            child: SafeArea(
-              bottom: maintainBottomSafeArea,
-              top: topSafeArea,
-              child: Column(
-                children: [
-                  buildAppBar(context, ref),
-                  Expanded(
-                      child: Padding(
-                    padding: childrenPadding ?? EdgeInsets.zero,
-                    child: content(context, ref),
-                  )),
-                  if (placeBottomInsetFiller)
-                    AnimatedSize(
-                      curve: Curves.easeOutQuad,
-                      duration: const Duration(milliseconds: 275),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).viewInsets.bottom,
+        value: SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarDividerColor: Colors.transparent,
+          systemNavigationBarContrastEnforced: false,
+          statusBarColor: Colors.transparent,
+          systemStatusBarContrastEnforced: false,
+          statusBarBrightness: Theme.of(context).brightness == Brightness.dark
+              ? Brightness.dark
+              : Brightness.light,
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.dark
+                  : Brightness.light,
+        ),
+        child: Scaffold(
+          backgroundColor: resolveBackgroundColor(context),
+          extendBodyBehindAppBar: false,
+          drawer: drawer,
+          key: scaffoldKey,
+          resizeToAvoidBottomInset: false,
+          floatingActionButton: floatingActionButton,
+          bottomNavigationBar: buildBottomNavigation(context, ref),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniCenterFloat,
+          body: PresenterHooks(
+            presenter: presenter,
+            child: splashLinearBackground(
+              visiable: useSplashBackground,
+              child: SafeArea(
+                bottom: maintainBottomSafeArea,
+                top: topSafeArea,
+                child: Column(
+                  children: [
+                    buildAppBar(context, ref),
+                    Expanded(
+                        child: Padding(
+                      padding: childrenPadding ?? EdgeInsets.zero,
+                      child: content(context, ref),
+                    )),
+                    if (placeBottomInsetFiller)
+                      AnimatedSize(
+                        curve: Curves.easeOutQuad,
+                        duration: const Duration(milliseconds: 275),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).viewInsets.bottom,
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
