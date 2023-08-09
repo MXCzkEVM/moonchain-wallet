@@ -173,8 +173,8 @@ class _FilterAndSortItemsState extends State<FilterAndSortItems> {
                 ),
                 const SizedBox(width: 2),
                 Icon(sortType == SortType.increase
-                    ? Icons.arrow_downward_rounded
-                    : Icons.arrow_upward_rounded),
+                    ? Icons.arrow_upward_rounded
+                    : Icons.arrow_downward_rounded),
               ],
             ),
           ),

@@ -1,4 +1,3 @@
-import 'package:datadashwallet/app/configuration.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:flutter/foundation.dart';
