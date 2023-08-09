@@ -7,7 +7,7 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 final route = _RouteBuilder();
 
-String extractNameForRoute<T>() => T.toString();
+String extractNameForRoute(page) => page.runtimeType.toString();
 
 class _RouteBuilder {
   PageRoute call<T extends Widget>(
@@ -17,7 +17,7 @@ class _RouteBuilder {
     bool fromBottomToTop = false,
     bool showAnimation = true,
   }) {
-    final routeName = extractNameForRoute<T>();
+    final routeName = extractNameForRoute(page);
 
     final routeSettings = RouteSettings(name: routeName);
 
@@ -61,7 +61,7 @@ class _RouteBuilder {
     T widget, {
     bool maintainState = true,
   }) {
-    final routeName = extractNameForRoute<T>();
+    final routeName = extractNameForRoute(widget);
 
     final routeSettings = RouteSettings(name: routeName);
 
