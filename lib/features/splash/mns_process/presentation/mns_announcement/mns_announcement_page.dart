@@ -34,7 +34,7 @@ class SplashMNSAnnouncementPage extends HookConsumerWidget {
       ),
       footer: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: MxcButton.primary(
+        child: MxcButton.primaryWhite(
           key: const ValueKey('chooseMyUsernameButton'),
           title: FlutterI18n.translate(context, 'choose_my_username'),
           onTap: () => Navigator.of(context).push(

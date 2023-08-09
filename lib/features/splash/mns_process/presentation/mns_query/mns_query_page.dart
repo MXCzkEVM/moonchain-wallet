@@ -39,7 +39,7 @@ class SplashMNSQueryPage extends HookConsumerWidget {
           builder: (ctx, usernameValue, _) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: MxcButton.primary(
+              child: MxcButton.primaryWhite(
                 key: const ValueKey('claimMyUsernameButton'),
                 title: FlutterI18n.translate(context, 'claim_my_username'),
                 onTap: usernameValue.text.isNotEmpty
