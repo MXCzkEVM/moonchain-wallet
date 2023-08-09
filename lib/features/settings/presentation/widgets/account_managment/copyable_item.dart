@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/settings/presentation/settings_page_presenter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -18,6 +19,9 @@ class CopyableItem extends HookConsumerWidget {
     return InkWell(
       onTap: () {
         presenter.copyToClipboard(copyableText);
+        showSnackBar(
+            context: context,
+            content: FlutterI18n.translate(context, 'copied'));
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
