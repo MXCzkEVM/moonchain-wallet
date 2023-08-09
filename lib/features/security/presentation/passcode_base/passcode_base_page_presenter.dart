@@ -31,7 +31,7 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
     );
   }
 
-  void onAllNumbersEntered();
+  void onAllNumbersEntered(String? dismissedPage);
 
   Future<void> onAppLifecycleChanged(
     AppLifecycleState? previous,
@@ -50,11 +50,11 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
     state.enteredNumbers.add(number);
     notify();
     if (state.enteredNumbers.length != state.expectedNumbersLength) return;
-    onAllNumbersEntered();
+    onAllNumbersEntered(state.dismissedPage);
   }
 
   void onRemoveNumber() {
-    if(state.enteredNumbers.isEmpty) return;
+    if (state.enteredNumbers.isEmpty) return;
     notify(() => state.enteredNumbers.removeLast());
   }
 }

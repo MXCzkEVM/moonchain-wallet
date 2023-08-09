@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:datadashwallet/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,6 +21,8 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
   String hint(BuildContext context, WidgetRef ref);
 
   String description(BuildContext context, WidgetRef ref) => '';
+
+  String? dismissedPage() => null;
 
   bool get showBackButton => false;
 
@@ -144,6 +149,7 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(state).dismissedPage = dismissedPage();
     useOnAppLifecycleStateChange((
       AppLifecycleState? previous,
       AppLifecycleState current,
@@ -159,6 +165,22 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            dismissedPage() != null
+                ? Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: IconButton(
+                      onPressed: () {
+                        appNavigatorKey.currentState!.popUntil((route) {
+                          inspect(route);
+                          return route.settings.name
+                                  ?.contains(dismissedPage()!) ??
+                              false;
+                        });
+                      },
+                      icon: const Icon(MxcIcons.close, size: 32),
+                    ),
+                  )
+                : Container(),
             Text(
               title(context, ref),
               style: FontTheme.of(context).h4.white(),
