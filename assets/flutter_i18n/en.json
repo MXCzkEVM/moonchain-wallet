@@ -260,5 +260,9 @@
 	"x_is_now_active": "{0} is now active",
 	"buy_x": "Buy {0}",
 	"network_status": "Network status",
-	"agree_terms_and_service": "By using the App you agree to the "
+	"agree_terms_and_service": "By using the App you agree to the ",
+	"swipe_right": "Swipe right to switch back to a previous DApp, or to all DApps, if any.",
+	"swipe_left": "Swipe left to switch to the next opened DApp.",
+	"double_tap_reload": "Double tap to reload your DApp.",
+	"pinch_all_dapps": "Pinch to view all opened DApps."
 }

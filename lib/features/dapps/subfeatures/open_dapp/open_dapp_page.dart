@@ -45,7 +45,9 @@ class OpenAppPage extends HookConsumerWidget {
 
                   if (details.primaryVelocity! > primaryVelocity &&
                       !(await webViewController.canGoBack())) {
-                    BottomFlowDialog.of(context).close();
+                    if (BottomFlowDialog.maybeOf(context) != null) {
+                      BottomFlowDialog.of(context).close();
+                    }
                   }
                 },
                 onDoubleTap: () => state.webviewController!.reload(),

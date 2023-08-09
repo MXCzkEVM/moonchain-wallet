@@ -17,6 +17,8 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
+  late final _gesturesInstructionUseCase =
+      ref.read(gesturesInstructionUseCaseProvider);
 
   @override
   void initState() {
@@ -34,6 +36,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         notify(() => state.bookmarks = allBookmarks);
       },
     );
+
+    listen(_gesturesInstructionUseCase.educated, (value) {
+      notify(() => state.gesturesInstructionEducated = value);
+    });
   }
 
   @override
@@ -82,5 +88,9 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         break;
       }
     }
+  }
+
+  void setGesturesInstruction() {
+    _gesturesInstructionUseCase.setEducated(true);
   }
 }

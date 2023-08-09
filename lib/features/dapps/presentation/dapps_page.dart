@@ -14,6 +14,7 @@ import 'widgets/dapp_indicator.dart';
 import 'dapps_presenter.dart';
 import 'dapps_state.dart';
 import 'widgets/edit_mode_status_bar.dart';
+import 'widgets/gestures_instruction.dart';
 
 class DAppsPage extends HookConsumerWidget {
   const DAppsPage({Key? key}) : super(key: key);
@@ -27,6 +28,8 @@ class DAppsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final gesturesInstructionUseCase =
+        ref.read(gesturesInstructionUseCaseProvider);
     final bookmarks = ref.watch(state).bookmarks;
     final bodyHeight = MediaQuery.of(context).size.height - 160;
     final gridRows = (bodyHeight / 80).floor();
@@ -116,7 +119,22 @@ class DAppsPage extends HookConsumerWidget {
                                     bookmark: item,
                                     onTap: ref.watch(state).isEditMode
                                         ? null
-                                        : () => openAppPage(context, item),
+                                        : () async {
+                                            if (ref
+                                                .watch(state)
+                                                .gesturesInstructionEducated) {
+                                              openAppPage(context, item);
+                                            } else {
+                                              final res =
+                                                  await showGesturesInstructionDialog(
+                                                      context);
+
+                                              if (res != null && res) {
+                                                gesturesInstructionUseCase.setEducated(true);
+                                                openAppPage(context, item);
+                                              }
+                                            }
+                                          },
                                     onLongPress: () =>
                                         ref.read(presenter).changeEditMode(),
                                     onRemoveTap: (item) => ref

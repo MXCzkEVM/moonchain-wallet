@@ -97,6 +97,7 @@ flutter:
     - assets/svg/security/
     - assets/svg/settings/
     - assets/lottie/
+    - assets/lottie/gestures/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
