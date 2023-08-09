@@ -4,7 +4,6 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../../../common.dart';
 
 class ChangeIndicator extends HookConsumerWidget {
   const ChangeIndicator({super.key});
@@ -18,31 +17,46 @@ class ChangeIndicator extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               state.changeIndicator == 0.0
-                  ? Text(
-                      '≈',
-                      style: FontTheme.of(context).caption2().copyWith(
-                          color: ColorsTheme.of(context).textSecondary),
-                    )
-                  : Icon(
-                      state.changeIndicator!.isNegative
-                          ? MxcIcons.decrease
-                          : MxcIcons.increase,
-                      color: state.changeIndicator!.isNegative
-                          ? ColorsTheme.of(context).systemStatusInActive
-                          : ColorsTheme.of(context).systemStatusActive,
-                      size: 16,
-                    ),
+                  ? state.hideBalance == true
+                      ? Container()
+                      : Text(
+                          '≈',
+                          style: FontTheme.of(context).caption2().copyWith(
+                              color: ColorsTheme.of(context).textSecondary),
+                        )
+                  : state.hideBalance == true
+                      ? Container()
+                      : Icon(
+                          state.changeIndicator!.isNegative
+                              ? MxcIcons.decrease
+                              : MxcIcons.increase,
+                          color: state.changeIndicator!.isNegative
+                              ? ColorsTheme.of(context).systemStatusInActive
+                              : ColorsTheme.of(context).systemStatusActive,
+                          size: 16,
+                        ),
               const SizedBox(
                 width: 4,
               ),
               Text(
                   '${state.changeIndicator == 0.0 ? 0 : state.changeIndicator!.toStringAsFixed(2)}%',
                   style: FontTheme.of(context).h7().copyWith(
-                        color: state.changeIndicator == 0.0
-                            ? ColorsTheme.of(context).textSecondary
-                            : state.changeIndicator!.isNegative
-                                ? ColorsTheme.of(context).systemStatusInActive
-                                : ColorsTheme.of(context).systemStatusActive,
+                        foreground: state.hideBalance == true
+                            ? (Paint()
+                              ..style = PaintingStyle.fill
+                              ..color = Colors.white
+                              ..maskFilter =
+                                  const MaskFilter.blur(BlurStyle.normal, 6))
+                            : null,
+                        color: state.hideBalance == true
+                            ? null
+                            : state.changeIndicator == 0.0
+                                ? ColorsTheme.of(context).textSecondary
+                                : state.changeIndicator!.isNegative
+                                    ? ColorsTheme.of(context)
+                                        .systemStatusInActive
+                                    : ColorsTheme.of(context)
+                                        .systemStatusActive,
                       )),
               const SizedBox(
                 width: 4,

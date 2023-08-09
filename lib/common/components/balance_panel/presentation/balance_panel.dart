@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-export 'domain/balance_repository.dart';
-export 'domain/balance_use_case.dart';
+export '../domain/balance_repository.dart';
+export '../domain/balance_use_case.dart';
 
 import '../../../../../common/common.dart';
-import 'widgets/change_indicator.dart';
+import '../widgets/change_indicator.dart';
 
 class BalancePanel extends HookConsumerWidget {
   final bool showGraph;
