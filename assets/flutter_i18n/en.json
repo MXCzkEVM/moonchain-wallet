@@ -230,6 +230,7 @@
 	"clear_browser_cache_note": "Clear browser history and cookies",
 	"clear_browser_cache": "Clear history & cookies",
 	"delete_wallet_note": "Delete wallet and clear all data",
+	"clear_browser_history_note": "Clear browser history and cookies?",
 	"delete_wallet": "Delete wallet",
 	"export_wallet_note": "Export wallet to secured storage",
 	"export_wallet": "Export wallet",

@@ -39,7 +39,7 @@ class SecuritySettingsPresenter
   void clearBrowserCache() async {
     final result = await showAlertDialog(
       context: context!,
-      title: translate('delete_wallet_note')!,
+      title: translate('clear_browser_history_note')!,
       content: translate('clear_browser_warning')!,
       ok: translate('clear')!,
     );

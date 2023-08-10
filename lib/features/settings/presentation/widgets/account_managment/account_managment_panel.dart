@@ -83,7 +83,7 @@ class AccountManagementPanel extends HookConsumerWidget {
                 InkWell(
                   onTap: () => Navigator.of(context).push(route(QrCodePage(
                     name: account.mns,
-                    address: walletAddress,
+                    address: account.address,
                   ))),
                   child: Container(
                     padding: const EdgeInsets.all(Sizes.spaceXSmall),
