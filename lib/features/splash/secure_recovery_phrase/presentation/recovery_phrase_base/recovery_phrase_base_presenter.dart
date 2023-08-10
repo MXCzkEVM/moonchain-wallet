@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:intl/intl.dart';
+import 'package:mxc_ui/mxc_ui.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'recovery_phrase_base_state.dart';
@@ -17,6 +18,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   RecoveryPhraseBasePresenter(T state) : super(state);
 
   late final _authUseCase = ref.read(authUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
   final _mnemonicTitle = 'DataDash Wallet Mnemonic Key';
   final _mnemonicFileName =
@@ -35,59 +37,77 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     return file.path;
   }
 
-  void shareToTelegram() async {
-    final phrases = _authUseCase.generateMnemonic();
+  Future<Map> generateMnemonicFile(bool settingsFlow) async {
+    final phrases = settingsFlow
+        ? _accountUseCase.getMnemonic()!
+        : _authUseCase.generateMnemonic();
     final filePath = await writeToFile(phrases);
+
+    return {
+      'filePath': filePath,
+      'phrases': phrases,
+    };
+  }
+
+  void nextProcess(bool settingsFlow, String phrases) {
+    if (settingsFlow) {
+      BottomFlowDialog.of(context!).close();
+      return;
+    }
+
+    pushSecurityNoticePage(context!, phrases);
+  }
+
+  void shareToTelegram(bool settingsFlow) async {
+    final res = await generateMnemonicFile(settingsFlow);
 
     if (Platform.isAndroid) {
       await _socialShare.shareToTelegram(
         _mnemonicTitle,
-        filePath: filePath,
+        filePath: res['filePath'],
       );
     } else {
       await _socialShare.shareToSystem(
         _mnemonicTitle,
         '',
-        filePath: filePath,
+        filePath: res['filePath'],
       );
     }
 
-    pushSecurityNoticePage(context!, phrases);
+    nextProcess(settingsFlow, res['phrases']);
   }
 
-  void shareToWechat() async {
-    final phrases = _authUseCase.generateMnemonic();
-    final filePath = await writeToFile(phrases);
+  void shareToWechat(bool settingsFlow) async {
+    final res = await generateMnemonicFile(settingsFlow);
 
     if (Platform.isAndroid) {
       await _socialShare.shareToWechat(
         _mnemonicTitle,
-        filePath: filePath,
+        filePath: res['filePath'],
       );
     } else {
       await _socialShare.shareToSystem(
         _mnemonicTitle,
         '',
-        filePath: filePath,
+        filePath: res['filePath'],
       );
     }
 
-    pushSecurityNoticePage(context!, phrases);
+    nextProcess(settingsFlow, res['phrases']);
   }
 
-  void sendEmail(BuildContext ctx) async {
-    final phrases = _authUseCase.generateMnemonic();
-    final filePath = await writeToFile(phrases);
+  void sendEmail(BuildContext ctx, bool settingsFlow) async {
+    final res = await generateMnemonicFile(settingsFlow);
 
     final email = MailOptions(
       body: FlutterI18n.translate(ctx, 'email_secured_body'),
       subject: FlutterI18n.translate(ctx, 'email_secured_subject'),
-      attachments: [filePath],
+      attachments: [res['filePath']],
       isHTML: false,
     );
 
     await FlutterMailer.send(email);
 
-    pushSecurityNoticePage(ctx, phrases);
+    nextProcess(settingsFlow, res['phrases']);
   }
 }

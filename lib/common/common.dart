@@ -9,4 +9,6 @@ export 'dialogs/bottom_sheet.dart';
 export 'color_filter.dart';
 export 'biometric.dart';
 export 'components/components.dart';
-export 'mxc_icons.dart';
+export 'dialogs/dialogs.dart';
+export 'urls.dart';
+export 'config.dart';

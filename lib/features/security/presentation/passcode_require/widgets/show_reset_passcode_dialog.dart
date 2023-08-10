@@ -48,7 +48,7 @@ class ResetPasscode extends StatelessWidget {
                     Expanded(
                       child: Text(
                         FlutterI18n.translate(context, item),
-                        style: FontTheme.of(context).body1.white(),
+                        style: FontTheme.of(context).body1.primary(),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -70,7 +70,7 @@ class ResetPasscode extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ColorsTheme.of(context).screenBackground,
+          color: ColorsTheme.of(context).cardBackground,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -107,10 +107,10 @@ class ResetPasscode extends StatelessWidget {
             const SizedBox(height: 10),
             content(context),
             const SizedBox(height: 10),
-            MxcButton.primary(
+            MxcButton.secondary(
               key: const ValueKey('logOutButton'),
               title: FlutterI18n.translate(context, 'log_out'),
-              buttonSize: MxcButtonSize.xl,
+              size: AxsButtonSize.xl,
               onTap: onTap,
             ),
             const SizedBox(height: 26),

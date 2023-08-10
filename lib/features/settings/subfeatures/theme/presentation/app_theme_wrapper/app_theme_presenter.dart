@@ -14,7 +14,7 @@ class AppThemePresenter extends Presenter<AppThemeState>
     with LoadingPresenter, ErrorPresenter {
   AppThemePresenter() : super(AppThemeState());
 
-  ThemeUseCase get _useCase => ref.read(themeUseCaseProvider);
+  ThemeUseCase get _themeUseCase => ref.read(themeUseCaseProvider);
 
   bool get _isSystemDarkMode =>
       SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
@@ -23,7 +23,7 @@ class AppThemePresenter extends Presenter<AppThemeState>
   void initState() {
     super.initState();
     state.darkMode = _darkThemeShouldBeShown();
-    listen<ThemeOption>(_useCase.currentTheme, (_) => refreshTheme());
+    listen<ThemeOption>(_themeUseCase.currentTheme, (_) => refreshTheme());
     WidgetsBinding.instance.window.onPlatformBrightnessChanged =
         () => refreshTheme();
   }
@@ -33,7 +33,7 @@ class AppThemePresenter extends Presenter<AppThemeState>
   }
 
   bool _darkThemeShouldBeShown() {
-    switch (_useCase.currentTheme.value) {
+    switch (_themeUseCase.currentTheme.value) {
       case ThemeOption.system:
         return _isSystemDarkMode;
       case ThemeOption.dark:

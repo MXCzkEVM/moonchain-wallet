@@ -1,7 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/home.dart';
-import 'package:datadashwallet/features/portfolio/portfolio_page.dart';
-import 'package:datadashwallet/features/portfolio/portfolio_page_presenter.dart';
+import 'package:datadashwallet/features/portfolio/presentation/portfolio_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +14,7 @@ class ManagePortfolioSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.of(context).push(
           route(
@@ -27,7 +25,7 @@ class ManagePortfolioSection extends HookConsumerWidget {
       child: Row(
         children: [
           Icon(
-            MXCIcons.coins,
+            MxcIcons.coins,
             color: ColorsTheme.of(context).iconSecondary,
             size: 20,
           ),

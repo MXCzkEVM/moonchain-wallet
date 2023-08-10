@@ -10,7 +10,7 @@ class PasscodeSetPagePresenter extends PasscodeBasePagePresenter {
   PasscodeSetPagePresenter() : super(PasscodeBasePageState());
 
   @override
-  void onAllNumbersEntered() async {
+  void onAllNumbersEntered(String? dismissedPage) async {
     Future.delayed(
       passcodeTransitionDuration,
       () => notify(() => state.enteredNumbers = []),

@@ -1,6 +1,7 @@
+import 'package:datadashwallet/features/wallet/wallet.dart';
+
 import './transaction_status_chip.dart';
 import './transaction_type_widget.dart';
-import 'package:datadashwallet/features/home/home/home_page_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,7 +11,7 @@ import '../../../common.dart';
 import '../utils.dart';
 
 class RecentTrxListItem extends HookConsumerWidget {
-  final double amount;
+  final String amount;
   final String symbol;
   final String txHash;
   final String timestamp;
@@ -30,7 +31,8 @@ class RecentTrxListItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(homeContainer.actions);
+    final presenter = ref.read(walletContainer.actions);
+    final state = ref.watch(walletContainer.state);
     final formattedTXHash = Formatter.formatWalletAddress(txHash);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -77,9 +79,16 @@ class RecentTrxListItem extends HookConsumerWidget {
                   Row(
                     children: [
                       Text(
-                        amount.toString(),
+                        amount,
                         style: FontTheme.of(context).body1.primary().copyWith(
                               fontWeight: FontWeight.w500,
+                              foreground: state.hideBalance == true
+                                  ? (Paint()
+                                    ..style = PaintingStyle.fill
+                                    ..color = Colors.white
+                                    ..maskFilter = const MaskFilter.blur(
+                                        BlurStyle.normal, 6))
+                                  : null,
                             ),
                         softWrap: true,
                       ),
@@ -143,7 +152,7 @@ class RecentTrxListItem extends HookConsumerWidget {
                       width: 4,
                     ),
                     Icon(
-                      MXCIcons.external_link,
+                      MxcIcons.external_link,
                       size: 20,
                       color: ColorsTheme.of(context).iconSecondary,
                     )

@@ -31,14 +31,14 @@ class Formatter {
     return intl.NumberFormat('#,##0').format(int.parse(inputString));
   }
 
-  static String formatWalletAddress(String inputString) {
+  static String formatWalletAddress(String inputString, {int? nCharacters}) {
     if (!RegExp(r'^(0x)?[0-9a-f]{40}', caseSensitive: false)
         .hasMatch(inputString)) return inputString;
 
     if (inputString.isEmpty) return inputString;
 
     String formattedString =
-        '${inputString.substring(0, 4)}...${inputString.substring(inputString.length - 4)}';
+        '${inputString.substring(0, nCharacters ?? 4)}...${inputString.substring(inputString.length - 4)}';
     return formattedString;
   }
 
@@ -65,5 +65,24 @@ class Formatter {
     }
     integerPart = intThousandsSeparator(integerPart);
     return '$integerPart$fractionalPart';
+  }
+
+  static String localTime(DateTime time) {
+    final localTime = time.toLocal();
+    final month = localTime.month.toString().padLeft(2, '0');
+    final day = localTime.day.toString().padLeft(2, '0');
+    final year = localTime.year.toString().substring(2, 4);
+    final hour = localTime.hour.toString().padLeft(2, '0');
+    final minute = localTime.minute.toString().padLeft(2, '0');
+    return '$month-$day-$year $hour:$minute';
+  }
+
+  static int hexToDecimal(String value) {
+    try {
+      if (value.isEmpty) return -1;
+      return int.parse(value);
+    } catch (e) {
+      throw e.toString();
+    }
   }
 }

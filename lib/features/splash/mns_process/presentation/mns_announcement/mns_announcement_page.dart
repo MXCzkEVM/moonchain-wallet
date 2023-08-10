@@ -1,6 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/home.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/splash/mns_process/mns.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -34,7 +34,7 @@ class SplashMNSAnnouncementPage extends HookConsumerWidget {
       ),
       footer: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: MxcButton.primary(
+        child: MxcButton.primaryWhite(
           key: const ValueKey('chooseMyUsernameButton'),
           title: FlutterI18n.translate(context, 'choose_my_username'),
           onTap: () => Navigator.of(context).push(

@@ -11,7 +11,12 @@ import 'email_recovery_phrase_presenter.dart';
 import 'email_recovery_phrase_state.dart';
 
 class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
-  const EmailRecoveryPhrasePage({Key? key}) : super(key: key);
+  const EmailRecoveryPhrasePage({
+    Key? key,
+    this.settingsFlow = false,
+  }) : super(key: key);
+
+  final bool settingsFlow;
 
   @override
   ProviderBase<EmailRecoveryPhrasePresenter> get presenter =>
@@ -22,9 +27,10 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
       emailRecoveryPhraseContainer.state;
 
   @override
-  Widget icon(BuildContext context) => SvgPicture.asset(
-        'assets/svg/splash/ic_email.svg',
-        colorFilter: filterFor(themeColor()),
+  Widget icon(BuildContext context) => Icon(
+        MxcIcons.email,
+        size: 40,
+        color: themeColor(),
       );
 
   @override
@@ -36,9 +42,9 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
       width: double.infinity,
       alignment: Alignment.center,
       padding: const EdgeInsets.all(24),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+      decoration: BoxDecoration(
+        color: ColorsTheme.of(context).cardBackground,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         children: [
@@ -50,8 +56,9 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
               shape: BoxShape.circle,
               color: themeColor(),
             ),
-            child: SvgPicture.asset(
-              'assets/svg/splash/ic_email.svg',
+            child: const Icon(
+              MxcIcons.email,
+              color: Colors.white,
             ),
           ),
           const SizedBox(height: 12),
@@ -59,7 +66,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
             FlutterI18n.translate(context, 'email_to_myself_description'),
             style: FontTheme.of(context).body1().copyWith(
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF25282B),
+                  color: ColorsTheme.of(context).textWhite,
                 ),
             textAlign: TextAlign.center,
           ),
@@ -75,6 +82,9 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
         titleColor: Colors.white,
         color: themeColor(),
         borderColor: themeColor(),
-        onTap: () => ref.read(presenter).sendEmail(context),
+        onTap: () => ref.read(presenter).sendEmail(
+              context,
+              settingsFlow,
+            ),
       );
 }

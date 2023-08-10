@@ -10,7 +10,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'mxc_page_regular.dart';
 import 'mxc_page_layer.dart';
 
-const contentPadding = EdgeInsets.symmetric(horizontal: 16);
+const contentPadding = EdgeInsets.symmetric(horizontal: Sizes.spaceXLarge);
 
 abstract class MxcPage extends HookConsumerWidget {
   const MxcPage.internal({
@@ -172,7 +172,7 @@ abstract class MxcPage extends HookConsumerWidget {
     if (backgroundColor != null) {
       return backgroundColor!;
     }
-    return ColorsTheme.of(context).primaryBackground;
+    return ColorsTheme.of(context).screenBackground;
   }
 
   Widget splashLinearBackground({
@@ -182,14 +182,13 @@ abstract class MxcPage extends HookConsumerWidget {
     if (visiable) {
       return Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+          gradient: SweepGradient(
             colors: <Color>[
-              Color(0xFF8D023F),
-              Color(0xFF09379E),
+              Color(0xFF0F46F4),
+              Color(0xFF082FAF),
             ],
-            tileMode: TileMode.mirror,
+            tileMode: TileMode.clamp,
+            transform: GradientRotation(2.5),
           ),
         ),
         child: child,
@@ -204,62 +203,62 @@ abstract class MxcPage extends HookConsumerWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarDividerColor: Colors.transparent,
-        systemNavigationBarContrastEnforced: false,
-        statusBarColor: Colors.transparent,
-        systemStatusBarContrastEnforced: false,
-        statusBarBrightness: Theme.of(context).brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark,
-        statusBarIconBrightness: Theme.of(context).brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark,
-        systemNavigationBarIconBrightness:
-            Theme.of(context).brightness == Brightness.dark
-                ? Brightness.light
-                : Brightness.dark,
-      ),
-      child: Scaffold(
-        backgroundColor: resolveBackgroundColor(context),
-        extendBodyBehindAppBar: false,
-        drawer: drawer,
-        key: scaffoldKey,
-        resizeToAvoidBottomInset: false,
-        floatingActionButton: floatingActionButton,
-        bottomNavigationBar: buildBottomNavigation(context, ref),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.miniCenterFloat,
-        body: PresenterHooks(
-          presenter: presenter,
-          child: splashLinearBackground(
-            visiable: useSplashBackground,
-            child: SafeArea(
-              bottom: maintainBottomSafeArea,
-              top: topSafeArea,
-              child: Column(
-                children: [
-                  buildAppBar(context, ref),
-                  Expanded(
-                      child: Padding(
-                    padding: childrenPadding ?? EdgeInsets.zero,
-                    child: content(context, ref),
-                  )),
-                  if (placeBottomInsetFiller)
-                    AnimatedSize(
-                      curve: Curves.easeOutQuad,
-                      duration: const Duration(milliseconds: 275),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).viewInsets.bottom,
+        value: SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarDividerColor: Colors.transparent,
+          systemNavigationBarContrastEnforced: false,
+          statusBarColor: Colors.transparent,
+          systemStatusBarContrastEnforced: false,
+          statusBarBrightness: Theme.of(context).brightness == Brightness.dark
+              ? Brightness.dark
+              : Brightness.light,
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.dark
+                  : Brightness.light,
+        ),
+        child: Scaffold(
+          backgroundColor: resolveBackgroundColor(context),
+          extendBodyBehindAppBar: false,
+          drawer: drawer,
+          key: scaffoldKey,
+          resizeToAvoidBottomInset: false,
+          floatingActionButton: floatingActionButton,
+          bottomNavigationBar: buildBottomNavigation(context, ref),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniCenterFloat,
+          body: PresenterHooks(
+            presenter: presenter,
+            child: splashLinearBackground(
+              visiable: useSplashBackground,
+              child: SafeArea(
+                bottom: maintainBottomSafeArea,
+                top: topSafeArea,
+                child: Column(
+                  children: [
+                    buildAppBar(context, ref),
+                    Expanded(
+                        child: Padding(
+                      padding: childrenPadding ?? EdgeInsets.zero,
+                      child: content(context, ref),
+                    )),
+                    if (placeBottomInsetFiller)
+                      AnimatedSize(
+                        curve: Curves.easeOutQuad,
+                        duration: const Duration(milliseconds: 275),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).viewInsets.bottom,
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

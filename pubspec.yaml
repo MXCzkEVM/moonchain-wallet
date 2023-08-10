@@ -31,6 +31,7 @@ dependencies:
   appinio_social_share:
     path: packages/appinio_social_share
   clipboard: ^0.1.3
+  collection: ^1.17.0
   convert: ^3.1.1
   cupertino_icons: ^1.0.2
   dotted_line: ^3.2.2
@@ -60,17 +61,22 @@ dependencies:
   path_provider: ^2.0.12
   permission_handler: ^10.4.1
   qr_flutter: ^4.1.0
+  qr_code_scanner: ^1.0.1
   riverpod: ^1.0.3
   sha3: ^0.2.0
   sliver_tools: ^0.2.5
   url_launcher: ^6.1.11
   wallet_connect: ^1.0.4
   web3_provider: ^1.1.3
+  package_info_plus: ^1.0.0
+  flutter_logs: ^2.1.10
+  jdenticon_dart: ^2.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -87,9 +93,12 @@ flutter:
     - assets/images/apps/
     - assets/images/security/
     - assets/svg/
+    - assets/svg/networks/
     - assets/svg/splash/
     - assets/svg/security/
+    - assets/svg/settings/
     - assets/lottie/
+    - assets/lottie/gestures/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -113,8 +122,8 @@ flutter:
           weight: 400
         - asset: assets/fonts/Roboto-Medium.ttf
           weight: 500
-    - family: MXCIcons
+    - family: MxcIcons
       fonts:
-        - asset: assets/icons/MXCIcons.ttf
+        - asset: assets/icons/mxc-icons.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

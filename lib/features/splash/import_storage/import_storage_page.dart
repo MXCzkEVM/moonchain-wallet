@@ -26,32 +26,34 @@ class SplashImportStoragePage extends SplashBasePage {
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     return [
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('telegramButton'),
-        icon: 'assets/svg/splash/ic_telegram.svg',
+        icon: MxcIcons.telegram,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: ref.watch(state).applist['telegram'] == true
             ? () => ref.read(presenter).openTelegram()
             : null,
       ),
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('wechatButton'),
-        icon: 'assets/svg/splash/ic_wechat.svg',
+        icon: MxcIcons.wechat,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap: ref.watch(state).applist['weixin'] == true ||
                 ref.watch(state).applist['wechat'] == true
             ? () => ref.read(presenter).openWechat()
             : null,
       ),
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('emailButton'),
-        icon: 'assets/svg/splash/ic_email.svg',
+        icon: MxcIcons.email,
+        iconSize: 20,
         title: FlutterI18n.translate(context, 'email_secured_storage'),
         onTap: () => ref.read(presenter).openEmail(),
       ),
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('mnemonicButton'),
-        icon: 'assets/svg/splash/ic_cloud.svg',
+        icon: MxcIcons.cloud,
+        iconSize: 20,
         title: FlutterI18n.translate(context, 'secret_recovery_phrase'),
         onTap: () => Navigator.of(context).push(
           route(

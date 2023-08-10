@@ -19,7 +19,6 @@ class SecurityNoticePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(securityNoticeContainer.actions(phrases));
-    final state = ref.watch(securityNoticeContainer.state(phrases));
 
     return MxcPage(
       layout: LayoutType.scrollable,
@@ -28,10 +27,10 @@ class SecurityNoticePage extends HookConsumerWidget {
       appBar: MxcAppBar.splashBack(text: ''),
       footer: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: MxcButton.primary(
+        child: MxcButton.primaryWhite(
           key: const Key('confrimButton'),
           title: FlutterI18n.translate(context, 'stored_my_key'),
-          buttonSize: MxcButtonSize.xl,
+          size: AxsButtonSize.xl,
           onTap: () => presenter.confirm(),
         ),
       ),
@@ -54,17 +53,19 @@ class SecurityNoticePage extends HookConsumerWidget {
             ),
             const SizedBox(height: 16),
             const WarningItem(
-              icon: 'assets/svg/splash/ic_lock.svg',
+              icon: MxcIcons.lock,
               title: 'keep_phone_save',
               subTitle: 'keep_phone_save_description',
             ),
             const WarningItem(
-              icon: 'assets/svg/splash/ic_safety.svg',
+              icon: MxcIcons.safety,
+              iconSize: 32,
               title: 'beware_unauthorized_access',
               subTitle: 'beware_unauthorized_access_description',
             ),
             const WarningItem(
-              icon: 'assets/svg/splash/ic_wallet.svg',
+              icon: MxcIcons.wallet_1,
+              iconSize: 32,
               title: 'potential_fund_loss',
               subTitle: 'potential_fund_loss_description1',
             ),

@@ -17,13 +17,16 @@ ValueNotifier<ProviderContainer> containerNotifier =
 
 void resetProviders() => containerNotifier.value = ProviderContainer();
 
+final Provider<DatadashSetupStore> datadashSetupProvider =
+    Provider((ref) => _datadashSetupStore!);
+
 final Provider<GlobalCache> globalCacheProvider =
     Provider((ref) => _globalCache!);
 
 final Provider<DatadashCache> datadashCacheProvider =
     Provider((ref) => _datadashCache!);
 
-final Provider<AuthenticationStorageRepository> userSetupProvider =
+final Provider<AuthenticationStorageRepository> authenticationStorageProvider =
     Provider((ref) => AuthenticationStorageRepository(_datadashSetupStore!));
 
 final Provider<AuthenticationCacheRepository> authenticationCacheRepository =
@@ -34,5 +37,7 @@ final Provider<AuthenticationCacheRepository> authenticationCacheRepository =
 );
 
 final Provider<Web3Repository> web3RepositoryProvider = Provider(
-  (ref) => Web3Repository(),
+  (ref) => Web3Repository(
+    setupStore: _datadashSetupStore!,
+  ),
 );

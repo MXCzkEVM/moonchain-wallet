@@ -7,6 +7,8 @@ class PasscodeBasePageState with EquatableMixin {
   bool isBiometricEnabled = false;
   bool userHasActiveFingerprints = false;
 
+  String? dismissedPage;
+
   @override
   List<Object?> get props => [
         expectedNumbersLength,

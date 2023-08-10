@@ -1,7 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'splash_base_presenter.dart';
 import 'splash_base_state.dart';
@@ -47,17 +46,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Image(
-            image: ImagesTheme.of(context).datadash,
-          ),
-          Text(
-            'DataDash',
-            style: FontTheme.of(context).h4.white().copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-          Text(
-            'WALLET',
-            style: FontTheme.of(context).h5.white(),
+            image: ImagesTheme.of(context).axsWithTitle,
           ),
         ],
       );

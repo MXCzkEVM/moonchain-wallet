@@ -2,7 +2,6 @@ import 'package:datadashwallet/common/components/recent_transactions/widgets/rec
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import '../../mxc_icons.dart';
 import '../../utils/formatter.dart';
 import 'recent_transactions.dart';
 
@@ -47,10 +46,10 @@ class RecentTransactionsUtils {
     late IconData txIcon;
     switch (transactionType) {
       case TransactionType.sent:
-        txIcon = MXCIcons.send;
+        txIcon = MxcIcons.send;
         break;
       case TransactionType.received:
-        txIcon = MXCIcons.receive;
+        txIcon = MxcIcons.receive;
         break;
       default:
         txIcon = Icons.question_mark;
@@ -74,8 +73,8 @@ class RecentTransactionsUtils {
     return txColor;
   }
 
-  static List<RecentTrxListItem> generateTx(List<WannseeTransactionModel> items,
-      String walletAddressHash, List<Token> tokensList) {
+  static List<RecentTrxListItem> generateTx(String walletAddressHash,
+      List<WannseeTransactionModel> items, List<Token> tokensList) {
     List<RecentTrxListItem> widgets = [];
 
     for (int i = 0; i < (items.length > 6 ? 6 : items.length); i++) {
@@ -97,8 +96,8 @@ class RecentTransactionsUtils {
         // could be contract_call || coin_transfer
         transactionStatus = TransactionStatus.pending;
         final time = DateTime.now();
-        timeStamp =
-            '${time.month}-${time.day}-${time.year.toString().substring(2, 4)} ${time.hour}:${time.minute}';
+        timeStamp = Formatter.localTime(time);
+
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
         amount = Formatter.convertWeiToEth(currentTx.value ?? '0');
@@ -118,8 +117,8 @@ class RecentTransactionsUtils {
         logoUrl =
             'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg';
         symbol = 'MXC';
-        timeStamp =
-            '${currentTx.timestamp!.month}-${currentTx.timestamp!.day}-${currentTx.timestamp!.year.toString().substring(2, 4)} ${currentTx.timestamp!.hour}:${currentTx.timestamp!.minute}';
+        timeStamp = Formatter.localTime(currentTx.timestamp!);
+
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
         amount = Formatter.convertWeiToEth(currentTx.value ?? '0');
@@ -135,8 +134,10 @@ class RecentTransactionsUtils {
             logoUrl = tokensList[tokenIndex].logoUri!;
           }
         }
+
         timeStamp =
-            '${currentTx.tokenTransfers![0].timestamp!.month}-${currentTx.tokenTransfers![0].timestamp!.day}-${currentTx.tokenTransfers![0].timestamp!.year.toString().substring(2, 4)} ${currentTx.tokenTransfers![0].timestamp!.hour}:${currentTx.tokenTransfers![0].timestamp!.minute}';
+            Formatter.localTime(currentTx.tokenTransfers![0].timestamp!);
+
         amount = Formatter.convertWeiToEth(
             currentTx.tokenTransfers![0].total!.value ?? '0');
         hash = currentTx.tokenTransfers![0].txHash ?? "Unknown";
@@ -148,7 +149,7 @@ class RecentTransactionsUtils {
 
       widgets.add(RecentTrxListItem(
         logoUrl: logoUrl,
-        amount: double.parse(amount),
+        amount: amount,
         symbol: symbol,
         timestamp: timeStamp,
         txHash: hash,

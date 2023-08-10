@@ -60,6 +60,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
               key: formKey,
               child: MxcTextField.multiline(
                 key: const ValueKey('mnemonicTextField'),
+                textColor: ColorsTheme.of(context).textWhite,
                 controller: presenter.mnemonicController,
                 hint: FlutterI18n.translate(
                     context, 'enter_secret_recovery_phrase'),

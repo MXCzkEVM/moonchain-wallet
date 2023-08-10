@@ -7,7 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class SplashStoragePage extends SplashBasePage {
-  const SplashStoragePage({Key? key}) : super(key: key);
+  const SplashStoragePage({
+    Key? key,
+    this.settingsFlow = false,
+  }) : super(key: key);
+
+  final bool settingsFlow;
 
   @override
   ProviderBase<SplashStoragePresenter> get presenter =>
@@ -25,38 +30,45 @@ class SplashStoragePage extends SplashBasePage {
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     return [
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('telegramButton'),
-        icon: 'assets/svg/splash/ic_telegram.svg',
+        icon: MxcIcons.telegram,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: ref.watch(state).applist['telegram'] == true
             ? () => Navigator.of(context).push(
                   route.featureDialog(
-                    const TelegramRecoveryPhrasePage(),
+                    TelegramRecoveryPhrasePage(
+                      settingsFlow: settingsFlow,
+                    ),
                   ),
                 )
             : null,
       ),
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('wechatButton'),
-        icon: 'assets/svg/splash/ic_wechat.svg',
+        icon: MxcIcons.wechat,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap: ref.watch(state).applist['weixin'] == true ||
                 ref.watch(state).applist['wechat'] == true
             ? () => Navigator.of(context).push(
                   route.featureDialog(
-                    const WechatRecoveryPhrasePage(),
+                    WechatRecoveryPhrasePage(
+                      settingsFlow: settingsFlow,
+                    ),
                   ),
                 )
             : null,
       ),
-      MxcButton.secondary(
+      MxcButton.secondaryWhite(
         key: const ValueKey('emailButton'),
-        icon: 'assets/svg/splash/ic_email.svg',
+        icon: MxcIcons.email,
+        iconSize: 18,
         title: FlutterI18n.translate(context, 'email_secured_storage'),
         onTap: () => Navigator.of(context).push(
           route.featureDialog(
-            const EmailRecoveryPhrasePage(),
+            EmailRecoveryPhrasePage(
+              settingsFlow: settingsFlow,
+            ),
           ),
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/home/home.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -39,7 +39,7 @@ class SplashMNSQueryPage extends HookConsumerWidget {
           builder: (ctx, usernameValue, _) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: MxcButton.primary(
+              child: MxcButton.primaryWhite(
                 key: const ValueKey('claimMyUsernameButton'),
                 title: FlutterI18n.translate(context, 'claim_my_username'),
                 onTap: usernameValue.text.isNotEmpty
