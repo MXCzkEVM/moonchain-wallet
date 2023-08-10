@@ -2,13 +2,15 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
-import 'package:datadashwallet/features/wallet/presentation/widgets/slider.dart';
+import 'package:datadashwallet/features/wallet/presentation/widgets/tweets_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
+import 'package:social_embed_webview/platforms/twitter.dart';
+import 'package:social_embed_webview/social_embed_webview.dart';
 
 import 'wallet_page_presenter.dart';
 import 'wallet_page_state.dart';
@@ -87,7 +89,7 @@ class WalletPage extends HookConsumerWidget {
               const SizedBox(
                 height: 32,
               ),
-              const WalletSlider(),
+              const TweetsList()
             ],
           ))
         ]);
