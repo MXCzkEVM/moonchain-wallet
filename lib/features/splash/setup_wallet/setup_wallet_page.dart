@@ -1,5 +1,7 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,7 +28,7 @@ class SplashSetupWalletPage extends SplashBasePage {
   Widget? buildFooter(BuildContext context) {
     return Column(
       children: [
-        MxcButton.primary(
+        MxcButton.primaryWhite(
           key: const ValueKey('createButton'),
           title: FlutterI18n.translate(context, 'create_wallet'),
           onTap: () => Navigator.of(context).push(
@@ -35,13 +37,36 @@ class SplashSetupWalletPage extends SplashBasePage {
             ),
           ),
         ),
-        MxcButton.plain(
+        MxcButton.plainWhite(
           key: const ValueKey('importButton'),
           title: FlutterI18n.translate(context, 'import_wallet'),
           onTap: () => Navigator.of(context).push(
             route(
               const SplashImportStoragePage(),
             ),
+          ),
+        ),
+        Text.rich(
+          TextSpan(
+            style: FontTheme.of(context).body1(),
+            children: [
+              TextSpan(
+                text: FlutterI18n.translate(context, 'agree_terms_and_service'),
+                style: FontTheme.of(context).caption1.white(),
+              ),
+              const TextSpan(
+                text: ' ',
+              ),
+              TextSpan(
+                text: FlutterI18n.translate(context, 'terms_and_service'),
+                style: FontTheme.of(context).caption1.white().copyWith(
+                      decoration: TextDecoration.underline,
+                    ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap =
+                      () => openUrl('https://doc.mxc.com/docs/Resources/tns'),
+              ),
+            ],
           ),
         ),
       ],

@@ -25,7 +25,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MxcButton.primary(
+            MxcButton.primaryWhite(
               key: const ValueKey('useBiometricButton'),
               title: FlutterI18n.translate(context, 'use_biometric')
                   .replaceFirst(
@@ -34,7 +34,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
                           context, presenter.getAppBarTitle())),
               onTap: () => presenter.authenticateBiometrics(),
             ),
-            MxcButton.plain(
+            MxcButton.plainWhite(
               key: const ValueKey('createPasscodeButton'),
               title: FlutterI18n.translate(context, 'create_passcode'),
               onTap: () => presenter.createPasscode(),
@@ -45,7 +45,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
       children: [
         const SizedBox(height: 75),
         Image(
-          image: ImagesTheme.of(context).datadash,
+          image: ImagesTheme.of(context).axs,
           width: 80,
           height: 80,
         ),
@@ -68,7 +68,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
           presenter.getSvg(),
           height: 64,
           width: 64,
-          colorFilter: filterFor(ColorsTheme.of(context).purple400),
+          colorFilter: filterFor(ColorsTheme.of(context).iconWhite),
         ),
         const Spacer(),
       ],

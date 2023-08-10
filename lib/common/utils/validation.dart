@@ -23,11 +23,22 @@ class Validation {
     return null;
   }
 
-  static String? checkUrl(BuildContext context, String? value) {
+  static String? checkUrl(BuildContext context, String? value,
+      {String? errorText}) {
     RegExp urlExp = RegExp(
         r"(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
     if (!urlExp.hasMatch(value!)) {
-      return FlutterI18n.translate(context, 'invalid_format');
+      return FlutterI18n.translate(context, errorText ?? 'invalid_format');
+    }
+
+    return null;
+  }
+
+  static String? checkHttps(BuildContext context, String? value,
+      {String? errorText}) {
+    RegExp urlExp = RegExp(r'^https://');
+    if (!urlExp.hasMatch(value!)) {
+      return FlutterI18n.translate(context, errorText ?? 'invalid_format');
     }
 
     return null;
@@ -39,5 +50,28 @@ class Validation {
     }
 
     return null;
+  }
+
+  static String? checkNumeric(BuildContext context, String str,
+      {String? errorText}) {
+    String translate(String text) => FlutterI18n.translate(context, text);
+    const pattern = r'^-?[0-9]+$';
+    final regExp = RegExp(pattern);
+    if (!regExp.hasMatch(str)) {
+      return errorText ?? translate('invalid_format');
+    } else {
+      return null;
+    }
+  }
+
+  static String? checkHexDecimal(BuildContext context, String value,
+      {String? errorText}) {
+    String translate(String text) => FlutterI18n.translate(context, text);
+    final regExp = RegExp(r'0[xX][0-9a-fA-F]+');
+    if (!regExp.hasMatch(value)) {
+      return errorText ?? translate('invalid_format');
+    } else {
+      return null;
+    }
   }
 }

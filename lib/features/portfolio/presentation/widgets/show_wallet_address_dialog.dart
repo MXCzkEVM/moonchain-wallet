@@ -1,8 +1,7 @@
 import 'dart:ui';
 
 import 'package:datadashwallet/common/utils/utils.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/portfolio_page_presenter.dart';
+import 'package:datadashwallet/features/portfolio/portfolio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,9 +14,7 @@ void showWalletAddressDialog(BuildContext context, WidgetRef ref) {
     useRootNavigator: true,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (BuildContext context) => WalletAddress(
-      onTap: () {},
-    ),
+    builder: (BuildContext context) => const WalletAddress(),
   );
 }
 
@@ -41,9 +38,9 @@ class WalletAddress extends HookConsumerWidget {
         sigmaY: 20,
       ),
       child: Container(
-        padding: const EdgeInsets.only(right: 24, left: 24, bottom: 34),
+        padding: const EdgeInsets.only(right: 24, left: 24, bottom: 44),
         decoration: BoxDecoration(
-          color: ColorsTheme.of(context).box,
+          color: ColorsTheme.of(context).cardBackground,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -52,38 +49,24 @@ class WalletAddress extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16, top: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Spacer(),
-                  Text(FlutterI18n.translate(context, 'receive'),
-                      style: FontTheme.of(context).body1.primary()),
-                  const Spacer(),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      child: Icon(
-                        Icons.close,
-                        size: 32,
-                        color: ColorsTheme.of(context).iconPrimary,
-                      ),
-                      onTap: () => Navigator.of(context).pop(),
-                    ),
-                  ),
-                ],
+            MxcAppBarEvenly.title(
+              titleText: FlutterI18n.translate(context, 'receive'),
+              action: Container(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  child: const Icon(Icons.close),
+                  onTap: () => Navigator.of(context).pop(false),
+                ),
               ),
             ),
             QrImageView(
               data: state.walletAddress ?? '',
               size: 215,
               dataModuleStyle: QrDataModuleStyle(
-                  color: ColorsTheme.of(context).whiteInvert,
+                  color: ColorsTheme.of(context).textPrimary,
                   dataModuleShape: QrDataModuleShape.square),
-              backgroundColor: Colors.transparent,
               eyeStyle: QrEyeStyle(
-                  color: ColorsTheme.of(context).whiteInvert,
+                  color: ColorsTheme.of(context).textPrimary,
                   eyeShape: QrEyeShape.square),
             ),
             const SizedBox(height: 16),
@@ -126,8 +109,6 @@ class WalletAddress extends HookConsumerWidget {
                       backgroundColor: state.isWalletAddressCopied
                           ? ColorsTheme.of(context).systemStatusActive
                           : null,
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 12),
                     )
                   ]),
             )

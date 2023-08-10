@@ -1,3 +1,5 @@
+import 'package:datadashwallet/features/dapps/domain/gestures_instruction_repository.dart';
+import 'package:datadashwallet/features/dapps/presentation/widgets/gestures_instruction.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:mxc_logic/internal.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -18,11 +20,14 @@ class GlobalCache extends GlobalCacheContainer {
   final ThemeCacheRepository theme = ThemeCacheRepository();
   final LanguageRepository language = LanguageRepository();
   final PasscodeRepository passcode = PasscodeRepository();
+  final GesturesInstructionRepository gesturesInstruction =
+      GesturesInstructionRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [
         theme,
         language,
         passcode,
+        gesturesInstruction,
       ];
 }

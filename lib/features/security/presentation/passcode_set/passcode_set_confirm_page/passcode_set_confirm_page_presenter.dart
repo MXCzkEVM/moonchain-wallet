@@ -22,7 +22,7 @@ class PasscodeSetConfirmPagePresenter extends PasscodeBasePagePresenter {
   final List<int> expectedNumbers;
 
   @override
-  void onAllNumbersEntered() {
+  void onAllNumbersEntered(String? dismissedPage) {
     if (!const DeepCollectionEquality()
         .equals(state.enteredNumbers, expectedNumbers)) {
       navigator?.pop(PasscodeConfirmResult.dontMatch);

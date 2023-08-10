@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -27,16 +28,7 @@ class _MxcSuccessHookState extends State<MxcSuccessHook> {
   }
 
   void _onMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: FontTheme.of(context, listen: false).body1(),
-        ),
-        duration: const Duration(seconds: 2),
-        backgroundColor: ColorsTheme.of(context, listen: false).mainGreen,
-      ),
-    );
+    showSnackBar(context: context, content: message);
   }
 
   @override
