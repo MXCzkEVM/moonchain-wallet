@@ -4,6 +4,7 @@ import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:twitter_oembed_api/twitter_oembed_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'wallet_page_state.dart';
 
@@ -23,6 +24,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   @override
   void initState() {
     super.initState();
+
+    getMXCTweets();
 
     listen(_chainConfigurationUserCase.selectedNetwork, (value) {
       if (value != null) {
@@ -351,5 +354,37 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     } catch (e) {
       addError(e.toString());
     }
+  }
+
+  void getMXCTweets() async {
+    try {
+      final defaultTweets = await _tokenContractUseCase.getDefaultTweets();
+
+      final twitterApi = TwitterOEmbedApi();
+
+      final embeddedList =
+          await getTweetsEmbedded(twitterApi, defaultTweets.tweets ?? []);
+
+      notify(() => state.embeddedTweets = embeddedList);
+    } catch (e) {
+      addError(e.toString());
+    }
+  }
+
+  Future<List<EmbeddedTweet>> getTweetsEmbedded(
+      TwitterOEmbedApi twitterApi, List<String> tweets) async {
+    final embeddedList = <EmbeddedTweet>[];
+    for (String tweet in tweets) {
+      embeddedList.add(await twitterApi.publishEmbeddedTweet(
+        screenName: 'MXCfoundation',
+        tweetId: tweet,
+        maxWidth: 400,
+        theme: ContentTheme.dark,
+        align: ContentAlign.center,
+      ));
+    }
+
+    final response = await Future.value(embeddedList);
+    return response;
   }
 }
