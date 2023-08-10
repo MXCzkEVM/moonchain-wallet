@@ -33,6 +33,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   late final TokenContractUseCase _tokenContractUseCase =
       ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
+  late final _chainConfigurationUserCase =
+      ref.read(chainConfigurationUseCaseProvider);
   late final accountInfo = ref.read(appNavBarContainer.state);
   late final TextEditingController amountController = TextEditingController();
   late final TextEditingController recipientController =
@@ -52,6 +54,12 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       (value) => notify(() => state.online = value),
     );
 
+    listen(_chainConfigurationUserCase.selectedNetwork, (value) {
+      if (value != null) {
+        notify(() => state.network = value);
+      }
+    });
+
     amountController.addListener(_onValidChange);
     recipientController.addListener(_onValidChange);
 
@@ -62,6 +70,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
   void loadPage() async {
     await _tokenContractUseCase.checkConnectionToNetwork();
+    _chainConfigurationUserCase.getCurrentNetwork();
   }
 
   void changeDiscount(int value) {

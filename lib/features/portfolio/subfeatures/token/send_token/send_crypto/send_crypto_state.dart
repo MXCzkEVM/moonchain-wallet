@@ -11,6 +11,7 @@ class SendCryptoState with EquatableMixin {
   TransactionProcessType processType = TransactionProcessType.confirm;
   String? walletAddress;
   EstimatedGasFee? estimatedGasFee;
+  Network? network;
 
   @override
   List<Object?> get props => [
@@ -21,5 +22,6 @@ class SendCryptoState with EquatableMixin {
         processType,
         walletAddress,
         estimatedGasFee,
+        network,
       ];
 }

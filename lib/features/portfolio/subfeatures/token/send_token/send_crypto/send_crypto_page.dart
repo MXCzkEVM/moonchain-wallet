@@ -88,7 +88,7 @@ class SendCryptoPage extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'MXC zkEVM',
+                    ref.watch(state).network?.label ?? '--',
                     style: FontTheme.of(context).body1.secondary(),
                   ),
                 ],
