@@ -56,7 +56,7 @@ class QrCodePage extends HookConsumerWidget {
                 ),
               const SizedBox(height: Sizes.spaceXLarge),
               QrImageView(
-                data: name ?? address ?? '',
+                data: address ?? '',
                 size: 160,
                 dataModuleStyle: QrDataModuleStyle(
                     color: ColorsTheme.of(context).textPrimary,
