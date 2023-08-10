@@ -77,6 +77,8 @@ class SecuritySettingsPresenter
       FlutterLogs.clearLogs();
       resetProviders();
       _authUseCase.resetWallet();
+      _webviewUseCase.clearCache();
+
       navigator?.replaceAll(
         route(
           const SplashSetupWalletPage(),
