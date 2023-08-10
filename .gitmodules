@@ -1,3 +1,3 @@
 [submodule "packages/shared"]
 	path = packages/shared
-	url = https://github.com/mxc-foundation/mxc-shared-flutter.git
+	url = https://github.com/MXCzkEVM/mxc-shared-flutter.git
