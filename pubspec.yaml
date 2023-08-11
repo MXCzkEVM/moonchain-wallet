@@ -1,5 +1,5 @@
 name: datadashwallet
-description: DataDash wallet using an ERC-20 smart contract.
+description: AXS wallet using an ERC-20 smart contract.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev

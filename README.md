@@ -1,6 +1,6 @@
-# DataDash Wallet
+# AXS Wallet
 
-DataDash wallet using an ERC-20 smart contract.
+AXS wallet using an ERC-20 smart contract.
 
 ## Project Structure
 
@@ -30,6 +30,6 @@ And also, UseCases are feature-level, while presenters are widget-level. So 1 pr
 
 ## Shared Library
 
-This library includes DataDash wallet's UI(User Interface) and business logic. The basic components and images, fonts, colors come from defination of designer's Figma. The logic part is to call the related APIs.
+This library includes AXS wallet's UI(User Interface) and business logic. The basic components and images, fonts, colors come from defination of designer's Figma. The logic part is to call the related APIs.
 
 The repository: https://github.com/MXCzkEVM/mxc-shared-flutter
