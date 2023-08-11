@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" package="com.mxc.datadashwallet">
+    xmlns:tools="http://schemas.android.com/tools" package="com.mxc.axswallet">
 
     <queries>
         <package android:name="org.telegram.messenger" />

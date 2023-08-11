@@ -45,7 +45,7 @@ void main() {
       runApp(
         UncontrolledProviderScope(
           container: container,
-          child: DataDashWallet(
+          child: AxsWallet(
             isLoggedIn: isLoggedIn,
           ),
         ),

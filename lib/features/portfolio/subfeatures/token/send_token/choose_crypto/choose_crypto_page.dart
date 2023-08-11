@@ -82,14 +82,14 @@ class ChooseCryptoPage extends HookConsumerWidget {
             children: [
               ...TokensBalanceListUtils.generateTokensBalanceList(
                 ref.watch(state).filterTokens!,
-                onSelected: ((token) => Navigator.of(context).push(
+                onSelected: (token) => Navigator.of(context).push(
                       route.featureDialog(
                         SendCryptoPage(
                           token: token,
                           qrCode: qrCode,
                         ),
                       ),
-                    )),
+                    ),
               )
             ],
           )),

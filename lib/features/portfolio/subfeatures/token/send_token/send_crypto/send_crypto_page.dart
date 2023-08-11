@@ -23,14 +23,14 @@ class SendCryptoPage extends HookConsumerWidget {
 
   @override
   ProviderBase<SendCryptoPresenter> get presenter =>
-      sendTokenPageContainer.actions(MultiParameters(
+      sendTokenPageContainer.actions(SendCryptoArguments(
         token: token,
         qrCode: qrCode,
       ));
 
   @override
   ProviderBase<SendCryptoState> get state =>
-      sendTokenPageContainer.state(MultiParameters(
+      sendTokenPageContainer.state(SendCryptoArguments(
         token: token,
         qrCode: qrCode,
       ));

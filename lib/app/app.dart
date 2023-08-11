@@ -16,8 +16,8 @@ import 'app_log_wrapper.dart';
 
 final appNavigatorKey = GlobalKey<NavigatorState>();
 
-class DataDashWallet extends HookConsumerWidget {
-  const DataDashWallet({
+class AxsWallet extends HookConsumerWidget {
+  const AxsWallet({
     Key? key,
     required this.isLoggedIn,
   }) : super(key: key);

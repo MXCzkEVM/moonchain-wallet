@@ -4,11 +4,10 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'transaction_info.dart';
 
-enum TransactionProcessType { confirm, send, done }
+enum TransactionProcessType { confirm, send, sending, done }
 
 Future<bool?> showTransactionDialog(
   BuildContext context, {
-  String? title,
   required String amount,
   required String balance,
   required Token token,
@@ -17,7 +16,7 @@ Future<bool?> showTransactionDialog(
   required String to,
   String? estimatedFee,
   TransactionProcessType? processType,
-  VoidCallback? onTap,
+  required Function(TransactionProcessType) onTap,
 }) {
   return showModalBottomSheet<bool>(
     context: context,
@@ -33,32 +32,16 @@ Future<bool?> showTransactionDialog(
           topRight: Radius.circular(20),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          MxcAppBarEvenly.title(
-            titleText: title ?? '',
-            action: Container(
-              alignment: Alignment.centerRight,
-              child: InkWell(
-                child: const Icon(Icons.close),
-                onTap: () => Navigator.of(context).pop(false),
-              ),
-            ),
-          ),
-          TransactionInfo(
-            amount: amount,
-            balance: balance,
-            token: token,
-            newtork: newtork,
-            from: from,
-            to: to,
-            estimatedFee: estimatedFee,
-            processType: processType,
-            onTap: onTap,
-          ),
-          const SizedBox(height: 10),
-        ],
+      child: TransactionInfo(
+        amount: amount,
+        balance: balance,
+        token: token,
+        newtork: newtork,
+        from: from,
+        to: to,
+        estimatedFee: estimatedFee,
+        processType: processType,
+        onTap: onTap,
       ),
     ),
   );

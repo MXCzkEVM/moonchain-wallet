@@ -1,4 +1,4 @@
-package com.mxc.datadashwallet
+package com.mxc.axswallet
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
