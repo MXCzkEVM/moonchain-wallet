@@ -23,6 +23,7 @@ class TweetsList extends HookConsumerWidget {
               return Container(
                 margin: const EdgeInsetsDirectional.only(start: 10),
                 width: 320,
+                height: 620,
                 child: Theme(
                   data: MxcTheme.of(context).toThemeData().copyWith(
                         visualDensity: VisualDensity.adaptivePlatformDensity,
