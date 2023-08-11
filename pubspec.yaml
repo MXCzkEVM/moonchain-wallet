@@ -72,6 +72,7 @@ dependencies:
   jdenticon_dart: ^2.0.0
   twitter_oembed_api: ^0.1.0
   social_embed_webview: ^0.3.2
+  connectivity_plus: ^4.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -267,5 +267,7 @@
 	"swipe_left": "Swipe left to switch to the next opened DApp.",
 	"double_tap_reload": "Double tap to reload your DApp.",
 	"pinch_all_dapps": "Pinch to view all opened DApps.",
-	"try_again": "Try again"
+	"try_again": "Try again",
+	"internet_connection_unavailable": "The internet connection is currently unavailable; however, you still have access to the settings.",
+	"retry": "Retry"
 }

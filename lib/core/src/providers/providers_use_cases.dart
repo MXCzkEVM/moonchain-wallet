@@ -3,6 +3,7 @@ import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
+import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/address_book/address_book.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_use_case.dart';
@@ -98,4 +99,9 @@ final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
     Provider(
   (ref) => ChainConfigurationUseCase(
       ref.watch(datadashCacheProvider).chainConfigurationRepository),
+);
+
+final Provider<NetworkUnavailableUseCase> networkUnavailableUseCaseProvider =
+    Provider(
+  (ref) => NetworkUnavailableUseCase(),
 );

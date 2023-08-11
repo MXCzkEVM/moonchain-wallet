@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable.dart';
 import 'package:datadashwallet/features/file_listener/file_listener_wrapper.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
@@ -72,6 +73,8 @@ class AxsWallet extends HookConsumerWidget {
               // [Navigator] through Navigator.of(context), you must use navigatorKey.
 
               child = FileListenerWrapper(child: child);
+
+              child = NetworkUnavailableWrapper(child: child);
 
               // Close keyboard on tap. Default behavior on iOS.
               child = GestureDetector(

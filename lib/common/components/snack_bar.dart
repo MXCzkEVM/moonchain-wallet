@@ -1,33 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-enum SnackBarType { success, fail }
+enum SnackBarType { success, fail, warning }
 
 void showSnackBar({
   required BuildContext context,
   required String content,
   SnackBarType? type = SnackBarType.success,
+  SnackBarAction? action,
 }) {
+  Color getColor() {
+    switch (type) {
+      case SnackBarType.success:
+        return ColorsTheme.of(context, listen: false).systemStatusActive;
+      case SnackBarType.fail:
+        return ColorsTheme.of(context, listen: false).systemStatusInActive;
+      default:
+        return ColorsTheme.of(context, listen: false).systemStatusNotCritical;
+    }
+  }
+
   final snackBar = SnackBar(
     elevation: 1000,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
-    margin: const EdgeInsets.symmetric(horizontal: Sizes.spaceNormal),
+    margin: EdgeInsets.only(
+      left: Sizes.spaceNormal,
+      right: Sizes.spaceNormal,
+      bottom: MediaQuery.of(context).size.height - 250,
+    ),
     padding: const EdgeInsets.all(Sizes.spaceXSmall),
-    backgroundColor: SnackBarType.success == type
-        ? ColorsTheme.of(context, listen: false).systemStatusActive
-        : ColorsTheme.of(context, listen: false).systemStatusInActive,
+    backgroundColor: getColor(),
     content: Row(
       children: [
-        Icon(
-          SnackBarType.success == type
-              ? Icons.check_circle_rounded
-              : Icons.warning_rounded,
-          color: ColorsTheme.of(context, listen: false).iconBlack200,
-          size: 20,
-        ),
+        if (SnackBarType.warning != type)
+          Icon(
+            SnackBarType.success == type
+                ? Icons.check_circle_rounded
+                : Icons.warning_rounded,
+            color: ColorsTheme.of(context, listen: false).iconBlack200,
+            size: 20,
+          ),
         const SizedBox(width: Sizes.space2XSmall),
         Expanded(
           child: Text(
@@ -41,6 +55,7 @@ void showSnackBar({
       ],
     ),
     behavior: SnackBarBehavior.floating,
+    action: action,
   );
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
