@@ -21,6 +21,4 @@ flutter clean
 
 echo "Installed flutter to `pwd`/flutter"
 
-chmod 0600 ~/.netrc
-
 flutter build ios --release --no-codesign
