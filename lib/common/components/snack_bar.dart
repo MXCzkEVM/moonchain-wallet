@@ -28,7 +28,9 @@ void showSnackBar({
     margin: EdgeInsets.only(
       left: Sizes.spaceNormal,
       right: Sizes.spaceNormal,
-      bottom: MediaQuery.of(context).size.height - 250,
+      bottom: SnackBarType.warning == type
+          ? MediaQuery.of(context).size.height - 250
+          : 0,
     ),
     padding: const EdgeInsets.all(Sizes.spaceXSmall),
     backgroundColor: getColor(),
