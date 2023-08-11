@@ -30,7 +30,6 @@ class WalletPage extends HookConsumerWidget {
         backgroundColor: ColorsTheme.of(context).screenBackground,
         layout: LayoutType.column,
         useContentPadding: false,
-        childrenPadding: const EdgeInsets.only(top: 24, right: 24, left: 24),
         appBar: AppNavBar(
           leading: IconButton(
             key: const ValueKey('settingsButton'),
@@ -56,38 +55,44 @@ class WalletPage extends HookConsumerWidget {
           Expanded(
               child: ListView(
             children: [
-              Text(FlutterI18n.translate(context, 'wallet'),
-                  style: FontTheme.of(context).h4().copyWith(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w400,
-                      color: ColorsTheme.of(context).textPrimary)),
-              const SizedBox(
-                height: 6,
-              ),
-              const BalancePanel(false),
-              const SizedBox(
-                height: 32,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(FlutterI18n.translate(context, 'transaction_history'),
-                      style: FontTheme.of(context).h7().copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: ColorsTheme.of(context).textSecondary)),
-                ],
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              RecentTransactions(
-                walletAddress: state.walletAddress,
-                transactions: state.txList?.items,
-                tokens: state.tokensList,
-              ),
-              const SizedBox(
-                height: 32,
+              Padding(
+                padding: const EdgeInsets.only(top: 24, right: 24, left: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      FlutterI18n.translate(context, 'wallet'),
+                      style: FontTheme.of(context).h4().copyWith(
+                            fontSize: 34,
+                            fontWeight: FontWeight.w400,
+                            color: ColorsTheme.of(context).textPrimary,
+                          ),
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    const BalancePanel(false),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    Text(FlutterI18n.translate(context, 'transaction_history'),
+                        style: FontTheme.of(context).h7().copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: ColorsTheme.of(context).textSecondary)),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    RecentTransactions(
+                      walletAddress: state.walletAddress,
+                      transactions: state.txList?.items,
+                      tokens: state.tokensList,
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                  ],
+                ),
               ),
               const TweetsList()
             ],
