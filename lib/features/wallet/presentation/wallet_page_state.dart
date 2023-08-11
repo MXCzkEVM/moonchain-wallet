@@ -28,7 +28,7 @@ class WalletState with EquatableMixin {
 
   double xsdConversionRate = 2.0;
 
-  List<EmbeddedTweet> embeddedTweets = [];
+  List<String> embeddedTweets = [];
 
   @override
   List<Object?> get props => [

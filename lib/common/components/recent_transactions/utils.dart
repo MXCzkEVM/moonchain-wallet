@@ -85,8 +85,7 @@ class RecentTransactionsUtils {
       String hash = currentTx.hash ?? 'Unknown';
       TransactionType transactionType = TransactionType.sent;
       TransactionStatus transactionStatus = TransactionStatus.done;
-      String logoUrl =
-          'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg';
+      String logoUrl = 'assets/svg/networks/unknown.svg';
 
       // two type of tx : coin_transfer from filtered tx list & token transfer from token transfer list
       // If not 'contract_call' or 'coin_transfer' then empty and that means failed in other words

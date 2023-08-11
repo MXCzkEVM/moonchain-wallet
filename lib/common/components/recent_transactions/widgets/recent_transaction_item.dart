@@ -46,11 +46,13 @@ class RecentTrxListItem extends HookConsumerWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: ColorsTheme.of(context).primaryBackground),
-                  child: SvgPicture.network(
-                    logoUrl,
-                    height: 24,
-                    width: 24,
-                  )),
+                  child: logoUrl.contains('https')
+                      ? SvgPicture.network(
+                          logoUrl,
+                          height: 24,
+                          width: 24,
+                        )
+                      : SvgPicture.asset(logoUrl)),
               const SizedBox(
                 width: 8,
               ),

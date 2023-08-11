@@ -361,31 +361,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     try {
       final defaultTweets = await _tweetsUseCase.getDefaultTweets();
 
-      final twitterApi = TwitterOEmbedApi();
-
-      final embeddedList =
-          await getTweetsEmbedded(twitterApi, defaultTweets.tweets ?? []);
-
-      notify(() => state.embeddedTweets = embeddedList);
+      notify(() => state.embeddedTweets = defaultTweets.tweets!);
     } catch (e) {
       addError(e.toString());
     }
-  }
-
-  Future<List<EmbeddedTweet>> getTweetsEmbedded(
-      TwitterOEmbedApi twitterApi, List<String> tweets) async {
-    final embeddedList = <EmbeddedTweet>[];
-    for (String tweet in tweets) {
-      embeddedList.add(await twitterApi.publishEmbeddedTweet(
-        screenName: 'MXCfoundation',
-        tweetId: tweet,
-        maxWidth: 400,
-        theme: ContentTheme.dark,
-        align: ContentAlign.center,
-      ));
-    }
-
-    final response = await Future.value(embeddedList);
-    return response;
   }
 }
