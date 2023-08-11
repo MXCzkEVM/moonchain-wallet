@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
+import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/address_book/address_book.dart';
@@ -38,6 +39,12 @@ final Provider<TokenContractUseCase> tokenContractUseCaseProvider = Provider(
 
 final Provider<NftContractUseCase> nftContractUseCaseProvider = Provider(
   (ref) => NftContractUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
+final Provider<TweetsUseCase> tweetsUseCaseProvider = Provider(
+  (ref) => TweetsUseCase(
     ref.watch(web3RepositoryProvider),
   ),
 );

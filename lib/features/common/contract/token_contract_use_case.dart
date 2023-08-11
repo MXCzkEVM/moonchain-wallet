@@ -139,8 +139,4 @@ class TokenContractUseCase extends ReactiveUseCase {
   Future<int> getChainId(String rpcUrl) async {
     return await _repository.tokenContract.getChainId(rpcUrl);
   }
-
-  Future<DefaultTweets> getDefaultTweets() async {
-    return await _repository.tokenContract.getDefaultTweets();
-  }
 }

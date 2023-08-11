@@ -18,6 +18,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       ref.read(chainConfigurationUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _tweetsUseCase = ref.read(tweetsUseCaseProvider);
   late final _customTokenUseCase = ref.read(customTokensUseCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
 
@@ -358,7 +359,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   void getMXCTweets() async {
     try {
-      final defaultTweets = await _tokenContractUseCase.getDefaultTweets();
+      final defaultTweets = await _tweetsUseCase.getDefaultTweets();
 
       final twitterApi = TwitterOEmbedApi();
 
