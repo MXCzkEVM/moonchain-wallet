@@ -20,8 +20,17 @@ class TweetsList extends HookConsumerWidget {
         children: [
           ...state.embeddedTweets.map(
             (e) {
+              if (Theme.of(context).brightness == Brightness.dark) {
+                RegExp regex = RegExp(r'<.*?>');
+                final match = regex.firstMatch(e)!.group(0);
+                int index = match!.length - 1;
+                String newString =
+                    '${match.substring(0, index)} data-theme="dark"  data-width="400"${match.substring(index)}';
+                e = e.replaceFirst(regex, newString);
+              }
               return Container(
-                margin: const EdgeInsetsDirectional.only(start: 10),
+                margin: EdgeInsetsDirectional.only(
+                    start: MediaQuery.of(context).size.width > 600 ? 16 : 8),
                 width: 320,
                 height: 620,
                 child: Theme(
@@ -29,7 +38,10 @@ class TweetsList extends HookConsumerWidget {
                         visualDensity: VisualDensity.adaptivePlatformDensity,
                       ),
                   child: SocialEmbed(
-                      socialMediaObj: TwitterEmbedData(embedHtml: e.html)),
+                    socialMediaObj: TwitterEmbedData(
+                      embedHtml: e,
+                    ),
+                  ),
                 ),
               );
             },
