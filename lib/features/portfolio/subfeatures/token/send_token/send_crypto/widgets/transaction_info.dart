@@ -6,7 +6,7 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'transaction_dialog.dart';
 
-class TransactionInfo extends StatelessWidget {
+class TransactionInfo extends StatefulWidget {
   const TransactionInfo({
     Key? key,
     required this.amount,
@@ -17,7 +17,7 @@ class TransactionInfo extends StatelessWidget {
     required this.to,
     this.estimatedFee,
     this.processType = TransactionProcessType.confirm,
-    this.onTap,
+    required this.onTap,
   }) : super(key: key);
 
   final String amount;
@@ -28,23 +28,42 @@ class TransactionInfo extends StatelessWidget {
   final String to;
   final String? estimatedFee;
   final TransactionProcessType? processType;
-  final VoidCallback? onTap;
+  final Function(TransactionProcessType) onTap;
+
+  @override
+  State<TransactionInfo> createState() => _TransactionInfoState();
+}
+
+class _TransactionInfoState extends State<TransactionInfo> {
+  TransactionProcessType processType = TransactionProcessType.confirm;
+  int index = TransactionProcessType.confirm.index;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
+        MxcAppBarEvenly.title(
+          titleText: getDialogTitle(),
+          action: Container(
+            alignment: Alignment.centerRight,
+            child: InkWell(
+              child: const Icon(Icons.close),
+              onTap: () => Navigator.of(context).pop(false),
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: Column(
             children: [
               amountItem(context),
-              priceItem(context, 'balance', balance),
-              textItem(context, 'network', newtork),
-              addressItem(context, 'from', from),
-              addressItem(context, 'to', to),
+              priceItem(context, 'balance', widget.balance),
+              textItem(context, 'network', widget.newtork),
+              addressItem(context, 'from', widget.from),
+              addressItem(context, 'to', widget.to),
               if (TransactionProcessType.confirm != processType)
-                priceItem(context, 'estimated_fee', estimatedFee),
+                priceItem(context, 'estimated_fee', widget.estimatedFee),
             ],
           ),
         ),
@@ -54,15 +73,40 @@ class TransactionInfo extends StatelessWidget {
     );
   }
 
+  String getDialogTitle() {
+    if (TransactionProcessType.confirm == processType) {
+      return FlutterI18n.translate(context, 'confirm_transaction');
+    } else {
+      return FlutterI18n.translate(context, 'send_x')
+          .replaceFirst('{0}', widget.token.name ?? '');
+    }
+  }
+
   Widget transactionButton(BuildContext context) {
     String titleText = 'confirm';
     AxsButtonType type = AxsButtonType.primary;
 
-    if (processType == TransactionProcessType.send) {
-      titleText = 'send';
-    } else if (processType == TransactionProcessType.done) {
-      titleText = 'done';
-      type = AxsButtonType.pass;
+    switch (processType) {
+      case TransactionProcessType.confirm:
+        titleText = 'confirm';
+        break;
+      case TransactionProcessType.send:
+        titleText = 'send';
+        break;
+      case TransactionProcessType.sending:
+        titleText = 'sending';
+        break;
+      default:
+        titleText = 'done';
+        type = AxsButtonType.pass;
+        break;
+    }
+
+    void goToNext() {
+      setState(() {
+        index += 1;
+        processType = TransactionProcessType.values[index];
+      });
     }
 
     return MxcButton.primary(
@@ -70,9 +114,19 @@ class TransactionInfo extends StatelessWidget {
       size: AxsButtonSize.xl,
       title: FlutterI18n.translate(context, titleText),
       type: type,
-      onTap: () {
-        if (onTap != null) onTap!();
-        Navigator.of(context).pop(true);
+      onTap: () async {
+        if (processType != TransactionProcessType.done) {
+          goToNext();
+          if (processType == TransactionProcessType.sending) {
+            final res = await widget.onTap(processType);
+            if (res != null) {
+              goToNext();
+            }
+          }
+        } else {
+          widget.onTap(processType);
+          Navigator.of(context).pop(true);
+        }
       },
     );
   }
@@ -89,12 +143,12 @@ class TransactionInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              Formatter.formatNumberForUI(amount, isWei: false),
+              Formatter.formatNumberForUI(widget.amount, isWei: false),
               style: FontTheme.of(context).h5(),
             ),
             const SizedBox(width: 4),
             Text(
-              token.symbol ?? '--',
+              widget.token.symbol ?? '--',
               style: FontTheme.of(context).h5.secondary(),
             ),
             const SizedBox(height: 4),
@@ -122,7 +176,7 @@ class TransactionInfo extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           Text(
-            token.symbol ?? '--',
+            widget.token.symbol ?? '--',
             style: FontTheme.of(context).body1().copyWith(
                   color: ColorsTheme.of(context).grey2,
                 ),

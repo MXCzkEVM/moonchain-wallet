@@ -3,6 +3,7 @@ import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/choose_crypto/choose_crypto_presenter.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -10,25 +11,31 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'send_crypto_state.dart';
 import 'widgets/transaction_dialog.dart';
 
-class MultiParameters {
-  const MultiParameters({
+class SendCryptoArguments with EquatableMixin {
+  const SendCryptoArguments({
     required this.token,
     this.qrCode,
   });
 
   final Token token;
   final String? qrCode;
+
+  @override
+  List<dynamic> get props => [token, qrCode];
 }
 
 final sendTokenPageContainer = PresenterContainerWithParameter<
-    SendCryptoPresenter,
-    SendCryptoState,
-    MultiParameters>((params) => SendCryptoPresenter(params));
+        SendCryptoPresenter, SendCryptoState, SendCryptoArguments>(
+    (params) => SendCryptoPresenter(
+          params.token,
+          params.qrCode,
+        ));
 
 class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
-  SendCryptoPresenter(this.params) : super(SendCryptoState());
+  SendCryptoPresenter(this.token, String? qrCode)
+      : super(SendCryptoState()..qrCode = qrCode);
 
-  final MultiParameters params;
+  final Token token;
 
   late final TokenContractUseCase _tokenContractUseCase =
       ref.read(tokenContractUseCaseProvider);
@@ -63,19 +70,18 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     amountController.addListener(_onValidChange);
     recipientController.addListener(_onValidChange);
 
-    recipientController.text = params.qrCode ?? '';
+    recipientController.text = state.qrCode ?? '';
 
     loadPage();
   }
 
   void loadPage() async {
-    await _tokenContractUseCase.checkConnectionToNetwork();
     _chainConfigurationUserCase.getCurrentNetwork();
+    await _tokenContractUseCase.checkConnectionToNetwork();
   }
 
   void changeDiscount(int value) {
-    amountController.text =
-        ((params.token.balance ?? 0) * value / 100).toString();
+    amountController.text = ((token.balance ?? 0) * value / 100).toString();
     notify(() => state.discount = value);
   }
 
@@ -90,55 +96,33 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     final recipient = recipientController.text;
     EstimatedGasFee? estimatedGasFee;
 
-    double sumBalance = params.token.balance! - double.parse(amount);
-
-    if (TransactionProcessType.confirm != state.processType) {
-      if (TransactionProcessType.send == state.processType) {
-        estimatedGasFee = await _estimatedFee();
-        notify(() => state.estimatedGasFee = estimatedGasFee);
-      }
-      sumBalance -= state.estimatedGasFee?.gasFee ?? 0.0;
-    }
+    double sumBalance = token.balance! - double.parse(amount);
+    estimatedGasFee = await _estimatedFee();
+    sumBalance -= estimatedGasFee?.gasFee ?? 0.0;
 
     final result = await showTransactionDialog(
       context!,
-      title: _getDialogTitle(params.token.name ?? ''),
       amount: amount,
       balance: sumBalance.toString(),
-      token: params.token,
-      newtork: 'MXC zkEVM',
+      token: token,
+      newtork: state.network?.label ?? '--',
       from: state.walletAddress!,
       to: recipient,
-      processType: state.processType,
-      estimatedFee: state.estimatedGasFee?.gasFee.toString(),
-      onTap: _nextTransactionStep,
+      estimatedFee: estimatedGasFee?.gasFee.toString(),
+      onTap: (transactionType) => _nextTransactionStep(transactionType),
     );
-
-    if (result != null && !result) {
-      notify(() => state.processType = TransactionProcessType.confirm);
-    }
   }
 
-  String _getDialogTitle(String tokenName) {
-    if (TransactionProcessType.confirm == state.processType) {
-      return translate('confirm_transaction')!;
-    } else {
-      return translate('send_x')!.replaceFirst('{0}', tokenName);
-    }
-  }
-
-  void _nextTransactionStep() async {
-    if (TransactionProcessType.confirm == state.processType) {
-      notify(() => state.processType = TransactionProcessType.send);
-      Future.delayed(const Duration(milliseconds: 300), transactionProcess);
-    } else if (TransactionProcessType.send == state.processType) {
-      _sendTransaction();
-    } else {
-      notify(() => state.processType = TransactionProcessType.confirm);
+  Future<String?> _nextTransactionStep(TransactionProcessType type) async {
+    if (TransactionProcessType.sending == type) {
+      final res = await _sendTransaction();
+      if (res != null) {
+        ref.read(chooseCryptoPageContainer.actions).loadPage();
+        ref.read(walletContainer.actions).initializeWalletPage();
+      }
+      return res;
+    } else if (TransactionProcessType.done == type) {
       BottomFlowDialog.of(context!).close();
-
-      ref.read(chooseCryptoPageContainer.actions).loadPage();
-      ref.read(walletContainer.actions).initializeWalletPage();
     }
   }
 
@@ -155,14 +139,13 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return gasFee;
     } catch (e, s) {
-      notify(() => state.processType = TransactionProcessType.confirm);
       addError(e, s);
     } finally {
       loading = false;
     }
   }
 
-  void _sendTransaction() async {
+  Future<String?> _sendTransaction() async {
     final amount = amountController.text;
     final recipient = recipientController.text;
 
@@ -174,11 +157,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         amount: amount,
       );
 
-      print(res);
-      notify(() => state.processType = TransactionProcessType.done);
-      transactionProcess();
+      return res;
     } catch (e, s) {
-      notify(() => state.processType = TransactionProcessType.confirm);
       addError(e, s);
     } finally {
       loading = false;
