@@ -31,13 +31,17 @@ class TransactionHistoryPresenter
         loadPage();
       }
     });
-
-    loadPage();
   }
 
   Future<void> loadPage() async {
-    await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
-    getTransactions();
+    await _tokenContractUseCase
+        .getDefaultTokens(state.walletAddress!)
+        .then((value) {
+      if (value != null) {
+        notify(() => state.tokens = value.tokens!);
+        getTransactions();
+      }
+    });
   }
 
   void getTransactions() async {
@@ -55,7 +59,7 @@ class TransactionHistoryPresenter
         // loading over and we have the data
         // merge
         if (newTransactionsList.items != null) {
-          newTransactionsList.copyWith(
+          newTransactionsList = newTransactionsList.copyWith(
               items: newTransactionsList.items!.where((element) {
             if (element.txTypes != null) {
               return element.txTypes!
@@ -67,7 +71,7 @@ class TransactionHistoryPresenter
         }
 
         if (newTokenTransfersList.items != null) {
-          for (int i = 1; i < newTokenTransfersList.items!.length; i++) {
+          for (int i = 0; i < newTokenTransfersList.items!.length; i++) {
             final item = newTokenTransfersList.items![i];
             newTransactionsList.items!
                 .add(WannseeTransactionModel(tokenTransfers: [item]));
@@ -82,7 +86,7 @@ class TransactionHistoryPresenter
           }
 
           final sevenDays = DateTime.now().subtract(const Duration(days: 7));
-          final finalList = newTransactionsList.copyWith(
+          newTransactionsList = newTransactionsList.copyWith(
               items: newTransactionsList.items!.where((element) {
             if (element.timestamp != null) {
               return element.timestamp!.isAfter(sevenDays);
@@ -93,7 +97,7 @@ class TransactionHistoryPresenter
           notify(() {
             state.transactions = newTransactionsList;
             state.filterTransactions =
-                WannseeTransactionsModel(items: finalList.items);
+                WannseeTransactionsModel(items: newTransactionsList!.items);
           });
         }
       }

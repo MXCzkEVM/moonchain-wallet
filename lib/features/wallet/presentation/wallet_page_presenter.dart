@@ -189,7 +189,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         state.isTxListLoading = false;
         // merge
         if (newTransactionsList.items != null) {
-          newTransactionsList.copyWith(
+          newTransactionsList = newTransactionsList.copyWith(
               items: newTransactionsList.items!.where((element) {
             if (element.txTypes != null) {
               return element.txTypes!
@@ -201,7 +201,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         }
 
         if (newTokenTransfersList.items != null) {
-          for (int i = 1; i < newTokenTransfersList.items!.length; i++) {
+          for (int i = 0; i < newTokenTransfersList.items!.length; i++) {
             final item = newTokenTransfersList.items![i];
             newTransactionsList.items!
                 .add(WannseeTransactionModel(tokenTransfers: [item]));
