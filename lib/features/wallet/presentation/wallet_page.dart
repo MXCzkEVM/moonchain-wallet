@@ -85,7 +85,7 @@ class WalletPage extends HookConsumerWidget {
                     ),
                     RecentTransactions(
                       walletAddress: state.walletAddress,
-                      transactions: state.txList?.items,
+                      transactions: state.txList?.items!.sublist(0, 6),
                       tokens: state.tokensList,
                     ),
                     const SizedBox(
