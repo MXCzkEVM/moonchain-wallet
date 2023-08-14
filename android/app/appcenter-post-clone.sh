@@ -30,7 +30,7 @@ echo "Installed flutter to `pwd`/flutter"
 # if you get "Execution failed for task ':app:lintVitalRelease'." error, uncomment next two lines
 # flutter build apk --debug
 # flutter build apk --profile
-flutter build apk --release --build-name axs-wallet
+flutter build apk --release
 
 # copy the APK where AppCenter will find it
 mkdir -p android/app/build/outputs/apk/; mv build/app/outputs/apk/release/axs-wallet.apk $_
