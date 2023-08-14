@@ -48,7 +48,8 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<WannseeTokenTransfersModel?> getTokenTransfersByAddress(
       String address) async {
-    return _repository.tokenContract.getTokenTransfersByAddress(address);
+    return _repository.tokenContract
+        .getTokenTransfersByAddress(address, TokenType.erc_20);
   }
 
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
