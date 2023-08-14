@@ -3,7 +3,6 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logs/flutter_logs.dart';
 import 'security_settings_state.dart';
 
 import 'widgets/delete_wallet_dialog.dart';
@@ -74,10 +73,7 @@ class SecuritySettingsPresenter
     );
 
     if (result2 != null && result2) {
-      FlutterLogs.clearLogs();
-      resetProviders();
-      _authUseCase.resetWallet();
-      _webviewUseCase.clearCache();
+      ref.read(logOutUseCaseProvider).logOut();
 
       navigator?.replaceAll(
         route(

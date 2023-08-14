@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
@@ -104,4 +105,12 @@ final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
 final Provider<NetworkUnavailableUseCase> networkUnavailableUseCaseProvider =
     Provider(
   (ref) => NetworkUnavailableUseCase(),
+);
+
+final Provider<LogOutUseCase> logOutUseCaseProvider = Provider(
+  (ref) => LogOutUseCase(
+    authUseCase: ref.watch(authUseCaseProvider),
+    passcodeUseCase: ref.watch(passcodeUseCaseProvider),
+    webviewUseCase: WebviewUseCase(),
+  ),
 );
