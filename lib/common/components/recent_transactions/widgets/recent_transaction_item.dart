@@ -52,7 +52,11 @@ class RecentTrxListItem extends HookConsumerWidget {
                           height: 24,
                           width: 24,
                         )
-                      : SvgPicture.asset(logoUrl)),
+                      : SvgPicture.asset(
+                          logoUrl,
+                          height: 24,
+                          width: 24,
+                        )),
               const SizedBox(
                 width: 8,
               ),
