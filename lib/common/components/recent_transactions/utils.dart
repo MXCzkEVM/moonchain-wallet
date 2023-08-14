@@ -77,7 +77,7 @@ class RecentTransactionsUtils {
       List<WannseeTransactionModel> items, List<Token> tokensList) {
     List<RecentTrxListItem> widgets = [];
 
-    for (int i = 0; i < (items.length > 6 ? 6 : items.length); i++) {
+    for (int i = 0; i < items.length; i++) {
       final currentTx = items[i];
       String amount = '0';
       String symbol = 'Unknown';

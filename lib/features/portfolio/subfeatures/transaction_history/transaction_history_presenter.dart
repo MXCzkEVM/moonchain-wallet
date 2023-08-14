@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/utils.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -29,13 +31,17 @@ class TransactionHistoryPresenter
         loadPage();
       }
     });
-
-    loadPage();
   }
 
   Future<void> loadPage() async {
-    await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
-    getTransactions();
+    await _tokenContractUseCase
+        .getDefaultTokens(state.walletAddress!)
+        .then((value) {
+      if (value != null) {
+        notify(() => state.tokens = value.tokens!);
+        getTransactions();
+      }
+    });
   }
 
   void getTransactions() async {
@@ -53,7 +59,7 @@ class TransactionHistoryPresenter
         // loading over and we have the data
         // merge
         if (newTransactionsList.items != null) {
-          newTransactionsList.copyWith(
+          newTransactionsList = newTransactionsList.copyWith(
               items: newTransactionsList.items!.where((element) {
             if (element.txTypes != null) {
               return element.txTypes!
@@ -65,7 +71,7 @@ class TransactionHistoryPresenter
         }
 
         if (newTokenTransfersList.items != null) {
-          for (int i = 1; i < newTokenTransfersList.items!.length; i++) {
+          for (int i = 0; i < newTokenTransfersList.items!.length; i++) {
             final item = newTokenTransfersList.items![i];
             newTransactionsList.items!
                 .add(WannseeTransactionModel(tokenTransfers: [item]));
@@ -79,10 +85,19 @@ class TransactionHistoryPresenter
             });
           }
 
+          final sevenDays = DateTime.now().subtract(const Duration(days: 7));
+          newTransactionsList = newTransactionsList.copyWith(
+              items: newTransactionsList.items!.where((element) {
+            if (element.timestamp != null) {
+              return element.timestamp!.isAfter(sevenDays);
+            }
+            return element.tokenTransfers![0].timestamp!.isAfter(sevenDays);
+          }).toList());
+
           notify(() {
             state.transactions = newTransactionsList;
             state.filterTransactions =
-                WannseeTransactionsModel(items: newTransactionsList.items);
+                WannseeTransactionsModel(items: newTransactionsList!.items);
           });
         }
       }
