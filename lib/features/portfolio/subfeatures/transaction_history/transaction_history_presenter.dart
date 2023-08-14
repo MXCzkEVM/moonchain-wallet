@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/utils.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -79,10 +81,19 @@ class TransactionHistoryPresenter
             });
           }
 
+          final sevenDays = DateTime.now().subtract(const Duration(days: 7));
+          final finalList = newTransactionsList.copyWith(
+              items: newTransactionsList.items!.where((element) {
+            if (element.timestamp != null) {
+              return element.timestamp!.isAfter(sevenDays);
+            }
+            return element.tokenTransfers![0].timestamp!.isAfter(sevenDays);
+          }).toList());
+
           notify(() {
             state.transactions = newTransactionsList;
             state.filterTransactions =
-                WannseeTransactionsModel(items: newTransactionsList.items);
+                WannseeTransactionsModel(items: finalList.items);
           });
         }
       }

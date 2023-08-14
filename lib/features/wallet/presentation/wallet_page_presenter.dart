@@ -224,6 +224,10 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               }
             });
           }
+          if (newTransactionsList.items!.length > 6) {
+            newTransactionsList = newTransactionsList.copyWith(
+                items: newTransactionsList.items!.sublist(0, 6));
+          }
 
           notify(() => state.txList = newTransactionsList);
         }
