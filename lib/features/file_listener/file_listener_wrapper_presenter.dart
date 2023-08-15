@@ -20,25 +20,55 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (_authUseCase.loggedIn) return;
+
+      if (Platform.isAndroid) {
+        final intent = await FlSharedLink().intentWithAndroid;
+
+        if (intent != null && intent.id != null) {
+          final realPath =
+              await FlSharedLink().getRealFilePathWithAndroid(intent.id!);
+
+          receiveFile(realPath);
+        }
+      } else {
+        final openUrl = await FlSharedLink().openUrlWithIOS;
+
+        if (openUrl?.url != null) {
+          receiveFile(openUrl?.url);
+        }
+      }
+
       FlSharedLink().receiveHandler(
-          onOpenUrl: (IOSOpenUrlModel? data) => receiveFile(data?.url),
-          onIntent: (AndroidIntentModel? data) => receiveFile(data?.id));
+          onOpenUrl: (IOSOpenUrlModel? data) => listenReceiveFile(data?.url),
+          onIntent: (AndroidIntentModel? data) => listenReceiveFile(data?.id));
     });
   }
 
-  void receiveFile(String? filePath) async {
-    if (_authUseCase.loggedIn) return;
-
+  void listenReceiveFile(String? filePath) async {
     try {
       if (filePath == null || filePath.isEmpty) {
         throw UnimplementedError('Mnemonic file is empty or not exists');
       }
 
-      String? file = await (Platform.isAndroid
+      String? realPath = await (Platform.isAndroid
           ? FlSharedLink().getRealFilePathWithAndroid(filePath)
           : FlSharedLink().getAbsolutePathWithIOS(filePath));
 
-      String? mnemonic = await readMnemonicFile(file);
+      receiveFile(realPath);
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
+    }
+  }
+
+  void receiveFile(String? filePath) async {
+    loading = true;
+    try {
+      if (filePath == null || filePath.isEmpty) {
+        throw UnimplementedError('Mnemonic file is empty or not exists');
+      }
+
+      String? mnemonic = await readMnemonicFile(filePath);
 
       if (mnemonic != null && mnemonic.isNotEmpty) {
         if (_authUseCase.validateMnemonic(mnemonic)) {
@@ -53,6 +83,8 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
       }
     } catch (error, stackTrace) {
       addError(error, stackTrace);
+    } finally {
+      loading = false;
     }
   }
 

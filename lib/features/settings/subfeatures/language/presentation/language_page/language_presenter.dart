@@ -22,7 +22,7 @@ class LanguagePresenter extends CompletePresenter<LanguageState> {
     listen<Language?>(
       _languageUseCase.currentLocale,
       (v) => notify(
-        () => state.currentLanguage = v ?? const Language('en', 'English'),
+        () => state.currentLanguage = v,
       ),
     );
   }
