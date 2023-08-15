@@ -38,8 +38,7 @@ class PasscodeRequirePresenter
         state.errorText = null;
         state.wrongInputCounter = 0;
 
-        resetProviders();
-        ref.read(authUseCaseProvider).resetWallet();
+        ref.read(logOutUseCaseProvider).logOut();
         navigator?.replaceAll(route(const SplashSetupWalletPage()));
       }
       state.enteredNumbers = [];

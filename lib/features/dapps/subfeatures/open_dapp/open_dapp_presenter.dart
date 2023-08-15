@@ -103,7 +103,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     required VoidCallback cancel,
     required Function(String idHaethClientsh) success,
   }) async {
-    final amount = EtherAmount.inWei(bridge.value ?? BigInt.zero);
+    final amountEther = EtherAmount.inWei(bridge.value ?? BigInt.zero);
+    final amount =
+        '${MxcAmount.toDoubleByEther(amountEther.getInWei.toString())}';
     final bridgeData = hexToBytes(bridge.data ?? '');
     EtherAmount? gasPrice;
     EtherAmount? gasFee;
@@ -135,7 +137,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final result = await showTransactionDialog(
         context!,
         title: translate('confirm_transaction')!,
-        amount: '${MxcAmount.toDoubleByEther(amount.getInWei.toString())}',
+        amount: amount,
         from: bridge.from!,
         to: bridge.to!,
         estimatedFee:
@@ -145,7 +147,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       if (result != null && result) {
         final hash = await _sendTransaction(
           bridge.to!,
-          amount.getInWei.toString(),
+          amount,
           bridgeData,
         );
         success.call(hash!);

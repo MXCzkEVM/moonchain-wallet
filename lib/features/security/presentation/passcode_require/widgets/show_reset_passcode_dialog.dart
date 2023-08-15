@@ -16,8 +16,7 @@ void showResetPasscodeDialog(BuildContext context, WidgetRef ref) {
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) => ResetPasscode(
       onTap: () {
-        resetProviders();
-        ref.read(authUseCaseProvider).resetWallet();
+        ref.read(logOutUseCaseProvider).logOut();
         Navigator.of(context).replaceAll(
           route(
             const SplashSetupWalletPage(),
