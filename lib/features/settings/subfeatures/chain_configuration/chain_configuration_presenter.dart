@@ -24,17 +24,8 @@ class ChainConfigurationPresenter
     super.initState();
 
     listen(_chainConfigurationUseCase.networks, (value) {
-      if (value.isEmpty) {
-        // populates the default list
-        final defaultList = Network.fixedNetworks();
-        _chainConfigurationUseCase.addItems(defaultList);
-
-        notify(() => state.networks =
-            defaultList.where((element) => element.isAdded == true).toList());
-      } else {
-        notify(() => state.networks =
-            value.where((element) => element.isAdded == true).toList());
-      }
+      notify(() => state.networks =
+          value.where((element) => element.isAdded == true).toList());
     });
 
     listen(_chainConfigurationUseCase.ipfsGateWayList, (newIpfsGateWayList) {

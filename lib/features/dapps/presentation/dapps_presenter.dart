@@ -2,6 +2,7 @@ import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 import 'dapps_state.dart';
 
@@ -36,6 +37,14 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         notify(() => state.bookmarks = allBookmarks);
       },
     );
+
+    listen(_chainConfigurationUseCase.networks, (value) {
+      if (value.isEmpty) {
+        // populates the default list for the first time
+        final defaultList = Network.fixedNetworks();
+        _chainConfigurationUseCase.addItems(defaultList);
+      }
+    });
 
     listen(_gesturesInstructionUseCase.educated, (value) {
       notify(() => state.gesturesInstructionEducated = value);
