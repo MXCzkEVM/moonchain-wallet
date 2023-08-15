@@ -91,13 +91,23 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     notify(() => state.valid = result);
   }
 
+  Future<String> getAddress(String recipient) async {
+    if (!recipient.toLowerCase().startsWith('0x')) {
+      return await _tokenContractUseCase.getAddress(recipient);
+    }
+
+    return recipient;
+  }
+
   void transactionProcess() async {
     final amount = amountController.text;
     final recipient = recipientController.text;
+    String recipientAddress = await getAddress(recipient);
+
     EstimatedGasFee? estimatedGasFee;
 
     double sumBalance = token.balance! - double.parse(amount);
-    estimatedGasFee = await _estimatedFee();
+    estimatedGasFee = await _estimatedFee(recipientAddress);
     sumBalance -= estimatedGasFee?.gasFee ?? 0.0;
 
     final result = await showTransactionDialog(
@@ -126,9 +136,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     }
   }
 
-  Future<EstimatedGasFee?> _estimatedFee() async {
-    final recipient = recipientController.text;
-
+  Future<EstimatedGasFee?> _estimatedFee(String recipient) async {
     loading = true;
     try {
       final gasFee = await _tokenContractUseCase.estimateGesFee(
@@ -151,9 +159,11 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     loading = true;
     try {
+      String recipientAddress = await getAddress(recipient);
+
       final res = await _tokenContractUseCase.sendTransaction(
         privateKey: _accountUseCase.getPravateKey()!,
-        to: recipient,
+        to: recipientAddress,
         amount: amount,
       );
 
