@@ -46,7 +46,7 @@ abstract class RecoveryPhraseBasePage extends HookConsumerWidget {
       layout: LayoutType.column,
       useSplashBackground: true,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 24),
-      presenter: ref.read(presenter),
+      presenter: ref.watch(presenter),
       appBar: buildAppBar(context, ref),
       footer: buildFooter(context, ref),
       children: [
