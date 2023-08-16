@@ -14,12 +14,12 @@ class LanguageRepository extends GlobalCacheRepository {
     Language('es', 'Español'),
     Language('fr', 'Français'),
     Language('it', 'Italiano'),
-    // Language('ja', '日本語'),
-    // Language('ru', 'Русский'),
-    // Language('pt', 'Portugués'),
-    // Language('id', 'Indonesio'),
+    Language('ja', '日本語'),
+    Language('ru', 'Русский'),
+    Language('pt', 'Portugués'),
+    Language('id', 'Indonesio'),
     // Language('tl', 'Tagalog'),
-    // Language('vi', 'Tiếng Việt'),
+    Language('vi', 'Tiếng Việt'),
   ];
 
   @override
