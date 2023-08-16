@@ -104,8 +104,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     required Function(String idHaethClientsh) success,
   }) async {
     final amountEther = EtherAmount.inWei(bridge.value ?? BigInt.zero);
-    final amount =
-        '${MxcAmount.toDoubleByEther(amountEther.getInWei.toString())}';
+    final amount = amountEther.getValueInUnit(EtherUnit.ether).toString();
     final bridgeData = hexToBytes(bridge.data ?? '');
     EtherAmount? gasPrice;
     EtherAmount? gasFee;
@@ -141,7 +140,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         from: bridge.from!,
         to: bridge.to!,
         estimatedFee:
-            '${gasFee?.getInWei != null ? MxcAmount.toDoubleByEther(gasFee!.getInWei.toString()) : (estimatedGasFee?.gasFee ?? 0)}',
+            '${gasFee?.getInWei != null ? gasFee!.getValueInUnit(EtherUnit.ether) : (estimatedGasFee?.gasFee ?? 0)}',
       );
 
       if (result != null && result) {
