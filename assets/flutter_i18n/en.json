@@ -246,6 +246,7 @@
 	"type_yes": "Type \"yes\"",
 	"clear_browser_successfully": "Successfully cleared history and cookies",
 	"exported_logs_successfully": "Exported logs successfully",
+	"account": "Account",
 	"accounts": "Accounts",
 	"add_new_account": "Add new account",
 	"adding_account": "Adding account...",
