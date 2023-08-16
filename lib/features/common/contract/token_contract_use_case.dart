@@ -28,9 +28,12 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   late final ValueStream<String?> name = reactive();
 
+  late final ValueStream<double> totalBalanceInXsd = reactive(0.0);
+
   Future<String> getWalletNativeTokenBalance(String address) async {
     final balance = await _repository.tokenContract.getEthBalance(address);
-    return Formatter.convertWeiToEth(balance.getInWei.toString(), Config.ethDecimals);
+    return Formatter.convertWeiToEth(
+        balance.getInWei.toString(), Config.ethDecimals);
   }
 
   void subscribeToBalance(
@@ -105,6 +108,7 @@ class TokenContractUseCase extends ReactiveUseCase {
     final result =
         await _repository.pricingRepository.getTokensPrice(tokensList.value);
     update(tokensList, result);
+    calculateTotalBalanceInXsd();
   }
 
   void addCustomTokens(List<Token> customTokens) {
@@ -147,5 +151,14 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<int> getChainId(String rpcUrl) async {
     return await _repository.tokenContract.getChainId(rpcUrl);
+  }
+
+  void calculateTotalBalanceInXsd() {
+    double totalPrice = 0.0;
+    for (int i = 0; i < tokensList.value.length; i++) {
+      final token = tokensList.value[i];
+      totalPrice += token.balancePrice!;
+    }
+    update(totalBalanceInXsd, totalPrice);
   }
 }

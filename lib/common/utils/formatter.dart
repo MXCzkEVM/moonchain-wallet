@@ -53,10 +53,9 @@ class Formatter {
   }
 
   /// The input is in wei the output is in Eth
-  static String formatNumberForUI(String input, {int? tokenDecimal}) {
-    if (tokenDecimal != null) {
-      input = convertWeiToEth(input, tokenDecimal);
-    }
+  static String formatNumberForUI(
+    String input,
+  ) {
     String fractionalPart = "";
     String integerPart = input;
     if (input.contains('.')) {

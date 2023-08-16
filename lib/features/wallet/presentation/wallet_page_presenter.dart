@@ -59,6 +59,10 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       }
     });
 
+    listen(_tokenContractUseCase.totalBalanceInXsd, (newValue) {
+      notify(() => state.walletBalance = newValue.toString());
+    });
+
     listen(_customTokenUseCase.tokens, (customTokens) {
       if (customTokens.isNotEmpty) {
         _tokenContractUseCase.addCustomTokens(customTokens);
@@ -160,8 +164,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
             final wannseeBalanceEvent =
                 WannseeBalanceModel.fromJson(event.payload);
             if (wannseeBalanceEvent.balance != null) {
-              final newBalance =
-                  Formatter.convertWeiToEth(wannseeBalanceEvent.balance!, Config.ethDecimals);
+              final newBalance = Formatter.convertWeiToEth(
+                  wannseeBalanceEvent.balance!, Config.ethDecimals);
               notify(() => state.walletBalance = newBalance);
               _balanceUseCase.addItem(BalanceData(
                   timeStamp: DateTime.now(),
