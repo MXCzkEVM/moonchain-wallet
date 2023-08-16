@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/components/recent_transactions/widgets/recent_transaction_item.dart';
+import 'package:datadashwallet/common/config.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -99,7 +100,7 @@ class RecentTransactionsUtils {
 
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
-        amount = Formatter.convertWeiToEth(currentTx.value ?? '0');
+        amount = Formatter.convertWeiToEth(currentTx.value ?? '0', Config.ethDecimals);
 
         if (currentTx.txTypes!.contains('contract_call')) {
           if (tokensList != null) {
@@ -120,7 +121,7 @@ class RecentTransactionsUtils {
 
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
-        amount = Formatter.convertWeiToEth(currentTx.value ?? '0');
+        amount = Formatter.convertWeiToEth(currentTx.value ?? '0', Config.ethDecimals);
       } else if (currentTx.txTypes == null &&
           currentTx.tokenTransfers != null &&
           currentTx.tokenTransfers![0].type == 'token_transfer') {
@@ -138,7 +139,7 @@ class RecentTransactionsUtils {
             Formatter.localTime(currentTx.tokenTransfers![0].timestamp!);
 
         amount = Formatter.convertWeiToEth(
-            currentTx.tokenTransfers![0].total!.value ?? '0');
+            currentTx.tokenTransfers![0].total!.value ?? '0', Config.ethDecimals);
         hash = currentTx.tokenTransfers![0].txHash ?? "Unknown";
         transactionType = RecentTransactionsUtils.checkForTransactionType(
           walletAddressHash,

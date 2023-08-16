@@ -12,7 +12,7 @@ class BalanceInXSD extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(walletContainer.state);
     final balance =
-        Formatter.formatNumberForUI(state.walletBalance, isWei: false);
+        Formatter.formatNumberForUI(state.walletBalance,);
 
     return Row(children: [
       Text(balance,
