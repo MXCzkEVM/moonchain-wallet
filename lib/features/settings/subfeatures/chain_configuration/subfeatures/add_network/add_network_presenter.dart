@@ -1,6 +1,7 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:mxc_logic/src/domain/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -14,6 +15,8 @@ final addNetworkContainer =
 class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
   AddNetworkPresenter() : super(AddNetworkState());
 
+  late final _webviewUseCase = WebviewUseCase();
+  late final _authUseCase = ref.read(authUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
 
@@ -49,6 +52,8 @@ class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
 
   void switchNetwork(Network newDefault) {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
+    _authUseCase.resetNetwork(newDefault);
+    _webviewUseCase.clearCache();
 
     addMessage(
       translate('x_is_now_active')!.replaceFirst(

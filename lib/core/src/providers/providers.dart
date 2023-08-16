@@ -33,11 +33,12 @@ final Provider<AuthenticationCacheRepository> authenticationCacheRepository =
     Provider(
   (ref) => AuthenticationCacheRepository(
     ref.watch(datadashCacheProvider).controller,
+    ref.watch(authenticationStorageProvider),
   ),
 );
 
 final Provider<Web3Repository> web3RepositoryProvider = Provider(
   (ref) => Web3Repository(
-    setupStore: _datadashSetupStore!,
+    setupStore: ref.watch(datadashSetupProvider),
   ),
 );
