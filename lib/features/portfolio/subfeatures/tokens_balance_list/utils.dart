@@ -14,8 +14,8 @@ class TokensBalanceListUtils {
 
       final logoUrl = currentToken.logoUri ?? 'assets/svg/networks/unknown.svg';
 
-      String balance = currentToken.balance?.toString() ?? '0.0';
-      String balanceInXsd = currentToken.balance?.toString() ?? '0.0';
+      String balance = currentToken.balance!.toString();
+      String balanceInXsd = currentToken.balancePrice!.toString();
       final tokenName = currentToken.name ?? '';
       final symbol = currentToken.symbol ?? '';
 

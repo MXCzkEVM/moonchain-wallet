@@ -97,6 +97,13 @@ class TokenContractUseCase extends ReactiveUseCase {
     final result = await _repository.tokenContract
         .getTokensBalance(tokensList.value, walletAddress);
     update(tokensList, result);
+    getTokensPrice();
+  }
+
+  Future<void> getTokensPrice() async {
+    final result =
+        await _repository.pricingRepository.getTokensPrice(tokensList.value);
+    update(tokensList, result);
   }
 
   void addCustomTokens(List<Token> customTokens) {

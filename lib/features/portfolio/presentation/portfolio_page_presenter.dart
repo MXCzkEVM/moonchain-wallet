@@ -53,8 +53,6 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     listen(_nftUseCase.nfts, (newNFTList) {
       notify(() => state.nftList = newNFTList);
     });
-
-    _accountUserCase.refreshWallet();
   }
 
   initializePortfolioPage() {
@@ -70,11 +68,11 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   }
 
   void getWalletTokensBalance() async {
-    await _tokenContractUseCase.getTokensBalance(state.walletAddress!);
+    _tokenContractUseCase.getTokensBalance(state.walletAddress!);
   }
 
   void changeTokensOrNFTsTab(bool toggle) {
-    if(toggle == state.switchTokensOrNFTs) return;
+    if (toggle == state.switchTokensOrNFTs) return;
     notify(() => state.switchTokensOrNFTs = toggle);
   }
 
