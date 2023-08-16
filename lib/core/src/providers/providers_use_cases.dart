@@ -2,6 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
+import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
 import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
 import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
@@ -47,6 +48,12 @@ final Provider<NftContractUseCase> nftContractUseCaseProvider = Provider(
 
 final Provider<TweetsUseCase> tweetsUseCaseProvider = Provider(
   (ref) => TweetsUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
+final Provider<PricingUseCase> pricingUseCaseProvider = Provider(
+  (ref) => PricingUseCase(
     ref.watch(web3RepositoryProvider),
   ),
 );

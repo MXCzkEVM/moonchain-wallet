@@ -103,7 +103,7 @@ class TransactionInfo extends StatelessWidget {
         children: [
           Text(
             price != null
-                ? Formatter.formatNumberForUI(price, isWei: false)
+                ? Formatter.formatNumberForUI(price,)
                 : '--',
             style: FontTheme.of(context).body1.primary(),
           ),

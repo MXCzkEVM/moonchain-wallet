@@ -21,8 +21,4 @@ class PortfolioUseCase extends ReactiveUseCase {
       String event, void Function(dynamic) listeningCallBack) async {
     _repository.tokenContract.subscribeToBalanceEvent(event, listeningCallBack);
   }
-
-  // Future<List<Token>> getTokensBalanceByAddress(List<Token> tokenList) async {
-  //   return (await _repository.tokenContract.getTokensBalance(tokenList));
-  // }
 }
