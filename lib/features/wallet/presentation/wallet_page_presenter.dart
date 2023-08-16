@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
@@ -160,7 +161,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
                 WannseeBalanceModel.fromJson(event.payload);
             if (wannseeBalanceEvent.balance != null) {
               final newBalance =
-                  Formatter.convertWeiToEth(wannseeBalanceEvent.balance!);
+                  Formatter.convertWeiToEth(wannseeBalanceEvent.balance!, Config.ethDecimals);
               notify(() => state.walletBalance = newBalance);
               _balanceUseCase.addItem(BalanceData(
                   timeStamp: DateTime.now(),

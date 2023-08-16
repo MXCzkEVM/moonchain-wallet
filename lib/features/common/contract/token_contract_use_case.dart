@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +30,7 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<String> getWalletNativeTokenBalance(String address) async {
     final balance = await _repository.tokenContract.getEthBalance(address);
-    return Formatter.convertWeiToEth(balance.getInWei.toString());
+    return Formatter.convertWeiToEth(balance.getInWei.toString(), Config.ethDecimals);
   }
 
   void subscribeToBalance(

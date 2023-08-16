@@ -42,7 +42,7 @@ class Formatter {
     return formattedString;
   }
 
-  static String convertWeiToEth(String inputString) {
+  static String convertWeiToEth(String inputString, int tokenDecimal) {
     // 10^18 = 1000000000000000000 but we want to have up to 2 digits accuracy
     if (double.parse(inputString).toDouble() < 10000000000000000) {
       return '0';
@@ -53,9 +53,9 @@ class Formatter {
   }
 
   /// The input is in wei the output is in Eth
-  static String formatNumberForUI(String input, {bool isWei = true}) {
-    if (isWei) {
-      input = convertWeiToEth(input);
+  static String formatNumberForUI(String input, {int? tokenDecimal}) {
+    if (tokenDecimal != null) {
+      input = convertWeiToEth(input, tokenDecimal);
     }
     String fractionalPart = "";
     String integerPart = input;

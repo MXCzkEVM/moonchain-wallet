@@ -21,10 +21,10 @@ class TokensBalanceListUtils {
 
       balance = tokenName == 'MXC Token'
           ? balance
-          : Formatter.formatNumberForUI(balance);
+          : Formatter.formatNumberForUI(balance, tokenDecimal: currentToken.decimals);
       balanceInXsd = tokenName == 'MXC Token'
           ? balance
-          : Formatter.formatNumberForUI(balanceInXsd);
+          : Formatter.formatNumberForUI(balanceInXsd, tokenDecimal: currentToken.decimals);
 
       widgets.add(TokenBalanceItem(
         logoUrl: logoUrl,
