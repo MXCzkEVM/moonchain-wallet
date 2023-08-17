@@ -24,20 +24,20 @@ class Bookmark {
   static List<Bookmark> fixedBookmarks() {
     return [
       const Bookmark(
-        id: 1,
-        title: 'Bridge',
-        description: '& Faucet',
-        url: 'https://wannsee-bridge.mxc.com',
-        image: 'assets/images/apps/bridge-medium.png',
-        editable: false,
-        occupyGrid: 8,
-      ),
-      const Bookmark(
         id: 5,
         title: 'MXC zkEVM explorer',
         description: 'Welcome to MXC zkEVM explorer',
         url: 'https://explorer.mxc.com',
         image: 'assets/images/apps/xsd-medium.png',
+        editable: false,
+        occupyGrid: 8,
+      ),
+      const Bookmark(
+        id: 1,
+        title: 'Bridge',
+        description: '& Faucet',
+        url: 'https://wannsee-bridge.mxc.com',
+        image: 'assets/images/apps/bridge-medium.png',
         editable: false,
         occupyGrid: 8,
       ),
