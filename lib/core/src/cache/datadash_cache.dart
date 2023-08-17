@@ -27,23 +27,18 @@ class DatadashCache extends CacheContainer {
   @override
   final String prefixKey = 'datadash';
 
-  final AccountCacheRepository account = AccountCacheRepository();
   final BookmarkRepository bookmarks = BookmarkRepository();
   final CustomTokensRepository custonTokens = CustomTokensRepository();
   final BalanceRepository balanceHistory = BalanceRepository();
   final RecipientsRepository recipients = RecipientsRepository();
   final NftsRepository nfts = NftsRepository();
-  final ChainConfigurationRepository chainConfigurationRepository =
-      ChainConfigurationRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [
-        account,
         bookmarks,
         custonTokens,
         balanceHistory,
         recipients,
         nfts,
-        chainConfigurationRepository
       ];
 }

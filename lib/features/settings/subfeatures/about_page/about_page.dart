@@ -41,6 +41,10 @@ class AboutPage extends HookConsumerWidget {
           name: 'terms_and_service',
           externalLink: 'https://doc.mxc.com/docs/Resources/tns',
         ),
+        const AppTerm(
+          name: 'privacy_policy',
+          externalLink: 'https://doc.mxc.com/docs/Resources/Privacy',
+        ),
       ],
     );
   }

@@ -30,7 +30,8 @@ class DAppsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final gesturesInstructionUseCase =
         ref.read(gesturesInstructionUseCaseProvider);
-    final bookmarks = ref.watch(state).bookmarks;
+    final bookmarks =
+        ref.watch(state).bookmarks.where((item) => item.visible).toList();
     final bodyHeight = MediaQuery.of(context).size.height - 160;
     final gridRows = (bodyHeight / 80).floor();
 
@@ -63,92 +64,97 @@ class DAppsPage extends HookConsumerWidget {
 
     return Stack(
       children: [
-        MxcPage(
-          layout: LayoutType.scrollable,
-          useContentPadding: false,
-          childrenPadding:
-              const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          backgroundColor: ColorsTheme.of(context).screenBackground,
-          appBar: Column(
-            children: [
-              if (ref.watch(state).isEditMode) ...[
-                EditAppsModeStatusBar(
-                  onAdd: () => Navigator.of(context).push(
-                    route.featureDialog(const addBookmark()),
+        LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          return MxcPage(
+            layout: LayoutType.scrollable,
+            useContentPadding: false,
+            childrenPadding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            backgroundColor: ColorsTheme.of(context).screenBackground,
+            appBar: Column(
+              children: [
+                if (ref.watch(state).isEditMode) ...[
+                  EditAppsModeStatusBar(
+                    onAdd: () => Navigator.of(context).push(
+                      route.featureDialog(const addBookmark()),
+                    ),
+                    onDone: () => ref.read(presenter).changeEditMode(),
                   ),
-                  onDone: () => ref.read(presenter).changeEditMode(),
+                ],
+                AppNavBar(
+                  leading: IconButton(
+                    key: const ValueKey('settingsButton'),
+                    icon: const Icon(MxcIcons.settings),
+                    iconSize: 32,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        route(
+                          const SettingsPage(),
+                        ),
+                      );
+                    },
+                    color: ColorsTheme.of(context).iconPrimary,
+                  ),
+                  action: IconButton(
+                    key: const ValueKey('walletButton'),
+                    icon: const Icon(MxcIcons.wallet),
+                    iconSize: 32,
+                    onPressed: () => Navigator.of(context).replaceAll(
+                      route(const WalletPage()),
+                    ),
+                    color: ColorsTheme.of(context).iconPrimary,
+                  ),
                 ),
               ],
-              AppNavBar(
-                leading: IconButton(
-                  key: const ValueKey('settingsButton'),
-                  icon: const Icon(MxcIcons.settings),
-                  iconSize: 32,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      route(
-                        const SettingsPage(),
-                      ),
-                    );
-                  },
-                  color: ColorsTheme.of(context).iconPrimary,
-                ),
-                action: IconButton(
-                  key: const ValueKey('walletButton'),
-                  icon: const Icon(MxcIcons.wallet),
-                  iconSize: 32,
-                  onPressed: () => Navigator.of(context).replaceAll(
-                    route(const WalletPage()),
-                  ),
-                  color: ColorsTheme.of(context).iconPrimary,
+            ),
+            children: [
+              Container(
+                constraints: const BoxConstraints(maxWidth: 600),
+                height: constraints.maxHeight,
+                child: PageView(
+                  onPageChanged: (index) =>
+                      ref.read(presenter).onPageChage(index),
+                  children: pages
+                      .map((page) => Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: page
+                                .map((item) => BookmarkWidget(
+                                      bookmark: item,
+                                      onTap: ref.watch(state).isEditMode
+                                          ? null
+                                          : () async {
+                                              if (ref
+                                                  .watch(state)
+                                                  .gesturesInstructionEducated) {
+                                                openAppPage(context, item);
+                                              } else {
+                                                final res =
+                                                    await showGesturesInstructionDialog(
+                                                        context);
+
+                                                if (res != null && res) {
+                                                  gesturesInstructionUseCase
+                                                      .setEducated(true);
+                                                  openAppPage(context, item);
+                                                }
+                                              }
+                                            },
+                                      onLongPress: () =>
+                                          ref.read(presenter).changeEditMode(),
+                                      onRemoveTap: (item) => ref
+                                          .read(presenter)
+                                          .removeBookmark(item),
+                                      isEditMode: ref.watch(state).isEditMode,
+                                    ))
+                                .toList(),
+                          ))
+                      .toList(),
                 ),
               ),
             ],
-          ),
-          children: [
-            SizedBox(
-              height: bodyHeight,
-              child: PageView(
-                onPageChanged: (index) =>
-                    ref.read(presenter).onPageChage(index),
-                children: pages
-                    .map((page) => Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: page
-                              .map((item) => BookmarkWidget(
-                                    bookmark: item,
-                                    onTap: ref.watch(state).isEditMode
-                                        ? null
-                                        : () async {
-                                            if (ref
-                                                .watch(state)
-                                                .gesturesInstructionEducated) {
-                                              openAppPage(context, item);
-                                            } else {
-                                              final res =
-                                                  await showGesturesInstructionDialog(
-                                                      context);
-
-                                              if (res != null && res) {
-                                                gesturesInstructionUseCase.setEducated(true);
-                                                openAppPage(context, item);
-                                              }
-                                            }
-                                          },
-                                    onLongPress: () =>
-                                        ref.read(presenter).changeEditMode(),
-                                    onRemoveTap: (item) => ref
-                                        .read(presenter)
-                                        .removeBookmark(item),
-                                    isEditMode: ref.watch(state).isEditMode,
-                                  ))
-                              .toList(),
-                        ))
-                    .toList(),
-              ),
-            ),
-          ],
-        ),
+          );
+        }),
         if (pages.length > 1)
           Positioned(
             left: 0,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class Bookmark {
   const Bookmark({
     required this.id,
@@ -7,6 +9,7 @@ class Bookmark {
     this.image,
     this.editable = true,
     this.occupyGrid = 1,
+    this.visible = true,
   });
 
   final int id;
@@ -16,10 +19,11 @@ class Bookmark {
   final String? image;
   final bool editable;
   final int occupyGrid;
+  final bool visible;
 
   static List<Bookmark> fixedBookmarks() {
     return [
-      const Bookmark(
+      Bookmark(
         id: 1,
         title: 'Bridge',
         description: '& Faucet',
@@ -27,6 +31,7 @@ class Bookmark {
         image: 'assets/images/apps/bridge.png',
         editable: false,
         occupyGrid: 8,
+        visible: Platform.isAndroid,
       ),
       const Bookmark(
         id: 2,
@@ -46,7 +51,7 @@ class Bookmark {
         editable: false,
         occupyGrid: 4,
       ),
-      const Bookmark(
+      Bookmark(
         id: 4,
         title: 'NFT',
         description: 'digitalize_your_assets',
@@ -54,6 +59,7 @@ class Bookmark {
         image: 'assets/images/apps/nft.png',
         editable: false,
         occupyGrid: 4,
+        visible: Platform.isAndroid,
       ),
     ];
   }

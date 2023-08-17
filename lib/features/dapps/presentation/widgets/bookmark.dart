@@ -53,10 +53,13 @@ class BookmarkWidget extends StatelessWidget {
             : const SizedBox(),
       );
     } else if (bookmark.occupyGrid == 4) {
+      double screenWidth = MediaQuery.of(context).size.width;
+      double maxWidth = screenWidth > 600 ? 600 : screenWidth;
+
       return containerWrap(
         context: context,
         bookmark: bookmark,
-        width: MediaQuery.of(context).size.width / 2 - 24,
+        width: maxWidth / 2 - 24,
         child: bookmark.image != null
             ? Image(image: AssetImage(bookmark.image!))
             : const SizedBox(),

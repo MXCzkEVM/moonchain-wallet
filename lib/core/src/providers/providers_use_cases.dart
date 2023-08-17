@@ -2,6 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
+import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
 import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
 import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
@@ -51,6 +52,12 @@ final Provider<TweetsUseCase> tweetsUseCaseProvider = Provider(
   ),
 );
 
+final Provider<PricingUseCase> pricingUseCaseProvider = Provider(
+  (ref) => PricingUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
 final Provider<PortfolioUseCase> portfolioUseCaseProvider = Provider(
   (ref) => PortfolioUseCase(
     ref.watch(web3RepositoryProvider),
@@ -71,8 +78,8 @@ final Provider<AuthUseCase> authUseCaseProvider = Provider(
 
 final Provider<AccountUseCase> accountUseCaseProvider = Provider(
   (ref) => AccountUseCase(
+    ref.watch(globalCacheProvider).account,
     ref.watch(authenticationStorageProvider),
-    ref.watch(datadashCacheProvider).account,
   ),
 );
 
@@ -99,7 +106,8 @@ final Provider<NftsUseCase> nftsUseCaseProvider = Provider(
 final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
     Provider(
   (ref) => ChainConfigurationUseCase(
-      ref.watch(datadashCacheProvider).chainConfigurationRepository),
+    ref.watch(globalCacheProvider).chainConfigurationRepository,
+  ),
 );
 
 final Provider<NetworkUnavailableUseCase> networkUnavailableUseCaseProvider =

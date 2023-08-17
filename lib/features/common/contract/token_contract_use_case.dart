@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/services.dart';
@@ -27,9 +28,12 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   late final ValueStream<String?> name = reactive();
 
+  late final ValueStream<double> totalBalanceInXsd = reactive(0.0);
+
   Future<String> getWalletNativeTokenBalance(String address) async {
     final balance = await _repository.tokenContract.getEthBalance(address);
-    return Formatter.convertWeiToEth(balance.getInWei.toString());
+    return Formatter.convertWeiToEth(
+        balance.getInWei.toString(), Config.ethDecimals);
   }
 
   void subscribeToBalance(
@@ -54,20 +58,17 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
     final result = await _repository.tokenContract.getDefaultTokens();
-    final mxcBalance = await getWalletNativeTokenBalance(walletAddress);
 
     final mxcToken = Token(
-      logoUri:
-          'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg',
-      balance: double.parse(mxcBalance),
-      symbol: 'MXC',
-      name: 'MXC Token',
-    );
+        logoUri: result!.logoUri!,
+        symbol: Config.mxcSymbol,
+        name: Config.mxcName,
+        decimals: Config.ethDecimals);
 
     tokensList.value.clear();
     tokensList.value.add(mxcToken);
 
-    if (result != null) {
+    if (result.tokens != null) {
       tokensList.value.addAll(result.tokens!);
     }
 
@@ -97,6 +98,14 @@ class TokenContractUseCase extends ReactiveUseCase {
     final result = await _repository.tokenContract
         .getTokensBalance(tokensList.value, walletAddress);
     update(tokensList, result);
+    getTokensPrice();
+  }
+
+  Future<void> getTokensPrice() async {
+    final result =
+        await _repository.pricingRepository.getTokensPrice(tokensList.value);
+    update(tokensList, result);
+    calculateTotalBalanceInXsd();
   }
 
   void addCustomTokens(List<Token> customTokens) {
@@ -139,5 +148,14 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<int> getChainId(String rpcUrl) async {
     return await _repository.tokenContract.getChainId(rpcUrl);
+  }
+
+  void calculateTotalBalanceInXsd() {
+    double totalPrice = 0.0;
+    for (int i = 0; i < tokensList.value.length; i++) {
+      final token = tokensList.value[i];
+      totalPrice += token.balancePrice!;
+    }
+    update(totalBalanceInXsd, totalPrice);
   }
 }

@@ -100,14 +100,22 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final res = await generateMnemonicFile(settingsFlow);
 
     final email = MailOptions(
-      body: FlutterI18n.translate(ctx, 'email_secured_body'),
-      subject: FlutterI18n.translate(ctx, 'email_secured_subject'),
+      body: translate('email_secured_body')!,
+      subject: translate('email_secured_subject')!,
       attachments: [res['filePath']],
       isHTML: false,
     );
 
-    await FlutterMailer.send(email);
-
-    nextProcess(settingsFlow, res['phrases']);
+    try {
+      MailerResponse sendResult = await FlutterMailer.send(email);
+      // only [ios] can return sent | saved | cancelled
+      // [android] will return android there is no way of knowing on android
+      // if the intent was sent saved or even cancelled.
+      if (MailerResponse.cancelled != sendResult) {
+        nextProcess(settingsFlow, res['phrases']);
+      }
+    } catch (e, s) {
+      addError(e, s);
+    }
   }
 }

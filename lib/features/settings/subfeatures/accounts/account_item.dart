@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -31,7 +32,7 @@ class AccountItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  account.name,
+                  '${FlutterI18n.translate(context, 'account')} ${account.name}',
                   style: FontTheme.of(context).body2.secondary(),
                 ),
                 Text(

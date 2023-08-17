@@ -42,6 +42,7 @@ class WalletState with EquatableMixin {
         chartMaxAmount,
         chartMinAmount,
         balanceSpots,
-        embeddedTweets
+        embeddedTweets,
+        xsdConversionRate
       ];
 }
