@@ -66,6 +66,8 @@ class DAppsPage extends HookConsumerWidget {
       children: [
         LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
+          bool isTablet = MediaQuery.of(context).size.shortestSide > 430;
+
           return MxcPage(
             layout: LayoutType.scrollable,
             useContentPadding: false,
@@ -110,46 +112,47 @@ class DAppsPage extends HookConsumerWidget {
             ),
             children: [
               Container(
-                constraints: const BoxConstraints(maxWidth: 600),
-                height: constraints.maxHeight,
+                constraints: const BoxConstraints(maxWidth: 430),
+                height: isTablet
+                    ? constraints.maxHeight
+                    : constraints.maxHeight - 160,
                 child: PageView(
                   onPageChanged: (index) =>
                       ref.read(presenter).onPageChage(index),
-                  children: pages
-                      .map((page) => Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: page
-                                .map((item) => BookmarkWidget(
-                                      bookmark: item,
-                                      onTap: ref.watch(state).isEditMode
-                                          ? null
-                                          : () async {
-                                              if (ref
-                                                  .watch(state)
-                                                  .gesturesInstructionEducated) {
-                                                openAppPage(context, item);
-                                              } else {
-                                                final res =
-                                                    await showGesturesInstructionDialog(
-                                                        context);
+                  children: pages.map((page) {
+                    return Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: page
+                          .map((item) => BookmarkWidget(
+                                bookmark: item,
+                                onTap: ref.watch(state).isEditMode
+                                    ? null
+                                    : () async {
+                                        if (ref
+                                            .watch(state)
+                                            .gesturesInstructionEducated) {
+                                          openAppPage(context, item);
+                                        } else {
+                                          final res =
+                                              await showGesturesInstructionDialog(
+                                                  context);
 
-                                                if (res != null && res) {
-                                                  gesturesInstructionUseCase
-                                                      .setEducated(true);
-                                                  openAppPage(context, item);
-                                                }
-                                              }
-                                            },
-                                      onLongPress: () =>
-                                          ref.read(presenter).changeEditMode(),
-                                      onRemoveTap: (item) => ref
-                                          .read(presenter)
-                                          .removeBookmark(item),
-                                      isEditMode: ref.watch(state).isEditMode,
-                                    ))
-                                .toList(),
-                          ))
-                      .toList(),
+                                          if (res != null && res) {
+                                            gesturesInstructionUseCase
+                                                .setEducated(true);
+                                            openAppPage(context, item);
+                                          }
+                                        }
+                                      },
+                                onLongPress: () =>
+                                    ref.read(presenter).changeEditMode(),
+                                onRemoveTap: (item) =>
+                                    ref.read(presenter).removeBookmark(item),
+                                isEditMode: ref.watch(state).isEditMode,
+                              ))
+                          .toList(),
+                    );
+                  }).toList(),
                 ),
               ),
             ],

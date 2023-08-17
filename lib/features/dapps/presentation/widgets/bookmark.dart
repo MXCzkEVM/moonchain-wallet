@@ -32,7 +32,7 @@ class BookmarkWidget extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
-          Radius.circular(12),
+          Radius.circular(8),
         ),
         color: bookmark.occupyGrid == 1
             ? ColorsTheme.of(context).cardBackground
@@ -49,19 +49,31 @@ class BookmarkWidget extends StatelessWidget {
         bookmark: bookmark,
         width: double.infinity,
         child: bookmark.image != null
-            ? Image(image: AssetImage(bookmark.image!))
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(22),
+                child: Image(
+                  image: AssetImage(bookmark.image!),
+                  fit: BoxFit.cover,
+                ),
+              )
             : const SizedBox(),
       );
     } else if (bookmark.occupyGrid == 4) {
       double screenWidth = MediaQuery.of(context).size.width;
-      double maxWidth = screenWidth > 600 ? 600 : screenWidth;
+      double maxWidth = screenWidth > 430 ? 430 : screenWidth;
 
       return containerWrap(
         context: context,
         bookmark: bookmark,
         width: maxWidth / 2 - 24,
         child: bookmark.image != null
-            ? Image(image: AssetImage(bookmark.image!))
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(22),
+                child: Image(
+                  image: AssetImage(bookmark.image!),
+                  fit: BoxFit.cover,
+                ),
+              )
             : const SizedBox(),
       );
     } else {
