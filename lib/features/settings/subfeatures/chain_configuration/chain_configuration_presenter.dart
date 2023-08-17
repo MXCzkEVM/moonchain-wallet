@@ -2,6 +2,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:riverpod/riverpod.dart';
 import 'chain_configuration_state.dart';
 
 final chainConfigurationContainer =
@@ -52,7 +53,7 @@ class ChainConfigurationPresenter
     _chainConfigurationUseCase.changeIpfsGateWay(selectedIpfsGateWay);
   }
 
-  void setAsDefault(Network newDefault) {
+  Future<void> setAsDefault(Network newDefault) async {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
     _authUseCase.resetNetwork(newDefault);
     _webviewUseCase.clearCache();

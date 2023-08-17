@@ -78,8 +78,8 @@ final Provider<AuthUseCase> authUseCaseProvider = Provider(
 
 final Provider<AccountUseCase> accountUseCaseProvider = Provider(
   (ref) => AccountUseCase(
+    ref.watch(globalCacheProvider).account,
     ref.watch(authenticationStorageProvider),
-    ref.watch(datadashCacheProvider).account,
   ),
 );
 
@@ -106,7 +106,8 @@ final Provider<NftsUseCase> nftsUseCaseProvider = Provider(
 final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
     Provider(
   (ref) => ChainConfigurationUseCase(
-      ref.watch(datadashCacheProvider).chainConfigurationRepository),
+    ref.watch(globalCacheProvider).chainConfigurationRepository,
+  ),
 );
 
 final Provider<NetworkUnavailableUseCase> networkUnavailableUseCaseProvider =

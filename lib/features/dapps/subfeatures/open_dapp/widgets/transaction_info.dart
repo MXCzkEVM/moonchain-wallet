@@ -72,8 +72,11 @@ class TransactionInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              Formatter.formatNumberForUI(amount,),
+              Formatter.formatNumberForUI(
+                amount,
+              ),
               style: FontTheme.of(context).h5(),
+              softWrap: true,
             ),
             const SizedBox(width: 4),
             Text(
@@ -99,7 +102,9 @@ class TransactionInfo extends StatelessWidget {
         children: [
           Text(
             price != null
-                ? Formatter.formatNumberForUI(price,)
+                ? Formatter.formatNumberForUI(
+                    price,
+                  )
                 : '--',
             style: FontTheme.of(context).body1.primary(),
           ),

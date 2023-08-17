@@ -3,6 +3,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/settings/subfeatures/accounts/show_accounts_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -42,7 +43,7 @@ class AccountManagementPanel extends HookConsumerWidget {
                   ),
                   const SizedBox(width: Sizes.space2XSmall),
                   Text(
-                    account.name,
+                    '${FlutterI18n.translate(context, 'account')} ${account.name}',
                     style: FontTheme.of(context).body2.primary(),
                   ),
                   const Spacer(),

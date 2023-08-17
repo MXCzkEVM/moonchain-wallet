@@ -1,7 +1,7 @@
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 
-class ChainConfigurationRepository extends ControlledCacheRepository {
+class ChainConfigurationRepository extends GlobalCacheRepository {
   @override
   final String zone = 'chain_configuration';
 
