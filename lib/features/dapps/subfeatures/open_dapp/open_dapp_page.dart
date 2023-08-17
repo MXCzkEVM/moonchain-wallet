@@ -54,7 +54,7 @@ class OpenAppPage extends HookConsumerWidget {
                 child: InAppWebViewEIP1193(
                   chainId: state.network?.chainId,
                   rpcUrl: state.network?.web3RpcHttpUrl,
-                  isDebug: false,
+                  isDebug: true,
                   initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
                       useShouldOverrideUrlLoading: true,
