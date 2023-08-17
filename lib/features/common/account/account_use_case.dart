@@ -77,6 +77,6 @@ class AccountUseCase extends ReactiveUseCase {
   }
 
   String getXsdUnit() {
-    return xsdConversionRate.value == 2.0 ? 'XSD' : 'X';
+    return xsdConversionRate.value == 1.0 ? 'XSD' : '✗';
   }
 }

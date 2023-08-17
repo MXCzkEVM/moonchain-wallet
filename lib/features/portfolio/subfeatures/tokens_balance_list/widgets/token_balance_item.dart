@@ -28,6 +28,10 @@ class TokenBalanceItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _accountUseCase = ref.watch(accountUseCaseProvider);
     final walletState = ref.watch(walletContainer.state);
+    String balanceInXSDConverter = walletState.xsdConversionRate == 1.0
+        ? balanceInXsd
+        : (walletState.xsdConversionRate * double.parse(balanceInXsd))
+            .toString();
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -84,7 +88,7 @@ class TokenBalanceItem extends HookConsumerWidget {
                             color: ColorsTheme.of(context).white400),
                       ),
                       Text(
-                        '$balanceInXsd ${_accountUseCase.getXsdUnit()}',
+                        '$balanceInXSDConverter ${_accountUseCase.getXsdUnit()}',
                         style: FontTheme.of(context).subtitle1().copyWith(
                               color: walletState.hideBalance == true
                                   ? null

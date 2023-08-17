@@ -25,7 +25,7 @@ class AccountCacheRepository extends GlobalCacheRepository {
   late final Field<String?> privateKey = field('pravate-key');
 
   late final Field<double> xsdConversionRate =
-      fieldWithDefault('xsd-conversion-rate', 2.0);
+      fieldWithDefault('xsd-conversion-rate', 1.0);
 
   late final Field<List<Account>> accounts = fieldWithDefault<List<Account>>(
     'items',
