@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
@@ -18,7 +19,7 @@ void main() {
   runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-      await initLogs();
+      if (Platform.isAndroid) await initLogs();
       await loadProviders();
 
       final container = ProviderContainer();

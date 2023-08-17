@@ -18,11 +18,11 @@ Future<void> initLogs() async {
       LogLevel.INFO,
       LogLevel.WARNING,
       LogLevel.ERROR,
-      LogLevel.SEVERE
+      LogLevel.SEVERE,
     ],
     timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,
     directoryStructure: DirectoryStructure.FOR_DATE,
-    logTypesEnabled: ['error'],
+    logTypesEnabled: ['error', 'network', 'device'],
     logFileExtension: LogFileExtension.LOG,
     logsWriteDirectoryName: 'AxsWalletLog',
     logsExportDirectoryName: 'AxsWalletLog/Exported',
