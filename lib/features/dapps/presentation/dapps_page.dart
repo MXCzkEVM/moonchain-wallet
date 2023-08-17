@@ -66,8 +66,6 @@ class DAppsPage extends HookConsumerWidget {
       children: [
         LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-          bool isTablet = MediaQuery.of(context).size.shortestSide > 430;
-
           return MxcPage(
             layout: LayoutType.scrollable,
             useContentPadding: false,
@@ -113,9 +111,7 @@ class DAppsPage extends HookConsumerWidget {
             children: [
               Container(
                 constraints: const BoxConstraints(maxWidth: 430),
-                height: isTablet
-                    ? constraints.maxHeight
-                    : constraints.maxHeight - 160,
+                height: constraints.maxHeight,
                 child: PageView(
                   onPageChanged: (index) =>
                       ref.read(presenter).onPageChage(index),
