@@ -58,20 +58,17 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
     final result = await _repository.tokenContract.getDefaultTokens();
-    final mxcBalance = await getWalletNativeTokenBalance(walletAddress);
 
     final mxcToken = Token(
-      logoUri:
-          'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg',
-      balance: double.parse(mxcBalance),
-      symbol: 'MXC',
-      name: 'MXC Token',
-    );
+        logoUri: result!.logoUri!,
+        symbol: Config.mxcSymbol,
+        name: Config.mxcName,
+        decimals: Config.ethDecimals);
 
     tokensList.value.clear();
     tokensList.value.add(mxcToken);
 
-    if (result != null) {
+    if (result.tokens != null) {
       tokensList.value.addAll(result.tokens!);
     }
 
