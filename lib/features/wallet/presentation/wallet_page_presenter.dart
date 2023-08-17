@@ -61,6 +61,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     listen(_tokenContractUseCase.totalBalanceInXsd, (newValue) {
       notify(() => state.walletBalance = newValue.toString());
+      _balanceUseCase
+          .addItem(BalanceData(timeStamp: DateTime.now(), balance: newValue));
     });
 
     listen(_customTokenUseCase.tokens, (customTokens) {
@@ -77,28 +79,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   Future<void> initializeWalletPage() async {
-    getDefaultTokens();
-    getBalance();
+    initializeBalancePanelAndTokens();
     createSubscriptions();
     getTransactions();
-  }
-
-  getBalance() async {
-    try {
-      final balanceUpdate = await _tokenContractUseCase
-          .getWalletNativeTokenBalance(state.walletAddress!);
-      notify(() => state.walletBalance = balanceUpdate);
-      _balanceUseCase.addItem(BalanceData(
-          timeStamp: DateTime.now(), balance: double.parse(balanceUpdate)));
-    } catch (e) {
-      // Balance not found error happens if the wallet is new
-      // But the error object that is thrown is not exported be used here
-      // RPCError
-      // if (e.message == 'Balance not found') {
-
-      // }
-      // The balance might not be found
-    }
   }
 
   void createSubscriptions() async {
@@ -163,14 +146,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
           case 'balance':
             final wannseeBalanceEvent =
                 WannseeBalanceModel.fromJson(event.payload);
-            if (wannseeBalanceEvent.balance != null) {
-              final newBalance = Formatter.convertWeiToEth(
-                  wannseeBalanceEvent.balance!, Config.ethDecimals);
-              notify(() => state.walletBalance = newBalance);
-              _balanceUseCase.addItem(BalanceData(
-                  timeStamp: DateTime.now(),
-                  balance: double.parse(newBalance)));
-            }
+            getWalletTokensBalance();
             break;
           default:
         }
@@ -259,8 +235,13 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  void getDefaultTokens() async {
-    await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
+  initializeBalancePanelAndTokens() {
+    getDefaultTokens().then((value) =>
+        value != null ? getWalletTokensBalance() : getDefaultTokens());
+  }
+
+  Future<DefaultTokens?> getDefaultTokens() async {
+    return await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
   }
 
   void changeHideBalanceState() {
@@ -374,5 +355,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     } catch (e) {
       addError(e.toString());
     }
+  }
+
+  void getWalletTokensBalance() async {
+    _tokenContractUseCase.getTokensBalance(state.walletAddress!);
   }
 }

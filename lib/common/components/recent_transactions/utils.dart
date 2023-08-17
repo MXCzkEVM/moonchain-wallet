@@ -100,28 +100,20 @@ class RecentTransactionsUtils {
 
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
-        amount = Formatter.convertWeiToEth(currentTx.value ?? '0', Config.ethDecimals);
-
-        if (currentTx.txTypes!.contains('contract_call')) {
-          if (tokensList != null) {
-            final tokenIndex = tokensList.indexWhere((element) =>
-                element.address ==
-                (currentTx.from!.isContract!
-                    ? currentTx.from!.hash!
-                    : currentTx.to!.hash!));
-            logoUrl = tokensList[tokenIndex].logoUri!;
-          }
-        }
+        amount = Formatter.convertWeiToEth(
+            currentTx.value ?? '0', Config.ethDecimals);
+        logoUrl = Config.mxcLogoUri;
+        symbol = Config.mxcName;
       } else if (currentTx.txTypes != null &&
           currentTx.txTypes!.contains('coin_transfer')) {
-        logoUrl =
-            'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg';
-        symbol = 'MXC';
+        logoUrl = Config.mxcLogoUri;
+        symbol = Config.mxcSymbol;
         timeStamp = Formatter.localTime(currentTx.timestamp!);
 
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
-        amount = Formatter.convertWeiToEth(currentTx.value ?? '0', Config.ethDecimals);
+        amount = Formatter.convertWeiToEth(
+            currentTx.value ?? '0', Config.ethDecimals);
       } else if (currentTx.txTypes == null &&
           currentTx.tokenTransfers != null &&
           currentTx.tokenTransfers![0].type == 'token_transfer') {
@@ -139,7 +131,8 @@ class RecentTransactionsUtils {
             Formatter.localTime(currentTx.tokenTransfers![0].timestamp!);
 
         amount = Formatter.convertWeiToEth(
-            currentTx.tokenTransfers![0].total!.value ?? '0', Config.ethDecimals);
+            currentTx.tokenTransfers![0].total!.value ?? '0',
+            Config.ethDecimals);
         hash = currentTx.tokenTransfers![0].txHash ?? "Unknown";
         transactionType = RecentTransactionsUtils.checkForTransactionType(
           walletAddressHash,

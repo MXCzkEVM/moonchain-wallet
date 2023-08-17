@@ -56,7 +56,6 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   }
 
   initializePortfolioPage() {
-    getWalletTokensBalance();
     getNfts();
     getBuyEnabled();
   }
@@ -65,10 +64,6 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     final newNftList =
         await _nftContractUseCase.getNftsByAddress(state.walletAddress!);
     _nftUseCase.mergeNewList(newNftList);
-  }
-
-  void getWalletTokensBalance() async {
-    _tokenContractUseCase.getTokensBalance(state.walletAddress!);
   }
 
   void changeTokensOrNFTsTab(bool toggle) {
