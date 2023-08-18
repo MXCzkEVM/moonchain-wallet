@@ -1,11 +1,8 @@
-import 'package:datadashwallet/common/config.dart';
-import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:twitter_oembed_api/twitter_oembed_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'wallet_page_state.dart';
 
@@ -70,8 +67,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         _tokenContractUseCase.addCustomTokens(customTokens);
       }
     });
+  }
 
-    _accountUserCase.refreshWallet();
+  @override
+  Future<void> dispose() async {
+    state.subscription!.cancel();
+    super.dispose();
   }
 
   changeIndex(newIndex) {
@@ -85,9 +86,21 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void createSubscriptions() async {
-    _tokenContractUseCase.subscribeToBalance(
-      "addresses:${state.walletAddress}".toLowerCase(),
-      (dynamic event) {
+    if (state.subscription == null) {
+      final subscription = await _tokenContractUseCase.subscribeToBalance(
+        "addresses:${state.walletAddress}".toLowerCase(),
+      );
+
+      if (subscription == null) createSubscriptions();
+
+      subscription!.doOnError(
+        (object, trace) {
+          createSubscriptions();
+        },
+      );
+
+      state.subscription = subscription.listen((event) {
+        if (!mounted) return;
         switch (event.event.value as String) {
           // coin transfer pending tx token transfer - coin transfer
           case 'pending_transaction':
@@ -150,8 +163,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
             break;
           default:
         }
-      },
-    );
+      });
+    }
   }
 
   void getTransactions() async {

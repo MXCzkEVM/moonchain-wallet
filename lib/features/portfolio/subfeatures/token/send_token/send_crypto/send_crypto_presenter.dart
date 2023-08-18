@@ -127,8 +127,9 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     if (TransactionProcessType.sending == type) {
       final res = await _sendTransaction();
       if (res != null) {
-        ref.read(chooseCryptoPageContainer.actions).loadPage();
-        ref.read(walletContainer.actions).initializeWalletPage();
+        // Unnecessary on MXC chains wince we have websocket
+        // ref.read(chooseCryptoPageContainer.actions).loadPage();
+        // ref.read(walletContainer.actions).initializeWalletPage();
       }
       return res;
     } else if (TransactionProcessType.done == type) {

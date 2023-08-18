@@ -16,9 +16,4 @@ class PortfolioUseCase extends ReactiveUseCase {
         await (await _repository.tokenContract).getEthBalance(address);
     return (wallet.getInWei.toDouble() / pow(10, 18)).toStringAsFixed(2);
   }
-
-  void subscribeToBalance(
-      String event, void Function(dynamic) listeningCallBack) async {
-    _repository.tokenContract.subscribeToBalanceEvent(event, listeningCallBack);
-  }
 }
