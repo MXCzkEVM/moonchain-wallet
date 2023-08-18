@@ -270,5 +270,7 @@
 	"pinch_all_dapps": "Pinch to view all opened DApps.",
 	"try_again": "Try again",
 	"internet_connection_unavailable": "The internet connection is currently unavailable; however, you still have access to the settings.",
-	"retry": "Retry"
+	"retry": "Retry",
+	"approve": "Approve",
+	"close": "Close"
 }

@@ -27,8 +27,8 @@ class AddNetworkPage extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         MxcAppBarEvenly.text(
-          titleText:
-              translate('add_x').replaceFirst('{0}', translate('network')),
+          titleText: translate('add_x')
+              .replaceFirst('{0}', translate('network').toLowerCase()),
           actionText: translate('done'),
           onActionTap: () => BottomFlowDialog.of(context).close(),
           isActionTap: true,
@@ -36,7 +36,7 @@ class AddNetworkPage extends HookConsumerWidget {
         ),
         mainnetList.isNotEmpty
             ? Text(
-                '${translate('mainnet')} ${translate('networks')}',
+                '${translate('mainnet')} ${translate('networks').toLowerCase()}',
                 style: FontTheme.of(context).body1.secondary(),
               )
             : Container(),
@@ -46,7 +46,7 @@ class AddNetworkPage extends HookConsumerWidget {
         ),
         testnetList.isNotEmpty
             ? Text(
-                '${translate('testnet')} ${translate('networks')}',
+                '${translate('testnet')} ${translate('networks').toLowerCase()}',
                 style: FontTheme.of(context).body1.secondary(),
               )
             : Container(),
@@ -56,7 +56,7 @@ class AddNetworkPage extends HookConsumerWidget {
         ),
         customList.isNotEmpty
             ? Text(
-                '${translate('custom')} ${translate('networks')}',
+                '${translate('custom')} ${translate('networks').toLowerCase()}',
                 style: FontTheme.of(context).body1.secondary(),
               )
             : Container(),
@@ -67,7 +67,7 @@ class AddNetworkPage extends HookConsumerWidget {
         MxcButton.secondary(
           key: const ValueKey('add_custom_network'),
           title: translate('add_x')
-              .replaceFirst('{0}', translate('custom_network')),
+              .replaceFirst('{0}', translate('custom_network').toLowerCase()),
           onTap: () {
             Navigator.of(context).push(
               route.featureDialog(
