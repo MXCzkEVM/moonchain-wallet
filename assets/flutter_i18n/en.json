@@ -272,5 +272,7 @@
 	"internet_connection_unavailable": "The internet connection is currently unavailable; however, you still have access to the settings.",
 	"retry": "Retry",
 	"approve": "Approve",
-	"close": "Close"
+	"close": "Close",
+	"allow_this_site_notice": "Do you allow this site to switch the network from {0} to {1}",
+	"network_not_found": "Network not found"
 }

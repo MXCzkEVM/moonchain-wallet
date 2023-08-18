@@ -2,6 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
@@ -176,6 +177,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           onTap: () {
         switchNetwork(id, foundNetwork, rawChainId);
       });
+    } else {
+      addError(FlutterI18n.translate(context!, 'network_not_found'));
     }
   }
 
