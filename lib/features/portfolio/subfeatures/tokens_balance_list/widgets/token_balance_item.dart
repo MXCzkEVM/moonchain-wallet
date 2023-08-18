@@ -92,7 +92,7 @@ class TokenBalanceItem extends HookConsumerWidget {
                         style: FontTheme.of(context).subtitle1().copyWith(
                               color: walletState.hideBalance == true
                                   ? null
-                                  : ColorsTheme.of(context).white400,
+                                  : ColorsTheme.of(context).textWhite100,
                               foreground: walletState.hideBalance == true
                                   ? (Paint()
                                     ..style = PaintingStyle.fill
