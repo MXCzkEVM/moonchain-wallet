@@ -20,11 +20,11 @@ class DAppIndicator extends StatelessWidget {
         width: total * 10 < 100 ? null : 100,
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
+        decoration:  BoxDecoration(
+          borderRadius: const BorderRadius.all(
             Radius.circular(50),
           ),
-          color: Color(0xFF252525),
+          color: ColorsTheme.of(context).blackInvert,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

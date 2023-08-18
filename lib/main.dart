@@ -1,28 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logs/flutter_logs.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'app/app.dart';
-
-void collectLog(String line) {
-  if (!Platform.isIOS) {
-    FlutterLogs.logThis(tag: 'log', logMessage: line);
-  }
-}
-
-void reportErrorAndLog(FlutterErrorDetails details) {
-  if (!Platform.isIOS) {
-    FlutterLogs.logThis(
-      tag: 'error',
-      errorMessage: '${details.exception.toString()} ${details.stack}',
-    );
-  }
-}
 
 void main() {
   var onError = FlutterError.onError;
@@ -34,6 +19,7 @@ void main() {
   runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      if (Platform.isAndroid) await initLogs();
       await loadProviders();
 
       final container = ProviderContainer();

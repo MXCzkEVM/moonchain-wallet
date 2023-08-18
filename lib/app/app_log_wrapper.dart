@@ -34,8 +34,8 @@ class _AppLogWrapperState extends State<AppLogWrapper> {
       directoryStructure: DirectoryStructure.FOR_DATE,
       logTypesEnabled: ['error'],
       logFileExtension: LogFileExtension.LOG,
-      logsWriteDirectoryName: 'DatadashWalletLog',
-      logsExportDirectoryName: 'DatadashWalletLog/Exported',
+      logsWriteDirectoryName: 'AxsWalletLog',
+      logsExportDirectoryName: 'AxsWalletLog/Exported',
       isDebuggable: false,
       autoClearLogs: false,
     );

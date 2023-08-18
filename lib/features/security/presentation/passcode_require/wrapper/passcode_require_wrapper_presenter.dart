@@ -23,6 +23,13 @@ class PasscodeRequireWrapperPresenter
   Future<void> initState() async {
     super.initState();
 
+    if (!_passcodeUseCase.biometricEnabled.value &&
+        _passcodeUseCase.passcode.value == null) {
+      await Future.delayed(const Duration(milliseconds: 1));
+      pushSetupEnableBiometricPage(context!);
+      return;
+    }
+
     // Simulate initial lifecycle change
     onAppLifecycleChanged(
       null,
