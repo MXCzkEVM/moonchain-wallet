@@ -64,7 +64,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
         currentDefaultItemIndex != newDefaultItemIndex) {
       final currentDefault =
           networks.value[currentDefaultItemIndex].copyWith(enabled: false);
-      newDefault = newDefault.copyWith(enabled: true);
+      newDefault = newDefault.copyWith(enabled: true, isAdded: true);
 
       updateItem(newDefault, newDefaultItemIndex);
       updateItem(currentDefault, currentDefaultItemIndex);
