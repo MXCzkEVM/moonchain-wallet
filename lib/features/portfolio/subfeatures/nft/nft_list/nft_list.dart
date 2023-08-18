@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datadashwallet/features/portfolio/presentation/portfolio_page_presenter.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/utils.dart';
 import 'package:flutter/material.dart';
@@ -40,23 +42,24 @@ class NFTList extends HookConsumerWidget {
                 ),
               ),
         const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MxcChipButton(
-              key: const Key('buyNFTButton'),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              onTap: () => presenter.buyNFt(),
-              title: translate('buy_x').replaceFirst('{0}', 'NFT'),
-              iconData: Icons.add,
-              alignIconStart: true,
-              buttonState: state.buyEnabled
-                  ? ChipButtonStates.defaultState
-                  : ChipButtonStates.disabled,
-            ),
-          ],
-        ),
+        if (Platform.isAndroid)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              MxcChipButton(
+                key: const Key('buyNFTButton'),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                onTap: () => presenter.buyNFt(),
+                title: translate('buy_x').replaceFirst('{0}', 'NFT'),
+                iconData: Icons.add,
+                alignIconStart: true,
+                buttonState: state.buyEnabled
+                    ? ChipButtonStates.defaultState
+                    : ChipButtonStates.disabled,
+              ),
+            ],
+          ),
       ],
     );
   }
