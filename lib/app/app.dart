@@ -13,8 +13,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'app_log_wrapper.dart';
-
 final appNavigatorKey = GlobalKey<NavigatorState>();
 
 class AxsWallet extends HookConsumerWidget {
