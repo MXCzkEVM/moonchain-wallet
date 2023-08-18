@@ -112,7 +112,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Calendar?</string>
 	<key>NSCameraUsageDescription</key>
-	<string>AXS Wallet requires camera access to scan QR codes of cryptocurrency wallet addresses, such as when you wish to quickly add a friend's address for transactions. Your scanned data is stored locally and not shared.</string>
+	<string>AXS Wallet needs camera access to scan QR codes for transactions. Scanned data is stored locally and isn't shared.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Contacts?</string>
 	<key>NSFaceIDUsageDescription</key>
