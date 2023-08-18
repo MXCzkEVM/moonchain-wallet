@@ -19,7 +19,7 @@ void main() {
   runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-      if (Platform.isAndroid) await initLogs();
+      await initLogs();
       await loadProviders();
 
       final container = ProviderContainer();

@@ -2,7 +2,6 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:f_logs/f_logs.dart';
-import 'package:flutter_logs/flutter_logs.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class LogOutUseCase {
@@ -17,7 +16,6 @@ class LogOutUseCase {
   final WebviewUseCase webviewUseCase;
 
   Future<void> logOut() async {
-    // FlutterLogs.clearLogs();
     FLog.clearLogs();
     authUseCase.resetWallet();
     webviewUseCase.clearCache();
