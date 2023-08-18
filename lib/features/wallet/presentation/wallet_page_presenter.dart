@@ -71,7 +71,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   @override
   Future<void> dispose() async {
-    state.subscription!.cancel();
+    if (state.subscription != null) state.subscription!.cancel();
     super.dispose();
   }
 
