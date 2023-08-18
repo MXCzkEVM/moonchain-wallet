@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:datadashwallet/core/core.dart';
+import 'package:f_logs/f_logs.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:path_provider/path_provider.dart';
 import 'customer_support_state.dart';
@@ -54,10 +55,13 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
     super.dispose();
   }
 
-  void exportedLogs() {
+  void exportedLogs() async {
     loading = true;
     try {
-      FlutterLogs.exportLogs(exportType: ExportType.ALL);
+      // FlutterLogs.exportLogs(exportType: ExportType.ALL);
+      final file = await FLog.exportLogs();
+      print(file.absolute);
+      notify(() => state.exportedLogsPath = file.absolute.path);
       addMessage(translate('exported_logs_successfully'));
     } catch (e, s) {
       addError(e, s);
