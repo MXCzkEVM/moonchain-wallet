@@ -111,7 +111,7 @@ class DAppsPage extends HookConsumerWidget {
             children: [
               Container(
                 constraints: const BoxConstraints(maxWidth: 430),
-                height: constraints.maxHeight,
+                height: MediaQuery.of(context).size.height + 160,
                 child: PageView(
                   onPageChanged: (index) =>
                       ref.read(presenter).onPageChage(index),

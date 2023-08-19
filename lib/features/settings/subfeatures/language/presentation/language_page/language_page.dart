@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,10 @@ class LanguagePage extends ConsumerWidget {
     final presenter = ref.read(languageContainer.actions);
     final state = ref.watch(languageContainer.state);
 
+    final selectedLanguage = state.currentLanguage ??
+        state.languages.firstWhereOrNull((item) =>
+            item.code == Localizations.localeOf(context).languageCode);
+            
     return MxcPage(
       appBar: AppNavBar(
         title: Text(
@@ -39,7 +44,7 @@ class LanguagePage extends ConsumerWidget {
                         FlutterI18n.translate(context, language.nativeName),
                         style: FontTheme.of(context).body1(),
                       ),
-                      if (state.currentLanguage == language) ...[
+                      if (selectedLanguage == language) ...[
                         const Icon(Icons.check_rounded),
                       ] else ...[
                         const SizedBox(height: 24),
