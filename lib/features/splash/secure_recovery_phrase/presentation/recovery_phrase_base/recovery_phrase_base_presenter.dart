@@ -5,7 +5,6 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:intl/intl.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -100,14 +99,22 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final res = await generateMnemonicFile(settingsFlow);
 
     final email = MailOptions(
-      body: FlutterI18n.translate(ctx, 'email_secured_body'),
-      subject: FlutterI18n.translate(ctx, 'email_secured_subject'),
+      body: translate('email_secured_body')!,
+      subject: translate('email_secured_subject')!,
       attachments: [res['filePath']],
       isHTML: false,
     );
 
-    await FlutterMailer.send(email);
-
-    nextProcess(settingsFlow, res['phrases']);
+    try {
+      MailerResponse sendResult = await FlutterMailer.send(email);
+      // only [ios] can return sent | saved | cancelled
+      // [android] will return android there is no way of knowing on android
+      // if the intent was sent saved or even cancelled.
+      if (MailerResponse.cancelled != sendResult) {
+        nextProcess(settingsFlow, res['phrases']);
+      }
+    } catch (e, s) {
+      addError(e, s);
+    }
   }
 }

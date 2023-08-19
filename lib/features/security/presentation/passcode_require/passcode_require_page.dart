@@ -48,7 +48,7 @@ class PasscodeRequirePage extends PasscodeBasePage {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async => Future.value(false),
       child: MxcPage(
         layout: LayoutType.column,
         presenter: ref.watch(presenter),

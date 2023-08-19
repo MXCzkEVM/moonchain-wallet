@@ -1,10 +1,12 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:mxc_logic/src/domain/entities/network.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 import 'chain_configuration_repository.dart';
 
 class ChainConfigurationUseCase extends ReactiveUseCase {
-  ChainConfigurationUseCase(this._repository);
+  ChainConfigurationUseCase(
+    this._repository,
+  );
 
   final ChainConfigurationRepository _repository;
 
@@ -62,7 +64,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
         currentDefaultItemIndex != newDefaultItemIndex) {
       final currentDefault =
           networks.value[currentDefaultItemIndex].copyWith(enabled: false);
-      newDefault = newDefault.copyWith(enabled: true);
+      newDefault = newDefault.copyWith(enabled: true, isAdded: true);
 
       updateItem(newDefault, newDefaultItemIndex);
       updateItem(currentDefault, currentDefaultItemIndex);

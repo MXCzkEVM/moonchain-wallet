@@ -143,7 +143,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              Formatter.formatNumberForUI(widget.amount, isWei: false),
+              Formatter.formatNumberForUI(widget.amount,),
               style: FontTheme.of(context).h5(),
             ),
             const SizedBox(width: 4),
@@ -170,7 +170,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
         children: [
           Text(
             price != null
-                ? Formatter.formatNumberForUI(price, isWei: false)
+                ? Formatter.formatNumberForUI(price, )
                 : '--',
             style: FontTheme.of(context).body1.primary(),
           ),

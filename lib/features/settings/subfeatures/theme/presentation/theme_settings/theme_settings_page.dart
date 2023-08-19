@@ -24,7 +24,7 @@ class ThemeSettingsPage extends ConsumerWidget {
     return MxcPage(
       appBar: AppNavBar(
         title: Text(
-          FlutterI18n.translate(context, 'Theme'),
+          FlutterI18n.translate(context, 'theme'),
           style: FontTheme.of(context).body1.primary(),
         ),
       ),

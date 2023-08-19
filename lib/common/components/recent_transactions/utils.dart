@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/components/recent_transactions/widgets/recent_transaction_item.dart';
+import 'package:datadashwallet/common/config.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -99,28 +100,20 @@ class RecentTransactionsUtils {
 
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
-        amount = Formatter.convertWeiToEth(currentTx.value ?? '0');
-
-        if (currentTx.txTypes!.contains('contract_call')) {
-          if (tokensList != null) {
-            final tokenIndex = tokensList.indexWhere((element) =>
-                element.address ==
-                (currentTx.from!.isContract!
-                    ? currentTx.from!.hash!
-                    : currentTx.to!.hash!));
-            logoUrl = tokensList[tokenIndex].logoUri!;
-          }
-        }
+        amount = Formatter.convertWeiToEth(
+            currentTx.value ?? '0', Config.ethDecimals);
+        logoUrl = Config.mxcLogoUri;
+        symbol = Config.mxcName;
       } else if (currentTx.txTypes != null &&
           currentTx.txTypes!.contains('coin_transfer')) {
-        logoUrl =
-            'https://raw.githubusercontent.com/MXCzkEVM/wannseeswap-tokenlist/main/assets/mxc.svg';
-        symbol = 'MXC';
+        logoUrl = Config.mxcLogoUri;
+        symbol = Config.mxcSymbol;
         timeStamp = Formatter.localTime(currentTx.timestamp!);
 
         transactionType = RecentTransactionsUtils.checkForTransactionType(
             walletAddressHash, currentTx.from!.hash!.toLowerCase());
-        amount = Formatter.convertWeiToEth(currentTx.value ?? '0');
+        amount = Formatter.convertWeiToEth(
+            currentTx.value ?? '0', Config.ethDecimals);
       } else if (currentTx.txTypes == null &&
           currentTx.tokenTransfers != null &&
           currentTx.tokenTransfers![0].type == 'token_transfer') {
@@ -138,7 +131,8 @@ class RecentTransactionsUtils {
             Formatter.localTime(currentTx.tokenTransfers![0].timestamp!);
 
         amount = Formatter.convertWeiToEth(
-            currentTx.tokenTransfers![0].total!.value ?? '0');
+            currentTx.tokenTransfers![0].total!.value ?? '0',
+            Config.ethDecimals);
         hash = currentTx.tokenTransfers![0].txHash ?? "Unknown";
         transactionType = RecentTransactionsUtils.checkForTransactionType(
           walletAddressHash,

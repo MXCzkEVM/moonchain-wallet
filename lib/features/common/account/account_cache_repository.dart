@@ -1,7 +1,7 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-class AccountCacheRepository extends ControlledCacheRepository {
+class AccountCacheRepository extends GlobalCacheRepository {
   @override
   final String zone = 'account';
 
@@ -11,11 +11,13 @@ class AccountCacheRepository extends ControlledCacheRepository {
     serializer: (s) => {
       'name': s?.name,
       'mns': s?.mns,
+      'privateKey': s?.privateKey,
       'address': s?.address,
     },
     deserializer: (i) => Account(
       name: i['name'],
       mns: i['mns'],
+      privateKey: i['privateKey'],
       address: i['address'],
     ),
   );
@@ -23,7 +25,7 @@ class AccountCacheRepository extends ControlledCacheRepository {
   late final Field<String?> privateKey = field('pravate-key');
 
   late final Field<double> xsdConversionRate =
-      fieldWithDefault('xsd-conversion-rate', 2.0);
+      fieldWithDefault('xsd-conversion-rate', 1.0);
 
   late final Field<List<Account>> accounts = fieldWithDefault<List<Account>>(
     'items',
@@ -32,6 +34,7 @@ class AccountCacheRepository extends ControlledCacheRepository {
         .map((e) => {
               'name': e.name,
               'mns': e.mns,
+              'privateKey': e.privateKey,
               'address': e.address,
             })
         .toList(),
@@ -39,6 +42,7 @@ class AccountCacheRepository extends ControlledCacheRepository {
         .map((e) => Account(
               name: e['name'],
               mns: e['mns'],
+              privateKey: e['privateKey'],
               address: e['address'],
             ))
         .toList(),

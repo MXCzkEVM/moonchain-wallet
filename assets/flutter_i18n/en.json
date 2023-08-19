@@ -175,7 +175,7 @@
 	"old_to_new": "Old to New",
 	"low_to_high": "Low to High",
 	"high_to_low": "High to Low",
-	"privacy_policy": "Privacy policy",
+	"privacy_policy": "Privacy Policy",
 	"terms_and_service": "Terms & Service",
 	"dark": "Dark",
 	"light": "Light",
@@ -246,6 +246,7 @@
 	"type_yes": "Type \"yes\"",
 	"clear_browser_successfully": "Successfully cleared history and cookies",
 	"exported_logs_successfully": "Exported logs successfully",
+	"account": "Account",
 	"accounts": "Accounts",
 	"add_new_account": "Add new account",
 	"adding_account": "Adding account...",
@@ -269,5 +270,9 @@
 	"pinch_all_dapps": "Pinch to view all opened DApps.",
 	"try_again": "Try again",
 	"internet_connection_unavailable": "The internet connection is currently unavailable; however, you still have access to the settings.",
-	"retry": "Retry"
+	"retry": "Retry",
+	"approve": "Approve",
+	"close": "Close",
+	"allow_this_site_notice": "Do you allow this site to switch the network from {0} to {1}",
+	"network_not_found": "Network not found"
 }

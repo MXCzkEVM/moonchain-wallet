@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:twitter_oembed_api/twitter_oembed_api.dart';
 
 class WalletState with EquatableMixin {
   int currentIndex = 0;
@@ -30,6 +30,8 @@ class WalletState with EquatableMixin {
 
   List<String> embeddedTweets = [];
 
+  StreamSubscription<dynamic>? subscription;
+
   @override
   List<Object?> get props => [
         currentIndex,
@@ -42,6 +44,7 @@ class WalletState with EquatableMixin {
         chartMaxAmount,
         chartMinAmount,
         balanceSpots,
-        embeddedTweets
+        embeddedTweets,
+        xsdConversionRate
       ];
 }

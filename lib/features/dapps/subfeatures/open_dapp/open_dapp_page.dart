@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:web3_provider/web3_provider.dart';
-
 import 'open_dapp_presenter.dart';
 import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
@@ -54,7 +53,7 @@ class OpenAppPage extends HookConsumerWidget {
                 child: InAppWebViewEIP1193(
                   chainId: state.network?.chainId,
                   rpcUrl: state.network?.web3RpcHttpUrl,
-                  isDebug: false,
+                  isDebug: true,
                   initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
                       useShouldOverrideUrlLoading: true,
@@ -72,9 +71,7 @@ class OpenAppPage extends HookConsumerWidget {
                     final id = params['id'];
                     switch (eip1193) {
                       case EIP1193.requestAccounts:
-                        if (state.wallletAddress != null) {
-                          controller?.setAddress(state.wallletAddress!, id);
-                        }
+                        presenter.setAddress(id);
                         break;
                       case EIP1193.signTransaction:
                         Map<String, dynamic> object = params['object'];
@@ -94,6 +91,7 @@ class OpenAppPage extends HookConsumerWidget {
                       case EIP1193.signTypedMessage:
                         break;
                       case EIP1193.addEthereumChain:
+                        presenter.addEthereumChain(id, params);
                         break;
                       default:
                         break;

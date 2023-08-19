@@ -11,7 +11,7 @@ class ThemeCacheRepository extends GlobalCacheRepository {
 
   late final Field<ThemeOption> themeOption = fieldWithDefault(
     'themeOption',
-    ThemeOption.system,
+    ThemeOption.dark,
     deserializer: enumDeserializer(ThemeOption.values),
     serializer: enumSerializer<ThemeOption>(),
   );

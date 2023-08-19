@@ -8,12 +8,11 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:datadashwallet/common/common.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import 'package:social_embed_webview/platforms/twitter.dart';
-import 'package:social_embed_webview/social_embed_webview.dart';
 
 import 'wallet_page_presenter.dart';
-import 'wallet_page_state.dart';
+
 
 class WalletPage extends HookConsumerWidget {
   const WalletPage({Key? key}) : super(key: key);
@@ -22,7 +21,13 @@ class WalletPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(walletContainer.actions);
     final state = ref.watch(walletContainer.state);
-
+    final List<WannseeTransactionModel>? txList = state.txList == null
+        ? null
+        : state.txList!.items == null
+            ? []
+            : state.txList!.items!.length > 6
+                ? state.txList?.items!.sublist(0, 6)
+                : state.txList!.items!;
     return MxcPage(
         useAppBar: true,
         presenter: presenter,
@@ -85,7 +90,7 @@ class WalletPage extends HookConsumerWidget {
                     ),
                     RecentTransactions(
                       walletAddress: state.walletAddress,
-                      transactions: state.txList?.items!.sublist(0, 6),
+                      transactions: txList,
                       tokens: state.tokensList,
                     ),
                     const SizedBox(

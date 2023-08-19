@@ -1,10 +1,8 @@
-import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:twitter_oembed_api/twitter_oembed_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'wallet_page_state.dart';
 
@@ -58,13 +56,23 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       }
     });
 
+    listen(_tokenContractUseCase.totalBalanceInXsd, (newValue) {
+      notify(() => state.walletBalance = newValue.toString());
+      _balanceUseCase
+          .addItem(BalanceData(timeStamp: DateTime.now(), balance: newValue));
+    });
+
     listen(_customTokenUseCase.tokens, (customTokens) {
       if (customTokens.isNotEmpty) {
         _tokenContractUseCase.addCustomTokens(customTokens);
       }
     });
+  }
 
-    _accountUserCase.refreshWallet();
+  @override
+  Future<void> dispose() async {
+    if (state.subscription != null) state.subscription!.cancel();
+    super.dispose();
   }
 
   changeIndex(newIndex) {
@@ -72,34 +80,27 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   Future<void> initializeWalletPage() async {
-    getDefaultTokens();
-    getBalance();
+    initializeBalancePanelAndTokens();
     createSubscriptions();
     getTransactions();
   }
 
-  getBalance() async {
-    try {
-      final balanceUpdate = await _tokenContractUseCase
-          .getWalletNativeTokenBalance(state.walletAddress!);
-      notify(() => state.walletBalance = balanceUpdate);
-      _balanceUseCase.addItem(BalanceData(
-          timeStamp: DateTime.now(), balance: double.parse(balanceUpdate)));
-    } catch (e) {
-      // Balance not found error happens if the wallet is new
-      // But the error object that is thrown is not exported be used here
-      // RPCError
-      // if (e.message == 'Balance not found') {
-
-      // }
-      // The balance might not be found
-    }
-  }
-
   void createSubscriptions() async {
-    _tokenContractUseCase.subscribeToBalance(
-      "addresses:${state.walletAddress}".toLowerCase(),
-      (dynamic event) {
+    if (state.subscription == null) {
+      final subscription = await _tokenContractUseCase.subscribeToBalance(
+        "addresses:${state.walletAddress}".toLowerCase(),
+      );
+
+      if (subscription == null) createSubscriptions();
+
+      subscription!.doOnError(
+        (object, trace) {
+          createSubscriptions();
+        },
+      );
+
+      state.subscription = subscription.listen((event) {
+        if (!mounted) return;
         switch (event.event.value as String) {
           // coin transfer pending tx token transfer - coin transfer
           case 'pending_transaction':
@@ -158,19 +159,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
           case 'balance':
             final wannseeBalanceEvent =
                 WannseeBalanceModel.fromJson(event.payload);
-            if (wannseeBalanceEvent.balance != null) {
-              final newBalance =
-                  Formatter.convertWeiToEth(wannseeBalanceEvent.balance!);
-              notify(() => state.walletBalance = newBalance);
-              _balanceUseCase.addItem(BalanceData(
-                  timeStamp: DateTime.now(),
-                  balance: double.parse(newBalance)));
-            }
+            getWalletTokensBalance();
             break;
           default:
         }
-      },
-    );
+      });
+    }
   }
 
   void getTransactions() async {
@@ -254,8 +248,13 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  void getDefaultTokens() async {
-    await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
+  initializeBalancePanelAndTokens() {
+    getDefaultTokens().then((value) =>
+        value != null ? getWalletTokensBalance() : getDefaultTokens());
+  }
+
+  Future<DefaultTokens?> getDefaultTokens() async {
+    return await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
   }
 
   void changeHideBalanceState() {
@@ -369,5 +368,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     } catch (e) {
       addError(e.toString());
     }
+  }
+
+  void getWalletTokensBalance() async {
+    _tokenContractUseCase.getTokensBalance(state.walletAddress!);
   }
 }

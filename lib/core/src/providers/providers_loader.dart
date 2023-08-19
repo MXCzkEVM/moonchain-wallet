@@ -17,9 +17,14 @@ class _ProviderLoader {
     _datadashSetupStore = DatadashSetupStore();
     await _datadashSetupStore!.load(cacheManager);
 
+    final currentNetwork = _datadashSetupStore?.getNetwork ??
+        Network.fixedNetworks().where((item) => item.enabled).first;
+    final username =
+        '${currentNetwork.label?.split(' ').join()}_${_datadashSetupStore?.publicAddress}';
+
     _datadashCache = await DatadashCache.load(
       cacheManager,
-      _datadashSetupStore!.mnemonic?.split(' ').join(),
+      username,
     );
 
     _globalCache = await GlobalCache.load(cacheManager);

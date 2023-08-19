@@ -1,5 +1,6 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'settings_page_state.dart';
@@ -10,6 +11,7 @@ final settingsContainer = PresenterContainer<SettingsPresenter, SettingsState>(
 class SettingsPresenter extends CompletePresenter<SettingsState> {
   SettingsPresenter() : super(SettingsState());
 
+  late final _webviewUseCase = WebviewUseCase();
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
 
@@ -50,8 +52,9 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     try {
       final index = state.accounts.length;
       final newAccount = _authUseCase.addNewAccount(index);
-
       _accountUserCase.addAccount(newAccount);
+      loadCache();
+
       notify(() => state.isLoading = false);
       navigator?.pop();
     } catch (e, s) {
@@ -61,6 +64,13 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
 
   void changeAccount(Account item) {
     _accountUserCase.changeAccount(item);
+    _authUseCase.changeAccount(item);
+    loadCache();
+
     navigator?.pop();
+  }
+
+  void loadCache() {
+    _webviewUseCase.clearCache();
   }
 }

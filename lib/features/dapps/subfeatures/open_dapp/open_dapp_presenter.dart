@@ -1,5 +1,8 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
@@ -104,8 +107,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     required Function(String idHaethClientsh) success,
   }) async {
     final amountEther = EtherAmount.inWei(bridge.value ?? BigInt.zero);
-    final amount =
-        '${MxcAmount.toDoubleByEther(amountEther.getInWei.toString())}';
+    final amount = amountEther.getValueInUnit(EtherUnit.ether).toString();
     final bridgeData = hexToBytes(bridge.data ?? '');
     EtherAmount? gasPrice;
     EtherAmount? gasFee;
@@ -141,7 +143,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         from: bridge.from!,
         to: bridge.to!,
         estimatedFee:
-            '${gasFee?.getInWei != null ? MxcAmount.toDoubleByEther(gasFee!.getInWei.toString()) : (estimatedGasFee?.gasFee ?? 0)}',
+            '${gasFee?.getInWei != null ? gasFee!.getValueInUnit(EtherUnit.ether) : (estimatedGasFee?.gasFee ?? 0)}',
       );
 
       if (result != null && result) {
@@ -160,5 +162,38 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
+  void addEthereumChain(dynamic id, Map<dynamic, dynamic> params) {
+    final rawChainId = params["object"]["chainId"] as String;
+    final chainId = Formatter.hexToDecimal(rawChainId);
+    final networks = _chainConfigurationUserCase.networks.value;
+    final foundChainIdIndex =
+        networks.indexWhere((element) => element.chainId == chainId);
+
+    if (foundChainIdIndex != -1) {
+      final foundNetwork = networks[foundChainIdIndex];
+      showSwitchNetworkDialog(context!,
+          fromNetwork: state.network!.label ?? state.network!.web3RpcHttpUrl,
+          toNetwork: foundNetwork.label ?? foundNetwork.web3RpcHttpUrl,
+          onTap: () {
+        switchNetwork(id, foundNetwork, rawChainId);
+      });
+    } else {
+      addError(FlutterI18n.translate(context!, 'network_not_found'));
+    }
+  }
+
   void changeProgress(int progress) => notify(() => state.progress = progress);
+
+  void setAddress(dynamic id) {
+    if (state.wallletAddress != null) {
+      state.webviewController?.setAddress(state.wallletAddress!, id);
+    }
+  }
+
+  void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
+    // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
+    _chainConfigurationUserCase.switchDefaultNetwork(toNetwork);
+    notify(() => state.network = toNetwork);
+    state.webviewController?.sendResult(rawChainId, id);
+  }
 }
