@@ -47,7 +47,9 @@ Future<bool?> showSwitchNetworkDialog(
               ),
             ),
             Text(
-              '${translate('from')} "$fromNetwork" ${translate('to').toLowerCase()} "$toNetwork"',
+              translate('allow_this_site_notice')
+                  .replaceFirst('{0}', "\"$fromNetwork\"")
+                  .replaceFirst('{1}', "\"$toNetwork\""),
               style: FontTheme.of(context).body2.primary(),
               textAlign: TextAlign.center,
             ),
