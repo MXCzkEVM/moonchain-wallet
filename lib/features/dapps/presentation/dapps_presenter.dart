@@ -38,14 +38,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       },
     );
 
-    listen(_chainConfigurationUseCase.networks, (value) {
-      if (value.isEmpty) {
-        // populates the default list for the first time
-        final defaultList = Network.fixedNetworks();
-        _chainConfigurationUseCase.addItems(defaultList);
-      }
-    });
-
     listen(_gesturesInstructionUseCase.educated, (value) {
       notify(() => state.gesturesInstructionEducated = value);
     });
