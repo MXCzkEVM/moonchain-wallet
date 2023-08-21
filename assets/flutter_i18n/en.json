@@ -208,7 +208,7 @@
 	"export_wallet_logs": "Export wallet logs",
 	"diagnosing_logs": "To assist others in diagnosing your issue, please download and provide the transaction logs from your wallet. This information can offer valuable insight into the nature of the problem you're encountering.",
 	"export_logs": "Export logs",
-	"contact_chatgpt_support": "Contact MXC ChatGPT support",
+	"contact_chatgpt_support": "Contact MXC-GPT support",
 	"jump_to_telegram": "Jump to Telegram",
 	"custom_network": "Custom Network",
 	"mainnet": "Mainnet",
