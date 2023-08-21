@@ -29,7 +29,8 @@ class AddBookmarkPresenter extends CompletePresenter<void> {
   }
 
   Future<void> onSave() async {
-    final url = urlController.text;
+    String url = urlController.text;
+    url = url.contains('https') ? url : 'https://$url';
     loading = true;
 
     try {
