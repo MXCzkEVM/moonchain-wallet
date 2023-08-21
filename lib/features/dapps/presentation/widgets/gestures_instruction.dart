@@ -85,44 +85,47 @@ class _GesturesInstructionState extends State<GesturesInstruction> {
           sigmaX: 20,
           sigmaY: 20,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: Sizes.spaceXLarge),
-            Lottie.asset(
-              _gestures[_index].image,
-              width: 120,
-              height: 120,
-            ),
-            Text(
-              FlutterI18n.translate(
-                context,
-                _gestures[_index].description,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceXLarge),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: Sizes.spaceXLarge),
+              Lottie.asset(
+                _gestures[_index].image,
+                width: 120,
+                height: 120,
               ),
-              textAlign: TextAlign.center,
-              style: FontTheme.of(context)
-                  .body2()
-                  .copyWith(color: ColorsTheme.of(context).textGrey1),
-            ),
-            const SizedBox(height: Sizes.space7XLarge),
-            MxcChipButton(
-              key: const ValueKey('nextButton'),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 31, vertical: 12),
-              title: getButtonText(),
-              textStyle: FontTheme.of(context).body2().copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: ColorsTheme.of(context).btnTextInvert2),
-              buttonState: ChipButtonStates.activeState,
-              onTap: () {
-                if (_gestures.length <= _index + 1) {
-                  Navigator.of(context).pop(true);
-                  return;
-                }
-                setState(() => _index = _index + 1);
-              },
-            )
-          ],
+              Text(
+                FlutterI18n.translate(
+                  context,
+                  _gestures[_index].description,
+                ),
+                textAlign: TextAlign.center,
+                style: FontTheme.of(context)
+                    .body2()
+                    .copyWith(color: ColorsTheme.of(context).textGrey1),
+              ),
+              const SizedBox(height: Sizes.space7XLarge),
+              MxcChipButton(
+                key: const ValueKey('nextButton'),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 31, vertical: 12),
+                title: getButtonText(),
+                textStyle: FontTheme.of(context).body2().copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: ColorsTheme.of(context).btnTextInvert2),
+                buttonState: ChipButtonStates.activeState,
+                onTap: () {
+                  if (_gestures.length <= _index + 1) {
+                    Navigator.of(context).pop(true);
+                    return;
+                  }
+                  setState(() => _index = _index + 1);
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

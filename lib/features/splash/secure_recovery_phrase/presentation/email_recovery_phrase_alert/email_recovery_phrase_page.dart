@@ -76,7 +76,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
   Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primary(
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'email_to_myself'),
-        titleColor: Colors.white,
+        titleColor: ColorsTheme.of(context).textBlack200,
         color: themeColor(),
         borderColor: themeColor(),
         onTap: () => ref.read(presenter).sendEmail(

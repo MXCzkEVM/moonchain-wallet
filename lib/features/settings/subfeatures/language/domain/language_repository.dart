@@ -25,8 +25,9 @@ class LanguageRepository extends GlobalCacheRepository {
   @override
   String get zone => 'language';
 
-  late final Field<Language?> currentLocale = field(
+  late final Field<Language> currentLocale = fieldWithDefault(
     'currentLocale',
+    const Language('en', 'English'),
     serializer: (t) => t.code,
     deserializer: (c) => supportedLocales.firstWhere((e) => e.code == c),
   );
