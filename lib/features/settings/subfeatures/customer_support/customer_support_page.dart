@@ -69,7 +69,9 @@ class CustomerSupportPage extends HookConsumerWidget {
           key: const ValueKey('jumpToTelegramButton'),
           title: FlutterI18n.translate(context, 'jump_to_telegram'),
           size: AxsButtonSize.xl,
-          onTap: () => openUrl('tg://'),
+          onTap: ref.watch(state).applist['telegram'] == true
+              ? () => openUrl('http://t.me/mxcchatgpt_bot')
+              : null,
         ),
       ],
     );
