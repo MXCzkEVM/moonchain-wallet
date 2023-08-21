@@ -63,7 +63,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
             FlutterI18n.translate(context, 'email_to_myself_description'),
             style: FontTheme.of(context).body1().copyWith(
                   fontWeight: FontWeight.w500,
-                  color: ColorsTheme.of(context).textWhite,
+                  color: ColorsTheme.of(context).textPrimary,
                 ),
             textAlign: TextAlign.center,
           ),
