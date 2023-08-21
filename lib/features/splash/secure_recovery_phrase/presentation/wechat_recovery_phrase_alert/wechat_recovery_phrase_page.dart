@@ -158,7 +158,7 @@ class WechatRecoveryPhrasePage extends RecoveryPhraseBasePage {
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'store_to')
             .replaceFirst('{0}', name(context)),
-        titleColor: Colors.white,
+        titleColor: ColorsTheme.of(context).textBlack200,
         color: themeColor(),
         borderColor: themeColor(),
         onTap: ref.watch(state).acceptAgreement
