@@ -26,7 +26,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
           builder: (ctx, mnemonicValue, _) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: MxcButton.primary(
+              child: MxcButton.primaryWhite(
                 key: const Key('importWalletButton'),
                 title: FlutterI18n.translate(context, 'import_wallet')
                     .toUpperCase(),

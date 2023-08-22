@@ -34,15 +34,7 @@ class AddCustomNetworkPresenter
     super.initState();
 
     listen(_chainConfigurationUseCase.networks, (value) {
-      if (value.isEmpty) {
-        // populates the default list
-        final defaultList = Network.fixedNetworks();
-        _chainConfigurationUseCase.addItems(defaultList);
-
-        notify(() => state.networks = defaultList);
-      } else {
-        notify(() => state.networks = value);
-      }
+      notify(() => state.networks = value);
     });
   }
 

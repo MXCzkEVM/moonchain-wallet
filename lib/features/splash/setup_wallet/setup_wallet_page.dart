@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'setup_wallet_presenter.dart';
@@ -22,7 +23,23 @@ class SplashSetupWalletPage extends SplashBasePage {
       splashSetupWalletContainer.state;
 
   @override
+  EdgeInsets get childrenPadding => const EdgeInsets.all(0);
+
+  @override
   bool get drawAnimated => true;
+
+  @override
+  Widget appLogo(BuildContext context) {
+    return LottieBuilder.asset(
+      'assets/lottie/axs_logo_animation.json',
+      repeat: false,
+      fit: BoxFit.cover,
+      height: MediaQuery.of(context).size.height,
+    );
+  }
+
+  @override
+  Widget buildAppBar(BuildContext context, WidgetRef ref) => Container();
 
   @override
   Widget? buildFooter(BuildContext context) {

@@ -29,8 +29,6 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     listen(_accountUserCase.accounts, (value) {
       notify(() => state.accounts = value);
     });
-
-    _accountUserCase.refreshWallet();
   }
 
   void copyToClipboard(String text) async {
@@ -51,7 +49,7 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
 
     try {
       final index = state.accounts.length;
-      final newAccount = _authUseCase.addNewAccount(index);
+      final newAccount = await _authUseCase.addNewAccount(index);
       _accountUserCase.addAccount(newAccount);
       loadCache();
 

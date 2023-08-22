@@ -39,35 +39,85 @@ abstract class SplashBasePage extends HookConsumerWidget {
 
   Widget? buildFooter(BuildContext context) => null;
 
+  Widget appLogo(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Image(
+          image: ImagesTheme.of(context).axsWithTitle,
+        ),
+      ],
+    );
+  }
+
+  Widget? buildAnimatedLayout(BuildContext context) => null;
+
+  EdgeInsets get childrenPadding => const EdgeInsets.symmetric(horizontal: 24);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Widget appLogo(BuildContext context) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Image(
-            image: ImagesTheme.of(context).axsWithTitle,
+    final splashPresenter = ref.read(splashBaseContainer.actions);
+    final splashState = ref.watch(splashBaseContainer.state);
+
+    Widget? buildAnimatedLayout(
+      BuildContext context,
+    ) {
+      return Expanded(
+        child: Stack(fit: StackFit.expand, children: [
+          appLogo(context),
+          FutureBuilder(
+            future: Future.delayed(const Duration(seconds: 4)),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Return an empty container while waiting for the delay
+                return AnimatedPositioned(
+                  duration: const Duration(milliseconds: 4000),
+                  curve: Curves.easeInOut,
+                  bottom: splashState.animate ? 0 : -600,
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: buildFooter(context)!)),
+                );
+              } else {
+                return AnimatedPositioned(
+                  duration: const Duration(milliseconds: 4000),
+                  curve: Curves.easeInOut,
+                  bottom: splashState.animate ? 0 : -600,
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: buildFooter(context)!)),
+                );
+              }
+            },
           ),
-        ],
+        ]),
       );
     }
 
     return MxcPage(
       layout: LayoutType.column,
       useSplashBackground: true,
-      childrenPadding: const EdgeInsets.symmetric(horizontal: 24),
+      childrenPadding: childrenPadding,
       presenter: ref.read(presenter),
       appBar: buildAppBar(context, ref),
-      footer: buildFooter(context),
+      footer: drawAnimated == true ? null : buildFooter(context),
       children: [
-        const SizedBox(height: 40),
-        appLogo(context),
-        const SizedBox(height: 48),
-        Expanded(
-          child: Column(
-            children: getButtons(context, ref),
-          ),
-        )
+        if (drawAnimated == true)
+          buildAnimatedLayout(context)!
+        else ...[
+          const SizedBox(height: 40),
+          appLogo(context),
+          const SizedBox(height: 48),
+          Expanded(
+            child: Column(
+              children: getButtons(context, ref),
+            ),
+          )
+        ]
       ],
     );
   }

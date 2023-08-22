@@ -38,7 +38,6 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
 
   void loadPage() {
     _tokenContractUseCase.checkConnectionToNetwork();
-    _accountUseCase.refreshWallet();
   }
 
   void copy() {
