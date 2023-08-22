@@ -10,6 +10,7 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
   SplashImportWalletPresenter() : super(null);
 
   late final _authUseCase = ref.read(authUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final TextEditingController mnemonicController = TextEditingController();
 
   String? validate(String? value) {
@@ -25,7 +26,8 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
     loading = true;
 
     try {
-      _authUseCase.createWallet(value);
+      final account = await _authUseCase.createWallet(value);
+      _accountUseCase.addAccount(account);
       pushSetupEnableBiometricPage(context!);
     } catch (e, s) {
       addError(e, s);

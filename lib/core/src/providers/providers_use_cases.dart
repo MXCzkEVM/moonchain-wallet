@@ -117,6 +117,7 @@ final Provider<NetworkUnavailableUseCase> networkUnavailableUseCaseProvider =
 
 final Provider<LogOutUseCase> logOutUseCaseProvider = Provider(
   (ref) => LogOutUseCase(
+    accountCacheRepository: ref.watch(globalCacheProvider).account,
     authUseCase: ref.watch(authUseCaseProvider),
     passcodeUseCase: ref.watch(passcodeUseCaseProvider),
     webviewUseCase: WebviewUseCase(),

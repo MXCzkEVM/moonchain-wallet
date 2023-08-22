@@ -14,6 +14,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
   FileListenerWrapperPresenter() : super(null);
 
   late final _authUseCase = ref.read(authUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
 
   @override
   void initState() {
@@ -72,7 +73,8 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
 
       if (mnemonic != null && mnemonic.isNotEmpty) {
         if (_authUseCase.validateMnemonic(mnemonic)) {
-          _authUseCase.createWallet(mnemonic);
+          final account = await _authUseCase.createWallet(mnemonic);
+          _accountUseCase.addAccount(account);
 
           pushPasscodeSetPage();
         } else {

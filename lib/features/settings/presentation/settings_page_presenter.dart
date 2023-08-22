@@ -51,7 +51,7 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
 
     try {
       final index = state.accounts.length;
-      final newAccount = _authUseCase.addNewAccount(index);
+      final newAccount = await _authUseCase.addNewAccount(index);
       _accountUserCase.addAccount(newAccount);
       loadCache();
 

@@ -30,30 +30,11 @@ class AccountUseCase extends ReactiveUseCase {
     update(walletAddress, publicAddress);
     update(walletPrivateKey, privateKey);
     update(xsdConversionRate, _accountCacheRepository.getXsdConversionRate());
-
-    initAccount();
   }
 
   String? getMnemonic() => _authenticationStorageRepository.mnemonic;
   String? getWalletAddress() => _authenticationStorageRepository.publicAddress;
   String? getPravateKey() => _authenticationStorageRepository.privateKey;
-
-  void initAccount() {
-    final currentAccount = Account(
-      name: '1',
-      privateKey: getPravateKey()!,
-      address: getWalletAddress()!,
-    );
-    final accounts = _accountCacheRepository.accountItems;
-
-    if (account.value == null) {
-      update(account, currentAccount);
-    }
-
-    if (accounts.isEmpty) {
-      addAccount(currentAccount);
-    }
-  }
 
   void updateAccount(Account item) {
     _accountCacheRepository.updateAccount(item);
