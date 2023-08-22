@@ -29,8 +29,6 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     listen(_accountUserCase.accounts, (value) {
       notify(() => state.accounts = value);
     });
-
-    _accountUserCase.refreshWallet();
   }
 
   void copyToClipboard(String text) async {
