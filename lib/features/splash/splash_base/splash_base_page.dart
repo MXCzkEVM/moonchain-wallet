@@ -64,7 +64,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
     ) {
       return Expanded(
         child: Stack(fit: StackFit.expand, children: [
-          appLogo(context),
+          Positioned(top: 40, child: appLogo(context)),
           FutureBuilder(
             future: Future.delayed(const Duration(seconds: 4)),
             builder: (context, snapshot) {

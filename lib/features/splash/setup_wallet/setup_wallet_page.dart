@@ -30,11 +30,17 @@ class SplashSetupWalletPage extends SplashBasePage {
 
   @override
   Widget appLogo(BuildContext context) {
-    return LottieBuilder.asset(
-      'assets/lottie/axs_logo_animation.json',
-      repeat: false,
-      fit: BoxFit.cover,
-      height: MediaQuery.of(context).size.height,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Center(
+        child: SizedBox(
+          width: 200,
+          child: LottieBuilder.asset(
+            'assets/lottie/axs_logo_animation.json',
+            repeat: false,
+          ),
+        ),
+      ),
     );
   }
 
@@ -64,6 +70,7 @@ class SplashSetupWalletPage extends SplashBasePage {
           ),
         ),
         Text.rich(
+          textAlign: TextAlign.center,
           TextSpan(
             style: FontTheme.of(context).body1(),
             children: [
