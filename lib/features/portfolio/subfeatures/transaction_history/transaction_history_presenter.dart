@@ -25,9 +25,9 @@ class TransactionHistoryPresenter
   void initState() {
     super.initState();
 
-    listen(_accountUserCase.walletAddress, (value) {
+    listen(_accountUserCase.account, (value) {
       if (value != null) {
-        notify(() => state.walletAddress = value);
+        notify(() => state.account = value);
         loadPage();
       }
     });
@@ -35,7 +35,7 @@ class TransactionHistoryPresenter
 
   Future<void> loadPage() async {
     await _tokenContractUseCase
-        .getDefaultTokens(state.walletAddress!)
+        .getDefaultTokens(state.account!.address)
         .then((value) {
       if (value != null) {
         notify(() => state.tokens = value.tokens!);
@@ -49,11 +49,11 @@ class TransactionHistoryPresenter
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer
     await _tokenContractUseCase
-        .getTransactionsByAddress(state.walletAddress!)
+        .getTransactionsByAddress(state.account!.address)
         .then((newTransactionsList) async {
       // token transfer list contains only one kind transaction which is token transfer
       final newTokenTransfersList = await _tokenContractUseCase
-          .getTokenTransfersByAddress(state.walletAddress!);
+          .getTokenTransfersByAddress(state.account!.address);
 
       if (newTokenTransfersList != null && newTransactionsList != null) {
         // loading over and we have the data
@@ -134,7 +134,7 @@ class TransactionHistoryPresenter
           }
 
           final type = RecentTransactionsUtils.checkForTransactionType(
-              state.walletAddress!, item.from!.hash!.toLowerCase());
+              state.account!.address, item.from!.hash!.toLowerCase());
           return transactionType == type;
         }).toList();
 
