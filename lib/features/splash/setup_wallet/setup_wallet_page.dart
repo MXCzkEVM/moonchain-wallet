@@ -76,14 +76,14 @@ class SplashSetupWalletPage extends SplashBasePage {
             children: [
               TextSpan(
                 text: FlutterI18n.translate(context, 'agree_terms_and_service'),
-                style: FontTheme.of(context).caption1.white(),
+                style: FontTheme.of(context).caption2.textWhite(),
               ),
               const TextSpan(
                 text: ' ',
               ),
               TextSpan(
                 text: FlutterI18n.translate(context, 'terms_and_service'),
-                style: FontTheme.of(context).caption1.white().copyWith(
+                style: FontTheme.of(context).caption2.textWhite().copyWith(
                       decoration: TextDecoration.underline,
                     ),
                 recognizer: TapGestureRecognizer()
