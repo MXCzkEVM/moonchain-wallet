@@ -27,25 +27,23 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void initState() {
     super.initState();
 
+    listen(
+      _accountUseCase.account,
+      (value) {
+        notify(() => state.account = value);
+      },
+    );
+
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
         notify(() => state.network = value);
       }
     });
-
-    loadPage();
   }
 
   @override
   Future<void> dispose() {
     return super.dispose();
-  }
-
-  Future<void> loadPage() async {
-    _chainConfigurationUseCase.getCurrentNetwork();
-
-    final address = _accountUseCase.getWalletAddress();
-    notify(() => state.wallletAddress = address);
   }
 
   void onWebViewCreated(InAppWebViewController controller) =>
@@ -83,7 +81,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     loading = true;
     try {
       final res = await _tokenContractUseCase.sendTransaction(
-        privateKey: _accountUseCase.getPravateKey()!,
+        privateKey: state.account!.privateKey,
         to: to,
         amount: amount,
         data: data,
@@ -181,8 +179,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void changeProgress(int progress) => notify(() => state.progress = progress);
 
   void setAddress(dynamic id) {
-    if (state.wallletAddress != null) {
-      state.webviewController?.setAddress(state.wallletAddress!, id);
+    if (state.account != null) {
+      final walletAddress = state.account!.address;
+      state.webviewController?.setAddress(walletAddress, id);
     }
   }
 

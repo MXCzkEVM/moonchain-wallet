@@ -3,14 +3,14 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 
 class OpenDAppState with EquatableMixin {
-  String? wallletAddress;
+  Account? account;
   InAppWebViewController? webviewController;
   int progress = 0;
   Network? network;
 
   @override
   List<Object?> get props => [
-        wallletAddress,
+        account,
         webviewController,
         progress,
         network,
