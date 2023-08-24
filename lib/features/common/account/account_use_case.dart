@@ -34,6 +34,7 @@ class AccountUseCase extends ReactiveUseCase {
     final items = _accountCacheRepository.accountItems;
     update(account, item);
     update(accounts, items);
+    getAccountMns(item);
   }
 
   void changeAccount(Account item) {
@@ -49,4 +50,17 @@ class AccountUseCase extends ReactiveUseCase {
     return xsdConversionRate.value == 1.0 ? 'XSD' : '✗';
   }
 
+  void getAccountsNames() async {
+    for (Account account in accounts.value) {
+      getAccountMns(account);
+    }
+  }
+
+  void getAccountMns(Account item) async {
+    final result = await _repository.tokenContract.getName(item.address);
+    if (item.mns != result) {
+      item.mns = result;
+      _accountCacheRepository.updateAccount(item);
+    }
+  }
 }
