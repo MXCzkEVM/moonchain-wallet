@@ -36,7 +36,7 @@ class DeleteCustomNetworkPresenter
       notify(() => state.networks = value);
     });
 
-    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+    listen(_chainConfigurationUseCase.selectedNetworkForDetails, (value) {
       if (value != null && value.networkType == NetworkType.custom) {
         initializePage(value);
       }
