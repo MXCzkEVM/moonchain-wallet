@@ -33,6 +33,12 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       DeviceOrientation.portraitDown,
     ]);
 
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        notify(() => state.network = value);
+      }
+    });
+
     listen<List<Dapp>>(
       _dappStoreUseCase.dapps,
       (v) {

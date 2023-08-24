@@ -57,10 +57,14 @@ class DappCard extends StatelessWidget {
               if (loadingProgress == null) {
                 return child;
               }
-              return Shimmer.fromColors(
-                baseColor: ColorsTheme.of(context).primary.withOpacity(0.2),
-                highlightColor: ColorsTheme.of(context).primary,
-                child: child,
+              return Padding(
+                padding: const EdgeInsets.all(20),
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
               );
             },
             fit: BoxFit.cover,

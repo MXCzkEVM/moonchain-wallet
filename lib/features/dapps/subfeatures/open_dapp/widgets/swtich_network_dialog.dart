@@ -74,6 +74,7 @@ Future<bool?> showSwitchNetworkDialog(
               },
               size: AxsButtonSize.xl,
             ),
+            const SizedBox(height: Sizes.spaceNormal)
           ],
         ),
       ),
