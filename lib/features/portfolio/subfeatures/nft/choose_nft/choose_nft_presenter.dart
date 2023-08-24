@@ -19,9 +19,9 @@ class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
   void initState() {
     super.initState();
 
-    listen(_accountUserCase.walletAddress, (value) {
+    listen(_accountUserCase.account, (value) {
       if (value != null) {
-        notify(() => state.walletAddress = value);
+        notify(() => state.account = value);
         loadPage();
       }
     });
@@ -36,7 +36,7 @@ class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
 
   void loadPage() async {
     final nfts =
-        await _nftContractUseCase.getNftsByAddress(state.walletAddress);
+        await _nftContractUseCase.getNftsByAddress(state.account!.address);
     _nftsUseCase.mergeNewList(nfts);
   }
 

@@ -8,7 +8,7 @@ class SendCryptoState with EquatableMixin {
   Token? token;
   int discount = 0;
   bool valid = false;
-  String? walletAddress;
+  Account? account;
   Network? network;
   String? qrCode;
 
@@ -18,7 +18,7 @@ class SendCryptoState with EquatableMixin {
         online,
         discount,
         valid,
-        walletAddress,
+        account,
         network,
         qrCode,
       ];

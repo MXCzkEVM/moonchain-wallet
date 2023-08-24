@@ -4,24 +4,21 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 class AccountUseCase extends ReactiveUseCase {
   AccountUseCase(
+    this._repository,
     this._accountCacheRepository,
     this._authenticationStorageRepository,
   );
 
   final AccountCacheRepository _accountCacheRepository;
   final AuthenticationStorageRepository _authenticationStorageRepository;
+  final Web3Repository _repository;
 
   late final ValueStream<Account?> account =
       reactiveField(_accountCacheRepository.account);
   late final ValueStream<List<Account>> accounts =
       reactiveField(_accountCacheRepository.accounts);
 
-  late final ValueStream<String?> walletAddress =
-      reactiveField(_accountCacheRepository.publicAddress);
-  late final ValueStream<String?> walletPrivateKey =
-      reactiveField(_accountCacheRepository.privateKey);
-
-  late final ValueStream<double> xsdConversionRate = reactive(2.0);
+  late final ValueStream<double> xsdConversionRate = reactive(1.0);
 
   String? getMnemonic() => _authenticationStorageRepository.mnemonic;
   String? getWalletAddress() => _authenticationStorageRepository.publicAddress;
@@ -51,4 +48,5 @@ class AccountUseCase extends ReactiveUseCase {
   String getXsdUnit() {
     return xsdConversionRate.value == 1.0 ? 'XSD' : '✗';
   }
+
 }

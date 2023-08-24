@@ -4,7 +4,6 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-
 class ChangeIndicator extends HookConsumerWidget {
   const ChangeIndicator({super.key});
 
@@ -21,7 +20,8 @@ class ChangeIndicator extends HookConsumerWidget {
                       ? Container()
                       : Text(
                           '≈',
-                          style: FontTheme.of(context).caption2().copyWith(
+                          style: FontTheme.of(context).caption1().copyWith(
+                              fontWeight: FontWeight.w500,
                               color: ColorsTheme.of(context).textSecondary),
                         )
                   : state.hideBalance == true

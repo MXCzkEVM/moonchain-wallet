@@ -18,9 +18,9 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   void initState() {
     super.initState();
 
-    listen(_accountUserCase.walletAddress, (value) {
+    listen(_accountUserCase.account, (value) {
       if (value != null) {
-        notify(() => state.walletAddress = value);
+        notify(() => state.account = value);
         loadPage();
       }
     });
@@ -36,7 +36,7 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   }
 
   Future<void> loadPage() async {
-    await _tokenContractUseCase.getTokensBalance(state.walletAddress);
+    await _tokenContractUseCase.getTokensBalance(state.account!.address);
   }
 
   void fliterTokenByName(String value) {

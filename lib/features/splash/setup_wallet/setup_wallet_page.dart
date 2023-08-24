@@ -30,11 +30,17 @@ class SplashSetupWalletPage extends SplashBasePage {
 
   @override
   Widget appLogo(BuildContext context) {
-    return LottieBuilder.asset(
-      'assets/lottie/axs_logo_animation.json',
-      repeat: false,
-      fit: BoxFit.cover,
-      height: MediaQuery.of(context).size.height,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Center(
+        child: SizedBox(
+          width: 200,
+          child: LottieBuilder.asset(
+            'assets/lottie/axs_logo_animation.json',
+            repeat: false,
+          ),
+        ),
+      ),
     );
   }
 
@@ -64,19 +70,20 @@ class SplashSetupWalletPage extends SplashBasePage {
           ),
         ),
         Text.rich(
+          textAlign: TextAlign.center,
           TextSpan(
             style: FontTheme.of(context).body1(),
             children: [
               TextSpan(
                 text: FlutterI18n.translate(context, 'agree_terms_and_service'),
-                style: FontTheme.of(context).caption1.white(),
+                style: FontTheme.of(context).caption2.textWhite(),
               ),
               const TextSpan(
                 text: ' ',
               ),
               TextSpan(
                 text: FlutterI18n.translate(context, 'terms_and_service'),
-                style: FontTheme.of(context).caption1.white().copyWith(
+                style: FontTheme.of(context).caption2.textWhite().copyWith(
                       decoration: TextDecoration.underline,
                     ),
                 recognizer: TapGestureRecognizer()

@@ -4,12 +4,12 @@ import 'package:mxc_logic/mxc_logic.dart';
 class ChooseNftState with EquatableMixin {
   List<Nft> nfts = [];
   List<Nft> filterNfts = [];
-  String walletAddress = '';
+  Account? account;
 
   @override
   List<Object?> get props => [
         nfts,
         filterNfts,
-        walletAddress,
+        account,
       ];
 }

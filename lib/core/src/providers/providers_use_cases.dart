@@ -79,6 +79,7 @@ final Provider<AuthUseCase> authUseCaseProvider = Provider(
 
 final Provider<AccountUseCase> accountUseCaseProvider = Provider(
   (ref) => AccountUseCase(
+    ref.watch(web3RepositoryProvider),
     ref.watch(globalCacheProvider).account,
     ref.watch(authenticationStorageProvider),
   ),

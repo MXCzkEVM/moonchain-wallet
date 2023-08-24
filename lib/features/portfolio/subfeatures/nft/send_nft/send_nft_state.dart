@@ -9,7 +9,7 @@ class SendNftState with EquatableMixin {
   int discount = 0;
   bool valid = false;
   TransactionProcessType processType = TransactionProcessType.confirm;
-  String? walletAddress;
+  Account? account;
   EstimatedGasFee? estimatedGasFee;
 
   @override
@@ -19,7 +19,7 @@ class SendNftState with EquatableMixin {
         discount,
         valid,
         processType,
-        walletAddress,
+        account,
         estimatedGasFee,
       ];
 }

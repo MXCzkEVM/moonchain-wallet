@@ -36,7 +36,7 @@ class SplashStoragePage extends SplashBasePage {
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: ref.watch(state).applist['telegram'] == true
             ? () => Navigator.of(context).push(
-                  route.featureDialogPage(
+                  route.featureDialog(
                     TelegramRecoveryPhrasePage(
                       settingsFlow: settingsFlow,
                     ),
@@ -51,7 +51,7 @@ class SplashStoragePage extends SplashBasePage {
         onTap: ref.watch(state).applist['weixin'] == true ||
                 ref.watch(state).applist['wechat'] == true
             ? () => Navigator.of(context).push(
-                  route.featureDialogPage(
+                  route.featureDialog(
                     WechatRecoveryPhrasePage(
                       settingsFlow: settingsFlow,
                     ),
@@ -65,7 +65,7 @@ class SplashStoragePage extends SplashBasePage {
         iconSize: 18,
         title: FlutterI18n.translate(context, 'email_secured_storage'),
         onTap: () => Navigator.of(context).push(
-          route.featureDialogPage(
+          route.featureDialog(
             EmailRecoveryPhrasePage(
               settingsFlow: settingsFlow,
             ),

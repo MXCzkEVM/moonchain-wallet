@@ -4,12 +4,12 @@ import 'package:mxc_logic/mxc_logic.dart';
 class ChooseCryptoState with EquatableMixin {
   List<Token>? tokens;
   List<Token>? filterTokens;
-  String walletAddress = '';
+  Account? account;
 
   @override
   List<Object?> get props => [
         tokens,
         filterTokens,
-        walletAddress,
+        account,
       ];
 }
