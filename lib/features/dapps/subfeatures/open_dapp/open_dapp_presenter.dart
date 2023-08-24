@@ -8,19 +8,16 @@ import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
 
-import '../../entities/bookmark.dart';
 import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
 import 'widgets/transaction_dialog.dart';
 
 final openDAppPageContainer =
-    PresenterContainerWithParameter<OpenDAppPresenter, OpenDAppState, Bookmark>(
-        (bookmark) => OpenDAppPresenter(bookmark));
+    PresenterContainer<OpenDAppPresenter, OpenDAppState>(
+        () => OpenDAppPresenter());
 
 class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
-  OpenDAppPresenter(this.bookmark) : super(OpenDAppState());
-
-  final Bookmark bookmark;
+  OpenDAppPresenter() : super(OpenDAppState());
 
   late final _chainConfigurationUserCase =
       ref.read(chainConfigurationUseCaseProvider);

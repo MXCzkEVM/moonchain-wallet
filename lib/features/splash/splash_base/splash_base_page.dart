@@ -102,7 +102,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
       layout: LayoutType.column,
       useSplashBackground: true,
       childrenPadding: childrenPadding,
-      presenter: ref.read(presenter),
+      presenter: ref.watch(presenter),
       appBar: buildAppBar(context, ref),
       footer: drawAnimated == true ? null : buildFooter(context),
       children: [

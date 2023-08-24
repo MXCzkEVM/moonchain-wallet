@@ -1,7 +1,4 @@
 import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
-import 'package:datadashwallet/features/wallet/wallet.dart';
-
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
 import 'mns_query_state.dart';
@@ -45,13 +42,8 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
 
   Future<void> claim(String name) async {
     await navigator
-        ?.push(route.featureDialog(OpenAppPage(
-            bookmark: Bookmark(
-      id: 0,
-      title: 'MNS',
-      description: 'Own your .MXC domain',
-      url: 'https://wannsee-mns.mxc.com/$name.mxc/register',
-    ))))
+        ?.push(route.featureDialog(
+            OpenAppPage(url: 'https://wannsee-mns.mxc.com/$name.mxc/register')))
         .then((_) {
       navigator?.replaceAll(route(const DAppsPage()));
     });

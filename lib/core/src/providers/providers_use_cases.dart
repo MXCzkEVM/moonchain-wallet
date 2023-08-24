@@ -4,6 +4,7 @@ import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
 import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
+import 'package:datadashwallet/features/dapps/domain/dapp_store_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
 import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
@@ -121,5 +122,11 @@ final Provider<LogOutUseCase> logOutUseCaseProvider = Provider(
     authUseCase: ref.watch(authUseCaseProvider),
     passcodeUseCase: ref.watch(passcodeUseCaseProvider),
     webviewUseCase: WebviewUseCase(),
+  ),
+);
+
+final Provider<DappStoreUseCase> dappStoreUseCaseProvider = Provider(
+  (ref) => DappStoreUseCase(
+    ref.watch(web3RepositoryProvider),
   ),
 );

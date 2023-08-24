@@ -1,5 +1,4 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +10,14 @@ import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
 
 class OpenAppPage extends HookConsumerWidget {
-  const OpenAppPage({Key? key, required this.bookmark}) : super(key: key);
+  const OpenAppPage({Key? key, required this.url}) : super(key: key);
 
-  final Bookmark bookmark;
+  final String url;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(openDAppPageContainer.actions(bookmark));
-    final state = ref.watch(openDAppPageContainer.state(bookmark));
+    final presenter = ref.read(openDAppPageContainer.actions);
+    final state = ref.watch(openDAppPageContainer.state);
     const primaryVelocity = 500;
 
     return Scaffold(
@@ -98,7 +97,7 @@ class OpenAppPage extends HookConsumerWidget {
                     }
                   },
                   initialUrlRequest: URLRequest(
-                    url: Uri.parse(bookmark.url),
+                    url: Uri.parse(url),
                   ),
                   onWebViewCreated: (controller) =>
                       presenter.onWebViewCreated(controller),
