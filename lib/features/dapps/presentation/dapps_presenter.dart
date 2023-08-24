@@ -57,13 +57,25 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       notify(() => state.gesturesInstructionEducated = value);
     });
 
-    initializeDapps();
-    initializeIpfsGateways();
+    listen(_chainConfigurationUseCase.networks, (value) {
+      _chainConfigurationUseCase.getCurrentNetwork();
+    });
+
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        loadPage();
+      }
+    });
   }
 
   @override
   Future<void> dispose() async {
     super.dispose();
+  }
+
+  void loadPage() {
+    initializeDapps();
+    initializeIpfsGateways();
   }
 
   void initializeDapps() async {
@@ -146,7 +158,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       await needPermissions.request();
       await PermissionUtils.permissionsStatus();
     }
-
   }
 
   void openDapp(String url) async {
