@@ -21,7 +21,7 @@ class NetworkItem extends HookConsumerWidget {
     return InkWell(
       onTap: () {
         if (network.networkType == NetworkType.custom) {
-          presenter.selectNetwork(network);
+          presenter.selectedNetworkDetails(network);
           Navigator.of(context).push(
             route.featureDialog(
               const DeleteCustomNetworkPage(),

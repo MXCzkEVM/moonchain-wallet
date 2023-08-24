@@ -17,6 +17,7 @@ class ChainConfigurationPresenter
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _accountUserCase = ref.read(accountUseCaseProvider);
 
   final TextEditingController gasLimitController = TextEditingController();
 
@@ -28,7 +29,7 @@ class ChainConfigurationPresenter
       notify(() => state.networks =
           value.where((element) => element.isAdded == true).toList());
     });
-
+  
     listen(_chainConfigurationUseCase.ipfsGateWayList, (newIpfsGateWayList) {
       if (newIpfsGateWayList.isNotEmpty) {
         if (state.ipfsGateWays == null) {
@@ -66,7 +67,8 @@ class ChainConfigurationPresenter
     );
   }
 
-  void selectNetwork(Network network) {
-    _chainConfigurationUseCase.selectNetwork(network);
+  /// only for details of custom network delete network page
+  void selectedNetworkDetails(Network network) {
+    _chainConfigurationUseCase.selectNetworkForDetails(network);
   }
 }
