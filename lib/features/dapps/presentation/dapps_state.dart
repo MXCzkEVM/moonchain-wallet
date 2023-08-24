@@ -12,6 +12,8 @@ class DAppsState with EquatableMixin {
   List<Dapp> dappsAndBookmarks = [];
   bool loading = false;
 
+  Network? network;
+
   @override
   List<Object?> get props => [
         bookmarks,
@@ -21,5 +23,6 @@ class DAppsState with EquatableMixin {
         dapps,
         dappsAndBookmarks,
         loading,
+        network,
       ];
 }

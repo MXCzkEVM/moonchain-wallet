@@ -33,6 +33,12 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       DeviceOrientation.portraitDown,
     ]);
 
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        notify(() => state.network = value);
+      }
+    });
+
     listen<List<Dapp>>(
       _dappStoreUseCase.dapps,
       (v) {
@@ -146,7 +152,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       await needPermissions.request();
       await PermissionUtils.permissionsStatus();
     }
-
   }
 
   void openDapp(String url) async {

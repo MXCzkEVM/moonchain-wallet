@@ -73,7 +73,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
       updateItem(newDefault, newDefaultItemIndex);
       updateItem(currentDefault, currentDefaultItemIndex);
 
-      // update(selectedNetwork, newDefault);
+      update(selectedNetwork, newDefault);
     }
   }
 

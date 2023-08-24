@@ -36,13 +36,22 @@ class CardSizes {
 
 List<List<Dapp>> paging({
   required BuildContext context,
-  required List<Dapp> dapps,
+  required List<Dapp> allDapps,
+  int? chainId = 0,
   int crossAxisCount = CardCrossAxisCount.mobile,
 }) {
   final screenSize = MediaQuery.of(context).size;
   final cardWidthRate = crossAxisCount;
   final cardHeightRate =
       (screenSize.height - 165) * cardWidthRate / (screenSize.width - 20);
+
+  final dapps = allDapps.where((e) {
+    if (e is Bookmark) {
+      return true;
+    } else {
+      return e.store!.chainid == chainId;
+    }
+  }).toList();
 
   final totalCardsCount = dapps.fold<int>(
       0,
