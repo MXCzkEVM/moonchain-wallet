@@ -37,7 +37,7 @@ class CardSizes {
 List<List<Dapp>> paging({
   required BuildContext context,
   required List<Dapp> allDapps,
-  int? chainId = 0,
+  int? chainId = -1,
   int crossAxisCount = CardCrossAxisCount.mobile,
 }) {
   final screenSize = MediaQuery.of(context).size;
