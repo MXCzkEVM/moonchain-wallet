@@ -28,7 +28,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
-        initializeWalletPage();
+        if (state.walletAddress != null) {
+          initializeWalletPage();
+        }
       }
     });
 
