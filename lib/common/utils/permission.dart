@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:f_logs/f_logs.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionUtils {
@@ -10,7 +10,8 @@ class PermissionUtils {
   };
 
   static void log(String feature, [bool isGranted = true]) {
-    debugPrint('$feature permission is ${isGranted ? 'granted' : 'rejected'}.');
+    FLog.info(
+        text: '$feature permission is ${isGranted ? 'granted' : 'rejected'}.');
   }
 
   static Future<void> permissionsStatus() async {

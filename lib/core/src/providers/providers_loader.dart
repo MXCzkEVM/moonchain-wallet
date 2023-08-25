@@ -20,7 +20,7 @@ class _ProviderLoader {
     final currentNetwork = _datadashSetupStore?.getNetwork ??
         Network.fixedNetworks().where((item) => item.enabled).first;
     final username =
-        '${currentNetwork.label?.split(' ').join()}_${_datadashSetupStore?.publicAddress}';
+        '${currentNetwork.web3RpcHttpUrl}_${currentNetwork.chainId}_${_datadashSetupStore?.publicAddress}';
 
     _datadashCache = await DatadashCache.load(
       cacheManager,
