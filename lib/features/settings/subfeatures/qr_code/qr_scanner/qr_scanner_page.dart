@@ -9,7 +9,8 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrScannerPage extends StatefulWidget {
-  const QrScannerPage({Key? key}) : super(key: key);
+  const QrScannerPage({Key? key, this.returnQrCode = false}) : super(key: key);
+  final bool returnQrCode;
 
   @override
   _QrScannerPageState createState() => _QrScannerPageState();
@@ -43,7 +44,10 @@ class _QrScannerPageState extends State<QrScannerPage> {
     // listener can fire multiple times which results to executing pop several times.
     if (_lock) return;
     _lock = true;
-
+    if (widget.returnQrCode) {
+      Navigator.of(context).pop(barcode.code);
+      return;
+    }
     Navigator.of(context).push(route(ChooseCryptoPage(
       qrCode: barcode.code,
     )));

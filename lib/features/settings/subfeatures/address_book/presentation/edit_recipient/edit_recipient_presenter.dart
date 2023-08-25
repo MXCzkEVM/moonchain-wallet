@@ -16,6 +16,7 @@ class EditRecipientPresenter extends CompletePresenter<EditRecipientState> {
   final Recipient? recipient;
 
   late final _recipientsUseCase = ref.read(recipientsCaseProvider);
+  late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final TextEditingController nameController = TextEditingController();
   late final TextEditingController addressController = TextEditingController();
 
@@ -46,27 +47,33 @@ class EditRecipientPresenter extends CompletePresenter<EditRecipientState> {
 
   Future<void> onSave() async {
     loading = true;
+    resetValidation();
     try {
-      final data = Recipient(
-        id: DateTime.now().microsecondsSinceEpoch,
-        name: nameController.text,
-      );
+      final response = await checkMnsAvailability();
+      if (response) {
+        final data = Recipient(
+          id: DateTime.now().microsecondsSinceEpoch,
+          name: nameController.text,
+        );
 
-      final addressOrMns = addressController.text;
+        final addressOrMns = addressController.text;
 
-      if (addressOrMns.startsWith('0x')) {
-        data.address = addressOrMns;
+        if (addressOrMns.startsWith('0x')) {
+          data.address = addressOrMns;
+        } else {
+          data.mns = addressOrMns;
+        }
+
+        if (recipient?.id != null) {
+          data.id = recipient!.id;
+          _recipientsUseCase.updateItem(data);
+          navigator?.pop();
+        } else {
+          _recipientsUseCase.addItem(data);
+          BottomFlowDialog.of(context!).close();
+        }
       } else {
-        data.mns = addressOrMns;
-      }
-
-      if (recipient?.id != null) {
-        data.id = recipient!.id;
-        _recipientsUseCase.updateItem(data);
-        navigator?.pop();
-      } else {
-        _recipientsUseCase.addItem(data);
-        BottomFlowDialog.of(context!).close();
+        notify(() => state.errorText = translate('invalid_format'));
       }
     } catch (error, stackTrace) {
       addError(error, stackTrace);
@@ -78,5 +85,23 @@ class EditRecipientPresenter extends CompletePresenter<EditRecipientState> {
   void deleteRecipient(Recipient item) {
     _recipientsUseCase.removeItem(item);
     navigator?.pop();
+  }
+
+  Future<bool> checkMnsAvailability() async {
+    final mnsToCheck = addressController.text;
+    if (!mnsToCheck.startsWith('0x')) {
+      final result = await _tokenContractUseCase.getAddress(mnsToCheck);
+      if (result == '0x0000000000000000000000000000000000000000') {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  void resetValidation() {
+    notify(() => state.errorText = null);
   }
 }
