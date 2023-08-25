@@ -19,8 +19,8 @@ class DAppLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget content() {
       return Shimmer.fromColors(
-        baseColor: ColorsTheme.of(context).primary.withOpacity(0.2),
-        highlightColor: ColorsTheme.of(context).primary,
+        baseColor: const Color(0x33333333),
+        highlightColor: const Color(0x00333333),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(
