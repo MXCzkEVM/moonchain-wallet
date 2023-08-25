@@ -102,6 +102,6 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    productImplementation 'io.github.azhon:appupdate:latest-version'
-    googlePlayImplementation 'io.github.azhon:appupdate-no-op:latest-version'
+    productImplementation 'io.github.azhon:appupdate:4.3.0'
+    googlePlayImplementation 'io.github.azhon:appupdate-no-op:4.3.0'
 }

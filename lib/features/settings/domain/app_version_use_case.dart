@@ -47,6 +47,6 @@ class AppVersionUseCase {
     );
 
     AzhonAppUpdate.update(model)
-        .then((value) => debugPrint('android apk dwonload progress: $value'));
+        .then((value) => debugPrint('app update progress: $value'));
   }
 }
