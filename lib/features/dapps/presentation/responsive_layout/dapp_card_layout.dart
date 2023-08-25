@@ -32,10 +32,12 @@ class DappCardLayout extends HookConsumerWidget {
 
     if (dapps.isEmpty) return Container();
 
+    final chainId = getChainId(state.network);
+
     List<List<Dapp>> pages = paging(
       context: context,
       allDapps: dapps,
-      chainId: state.network?.chainId,
+      chainId: chainId,
       crossAxisCount: crossAxisCount,
     );
 

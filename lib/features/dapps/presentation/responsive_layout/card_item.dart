@@ -34,10 +34,18 @@ class CardSizes {
   }
 }
 
+int getChainId(Network? network) {
+  if (network == null || network.networkType == NetworkType.custom) {
+    return 18686; //MXC zkEVM Mainnet
+  }
+
+  return network.chainId;
+}
+
 List<List<Dapp>> paging({
   required BuildContext context,
   required List<Dapp> allDapps,
-  int? chainId = -1,
+  required int chainId,
   int crossAxisCount = CardCrossAxisCount.mobile,
 }) {
   final screenSize = MediaQuery.of(context).size;
