@@ -19,9 +19,9 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
-  final _mnemonicTitle = 'DataDash Wallet Mnemonic Key';
+  final _mnemonicTitle = 'AXS Wallet Mnemonic Key';
   final _mnemonicFileName =
-      '${DateFormat('y-M-d').format(DateTime.now())}-datadash-key.txt';
+      '${DateFormat('y-M-d').format(DateTime.now())}-axs-key.txt';
 
   void changeAcceptAggreement() =>
       notify(() => state.acceptAgreement = !state.acceptAgreement);
