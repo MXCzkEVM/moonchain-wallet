@@ -30,15 +30,16 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
 
     listen(
       _accountUseCase.account,
-      (value) => notify(() => state.account = value),
+      (value) {
+        notify(() => state.account = value);
+        loadPage();
+      },
     );
 
     listen(
       _nftContractUseCase.online,
       (value) => notify(() => state.online = value),
     );
-
-    loadPage();
   }
 
   void loadPage() async {
@@ -124,7 +125,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
       final res = await _nftContractUseCase.sendTransaction(
         address: nft.address,
         tokenId: nft.tokenId,
-        privateKey: _accountUseCase.getPravateKey()!,
+        privateKey: state.account!.privateKey,
         to: recipient,
       );
 

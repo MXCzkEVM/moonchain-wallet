@@ -49,6 +49,7 @@ class AccountCacheRepository extends GlobalCacheRepository {
   );
 
   List<Account> get accountItems => accounts.value;
+  Account get accountItem => account.value!;
 
   void addAccount(Account item) => accounts.value = [...accounts.value, item];
   void removeAccount(Account item) => accounts.value =
@@ -57,6 +58,9 @@ class AccountCacheRepository extends GlobalCacheRepository {
         if (item.address == e.address) {
           e.mns = item.mns;
           return e;
+        }
+        if (item.address == account.value!.address){
+          account.value = item;
         }
         return e;
       }).toList();

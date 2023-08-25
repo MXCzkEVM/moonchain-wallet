@@ -18,9 +18,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
 
   late final ValueStream<List<String>> ipfsGateWayList = reactive([]);
 
-  late final ValueStream<Network?> selectedNetwork = reactive(_repository
-      .networks.value
-      .firstWhere((element) => element.enabled == true));
+  late final ValueStream<Network?> selectedNetwork = reactive();
 
   late final ValueStream<Network?> selectedNetworkForDetails = reactive();
 

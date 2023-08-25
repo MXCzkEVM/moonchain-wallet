@@ -19,6 +19,13 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
   void initState() {
     super.initState();
 
+    listen(
+      _accountUseCase.account,
+      (value) {
+        notify(() => state.account = value);
+      },
+    );
+
     addressController.addListener(_onValidChange);
     tokeIdController.addListener(_onValidChange);
   }
@@ -46,7 +53,7 @@ class AddNftPresenter extends CompletePresenter<AddNftState> {
     try {
       final owner =
           await _nftContractUseCase.getOwerOf(address: address, tokeId: tokeId);
-      final account = _accountUseCase.getWalletAddress();
+      final account = state.account!.address;
 
       if (owner != account) {
         addError(translate('nft_not_match'));

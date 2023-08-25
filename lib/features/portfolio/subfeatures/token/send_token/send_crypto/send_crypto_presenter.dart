@@ -53,7 +53,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     listen(
       _accountUseCase.account,
-      (value) => notify(() => state.account = value),
+      (value) {
+        notify(() => state.account = value);
+        loadPage();
+      },
     );
 
     listen(
@@ -64,6 +67,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     listen(_chainConfigurationUserCase.selectedNetwork, (value) {
       if (value != null) {
         notify(() => state.network = value);
+        loadPage();
       }
     });
 
@@ -71,12 +75,9 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     recipientController.addListener(_onValidChange);
 
     recipientController.text = state.qrCode ?? '';
-
-    loadPage();
   }
 
   void loadPage() async {
-    _chainConfigurationUserCase.getCurrentNetwork();
     await _tokenContractUseCase.checkConnectionToNetwork();
   }
 
@@ -163,7 +164,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       String recipientAddress = await getAddress(recipient);
 
       final res = await _tokenContractUseCase.sendTransaction(
-        privateKey: _accountUseCase.getPravateKey()!,
+        privateKey: state.account!.privateKey,
         to: recipientAddress,
         amount: amount,
       );

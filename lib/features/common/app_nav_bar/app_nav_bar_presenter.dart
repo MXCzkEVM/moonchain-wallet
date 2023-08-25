@@ -27,6 +27,7 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) async {
       if (value != null) {
+        _accountUseCase.getAccountsNames();
         loadPage();
       }
     });

@@ -21,8 +21,6 @@ class AccountUseCase extends ReactiveUseCase {
   late final ValueStream<double> xsdConversionRate = reactive(1.0);
 
   String? getMnemonic() => _authenticationStorageRepository.mnemonic;
-  String? getWalletAddress() => _authenticationStorageRepository.publicAddress;
-  String? getPravateKey() => _authenticationStorageRepository.privateKey;
 
   void updateAccount(Account item) {
     _accountCacheRepository.updateAccount(item);
@@ -34,7 +32,7 @@ class AccountUseCase extends ReactiveUseCase {
     final items = _accountCacheRepository.accountItems;
     update(account, item);
     update(accounts, items);
-    getAccountMns(item);
+    getAccountsNames();
   }
 
   void changeAccount(Account item) {
@@ -52,15 +50,29 @@ class AccountUseCase extends ReactiveUseCase {
 
   void getAccountsNames() async {
     for (Account account in accounts.value) {
-      getAccountMns(account);
+      await getAccountMns(account);
     }
+    update(accounts, _accountCacheRepository.accountItems);
+    update(account, _accountCacheRepository.accountItem);
   }
 
-  void getAccountMns(Account item) async {
-    final result = await _repository.tokenContract.getName(item.address);
-    if (item.mns != result) {
-      item.mns = result;
-      _accountCacheRepository.updateAccount(item);
+  Future<bool> getAccountMns(Account item) async {
+    try {
+      final result = await _repository.tokenContract.getName(item.address);
+      if (item.mns != result) {
+        item.mns = result;
+        _accountCacheRepository.updateAccount(item);
+      }
+      return true;
+    } catch (e) {
+      if (e == 'RangeError: Value not in range: 32') {
+        // The username is empty
+        item.mns = null;
+        _accountCacheRepository.updateAccount(item);
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 }

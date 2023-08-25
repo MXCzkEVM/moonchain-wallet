@@ -103,7 +103,7 @@ extension EnsResolve on Ens {
   ///  E.g. migrating to a new resolver
   Future<EthereumAddress> getResolverAddress(Uint8List hash) async {
     final ensReg = EnsRegistryFallback(
-      address: ENS_FALLBACK_REGISTRY,
+      address: ensFallBackRegistry,
       client: client,
     );
     return ensReg.resolver(hash);

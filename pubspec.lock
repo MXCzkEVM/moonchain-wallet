@@ -316,6 +316,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_app_update:
+    dependency: "direct main"
+    description:
+      name: flutter_app_update
+      sha256: "55a75c75eec1178549a7b15a4113c42208dde378556f858af7b99f092a27d359"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   flutter_hooks:
     dependency: "direct main"
     description:
