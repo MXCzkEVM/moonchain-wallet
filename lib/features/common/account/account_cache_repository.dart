@@ -55,12 +55,12 @@ class AccountCacheRepository extends GlobalCacheRepository {
   void removeAccount(Account item) => accounts.value =
       accounts.value.where((e) => e.name != item.name).toList();
   void updateAccount(Account item) => accounts.value = accounts.value.map((e) {
+        if (item.address == account.value!.address) {
+          account.value = item;
+        }
         if (item.address == e.address) {
           e.mns = item.mns;
           return e;
-        }
-        if (item.address == account.value!.address){
-          account.value = item;
         }
         return e;
       }).toList();
