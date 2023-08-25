@@ -14,6 +14,7 @@
 	"confirm": "Confirm",
 	"choose_my_username": "Choose my username",
 	"mnemonic_passphrase": "Mnemonic Passphrase",
+	"biometrics": "biometrics",
 	"biometrics_setup": "AXS Biometrics Setup",
 	"mxc_zkevm_username": "MXC zkEVM Username",
 	"ens_announcement_description": "With your unique MXC zkEVM username, the cumbersome process of handling complex wallet addresses becomes a thing of the past. Now, you can effortlessly employ a customised and exclusive name that sets you apart.",

@@ -44,15 +44,16 @@ class SendNftPage extends HookConsumerWidget {
               return MxcButton.primary(
                 key: const ValueKey('nextButton'),
                 title: FlutterI18n.translate(context, 'next'),
-                onTap: recipientValue.text.isNotEmpty
-                    ? () {
-                        FocusManager.instance.primaryFocus?.unfocus();
+                onTap: null,
+                // recipientValue.text.isNotEmpty
+                //     ? () {
+                //         FocusManager.instance.primaryFocus?.unfocus();
 
-                        if (!formKey.currentState!.validate()) return;
+                //         if (!formKey.currentState!.validate()) return;
 
-                        ref.read(presenter).transactionProcess();
-                      }
-                    : null,
+                //         ref.read(presenter).transactionProcess();
+                //       }
+                //     : null,
               );
             }),
       ),

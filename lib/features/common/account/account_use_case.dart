@@ -59,10 +59,8 @@ class AccountUseCase extends ReactiveUseCase {
   Future<bool> getAccountMns(Account item) async {
     try {
       final result = await _repository.tokenContract.getName(item.address);
-      if (item.mns != result) {
-        item.mns = result;
-        _accountCacheRepository.updateAccount(item);
-      }
+      item.mns = result;
+      _accountCacheRepository.updateAccount(item);
       return true;
     } catch (e) {
       if (e == 'RangeError: Value not in range: 32') {

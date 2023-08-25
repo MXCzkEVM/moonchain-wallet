@@ -275,5 +275,6 @@
     "approve": "Đồng ý",
     "close": "Đóng",
     "allow_this_site_notice": "Bạn có cho phép trang web này chuyển đổi mạng từ {0} sang {1} không?",
-    "network_not_found": "Mạng không tìm thấy"
+    "network_not_found": "Mạng không tìm thấy",
+    "biometrics": "sinh trắc học"
 }
