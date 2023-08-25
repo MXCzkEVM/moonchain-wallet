@@ -4,9 +4,11 @@ import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'app/app.dart';
+import 'features/settings/domain/app_version_use_case.dart';
 
 void main() {
   var onError = FlutterError.onError;
@@ -18,6 +20,8 @@ void main() {
   runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      await dotenv.load(fileName: 'assets/.env');
       await initLogs();
       await loadProviders();
 
@@ -26,6 +30,9 @@ void main() {
       final isLoggedIn = authUseCase.loggedIn;
 
       await Biometric.load();
+
+      final appVersionUseCase = container.read(appVersionUseCaseProvider);
+      await appVersionUseCase.checkLatestVersion();
 
       runApp(
         UncontrolledProviderScope(

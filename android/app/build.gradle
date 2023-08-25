@@ -30,6 +30,22 @@ android {
     buildToolsVersion "33.0.1"
     ndkVersion flutter.ndkVersion
 
+    lintOptions {
+        disable 'InvalidPackage'
+        checkReleaseBuilds false
+    }
+
+    flavorDimensions "distribute"
+        
+    productFlavors {
+        product {
+            dimension "distribute"
+        }
+        googlePlay {
+            dimension "distribute"
+        }
+    }
+
     defaultConfig {
         applicationId "com.mxc.axswallet"
         // You can update the following values to match your application needs.
@@ -85,4 +101,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    productImplementation 'io.github.azhon:appupdate:latest-version'
+    googlePlayImplementation 'io.github.azhon:appupdate-no-op:latest-version'
 }

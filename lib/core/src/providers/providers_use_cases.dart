@@ -8,6 +8,7 @@ import 'package:datadashwallet/features/dapps/domain/dapp_store_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
 import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
+import 'package:datadashwallet/features/settings/domain/app_version_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/address_book/address_book.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
@@ -128,6 +129,12 @@ final Provider<LogOutUseCase> logOutUseCaseProvider = Provider(
 
 final Provider<DappStoreUseCase> dappStoreUseCaseProvider = Provider(
   (ref) => DappStoreUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
+final Provider<AppVersionUseCase> appVersionUseCaseProvider = Provider(
+  (ref) => AppVersionUseCase(
     ref.watch(web3RepositoryProvider),
   ),
 );
