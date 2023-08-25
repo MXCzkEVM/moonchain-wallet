@@ -1,10 +1,13 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/features/settings/subfeatures/qr_code/qr_scanner/qr_scanner_page.dart';
+import 'package:datadashwallet/features/settings/subfeatures/qr_code/show_qa_code/qr_code_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import '../../../../../../core/src/routing/route.dart';
 import '../../entities/recipient.dart';
 import 'edit_recipient_presenter.dart';
 import 'edit_recipient_state.dart';
@@ -86,6 +89,17 @@ class EditRecipientPage extends HookConsumerWidget {
                       return Validation.checkMnsValidation(context, value);
                     }
                   },
+                  suffixButton: MxcTextFieldButton.icon(
+                    icon: MxcIcons.qr_code,
+                    onTap: () async {
+                      String qrCode = await Navigator.of(context)
+                          .push(route(const QrScannerPage(
+                        returnQrCode: true,
+                      )));
+                      ref.read(presenter).addressController.text = qrCode;
+                      formKey.currentState!.validate();
+                    },
+                  ),
                   onFocused: (focused) {
                     ref.read(presenter).resetValidation();
                     if (!focused) {
