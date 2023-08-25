@@ -275,5 +275,6 @@
     "approve": "Aprobă",
     "close": "Închide",
     "allow_this_site_notice": "Permiteți acestui site să schimbe rețeaua de la {0} la {1}?",
-    "network_not_found": "Rețea negăsită"
+    "network_not_found": "Rețea negăsită",
+    "biometrics": "biometrie"
 }

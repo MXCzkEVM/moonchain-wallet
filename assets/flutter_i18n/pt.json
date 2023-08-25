@@ -275,5 +275,6 @@
     "approve": "Aprovar",
     "close": "Fechar",
     "allow_this_site_notice": "Você permite que este site mude a rede de {0} para {1}?",
-    "network_not_found": "Rede não encontrada"
+    "network_not_found": "Rede não encontrada",
+    "biometrics": "biometria"
 }

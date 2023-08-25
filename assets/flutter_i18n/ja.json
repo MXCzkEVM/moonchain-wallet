@@ -275,5 +275,6 @@
     "approve": "承認",
     "close": "閉じる",
     "allow_this_site_notice": "このサイトがネットワークを{0}から{1}に切り替えることを許可しますか？",
-    "network_not_found": "ネットワークが見つかりません"
+    "network_not_found": "ネットワークが見つかりません",
+    "biometrics": "バイオメトリクス"
 }

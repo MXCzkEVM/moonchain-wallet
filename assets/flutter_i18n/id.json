@@ -275,5 +275,6 @@
     "approve": "Setujui",
     "close": "Tutup",
     "allow_this_site_notice": "Apakah Anda mengizinkan situs ini untuk mengganti jaringan dari {0} ke {1}",
-    "network_not_found": "Jaringan tidak ditemukan"
+    "network_not_found": "Jaringan tidak ditemukan",
+    "biometrics": "biometrik"
 }
