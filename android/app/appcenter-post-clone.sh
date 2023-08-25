@@ -20,6 +20,7 @@ git reset --hard 4d9e56e694b656610ab87fcf2efbcd226e0ed8cf
 cd ..
 
 flutter clean
+flutter precache
 
 # accepting all licenses
 yes | flutter doctor --android-licenses
