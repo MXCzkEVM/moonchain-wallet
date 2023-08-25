@@ -2,27 +2,23 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
 
-import '../../entities/bookmark.dart';
 import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
 import 'widgets/transaction_dialog.dart';
 
 final openDAppPageContainer =
-    PresenterContainerWithParameter<OpenDAppPresenter, OpenDAppState, Bookmark>(
-        (bookmark) => OpenDAppPresenter(bookmark));
+    PresenterContainer<OpenDAppPresenter, OpenDAppState>(
+        () => OpenDAppPresenter());
 
 class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
-  OpenDAppPresenter(this.bookmark) : super(OpenDAppState());
+  OpenDAppPresenter() : super(OpenDAppState());
 
-  final Bookmark bookmark;
-
-  late final _chainConfigurationUserCase =
+  late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
@@ -31,25 +27,23 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void initState() {
     super.initState();
 
-    listen(_chainConfigurationUserCase.selectedNetwork, (value) {
+    listen(
+      _accountUseCase.account,
+      (value) {
+        notify(() => state.account = value);
+      },
+    );
+
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
         notify(() => state.network = value);
       }
     });
-
-    loadPage();
   }
 
   @override
   Future<void> dispose() {
     return super.dispose();
-  }
-
-  Future<void> loadPage() async {
-    _chainConfigurationUserCase.getCurrentNetwork();
-
-    final address = _accountUseCase.getWalletAddress();
-    notify(() => state.wallletAddress = address);
   }
 
   void onWebViewCreated(InAppWebViewController controller) =>
@@ -87,7 +81,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     loading = true;
     try {
       final res = await _tokenContractUseCase.sendTransaction(
-        privateKey: _accountUseCase.getPravateKey()!,
+        privateKey: state.account!.privateKey,
         to: to,
         amount: amount,
         data: data,
@@ -165,7 +159,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void addEthereumChain(dynamic id, Map<dynamic, dynamic> params) {
     final rawChainId = params["object"]["chainId"] as String;
     final chainId = Formatter.hexToDecimal(rawChainId);
-    final networks = _chainConfigurationUserCase.networks.value;
+    final networks = _chainConfigurationUseCase.networks.value;
     final foundChainIdIndex =
         networks.indexWhere((element) => element.chainId == chainId);
 
@@ -178,21 +172,22 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         switchNetwork(id, foundNetwork, rawChainId);
       });
     } else {
-      addError(FlutterI18n.translate(context!, 'network_not_found'));
+      addError(translate('network_not_found'));
     }
   }
 
   void changeProgress(int progress) => notify(() => state.progress = progress);
 
   void setAddress(dynamic id) {
-    if (state.wallletAddress != null) {
-      state.webviewController?.setAddress(state.wallletAddress!, id);
+    if (state.account != null) {
+      final walletAddress = state.account!.address;
+      state.webviewController?.setAddress(walletAddress, id);
     }
   }
 
   void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
-    _chainConfigurationUserCase.switchDefaultNetwork(toNetwork);
+    _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
     notify(() => state.network = toNetwork);
     state.webviewController?.sendResult(rawChainId, id);
   }

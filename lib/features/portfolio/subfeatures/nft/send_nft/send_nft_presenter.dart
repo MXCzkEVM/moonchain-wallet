@@ -29,16 +29,17 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
     super.initState();
 
     listen(
-      _accountUseCase.walletAddress,
-      (value) => notify(() => state.walletAddress = value),
+      _accountUseCase.account,
+      (value) {
+        notify(() => state.account = value);
+        loadPage();
+      },
     );
 
     listen(
       _nftContractUseCase.online,
       (value) => notify(() => state.online = value),
     );
-
-    loadPage();
   }
 
   void loadPage() async {
@@ -61,7 +62,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
       title: _getDialogTitle(nft.name),
       nft: nft,
       newtork: 'MXC zkEVM',
-      from: state.walletAddress!,
+      from: state.account!.address,
       to: recipient,
       processType: state.processType,
       estimatedFee: state.estimatedGasFee?.gasFee.toString(),
@@ -102,7 +103,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
     loading = true;
     try {
       final gasFee = await _tokenContractUseCase.estimateGesFee(
-        from: state.walletAddress!,
+        from: state.account!.address,
         to: recipient,
       );
       loading = false;
@@ -124,7 +125,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
       final res = await _nftContractUseCase.sendTransaction(
         address: nft.address,
         tokenId: nft.tokenId,
-        privateKey: _accountUseCase.getPravateKey()!,
+        privateKey: state.account!.privateKey,
         to: recipient,
       );
 

@@ -16,7 +16,7 @@ Future<bool?> showDeleteWalletDialog({
     builder: (BuildContext context) {
       bool isButtonDisabled = false;
       return StatefulBuilder(
-        builder: (context, setState) {
+        builder: (_, setState) {
           return AlertDialog(
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),

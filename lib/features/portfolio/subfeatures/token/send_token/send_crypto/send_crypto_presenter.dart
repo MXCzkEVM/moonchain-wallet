@@ -52,8 +52,11 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     super.initState();
 
     listen(
-      _accountUseCase.walletAddress,
-      (value) => notify(() => state.walletAddress = value),
+      _accountUseCase.account,
+      (value) {
+        notify(() => state.account = value);
+        loadPage();
+      },
     );
 
     listen(
@@ -64,6 +67,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     listen(_chainConfigurationUserCase.selectedNetwork, (value) {
       if (value != null) {
         notify(() => state.network = value);
+        loadPage();
       }
     });
 
@@ -71,12 +75,9 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     recipientController.addListener(_onValidChange);
 
     recipientController.text = state.qrCode ?? '';
-
-    loadPage();
   }
 
   void loadPage() async {
-    _chainConfigurationUserCase.getCurrentNetwork();
     await _tokenContractUseCase.checkConnectionToNetwork();
   }
 
@@ -116,7 +117,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       balance: sumBalance.toString(),
       token: token,
       newtork: state.network?.label ?? '--',
-      from: state.walletAddress!,
+      from: state.account!.address,
       to: recipient,
       estimatedFee: estimatedGasFee?.gasFee.toString(),
       onTap: (transactionType) => _nextTransactionStep(transactionType),
@@ -141,7 +142,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     loading = true;
     try {
       final gasFee = await _tokenContractUseCase.estimateGesFee(
-        from: state.walletAddress!,
+        from: state.account!.address,
         to: recipient,
       );
       loading = false;
@@ -163,7 +164,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       String recipientAddress = await getAddress(recipient);
 
       final res = await _tokenContractUseCase.sendTransaction(
-        privateKey: _accountUseCase.getPravateKey()!,
+        privateKey: state.account!.privateKey,
         to: recipientAddress,
         amount: amount,
       );

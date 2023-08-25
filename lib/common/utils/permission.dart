@@ -1,21 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:f_logs/f_logs.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionUtils {
-  static Future<void> requestAllPermissions() async {
-    void log(String feature, [bool isGranted = true]) {
-      debugPrint(
-          '$feature permission is ${isGranted ? "granted" : "rejected"}.');
-    }
+  static Map<String, Permission> permissions = {
+    'notifications': Permission.notification,
+    'camera': Permission.camera,
+    'storage': Permission.storage,
+    'location': Permission.location,
+  };
 
-    Map<Permission, PermissionStatus> permissions = await [
-      Permission.camera,
-      Permission.storage,
-      Permission.location,
-      Permission.locationAlways,
-      Permission.notification,
-    ].request();
+  static void log(String feature, [bool isGranted = true]) {
+    FLog.info(
+        text: '$feature permission is ${isGranted ? 'granted' : 'rejected'}.');
+  }
 
+  static Future<void> permissionsStatus() async {
     if (await Permission.camera.isGranted) {
       log('Camera');
     } else {
@@ -34,16 +33,20 @@ class PermissionUtils {
       log('Location', false);
     }
 
-    if (await Permission.locationAlways.isGranted) {
-      log('LocationAlways');
-    } else {
-      log('LocationAlways', false);
-    }
-
     if (await Permission.notification.isGranted) {
       log('Notification');
     } else {
       log('Notification', false);
     }
+  }
+
+  static Future<void> requestAllPermissions() async {
+    Map<Permission, PermissionStatus> permissions = await [
+      Permission.camera,
+      Permission.storage,
+      Permission.location,
+      Permission.locationAlways,
+      Permission.notification,
+    ].request();
   }
 }

@@ -12,7 +12,7 @@ final walletContainer =
 class WalletPresenter extends CompletePresenter<WalletState> {
   WalletPresenter() : super(WalletState());
 
-  late final _chainConfigurationUserCase =
+  late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
@@ -26,9 +26,11 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     getMXCTweets();
 
-    listen(_chainConfigurationUserCase.selectedNetwork, (value) {
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
-        initializeWalletPage();
+        if (state.walletAddress != null) {
+          initializeWalletPage();
+        }
       }
     });
 

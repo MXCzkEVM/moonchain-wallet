@@ -9,14 +9,16 @@ final _contractAbi = _i1.ContractAbi.fromJson(
     'Ens');
 
 class Ens extends _i1.GeneratedContract {
+  /// address = ensResolver
   Ens(
-      {_i1.EthereumAddress? address,
+      {required _i1.EthereumAddress address,
+      required this.ensFallBackRegistryAddress,
       required _i1.Web3Client client,
       int? chainId})
       : super(
           _i1.DeployedContract(
             _contractAbi,
-            address ?? ENS_RESOLVER,
+            address,
           ),
           client,
           chainId,
@@ -24,6 +26,7 @@ class Ens extends _i1.GeneratedContract {
 
   String? _ensName;
   String? get ensName => _ensName;
+  _i1.EthereumAddress ensFallBackRegistryAddress;
   Ens withName(String? _name) {
     _ensName = _name;
     return this;
@@ -36,12 +39,13 @@ class Ens extends _i1.GeneratedContract {
   }
 
   Ens reverseEns(_i1.EthereumAddress addr) => Ens(
-        address: addr,
-        client: client,
-      );
+      address: addr,
+      client: client,
+      ensFallBackRegistryAddress: ensFallBackRegistryAddress);
 
   _i1.EthereumAddress? _ensAddress;
   _i1.EthereumAddress? get ensAddress => _ensAddress;
+  _i1.EthereumAddress get ensFallBackRegistry => ensFallBackRegistryAddress;
   Ens withAddress(Object? _) {
     if (_.runtimeType == _i1.EthereumAddress) {
       _ensAddress = _ as _i1.EthereumAddress;

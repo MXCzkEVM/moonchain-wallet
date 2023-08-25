@@ -6,7 +6,6 @@ import 'package:datadashwallet/features/file_listener/file_listener_wrapper.dart
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -64,7 +66,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
     ) {
       return Expanded(
         child: Stack(fit: StackFit.expand, children: [
-          appLogo(context),
+          Positioned(top: 40, child: appLogo(context)),
           FutureBuilder(
             future: Future.delayed(const Duration(seconds: 4)),
             builder: (context, snapshot) {
@@ -73,7 +75,11 @@ abstract class SplashBasePage extends HookConsumerWidget {
                 return AnimatedPositioned(
                   duration: const Duration(milliseconds: 4000),
                   curve: Curves.easeInOut,
-                  bottom: splashState.animate ? 0 : -600,
+                  bottom: splashState.animate
+                      ? Platform.isAndroid
+                          ? 16
+                          : 0
+                      : -600,
                   child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Container(
@@ -84,7 +90,11 @@ abstract class SplashBasePage extends HookConsumerWidget {
                 return AnimatedPositioned(
                   duration: const Duration(milliseconds: 4000),
                   curve: Curves.easeInOut,
-                  bottom: splashState.animate ? 0 : -600,
+                  bottom: splashState.animate
+                      ? Platform.isAndroid
+                          ? 16
+                          : 0
+                      : -600,
                   child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Container(
@@ -102,7 +112,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
       layout: LayoutType.column,
       useSplashBackground: true,
       childrenPadding: childrenPadding,
-      presenter: ref.read(presenter),
+      presenter: ref.watch(presenter),
       appBar: buildAppBar(context, ref),
       footer: drawAnimated == true ? null : buildFooter(context),
       children: [

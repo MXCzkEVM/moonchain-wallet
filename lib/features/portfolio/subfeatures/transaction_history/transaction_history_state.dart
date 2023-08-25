@@ -5,7 +5,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'widgets/filter_and_sort_items.dart';
 
 class TransactionHistoryState with EquatableMixin {
-  String? walletAddress;
+  Account? account;
   WannseeTransactionsModel? transactions;
   List<Token> tokens = [];
 
@@ -18,7 +18,7 @@ class TransactionHistoryState with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        walletAddress,
+        account,
         transactions,
         tokens,
         filterTransactions,

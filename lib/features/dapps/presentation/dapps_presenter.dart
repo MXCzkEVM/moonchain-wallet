@@ -1,10 +1,13 @@
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
+import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'dapps_state.dart';
+import 'widgets/gestures_instruction.dart';
 
 final appsPagePageContainer =
     PresenterContainer<DAppsPagePresenter, DAppsState>(
@@ -13,8 +16,8 @@ final appsPagePageContainer =
 class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   DAppsPagePresenter() : super(DAppsState());
 
-  late final BookmarkUseCase _bookmarksUseCase =
-      ref.read(bookmarksUseCaseProvider);
+  late final _bookmarksUseCase = ref.read(bookmarksUseCaseProvider);
+  late final _dappStoreUseCase = ref.read(dappStoreUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
@@ -25,21 +28,49 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void initState() {
     super.initState();
 
-    initializeIpfsGateways();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
-    PermissionUtils.requestAllPermissions();
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        notify(() => state.network = value);
+      }
+    });
+
+    listen<List<Dapp>>(
+      _dappStoreUseCase.dapps,
+      (v) {
+        state.dapps = v;
+        state.dappsAndBookmarks.clear();
+        state.dappsAndBookmarks = [...v, ...state.bookmarks];
+        notify();
+      },
+    );
 
     listen<List<Bookmark>>(
       _bookmarksUseCase.bookmarks,
       (v) {
-        List<Bookmark> allBookmarks = [...Bookmark.fixedBookmarks(), ...v];
-
-        notify(() => state.bookmarks = allBookmarks);
+        state.bookmarks = v;
+        state.dappsAndBookmarks.clear();
+        state.dappsAndBookmarks = [...state.dapps, ...v];
+        notify();
       },
     );
 
     listen(_gesturesInstructionUseCase.educated, (value) {
       notify(() => state.gesturesInstructionEducated = value);
+    });
+
+    listen(_chainConfigurationUseCase.networks, (value) {
+      _chainConfigurationUseCase.getCurrentNetwork();
+    });
+
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        loadPage();
+      }
     });
   }
 
@@ -48,14 +79,21 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     super.dispose();
   }
 
-  void removeBookmark(Bookmark item) {
-    _bookmarksUseCase.removeItem(item);
+  void loadPage() {
+    initializeDapps();
+    initializeIpfsGateways();
   }
 
-  void onPageChage(int index) => notify(() => state.pageIndex = index);
-
-  void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
-  void resetEditMode() => notify(() => state.isEditMode = false);
+  void initializeDapps() async {
+    notify(() => state.loading = true);
+    try {
+      await _dappStoreUseCase.getAllDapps();
+    } catch (e, s) {
+      addError(e, s);
+    } finally {
+      notify(() => state.loading = false);
+    }
+  }
 
   void initializeIpfsGateways() async {
     final List<String>? list = await getIpfsGateWays();
@@ -66,6 +104,15 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       initializeIpfsGateways();
     }
   }
+
+  void removeBookmark(Bookmark item) {
+    _bookmarksUseCase.removeItem(item);
+  }
+
+  void onPageChage(int index) => notify(() => state.pageIndex = index);
+
+  void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
+  void resetEditMode() => notify(() => state.isEditMode = false);
 
   Future<List<String>?> getIpfsGateWays() async {
     List<String>? newList;
@@ -93,5 +140,42 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   void setGesturesInstruction() {
     _gesturesInstructionUseCase.setEducated(true);
+  }
+
+  Future<void> requestPermissions(Dapp dapp) async {
+    final permissions = dapp.app!.permissions!.toMap();
+    final keys = permissions.keys.toList();
+    final values = permissions.values.toList();
+    List<Permission> needPermissions = [];
+
+    for (int i = 0; i < permissions.length; i++) {
+      final key = keys[i];
+      final value = values[i];
+
+      if (value == 'required') {
+        final permission = PermissionUtils.permissions[key];
+        if (permission != null) {
+          needPermissions.add(permission);
+        }
+      }
+    }
+
+    if (needPermissions.isNotEmpty) {
+      await needPermissions.request();
+      await PermissionUtils.permissionsStatus();
+    }
+  }
+
+  void openDapp(String url) async {
+    if (state.gesturesInstructionEducated) {
+      openAppPage(context!, url);
+    } else {
+      final res = await showGesturesInstructionDialog(context!);
+
+      if (res != null && res) {
+        _gesturesInstructionUseCase.setEducated(true);
+        openAppPage(context!, url);
+      }
+    }
   }
 }

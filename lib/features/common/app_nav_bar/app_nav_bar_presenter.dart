@@ -12,6 +12,8 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
 
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
 
   @override
   void initState() {
@@ -20,16 +22,15 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
     listen(_accountUseCase.account, (account) async {
       if (account != null) {
         updateAccount(account);
-
-        if (account.mns == null) {
-          final mns = await _tokenContractUseCase.getName(account.address);
-          account.mns = mns;
-          _accountUseCase.updateAccount(account);
-        }
       }
     });
 
-    loadPage();
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) async {
+      if (value != null) {
+        _accountUseCase.getAccountsNames();
+        loadPage();
+      }
+    });
   }
 
   void updateAccount(Account value) {
@@ -38,6 +39,7 @@ class AppNavPresenter extends CompletePresenter<AppNavBarState> {
 
   void loadPage() {
     _tokenContractUseCase.checkConnectionToNetwork();
+    _accountUseCase.getAccountsNames();
   }
 
   void copy() {

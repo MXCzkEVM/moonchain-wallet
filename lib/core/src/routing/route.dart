@@ -68,7 +68,7 @@ class _RouteBuilder {
     return BottomFlowDialogRoute(
       maintainState: maintainState,
       settings: routeSettings,
-      builder: (_) => widget,
+      builder: (ctx) => widget,
     );
   }
 
@@ -77,11 +77,14 @@ class _RouteBuilder {
     bool maintainState = true,
     bool skipAnimation = false,
   }) {
+    final routeName = extractNameForRoute(widget);
+
+    final routeSettings = RouteSettings(name: routeName);
     return BottomFlowDialogPageRoute(
-      builder: (ctx) => widget,
-      maintainState: maintainState,
-      skipAnimation: skipAnimation,
-    );
+        builder: (ctx) => widget,
+        maintainState: maintainState,
+        skipAnimation: skipAnimation,
+        settings: routeSettings);
   }
 }
 
@@ -217,7 +220,9 @@ extension NavigatorExtensions on NavigatorState {
   }
 
   Future<T?> replaceAll<T>(Route<T> route) {
-    return pushAndRemoveUntil(route, (_) => false);
+    return pushAndRemoveUntil(route, (page) {
+      return false;
+    });
   }
 
   Future<T?> replaceSheet<T>(Route<T> route) {

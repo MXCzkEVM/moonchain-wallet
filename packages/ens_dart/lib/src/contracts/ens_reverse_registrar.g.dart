@@ -1,6 +1,5 @@
 // Generated code, do not modify. Run `build_runner build` to re-generate!
 // @dart=2.12
-import 'package:ens_dart/src/const/const.dart';
 import 'package:web3dart/web3dart.dart' as _i1;
 import 'dart:typed_data' as _i2;
 
@@ -9,15 +8,12 @@ final _contractAbi = _i1.ContractAbi.fromJson(
     'EnsReverseRegistrar');
 
 class EnsReverseRegistrar extends _i1.GeneratedContract {
+  /// address = ensReverseRegistrar
   EnsReverseRegistrar(
-      {_i1.EthereumAddress? address,
+      {required _i1.EthereumAddress address,
       required _i1.Web3Client client,
       int? chainId})
-      : super(
-            _i1.DeployedContract(
-                _contractAbi, address ?? ENS_REVERSE_REGISTRAR),
-            client,
-            chainId);
+      : super(_i1.DeployedContract(_contractAbi, address), client, chainId);
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the

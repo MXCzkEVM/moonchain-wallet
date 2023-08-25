@@ -4,28 +4,23 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 class AccountUseCase extends ReactiveUseCase {
   AccountUseCase(
+    this._repository,
     this._accountCacheRepository,
     this._authenticationStorageRepository,
   );
 
   final AccountCacheRepository _accountCacheRepository;
   final AuthenticationStorageRepository _authenticationStorageRepository;
+  final Web3Repository _repository;
 
   late final ValueStream<Account?> account =
       reactiveField(_accountCacheRepository.account);
   late final ValueStream<List<Account>> accounts =
       reactiveField(_accountCacheRepository.accounts);
 
-  late final ValueStream<String?> walletAddress =
-      reactiveField(_accountCacheRepository.publicAddress);
-  late final ValueStream<String?> walletPrivateKey =
-      reactiveField(_accountCacheRepository.privateKey);
-
-  late final ValueStream<double> xsdConversionRate = reactive(2.0);
+  late final ValueStream<double> xsdConversionRate = reactive(1.0);
 
   String? getMnemonic() => _authenticationStorageRepository.mnemonic;
-  String? getWalletAddress() => _authenticationStorageRepository.publicAddress;
-  String? getPravateKey() => _authenticationStorageRepository.privateKey;
 
   void updateAccount(Account item) {
     _accountCacheRepository.updateAccount(item);
@@ -37,6 +32,7 @@ class AccountUseCase extends ReactiveUseCase {
     final items = _accountCacheRepository.accountItems;
     update(account, item);
     update(accounts, items);
+    getAccountsNames();
   }
 
   void changeAccount(Account item) {
@@ -50,5 +46,33 @@ class AccountUseCase extends ReactiveUseCase {
 
   String getXsdUnit() {
     return xsdConversionRate.value == 1.0 ? 'XSD' : '✗';
+  }
+
+  void getAccountsNames() async {
+    for (Account account in accounts.value) {
+      await getAccountMns(account);
+    }
+    update(accounts, _accountCacheRepository.accountItems);
+    update(account, _accountCacheRepository.accountItem);
+  }
+
+  Future<bool> getAccountMns(Account item) async {
+    try {
+      final result = await _repository.tokenContract.getName(item.address);
+      if (item.mns != result) {
+        item.mns = result;
+        _accountCacheRepository.updateAccount(item);
+      }
+      return true;
+    } catch (e) {
+      if (e == 'RangeError: Value not in range: 32') {
+        // The username is empty
+        item.mns = null;
+        _accountCacheRepository.updateAccount(item);
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
@@ -40,7 +39,7 @@ void main() {
     zoneSpecification: ZoneSpecification(
       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
         collectLog(line);
-        parent.print(zone, 'Interceptor: $line');
+        parent.print(zone, line);
       },
       handleUncaughtError: (Zone self, ZoneDelegate parent, Zone zone,
           Object error, StackTrace stackTrace) {
