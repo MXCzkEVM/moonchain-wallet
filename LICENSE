@@ -7,16 +7,16 @@ License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
 
 Parameters
 
-Licensor:             Uniswap Labs
+Licensor:             MXC Foundation
 
-Licensed Work:        Uniswap V4 Core
-                      The Licensed Work is (c) 2023 Uniswap Labs
+Licensed Work:        Wallet
+                      The Licensed Work is (c) 2023 MXC Foundation
 
 Additional Use Grant: Any uses listed and defined at
-                      v4-core-license-grants.uniswap.eth
+                      this repo
 
 Change Date:          The earlier of 2027-06-15 or a date specified at
-                      v4-core-license-date.uniswap.eth
+                      this repo
 
 Change License:       GNU General Public License v2.0 or later
 
