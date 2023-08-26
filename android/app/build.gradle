@@ -38,12 +38,12 @@ android {
     flavorDimensions "distribute"
         
     productFlavors {
-        product {
-            dimension "distribute"
-        }
-        googlePlay {
-            dimension "distribute"
-        }
+        product {}
+        googlePlay {}
+    }
+
+     productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [CHANNEL: name]
     }
 
     defaultConfig {
@@ -73,12 +73,6 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        profile {
-            signingConfig signingConfigs.debug
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
         debug {
             signingConfig signingConfigs.debug
             debuggable true
@@ -99,9 +93,15 @@ flutter {
     source '../..'
 }
 
+configurations {
+	all {
+		exclude group: 'io.github.azhon', module: 'appupdate-no-op'
+	}
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    productImplementation 'io.github.azhon:appupdate:latest-version'
-    googlePlayImplementation 'io.github.azhon:appupdate-no-op:latest-version'
+    productImplementation "io.github.azhon:appupdate:4.3.0"
+    googlePlayImplementation "io.github.azhon:appupdate-no-op:4.3.0"
 }
