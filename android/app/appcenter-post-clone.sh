@@ -37,4 +37,4 @@ echo "APPCENTER_DISTRIBUTION_GROUP_ID_ANDROID=${APPCENTER_DISTRIBUTION_GROUP_ID_
 flutter build apk --flavor product --release
 
 # copy the APK where AppCenter will find it
-mkdir -p android/app/build/outputs/apk/; mv build/app/outputs/apk/release/axs-wallet.apk $_
+mkdir -p android/app/build/outputs/apk/; mv build/app/outputs/apk/product/release/axs-wallet.apk $_
