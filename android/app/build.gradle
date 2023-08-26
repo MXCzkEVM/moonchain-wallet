@@ -30,6 +30,22 @@ android {
     buildToolsVersion "33.0.1"
     ndkVersion flutter.ndkVersion
 
+    lintOptions {
+        disable 'InvalidPackage'
+        checkReleaseBuilds false
+    }
+
+    flavorDimensions "distribute"
+        
+    productFlavors {
+        product {}
+        googlePlay {}
+    }
+
+     productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [CHANNEL: name]
+    }
+
     defaultConfig {
         applicationId "com.mxc.axswallet"
         // You can update the following values to match your application needs.
@@ -53,12 +69,6 @@ android {
      buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        profile {
-            signingConfig signingConfigs.debug
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -89,6 +99,15 @@ flutter {
     source '../..'
 }
 
+configurations {
+	all {
+		exclude group: 'io.github.azhon', module: 'appupdate-no-op'
+	}
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    productImplementation "io.github.azhon:appupdate:4.3.0"
+    googlePlayImplementation "io.github.azhon:appupdate-no-op:4.3.0"
 }

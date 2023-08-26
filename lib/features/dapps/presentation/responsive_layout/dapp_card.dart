@@ -1,9 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import 'package:shimmer/shimmer.dart';
 
 class DappCard extends StatelessWidget {
   const DappCard({
@@ -51,22 +51,8 @@ class DappCard extends StatelessWidget {
 
       return ClipRRect(
           borderRadius: BorderRadius.circular(22),
-          child: Image.network(
-            '${Urls.dappRoot}/$image',
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) {
-                return child;
-              }
-              return Padding(
-                padding: const EdgeInsets.all(20),
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                      : null,
-                ),
-              );
-            },
+          child: CachedNetworkImage(
+            imageUrl: '${Urls.dappRoot}/$image',
             fit: BoxFit.cover,
           ));
     }

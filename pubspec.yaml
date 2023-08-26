@@ -76,6 +76,10 @@ dependencies:
   responsive_builder: ^0.7.0
   flutter_staggered_grid_view: ^0.7.0
   shimmer: ^2.0.0
+  cached_network_image: ^3.2.3
+  flutter_dotenv: ^5.1.0
+  flutter_app_update: ^3.0.2
+  android_metadata: ^0.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -94,6 +98,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/.env
     - assets/flutter_i18n/
     - assets/images/security/
     - assets/svg/

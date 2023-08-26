@@ -52,6 +52,15 @@ class Validation {
     return null;
   }
 
+  static String? checkMnsValidation(BuildContext context, String value) {
+    if (!((value.endsWith('.mxc') || value.endsWith('.MXC')) &&
+        value.length > 4)) {
+      return FlutterI18n.translate(context, 'invalid_format');
+    }
+
+    return null;
+  }
+
   static String? checkNumeric(BuildContext context, String str,
       {String? errorText}) {
     String translate(String text) => FlutterI18n.translate(context, text);

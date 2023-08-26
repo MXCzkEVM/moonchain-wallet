@@ -275,5 +275,6 @@
     "approve": "Одобрить",
     "close": "Закрыть",
     "allow_this_site_notice": "Вы разрешаете этому сайту переключить сеть с {0} на {1}?",
-    "network_not_found": "Сеть не найдена"
+    "network_not_found": "Сеть не найдена",
+    "biometrics": "биометрия"
 }

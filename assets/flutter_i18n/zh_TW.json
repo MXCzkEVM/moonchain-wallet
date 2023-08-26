@@ -275,5 +275,6 @@
     "approve": "批准",
     "close": "關閉",
     "allow_this_site_notice": "您是否允許此網站將網路從{0}切換到{1}",
-    "network_not_found": "網路未找到"
+    "network_not_found": "網路未找到",
+    "biometrics": "生物識別技術"
 }

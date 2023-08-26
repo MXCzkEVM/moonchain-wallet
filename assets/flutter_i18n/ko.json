@@ -275,5 +275,6 @@
     "approve": "승인",
     "close": "닫기",
     "allow_this_site_notice": "이 사이트가 네트워크를 {0}에서 {1}로 전환하는 것을 허용하시겠습니까?",
-    "network_not_found": "네트워크를 찾을 수 없습니다"
+    "network_not_found": "네트워크를 찾을 수 없습니다",
+    "biometrics": "생체 인식"
 }

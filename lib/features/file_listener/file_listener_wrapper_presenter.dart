@@ -90,8 +90,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
     }
   }
 
-  void pushPasscodeSetPage() =>
-      appNavigatorKey.currentState?.pushReplacement(route(
+  void pushPasscodeSetPage() => appNavigatorKey.currentState?.replaceAll(route(
         const PasscodeSetPage(),
       ));
 
