@@ -8,7 +8,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'app/app.dart';
-import 'features/settings/domain/app_version_use_case.dart';
 
 void main() {
   var onError = FlutterError.onError;

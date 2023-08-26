@@ -40,10 +40,10 @@ flutter build apk --flavor product --release
 flutter build appbundle --flavor googlePlay --release --build-number $APPCENTER_BUILD_ID
 
 # copy the APK where AppCenter will find it
-mkdir -p android/app/build/outputs/apk/; mv build/app/outputs/apk/release/app-release.apk $_
+mkdir -p android/app/build/outputs/apk/; mv build/app/outputs/apk/release/app-product-release.apk $_
 
 # copy the AAB where AppCenter will find it
-mkdir -p android/app/build/outputs/bundle/; mv build/app/outputs/bundle/release/app-release.aab $_
+mkdir -p android/app/build/outputs/bundle/; mv build/app/outputs/bundle/release/app-googleplay-release.aab $_
 
 # To configure appCenter builds with Waldo UI Automation tool
 export WALDO_CLI_BIN=/usr/local/bin
