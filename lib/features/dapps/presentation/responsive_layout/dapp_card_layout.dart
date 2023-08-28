@@ -24,7 +24,7 @@ class DappCardLayout extends HookConsumerWidget {
     final actions = ref.read(appsPagePageContainer.actions);
     final dapps = state.dappsAndBookmarks;
 
-    if (state.loading) {
+    if (state.loading && dapps.isEmpty) {
       return DAppLoading(
         crossAxisCount: crossAxisCount,
       );
