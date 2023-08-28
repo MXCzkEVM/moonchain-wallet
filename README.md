@@ -39,6 +39,7 @@ The repository: https://github.com/MXCzkEVM/mxc-shared-flutter
 We can update our app automatically on android, not now support for iOS. With appcenter's distribute [API](https://openapi.appcenter.ms/#/distribute/releases_getLatestByPublicDistributionGroup), it requests the latest version to compare our app version. It will update automatically if the latest version number more than our app version's.
 
 Note: 
+
 Based on version number (like 1.0.0) to compare to update, not using build number to compare.
 
 ### Environment Variables Setup
@@ -91,7 +92,7 @@ When you want to debug on your local computer, suggest to create .vscode/launch.
 
 1. Need to build a branch with the latest version number on appcenter.
 
-2. When finish the first step, go to `Distribute` menu's `Groups` submenu, and create a group for the public, it aims to everyone access to this group. 
+2. When finish the first step, go to `Distribute` menu's `Groups` submenu, and create a group for the public, it aims to everyone to access to this group. 
 
 3. Go to this public group, and at this time you can get group id from settings. 
 
