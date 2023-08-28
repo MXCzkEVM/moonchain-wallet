@@ -84,7 +84,8 @@ When you want to debug on your local computer, suggest to create .vscode/launch.
             "program": "lib/main.dart",
         },
     ]
-}```
+}
+```
 
 #### How To Distribute A Latest Version
 
