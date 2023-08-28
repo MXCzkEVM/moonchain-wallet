@@ -28,6 +28,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
+        state.network = value;
         if (state.walletAddress != null) {
           initializeWalletPage();
         }
@@ -89,83 +90,87 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   void createSubscriptions() async {
     if (state.subscription == null) {
-      final subscription = await _tokenContractUseCase.subscribeToBalance(
-        "addresses:${state.walletAddress}".toLowerCase(),
-      );
+      if (state.network!.web3WebSocketUrl!.isNotEmpty) {
+        final subscription = await _tokenContractUseCase.subscribeToBalance(
+          "addresses:${state.walletAddress}".toLowerCase(),
+        );
 
-      if (subscription == null) createSubscriptions();
-
-      subscription!.doOnError(
-        (object, trace) {
+        if (subscription == null) {
           createSubscriptions();
-        },
-      );
+        }
 
-      state.subscription = subscription.listen((event) {
-        if (!mounted) return;
-        switch (event.event.value as String) {
-          // coin transfer pending tx token transfer - coin transfer
-          case 'pending_transaction':
-            final newTx = WannseeTransactionModel.fromJson(
-                json.encode(event.payload['transactions'][0]));
-            if (newTx.value != null) {
-              notify(() => state.txList!.items!.insert(0, newTx));
-            }
-            break;
-          // coin transfer done
-          case 'transaction':
-            final newTx = WannseeTransactionModel.fromJson(
-                json.encode(event.payload['transactions'][0]));
-            if (newTx.value != null) {
-              // We will filter token_transfer tx because It is also received from token_transfer event
-              if (newTx.txTypes != null &&
-                  !(newTx.txTypes!.contains('token_transfer'))) {
+        subscription!.doOnError(
+          (object, trace) {
+            createSubscriptions();
+          },
+        );
+
+        state.subscription = subscription.listen((event) {
+          if (!mounted) return;
+          switch (event.event.value as String) {
+            // coin transfer pending tx token transfer - coin transfer
+            case 'pending_transaction':
+              final newTx = WannseeTransactionModel.fromJson(
+                  json.encode(event.payload['transactions'][0]));
+              if (newTx.value != null) {
+                notify(() => state.txList!.items!.insert(0, newTx));
+              }
+              break;
+            // coin transfer done
+            case 'transaction':
+              final newTx = WannseeTransactionModel.fromJson(
+                  json.encode(event.payload['transactions'][0]));
+              if (newTx.value != null) {
+                // We will filter token_transfer tx because It is also received from token_transfer event
+                if (newTx.txTypes != null &&
+                    !(newTx.txTypes!.contains('token_transfer'))) {
+                  final itemIndex = state.txList!.items!
+                      .indexWhere((txItem) => txItem.hash == newTx.hash);
+                  // checking for if the transaction is found.
+                  if (itemIndex != -1) {
+                    notify(() => state.txList!.items!
+                        .replaceRange(itemIndex, itemIndex + 1, [newTx]));
+                  } else {
+                    // we must have missed the pending tx
+                    notify(() => state.txList!.items!.insert(0, newTx));
+                  }
+                }
+              }
+              break;
+            // token transfer pending
+            case 'token_transfer':
+              final newTx = TokenTransfer.fromJson(
+                  json.encode(event.payload['token_transfers'][0]));
+              if (newTx.txHash != null) {
+                // Sender will get pending tx
+                // Receiver won't get pending tx
                 final itemIndex = state.txList!.items!
-                    .indexWhere((txItem) => txItem.hash == newTx.hash);
+                    .indexWhere((txItem) => txItem.hash == newTx.txHash);
                 // checking for if the transaction is found.
                 if (itemIndex != -1) {
                   notify(() => state.txList!.items!
-                      .replaceRange(itemIndex, itemIndex + 1, [newTx]));
+                          .replaceRange(itemIndex, itemIndex + 1, [
+                        WannseeTransactionModel(tokenTransfers: [newTx])
+                      ]));
                 } else {
-                  // we must have missed the pending tx
-                  notify(() => state.txList!.items!.insert(0, newTx));
+                  // we must have missed the token transfer pending tx
+                  notify(() => state.txList!.items!.insert(
+                        0,
+                        WannseeTransactionModel(tokenTransfers: [newTx]),
+                      ));
                 }
               }
-            }
-            break;
-          // token transfer pending
-          case 'token_transfer':
-            final newTx = TokenTransfer.fromJson(
-                json.encode(event.payload['token_transfers'][0]));
-            if (newTx.txHash != null) {
-              // Sender will get pending tx
-              // Receiver won't get pending tx
-              final itemIndex = state.txList!.items!
-                  .indexWhere((txItem) => txItem.hash == newTx.txHash);
-              // checking for if the transaction is found.
-              if (itemIndex != -1) {
-                notify(() => state.txList!.items!
-                        .replaceRange(itemIndex, itemIndex + 1, [
-                      WannseeTransactionModel(tokenTransfers: [newTx])
-                    ]));
-              } else {
-                // we must have missed the token transfer pending tx
-                notify(() => state.txList!.items!.insert(
-                      0,
-                      WannseeTransactionModel(tokenTransfers: [newTx]),
-                    ));
-              }
-            }
-            break;
-          // new balance
-          case 'balance':
-            final wannseeBalanceEvent =
-                WannseeBalanceModel.fromJson(event.payload);
-            getWalletTokensBalance();
-            break;
-          default:
-        }
-      });
+              break;
+            // new balance
+            case 'balance':
+              final wannseeBalanceEvent =
+                  WannseeBalanceModel.fromJson(event.payload);
+              getWalletTokensBalance();
+              break;
+            default:
+          }
+        });
+      }
     }
   }
 

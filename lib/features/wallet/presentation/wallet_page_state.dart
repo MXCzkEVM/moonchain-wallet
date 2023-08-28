@@ -32,6 +32,8 @@ class WalletState with EquatableMixin {
 
   StreamSubscription<dynamic>? subscription;
 
+  Network? network;
+
   @override
   List<Object?> get props => [
         currentIndex,
@@ -45,6 +47,7 @@ class WalletState with EquatableMixin {
         chartMinAmount,
         balanceSpots,
         embeddedTweets,
-        xsdConversionRate
+        xsdConversionRate,
+        network
       ];
 }
