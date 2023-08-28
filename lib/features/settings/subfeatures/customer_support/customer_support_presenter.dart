@@ -25,7 +25,7 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
     loading = true;
     try {
       final file = await FLog.exportLogs();
-      final newFile = await changeFileName(file, 'axs-wallet.log');
+      final newFile = await changeFileName(file, 'axs-wallet.txt');
 
       await _socialShare.shareToSystem(
         translate('export_logs')!,
