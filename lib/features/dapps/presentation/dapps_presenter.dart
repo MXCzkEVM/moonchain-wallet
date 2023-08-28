@@ -23,6 +23,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _gesturesInstructionUseCase =
       ref.read(gesturesInstructionUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
 
   @override
   void initState() {
@@ -166,15 +167,20 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
+  void refreshApp() {
+    _chainConfigurationUseCase.refresh();
+    _accountUseCase.refresh();
+  }
+
   void openDapp(String url) async {
     if (state.gesturesInstructionEducated) {
-      openAppPage(context!, url);
+      openAppPage(context!, url, refreshApp);
     } else {
       final res = await showGesturesInstructionDialog(context!);
 
       if (res != null && res) {
         _gesturesInstructionUseCase.setEducated(true);
-        openAppPage(context!, url);
+        openAppPage(context!, url, refreshApp);
       }
     }
   }

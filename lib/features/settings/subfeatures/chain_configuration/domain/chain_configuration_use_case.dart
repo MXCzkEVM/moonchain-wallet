@@ -81,6 +81,11 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
     update(selectedNetwork, currentNetwork);
   }
 
+  void refresh() {
+    update(networks, networks.value);
+    update(selectedNetwork, selectedNetwork.value);
+  }
+
   /// only for details of custom network delete network page
   void selectNetworkForDetails(Network network) {
     update(selectedNetworkForDetails, network);
