@@ -1,8 +1,7 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/choose_crypto/choose_crypto_presenter.dart';
-import 'package:datadashwallet/features/wallet/wallet.dart';
+import 'package:web3dart/web3dart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -156,7 +155,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   Future<String?> _sendTransaction() async {
-    final amount = amountController.text;
+    final amountDouble = double.parse(amountController.text);
+    final amount = MxcAmount.fromDoubleByEther(amountDouble);
     final recipient = recipientController.text;
 
     loading = true;
