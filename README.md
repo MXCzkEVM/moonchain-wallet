@@ -33,3 +33,67 @@ And also, UseCases are feature-level, while presenters are widget-level. So 1 pr
 This library includes AXS wallet's UI(User Interface) and business logic. The basic components and images, fonts, colors come from defination of designer's Figma. The logic part is to call the related APIs.
 
 The repository: https://github.com/MXCzkEVM/mxc-shared-flutter
+
+## App Update
+
+We can update our app automatically on android, not now support for iOS. With appcenter's distribute [API](https://openapi.appcenter.ms/#/distribute/releases_getLatestByPublicDistributionGroup), it requests the latest version to compare our app version. It will update automatically if the latest version number more than our app version's.
+
+Note: 
+Based on version number (like 1.0.0) to compare to update, not using build number to compare.
+
+### Environment Variables Setup
+
+1. Create assets/.env file with following content:
+
+```sh
+APPCENTER_SECRET_ANDROID=${APPCENTER_SECRET_ANDROID}
+APPCENTER_DISTRIBUTION_GROUP_ID_ANDROID=${APPCENTER_DISTRIBUTION_GROUP_ID_ANDROID}
+```
+
+2. Go to android's `Build` page on appcenter, find a branch to set up above variables's value in `Environment variables` form.
+
+Note:
+About getting the distribute group id, refer to the above `How To Distribute A Latest Version`
+
+### Distribute
+
+We will release two differet versions depended on application store platform. One channel is product, another is google play. By different channels, to respectively submit release versions, especially google play vesion does not have updating automatically feature, since it has policy limitation for application update. Using the following commands:
+
+```
+flutter build apk --flavor product --release
+flutter build appbundle --flavor googlePlay --release
+```
+
+When you want to debug on your local computer, suggest to create .vscode/launch.json file to run our app, not use a command:
+
+```
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "axs-wallet",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "product"
+            ],
+            "program": "lib/main.dart",
+        },
+    ]
+}```
+
+#### How To Distribute A Latest Version
+
+1. Need to build a branch with the latest version number on appcenter.
+
+2. When finish the first step, go to `Distribute` menu's `Groups` submenu, and create a group for the public, it aims to everyone access to this group. 
+
+3. Go to this public group, and at this time you can get group id from settings. 
+
+4. Click `New release` button, to select a latest version to distribute. After that, on the `RELEASES` column, you can see a new version on the list as you just release.
+
+5. Launch our app, it will check the latest vesion automatically to update for the first time on android.
