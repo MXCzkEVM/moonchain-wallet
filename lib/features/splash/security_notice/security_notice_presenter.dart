@@ -4,23 +4,14 @@ import 'package:datadashwallet/features/security/presentation/passcode.dart';
 
 import 'security_notice_state.dart';
 
-final securityNoticeContainer = PresenterContainerWithParameter<
-    SecurityNoticePresenter,
-    SecurityNoticeState,
-    String>((phrases) => SecurityNoticePresenter(phrases));
+final securityNoticeContainer =
+    PresenterContainer<SecurityNoticePresenter, SecurityNoticeState>(
+        () => SecurityNoticePresenter());
 
 class SecurityNoticePresenter extends CompletePresenter<SecurityNoticeState> {
-  SecurityNoticePresenter(this.phrases) : super(SecurityNoticeState());
-
-  final String phrases;
-
-  late final _authUseCase = ref.read(authUseCaseProvider);
-  late final _accountUseCase = ref.read(accountUseCaseProvider);
+  SecurityNoticePresenter() : super(SecurityNoticeState());
 
   void confirm() async {
-    final account = await _authUseCase.createWallet(phrases);
-    _accountUseCase.addAccount(account);
-    
     if (Biometric.available) {
       pushSetupEnableBiometricPage(context!);
     } else {

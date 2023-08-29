@@ -11,14 +11,11 @@ import 'widgets/warning_item.dart';
 class SecurityNoticePage extends HookConsumerWidget {
   const SecurityNoticePage({
     Key? key,
-    required this.phrases,
   }) : super(key: key);
-
-  final String phrases;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(securityNoticeContainer.actions(phrases));
+    final presenter = ref.read(securityNoticeContainer.actions);
 
     return MxcPage(
       layout: LayoutType.scrollable,
