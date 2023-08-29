@@ -1,37 +1,43 @@
 import 'dart:ui';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
-import 'package:datadashwallet/features/portfolio/portfolio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-void showWalletAddressDialog(BuildContext context, WidgetRef ref) {
+void showWalletAddressDialog({
+  required BuildContext context,
+  String? walletAddress,
+}) {
   showModalBottomSheet<bool>(
     context: context,
     useRootNavigator: true,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (BuildContext context) => const WalletAddress(),
+    builder: (BuildContext context) => WalletAddress(
+      walletAddress: walletAddress,
+    ),
   );
 }
 
-class WalletAddress extends HookConsumerWidget {
+class WalletAddress extends StatelessWidget {
   const WalletAddress({
     Key? key,
+    this.walletAddress,
     this.onTap,
   }) : super(key: key);
 
+  final String? walletAddress;
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(portfolioContainer.actions);
-    final state = ref.watch(portfolioContainer.state);
+  Widget build(BuildContext context) {
     final formattedWalletAddress =
-        Formatter.formatWalletAddress(state.walletAddress ?? '');
+        Formatter.formatWalletAddress(walletAddress ?? '');
+    bool isWalletAddressCopied = false;
+
     return BackdropFilter(
       filter: ImageFilter.blur(
         sigmaX: 20,
@@ -60,7 +66,7 @@ class WalletAddress extends HookConsumerWidget {
               ),
             ),
             QrImageView(
-              data: state.walletAddress ?? '',
+              data: walletAddress ?? '',
               size: 215,
               dataModuleStyle: QrDataModuleStyle(
                   color: ColorsTheme.of(context).textPrimary,
@@ -83,34 +89,39 @@ class WalletAddress extends HookConsumerWidget {
                 color: ColorsTheme.of(context).grey6,
                 borderRadius: const BorderRadius.all(Radius.circular(35)),
               ),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      formattedWalletAddress,
-                      style: FontTheme.of(context).subtitle1.primary(),
-                    ),
-                    MxcChipButton(
-                      key: const Key('copyButton'),
-                      onTap: () => presenter.copyWalletAddressToClipboard(),
-                      title: state.isWalletAddressCopied
-                          ? FlutterI18n.translate(context, 'copied')
-                          : FlutterI18n.translate(context, 'copy_address'),
-                      iconData: Icons.check_circle_rounded,
-                      iconSize: 16,
-                      alignIconStart: true,
-                      iconColor: state.isWalletAddressCopied
-                          ? ColorsTheme.of(context).iconBlack200
-                          : ColorsTheme.of(context).iconPrimary,
-                      textStyle: state.isWalletAddressCopied
-                          ? FontTheme.of(context).subtitle1().copyWith(
-                              color: ColorsTheme.of(context).textBlack200)
-                          : FontTheme.of(context).subtitle1.primary(),
-                      backgroundColor: state.isWalletAddressCopied
-                          ? ColorsTheme.of(context).systemStatusActive
-                          : null,
-                    )
-                  ]),
+              child: StatefulBuilder(builder: (_, setState) {
+                return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        formattedWalletAddress,
+                        style: FontTheme.of(context).subtitle1.primary(),
+                      ),
+                      MxcChipButton(
+                        key: const Key('copyButton'),
+                        onTap: () async {
+                          await FlutterClipboard.copy(walletAddress ?? '');
+                          setState(() => isWalletAddressCopied = true);
+                        },
+                        title: isWalletAddressCopied
+                            ? FlutterI18n.translate(context, 'copied')
+                            : FlutterI18n.translate(context, 'copy_address'),
+                        iconData: Icons.check_circle_rounded,
+                        iconSize: 16,
+                        alignIconStart: true,
+                        iconColor: isWalletAddressCopied
+                            ? ColorsTheme.of(context).iconBlack200
+                            : ColorsTheme.of(context).iconPrimary,
+                        textStyle: isWalletAddressCopied
+                            ? FontTheme.of(context).subtitle1().copyWith(
+                                color: ColorsTheme.of(context).textBlack200)
+                            : FontTheme.of(context).subtitle1.primary(),
+                        backgroundColor: isWalletAddressCopied
+                            ? ColorsTheme.of(context).systemStatusActive
+                            : null,
+                      )
+                    ]);
+              }),
             )
           ],
         ),

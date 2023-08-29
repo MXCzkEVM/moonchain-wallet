@@ -12,8 +12,6 @@ class PortfolioState with EquatableMixin {
 
   bool switchTokensOrNFTs = true;
 
-  bool isWalletAddressCopied = false;
-
   String? ipfsGateway;
 
   bool buyEnabled = true;
@@ -24,7 +22,6 @@ class PortfolioState with EquatableMixin {
         tokensList,
         walletAddress,
         switchTokensOrNFTs,
-        isWalletAddressCopied,
         nftList
       ];
 }
