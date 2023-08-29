@@ -135,13 +135,15 @@ class TokenContractUseCase extends ReactiveUseCase {
   Future<String> sendTransaction({
     required String privateKey,
     required String to,
-    required String amount,
+    String? from,
+    required EtherAmount amount,
     EstimatedGasFee? estimatedGasFee,
     Uint8List? data,
   }) async =>
       await _repository.tokenContract.sendTransaction(
         privateKey: privateKey,
         to: to,
+        from: from,
         amount: amount,
         estimatedGasFee: estimatedGasFee,
         data: data,

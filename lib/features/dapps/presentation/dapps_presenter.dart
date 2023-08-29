@@ -7,6 +7,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'dapps_state.dart';
+import 'responsive_layout/dapp_utils.dart';
 import 'widgets/gestures_instruction.dart';
 
 final appsPagePageContainer =
@@ -23,6 +24,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _gesturesInstructionUseCase =
       ref.read(gesturesInstructionUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
 
   @override
   void initState() {
@@ -91,6 +93,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     } catch (e, s) {
       addError(e, s);
     } finally {
+      DappUtils.loadingOnce = false;
       notify(() => state.loading = false);
     }
   }
@@ -166,15 +169,20 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
+  void refreshApp() {
+    _chainConfigurationUseCase.refresh();
+    _accountUseCase.refresh();
+  }
+
   void openDapp(String url) async {
     if (state.gesturesInstructionEducated) {
-      openAppPage(context!, url);
+      openAppPage(context!, url, refreshApp);
     } else {
       final res = await showGesturesInstructionDialog(context!);
 
       if (res != null && res) {
         _gesturesInstructionUseCase.setEducated(true);
-        openAppPage(context!, url);
+        openAppPage(context!, url, refreshApp);
       }
     }
   }

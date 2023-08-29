@@ -74,15 +74,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<String?> _sendTransaction(
-    String to,
-    String amount,
-    Uint8List? data,
-  ) async {
+      String to, EtherAmount amount, Uint8List? data,
+      {String? from}) async {
     loading = true;
     try {
       final res = await _tokenContractUseCase.sendTransaction(
         privateKey: state.account!.privateKey,
         to: to,
+        from: from,
         amount: amount,
         data: data,
       );
@@ -141,12 +140,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       );
 
       if (result != null && result) {
-        final hash = await _sendTransaction(
-          bridge.to!,
-          amount,
-          bridgeData,
-        );
-        success.call(hash!);
+        final hash = await _sendTransaction(bridge.to!, amountEther, bridgeData,
+            from: bridge.from);
+        if (hash != null) success.call(hash);
       } else {
         cancel.call();
       }

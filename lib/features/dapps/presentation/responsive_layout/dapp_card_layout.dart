@@ -9,6 +9,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 import 'card_item.dart';
 import 'dapp_loading.dart';
+import 'dapp_utils.dart';
 
 class DappCardLayout extends HookConsumerWidget {
   const DappCardLayout({
@@ -24,7 +25,7 @@ class DappCardLayout extends HookConsumerWidget {
     final actions = ref.read(appsPagePageContainer.actions);
     final dapps = state.dappsAndBookmarks;
 
-    if (state.loading) {
+    if (state.loading && DappUtils.loadingOnce) {
       return DAppLoading(
         crossAxisCount: crossAxisCount,
       );
@@ -32,9 +33,9 @@ class DappCardLayout extends HookConsumerWidget {
 
     if (dapps.isEmpty) return Container();
 
-    final chainId = getChainId(state.network);
+    final chainId = DappUtils.getChainId(state.network);
 
-    List<List<Dapp>> pages = paging(
+    List<List<Dapp>> pages = DappUtils.paging(
       context: context,
       allDapps: dapps,
       chainId: chainId,

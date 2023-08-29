@@ -22,6 +22,11 @@ class AccountUseCase extends ReactiveUseCase {
 
   String? getMnemonic() => _authenticationStorageRepository.mnemonic;
 
+  void refresh() {
+    update(account, account.value);
+    update(accounts, accounts.value);
+  }
+
   void updateAccount(Account item) {
     _accountCacheRepository.updateAccount(item);
     update(account, item);
