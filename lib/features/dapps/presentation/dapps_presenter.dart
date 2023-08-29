@@ -7,6 +7,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'dapps_state.dart';
+import 'responsive_layout/dapp_utils.dart';
 import 'widgets/gestures_instruction.dart';
 
 final appsPagePageContainer =
@@ -92,6 +93,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     } catch (e, s) {
       addError(e, s);
     } finally {
+      DappUtils.loadingOnce = false;
       notify(() => state.loading = false);
     }
   }
