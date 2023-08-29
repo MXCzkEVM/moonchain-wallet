@@ -25,8 +25,8 @@ class Validation {
 
   static String? checkUrl(BuildContext context, String? value,
       {String? errorText}) {
-    RegExp urlExp =
-        RegExp(r"^((https?://)?(www\.)?)?[\w-]+(\.[\w-]+)+(/[\w-./?%&=]*)?$");
+    RegExp urlExp = RegExp(
+        r"^((ftp|telnet|http(?:s)?):\/\/)?(www\.)?([a-zA-Z0-9-]+\.)([a-zA-Z0-9-.]+)(\/[^\s]*)?$");
     if (!urlExp.hasMatch(value!)) {
       return FlutterI18n.translate(context, errorText ?? 'invalid_format');
     }
