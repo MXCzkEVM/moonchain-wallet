@@ -37,7 +37,7 @@ class SendCryptoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formKey = useMemoized(() => GlobalKey<FormState>());
+    // final formKey = useMemoized(() => );
 
     String translate(String text) => FlutterI18n.translate(context, text);
 
@@ -53,7 +53,8 @@ class SendCryptoPage extends HookConsumerWidget {
               ? () {
                   FocusManager.instance.primaryFocus?.unfocus();
 
-                  if (!formKey.currentState!.validate()) return;
+                  if (!ref.watch(state).formKey.currentState!.validate())
+                    return;
 
                   ref.read(presenter).transactionProcess();
                 }
@@ -98,7 +99,7 @@ class SendCryptoPage extends HookConsumerWidget {
         ),
         const SizedBox(height: 24),
         Form(
-          key: formKey,
+          key: ref.watch(state).formKey,
           child: Column(
             children: [
               MxcTextField(
@@ -118,11 +119,12 @@ class SendCryptoPage extends HookConsumerWidget {
                   text: translate('max'),
                   onTap: () {
                     ref.read(presenter).changeDiscount(100);
-                    formKey.currentState!.validate();
+                    ref.watch(state).formKey.currentState!.validate();
                   },
                 ),
-                onFocused: (focused) =>
-                    focused ? null : formKey.currentState!.validate(),
+                onFocused: (focused) => focused
+                    ? null
+                    : ref.watch(state).formKey.currentState!.validate(),
               ),
               Row(
                   children: [25, 50, 75]
@@ -132,7 +134,11 @@ class SendCryptoPage extends HookConsumerWidget {
                               key: ValueKey('button$item'),
                               onTap: () {
                                 ref.read(presenter).changeDiscount(item);
-                                formKey.currentState!.validate();
+                                ref
+                                    .watch(state)
+                                    .formKey
+                                    .currentState!
+                                    .validate();
                               },
                               width: 80,
                               title: '$item%',
@@ -170,12 +176,14 @@ class SendCryptoPage extends HookConsumerWidget {
 
                     ref.read(presenter).recipientController.text =
                         res.address ?? res.mns ?? '';
-                    formKey.currentState!.validate();
+                    ref.watch(state).formKey.currentState!.validate();
                   },
                 ),
                 onFocused: (focused) {
                   ref.read(presenter).resetRecipientError();
-                  focused ? null : formKey.currentState!.validate();
+                  focused
+                      ? null
+                      : ref.watch(state).formKey.currentState!.validate();
                 },
               ),
             ],

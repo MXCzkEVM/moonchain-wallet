@@ -87,8 +87,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void _onValidChange() {
-    final result =
-        amountController.text.isNotEmpty && recipientController.text.isNotEmpty;
+    final result = state.formKey.currentState!.validate();
     notify(() => state.valid = result);
   }
 
