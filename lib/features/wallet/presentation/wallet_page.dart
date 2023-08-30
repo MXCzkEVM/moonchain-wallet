@@ -13,7 +13,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'wallet_page_presenter.dart';
 
-
 class WalletPage extends HookConsumerWidget {
   const WalletPage({Key? key}) : super(key: key);
 
@@ -92,6 +91,7 @@ class WalletPage extends HookConsumerWidget {
                       walletAddress: state.walletAddress,
                       transactions: txList,
                       tokens: state.tokensList,
+                      networkType: state.network?.networkType,
                     ),
                     const SizedBox(
                       height: 32,

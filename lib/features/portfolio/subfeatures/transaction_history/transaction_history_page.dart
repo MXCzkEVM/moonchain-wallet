@@ -60,6 +60,7 @@ class TransactionHistoryPage extends HookConsumerWidget {
           walletAddress: ref.watch(state).account!.address,
           transactions: ref.watch(state).filterTransactions?.items,
           tokens: ref.watch(state).tokens,
+          networkType: ref.watch(state).network?.networkType,
         ),
       ],
     );

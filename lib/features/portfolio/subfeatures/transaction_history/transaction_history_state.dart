@@ -16,6 +16,8 @@ class TransactionHistoryState with EquatableMixin {
   SortType dateSort = SortType.decrease;
   SortType amountSort = SortType.increase;
 
+  Network? network;
+
   @override
   List<Object?> get props => [
         account,
@@ -26,5 +28,6 @@ class TransactionHistoryState with EquatableMixin {
         sortOption,
         dateSort,
         amountSort,
+        network,
       ];
 }

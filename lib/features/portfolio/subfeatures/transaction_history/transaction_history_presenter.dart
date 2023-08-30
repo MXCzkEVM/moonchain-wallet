@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/utils.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'transaction_history_state.dart';
@@ -18,12 +15,20 @@ class TransactionHistoryPresenter
     extends CompletePresenter<TransactionHistoryState> {
   TransactionHistoryPresenter() : super(TransactionHistoryState());
 
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
+
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        state.network = value;
+      }
+    });
 
     listen(_accountUserCase.account, (value) {
       if (value != null) {
