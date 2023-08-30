@@ -154,6 +154,7 @@ class SendCryptoPage extends HookConsumerWidget {
                     translate('x_not_empty')
                         .replaceFirst('{0}', translate('recipient'))),
                 hint: translate('wallet_address_or_mns'),
+                errorText: ref.watch(state).recipientError,
                 suffixButton: MxcTextFieldButton.svg(
                   svg: 'assets/svg/ic_contact.svg',
                   onTap: () async {
@@ -165,8 +166,10 @@ class SendCryptoPage extends HookConsumerWidget {
                     formKey.currentState!.validate();
                   },
                 ),
-                onFocused: (focused) =>
-                    focused ? null : formKey.currentState!.validate(),
+                onFocused: (focused) {
+                  ref.read(presenter).resetRecipientError();
+                  focused ? null : formKey.currentState!.validate();
+                },
               ),
             ],
           ),

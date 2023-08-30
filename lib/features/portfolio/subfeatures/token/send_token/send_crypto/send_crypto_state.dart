@@ -11,6 +11,7 @@ class SendCryptoState with EquatableMixin {
   Account? account;
   Network? network;
   String? qrCode;
+  String? recipientError;
 
   @override
   List<Object?> get props => [
@@ -21,5 +22,6 @@ class SendCryptoState with EquatableMixin {
         account,
         network,
         qrCode,
+        recipientError
       ];
 }
