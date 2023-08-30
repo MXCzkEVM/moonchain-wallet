@@ -41,14 +41,15 @@ class SplashMNSQueryPage extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: MxcButton.primaryWhite(
                 key: const ValueKey('claimMyUsernameButton'),
-                title: FlutterI18n.translate(context, 'claim_my_username'),
-                onTap: usernameValue.text.isNotEmpty
+                title: FlutterI18n.translate(
+                    context, state.checking ? 'checking_balance' : 'next'),
+                onTap: usernameValue.text.isNotEmpty && !state.checking
                     ? () {
                         FocusManager.instance.primaryFocus?.unfocus();
 
                         if (!formKey.currentState!.validate()) return;
 
-                        presenter.queryNameAvailable();
+                        presenter.checkBalance();
                       }
                     : null,
               ),

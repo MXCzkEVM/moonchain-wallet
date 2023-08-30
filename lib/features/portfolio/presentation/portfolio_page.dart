@@ -97,10 +97,10 @@ class PortfolioPage extends HookConsumerWidget {
                               .iconButtonBackgroundActive,
                           color: ColorsTheme.of(context).iconButtonInvertActive,
                           icon: MxcIcons.receive,
-                          onTap: () {
-                            presenter.resetCopyState();
-                            showWalletAddressDialog(context, ref);
-                          },
+                          onTap: () => showWalletAddressDialog(
+                            context: context,
+                            walletAddress: state.walletAddress,
+                          ),
                           titleStyle: FontTheme.of(context).subtitle1.primary(),
                           iconSize: 24,
                           filled: false,

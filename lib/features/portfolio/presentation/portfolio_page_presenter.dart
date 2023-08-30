@@ -1,7 +1,5 @@
-import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:mxc_logic/mxc_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'portfolio_page_state.dart';
 
@@ -69,15 +67,6 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   void changeTokensOrNFTsTab(bool toggle) {
     if (toggle == state.switchTokensOrNFTs) return;
     notify(() => state.switchTokensOrNFTs = toggle);
-  }
-
-  void copyWalletAddressToClipboard() async {
-    FlutterClipboard.copy(state.walletAddress ?? '')
-        .then((value) => notify(() => state.isWalletAddressCopied = true));
-  }
-
-  void resetCopyState() {
-    notify(() => state.isWalletAddressCopied = false);
   }
 
   getBuyEnabled() {
