@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:appinio_social_share/appinio_social_share.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -48,13 +50,19 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     };
   }
 
-  void nextProcess(bool settingsFlow, String phrases) {
+  void nextProcess(bool settingsFlow, String phrases) async {
     if (settingsFlow) {
       BottomFlowDialog.of(context!).close();
       return;
     }
 
-    pushSecurityNoticePage(context!, phrases);
+    await createAccount(phrases);
+    pushSecurityNoticePage(context!);
+  }
+
+  Future<void> createAccount(String phrases) async {
+    final account = await _authUseCase.createWallet(phrases);
+    _accountUseCase.addAccount(account);
   }
 
   void shareToTelegram(bool settingsFlow) async {

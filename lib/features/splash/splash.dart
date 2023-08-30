@@ -15,12 +15,10 @@ export 'setup_wallet/setup_wallet_page.dart';
 export 'import_storage/import_storage_page.dart';
 export 'import_wallet/import_wallet_page.dart';
 
-Future<void> pushSecurityNoticePage(BuildContext context, String phrases) {
+Future<void> pushSecurityNoticePage(BuildContext context) {
   return Navigator.of(context).push(
     route(
-      SecurityNoticePage(
-        phrases: phrases,
-      ),
+      const SecurityNoticePage(),
     ),
   );
 }

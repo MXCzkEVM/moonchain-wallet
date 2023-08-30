@@ -15,46 +15,29 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
 
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
+  late final _flSharedLink = FlSharedLink();
 
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (_authUseCase.loggedIn) return;
-
-      if (Platform.isAndroid) {
-        final intent = await FlSharedLink().intentWithAndroid;
-
-        if (intent != null && intent.id != null) {
-          final realPath =
-              await FlSharedLink().getRealFilePathWithAndroid(intent.id!);
-
-          receiveFile(realPath);
-        }
-      } else {
-        final openUrl = await FlSharedLink().openUrlWithIOS;
-
-        if (openUrl?.url != null) {
-          receiveFile(openUrl?.url);
-        }
-      }
-
-      FlSharedLink().receiveHandler(
+  void checkImportFile(
+    AppLifecycleState current,
+  ) async {
+    if (current == AppLifecycleState.resumed) {
+      _flSharedLink.receiveHandler(
           onOpenUrl: (IOSOpenUrlModel? data) => listenReceiveFile(data?.url),
           onIntent: (AndroidIntentModel? data) => listenReceiveFile(data?.id));
-    });
+    }
   }
 
   void listenReceiveFile(String? filePath) async {
+    if (_authUseCase.loggedIn) return;
+
     try {
       if (filePath == null || filePath.isEmpty) {
         throw UnimplementedError('Mnemonic file is empty or not exists');
       }
 
       String? realPath = await (Platform.isAndroid
-          ? FlSharedLink().getRealFilePathWithAndroid(filePath)
-          : FlSharedLink().getAbsolutePathWithIOS(filePath));
+          ? _flSharedLink.getRealFilePathWithAndroid(filePath)
+          : _flSharedLink.getAbsolutePathWithIOS(filePath));
 
       receiveFile(realPath);
     } catch (error, stackTrace) {
