@@ -148,11 +148,18 @@ class SendCryptoPage extends HookConsumerWidget {
                 label: '${translate('recipient')} *',
                 controller: ref.read(presenter).recipientController,
                 action: TextInputAction.done,
-                validator: (v) => Validation.notEmpty(
-                    context,
-                    v,
-                    translate('x_not_empty')
-                        .replaceFirst('{0}', translate('recipient'))),
+                validator: (v) {
+                  Validation.notEmpty(
+                      context,
+                      v,
+                      translate('x_not_empty')
+                          .replaceFirst('{0}', translate('recipient')));
+                  if (v!.startsWith('0x')) {
+                    return Validation.checkEthereumAddress(context, v);
+                  } else {
+                    return Validation.checkMnsValidation(context, v);
+                  }
+                },
                 hint: translate('wallet_address_or_mns'),
                 errorText: ref.watch(state).recipientError,
                 suffixButton: MxcTextFieldButton.svg(
