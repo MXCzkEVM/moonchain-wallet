@@ -52,12 +52,12 @@ class OpenAppPage extends HookConsumerWidget {
                 child: InAppWebViewEIP1193(
                   chainId: state.network?.chainId,
                   rpcUrl: state.network?.web3RpcHttpUrl,
-                  isDebug: true,
-                  initialOptions: InAppWebViewGroupOptions(
-                    crossPlatform: InAppWebViewOptions(
-                      useShouldOverrideUrlLoading: true,
-                    ),
+                  isDebug: false,
+                  initialUrlRequest: URLRequest(
+                    url: Uri.parse(url),
                   ),
+                  onWebViewCreated: (controller) =>
+                      presenter.onWebViewCreated(controller),
                   onProgressChanged: (controller, progress) async {
                     presenter.changeProgress(progress);
                     if (progress == 100) {
@@ -96,11 +96,6 @@ class OpenAppPage extends HookConsumerWidget {
                         break;
                     }
                   },
-                  initialUrlRequest: URLRequest(
-                    url: Uri.parse(url),
-                  ),
-                  onWebViewCreated: (controller) =>
-                      presenter.onWebViewCreated(controller),
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                     Factory<VerticalDragGestureRecognizer>(
                       () => VerticalDragGestureRecognizer(),
