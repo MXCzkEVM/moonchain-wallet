@@ -78,7 +78,8 @@ dependencies:
   shimmer: ^2.0.0
   cached_network_image: ^3.2.3
   flutter_dotenv: ^5.1.0
-  flutter_app_update: ^3.0.2
+  flutter_app_update:
+    path: packages/flutter_app_update
   android_metadata: ^0.2.1
 
 dev_dependencies:
