@@ -1,3 +1,4 @@
+import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -57,6 +58,12 @@ class OpenAppPage extends HookConsumerWidget {
                   initialUrlRequest: URLRequest(
                     url: Uri.parse(url),
                   ),
+                  onLoadError: (controller, url, code, message) =>
+                      collectLog('onLoadError: $code: $message'),
+                  onLoadHttpError: (controller, url, statusCode, description) =>
+                      collectLog('onLoadHttpError: $description'),
+                  onConsoleMessage: (controller, consoleMessage) => collectLog(
+                      'onConsoleMessage: ${consoleMessage.toString()}'),
                   onWebViewCreated: (controller) =>
                       presenter.onWebViewCreated(controller),
                   onProgressChanged: (controller, progress) async {
