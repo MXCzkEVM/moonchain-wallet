@@ -52,6 +52,7 @@ class OpenAppPage extends HookConsumerWidget {
                 child: InAppWebViewEIP1193(
                   chainId: state.network?.chainId,
                   rpcUrl: state.network?.web3RpcHttpUrl,
+                  walletAddress: state.account!.address,
                   isDebug: false,
                   initialUrlRequest: URLRequest(
                     url: Uri.parse(url),
@@ -60,11 +61,6 @@ class OpenAppPage extends HookConsumerWidget {
                       presenter.onWebViewCreated(controller),
                   onProgressChanged: (controller, progress) async {
                     presenter.changeProgress(progress);
-                    if (progress == 100) {
-                      await controller.evaluateJavascript(
-                        source: 'window.ethereum.isMetaMask = true;',
-                      );
-                    }
                   },
                   signCallback: (params, eip1193, controller) {
                     final id = params['id'];
@@ -96,6 +92,11 @@ class OpenAppPage extends HookConsumerWidget {
                         break;
                     }
                   },
+                  initialOptions: InAppWebViewGroupOptions(
+                    crossPlatform: InAppWebViewOptions(
+                      useShouldOverrideUrlLoading: true,
+                    ),
+                  ),
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                     Factory<VerticalDragGestureRecognizer>(
                       () => VerticalDragGestureRecognizer(),

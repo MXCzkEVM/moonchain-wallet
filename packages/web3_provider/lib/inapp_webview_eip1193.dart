@@ -860,7 +860,8 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
                 chainId: ${widget.chainId},
                 rpcUrl: "${widget.rpcUrl}",
                 address: "${widget.walletAddress}",
-                isDebug: ${widget.isDebug}  
+                isDebug: ${widget.isDebug},
+                isMetaMask: true
               }
             }""";
 
@@ -868,7 +869,6 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
          (function() {
             var config = $paramConfig;
             window.ethereum = new ${widget.customWalletName}.Provider(config);
-            window.ethereum.isMetaMask = true;
             ${widget.customWalletName}.postMessage = (jsonString) => {
                if (window.flutter_inappwebview.callHandler) {
                   window.flutter_inappwebview.callHandler('handleRequestEIP1193', JSON.stringify(jsonString));
