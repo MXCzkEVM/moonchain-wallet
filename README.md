@@ -40,7 +40,7 @@ We can update our app automatically on android, not now support for iOS. With ap
 
 Note: 
 
-Based on version number (like 1.0.0) to compare to update, not using build number to compare.
+Based on build number to compare to update, not using version number(like 1.0.0) to compare.
 
 ### Environment Variables Setup
 
@@ -90,12 +90,12 @@ When you want to debug on your local computer, suggest to create .vscode/launch.
 
 #### How To Distribute A Latest Version
 
-1. Need to build a branch with the latest version number on appcenter.
+1. Need to build `release_china` branch with the latest build number on appcenter.
 
 2. When finish the first step, go to `Distribute` menu's `Groups` submenu, and create a group for the public, it aims to everyone to access to this group. 
 
 3. Go to this public group, and at this time you can get group id from settings. 
 
-4. Click `New release` button, to select a latest version to distribute. After that, on the `RELEASES` column, you can see a new version on the list as you just release.
+4. Click `New release` button, to select a latest version to distribute in `release_china` branch. After that, on the `RELEASES` column, you can see a new version on the list as you just add.
 
-5. Launch our app, it will check the latest vesion automatically to update for the first time on android.
+5. Launch our app, it will check the latest build number automatically to update for the first time on android.

@@ -17,24 +17,26 @@ class AppVersionUseCase {
 
   static const apkName = 'app-release.apk';
   static const smallIcon = 'ic_launcher';
+  static const downloadLink =
+      'https://datadash.oss-accelerate.aliyuncs.com/axs-wallet.apk';
 
-  Future<String?> checkAppVersionCode() async {
+  Future<bool> checkAppVersionCode() async {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String currrentVersion = packageInfo.version;
+      String currrentVersion = packageInfo.buildNumber;
 
-      final appUrl = await repository.appVersionRepository.checkLatestVersion(
+      final result = await repository.appVersionRepository.checkLatestVersion(
         Sys.appSecretAndroid!,
         Sys.distributionGroupIdAndroid!,
         currrentVersion,
       );
 
-      return appUrl;
+      return result;
     } catch (e) {
       debugPrint('checkAppVersionCode: $e');
     }
 
-    return null;
+    return false;
   }
 
   Future<void> checkLatestVersion() async {
@@ -43,11 +45,11 @@ class AppVersionUseCase {
     final metaData = await AndroidMetadata.metaDataAsMap;
     if (metaData == null || metaData['CHANNEL'] != 'product') return;
 
-    final updateUrl = await checkAppVersionCode();
-    if (updateUrl == null) return;
+    final result = await checkAppVersionCode();
+    if (!result) return;
 
     UpdateModel model = UpdateModel(
-      updateUrl,
+      downloadLink,
       apkName,
       smallIcon,
       Urls.iOSUrl,
