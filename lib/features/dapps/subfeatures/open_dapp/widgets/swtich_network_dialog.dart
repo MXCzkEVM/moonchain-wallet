@@ -70,7 +70,7 @@ Future<bool?> showSwitchNetworkDialog(
               title: translate('approve'),
               onTap: () {
                 onTap();
-                Navigator.of(context).pop(false);
+                Navigator.of(context).pop(true);
               },
               size: AxsButtonSize.xl,
             ),

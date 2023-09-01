@@ -152,7 +152,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
-  void addEthereumChain(dynamic id, Map<dynamic, dynamic> params) {
+  Future<bool?> addEthereumChain(
+      dynamic id, Map<dynamic, dynamic> params) async {
     final rawChainId = params["object"]["chainId"] as String;
     final chainId = Formatter.hexToDecimal(rawChainId);
     final networks = _chainConfigurationUseCase.networks.value;
@@ -161,7 +162,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     if (foundChainIdIndex != -1) {
       final foundNetwork = networks[foundChainIdIndex];
-      showSwitchNetworkDialog(context!,
+      return await showSwitchNetworkDialog(context!,
           fromNetwork: state.network!.label ?? state.network!.web3RpcHttpUrl,
           toNetwork: foundNetwork.label ?? foundNetwork.web3RpcHttpUrl,
           onTap: () {
