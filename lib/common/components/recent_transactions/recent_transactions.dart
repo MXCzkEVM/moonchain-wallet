@@ -1,4 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import './utils.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +18,13 @@ class RecentTransactions extends HookConsumerWidget {
     this.walletAddress,
     this.transactions,
     required this.tokens,
+    this.networkType,
   });
 
   final String? walletAddress;
   final List<WannseeTransactionModel>? transactions;
   final List<Token> tokens;
+  final NetworkType? networkType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,12 +59,20 @@ class RecentTransactions extends HookConsumerWidget {
               if (transactions != null)
                 MxcChipButton(
                   key: const Key('viewOtherTransactions'),
-                  onTap: () => openUrl(
-                      'https://wannsee-explorer.mxc.com/address/$walletAddress'),
                   title:
                       FlutterI18n.translate(context, 'view_other_transactions'),
                   iconData: MxcIcons.external_link,
                   alignIconStart: false,
+                  onTap: () => Navigator.of(context).push(
+                    route.featureDialog(
+                      maintainState: false,
+                      OpenAppPage(
+                        url: RecentTransactionsUtils
+                            .getViewOtherTransactionsLink(
+                                networkType!, walletAddress!),
+                      ),
+                    ),
+                  ),
                 ),
             ],
           );

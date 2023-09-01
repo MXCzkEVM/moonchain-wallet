@@ -3,6 +3,7 @@ import 'package:datadashwallet/features/settings/subfeatures/address_book/entiti
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import '../../../../../../common/common.dart';
 import 'edit_recipient_state.dart';
 
 final editRecipientContainer = PresenterContainerWithParameter<
@@ -91,7 +92,7 @@ class EditRecipientPresenter extends CompletePresenter<EditRecipientState> {
     final mnsToCheck = addressController.text;
     if (!mnsToCheck.startsWith('0x')) {
       final result = await _tokenContractUseCase.getAddress(mnsToCheck);
-      if (result == '0x0000000000000000000000000000000000000000') {
+      if (result == Config.zeroAddress) {
         return false;
       } else {
         return true;

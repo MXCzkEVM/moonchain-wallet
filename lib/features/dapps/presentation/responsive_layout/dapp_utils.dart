@@ -8,11 +8,11 @@ class DappUtils {
   static bool loadingOnce = true;
 
   static int getChainId(Network? network) {
-    if (network == null || network.networkType == NetworkType.custom) {
-      return 18686; //MXC zkEVM Mainnet
+    if (network!.chainId == 5167003) {
+      return network.chainId;
     }
 
-    return network.chainId;
+    return 18686;
   }
 
   static List<List<Dapp>> paging({

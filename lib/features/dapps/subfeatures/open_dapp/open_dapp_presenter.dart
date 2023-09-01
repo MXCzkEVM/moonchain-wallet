@@ -185,6 +185,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
     notify(() => state.network = toNetwork);
-    state.webviewController?.sendResult(rawChainId, id);
+    state.webviewController?.sendResult('null', id);
   }
 }

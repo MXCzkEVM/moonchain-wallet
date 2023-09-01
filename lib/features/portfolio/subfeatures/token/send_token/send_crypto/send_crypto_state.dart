@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'widgets/transaction_dialog.dart';
@@ -11,6 +12,8 @@ class SendCryptoState with EquatableMixin {
   Account? account;
   Network? network;
   String? qrCode;
+  String? recipientError;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   List<Object?> get props => [
@@ -21,5 +24,6 @@ class SendCryptoState with EquatableMixin {
         account,
         network,
         qrCode,
+        recipientError
       ];
 }

@@ -1,3 +1,4 @@
+import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -52,19 +53,21 @@ class OpenAppPage extends HookConsumerWidget {
                 child: InAppWebViewEIP1193(
                   chainId: state.network?.chainId,
                   rpcUrl: state.network?.web3RpcHttpUrl,
-                  isDebug: true,
-                  initialOptions: InAppWebViewGroupOptions(
-                    crossPlatform: InAppWebViewOptions(
-                      useShouldOverrideUrlLoading: true,
-                    ),
+                  walletAddress: state.account!.address,
+                  isDebug: false,
+                  initialUrlRequest: URLRequest(
+                    url: Uri.parse(url),
                   ),
+                  onLoadError: (controller, url, code, message) =>
+                      collectLog('onLoadError: $code: $message'),
+                  onLoadHttpError: (controller, url, statusCode, description) =>
+                      collectLog('onLoadHttpError: $description'),
+                  onConsoleMessage: (controller, consoleMessage) => collectLog(
+                      'onConsoleMessage: ${consoleMessage.toString()}'),
+                  onWebViewCreated: (controller) =>
+                      presenter.onWebViewCreated(controller),
                   onProgressChanged: (controller, progress) async {
                     presenter.changeProgress(progress);
-                    if (progress == 100) {
-                      await controller.evaluateJavascript(
-                        source: 'window.ethereum.isMetaMask = true;',
-                      );
-                    }
                   },
                   signCallback: (params, eip1193, controller) {
                     final id = params['id'];
@@ -96,11 +99,11 @@ class OpenAppPage extends HookConsumerWidget {
                         break;
                     }
                   },
-                  initialUrlRequest: URLRequest(
-                    url: Uri.parse(url),
+                  initialOptions: InAppWebViewGroupOptions(
+                    crossPlatform: InAppWebViewOptions(
+                      useShouldOverrideUrlLoading: true,
+                    ),
                   ),
-                  onWebViewCreated: (controller) =>
-                      presenter.onWebViewCreated(controller),
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                     Factory<VerticalDragGestureRecognizer>(
                       () => VerticalDragGestureRecognizer(),

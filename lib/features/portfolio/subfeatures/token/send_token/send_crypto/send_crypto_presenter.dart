@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
@@ -86,8 +87,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void _onValidChange() {
-    final result =
-        amountController.text.isNotEmpty && recipientController.text.isNotEmpty;
+    final result = state.formKey.currentState!.validate();
     notify(() => state.valid = result);
   }
 
@@ -103,6 +103,11 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     final amount = amountController.text;
     final recipient = recipientController.text;
     String recipientAddress = await getAddress(recipient);
+
+    if (recipientAddress == Config.zeroAddress) {
+      notify(() => state.recipientError = translate('invalid_format'));
+      return;
+    }
 
     EstimatedGasFee? estimatedGasFee;
 
@@ -175,6 +180,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     } finally {
       loading = false;
     }
+  }
+
+  void resetRecipientError() {
+    notify(() => state.recipientError = null);
   }
 
   @override

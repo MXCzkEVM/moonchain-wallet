@@ -3,8 +3,8 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/portfolio/presentation/widgets/show_wallet_address_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
+import '../widgets/no_balance_dialog.dart';
 import 'mns_query_state.dart';
-import 'widgets/no_balance_dialog.dart';
 
 final splashMNSQueryContainer =
     PresenterContainer<SplashMNSQueryPresenter, SplashMNSQueryState>(
