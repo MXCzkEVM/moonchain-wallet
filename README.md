@@ -96,6 +96,14 @@ When you want to debug on your local computer, suggest to create .vscode/launch.
 
 3. Go to this public group, and at this time you can get group id from settings. 
 
-4. Click `New release` button, to select a latest version to distribute in `release_china` branch. After that, on the `RELEASES` column, you can see a new version on the list as you just add.
+4. Click `New release` button, to select a latest version to distribute in `release_china` branch. After that, on the `RELEASES` column, you can see a new version on the list as you just added.
 
 5. Launch our app, it will check the latest build number automatically to update for the first time on android.
+
+There is alternative way to distribute a latest version.
+
+1. On `Build` menu, select a latest build of `release_china` branch, click `Distribute` to show a dialog on the right of screen.
+
+2. Click `Click to begin` to select the public group, and then click `Next` button to finish distribution process.
+
+3. Once distributed, you can check a latest version as you released on the `RELEASES` column of the public group on the `Groups` submenu of `Distribute` menu.
