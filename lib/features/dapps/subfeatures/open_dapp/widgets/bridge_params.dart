@@ -26,8 +26,8 @@ class BridgeParams {
     String? jsonPrice = json['gasPrice'];
     gasPrice = jsonPrice == null
         ? null
-        : (BigInt.parse(jsonPrice.replaceAll('0x', ''), radix: 16))
-            .tokenString(9);
+        : (int.parse(jsonPrice.replaceAll('0x', ''), radix: 16))
+            .toString();
 
     value = BigInt.tryParse((json['value'] ?? '0').replaceAll('0x', ''),
             radix: 16) ??
