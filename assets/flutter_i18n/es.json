@@ -276,5 +276,8 @@
     "close": "Cerrar",
     "allow_this_site_notice": "¿Permite que este sitio cambie la red de {0} a {1}?",
     "network_not_found": "Red no encontrada",
-    "biometrics": "biometría"
+    "biometrics": "biometría",
+    "checking_balance": "Verificando saldo...",
+    "no_balance": "No tienes saldo",
+    "no_balance_tip": "Actualmente no tienes MXC en tu billetera.\nPuedes recibir tokens o elegir reclamar un nombre de usuario más tarde."
 }

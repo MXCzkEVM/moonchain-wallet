@@ -276,5 +276,8 @@
     "close": "Fermer",
     "allow_this_site_notice": "Autorisez-vous ce site à changer de réseau de {0} à {1}",
     "network_not_found": "Réseau non trouvé",
-    "biometrics": "biométrie"
+    "biometrics": "biométrie",
+    "checking_balance": "Vérification du solde...",
+    "no_balance": "Vous n'avez pas de solde",
+    "no_balance_tip": "Vous n'avez actuellement aucun MXC dans votre portefeuille. Vous pouvez soit recevoir des jetons, soit choisir de revendiquer un nom d'utilisateur plus tard."
 }

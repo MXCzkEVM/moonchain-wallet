@@ -276,5 +276,8 @@
     "close": "Kapat",
     "allow_this_site_notice": "Bu siteye ağı {0} 'dan {1} 'e geçirmeye izin veriyor musunuz?",
     "network_not_found": "Ağ bulunamadı",
-    "biometrics": "biyometri"
+    "biometrics": "biyometri",
+    "checking_balance": "Bakiye kontrol ediliyor...",
+    "no_balance": "Bakiyeniz yok.",
+    "no_balance_tip": "Cüzdanınızda şu anda hiç MXC bulunmamaktadır.\nToken almayı seçebilir veya daha sonra bir kullanıcı adı talep etmeyi seçebilirsiniz."
 }

@@ -276,5 +276,8 @@
     "close": "Fechar",
     "allow_this_site_notice": "Você permite que este site mude a rede de {0} para {1}?",
     "network_not_found": "Rede não encontrada",
-    "biometrics": "biometria"
+    "biometrics": "biometria",
+    "checking_balance": "Verificando saldo...",
+    "no_balance": "Você não tem saldo",
+    "no_balance_tip": "Atualmente, você não tem MXC na sua carteira.\nVocê pode receber tokens ou optar por reivindicar um nome de usuário mais tarde."
 }

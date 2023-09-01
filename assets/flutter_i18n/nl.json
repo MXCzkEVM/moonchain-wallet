@@ -276,5 +276,8 @@
     "close": "Sluiten",
     "allow_this_site_notice": "Staat u deze site toe om het netwerk te wijzigen van {0} naar {1}?",
     "network_not_found": "Netwerk niet gevonden",
-    "biometrics": "biometrie"
+    "biometrics": "biometrie",
+    "checking_balance": "Saldo controleren...",
+    "no_balance": "Je hebt geen saldo",
+    "no_balance_tip": "Je hebt momenteel geen MXC in je portemonnee. Je kunt tokens ontvangen of ervoor kiezen om later een gebruikersnaam te claimen."
 }

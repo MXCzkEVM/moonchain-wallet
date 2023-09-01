@@ -276,5 +276,8 @@
     "close": "Închide",
     "allow_this_site_notice": "Permiteți acestui site să schimbe rețeaua de la {0} la {1}?",
     "network_not_found": "Rețea negăsită",
-    "biometrics": "biometrie"
+    "biometrics": "biometrie",
+    "checking_balance": "Verificare sold...",
+    "no_balance": "Nu ai niciun sold",
+    "no_balance_tip": "În prezent, nu aveți MXC în portofelul dvs.\nPuteți fie să primiți token-uri, fie să alegeți să revendicați un nume de utilizator mai târziu."
 }

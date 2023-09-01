@@ -276,5 +276,8 @@
     "close": "닫기",
     "allow_this_site_notice": "이 사이트가 네트워크를 {0}에서 {1}로 전환하는 것을 허용하시겠습니까?",
     "network_not_found": "네트워크를 찾을 수 없습니다",
-    "biometrics": "생체 인식"
+    "biometrics": "생체 인식",
+    "checking_balance": "잔액 확인 중...",
+    "no_balance": "당신의 잔액이 없습니다.",
+    "no_balance_tip": "현재 지갑에 MXC가 없습니다.\n토큰을 받거나 나중에 사용자 이름을 요청할 수 있습니다."
 }

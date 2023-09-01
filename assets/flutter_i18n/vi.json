@@ -276,5 +276,8 @@
     "close": "Đóng",
     "allow_this_site_notice": "Bạn có cho phép trang web này chuyển đổi mạng từ {0} sang {1} không?",
     "network_not_found": "Mạng không tìm thấy",
-    "biometrics": "sinh trắc học"
+    "biometrics": "sinh trắc học",
+    "checking_balance": "Đang kiểm tra số dư...",
+    "no_balance": "Bạn không có số dư",
+    "no_balance_tip": "Bạn hiện tại không có MXC trong ví của mình.\nBạn có thể nhận token hoặc chọn để đặt tên người dùng sau."
 }

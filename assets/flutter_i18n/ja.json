@@ -276,5 +276,8 @@
     "close": "閉じる",
     "allow_this_site_notice": "このサイトがネットワークを{0}から{1}に切り替えることを許可しますか？",
     "network_not_found": "ネットワークが見つかりません",
-    "biometrics": "バイオメトリクス"
+    "biometrics": "バイオメトリクス",
+    "checking_balance": "残高を確認中...",
+    "no_balance": "あなたの残高はありません",
+    "no_balance_tip": "あなたのウォレットには現在、MXCがありません。\nトークンを受け取るか、後でユーザーネームを請求することを選択できます。"
 }

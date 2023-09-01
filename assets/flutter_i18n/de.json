@@ -276,5 +276,8 @@
     "close": "Schließen",
     "allow_this_site_notice": "Erlauben Sie dieser Seite, das Netzwerk von {0} auf {1} zu wechseln?",
     "network_not_found": "Netzwerk nicht gefunden",
-    "biometrics": "Biometrie"
+    "biometrics": "Biometrie",
+    "checking_balance": "Kontostand prüfen...",
+    "no_balance": "Sie haben kein Guthaben",
+    "no_balance_tip": "Sie haben derzeit keine MXC in Ihrer Wallet. Sie können entweder Tokens erhalten oder sich später für einen Benutzernamen entscheiden."
 }

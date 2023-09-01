@@ -276,5 +276,8 @@
     "close": "Tutup",
     "allow_this_site_notice": "Apakah Anda mengizinkan situs ini untuk mengganti jaringan dari {0} ke {1}",
     "network_not_found": "Jaringan tidak ditemukan",
-    "biometrics": "biometrik"
+    "biometrics": "biometrik",
+    "checking_balance": "Memeriksa saldo...",
+    "no_balance": "Anda tidak memiliki saldo",
+    "no_balance_tip": "Anda saat ini tidak memiliki MXC di dompet Anda.\nAnda bisa menerima token atau memilih untuk mengklaim nama pengguna nanti."
 }

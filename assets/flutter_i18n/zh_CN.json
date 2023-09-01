@@ -276,5 +276,8 @@
     "close": "关闭",
     "allow_this_site_notice": "您是否允许此网站将网络从{0}切换到{1}",
     "network_not_found": "网络未找到",
-    "biometrics": "生物识别技术"
+    "biometrics": "生物识别技术",
+    "checking_balance": "正在检查余额...",
+    "no_balance": "你没有余额",
+    "no_balance_tip": "您的钱包里目前没有MXC。\n您可以选择接收代币，或者稍后再申请用户名。"
 }
