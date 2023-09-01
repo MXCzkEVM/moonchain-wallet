@@ -69,7 +69,7 @@ class OpenAppPage extends HookConsumerWidget {
                   onProgressChanged: (controller, progress) async {
                     presenter.changeProgress(progress);
                   },
-                  signCallback: (params, eip1193, controller) {
+                  signCallback: (params, eip1193, controller) async {
                     final id = params['id'];
                     switch (eip1193) {
                       case EIP1193.requestAccounts:
@@ -93,7 +93,11 @@ class OpenAppPage extends HookConsumerWidget {
                       case EIP1193.signTypedMessage:
                         break;
                       case EIP1193.addEthereumChain:
-                        presenter.addEthereumChain(id, params);
+                        bool? result =
+                            await presenter.addEthereumChain(id, params);
+                        if (result != null && result) {
+                          controller!.reload();
+                        }
                         break;
                       default:
                         break;
