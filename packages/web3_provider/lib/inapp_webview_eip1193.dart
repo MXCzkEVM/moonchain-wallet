@@ -861,6 +861,7 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
                 rpcUrl: "${widget.rpcUrl}",
                 address: "${widget.walletAddress}",
                 isDebug: ${widget.isDebug},
+                networkVersion: "${widget.chainId}",
                 isMetaMask: true
               }
             }""";
@@ -947,14 +948,6 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
             },
             onLoadStart: (controller, url) async {
               widget.onLoadStart?.call(controller, url);
-              if (Platform.isAndroid) {
-                await _webViewController?.evaluateJavascript(
-                  source: jsProviderScript ?? '',
-                );
-                await _webViewController?.evaluateJavascript(
-                  source: _getFunctionInject(),
-                );
-              }
             },
             onLoadStop: widget.onLoadStop,
             onLoadError: widget.onLoadError,
