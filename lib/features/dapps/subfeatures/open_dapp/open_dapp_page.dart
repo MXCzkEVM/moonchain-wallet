@@ -95,9 +95,9 @@ class OpenAppPage extends HookConsumerWidget {
                       case EIP1193.addEthereumChain:
                         bool? result =
                             await presenter.addEthereumChain(id, params);
-                        if (result != null && result) {
-                          controller!.reload();
-                        }
+                        // if (result != null && result) {
+                        // controller!.evaluateJavascript(source: 'window.location.reload()');
+                        // }
                         break;
                       default:
                         break;
