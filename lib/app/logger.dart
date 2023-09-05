@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
+import 'package:sembast/sembast.dart';
 
 void collectLog(String line) {
   FLog.info(text: line);
@@ -27,6 +30,16 @@ Future<void> initLogs() async {
       FieldName.EXCEPTION,
       FieldName.STACKTRACE
     ];
-
+  delete5MinutesBugs();
+  Timer.periodic(const Duration(minutes: 5), (timer) {
+    delete5MinutesBugs();
+  });
   FLog.applyConfigurations(config);
+}
+
+void delete5MinutesBugs() {
+  FLog.deleteAllLogsByFilter(filters: [
+    Filter.lessThan(DBConstants.FIELD_TIME_IN_MILLIS,
+        DateTime.now().millisecondsSinceEpoch - 1000 * 60 * 5)
+  ]);
 }
