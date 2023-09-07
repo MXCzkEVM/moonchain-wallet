@@ -71,8 +71,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       }
     });
 
-    amountController.addListener(_onValidChange);
-    recipientController.addListener(_onValidChange);
+    amountController.addListener(onValidChange);
+    recipientController.addListener(onValidChange);
 
     recipientController.text = state.qrCode ?? '';
   }
@@ -86,7 +86,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     notify(() => state.discount = value);
   }
 
-  void _onValidChange() {
+  void onValidChange() {
     final result = state.formKey.currentState!.validate();
     notify(() => state.valid = result);
   }
@@ -190,7 +190,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   Future<void> dispose() async {
     super.dispose();
 
-    amountController.removeListener(_onValidChange);
-    recipientController.removeListener(_onValidChange);
+    amountController.removeListener(onValidChange);
+    recipientController.removeListener(onValidChange);
   }
 }

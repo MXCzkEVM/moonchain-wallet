@@ -53,8 +53,10 @@ class SendCryptoPage extends HookConsumerWidget {
               ? () {
                   FocusManager.instance.primaryFocus?.unfocus();
 
-                  if (!ref.watch(state).formKey.currentState!.validate())
+                  if (!ref.watch(state).formKey.currentState!.validate()) {
+                    ref.watch(presenter).onValidChange();
                     return;
+                  }
 
                   ref.read(presenter).transactionProcess();
                 }
@@ -108,11 +110,24 @@ class SendCryptoPage extends HookConsumerWidget {
                 controller: ref.read(presenter).amountController,
                 keyboardType: TextInputType.number,
                 action: TextInputAction.next,
-                validator: (v) => Validation.notEmpty(
-                    context,
-                    v,
-                    translate('x_not_empty')
-                        .replaceFirst('{0}', translate('amount'))),
+                validator: (v) {
+                  final res = Validation.notEmpty(
+                      context,
+                      v,
+                      translate('x_not_empty')
+                          .replaceFirst('{0}', translate('amount')));
+                  if (res != null) {
+                    return res;
+                  }
+                  try {
+                    if (int.parse(v!).isNegative) {
+                      return translate('invalid_format');
+                    }
+                    return null;
+                  } catch (e) {
+                    return translate('invalid_format');
+                  }
+                },
                 hint: 'e.g 100',
                 suffixText: token.symbol,
                 suffixButton: MxcTextFieldButton.text(
@@ -155,11 +170,14 @@ class SendCryptoPage extends HookConsumerWidget {
                 controller: ref.read(presenter).recipientController,
                 action: TextInputAction.done,
                 validator: (v) {
-                  Validation.notEmpty(
+                  final res = Validation.notEmpty(
                       context,
                       v,
                       translate('x_not_empty')
                           .replaceFirst('{0}', translate('recipient')));
+                  if (res != null) {
+                    return res;
+                  }
                   if (v!.startsWith('0x')) {
                     return Validation.checkEthereumAddress(context, v);
                   } else {
