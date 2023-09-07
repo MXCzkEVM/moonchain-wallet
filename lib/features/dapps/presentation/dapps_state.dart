@@ -1,4 +1,3 @@
-import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 

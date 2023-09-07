@@ -1,4 +1,3 @@
-import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:datadashwallet/features/dapps/presentation/dapps_presenter.dart';
 import 'package:datadashwallet/features/dapps/presentation/responsive_layout/dapp_card.dart';
 import 'package:datadashwallet/features/dapps/presentation/widgets/dapp_indicator.dart';
