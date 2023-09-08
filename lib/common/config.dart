@@ -8,7 +8,11 @@ class Config {
   static const String mxcLogoUri = 'assets/svg/networks/mxc.svg';
   static const String zeroAddress =
       '0x0000000000000000000000000000000000000000';
-  
+  static const List<String> reloadDapp = [
+    "https://erc20.mxc.com",
+    "https://wannsee-erc20.mxc.com"
+  ];
+
   static bool isMxcChains(int chainId) {
     return chainId == mxcMainnetChainId || chainId == mxcTestnetChainId;
   }
