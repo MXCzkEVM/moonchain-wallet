@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Tastează din nou codul tău secret",
     "secret_recovery_phrase": "Fraza secretă de recuperare",
     "import_your_wallet": "Importați Portofelul Dvs",
-    "word_seed_phrase": "Importați portofelul existent cu fraza dvs. secretă de recuperare de 12, 18 sau 24 de cuvinte.",
+    "word_seed_phrase": "Pur și simplu importați portofelul dvs. existent cu fraza de recuperare de 12, 18 sau 24 de cuvinte, sau descărcați din e-mail fișierul text cu cheia portofelului AXS și lipiți fraza de recuperare aici.",
     "confirm": "Confirmă",
     "choose_my_username": "Alegeți numele meu de utilizator",
     "mnemonic_passphrase": "Fraza Mnemonică",

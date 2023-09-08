@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Vuelve a escribir tu código de acceso",
     "secret_recovery_phrase": "Frase secreta de recuperación",
     "import_your_wallet": "Importa Tu Cartera",
-    "word_seed_phrase": "Importa tu billetera existente con tu frase secreta de recuperación de 12, 18 o 24 palabras",
+    "word_seed_phrase": "Simplemente importa tu billetera existente con tu frase de recuperación de 12, 18 o 24 palabras, o descarga desde el correo electrónico el archivo de texto con la clave de la billetera AXS y pega la frase de recuperación aquí.",
     "confirm": "Confirmar",
     "choose_my_username": "Elige mi nombre de usuario",
     "mnemonic_passphrase": "Frase de Contraseña Mnemotécnica",

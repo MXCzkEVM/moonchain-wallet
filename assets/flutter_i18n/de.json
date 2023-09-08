@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Geben Sie Ihren Passcode erneut ein",
     "secret_recovery_phrase": "Geheimer Wiederherstellungsphrase",
     "import_your_wallet": "Importieren Sie Ihre Wallet",
-    "word_seed_phrase": "Importieren Sie Ihre bestehende Wallet mit Ihrem 12-, 18- oder 24-Wort-Geheimwiederherstellungsphrase.",
+    "word_seed_phrase": "Importieren Sie einfach Ihre bestehende Wallet mit Ihrem 12-, 18- oder 24-Wörter-Wiederherstellungsphrase, oder laden Sie die AXS Wallet Schlüssel Textdatei aus der E-Mail herunter und fügen Sie die Wiederherstellungsphrase hier ein.",
     "confirm": "Bestätigen",
     "choose_my_username": "Wähle meinen Benutzernamen",
     "mnemonic_passphrase": "Mnemonischer Passphrase",

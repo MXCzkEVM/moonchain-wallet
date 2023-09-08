@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Nhập lại mã bảo mật của bạn",
     "secret_recovery_phrase": "Cụm từ khôi phục bí mật",
     "import_your_wallet": "Nhập Ví Của Bạn",
-    "word_seed_phrase": "Nhập ví hiện tại của bạn bằng cụm từ khôi phục bí mật 12, 18 hoặc 24 từ",
+    "word_seed_phrase": "Chỉ cần nhập ví hiện tại của bạn với cụm từ khôi phục 12, 18 hoặc 24 từ, hoặc tải xuống từ email tệp văn bản khóa ví AXS và dán cụm từ khôi phục vào đây",
     "confirm": "Xác nhận",
     "choose_my_username": "Chọn tên người dùng của tôi",
     "mnemonic_passphrase": "Cụm từ Mnemonic",

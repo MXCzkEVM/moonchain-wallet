@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "重新输入您的密码",
     "secret_recovery_phrase": "恢复密语",
     "import_your_wallet": "导入您的钱包",
-    "word_seed_phrase": "使用您的12、18或24字秘密恢复短语导入现有钱包",
+    "word_seed_phrase": "导入您现有的钱包，使用您的12、18或24个词的恢复短语，或者从电子邮件AXS钱包密钥文本文件中下载并粘贴恢复短语在这里。",
     "confirm": "确认",
     "choose_my_username": "选择我的用户名",
     "mnemonic_passphrase": "助记词密码",

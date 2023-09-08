@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "비밀번호를 다시 입력하세요",
     "secret_recovery_phrase": "비밀 복구 구문",
     "import_your_wallet": "지갑 가져오기",
-    "word_seed_phrase": "기존 지갑을 12, 18 또는 24단어 비밀 복구 구문으로 가져오십시오.",
+    "word_seed_phrase": "간단히 기존의 지갑을 12, 18 또는 24 단어 복구 구문으로 가져오거나, 이메일 AXS 지갑 키 텍스트 파일을 다운로드하여 복구 구문을 여기에 붙여넣으십시오.",
     "confirm": "확인",
     "choose_my_username": "사용자 이름 선택",
     "mnemonic_passphrase": "니모닉 문구",
