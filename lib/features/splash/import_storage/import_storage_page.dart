@@ -43,13 +43,13 @@ class SplashImportStoragePage extends SplashBasePage {
             ? () => ref.read(presenter).openWechat()
             : null,
       ),
-      MxcButton.secondaryWhite(
-        key: const ValueKey('emailButton'),
-        icon: MxcIcons.email,
-        iconSize: 20,
-        title: FlutterI18n.translate(context, 'email_secured_storage'),
-        onTap: () => ref.read(presenter).openEmail(),
-      ),
+      // MxcButton.secondaryWhite(
+      //   key: const ValueKey('emailButton'),
+      //   icon: MxcIcons.email,
+      //   iconSize: 20,
+      //   title: FlutterI18n.translate(context, 'email_secured_storage'),
+      //   onTap: () => ref.read(presenter).openEmail(),
+      // ),
       MxcButton.secondaryWhite(
         key: const ValueKey('mnemonicButton'),
         icon: MxcIcons.cloud,
