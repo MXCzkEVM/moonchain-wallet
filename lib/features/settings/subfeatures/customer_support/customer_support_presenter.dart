@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:appinio_social_share/appinio_social_share.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:f_logs/f_logs.dart';
@@ -25,13 +26,22 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
     loading = true;
     try {
       final file = await FLog.exportLogs();
-      final newFile = await changeFileName(file, 'axs-wallet.log');
-
-      await _socialShare.shareToSystem(
-        translate('export_logs')!,
-        '',
-        filePath: newFile.path,
+      final newFile = await changeFileName(
+        file,
+        'axs-wallet.txt',
       );
+
+      final Size size = MediaQuery.of(context!).size;
+
+      await Share.shareXFiles([
+        XFile(
+          newFile.path,
+          mimeType: 'text/plain',
+        )
+      ],
+          subject: translate('export_logs'),
+          sharePositionOrigin:
+              Rect.fromLTWH(0, 0, size.width, size.height / 2));
 
       addMessage(translate('exported_logs_successfully'));
     } catch (e, s) {
@@ -41,11 +51,11 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
     }
   }
 
-  Future<File> changeFileName(File file, String newFileName) {
+  Future<File> changeFileName(File file, String newFileName) async {
     var path = file.path;
     var lastSeparator = path.lastIndexOf(Platform.pathSeparator);
     var newPath = path.substring(0, lastSeparator + 1) + newFileName;
-    return file.rename(newPath);
+    return (await file.rename(newPath));
   }
 
   Future<void> loadPage() async {
