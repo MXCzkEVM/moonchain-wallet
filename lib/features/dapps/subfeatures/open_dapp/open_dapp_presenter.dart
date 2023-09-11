@@ -22,6 +22,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
+  late final _authUseCase = ref.read(authUseCaseProvider);
 
   @override
   void initState() {
@@ -185,6 +186,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
+    _authUseCase.resetNetwork(toNetwork);
     notify(() => state.network = toNetwork);
     state.webviewController?.sendResult('null', id);
   }
