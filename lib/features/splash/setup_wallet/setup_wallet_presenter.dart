@@ -17,6 +17,7 @@ class SplashSetupWalletPresenter
       ref.read(chainConfigurationUseCaseProvider);
   late final LanguageUseCase _languageUseCase =
       ref.read(languageUseCaseProvider);
+  late final _authUseCase = ref.read(authUseCaseProvider);
 
   @override
   void initState() {
@@ -27,6 +28,8 @@ class SplashSetupWalletPresenter
         _chainConfigurationUseCase.addItems(defaultList);
       }
       _chainConfigurationUseCase.getCurrentNetwork();
+      _authUseCase.resetNetwork(
+          _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh());
     });
 
     listen<Language?>(
