@@ -956,17 +956,17 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
             onConsoleMessage: widget.onConsoleMessage,
             onProgressChanged: (controller, progress) async {
               widget.onProgressChanged?.call(controller, progress);
-              final url = await controller.getUrl();
-              final isL3Bridge =
-                  Config.reloadDapp.any((e) => e.contains(url!.host));
-              if (isL3Bridge) {
-                await _webViewController?.evaluateJavascript(
-                  source: jsProviderScript ?? '',
-                );
-                await _webViewController?.evaluateJavascript(
-                  source: _getFunctionInject(),
-                );
-              }
+              // final url = await controller.getUrl();
+              // final isL3Bridge =
+              //     Config.reloadDapp.any((e) => e.contains(url!.host));
+              // if (isL3Bridge) {
+              //   await _webViewController?.evaluateJavascript(
+              //     source: jsProviderScript ?? '',
+              //   );
+              //   await _webViewController?.evaluateJavascript(
+              //     source: _getFunctionInject(),
+              //   );
+              // }
             },
             shouldOverrideUrlLoading: widget.shouldOverrideUrlLoading,
             onLoadResource: widget.onLoadResource,
