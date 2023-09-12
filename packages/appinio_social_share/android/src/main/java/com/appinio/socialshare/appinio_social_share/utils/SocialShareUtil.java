@@ -45,6 +45,7 @@ public class SocialShareUtil {
     private final String INSTAGRAM_FEED_PACKAGE = "com.instagram.share.ADD_TO_FEED";
     private final String WHATSAPP_PACKAGE = "com.whatsapp";
     private final String TELEGRAM_PACKAGE = "org.telegram.messenger";
+    private final String TELEGRAM_WEB_PACKAGE = "org.telegram.messenger.web";
     private final String TIKTOK_PACKAGE = "com.zhiliaoapp.musically";
     private final String FACEBOOK_STORY_PACKAGE = "com.facebook.stories.ADD_TO_STORY";
     private final String FACEBOOK_PACKAGE = "com.facebook.katana";
@@ -317,6 +318,7 @@ public class SocialShareUtil {
         appsMap.put("facebook_stories", FACEBOOK_PACKAGE);
         appsMap.put("whatsapp", WHATSAPP_PACKAGE);
         appsMap.put("telegram", TELEGRAM_PACKAGE);
+        appsMap.put("telegram_web", TELEGRAM_WEB_PACKAGE);
         appsMap.put("messenger", FACEBOOK_MESSENGER_PACKAGE);
         appsMap.put("messenger-lite", FACEBOOK_MESSENGER_LITE_PACKAGE);
         appsMap.put("facebook", FACEBOOK_PACKAGE);
@@ -335,13 +337,14 @@ public class SocialShareUtil {
         intent.setData(Uri.parse("sms:"));
         List<ResolveInfo> resolvedActivities = pm.queryIntentActivities(intent, 0);
         apps.put("message", !resolvedActivities.isEmpty());
-        String[] appNames = {"instagram", "facebook_stories", "whatsapp", "telegram", "messenger", "facebook","facebook-lite","messenger-lite", "instagram_stories", "twitter", "tiktok", "wechat"};
+        String[] appNames = {"instagram", "facebook_stories", "whatsapp", "telegram", "telegram_web", "messenger", "facebook","facebook-lite","messenger-lite", "instagram_stories", "twitter", "tiktok", "wechat"};
 
         for (int i = 0; i < appNames.length; i++) {
             try {
                 pm.getPackageInfo(appsMap.get(appNames[i]), PackageManager.GET_META_DATA);
                 apps.put(appNames[i], true);
             } catch (Exception e) {
+                System.out.println(e.toString());
                 apps.put(appNames[i], false);
             }
         }
