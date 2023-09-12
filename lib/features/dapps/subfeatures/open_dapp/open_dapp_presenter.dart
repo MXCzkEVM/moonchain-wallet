@@ -200,7 +200,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
               }
             }""";
     state.webviewController
-        ?.setConfig(config, "0x${toNetwork.chainId.toRadixString(16)}");
-    state.webviewController?.sendResult('null', id);
+    ?.setChain(config, toNetwork.chainId, id);
   }
 }
