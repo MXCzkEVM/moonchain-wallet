@@ -38,4 +38,11 @@ extension Web3Result on InAppWebViewController {
     await evaluateJavascript(source: script);
     sendResults([address], id);
   }
+  
+  void setConfig(String config, String chainId) async {
+    final script = "window.ethereum.setConfig($config);";
+    final script2 = "window.ethereum.emitConnect($chainId);";
+    await evaluateJavascript(source: script);
+    await evaluateJavascript(source: script2);
+  }
 }

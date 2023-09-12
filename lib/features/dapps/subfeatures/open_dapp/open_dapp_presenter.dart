@@ -188,6 +188,19 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
     _authUseCase.resetNetwork(toNetwork);
     notify(() => state.network = toNetwork);
+    // state.webviewController?.send("eth_chainId");
+    var config = """{
+              ethereum: {
+                chainId: ${toNetwork.chainId},
+                rpcUrl: "${toNetwork.web3RpcHttpUrl}",
+                address: "${state.account!.address}",
+                isDebug: true,
+                networkVersion: "${toNetwork.chainId}",
+                isMetaMask: true
+              }
+            }""";
+    state.webviewController
+        ?.setConfig(config, "0x${toNetwork.chainId.toRadixString(16)}");
     state.webviewController?.sendResult('null', id);
   }
 }
