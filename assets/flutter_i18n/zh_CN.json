@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "重新输入您的密码",
     "secret_recovery_phrase": "恢复密语",
     "import_your_wallet": "导入您的钱包",
-    "word_seed_phrase": "使用您的12、18或24字秘密恢复短语导入现有钱包",
+    "word_seed_phrase": "导入您现有的钱包，使用您的12、18或24个词的恢复短语，或者从电子邮件AXS钱包密钥文本文件中下载并粘贴恢复短语在这里。",
     "confirm": "确认",
     "choose_my_username": "选择我的用户名",
     "mnemonic_passphrase": "助记词密码",
@@ -276,5 +276,8 @@
     "close": "关闭",
     "allow_this_site_notice": "您是否允许此网站将网络从{0}切换到{1}",
     "network_not_found": "网络未找到",
-    "biometrics": "生物识别技术"
+    "biometrics": "生物识别技术",
+    "checking_balance": "正在检查余额...",
+    "no_balance": "你没有余额",
+    "no_balance_tip": "您的钱包里目前没有MXC。\n您可以选择接收代币，或者稍后再申请用户名。"
 }

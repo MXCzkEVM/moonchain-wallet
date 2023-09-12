@@ -25,7 +25,8 @@ class DeleteCustomNetworkPresenter
   late final TextEditingController chainIdController = TextEditingController();
   late final TextEditingController symbolController = TextEditingController();
   late final TextEditingController explorerController = TextEditingController();
-
+  late final _authUseCase = ref.read(authUseCaseProvider);
+  
   Network? selectedNetwork;
 
   @override
@@ -150,7 +151,7 @@ class DeleteCustomNetworkPresenter
 
   void setAsDefault() {
     _chainConfigurationUseCase.switchDefaultNetwork(selectedNetwork!);
-
+    _authUseCase.resetNetwork(selectedNetwork!);
     addMessage(translate('x_is_now_active')!.replaceFirst(
         '{0}',
         selectedNetwork!.label ??

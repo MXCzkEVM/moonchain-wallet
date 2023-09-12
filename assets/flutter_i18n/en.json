@@ -10,7 +10,7 @@
 	"confirm_passcode_desc": "Re-type your passcode",
 	"secret_recovery_phrase": "Secret recovery phrase",
 	"import_your_wallet": "Import Your Wallet",
-	"word_seed_phrase": "Import your existing wallet with your 12, 18 or 24-word secret recovery phrase",
+	"word_seed_phrase": "Simply import your existing wallet with your 12, 18 or 24-word recovery phrase, or download from the email AXS wallet key text file and paste the recovery phrase here",
 	"confirm": "Confirm",
 	"choose_my_username": "Choose my username",
 	"mnemonic_passphrase": "Mnemonic Passphrase",

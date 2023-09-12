@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "비밀번호를 다시 입력하세요",
     "secret_recovery_phrase": "비밀 복구 구문",
     "import_your_wallet": "지갑 가져오기",
-    "word_seed_phrase": "기존 지갑을 12, 18 또는 24단어 비밀 복구 구문으로 가져오십시오.",
+    "word_seed_phrase": "간단히 기존의 지갑을 12, 18 또는 24 단어 복구 구문으로 가져오거나, 이메일 AXS 지갑 키 텍스트 파일을 다운로드하여 복구 구문을 여기에 붙여넣으십시오.",
     "confirm": "확인",
     "choose_my_username": "사용자 이름 선택",
     "mnemonic_passphrase": "니모닉 문구",
@@ -276,5 +276,8 @@
     "close": "닫기",
     "allow_this_site_notice": "이 사이트가 네트워크를 {0}에서 {1}로 전환하는 것을 허용하시겠습니까?",
     "network_not_found": "네트워크를 찾을 수 없습니다",
-    "biometrics": "생체 인식"
+    "biometrics": "생체 인식",
+    "checking_balance": "잔액 확인 중...",
+    "no_balance": "당신의 잔액이 없습니다.",
+    "no_balance_tip": "현재 지갑에 MXC가 없습니다.\n토큰을 받거나 나중에 사용자 이름을 요청할 수 있습니다."
 }

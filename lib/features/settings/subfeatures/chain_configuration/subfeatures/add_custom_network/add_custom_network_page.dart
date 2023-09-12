@@ -106,7 +106,7 @@ class AddCustomNetworkPage extends HookConsumerWidget {
                 key: const ValueKey('symbolTextField'),
                 label: translate('symbol'),
                 hint:
-                    '${translate('currency')} ${translate('symbol')} (${translate('optional')})',
+                    '${translate('currency')} ${translate('symbol')}',
                 controller: presenter.symbolController,
                 action: TextInputAction.next,
                 validator: (value) {

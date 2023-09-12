@@ -1,9 +1,8 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mxc_ui/mxc_ui.dart';
-
+import 'package:mxc_logic/mxc_logic.dart';
 import '../domain/bookmark_use_case.dart';
 
 final addBookmarkPageContainer = PresenterContainer<AddBookmarkPresenter, void>(

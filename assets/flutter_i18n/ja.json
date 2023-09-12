@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "パスコードを再入力してください",
     "secret_recovery_phrase": "秘密の回復フレーズ",
     "import_your_wallet": "ウォレットをインポートしてください",
-    "word_seed_phrase": "既存のウォレットを12、18、または24語の秘密回復フレーズでインポートしてください。",
+    "word_seed_phrase": "あなたの12、18、または24語のリカバリーフレーズで既存のウォレットを簡単にインポートするか、メールからAXSウォレットキーテキストファイルをダウンロードして、リカバリーフレーズをここに貼り付けてください。",
     "confirm": "確認",
     "choose_my_username": "ユーザーネームを選択する",
     "mnemonic_passphrase": "ニーモニックパスフレーズ",
@@ -276,5 +276,8 @@
     "close": "閉じる",
     "allow_this_site_notice": "このサイトがネットワークを{0}から{1}に切り替えることを許可しますか？",
     "network_not_found": "ネットワークが見つかりません",
-    "biometrics": "バイオメトリクス"
+    "biometrics": "バイオメトリクス",
+    "checking_balance": "残高を確認中...",
+    "no_balance": "あなたの残高はありません",
+    "no_balance_tip": "あなたのウォレットには現在、MXCがありません。\nトークンを受け取るか、後でユーザーネームを請求することを選択できます。"
 }

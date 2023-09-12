@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Reinserisci il tuo codice di accesso",
     "secret_recovery_phrase": "Frase segreta di recupero",
     "import_your_wallet": "Importa il Tuo Portafoglio",
-    "word_seed_phrase": "Importa il tuo portafoglio esistente con la tua frase segreta di recupero di 12, 18 o 24 parole",
+    "word_seed_phrase": "Importa semplicemente il tuo portafoglio esistente con la tua frase di recupero di 12, 18 o 24 parole, oppure scarica dal file di testo della chiave del portafoglio AXS inviato via email e incolla la frase di recupero qui.",
     "confirm": "Conferma",
     "choose_my_username": "Scegli il mio nome utente",
     "mnemonic_passphrase": "Frase d'accesso mnemonica",
@@ -276,5 +276,8 @@
     "close": "Chiudi",
     "allow_this_site_notice": "Permetti a questo sito di cambiare la rete da {0} a {1}?",
     "network_not_found": "Rete non trovata",
-    "biometrics": "biometria"
+    "biometrics": "biometria",
+    "checking_balance": "Verificando il saldo...",
+    "no_balance": "Non hai saldo",
+    "no_balance_tip": "Attualmente non hai MXC nel tuo portafoglio.\nPuoi scegliere di ricevere token o di richiedere un nome utente in seguito."
 }

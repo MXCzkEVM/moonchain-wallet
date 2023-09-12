@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
     <application android:label="AXS" 
                  android:name="${applicationName}" 
@@ -33,7 +34,7 @@
 
         <activity android:name=".MainActivity" 
                   android:exported="true" 
-                  android:launchMode="singleTop" 
+                  android:launchMode="singleInstancePerTask" 
                   android:theme="@style/LaunchTheme"
                   android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as

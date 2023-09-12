@@ -34,7 +34,8 @@ class SplashStoragePage extends SplashBasePage {
         key: const ValueKey('telegramButton'),
         icon: MxcIcons.telegram,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
-        onTap: ref.watch(state).applist['telegram'] == true
+        onTap: ref.watch(state).applist['telegram'] == true ||
+                ref.watch(state).applist['telegram_web'] == true
             ? () => Navigator.of(context).push(
                   route.featureDialog(
                     TelegramRecoveryPhrasePage(

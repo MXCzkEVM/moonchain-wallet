@@ -1,7 +1,6 @@
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:permission_handler/permission_handler.dart';

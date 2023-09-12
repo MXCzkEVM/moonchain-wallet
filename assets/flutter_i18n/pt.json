@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Digite novamente seu código de acesso",
     "secret_recovery_phrase": "Frase secreta de recuperação",
     "import_your_wallet": "Importe Sua Carteira",
-    "word_seed_phrase": "Importe sua carteira existente com sua frase secreta de recuperação de 12, 18 ou 24 palavras",
+    "word_seed_phrase": "Basta importar sua carteira existente com sua frase de recuperação de 12, 18 ou 24 palavras, ou baixar do email o arquivo de texto da chave da carteira AXS e colar a frase de recuperação aqui.",
     "confirm": "Confirmar",
     "choose_my_username": "Escolha meu nome de usuário",
     "mnemonic_passphrase": "Frase de Senha Mnemônica",
@@ -276,5 +276,8 @@
     "close": "Fechar",
     "allow_this_site_notice": "Você permite que este site mude a rede de {0} para {1}?",
     "network_not_found": "Rede não encontrada",
-    "biometrics": "biometria"
+    "biometrics": "biometria",
+    "checking_balance": "Verificando saldo...",
+    "no_balance": "Você não tem saldo",
+    "no_balance_tip": "Atualmente, você não tem MXC na sua carteira.\nVocê pode receber tokens ou optar por reivindicar um nome de usuário mais tarde."
 }

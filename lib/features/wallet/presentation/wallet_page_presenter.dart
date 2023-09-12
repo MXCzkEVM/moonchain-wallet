@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -85,7 +86,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   Future<void> initializeWalletPage() async {
     initializeBalancePanelAndTokens();
     createSubscriptions();
-    getTransactions();
+    if (Config.isMxcChains(state.network!.chainId)) {
+      getTransactions();
+    } else {
+      notify(() => state.txList = WannseeTransactionsModel(items: const []));
+    }
+
   }
 
   void createSubscriptions() async {

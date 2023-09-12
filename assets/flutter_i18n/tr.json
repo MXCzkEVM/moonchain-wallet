@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Tekrar şifrenizi yazın",
     "secret_recovery_phrase": "Gizli kurtarma ifadesi",
     "import_your_wallet": "Cüzdanınızı İçe Aktarın",
-    "word_seed_phrase": "Mevcut cüzdanınızı 12, 18 veya 24 kelimelik gizli kurtarma ifadenizle içe aktarın.",
+    "word_seed_phrase": "Basitçe, mevcut cüzdanınızı 12, 18 veya 24 kelimelik kurtarma ifadenizle içe aktarın veya AXS cüzdan anahtar metin dosyasını e-postadan indirin ve kurtarma ifadenizi buraya yapıştırın.",
     "confirm": "Onayla",
     "choose_my_username": "Kullanıcı adımı seç",
     "mnemonic_passphrase": "Mnemonik Parola",
@@ -276,5 +276,8 @@
     "close": "Kapat",
     "allow_this_site_notice": "Bu siteye ağı {0} 'dan {1} 'e geçirmeye izin veriyor musunuz?",
     "network_not_found": "Ağ bulunamadı",
-    "biometrics": "biyometri"
+    "biometrics": "biyometri",
+    "checking_balance": "Bakiye kontrol ediliyor...",
+    "no_balance": "Bakiyeniz yok.",
+    "no_balance_tip": "Cüzdanınızda şu anda hiç MXC bulunmamaktadır.\nToken almayı seçebilir veya daha sonra bir kullanıcı adı talep etmeyi seçebilirsiniz."
 }

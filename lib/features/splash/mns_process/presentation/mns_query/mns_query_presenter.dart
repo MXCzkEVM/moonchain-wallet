@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/portfolio/presentation/widgets/show_wallet_address_dialog.dart';
@@ -15,6 +16,8 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
 
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
 
   late final TextEditingController usernameController = TextEditingController();
 
@@ -25,6 +28,12 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
     listen(_accountUserCase.account, (value) {
       if (value != null) {
         notify(() => state.walletAddress = value.address);
+      }
+    });
+
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        state.network = value;
       }
     });
   }
@@ -86,9 +95,11 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
   }
 
   Future<void> claim(String name) async {
+    final launchUrl = state.network!.chainId == Config.mxcMainnetChainId
+        ? Config.mainnetMns(name)
+        : Config.testnetMns(name);
     await navigator
-        ?.push(route.featureDialog(
-            OpenAppPage(url: 'https://wannsee-mns.mxc.com/$name.mxc/register')))
+        ?.push(route.featureDialog(OpenAppPage(url: launchUrl)))
         .then((_) {
       navigator?.replaceAll(route(const DAppsPage()));
     });

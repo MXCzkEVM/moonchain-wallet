@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:datadashwallet/common/config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -861,6 +862,7 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
                 rpcUrl: "${widget.rpcUrl}",
                 address: "${widget.walletAddress}",
                 isDebug: ${widget.isDebug},
+                networkVersion: "${widget.chainId}",
                 isMetaMask: true
               }
             }""";
@@ -947,20 +949,25 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
             },
             onLoadStart: (controller, url) async {
               widget.onLoadStart?.call(controller, url);
-              if (Platform.isAndroid) {
-                await _webViewController?.evaluateJavascript(
-                  source: jsProviderScript ?? '',
-                );
-                await _webViewController?.evaluateJavascript(
-                  source: _getFunctionInject(),
-                );
-              }
             },
             onLoadStop: widget.onLoadStop,
             onLoadError: widget.onLoadError,
             onLoadHttpError: widget.onLoadHttpError,
             onConsoleMessage: widget.onConsoleMessage,
-            onProgressChanged: widget.onProgressChanged,
+            onProgressChanged: (controller, progress) async {
+              widget.onProgressChanged?.call(controller, progress);
+              // final url = await controller.getUrl();
+              // final isL3Bridge =
+              //     Config.reloadDapp.any((e) => e.contains(url!.host));
+              // if (isL3Bridge) {
+              //   await _webViewController?.evaluateJavascript(
+              //     source: jsProviderScript ?? '',
+              //   );
+              //   await _webViewController?.evaluateJavascript(
+              //     source: _getFunctionInject(),
+              //   );
+              // }
+            },
             shouldOverrideUrlLoading: widget.shouldOverrideUrlLoading,
             onLoadResource: widget.onLoadResource,
             onScrollChanged: widget.onScrollChanged,

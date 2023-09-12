@@ -60,16 +60,22 @@ class TokenContractUseCase extends ReactiveUseCase {
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
     final result = await _repository.tokenContract.getDefaultTokens();
 
-    final mxcToken = Token(
-        logoUri: result!.logoUri!,
-        symbol: Config.mxcSymbol,
-        name: Config.mxcName,
-        decimals: Config.ethDecimals);
-
     tokensList.value.clear();
-    tokensList.value.add(mxcToken);
 
-    if (result.tokens != null) {
+    final cNetwork = _repository.tokenContract.getCurrentNetwork();
+
+    if (cNetwork.chainId == Config.mxcTestnetChainId ||
+        cNetwork.chainId == Config.mxcMainnetChainId) {
+      final mxcToken = Token(
+          logoUri: result!.logoUri!,
+          symbol: Config.mxcSymbol,
+          name: Config.mxcName,
+          decimals: Config.ethDecimals);
+
+      tokensList.value.add(mxcToken);
+    }
+
+    if (result!.tokens != null) {
       tokensList.value.addAll(result.tokens!);
     }
 

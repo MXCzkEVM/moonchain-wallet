@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Vuelve a escribir tu código de acceso",
     "secret_recovery_phrase": "Frase secreta de recuperación",
     "import_your_wallet": "Importa Tu Cartera",
-    "word_seed_phrase": "Importa tu billetera existente con tu frase secreta de recuperación de 12, 18 o 24 palabras",
+    "word_seed_phrase": "Simplemente importa tu billetera existente con tu frase de recuperación de 12, 18 o 24 palabras, o descarga desde el correo electrónico el archivo de texto con la clave de la billetera AXS y pega la frase de recuperación aquí.",
     "confirm": "Confirmar",
     "choose_my_username": "Elige mi nombre de usuario",
     "mnemonic_passphrase": "Frase de Contraseña Mnemotécnica",
@@ -276,5 +276,8 @@
     "close": "Cerrar",
     "allow_this_site_notice": "¿Permite que este sitio cambie la red de {0} a {1}?",
     "network_not_found": "Red no encontrada",
-    "biometrics": "biometría"
+    "biometrics": "biometría",
+    "checking_balance": "Verificando saldo...",
+    "no_balance": "No tienes saldo",
+    "no_balance_tip": "Actualmente no tienes MXC en tu billetera.\nPuedes recibir tokens o elegir reclamar un nombre de usuario más tarde."
 }

@@ -1,6 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
-
+import 'package:mxc_logic/mxc_logic.dart';
 import 'bookmark_repository.dart';
 
 class BookmarkUseCase extends ReactiveUseCase {

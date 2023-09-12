@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Saisissez à nouveau votre code secret",
     "secret_recovery_phrase": "Phrase secrète de récupération",
     "import_your_wallet": "Importez Votre Portefeuille",
-    "word_seed_phrase": "Importez votre portefeuille existant avec votre phrase secrète de récupération de 12, 18 ou 24 mots",
+    "word_seed_phrase": "Importez simplement votre portefeuille existant avec votre phrase de récupération de 12, 18 ou 24 mots, ou téléchargez à partir du fichier texte de clé de portefeuille AXS par email et collez la phrase de récupération ici.",
     "confirm": "Confirmer",
     "choose_my_username": "Choisissez mon nom d'utilisateur",
     "mnemonic_passphrase": "Phrase de Passe Mnémonique",
@@ -276,5 +276,8 @@
     "close": "Fermer",
     "allow_this_site_notice": "Autorisez-vous ce site à changer de réseau de {0} à {1}",
     "network_not_found": "Réseau non trouvé",
-    "biometrics": "biométrie"
+    "biometrics": "biométrie",
+    "checking_balance": "Vérification du solde...",
+    "no_balance": "Vous n'avez pas de solde",
+    "no_balance_tip": "Vous n'avez actuellement aucun MXC dans votre portefeuille. Vous pouvez soit recevoir des jetons, soit choisir de revendiquer un nom d'utilisateur plus tard."
 }

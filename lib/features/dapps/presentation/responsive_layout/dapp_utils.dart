@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/dapps/entities/bookmark.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
@@ -26,11 +26,16 @@ class DappUtils {
     final cardHeightRate =
         (screenSize.height - 165) * cardWidthRate / (screenSize.width - 20);
 
+    // bookmark that are dapp but added manually should be transformed to dapp
+    transformBookMarkToDapp(allDapps);
+    allDapps;
+
     final dapps = allDapps.where((e) {
       if (e is Bookmark) {
         return true;
       } else {
-        return e.store!.chainid == chainId;
+        return (e.store!.chainid == chainId) &&
+            isSupported(e.app!.supportedPlatforms!);
       }
     }).toList();
 
@@ -87,5 +92,38 @@ class DappUtils {
     pages = pages.where((e) => e.isNotEmpty).toList();
 
     return pages;
+  }
+
+  static void transformBookMarkToDapp(List<Dapp> allDapps) {
+    for (int i = 0; i < allDapps.length; i++) {
+      var b = allDapps[i];
+
+      if (b is Bookmark) {
+        b = b as Bookmark;
+        for (int j = 0; j < allDapps.length; j++) {
+          final e = allDapps[j];
+          if (j == i) {
+            continue;
+          }
+          if (e.app != null && e.app!.url != null) {
+            if (e.app!.url!.contains(b.url) || b.url.contains(e.app!.url!)) {
+              allDapps[i] = e.fromBookmark(b);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  static bool isSupported(List<dynamic> sPlatforms) {
+    if (Platform.isAndroid) {
+      final supported =
+          sPlatforms.any((e) => (e as String).toLowerCase() == 'android');
+      return supported;
+    } else {
+      final supported =
+          sPlatforms.any((e) => (e as String).toLowerCase() == 'ios');
+      return supported;
+    }
   }
 }

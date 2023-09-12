@@ -10,7 +10,7 @@
     "confirm_passcode_desc": "Ketik ulang kode sandi Anda",
     "secret_recovery_phrase": "Frasa pemulihan rahasia",
     "import_your_wallet": "Impor Dompet Anda",
-    "word_seed_phrase": "Impor dompet yang sudah ada dengan frasa pemulihan rahasia 12, 18 atau 24 kata Anda",
+    "word_seed_phrase": "Cukup impor dompet Anda yang ada dengan frasa pemulihan 12, 18, atau 24 kata, atau unduh dari file teks kunci dompet AXS email dan tempelkan frasa pemulihan di sini.",
     "confirm": "Konfirmasi",
     "choose_my_username": "Pilih nama pengguna saya",
     "mnemonic_passphrase": "Frasa Sandi Mnemonik",
@@ -276,5 +276,8 @@
     "close": "Tutup",
     "allow_this_site_notice": "Apakah Anda mengizinkan situs ini untuk mengganti jaringan dari {0} ke {1}",
     "network_not_found": "Jaringan tidak ditemukan",
-    "biometrics": "biometrik"
+    "biometrics": "biometrik",
+    "checking_balance": "Memeriksa saldo...",
+    "no_balance": "Anda tidak memiliki saldo",
+    "no_balance_tip": "Anda saat ini tidak memiliki MXC di dompet Anda.\nAnda bisa menerima token atau memilih untuk mengklaim nama pengguna nanti."
 }

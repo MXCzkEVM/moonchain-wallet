@@ -95,9 +95,13 @@ class OpenAppPage extends HookConsumerWidget {
                       case EIP1193.addEthereumChain:
                         bool? result =
                             await presenter.addEthereumChain(id, params);
-                        if (result != null && result) {
-                          controller!.reload();
-                        }
+                        // final isL3Bridge =
+                        //     Config.reloadDapp.any((e) => url.contains(e));
+                        // if (isL3Bridge) {
+                        //   if (result != null && result) {
+                        //     controller!.reload();
+                        //   }
+                        // }
                         break;
                       default:
                         break;
