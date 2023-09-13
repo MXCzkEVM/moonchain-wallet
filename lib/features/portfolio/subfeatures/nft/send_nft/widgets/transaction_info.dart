@@ -8,16 +8,17 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'transaction_dialog.dart';
 
 class TransactionInfo extends StatelessWidget {
-  const TransactionInfo({
-    Key? key,
-    required this.nft,
-    required this.newtork,
-    required this.from,
-    required this.to,
-    this.estimatedFee,
-    this.processType = TransactionProcessType.confirm,
-    this.onTap,
-  }) : super(key: key);
+  const TransactionInfo(
+      {Key? key,
+      required this.nft,
+      required this.newtork,
+      required this.from,
+      required this.to,
+      this.estimatedFee,
+      this.processType = TransactionProcessType.confirm,
+      this.onTap,
+      required this.symbol})
+      : super(key: key);
 
   final Nft nft;
   final String newtork;
@@ -25,6 +26,7 @@ class TransactionInfo extends StatelessWidget {
   final String to;
   final String? estimatedFee;
   final TransactionProcessType? processType;
+  final String symbol;
   final VoidCallback? onTap;
 
   @override
@@ -39,7 +41,7 @@ class TransactionInfo extends StatelessWidget {
               addressItem(context, 'from', from),
               addressItem(context, 'to', to),
               if (TransactionProcessType.confirm != processType)
-                priceItem(context, 'estimated_fee', estimatedFee),
+                priceItem(context, 'estimated_fee', estimatedFee, symbol),
             ],
           ),
         ),
@@ -92,10 +94,7 @@ class TransactionInfo extends StatelessWidget {
   }
 
   Widget priceItem(
-    BuildContext context,
-    String label,
-    String? price,
-  ) {
+      BuildContext context, String label, String? price, String symbol) {
     return TransactionItem(
       label: label,
       content: Row(
@@ -103,7 +102,9 @@ class TransactionInfo extends StatelessWidget {
         children: [
           Text(
             price != null
-                ? Formatter.formatNumberForUI(price,)
+                ? Formatter.formatNumberForUI(
+                    price,
+                  )
                 : '--',
             style: FontTheme.of(context).body1.primary(),
           ),

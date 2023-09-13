@@ -7,20 +7,22 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'transaction_dialog.dart';
 
 class TransactionInfo extends StatelessWidget {
-  const TransactionInfo({
-    Key? key,
-    required this.amount,
-    required this.from,
-    required this.to,
-    this.estimatedFee,
-    this.onTap,
-  }) : super(key: key);
+  const TransactionInfo(
+      {Key? key,
+      required this.amount,
+      required this.from,
+      required this.to,
+      this.estimatedFee,
+      this.onTap,
+      required this.symbol})
+      : super(key: key);
 
   final String amount;
   final String from;
   final String to;
   final String? estimatedFee;
   final VoidCallback? onTap;
+  final String symbol;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,7 @@ class TransactionInfo extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              'MXC',
+              symbol,
               style: FontTheme.of(context).h5.secondary(),
             ),
             const SizedBox(height: 4),
@@ -110,7 +112,7 @@ class TransactionInfo extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           Text(
-            'MXC',
+            symbol,
             style: FontTheme.of(context).body1().copyWith(
                   color: ColorsTheme.of(context).grey2,
                 ),
