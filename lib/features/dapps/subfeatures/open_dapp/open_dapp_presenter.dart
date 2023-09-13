@@ -75,18 +75,18 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
-  Future<String?> _sendTransaction(
-      String to, EtherAmount amount, Uint8List? data,
+  Future<String?> _sendTransaction(String to, EtherAmount amount,
+      Uint8List? data, EstimatedGasFee? estimatedGasFee,
       {String? from}) async {
     loading = true;
     try {
       final res = await _tokenContractUseCase.sendTransaction(
-        privateKey: state.account!.privateKey,
-        to: to,
-        from: from,
-        amount: amount,
-        data: data,
-      );
+          privateKey: state.account!.privateKey,
+          to: to,
+          from: from,
+          amount: amount,
+          data: data,
+          estimatedGasFee: estimatedGasFee);
 
       return res;
     } catch (e, s) {
@@ -105,7 +105,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final amount = amountEther.getValueInUnit(EtherUnit.ether).toString();
     final bridgeData = hexToBytes(bridge.data ?? '');
     EtherAmount? gasPrice;
-    EtherAmount? gasFee;
+    double? gasFee;
     EstimatedGasFee? estimatedGasFee;
     BigInt? amountOfGas;
 
@@ -116,8 +116,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     if (bridge.gas != null) {
       amountOfGas = BigInt.parse(bridge.gas.toString());
       gasPrice = gasPrice ?? await _tokenContractUseCase.getGasPrice();
-      gasFee = EtherAmount.fromBigInt(
-          EtherUnit.wei, gasPrice.getInWei * amountOfGas);
+      final gasPriceDouble =
+          gasPrice.getValueInUnit(EtherUnit.ether).toDouble();
+      gasFee = gasPriceDouble * amountOfGas.toDouble();
+
+      estimatedGasFee =
+          EstimatedGasFee(gasPrice: gasPrice, gas: amountOfGas, gasFee: gasFee);
     } else {
       estimatedGasFee = await _estimatedFee(
           bridge.from!, bridge.to!, gasPrice, bridgeData, amountOfGas);
@@ -128,10 +132,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       }
     }
 
-    String finalFee = (gasFee?.getInWei != null
-            ? gasFee!.getValueInUnit(EtherUnit.ether)
-            : (estimatedGasFee?.gasFee ?? 0))
-        .toString();
+    String finalFee = estimatedGasFee.gasFee.toString();
 
     if (Validation.isExpoNumber(finalFee)) {
       finalFee = '0.0';
@@ -149,7 +150,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           symbol: symbol);
 
       if (result != null && result) {
-        final hash = await _sendTransaction(bridge.to!, amountEther, bridgeData,
+        final hash = await _sendTransaction(
+            bridge.to!, amountEther, bridgeData, estimatedGasFee,
             from: bridge.from);
         if (hash != null) success.call(hash);
       } else {
