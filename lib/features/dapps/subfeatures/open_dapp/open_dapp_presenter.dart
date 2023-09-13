@@ -55,15 +55,16 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     String to,
     EtherAmount? gasPrice,
     Uint8List? data,
+    BigInt? amountOfGas,
   ) async {
     loading = true;
     try {
       final gasFee = await _tokenContractUseCase.estimateGesFee(
-        from: from,
-        to: to,
-        gasPrice: gasPrice,
-        data: data,
-      );
+          from: from,
+          to: to,
+          gasPrice: gasPrice,
+          data: data,
+          amountOfGas: amountOfGas);
       loading = false;
 
       return gasFee;
@@ -106,22 +107,20 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     EtherAmount? gasPrice;
     EtherAmount? gasFee;
     EstimatedGasFee? estimatedGasFee;
+    BigInt? amountOfGas;
 
     if (bridge.gasPrice != null) {
       gasPrice = EtherAmount.fromBase10String(EtherUnit.wei, bridge.gasPrice!);
     }
 
     if (bridge.gas != null) {
+      amountOfGas = BigInt.parse(bridge.gas.toString());
       gasPrice = gasPrice ?? await _tokenContractUseCase.getGasPrice();
-      gasFee = EtherAmount.fromBigInt(EtherUnit.wei,
-          gasPrice.getInWei * BigInt.parse(bridge.gas.toString()));
+      gasFee = EtherAmount.fromBigInt(
+          EtherUnit.wei, gasPrice.getInWei * amountOfGas);
     } else {
       estimatedGasFee = await _estimatedFee(
-        bridge.from!,
-        bridge.to!,
-        gasPrice,
-        bridgeData,
-      );
+          bridge.from!, bridge.to!, gasPrice, bridgeData, amountOfGas);
 
       if (estimatedGasFee == null) {
         cancel.call();
@@ -129,6 +128,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       }
     }
 
+    String finalFee = (gasFee?.getInWei != null
+            ? gasFee!.getValueInUnit(EtherUnit.ether)
+            : (estimatedGasFee?.gasFee ?? 0))
+        .toString();
+
+    if (Validation.isExpoNumber(finalFee)) {
+      finalFee = '0.0';
+    }
     try {
       final result = await showTransactionDialog(
         context!,
@@ -136,8 +143,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         amount: amount,
         from: bridge.from!,
         to: bridge.to!,
-        estimatedFee:
-            '${gasFee?.getInWei != null ? gasFee!.getValueInUnit(EtherUnit.ether) : (estimatedGasFee?.gasFee ?? 0)}',
+        estimatedFee: finalFee,
       );
 
       if (result != null && result) {
@@ -171,6 +177,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       });
     } else {
       addError(translate('network_not_found'));
+      state.webviewController?.sendError(translate('network_not_found')!, id);
     }
   }
 
@@ -188,7 +195,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
     _authUseCase.resetNetwork(toNetwork);
     notify(() => state.network = toNetwork);
-    // state.webviewController?.send("eth_chainId");
     var config = """{
               ethereum: {
                 chainId: ${toNetwork.chainId},
@@ -199,7 +205,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
                 isMetaMask: true
               }
             }""";
-    state.webviewController
-    ?.setChain(config, toNetwork.chainId, id);
+    state.webviewController?.setChain(config, toNetwork.chainId, id);
   }
 }
