@@ -136,15 +136,17 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     if (Validation.isExpoNumber(finalFee)) {
       finalFee = '0.0';
     }
+
+    final symbol = state.network!.symbol;
+
     try {
-      final result = await showTransactionDialog(
-        context!,
-        title: translate('confirm_transaction')!,
-        amount: amount,
-        from: bridge.from!,
-        to: bridge.to!,
-        estimatedFee: finalFee,
-      );
+      final result = await showTransactionDialog(context!,
+          title: translate('confirm_transaction')!,
+          amount: amount,
+          from: bridge.from!,
+          to: bridge.to!,
+          estimatedFee: finalFee,
+          symbol: symbol);
 
       if (result != null && result) {
         final hash = await _sendTransaction(bridge.to!, amountEther, bridgeData,

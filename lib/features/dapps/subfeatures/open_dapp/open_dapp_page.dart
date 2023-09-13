@@ -62,7 +62,7 @@ class OpenAppPage extends HookConsumerWidget {
                       collectLog('onLoadError: $code: $message'),
                   onLoadHttpError: (controller, url, statusCode, description) =>
                       collectLog('onLoadHttpError: $description'),
-                  onConsoleMessage: (controller, consoleMessage) => print(
+                  onConsoleMessage: (controller, consoleMessage) => collectLog(
                       'onConsoleMessage: ${consoleMessage.toString()}'),
                   onWebViewCreated: (controller) =>
                       presenter.onWebViewCreated(controller),

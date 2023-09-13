@@ -11,6 +11,7 @@ Future<bool?> showTransactionDialog(
   required String to,
   String? estimatedFee,
   VoidCallback? onTap,
+  required String symbol
 }) {
   return showModalBottomSheet<bool>(
     context: context,
@@ -46,6 +47,7 @@ Future<bool?> showTransactionDialog(
             to: to,
             estimatedFee: estimatedFee,
             onTap: onTap,
+            symbol: symbol,
           ),
           const SizedBox(height: 10),
         ],
