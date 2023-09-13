@@ -11,6 +11,7 @@ class SendNftState with EquatableMixin {
   TransactionProcessType processType = TransactionProcessType.confirm;
   Account? account;
   EstimatedGasFee? estimatedGasFee;
+  Network? network;
 
   @override
   List<Object?> get props => [

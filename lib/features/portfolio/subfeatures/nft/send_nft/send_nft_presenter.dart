@@ -20,6 +20,8 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
   late final _nftsUseCase = ref.read(nftsUseCaseProvider);
   late final TextEditingController recipientController =
       TextEditingController();
@@ -32,6 +34,14 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
       _accountUseCase.account,
       (value) {
         notify(() => state.account = value);
+        loadPage();
+      },
+    );
+
+    listen(
+      _chainConfigurationUseCase.selectedNetwork,
+      (value) {
+        notify(() => state.network = value);
         loadPage();
       },
     );
@@ -57,17 +67,18 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
       }
     }
 
-    final result = await showTransactionDialog(
-      context!,
-      title: _getDialogTitle(nft.name),
-      nft: nft,
-      newtork: 'MXC zkEVM',
-      from: state.account!.address,
-      to: recipient,
-      processType: state.processType,
-      estimatedFee: state.estimatedGasFee?.gasFee.toString(),
-      onTap: _nextTransactionStep,
-    );
+    final symbol = state.network!.symbol;
+
+    final result = await showTransactionDialog(context!,
+        title: _getDialogTitle(nft.name),
+        nft: nft,
+        newtork: 'MXC zkEVM',
+        from: state.account!.address,
+        to: recipient,
+        processType: state.processType,
+        estimatedFee: state.estimatedGasFee?.gasFee.toString(),
+        onTap: _nextTransactionStep,
+        symbol: symbol);
 
     if (result != null && !result) {
       notify(() => state.processType = TransactionProcessType.confirm);

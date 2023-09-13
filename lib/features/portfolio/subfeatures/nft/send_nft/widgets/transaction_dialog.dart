@@ -6,17 +6,16 @@ import 'transaction_info.dart';
 
 enum TransactionProcessType { confirm, send, done }
 
-Future<bool?> showTransactionDialog(
-  BuildContext context, {
-  String? title,
-  required Nft nft,
-  required String newtork,
-  required String from,
-  required String to,
-  String? estimatedFee,
-  TransactionProcessType? processType,
-  VoidCallback? onTap,
-}) {
+Future<bool?> showTransactionDialog(BuildContext context,
+    {String? title,
+    required Nft nft,
+    required String newtork,
+    required String from,
+    required String to,
+    String? estimatedFee,
+    TransactionProcessType? processType,
+    VoidCallback? onTap,
+    required String symbol}) {
   return showModalBottomSheet<bool>(
     context: context,
     useRootNavigator: true,
@@ -52,6 +51,7 @@ Future<bool?> showTransactionDialog(
             estimatedFee: estimatedFee,
             processType: processType,
             onTap: onTap,
+            symbol: symbol,
           ),
           const SizedBox(height: 10),
         ],
