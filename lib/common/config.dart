@@ -13,8 +13,13 @@ class Config {
     "https://wannsee-erc20.mxc.com"
   ];
 
-  static String mainnetMns(String name) => 'https://mns.mxc.com/$name.mxc/register';
-  static String testnetMns(String name) => 'https://wannsee-mns.mxc.com/$name.mxc/register';
+  static String mainnetMns(String name) =>
+      'https://mns.mxc.com/$name.mxc/register';
+  static String testnetMns(String name) =>
+      'https://wannsee-mns.mxc.com/$name.mxc/register';
+
+  // Numbers fixed decimals
+  static int decimalFixed = 3;
 
   static bool isMxcChains(int chainId) {
     return chainId == mxcMainnetChainId || chainId == mxcTestnetChainId;
