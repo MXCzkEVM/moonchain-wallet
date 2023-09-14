@@ -66,13 +66,21 @@ class TokenContractUseCase extends ReactiveUseCase {
 
     if (cNetwork.chainId == Config.mxcTestnetChainId ||
         cNetwork.chainId == Config.mxcMainnetChainId) {
-      final mxcToken = Token(
+      final mxcNativeToken = Token(
           logoUri: result!.logoUri!,
           symbol: Config.mxcSymbol,
           name: Config.mxcName,
           decimals: Config.ethDecimals);
 
-      tokensList.value.add(mxcToken);
+      tokensList.value.add(mxcNativeToken);
+    } else {
+      final chainNativeToken = Token(
+          logoUri: result!.logoUri ?? 'assets/svg/networks/unknown.svg',
+          symbol: cNetwork.symbol,
+          name: '${cNetwork.symbol} Token',
+          decimals: Config.ethDecimals);
+
+      tokensList.value.add(chainNativeToken);
     }
 
     if (result!.tokens != null) {
@@ -102,10 +110,19 @@ class TokenContractUseCase extends ReactiveUseCase {
   }
 
   Future<void> getTokensBalance(String walletAddress) async {
-    final result = await _repository.tokenContract
-        .getTokensBalance(tokensList.value, walletAddress);
-    update(tokensList, result);
-    getTokensPrice();
+    try {
+      final result = await _repository.tokenContract
+          .getTokensBalance(tokensList.value, walletAddress);
+      update(tokensList, result);
+      getTokensPrice();
+    } catch (e) {
+      final newList = [];
+      for (Token token in tokensList.value) {
+        newList.add(token.copyWith(balance: 0.0));
+      }
+      update(tokensList, newList);
+      getTokensBalance(walletAddress);
+    }
   }
 
   Future<void> getTokensPrice() async {
