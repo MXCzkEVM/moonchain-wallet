@@ -135,7 +135,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     String finalFee = estimatedGasFee.gasFee.toString();
 
     if (Validation.isExpoNumber(finalFee)) {
-      finalFee = '0.0';
+      finalFee = '0.000';
     }
 
     final symbol = state.network!.symbol;

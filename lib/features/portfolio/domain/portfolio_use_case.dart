@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
@@ -14,6 +15,7 @@ class PortfolioUseCase extends ReactiveUseCase {
   Future<String> getWalletNativeTokenBalance(String address) async {
     final wallet =
         await (await _repository.tokenContract).getEthBalance(address);
-    return (wallet.getInWei.toDouble() / pow(10, 18)).toStringAsFixed(2);
+    return (wallet.getInWei.toDouble() / pow(10, 18))
+        .toStringAsFixed(Config.decimalFixed);
   }
 }
