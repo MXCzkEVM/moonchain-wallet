@@ -229,7 +229,7 @@
     "change_passcode_note": "Altere seu código de acesso atual. Se perder seu novo código, você sempre pode recuperá-lo ao reimportar sua carteira.",
     "clear_browser_cache_note": "Limpe o histórico do navegador e os cookies",
     "clear_browser_cache": "Limpar histórico & cookies",
-    "delete_wallet_note": "Redefina todos os dados da sua carteira",
+    "delete_wallet_note": "Importar carteira/Redefina todos os dados da sua carteira",
     "clear_browser_history_note": "Limpar histórico do navegador e cookies?",
     "delete_wallet": "Redefinir carteira",
     "export_wallet_note": "Exportar carteira para armazenamento seguro",

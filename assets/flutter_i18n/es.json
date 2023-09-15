@@ -229,7 +229,7 @@
     "change_passcode_note": "Cambia tu código de acceso actual. Si pierdes tu nuevo código, siempre puedes recuperarlo volviendo a importar tu billetera.",
     "clear_browser_cache_note": "Borra el historial del navegador y las cookies",
     "clear_browser_cache": "Borrar historial y cookies",
-    "delete_wallet_note": "Restablece todos los datos de tu billetera",
+    "delete_wallet_note": "Importar cartera/Restablece todos los datos de tu billetera",
     "clear_browser_history_note": "¿Borrar historial del navegador y cookies?",
     "delete_wallet": "Restablecer billetera",
     "export_wallet_note": "Exportar cartera a almacenamiento seguro",

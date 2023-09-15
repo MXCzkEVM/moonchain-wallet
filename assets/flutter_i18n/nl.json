@@ -229,7 +229,7 @@
     "change_passcode_note": "Wijzig uw huidige toegangscode. Als u uw nieuwe toegangscode verliest, kunt u deze altijd herstellen door uw wallet opnieuw te importeren.",
     "clear_browser_cache_note": "Wis browsergeschiedenis en cookies",
     "clear_browser_cache": "Wis geschiedenis & cookies",
-    "delete_wallet_note": "Reset al uw walletgegevens.",
+    "delete_wallet_note": "Portemonnee importeren/Reset al uw walletgegevens.",
     "clear_browser_history_note": "Browsergeschiedenis en cookies wissen?",
     "delete_wallet": "Wallet resetten",
     "export_wallet_note": "Exporteer uw wallet naar een beveiligde opslag.",

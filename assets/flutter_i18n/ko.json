@@ -229,7 +229,7 @@
     "change_passcode_note": "현재 패스코드를 변경하세요. 새 패스코드를 잃어버린 경우, 지갑을 다시 가져오기로 항상 복구할 수 있습니다.",
     "clear_browser_cache_note": "브라우저 기록과 쿠키를 삭제하세요",
     "clear_browser_cache": "히스토리 & 쿠키 삭제",
-    "delete_wallet_note": "당신의 지갑 데이터를 모두 초기화하세요",
+    "delete_wallet_note": "지갑 가져오기/당신의 지갑 데이터를 모두 초기화하세요",
     "clear_browser_history_note": "브라우저 기록과 쿠키를 삭제하시겠습니까?",
     "delete_wallet": "지갑 초기화",
     "export_wallet_note": "지갑을 안전한 저장소로 내보내기",

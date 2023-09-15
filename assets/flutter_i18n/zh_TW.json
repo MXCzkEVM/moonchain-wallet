@@ -229,7 +229,7 @@
     "change_passcode_note": "更改您當前的密碼。如果您遺失了新的密碼，您可以通過重新導入您的錢包來恢復它。",
     "clear_browser_cache_note": "清除瀏覽器歷史記錄和cookies",
     "clear_browser_cache": "清除歷史記錄和cookies",
-    "delete_wallet_note": "重設所有的錢包數據",
+    "delete_wallet_note": "導入錢包/重設所有的錢包數據",
     "clear_browser_history_note": "清除瀏覽器歷史記錄和cookies？",
     "delete_wallet": "重設錢包",
     "export_wallet_note": "將錢包導出到安全儲存區",

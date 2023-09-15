@@ -229,7 +229,7 @@
     "change_passcode_note": "Ganti kode sandi saat ini Anda. Jika Anda kehilangan kode sandi baru, Anda selalu dapat memulihkannya dengan mengimpor ulang dompet Anda.",
     "clear_browser_cache_note": "Hapus riwayat penjelajahan dan cookies",
     "clear_browser_cache": "Hapus riwayat & cookies",
-    "delete_wallet_note": "Atur ulang semua data dompet Anda",
+    "delete_wallet_note": "Impor Dompet/Atur ulang semua data dompet Anda",
     "clear_browser_history_note": "Hapus riwayat penjelajahan dan cookies?",
     "delete_wallet": "Reset dompet",
     "export_wallet_note": "Ekspor dompet ke penyimpanan yang aman",

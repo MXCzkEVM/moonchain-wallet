@@ -229,7 +229,7 @@
     "change_passcode_note": "Schimbă-ți codul de acces actual. Dacă îți pierzi noul cod de acces, îl poți recupera oricând reimportând portofelul tău.",
     "clear_browser_cache_note": "Șterge istoricul și cookie-urile browserului",
     "clear_browser_cache": "Șterge istoricul & cookie-urile",
-    "delete_wallet_note": "Resetează toate datele portofelului tău",
+    "delete_wallet_note": "Importă portofelul/Resetează toate datele portofelului tău",
     "clear_browser_history_note": "Ștergeți istoricul și cookie-urile browserului?",
     "delete_wallet": "Resetează portofelul",
     "export_wallet_note": "Exportați portofelul în spațiul de stocare securizat",

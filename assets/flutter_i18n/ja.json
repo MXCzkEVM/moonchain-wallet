@@ -229,7 +229,7 @@
     "change_passcode_note": "現在のパスコードを変更してください。新しいパスコードを紛失した場合でも、ウォレットを再インポートすることでいつでも回復できます。",
     "clear_browser_cache_note": "ブラウザの履歴とクッキーを消去してください",
     "clear_browser_cache": "履歴とクッキーを消去",
-    "delete_wallet_note": "あなたのウォレットデータをすべてリセットします",
+    "delete_wallet_note": "ウォレットのインポート/あなたのウォレットデータをすべてリセットします",
     "clear_browser_history_note": "ブラウザの履歴とクッキーを消去しますか？",
     "delete_wallet": "ウォレットをリセット",
     "export_wallet_note": "セキュアストレージにウォレットをエクスポートする",
