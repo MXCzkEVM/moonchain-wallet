@@ -59,32 +59,21 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
     final result = await _repository.tokenContract.getDefaultTokens();
-
     tokensList.value.clear();
-
     final cNetwork = _repository.tokenContract.getCurrentNetwork();
 
-    if (cNetwork.chainId == Config.mxcTestnetChainId ||
-        cNetwork.chainId == Config.mxcMainnetChainId) {
-      final mxcNativeToken = Token(
-          logoUri: result!.logoUri!,
-          symbol: Config.mxcSymbol,
-          name: Config.mxcName,
-          decimals: Config.ethDecimals);
+    final chainNativeToken = Token(
+        logoUri: result?.logoUri ?? 'assets/svg/networks/unknown.svg',
+        symbol: cNetwork.symbol,
+        name: '${cNetwork.symbol} Token',
+        decimals: Config.ethDecimals);
 
-      tokensList.value.add(mxcNativeToken);
-    } else {
-      final chainNativeToken = Token(
-          logoUri: result!.logoUri ?? 'assets/svg/networks/unknown.svg',
-          symbol: cNetwork.symbol,
-          name: '${cNetwork.symbol} Token',
-          decimals: Config.ethDecimals);
+    tokensList.value.add(chainNativeToken);
 
-      tokensList.value.add(chainNativeToken);
-    }
-
-    if (result!.tokens != null) {
-      tokensList.value.addAll(result.tokens!);
+    if (result != null) {
+      if (result.tokens != null) {
+        tokensList.value.addAll(result.tokens!);
+      }
     }
 
     update(tokensList, tokensList.value);
