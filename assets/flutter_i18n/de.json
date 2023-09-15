@@ -229,7 +229,7 @@
     "change_passcode_note": "Ändern Sie Ihren aktuellen Passcode. Wenn Sie Ihren neuen Passcode verlieren, können Sie ihn jederzeit wiederherstellen, indem Sie Ihre Wallet erneut importieren.",
     "clear_browser_cache_note": "Browserverlauf und Cookies löschen",
     "clear_browser_cache": "Verlauf & Cookies löschen",
-    "delete_wallet_note": "Setzen Sie alle Ihre Wallet-Daten zurück",
+    "delete_wallet_note": "Wallet importieren/Setzen Sie alle Ihre Wallet-Daten zurück",
     "clear_browser_history_note": "Browserverlauf und Cookies löschen?",
     "delete_wallet": "Wallet zurücksetzen",
     "export_wallet_note": "Wallet in gesicherten Speicher exportieren",
