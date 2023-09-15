@@ -39,12 +39,12 @@ extension Web3Result on InAppWebViewController {
     sendResults([address], id);
   }
 
-  void setChain(String config, int chainId, int id) async {
+  void setChain(String config, int chainId, int? id) async {
     final setConfigScript = "console.log(window.ethereum.setConfig($config))";
     final emitChainChangeScript =
         "console.log(window.ethereum.emitChainChanged($chainId))";
     await evaluateJavascript(source: setConfigScript);
     await evaluateJavascript(source: emitChainChangeScript);
-    sendResult('null', id);
+    if (id != null) sendResult('null', id);
   }
 }

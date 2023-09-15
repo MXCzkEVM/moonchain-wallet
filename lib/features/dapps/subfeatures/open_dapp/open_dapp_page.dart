@@ -68,6 +68,7 @@ class OpenAppPage extends HookConsumerWidget {
                       presenter.onWebViewCreated(controller),
                   onProgressChanged: (controller, progress) async {
                     presenter.changeProgress(progress);
+                    presenter.setChain(null);
                   },
                   signCallback: (params, eip1193, controller) async {
                     final id = params['id'];
