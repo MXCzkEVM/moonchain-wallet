@@ -13,6 +13,7 @@ class TransactionInfo extends StatefulWidget {
     required this.balance,
     required this.token,
     required this.newtork,
+    required this.networkSymbol,
     required this.from,
     required this.to,
     this.estimatedFee,
@@ -24,6 +25,7 @@ class TransactionInfo extends StatefulWidget {
   final String balance;
   final Token token;
   final String newtork;
+  final String networkSymbol;
   final String from;
   final String to;
   final String? estimatedFee;
@@ -58,12 +60,14 @@ class _TransactionInfoState extends State<TransactionInfo> {
           child: Column(
             children: [
               amountItem(context),
-              priceItem(context, 'balance', widget.balance),
+              priceItem(
+                  context, 'balance', widget.balance, widget.token.symbol),
               textItem(context, 'network', widget.newtork),
               addressItem(context, 'from', widget.from),
               addressItem(context, 'to', widget.to),
               if (TransactionProcessType.confirm != processType)
-                priceItem(context, 'estimated_fee', widget.estimatedFee),
+                priceItem(context, 'estimated_fee', widget.estimatedFee,
+                    widget.networkSymbol),
             ],
           ),
         ),
@@ -143,7 +147,9 @@ class _TransactionInfoState extends State<TransactionInfo> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              Formatter.formatNumberForUI(widget.amount,),
+              Formatter.formatNumberForUI(
+                widget.amount,
+              ),
               style: FontTheme.of(context).h5(),
             ),
             const SizedBox(width: 4),
@@ -158,11 +164,8 @@ class _TransactionInfoState extends State<TransactionInfo> {
     );
   }
 
-  Widget priceItem(
-    BuildContext context,
-    String label,
-    String? price,
-  ) {
+  Widget priceItem(BuildContext context, String label, String? price,
+      String? networkSymbol) {
     return TransactionItem(
       label: label,
       content: Row(
@@ -170,13 +173,15 @@ class _TransactionInfoState extends State<TransactionInfo> {
         children: [
           Text(
             price != null
-                ? Formatter.formatNumberForUI(price, )
+                ? Formatter.formatNumberForUI(
+                    price,
+                  )
                 : '--',
             style: FontTheme.of(context).body1.primary(),
           ),
           const SizedBox(width: 4),
           Text(
-            widget.token.symbol ?? '--',
+            networkSymbol ?? '--',
             style: FontTheme.of(context).body1().copyWith(
                   color: ColorsTheme.of(context).grey2,
                 ),
