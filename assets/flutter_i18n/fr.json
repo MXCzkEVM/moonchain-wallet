@@ -32,7 +32,7 @@
     "active": "Actif",
     "date": "Date",
     "tx": "Tx devient Transaction",
-    "manage_portfolio": "Gérer le Portefeuille",
+    "manage_portfolio": "Envoyer le token/Gérer le Portefeuille",
     "fiat_options": "Options FIAT",
     "show/hide_balance": "Afficher/Masquer Solde",
     "balance": "Solde",

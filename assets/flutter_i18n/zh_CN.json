@@ -32,7 +32,7 @@
     "active": "活跃",
     "date": "日期",
     "tx": "交易",
-    "manage_portfolio": "管理投资组合",
+    "manage_portfolio": "发送Token/管理投资组合",
     "fiat_options": "法币选项",
     "show/hide_balance": "显示/隐藏余额",
     "balance": "余额",
