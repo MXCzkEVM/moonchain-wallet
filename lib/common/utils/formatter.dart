@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:datadashwallet/common/config.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter/material.dart';
 import 'package:web3dart/web3dart.dart';
@@ -8,15 +9,15 @@ class Formatter {
     if (number >= 1000000000) {
       // Convert to millions
       double num = number / 1000000000.0;
-      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : 1)}B';
+      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalFixed)}B';
     } else if (number >= 1000000) {
       // Convert to millions
       double num = number / 1000000.0;
-      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : 1)}M';
+      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalFixed)}M';
     } else if (number >= 1000) {
       // Convert to thousands
       double num = number / 1000.0;
-      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : 1)}K';
+      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalFixed)}K';
     } else {
       int accuracy = number.toString().split('.').last.length;
       var str = number.toString();
@@ -47,8 +48,10 @@ class Formatter {
     if (double.parse(inputString).toDouble() < 10000000000000000) {
       return '0';
     }
-    String convertedString =
-        (double.parse(inputString).toDouble() / pow(10, 18)).toStringAsFixed(1);
+    final valueDouble = double.parse(inputString).toDouble() / pow(10, 18);
+    String convertedString = valueDouble % 1 == 0
+        ? valueDouble.toString()
+        : valueDouble.toStringAsFixed(Config.decimalFixed);
     return convertedString;
   }
 
@@ -59,8 +62,10 @@ class Formatter {
     String fractionalPart = "";
     String integerPart = input;
     if (input.contains('.')) {
-      integerPart = input.split('.')[0];
-      fractionalPart = ".${input.split('.')[1].substring(0, 1)}";
+      final spitedString = input.split('.');
+      integerPart = spitedString[0];
+      fractionalPart =
+          ".${spitedString[1].substring(0, spitedString[1].length > Config.decimalFixed ? Config.decimalFixed : spitedString[1].length)}";
     }
     integerPart = intThousandsSeparator(integerPart);
     return '$integerPart$fractionalPart';

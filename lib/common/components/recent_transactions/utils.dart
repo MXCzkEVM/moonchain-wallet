@@ -104,6 +104,20 @@ class RecentTransactionsUtils {
             currentTx.value ?? '0', Config.ethDecimals);
         logoUrl = Config.mxcLogoUri;
         symbol = Config.mxcName;
+
+        if (currentTx.decodedInput != null) {
+          if (currentTx.to?.hash != null) {
+            final tokenIndex = tokensList
+                .indexWhere((element) => element.address == currentTx.to!.hash);
+            if (tokenIndex != -1) {
+              logoUrl = tokensList[tokenIndex].logoUri!;
+            }
+            symbol = currentTx.to!.name!;
+            amount = Formatter.convertWeiToEth(
+                currentTx.decodedInput?.parameters?[1].value ?? '0',
+                Config.ethDecimals);
+          }
+        }
       } else if (currentTx.txTypes != null &&
           currentTx.txTypes!.contains('coin_transfer')) {
         logoUrl = Config.mxcLogoUri;

@@ -68,6 +68,7 @@ class OpenAppPage extends HookConsumerWidget {
                       presenter.onWebViewCreated(controller),
                   onProgressChanged: (controller, progress) async {
                     presenter.changeProgress(progress);
+                    presenter.setChain(null);
                   },
                   signCallback: (params, eip1193, controller) async {
                     final id = params['id'];
@@ -95,27 +96,44 @@ class OpenAppPage extends HookConsumerWidget {
                       case EIP1193.addEthereumChain:
                         bool? result =
                             await presenter.addEthereumChain(id, params);
-                        // final isL3Bridge =
-                        //     Config.reloadDapp.any((e) => url.contains(e));
-                        // if (isL3Bridge) {
-                        //   if (result != null && result) {
-                        //     controller!.reload();
-                        //   }
-                        // }
                         break;
                       default:
                         break;
                     }
                   },
+                  
                   initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
                       useShouldOverrideUrlLoading: true,
+                      mediaPlaybackRequiresUserGesture: false
+                    ),
+                    android: AndroidInAppWebViewOptions(
+                      useWideViewPort: true,
+                      geolocationEnabled: true,
+                      useHybridComposition: true,
+                    ),
+                    ios: IOSInAppWebViewOptions(
+                      allowsInlineMediaPlayback: true,
                     ),
                   ),
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                     Factory<VerticalDragGestureRecognizer>(
                       () => VerticalDragGestureRecognizer(),
                     ),
+                  },
+                  androidOnPermissionRequest:
+                      (controller, origin, resources) async {
+                    return PermissionRequestResponse(
+                      resources: resources,
+                      action: PermissionRequestResponseAction.GRANT,
+                    );
+                  },
+                  androidOnGeolocationPermissionsHidePrompt: (controller) {
+                  },
+                  androidOnGeolocationPermissionsShowPrompt:
+                      (InAppWebViewController controller, String origin) async {
+                    return GeolocationPermissionShowPromptResponse(
+                        origin: origin, allow: true, retain: true);
                   },
                 ),
               ),

@@ -115,17 +115,16 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     estimatedGasFee = await _estimatedFee(recipientAddress);
     sumBalance -= estimatedGasFee?.gasFee ?? 0.0;
 
-    final result = await showTransactionDialog(
-      context!,
-      amount: amount,
-      balance: sumBalance.toString(),
-      token: token,
-      newtork: state.network?.label ?? '--',
-      from: state.account!.address,
-      to: recipient,
-      estimatedFee: estimatedGasFee?.gasFee.toString(),
-      onTap: (transactionType) => _nextTransactionStep(transactionType),
-    );
+    final result = await showTransactionDialog(context!,
+        amount: amount,
+        balance: sumBalance.toString(),
+        token: token,
+        newtork: state.network?.label ?? '--',
+        from: state.account!.address,
+        to: recipient,
+        estimatedFee: estimatedGasFee?.gasFee.toString(),
+        onTap: (transactionType) => _nextTransactionStep(transactionType),
+        networkSymbol: state.network?.symbol ?? '--');
   }
 
   Future<String?> _nextTransactionStep(TransactionProcessType type) async {
@@ -169,10 +168,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       String recipientAddress = await getAddress(recipient);
 
       final res = await _tokenContractUseCase.sendTransaction(
-        privateKey: state.account!.privateKey,
-        to: recipientAddress,
-        amount: amount,
-      );
+          privateKey: state.account!.privateKey,
+          to: recipientAddress,
+          amount: amount,
+          tokenAddress: token.address);
 
       return res;
     } catch (e, s) {

@@ -95,7 +95,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void createSubscriptions() async {
-    if (state.subscription == null) {
+    if (state.subscription == null && state.network!.web3WebSocketUrl != null) {
       if (state.network!.web3WebSocketUrl!.isNotEmpty) {
         final subscription = await _tokenContractUseCase.subscribeToBalance(
           "addresses:${state.walletAddress}".toLowerCase(),

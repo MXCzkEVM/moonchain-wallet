@@ -59,24 +59,21 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
     final result = await _repository.tokenContract.getDefaultTokens();
-
     tokensList.value.clear();
-
     final cNetwork = _repository.tokenContract.getCurrentNetwork();
 
-    if (cNetwork.chainId == Config.mxcTestnetChainId ||
-        cNetwork.chainId == Config.mxcMainnetChainId) {
-      final mxcToken = Token(
-          logoUri: result!.logoUri!,
-          symbol: Config.mxcSymbol,
-          name: Config.mxcName,
-          decimals: Config.ethDecimals);
+    final chainNativeToken = Token(
+        logoUri: result?.logoUri ?? 'assets/svg/networks/unknown.svg',
+        symbol: cNetwork.symbol,
+        name: '${cNetwork.symbol} Token',
+        decimals: Config.ethDecimals);
 
-      tokensList.value.add(mxcToken);
-    }
+    tokensList.value.add(chainNativeToken);
 
-    if (result!.tokens != null) {
-      tokensList.value.addAll(result.tokens!);
+    if (result != null) {
+      if (result.tokens != null) {
+        tokensList.value.addAll(result.tokens!);
+      }
     }
 
     update(tokensList, tokensList.value);
@@ -102,10 +99,19 @@ class TokenContractUseCase extends ReactiveUseCase {
   }
 
   Future<void> getTokensBalance(String walletAddress) async {
-    final result = await _repository.tokenContract
-        .getTokensBalance(tokensList.value, walletAddress);
-    update(tokensList, result);
-    getTokensPrice();
+    try {
+      final result = await _repository.tokenContract
+          .getTokensBalance(tokensList.value, walletAddress);
+      update(tokensList, result);
+      getTokensPrice();
+    } catch (e) {
+      final newList = [];
+      for (Token token in tokensList.value) {
+        newList.add(token.copyWith(balance: 0.0));
+      }
+      update(tokensList, newList);
+      getTokensBalance(walletAddress);
+    }
   }
 
   Future<void> getTokensPrice() async {
@@ -146,15 +152,16 @@ class TokenContractUseCase extends ReactiveUseCase {
     required EtherAmount amount,
     EstimatedGasFee? estimatedGasFee,
     Uint8List? data,
+    String? tokenAddress,
   }) async =>
       await _repository.tokenContract.sendTransaction(
-        privateKey: privateKey,
-        to: to,
-        from: from,
-        amount: amount,
-        estimatedGasFee: estimatedGasFee,
-        data: data,
-      );
+          privateKey: privateKey,
+          to: to,
+          from: from,
+          amount: amount,
+          estimatedGasFee: estimatedGasFee,
+          data: data,
+          tokenAddress: tokenAddress);
 
   Future<int> getChainId(String rpcUrl) async {
     return await _repository.tokenContract.getChainId(rpcUrl);
