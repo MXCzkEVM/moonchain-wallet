@@ -152,15 +152,16 @@ class TokenContractUseCase extends ReactiveUseCase {
     required EtherAmount amount,
     EstimatedGasFee? estimatedGasFee,
     Uint8List? data,
+    String? tokenAddress,
   }) async =>
       await _repository.tokenContract.sendTransaction(
-        privateKey: privateKey,
-        to: to,
-        from: from,
-        amount: amount,
-        estimatedGasFee: estimatedGasFee,
-        data: data,
-      );
+          privateKey: privateKey,
+          to: to,
+          from: from,
+          amount: amount,
+          estimatedGasFee: estimatedGasFee,
+          data: data,
+          tokenAddress: tokenAddress);
 
   Future<int> getChainId(String rpcUrl) async {
     return await _repository.tokenContract.getChainId(rpcUrl);

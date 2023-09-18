@@ -168,10 +168,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       String recipientAddress = await getAddress(recipient);
 
       final res = await _tokenContractUseCase.sendTransaction(
-        privateKey: state.account!.privateKey,
-        to: recipientAddress,
-        amount: amount,
-      );
+          privateKey: state.account!.privateKey,
+          to: recipientAddress,
+          amount: amount,
+          tokenAddress: token.address);
 
       return res;
     } catch (e, s) {
