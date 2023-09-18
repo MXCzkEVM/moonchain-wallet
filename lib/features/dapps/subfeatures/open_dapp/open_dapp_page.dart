@@ -96,13 +96,6 @@ class OpenAppPage extends HookConsumerWidget {
                       case EIP1193.addEthereumChain:
                         bool? result =
                             await presenter.addEthereumChain(id, params);
-                        // final isL3Bridge =
-                        //     Config.reloadDapp.any((e) => url.contains(e));
-                        // if (isL3Bridge) {
-                        //   if (result != null && result) {
-                        //     controller!.reload();
-                        //   }
-                        // }
                         break;
                       default:
                         break;
@@ -112,11 +105,33 @@ class OpenAppPage extends HookConsumerWidget {
                     crossPlatform: InAppWebViewOptions(
                       useShouldOverrideUrlLoading: true,
                     ),
+                    android: AndroidInAppWebViewOptions(
+                      useWideViewPort: true,
+                      geolocationEnabled: true,
+                      useHybridComposition: true,
+                    ),
+                    ios: IOSInAppWebViewOptions(
+                      allowsInlineMediaPlayback: true,
+                    ),
                   ),
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                     Factory<VerticalDragGestureRecognizer>(
                       () => VerticalDragGestureRecognizer(),
                     ),
+                  },
+                  androidOnPermissionRequest:
+                      (controller, origin, resources) async {
+                    return PermissionRequestResponse(
+                      resources: resources,
+                      action: PermissionRequestResponseAction.GRANT,
+                    );
+                  },
+                  androidOnGeolocationPermissionsHidePrompt: (controller) {
+                  },
+                  androidOnGeolocationPermissionsShowPrompt:
+                      (InAppWebViewController controller, String origin) async {
+                    return GeolocationPermissionShowPromptResponse(
+                        origin: origin, allow: true, retain: true);
                   },
                 ),
               ),

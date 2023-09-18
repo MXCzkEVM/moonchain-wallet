@@ -4,7 +4,7 @@ import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:location/location.dart' as lc;
 import 'dapps_state.dart';
 import 'responsive_layout/dapp_utils.dart';
 import 'widgets/gestures_instruction.dart';
@@ -162,6 +162,9 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       }
     }
 
+    if (keys.contains('location')) {
+      await checkLocationService();
+    }
     if (needPermissions.isNotEmpty) {
       await needPermissions.request();
       await PermissionUtils.permissionsStatus();
@@ -184,5 +187,17 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         openAppPage(context!, url, refreshApp);
       }
     }
+  }
+
+  Future<bool> checkLocationService() async {
+    lc.Location location = lc.Location();
+
+    bool _serviceEnabled;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+    }
+    return _serviceEnabled;
   }
 }
