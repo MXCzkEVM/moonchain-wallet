@@ -101,9 +101,11 @@ class OpenAppPage extends HookConsumerWidget {
                         break;
                     }
                   },
+                  
                   initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
                       useShouldOverrideUrlLoading: true,
+                      mediaPlaybackRequiresUserGesture: false
                     ),
                     android: AndroidInAppWebViewOptions(
                       useWideViewPort: true,
