@@ -1,5 +1,5 @@
 import 'package:datadashwallet/features/wallet/wallet.dart';
-
+import 'package:mxc_logic/mxc_logic.dart';
 import './transaction_status_chip.dart';
 import './transaction_type_widget.dart';
 import 'package:flutter/material.dart';

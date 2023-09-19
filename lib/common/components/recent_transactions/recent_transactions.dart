@@ -8,10 +8,6 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-enum TransactionType { sent, received, all }
-
-enum TransactionStatus { done, pending, failed }
-
 class RecentTransactions extends HookConsumerWidget {
   const RecentTransactions({
     super.key,
@@ -22,7 +18,7 @@ class RecentTransactions extends HookConsumerWidget {
   });
 
   final String? walletAddress;
-  final List<WannseeTransactionModel>? transactions;
+  final List<TransactionModel>? transactions;
   final List<Token> tokens;
   final NetworkType? networkType;
 

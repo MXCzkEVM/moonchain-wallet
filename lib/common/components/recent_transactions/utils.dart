@@ -75,96 +75,29 @@ class RecentTransactionsUtils {
   }
 
   static List<RecentTrxListItem> generateTx(String walletAddressHash,
-      List<WannseeTransactionModel> items, List<Token> tokensList) {
-    List<RecentTrxListItem> widgets = [];
+      List<TransactionModel> items, List<Token> tokensList) {
+    return items.map((e) {
+      final foundToken = tokensList.firstWhere(
+          (element) => element.address == e.token.address,
+          orElse: () => Token());
+      final logoUrl = foundToken.logoUri ??
+          e.token.logoUri ??
+          'assets/svg/networks/unknown.svg';
+      final decimal =
+          foundToken.decimals ?? e.token.decimals ?? Config.ethDecimals;
+      final symbol = foundToken.symbol ?? e.token.symbol ?? 'Unknown';
 
-    for (int i = 0; i < items.length; i++) {
-      final currentTx = items[i];
-      String amount = '0';
-      String symbol = 'Unknown';
-      String timeStamp = 'Unknown';
-      String hash = currentTx.hash ?? 'Unknown';
-      TransactionType transactionType = TransactionType.sent;
-      TransactionStatus transactionStatus = TransactionStatus.done;
-      String logoUrl = 'assets/svg/networks/unknown.svg';
-
-      // two type of tx : coin_transfer from filtered tx list & token transfer from token transfer list
-      // If not 'contract_call' or 'coin_transfer' then empty and that means failed in other words
-      // another tx that we have are : pending coin transfer (which is received on both sides) &
-      // pending token transfer (which is only received on the sender side)
-      if (currentTx.result == 'pending') {
-        // could be contract_call || coin_transfer
-        transactionStatus = TransactionStatus.pending;
-        final time = DateTime.now();
-        timeStamp = Formatter.localTime(time);
-
-        transactionType = RecentTransactionsUtils.checkForTransactionType(
-            walletAddressHash, currentTx.from!.hash!.toLowerCase());
-        amount = Formatter.convertWeiToEth(
-            currentTx.value ?? '0', Config.ethDecimals);
-        logoUrl = Config.mxcLogoUri;
-        symbol = Config.mxcName;
-
-        if (currentTx.decodedInput != null) {
-          if (currentTx.to?.hash != null) {
-            final tokenIndex = tokensList
-                .indexWhere((element) => element.address == currentTx.to!.hash);
-            if (tokenIndex != -1) {
-              logoUrl = tokensList[tokenIndex].logoUri!;
-            }
-            symbol = currentTx.to!.name!;
-            amount = Formatter.convertWeiToEth(
-                currentTx.decodedInput?.parameters?[1].value ?? '0',
-                Config.ethDecimals);
-          }
-        }
-      } else if (currentTx.txTypes != null &&
-          currentTx.txTypes!.contains('coin_transfer')) {
-        logoUrl = Config.mxcLogoUri;
-        symbol = Config.mxcSymbol;
-        timeStamp = Formatter.localTime(currentTx.timestamp!);
-
-        transactionType = RecentTransactionsUtils.checkForTransactionType(
-            walletAddressHash, currentTx.from!.hash!.toLowerCase());
-        amount = Formatter.convertWeiToEth(
-            currentTx.value ?? '0', Config.ethDecimals);
-      } else if (currentTx.txTypes == null &&
-          currentTx.tokenTransfers != null &&
-          currentTx.tokenTransfers![0].type == 'token_transfer') {
-        symbol = currentTx.tokenTransfers![0].token!.name!;
-
-        if (currentTx.tokenTransfers![0].token!.name != null) {
-          final tokenIndex = tokensList.indexWhere((element) =>
-              element.address == currentTx.tokenTransfers![0].token!.address!);
-          if (tokenIndex != -1) {
-            logoUrl = tokensList[tokenIndex].logoUri!;
-          }
-        }
-
-        timeStamp =
-            Formatter.localTime(currentTx.tokenTransfers![0].timestamp!);
-
-        amount = Formatter.convertWeiToEth(
-            currentTx.tokenTransfers![0].total!.value ?? '0',
-            Config.ethDecimals);
-        hash = currentTx.tokenTransfers![0].txHash ?? "Unknown";
-        transactionType = RecentTransactionsUtils.checkForTransactionType(
-          walletAddressHash,
-          currentTx.tokenTransfers![0].from!.hash!.toLowerCase(),
-        );
-      }
-
-      widgets.add(RecentTrxListItem(
+      return RecentTrxListItem(
         logoUrl: logoUrl,
-        amount: amount,
+        amount: Formatter.convertWeiToEth(e.value, decimal),
         symbol: symbol,
-        timestamp: timeStamp,
-        txHash: hash,
-        transactionType: transactionType,
-        transactionStatus: transactionStatus,
-      ));
-    }
-    return widgets;
+        timestamp:
+            e.timeStamp == null ? "Unknown" : Formatter.localTime(e.timeStamp!),
+        txHash: e.hash,
+        transactionType: e.type,
+        transactionStatus: e.status,
+      );
+    }).toList();
   }
 
   static String getViewOtherTransactionsLink(
