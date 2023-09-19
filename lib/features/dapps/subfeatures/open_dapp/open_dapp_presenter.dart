@@ -47,8 +47,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return super.dispose();
   }
 
-  void onWebViewCreated(InAppWebViewController controller) =>
-      notify(() => state.webviewController = controller);
+  void onWebViewCreated(InAppWebViewController controller) {
+    notify(() => state.webviewController = controller);
+  }
 
   Future<EstimatedGasFee?> _estimatedFee(
     String from,
@@ -218,5 +219,25 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
                 isMetaMask: true
               }
             }""";
+  }
+
+  void copy(List<dynamic> params) {
+    Clipboard.setData(ClipboardData(text: params[0]));
+  }
+
+  Future<String> paste(List<dynamic> params) async {
+    return (await Clipboard.getData('text/plain'))?.text.toString() ?? '';
+  }
+
+  void injectCopyHandling() {
+    state.webviewController!.evaluateJavascript(
+        source:
+            'javascript:navigator.clipboard.writeText = (msg) => { return window.flutter_inappwebview?.callHandler("axs-wallet-copy-clipboard", msg); }');
+    state.webviewController!.addJavaScriptHandler(
+      handlerName: 'axs-wallet-copy-clipboard',
+      callback: (args) {
+        copy(args);
+      },
+    );
   }
 }
