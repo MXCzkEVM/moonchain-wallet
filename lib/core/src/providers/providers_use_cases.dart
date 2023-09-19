@@ -113,6 +113,13 @@ final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
   ),
 );
 
+final Provider<TransactionsHistoryUseCase> transactionHistoryUseCaseProvider =
+    Provider(
+  (ref) => TransactionsHistoryUseCase(
+    ref.watch(datadashCacheProvider).transactionsHistoryRepository,
+  ),
+);
+
 final Provider<NetworkUnavailableUseCase> networkUnavailableUseCaseProvider =
     Provider(
   (ref) => NetworkUnavailableUseCase(),
