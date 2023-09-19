@@ -58,6 +58,9 @@ class OpenAppPage extends HookConsumerWidget {
                   initialUrlRequest: URLRequest(
                     url: Uri.parse(url),
                   ),
+                  onLoadStop: (controller, url) {
+                    presenter.injectCopyHandling();
+                  },
                   onLoadError: (controller, url, code, message) =>
                       collectLog('onLoadError: $code: $message'),
                   onLoadHttpError: (controller, url, statusCode, description) =>
@@ -101,12 +104,10 @@ class OpenAppPage extends HookConsumerWidget {
                         break;
                     }
                   },
-                  
                   initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
-                      useShouldOverrideUrlLoading: true,
-                      mediaPlaybackRequiresUserGesture: false
-                    ),
+                        useShouldOverrideUrlLoading: true,
+                        mediaPlaybackRequiresUserGesture: false),
                     android: AndroidInAppWebViewOptions(
                       useWideViewPort: true,
                       geolocationEnabled: true,
@@ -128,8 +129,7 @@ class OpenAppPage extends HookConsumerWidget {
                       action: PermissionRequestResponseAction.GRANT,
                     );
                   },
-                  androidOnGeolocationPermissionsHidePrompt: (controller) {
-                  },
+                  androidOnGeolocationPermissionsHidePrompt: (controller) {},
                   androidOnGeolocationPermissionsShowPrompt:
                       (InAppWebViewController controller, String origin) async {
                     return GeolocationPermissionShowPromptResponse(
