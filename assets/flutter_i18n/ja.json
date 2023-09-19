@@ -32,7 +32,7 @@
     "active": "アクティブ",
     "date": "日付",
     "tx": "取引",
-    "manage_portfolio": "ポートフォリオを管理する",
+    "manage_portfolio": "トークンを送る/ポートフォリオを管理する",
     "fiat_options": "FIATオプション",
     "show/hide_balance": "残高の表示/非表示",
     "balance": "残高",
