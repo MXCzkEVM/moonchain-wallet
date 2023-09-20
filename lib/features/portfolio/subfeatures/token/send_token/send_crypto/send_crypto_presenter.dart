@@ -181,6 +181,18 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           amount: amount,
           tokenAddress: token.address);
 
+      final tx = TransactionModel(
+          hash: res,
+          status: TransactionStatus.pending,
+          type: TransactionType.sent,
+          value: amount.getValueInUnit(EtherUnit.wei).toString(),
+          token: token,
+          timeStamp: DateTime.now());
+
+      _transactionHistoryUseCase.updateItemTx(tx, state.network!.chainId);
+
+      _transactionHistoryUseCase.spyOnTransaction(tx, state.network!.chainId);
+      
       return res;
     } catch (e, s) {
       addError(e, s);

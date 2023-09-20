@@ -29,6 +29,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     super.initState();
 
     getMXCTweets();
+    _transactionHistoryUseCase.checkForPendingTransactions(
+        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh().chainId);
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
