@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import '../entity/transaction_history_model.dart';
@@ -71,15 +72,17 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
   }
 
   void checkForPendingTransactions(int chainId) {
-    final index = transactionsHistory.value
-        .indexWhere((element) => element.chainId == chainId);
+    if (!Config.isMxcChains(chainId)) {
+      final index = transactionsHistory.value
+          .indexWhere((element) => element.chainId == chainId);
 
-    if (index != -1) {
-      final chainTx = transactionsHistory.value[index];
-      final pendingTxList = chainTx.txList
-          .where((element) => element.status == TransactionStatus.pending);
-      for (TransactionModel pendingTx in pendingTxList) {
-        spyOnTransaction(pendingTx, chainId);
+      if (index != -1) {
+        final chainTx = transactionsHistory.value[index];
+        final pendingTxList = chainTx.txList
+            .where((element) => element.status == TransactionStatus.pending);
+        for (TransactionModel pendingTx in pendingTxList) {
+          spyOnTransaction(pendingTx, chainId);
+        }
       }
     }
   }
