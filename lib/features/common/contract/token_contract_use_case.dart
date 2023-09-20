@@ -180,4 +180,8 @@ class TokenContractUseCase extends ReactiveUseCase {
     }
     update(totalBalanceInXsd, totalPrice);
   }
+
+  StreamSubscription<bool> spyOnTransaction(String hash) {
+    return _repository.tokenContract.spyTransaction(hash);
+  }
 }
