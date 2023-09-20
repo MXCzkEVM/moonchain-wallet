@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/components/components.dart';
 import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
@@ -20,6 +21,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   late final _tweetsUseCase = ref.read(tweetsUseCaseProvider);
   late final _customTokenUseCase = ref.read(customTokensUseCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
 
   @override
   void initState() {
@@ -40,6 +43,14 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       if (value != null) {
         notify(() => state.walletAddress = value.address);
         initializeWalletPage();
+      }
+    });
+
+    listen(_transactionHistoryUseCase.transactionsHistory, (value) {
+      if (value.isNotEmpty && state.network != null) {
+        if (!Config.isMxcChains(state.network!.chainId)) {
+          getCustomChainsTransactions(value);
+        }
       }
     });
 
@@ -86,12 +97,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   Future<void> initializeWalletPage() async {
     initializeBalancePanelAndTokens();
     createSubscriptions();
-    if (Config.isMxcChains(state.network!.chainId)) {
-      getTransactions();
-    } else {
-      // TODO initialize with chain tx
-      notify(() => state.txList = []);
-    }
+    getTransactions();
   }
 
   void createSubscriptions() async {
@@ -184,7 +190,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
             case 'balance':
               final wannseeBalanceEvent =
                   WannseeBalanceModel.fromJson(event.payload);
-              getWalletTokensBalance();
+              getWalletTokensBalance(true);
               break;
             default:
           }
@@ -194,6 +200,34 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void getTransactions() async {
+    if (Config.isMxcChains(state.network!.chainId)) {
+      getMXCTransactions();
+    } else {
+      getCustomChainsTransactions(null);
+    }
+  }
+
+  void getCustomChainsTransactions(List<TransactionHistoryModel>? txHistory) {
+    txHistory =
+        txHistory ?? _transactionHistoryUseCase.getTransactionsHistory();
+
+    if (state.network != null) {
+      final index = txHistory
+          .indexWhere((element) => element.chainId == state.network!.chainId);
+
+      if (index == -1) {
+        _transactionHistoryUseCase.addItem(TransactionHistoryModel(
+            chainId: state.network!.chainId, txList: []));
+        return;
+      }
+
+      final chainTxHistory = txHistory[index];
+
+      notify(() => state.txList = chainTxHistory.txList);
+    }
+  }
+
+  void getMXCTransactions() async {
     // final walletAddress = await _walletUserCase.getPublicAddress();
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer
@@ -269,8 +303,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   initializeBalancePanelAndTokens() {
-    getDefaultTokens().then((value) =>
-        value != null ? getWalletTokensBalance() : getDefaultTokens());
+    getDefaultTokens().then((value) => getWalletTokensBalance(
+        Config.isMxcChains(state.network!.chainId) ||
+            Config.isEthereumMainnet(state.network!.chainId)));
   }
 
   Future<DefaultTokens?> getDefaultTokens() async {
@@ -390,7 +425,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  void getWalletTokensBalance() async {
-    _tokenContractUseCase.getTokensBalance(state.walletAddress!);
+  void getWalletTokensBalance(bool shouldGetPrice) async {
+    _tokenContractUseCase.getTokensBalance(
+        state.walletAddress!, shouldGetPrice);
   }
 }
