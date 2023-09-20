@@ -77,7 +77,7 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
     if (index != -1) {
       final chainTx = transactionsHistory.value[index];
       final pendingTxList = chainTx.txList
-          .where((element) => element.status == TransactionStatus.failed);
+          .where((element) => element.status == TransactionStatus.pending);
       for (TransactionModel pendingTx in pendingTxList) {
         spyOnTransaction(pendingTx, chainId);
       }
