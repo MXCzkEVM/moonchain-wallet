@@ -120,9 +120,15 @@ class SendCryptoPage extends HookConsumerWidget {
                     return res;
                   }
                   try {
-                    if (int.parse(v!).isNegative) {
+                    final doubleValue = double.parse(v!);
+                    String stringValue = doubleValue.toString();
+
+                    int decimalPlaces = stringValue.split('.')[1].length;
+
+                    if (doubleValue.isNegative || decimalPlaces > 8) {
                       return translate('invalid_format');
                     }
+
                     return null;
                   } catch (e) {
                     return translate('invalid_format');
