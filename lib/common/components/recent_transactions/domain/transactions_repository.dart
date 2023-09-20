@@ -28,6 +28,12 @@ class TransactionsHistoryRepository extends ControlledCacheRepository {
   void addItem(TransactionHistoryModel item) =>
       transactionsHistory.value = [...transactionsHistory.value, item];
 
+  void addItemTx(TransactionModel item, int index) {
+    final newList = transactionsHistory.value;
+    newList[index].txList.insert(0, item);
+    transactionsHistory.value = newList;
+  }
+
   void updateItem(TransactionHistoryModel item, int index) {
     final newList = transactionsHistory.value;
     newList.removeAt(index);
@@ -35,8 +41,18 @@ class TransactionsHistoryRepository extends ControlledCacheRepository {
     transactionsHistory.value = newList;
   }
 
+  void updateItemTx(TransactionModel item, int index, int txIndex) {
+    final newList = transactionsHistory.value;
+
+    newList[index].txList[txIndex] = item;
+
+    transactionsHistory.value = newList;
+  }
+
   void removeItem(TransactionHistoryModel item) =>
       transactionsHistory.value = transactionsHistory.value
           .where((e) => e.chainId != item.chainId)
           .toList();
+
+  void removeAll() => transactionsHistory.value = [];
 }
