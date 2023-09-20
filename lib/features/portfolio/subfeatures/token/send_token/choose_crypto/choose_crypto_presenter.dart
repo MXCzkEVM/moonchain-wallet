@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,8 @@ final chooseCryptoPageContainer =
 class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   ChooseCryptoPresenter() : super(ChooseCryptoState());
 
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final TextEditingController searchController = TextEditingController();
@@ -25,6 +28,15 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
       }
     });
 
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        state.network = value;
+        if (state.account != null) {
+          loadPage();
+        }
+      }
+    });
+
     listen(_tokenContractUseCase.tokensList, (newTokens) {
       if (newTokens.isNotEmpty) {
         notify(() {
@@ -36,7 +48,11 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   }
 
   Future<void> loadPage() async {
-    await _tokenContractUseCase.getTokensBalance(state.account!.address);
+    final chainId = state.network!.chainId;
+    final shouldGetPrice =
+        Config.isMxcChains(chainId) || Config.isEthereumMainnet(chainId);
+    await _tokenContractUseCase.getTokensBalance(
+        state.account!.address, shouldGetPrice);
   }
 
   void fliterTokenByName(String value) {

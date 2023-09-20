@@ -98,20 +98,25 @@ class TokenContractUseCase extends ReactiveUseCase {
     update(online, result);
   }
 
-  Future<void> getTokensBalance(String walletAddress) async {
-    try {
-      final result = await _repository.tokenContract
-          .getTokensBalance(tokensList.value, walletAddress);
-      update(tokensList, result);
+  Future<void> getTokensBalance(
+      String walletAddress, bool shouldGetPrice) async {
+    final result = await _repository.tokenContract
+        .getTokensBalance(tokensList.value, walletAddress);
+    update(tokensList, result);
+    if (shouldGetPrice) {
       getTokensPrice();
-    } catch (e) {
-      final newList = [];
-      for (Token token in tokensList.value) {
-        newList.add(token.copyWith(balance: 0.0));
-      }
-      update(tokensList, newList);
-      getTokensBalance(walletAddress);
+    } else {
+      resetTokenPrice();
     }
+  }
+
+  void resetTokenPrice() {
+    final List<Token> newList = <Token>[];
+    for (Token token in tokensList.value) {
+      newList.add(token.copyWith(balancePrice: 0.0));
+    }
+    update(tokensList, newList);
+    calculateTotalBalanceInXsd();
   }
 
   Future<void> getTokensPrice() async {
@@ -174,5 +179,9 @@ class TokenContractUseCase extends ReactiveUseCase {
       totalPrice += token.balancePrice!;
     }
     update(totalBalanceInXsd, totalPrice);
+  }
+
+  StreamSubscription<bool> spyOnTransaction(String hash) {
+    return _repository.tokenContract.spyTransaction(hash);
   }
 }

@@ -58,7 +58,7 @@ class TransactionHistoryPage extends HookConsumerWidget {
         const SizedBox(height: 12),
         RecentTransactions(
           walletAddress: ref.watch(state).account!.address,
-          transactions: ref.watch(state).filterTransactions?.items,
+          transactions: ref.watch(state).filterTransactions,
           tokens: ref.watch(state).tokens,
           networkType: ref.watch(state).network?.networkType,
         ),

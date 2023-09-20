@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/config.dart';
+import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
@@ -37,6 +38,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
   final Token token;
 
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
   late final TokenContractUseCase _tokenContractUseCase =
       ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
@@ -114,6 +117,11 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     double sumBalance = token.balance! - double.parse(amount);
     estimatedGasFee = await _estimatedFee(recipientAddress);
     sumBalance -= estimatedGasFee?.gasFee ?? 0.0;
+    final estimatedFee = estimatedGasFee == null
+        ? '--'
+        : Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
+            ? '0.000'
+            : estimatedGasFee.gasFee.toString();
 
     final result = await showTransactionDialog(context!,
         amount: amount,
@@ -122,7 +130,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         newtork: state.network?.label ?? '--',
         from: state.account!.address,
         to: recipient,
-        estimatedFee: estimatedGasFee?.gasFee.toString(),
+        estimatedFee: estimatedFee,
         onTap: (transactionType) => _nextTransactionStep(transactionType),
         networkSymbol: state.network?.symbol ?? '--');
   }
@@ -173,6 +181,18 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           amount: amount,
           tokenAddress: token.address);
 
+      final tx = TransactionModel(
+          hash: res,
+          status: TransactionStatus.pending,
+          type: TransactionType.sent,
+          value: amount.getValueInUnit(EtherUnit.wei).toString(),
+          token: token,
+          timeStamp: DateTime.now());
+
+      _transactionHistoryUseCase.updateItemTx(tx, state.network!.chainId);
+
+      _transactionHistoryUseCase.spyOnTransaction(tx, state.network!.chainId);
+      
       return res;
     } catch (e, s) {
       addError(e, s);

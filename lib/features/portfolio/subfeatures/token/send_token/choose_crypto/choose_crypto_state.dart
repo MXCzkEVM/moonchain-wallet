@@ -5,6 +5,7 @@ class ChooseCryptoState with EquatableMixin {
   List<Token>? tokens;
   List<Token>? filterTokens;
   Account? account;
+  Network? network;
 
   @override
   List<Object?> get props => [
