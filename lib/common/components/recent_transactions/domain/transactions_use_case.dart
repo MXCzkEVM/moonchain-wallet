@@ -86,4 +86,14 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
       }
     }
   }
+
+  void checkChainAvailability(int chainId) {
+    final index = transactionsHistory.value
+        .indexWhere((element) => element.chainId == chainId);
+
+    if (index == -1) {
+      addItem(TransactionHistoryModel(chainId: chainId, txList: []));
+      return;
+    }
+  }
 }

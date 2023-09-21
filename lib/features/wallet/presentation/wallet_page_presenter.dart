@@ -217,12 +217,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       final index = txHistory
           .indexWhere((element) => element.chainId == state.network!.chainId);
 
-      if (index == -1) {
-        _transactionHistoryUseCase.addItem(TransactionHistoryModel(
-            chainId: state.network!.chainId, txList: []));
-        return;
-      }
-
       final chainTxHistory = txHistory[index];
 
       notify(() => state.txList = chainTxHistory.txList);
