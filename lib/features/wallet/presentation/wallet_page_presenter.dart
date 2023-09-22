@@ -313,7 +313,11 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void viewTransaction(String txHash) async {
-    final addressUrl = Uri.parse('https://wannsee-explorer.mxc.com/tx/$txHash');
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+    final addressUrl = Uri.parse('$explorerUrl${Config.txExplorer(txHash)}');
 
     if ((await canLaunchUrl(addressUrl))) {
       await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
