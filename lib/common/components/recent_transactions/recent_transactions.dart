@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import './utils.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class RecentTransactions extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final presenter = ref.read(walletContainer.actions);
     return transactions != null && transactions!.isEmpty
         ? Center(
             child: Text(
@@ -67,9 +69,7 @@ class RecentTransactions extends HookConsumerWidget {
                     route.featureDialog(
                       maintainState: false,
                       OpenAppPage(
-                        url: RecentTransactionsUtils
-                            .getViewOtherTransactionsLink(
-                                networkType!, walletAddress!),
+                        url: presenter.getViewOtherTransactionsLink(),
                       ),
                     ),
                   ),

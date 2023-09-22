@@ -8,8 +8,10 @@ class Config {
   static const String mxcLogoUri = 'assets/svg/networks/mxc.svg';
   static const String zeroAddress =
       '0x0000000000000000000000000000000000000000';
-  static const String mxcAddressSepolia = '0x52f72a3c94a6ffca3f8caf769e14015fd040b0cd';
-  static const String mxcAddressEthereum = '0x5Ca381bBfb58f0092df149bD3D243b08B9a8386e';
+  static const String mxcAddressSepolia =
+      '0x52f72a3c94a6ffca3f8caf769e14015fd040b0cd';
+  static const String mxcAddressEthereum =
+      '0x5Ca381bBfb58f0092df149bD3D243b08B9a8386e';
   static const List<String> reloadDapp = [
     "https://erc20.mxc.com",
     "https://wannsee-erc20.mxc.com"
@@ -33,5 +35,9 @@ class Config {
 
   static String txExplorer(String hash) {
     return 'tx/$hash';
+  }
+
+  static String addressExplorer(String address) {
+    return 'address/$address';
   }
 }

@@ -217,6 +217,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       final index = txHistory
           .indexWhere((element) => element.chainId == state.network!.chainId);
 
+      if (index == -1) {
+        _transactionHistoryUseCase
+            .checkChainAvailability(state.network!.chainId);
+        return;
+      }
+
       final chainTxHistory = txHistory[index];
 
       notify(() => state.txList = chainTxHistory.txList);
@@ -317,11 +323,24 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     final explorerUrl = chainExplorerUrl.endsWith('/')
         ? chainExplorerUrl
         : '$chainExplorerUrl/';
+
     final addressUrl = Uri.parse('$explorerUrl${Config.txExplorer(txHash)}');
 
     if ((await canLaunchUrl(addressUrl))) {
       await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
     }
+  }
+
+  String getViewOtherTransactionsLink() {
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+
+    final address = state.walletAddress!;
+
+    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
+    return addressUrl;
   }
 
   void generateChartData(List<BalanceData> balanceData) {
