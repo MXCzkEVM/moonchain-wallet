@@ -33,6 +33,11 @@ class Config {
     return chainId == ethereumMainnetChainId;
   }
 
+  static bool isL3Bridge(String url) {
+    return url.contains('erc20.mxc.com') ||
+        url.contains('wannsee-erc20.mxc.com');
+  }
+
   static String txExplorer(String hash) {
     return 'tx/$hash';
   }

@@ -89,7 +89,8 @@ class OpenAppPage extends HookConsumerWidget {
                             },
                             success: (idHash) {
                               controller?.sendResult(idHash, id);
-                            });
+                            },
+                            url: url);
                         break;
                       case EIP1193.signMessage:
                       case EIP1193.signPersonalMessage:
