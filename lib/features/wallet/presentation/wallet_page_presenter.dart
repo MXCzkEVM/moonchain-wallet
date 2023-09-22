@@ -218,8 +218,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
           .indexWhere((element) => element.chainId == state.network!.chainId);
 
       if (index == -1) {
-        _transactionHistoryUseCase.addItem(TransactionHistoryModel(
-            chainId: state.network!.chainId, txList: []));
+        _transactionHistoryUseCase
+            .checkChainAvailability(state.network!.chainId);
         return;
       }
 
@@ -319,11 +319,28 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void viewTransaction(String txHash) async {
-    final addressUrl = Uri.parse('https://wannsee-explorer.mxc.com/tx/$txHash');
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+
+    final addressUrl = Uri.parse('$explorerUrl${Config.txExplorer(txHash)}');
 
     if ((await canLaunchUrl(addressUrl))) {
       await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
     }
+  }
+
+  String getViewOtherTransactionsLink() {
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+
+    final address = state.walletAddress!;
+
+    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
+    return addressUrl;
   }
 
   void generateChartData(List<BalanceData> balanceData) {

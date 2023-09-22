@@ -6,7 +6,9 @@ import 'chain_configuration_repository.dart';
 class ChainConfigurationUseCase extends ReactiveUseCase {
   ChainConfigurationUseCase(
     this._repository,
-  );
+  ) {
+    updateFixedNetworks();
+  }
 
   final ChainConfigurationRepository _repository;
 
@@ -46,6 +48,25 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
     update(networks, _repository.items);
   }
 
+  void updateFixedNetworks() {
+    for (int i = 0; i < _repository.items.length; i++) {
+      final repoItem = _repository.items[i];
+
+      final index = Network.fixedNetworks().indexWhere(
+        (element) => element.chainId == repoItem.chainId,
+      );
+
+      if (index != -1) {
+        // matches
+        final fixedItem = Network.fixedNetworks().elementAt(index);
+        if (!repoItem.compareWithOther(fixedItem)) {
+          _repository.updateItem(repoItem.copyWithOther(fixedItem), i);
+        }
+      }
+    }
+    update(networks, _repository.items);
+  }
+
   void changeIpfsGateWay(String newIpfsGateWay) {
     _repository.changeIpfsGateWay(newIpfsGateWay);
     update(selectedIpfsGateWay, _repository.selectedIpfsGatewayItem);
@@ -82,8 +103,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   }
 
   Network getCurrentNetworkWithoutRefresh() {
-    return 
-        _repository.items.where((item) => item.enabled).first;
+    return _repository.items.where((item) => item.enabled).first;
   }
 
   void refresh() {

@@ -18,6 +18,8 @@ final openDAppPageContainer =
 class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   OpenDAppPresenter() : super(OpenDAppState());
 
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
@@ -77,7 +79,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<String?> _sendTransaction(String to, EtherAmount amount,
-      Uint8List? data, EstimatedGasFee? estimatedGasFee,
+      Uint8List? data, EstimatedGasFee? estimatedGasFee, String url,
       {String? from}) async {
     loading = true;
     try {
@@ -88,6 +90,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           amount: amount,
           data: data,
           estimatedGasFee: estimatedGasFee);
+      if (!Config.isMxcChains(state.network!.chainId) &&
+          Config.isL3Bridge(url)) {
+        recordTransaction(res);
+      }
 
       return res;
     } catch (e, s) {
@@ -97,10 +103,38 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
+  void recordTransaction(String hash) {
+    final timeStamp = DateTime.now();
+    const txStatus = TransactionStatus.pending;
+    const txType = TransactionType.sent;
+    final chainId = state.network!.chainId;
+    final token = Token(
+        chainId: state.network!.chainId,
+        logoUri: Config.mxcLogoUri,
+        name: Config.mxcName,
+        symbol: Config.mxcSymbol,
+        // can separate Sepolia & Ethereum
+        address: Config.isEthereumMainnet(chainId)
+            ? Config.mxcAddressEthereum
+            : Config.mxcAddressSepolia);
+    final tx = TransactionModel(
+      hash: hash,
+      timeStamp: timeStamp,
+      status: txStatus,
+      type: txType,
+      value: '0',
+      token: token,
+    );
+
+    _transactionHistoryUseCase.spyOnTransaction(tx, chainId);
+    _transactionHistoryUseCase.updateItemTx(tx, chainId);
+  }
+
   void signTransaction({
     required BridgeParams bridge,
     required VoidCallback cancel,
     required Function(String idHaethClientsh) success,
+    required String url,
   }) async {
     final amountEther = EtherAmount.inWei(bridge.value ?? BigInt.zero);
     final amount = amountEther.getValueInUnit(EtherUnit.ether).toString();
@@ -152,7 +186,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
       if (result != null && result) {
         final hash = await _sendTransaction(
-            bridge.to!, amountEther, bridgeData, estimatedGasFee,
+            bridge.to!, amountEther, bridgeData, estimatedGasFee, url,
             from: bridge.from);
         if (hash != null) success.call(hash);
       } else {
@@ -198,6 +232,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
+    _transactionHistoryUseCase.checkChainAvailability(toNetwork.chainId);
     _authUseCase.resetNetwork(toNetwork);
     notify(() => state.network = toNetwork);
 

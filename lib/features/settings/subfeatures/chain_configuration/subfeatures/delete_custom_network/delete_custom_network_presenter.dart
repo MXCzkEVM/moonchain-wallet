@@ -18,6 +18,8 @@ class DeleteCustomNetworkPresenter
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
 
   late final TextEditingController networkNameController =
       TextEditingController();
@@ -151,6 +153,7 @@ class DeleteCustomNetworkPresenter
 
   void setAsDefault() {
     _chainConfigurationUseCase.switchDefaultNetwork(selectedNetwork!);
+    _transactionHistoryUseCase.checkChainAvailability(selectedNetwork!.chainId);
     _authUseCase.resetNetwork(selectedNetwork!);
     addMessage(translate('x_is_now_active')!.replaceFirst(
         '{0}',
@@ -161,7 +164,7 @@ class DeleteCustomNetworkPresenter
   void setNewDefault() {
     final newDefault = state.networks[0];
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
-
+    _transactionHistoryUseCase.checkChainAvailability(newDefault.chainId);
     addMessage(translate('x_is_now_active')!.replaceFirst(
         '{0}',
         newDefault.label ??

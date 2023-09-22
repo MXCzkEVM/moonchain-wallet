@@ -3,6 +3,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import '../entity/transaction_history_model.dart';
 import 'transactions_repository.dart';
+import 'package:web3dart/web3dart.dart';
 
 class TransactionsHistoryUseCase extends ReactiveUseCase {
   TransactionsHistoryUseCase(this._repository, this._web3Repository);
@@ -85,5 +86,30 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
         }
       }
     }
+  }
+
+  void spyOnUnknownTransaction(
+      String hash, String address, Token token, int chainId) async {
+    TransactionInformation? receipt;
+
+    receipt = await _web3Repository.tokenContract
+        .getTransactionByHashCustomChain(hash);
+
+    if (receipt != null) {
+      final tx = TransactionModel.fromTransaction(receipt, address, token);
+      spyOnTransaction(tx, chainId);
+      updateItemTx(tx, chainId);
+    }
+  }
+
+  void checkChainAvailability(int chainId) {
+    final index = transactionsHistory.value
+        .indexWhere((element) => element.chainId == chainId);
+
+    if (index == -1) {
+      addItem(TransactionHistoryModel(chainId: chainId, txList: []));
+      return;
+    }
+    update(transactionsHistory, _repository.items);
   }
 }

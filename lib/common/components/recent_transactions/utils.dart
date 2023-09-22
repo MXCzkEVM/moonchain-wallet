@@ -100,14 +100,4 @@ class RecentTransactionsUtils {
     }).toList();
   }
 
-  static String getViewOtherTransactionsLink(
-      NetworkType networkType, String walletAddress) {
-    String baseUrl = 'explorer.mxc.com';
-
-    if (networkType == NetworkType.testnet) {
-      baseUrl = 'wannsee-explorer.mxc.com';
-    }
-
-    return 'https://$baseUrl/address/$walletAddress';
-  }
 }
