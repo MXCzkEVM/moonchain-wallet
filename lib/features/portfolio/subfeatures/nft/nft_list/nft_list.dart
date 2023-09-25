@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/portfolio/presentation/portfolio_page_presenter.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/utils.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +52,17 @@ class NFTList extends HookConsumerWidget {
                 key: const Key('buyNFTButton'),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                onTap: () => presenter.buyNFt(),
+                onTap: () {
+                  final launchUrl = presenter.getNftUrl();
+                  if (launchUrl != null) {
+                    Navigator.of(context).push(route.featureDialog(
+                      maintainState: false,
+                      OpenAppPage(
+                        url: launchUrl,
+                      ),
+                    ));
+                  } 
+                },
                 title: translate('buy_x').replaceFirst('{0}', 'NFT'),
                 iconData: Icons.add,
                 alignIconStart: true,
