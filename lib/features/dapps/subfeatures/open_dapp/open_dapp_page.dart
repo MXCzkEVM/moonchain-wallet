@@ -9,6 +9,7 @@ import 'package:web3_provider/web3_provider.dart';
 import 'open_dapp_presenter.dart';
 import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
+import 'widgets/allow_multiple_gestures.dart';
 
 class OpenAppPage extends HookConsumerWidget {
   const OpenAppPage({Key? key, required this.url}) : super(key: key);
@@ -19,8 +20,7 @@ class OpenAppPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(openDAppPageContainer.actions);
     final state = ref.watch(openDAppPageContainer.state);
-    const primaryVelocity = 500;
-
+    const primaryVelocity = 2000;
     return Scaffold(
       backgroundColor: ColorsTheme.of(context).screenBackground,
       body: SafeArea(
@@ -28,28 +28,44 @@ class OpenAppPage extends HookConsumerWidget {
           presenter: presenter,
           child: Stack(
             children: [
-              GestureDetector(
-                onHorizontalDragEnd: (details) async {
-                  final webViewController = state.webviewController!;
+              RawGestureDetector(
+                behavior: HitTestBehavior.opaque,
+                gestures: {
+                  AllowMultipleHorizontalDrag:
+                      GestureRecognizerFactoryWithHandlers<
+                          AllowMultipleHorizontalDrag>(
+                    () => AllowMultipleHorizontalDrag(),
+                    (AllowMultipleHorizontalDrag instance) {
+                      instance.onEnd = (details) async {
+                        final webViewController = state.webviewController!;
+                        if (details.primaryVelocity! < 0 - primaryVelocity &&
+                            (await webViewController.canGoForward())) {
+                          webViewController.goForward();
+                        }
 
-                  if (details.primaryVelocity! < 0 - primaryVelocity &&
-                      (await webViewController.canGoForward())) {
-                    webViewController.goForward();
-                  }
+                        if (details.primaryVelocity! > primaryVelocity &&
+                            (await webViewController.canGoBack())) {
+                          webViewController.goBack();
+                        }
 
-                  if (details.primaryVelocity! > primaryVelocity &&
-                      (await webViewController.canGoBack())) {
-                    webViewController.goBack();
-                  }
-
-                  if (details.primaryVelocity! > primaryVelocity &&
-                      !(await webViewController.canGoBack())) {
-                    if (BottomFlowDialog.maybeOf(context) != null) {
-                      BottomFlowDialog.of(context).close();
-                    }
-                  }
+                        if (details.primaryVelocity! > primaryVelocity &&
+                            !(await webViewController.canGoBack())) {
+                          if (BottomFlowDialog.maybeOf(context) != null) {
+                            BottomFlowDialog.of(context).close();
+                          }
+                        }
+                      };
+                    },
+                  ),
+                  AllowMultipleDoubleTap: GestureRecognizerFactoryWithHandlers<
+                      AllowMultipleDoubleTap>(
+                    () => AllowMultipleDoubleTap(),
+                    (AllowMultipleDoubleTap instance) {
+                      instance.onDoubleTap =
+                          () => state.webviewController!.reload();
+                    },
+                  )
                 },
-                onDoubleTap: () => state.webviewController!.reload(),
                 child: InAppWebViewEIP1193(
                   chainId: state.network?.chainId,
                   rpcUrl: state.network?.web3RpcHttpUrl,
@@ -121,6 +137,9 @@ class OpenAppPage extends HookConsumerWidget {
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                     Factory<VerticalDragGestureRecognizer>(
                       () => VerticalDragGestureRecognizer(),
+                    ),
+                    Factory<HorizontalDragGestureRecognizer>(
+                      () => HorizontalDragGestureRecognizer(),
                     ),
                   },
                   androidOnPermissionRequest:
