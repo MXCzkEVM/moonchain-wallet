@@ -25,11 +25,10 @@ class SplashImportWalletPage extends HookConsumerWidget {
           valueListenable: presenter.mnemonicController,
           builder: (ctx, mnemonicValue, _) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
               child: MxcButton.primaryWhite(
                 key: const Key('importWalletButton'),
-                title: FlutterI18n.translate(context, 'import_wallet')
-                    .toUpperCase(),
+                title: FlutterI18n.translate(context, 'import_wallet'),
                 onTap: mnemonicValue.text.isNotEmpty
                     ? () {
                         FocusManager.instance.primaryFocus?.unfocus();
@@ -50,7 +49,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
               style: FontTheme.of(context).h4.white(),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 16, bottom: 32),
+              padding: const EdgeInsets.only(top: 16, bottom: 16),
               child: Text(
                 FlutterI18n.translate(context, 'word_seed_phrase'),
                 style: FontTheme.of(context).body1.white(),
@@ -66,6 +65,9 @@ class SplashImportWalletPage extends HookConsumerWidget {
                     context, 'enter_secret_recovery_phrase'),
                 action: TextInputAction.done,
                 validator: (v) => presenter.validate(v),
+                autoFocus: true,
+                borderUnFocusColor: ColorsTheme.of(context).borderPrimary100,
+                borderFocusColor: ColorsTheme.of(context).borderPrimary200,
               ),
             ),
           ],
