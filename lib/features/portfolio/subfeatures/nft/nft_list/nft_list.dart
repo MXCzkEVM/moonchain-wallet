@@ -61,7 +61,7 @@ class NFTList extends HookConsumerWidget {
                         url: launchUrl,
                       ),
                     ));
-                  } 
+                  }
                 },
                 title: translate('buy_x').replaceFirst('{0}', 'NFT'),
                 iconData: Icons.add,

@@ -168,6 +168,11 @@ class TokenContractUseCase extends ReactiveUseCase {
           data: data,
           tokenAddress: tokenAddress);
 
+  String signTypedMessage({required String privateKey, required String data}) {
+    return _repository.tokenContract
+        .signTypedMessage(privateKey: privateKey, data: data);
+  }
+
   Future<int> getChainId(String rpcUrl) async {
     return await _repository.tokenContract.getChainId(rpcUrl);
   }

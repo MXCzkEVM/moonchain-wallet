@@ -1,4 +1,3 @@
-
 import 'package:web3_provider/web3_provider.dart';
 
 class BridgeParams {
@@ -26,8 +25,7 @@ class BridgeParams {
     String? jsonPrice = json['gasPrice'];
     gasPrice = jsonPrice == null
         ? null
-        : (int.parse(jsonPrice.replaceAll('0x', ''), radix: 16))
-            .toString();
+        : (int.parse(jsonPrice.replaceAll('0x', ''), radix: 16)).toString();
 
     value = BigInt.tryParse((json['value'] ?? '0').replaceAll('0x', ''),
             radix: 16) ??

@@ -28,7 +28,7 @@ class DeleteCustomNetworkPresenter
   late final TextEditingController symbolController = TextEditingController();
   late final TextEditingController explorerController = TextEditingController();
   late final _authUseCase = ref.read(authUseCaseProvider);
-  
+
   Network? selectedNetwork;
 
   @override
