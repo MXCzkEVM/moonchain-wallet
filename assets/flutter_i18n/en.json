@@ -279,5 +279,7 @@
 	"network_not_found": "Network not found",
 	"checking_balance": "Checking balance...",
 	"no_balance": "You have no balance",
-	"no_balance_tip": "You currently have no MXC in your wallet.\nYou can either receive tokens or choose to claim a username later."
+	"no_balance_tip": "You currently have no MXC in your wallet.\nYou can either receive tokens or choose to claim a username later.",
+	"signature_request": "Signature request", 
+	"sign": "Sign"
 }

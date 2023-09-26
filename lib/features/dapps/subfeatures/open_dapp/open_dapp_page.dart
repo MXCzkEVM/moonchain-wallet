@@ -109,9 +109,20 @@ class OpenAppPage extends HookConsumerWidget {
                             url: url);
                         break;
                       case EIP1193.signMessage:
+                        break;
                       case EIP1193.signPersonalMessage:
                         break;
                       case EIP1193.signTypedMessage:
+                        Map<String, dynamic> object = params["object"];
+                        presenter.signTypedMessage(
+                          object: object,
+                          cancel: () {
+                            controller?.cancel(id);
+                          },
+                          success: (idHash) {
+                            controller?.sendResult(idHash, id);
+                          },
+                        );
                         break;
                       case EIP1193.addEthereumChain:
                         bool? result =

@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
@@ -95,6 +97,21 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         recordTransaction(res);
       }
 
+      return res;
+    } catch (e, s) {
+      addError(e, s);
+    } finally {
+      loading = false;
+    }
+  }
+
+  String? _signTypedMessage(
+    String hexData,
+  ) {
+    loading = true;
+    try {
+      final res = _tokenContractUseCase.signTypedMessage(
+          privateKey: state.account!.privateKey, data: hexData);
       return res;
     } catch (e, s) {
       addError(e, s);
@@ -220,6 +237,42 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
+  void signPersonalMessage() {}
+
+  void signTypedMessage({
+    required Map<String, dynamic> object,
+    required VoidCallback cancel,
+    required Function(String hash) success,
+  }) async {
+    String hexData = object['raw'] as String;
+    Map<String, dynamic> data =
+        jsonDecode(object['raw'] as String) as Map<String, dynamic>;
+    Map<String, dynamic> domain = data['domain'] as Map<String, dynamic>;
+    String primaryType = data['primaryType'];
+    int chainId = (domain['chainId']) as int;
+    String name = domain['name'] as String;
+
+    try {
+      final result = await showTypedMessageDialog(context!,
+          title: translate('signature_request')!,
+          message: data['message'] as Map<String, dynamic>,
+          networkName: '$name ($chainId)',
+          primaryType: primaryType);
+
+      if (result != null && result) {
+        final hash = _signTypedMessage(
+          hexData,
+        );
+        if (hash != null) success.call(hash);
+      } else {
+        cancel.call();
+      }
+    } catch (e, s) {
+      cancel.call();
+      addError(e, s);
+    }
+  }
+
   void changeProgress(int progress) => notify(() => state.progress = progress);
 
   void setAddress(dynamic id) {
@@ -274,5 +327,25 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         copy(args);
       },
     );
+  }
+
+  void launchAddress(String address) {
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+
+    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
+    state.webviewController!
+        .loadUrl(urlRequest: URLRequest(url: Uri.parse(addressUrl)));
+  }
+
+  bool isAddress(String address) {
+    try {
+      EthereumAddress.fromHex(address);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

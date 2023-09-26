@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:datadashwallet/common/config.dart';
+import 'package:intl/intl.dart' as intl;
 
 class Formatter {
   static String formatBigNumber(double number) {
