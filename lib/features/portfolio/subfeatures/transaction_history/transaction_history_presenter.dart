@@ -1,4 +1,3 @@
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -99,10 +98,25 @@ class TransactionHistoryPresenter
             return element.tokenTransfers![0].timestamp!.isAfter(sevenDays);
           }).toList());
 
+          newTransactionsList = newTransactionsList.copyWith(
+              items: newTransactionsList.items!.where((element) {
+            if (element.timestamp != null) {
+              return element.timestamp!.isAfter(sevenDays);
+            }
+            return element.tokenTransfers![0].timestamp!.isAfter(sevenDays);
+          }).toList());
+
+          final newTxList = newTransactionsList.items!
+              .map((e) => TransactionModel.fromMXCTransaction(
+                  e, state.account!.address))
+              .toList();
+          newTxList.removeWhere(
+            (element) => element.hash == "Unknown",
+          );
+
           notify(() {
-            state.transactions = newTransactionsList;
-            state.filterTransactions =
-                WannseeTransactionsModel(items: newTransactionsList!.items);
+            state.transactions = newTxList;
+            state.filterTransactions = newTxList;
           });
         }
       }
@@ -127,37 +141,31 @@ class TransactionHistoryPresenter
         state.dateSort = dateSort;
         state.amountSort = amountSort;
 
-        if (state.transactions == null || state.transactions?.items == null) {
+        if (state.transactions == null) {
           return;
         }
 
-        var result = state.transactions!.items!.where((item) {
+        var result = state.transactions!.where((item) {
           if (transactionType == TransactionType.all) return true;
 
-          if (item.from == null || item.from?.hash == null) {
-            return false;
-          }
-
-          final type = RecentTransactionsUtils.checkForTransactionType(
-              state.account!.address, item.from!.hash!.toLowerCase());
-          return transactionType == type;
+          return transactionType == item.type;
         }).toList();
 
         result.sort((a, b) {
           if (SortOption.date == sortOption) {
-            final item1 = a.timestamp ?? a.tokenTransfers![0].timestamp;
-            final item2 = b.timestamp ?? b.tokenTransfers![0].timestamp;
+            final item1 = a.timeStamp;
+            final item2 = b.timeStamp;
+
+            if (item1 == null || item2 == null) return 0;
 
             if (SortType.increase == dateSort) {
-              return item1!.compareTo(item2!);
+              return item1.compareTo(item2);
             } else {
-              return item2!.compareTo(item1!);
+              return item2.compareTo(item1);
             }
           } else {
-            final item1 = double.parse(
-                a.value ?? a.tokenTransfers?[0].total?.value ?? '0');
-            final item2 = double.parse(
-                b.value ?? b.tokenTransfers?[0].total?.value ?? '0');
+            final item1 = double.parse(a.value);
+            final item2 = double.parse(b.value);
 
             if (SortType.increase == amountSort) {
               return item1.compareTo(item2);
@@ -167,8 +175,7 @@ class TransactionHistoryPresenter
           }
         });
 
-        notify(() => state.filterTransactions =
-            state.filterTransactions?.copyWith(items: result));
+        notify(() => state.filterTransactions = result);
       },
     );
   }

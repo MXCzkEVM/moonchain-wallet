@@ -1,5 +1,5 @@
 import 'package:datadashwallet/features/wallet/wallet.dart';
-
+import 'package:mxc_logic/mxc_logic.dart';
 import './transaction_status_chip.dart';
 import './transaction_type_widget.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +88,10 @@ class RecentTrxListItem extends HookConsumerWidget {
                         children: [
                           Text(
                             amount,
-                            style: FontTheme.of(context).body1.primary().copyWith(
+                            style: FontTheme.of(context)
+                                .body1
+                                .primary()
+                                .copyWith(
                                   fontWeight: FontWeight.w500,
                                   foreground: state.hideBalance == true
                                       ? (Paint()
@@ -109,7 +112,8 @@ class RecentTrxListItem extends HookConsumerWidget {
                               style: FontTheme.of(context).h7().copyWith(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
-                                    color: ColorsTheme.of(context).textSecondary,
+                                    color:
+                                        ColorsTheme.of(context).textSecondary,
                                   ),
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,

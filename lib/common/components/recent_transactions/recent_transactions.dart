@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import './utils.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,9 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-enum TransactionType { sent, received, all }
-
-enum TransactionStatus { done, pending, failed }
+export 'domain/transactions_use_case.dart';
+export 'domain/transactions_repository.dart';
+export 'entity/transaction_history_model.dart';
 
 class RecentTransactions extends HookConsumerWidget {
   const RecentTransactions({
@@ -22,12 +23,13 @@ class RecentTransactions extends HookConsumerWidget {
   });
 
   final String? walletAddress;
-  final List<WannseeTransactionModel>? transactions;
+  final List<TransactionModel>? transactions;
   final List<Token> tokens;
   final NetworkType? networkType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final presenter = ref.read(walletContainer.actions);
     return transactions != null && transactions!.isEmpty
         ? Center(
             child: Text(
@@ -67,9 +69,7 @@ class RecentTransactions extends HookConsumerWidget {
                     route.featureDialog(
                       maintainState: false,
                       OpenAppPage(
-                        url: RecentTransactionsUtils
-                            .getViewOtherTransactionsLink(
-                                networkType!, walletAddress!),
+                        url: presenter.getViewOtherTransactionsLink(),
                       ),
                     ),
                   ),

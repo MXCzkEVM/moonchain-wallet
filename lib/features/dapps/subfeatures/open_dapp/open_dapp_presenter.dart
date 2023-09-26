@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
@@ -18,6 +20,8 @@ final openDAppPageContainer =
 class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   OpenDAppPresenter() : super(OpenDAppState());
 
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
@@ -77,7 +81,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<String?> _sendTransaction(String to, EtherAmount amount,
-      Uint8List? data, EstimatedGasFee? estimatedGasFee,
+      Uint8List? data, EstimatedGasFee? estimatedGasFee, String url,
       {String? from}) async {
     loading = true;
     try {
@@ -88,6 +92,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           amount: amount,
           data: data,
           estimatedGasFee: estimatedGasFee);
+      if (!Config.isMxcChains(state.network!.chainId) &&
+          Config.isL3Bridge(url)) {
+        recordTransaction(res);
+      }
 
       return res;
     } catch (e, s) {
@@ -97,10 +105,53 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
+  String? _signTypedMessage(
+    String hexData,
+  ) {
+    loading = true;
+    try {
+      final res = _tokenContractUseCase.signTypedMessage(
+          privateKey: state.account!.privateKey, data: hexData);
+      return res;
+    } catch (e, s) {
+      addError(e, s);
+    } finally {
+      loading = false;
+    }
+  }
+
+  void recordTransaction(String hash) {
+    final timeStamp = DateTime.now();
+    const txStatus = TransactionStatus.pending;
+    const txType = TransactionType.sent;
+    final chainId = state.network!.chainId;
+    final token = Token(
+        chainId: state.network!.chainId,
+        logoUri: Config.mxcLogoUri,
+        name: Config.mxcName,
+        symbol: Config.mxcSymbol,
+        // can separate Sepolia & Ethereum
+        address: Config.isEthereumMainnet(chainId)
+            ? Config.mxcAddressEthereum
+            : Config.mxcAddressSepolia);
+    final tx = TransactionModel(
+      hash: hash,
+      timeStamp: timeStamp,
+      status: txStatus,
+      type: txType,
+      value: '0',
+      token: token,
+    );
+
+    _transactionHistoryUseCase.spyOnTransaction(tx, chainId);
+    _transactionHistoryUseCase.updateItemTx(tx, chainId);
+  }
+
   void signTransaction({
     required BridgeParams bridge,
     required VoidCallback cancel,
     required Function(String idHaethClientsh) success,
+    required String url,
   }) async {
     final amountEther = EtherAmount.inWei(bridge.value ?? BigInt.zero);
     final amount = amountEther.getValueInUnit(EtherUnit.ether).toString();
@@ -152,7 +203,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
       if (result != null && result) {
         final hash = await _sendTransaction(
-            bridge.to!, amountEther, bridgeData, estimatedGasFee,
+            bridge.to!, amountEther, bridgeData, estimatedGasFee, url,
             from: bridge.from);
         if (hash != null) success.call(hash);
       } else {
@@ -186,6 +237,42 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
+  void signPersonalMessage() {}
+
+  void signTypedMessage({
+    required Map<String, dynamic> object,
+    required VoidCallback cancel,
+    required Function(String hash) success,
+  }) async {
+    String hexData = object['raw'] as String;
+    Map<String, dynamic> data =
+        jsonDecode(object['raw'] as String) as Map<String, dynamic>;
+    Map<String, dynamic> domain = data['domain'] as Map<String, dynamic>;
+    String primaryType = data['primaryType'];
+    int chainId = (domain['chainId']) as int;
+    String name = domain['name'] as String;
+
+    try {
+      final result = await showTypedMessageDialog(context!,
+          title: translate('signature_request')!,
+          message: data['message'] as Map<String, dynamic>,
+          networkName: '$name ($chainId)',
+          primaryType: primaryType);
+
+      if (result != null && result) {
+        final hash = _signTypedMessage(
+          hexData,
+        );
+        if (hash != null) success.call(hash);
+      } else {
+        cancel.call();
+      }
+    } catch (e, s) {
+      cancel.call();
+      addError(e, s);
+    }
+  }
+
   void changeProgress(int progress) => notify(() => state.progress = progress);
 
   void setAddress(dynamic id) {
@@ -198,6 +285,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
+    _transactionHistoryUseCase.checkChainAvailability(toNetwork.chainId);
     _authUseCase.resetNetwork(toNetwork);
     notify(() => state.network = toNetwork);
 
@@ -239,5 +327,25 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         copy(args);
       },
     );
+  }
+
+  void launchAddress(String address) {
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+
+    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
+    state.webviewController!
+        .loadUrl(urlRequest: URLRequest(url: Uri.parse(addressUrl)));
+  }
+
+  bool isAddress(String address) {
+    try {
+      EthereumAddress.fromHex(address);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

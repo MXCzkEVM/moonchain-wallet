@@ -27,6 +27,7 @@ class SplashSetupWalletPresenter
         final defaultList = Network.fixedNetworks();
         _chainConfigurationUseCase.addItems(defaultList);
       }
+
       _chainConfigurationUseCase.getCurrentNetwork();
       _authUseCase.resetNetwork(
           _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh());

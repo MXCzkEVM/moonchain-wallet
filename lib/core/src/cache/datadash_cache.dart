@@ -30,6 +30,8 @@ class DatadashCache extends CacheContainer {
   final BalanceRepository balanceHistory = BalanceRepository();
   final RecipientsRepository recipients = RecipientsRepository();
   final NftsRepository nfts = NftsRepository();
+  final TransactionsHistoryRepository transactionsHistoryRepository =
+      TransactionsHistoryRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [
@@ -38,5 +40,6 @@ class DatadashCache extends CacheContainer {
         balanceHistory,
         recipients,
         nfts,
+        transactionsHistoryRepository
       ];
 }

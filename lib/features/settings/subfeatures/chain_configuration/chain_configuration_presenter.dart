@@ -18,6 +18,8 @@ class ChainConfigurationPresenter
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
 
   final TextEditingController gasLimitController = TextEditingController();
 
@@ -29,7 +31,7 @@ class ChainConfigurationPresenter
       notify(() => state.networks =
           value.where((element) => element.isAdded == true).toList());
     });
-  
+
     listen(_chainConfigurationUseCase.ipfsGateWayList, (newIpfsGateWayList) {
       if (newIpfsGateWayList.isNotEmpty) {
         if (state.ipfsGateWays == null) {
@@ -56,6 +58,7 @@ class ChainConfigurationPresenter
 
   Future<void> setAsDefault(Network newDefault) async {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
+    _transactionHistoryUseCase.checkChainAvailability(newDefault.chainId);
     _authUseCase.resetNetwork(newDefault);
     _webviewUseCase.clearCache();
 

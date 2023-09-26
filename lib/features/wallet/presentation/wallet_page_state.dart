@@ -8,7 +8,7 @@ class WalletState with EquatableMixin {
 
   String walletBalance = "0.0";
 
-  WannseeTransactionsModel? txList;
+  List<TransactionModel>? txList;
 
   bool isTxListLoading = true;
 

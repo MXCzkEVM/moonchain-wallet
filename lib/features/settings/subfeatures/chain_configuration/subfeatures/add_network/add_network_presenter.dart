@@ -19,6 +19,8 @@ class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
 
   final TextEditingController gasLimitController = TextEditingController();
 
@@ -44,6 +46,7 @@ class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
 
   void switchNetwork(Network newDefault) {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
+    _transactionHistoryUseCase.checkChainAvailability(newDefault.chainId);
     _authUseCase.resetNetwork(newDefault);
     _webviewUseCase.clearCache();
 
