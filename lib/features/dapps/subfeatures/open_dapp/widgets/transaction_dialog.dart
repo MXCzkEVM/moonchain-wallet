@@ -3,16 +3,14 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'transaction_info.dart';
 
-Future<bool?> showTransactionDialog(
-  BuildContext context, {
-  String? title,
-  required String amount,
-  required String from,
-  required String to,
-  String? estimatedFee,
-  VoidCallback? onTap,
-  required String symbol
-}) {
+Future<bool?> showTransactionDialog(BuildContext context,
+    {String? title,
+    required String amount,
+    required String from,
+    required String to,
+    String? estimatedFee,
+    VoidCallback? onTap,
+    required String symbol}) {
   return showModalBottomSheet<bool>(
     context: context,
     useRootNavigator: true,

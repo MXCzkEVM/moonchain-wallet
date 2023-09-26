@@ -1,4 +1,3 @@
-
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 
@@ -8,8 +7,7 @@ final themeSettingsContainer =
     PresenterContainer<ThemeSettingsPresenter, ThemeSettingsState>(
         () => ThemeSettingsPresenter());
 
-class ThemeSettingsPresenter
-    extends CompletePresenter<ThemeSettingsState> {
+class ThemeSettingsPresenter extends CompletePresenter<ThemeSettingsState> {
   ThemeSettingsPresenter() : super(ThemeSettingsState());
 
   late final ThemeUseCase _themeUseCase = ref.read(themeUseCaseProvider);

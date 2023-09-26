@@ -9,7 +9,6 @@ class AllowMultipleHorizontalDrag extends HorizontalDragGestureRecognizer {
   void rejectGesture(int pointer) {
     acceptGesture(pointer);
   }
-
 }
 
 class AllowMultipleDoubleTap extends DoubleTapGestureRecognizer {

@@ -31,7 +31,7 @@ class ChainConfigurationPresenter
       notify(() => state.networks =
           value.where((element) => element.isAdded == true).toList());
     });
-  
+
     listen(_chainConfigurationUseCase.ipfsGateWayList, (newIpfsGateWayList) {
       if (newIpfsGateWayList.isNotEmpty) {
         if (state.ipfsGateWays == null) {

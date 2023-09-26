@@ -20,7 +20,7 @@ class DAppIndicator extends StatelessWidget {
         width: total * 10 < 100 ? null : 100,
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
             Radius.circular(50),
           ),

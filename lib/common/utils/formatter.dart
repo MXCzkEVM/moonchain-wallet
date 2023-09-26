@@ -1,8 +1,5 @@
 import 'dart:math';
 import 'package:datadashwallet/common/config.dart';
-import 'package:intl/intl.dart' as intl;
-import 'package:flutter/material.dart';
-import 'package:web3dart/web3dart.dart';
 
 class Formatter {
   static String formatBigNumber(double number) {
@@ -88,5 +85,10 @@ class Formatter {
     } catch (e) {
       throw e.toString();
     }
+  }
+
+  static String capitalizeFirstLetter(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1);
   }
 }
