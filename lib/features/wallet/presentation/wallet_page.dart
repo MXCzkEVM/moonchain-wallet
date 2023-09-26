@@ -20,13 +20,12 @@ class WalletPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(walletContainer.actions);
     final state = ref.watch(walletContainer.state);
-    final List<WannseeTransactionModel>? txList = state.txList == null
+    final List<TransactionModel>? txList = state.txList == null
         ? null
-        : state.txList!.items == null
-            ? []
-            : state.txList!.items!.length > 6
-                ? state.txList?.items!.sublist(0, 6)
-                : state.txList!.items!;
+        : state.txList!.length > 6
+            ? state.txList!.sublist(0, 6)
+            : state.txList!;
+
     return MxcPage(
         useAppBar: true,
         presenter: presenter,

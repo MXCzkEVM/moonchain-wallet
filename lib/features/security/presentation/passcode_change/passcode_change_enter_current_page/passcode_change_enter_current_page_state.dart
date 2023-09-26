@@ -1,4 +1,3 @@
-
 import 'package:datadashwallet/features/security/security.dart';
 
 class PasscodeChangeEnterCurrentPageState extends PasscodeBasePageState {

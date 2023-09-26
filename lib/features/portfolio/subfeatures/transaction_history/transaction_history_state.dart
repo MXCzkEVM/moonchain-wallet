@@ -6,10 +6,10 @@ import 'widgets/filter_and_sort_items.dart';
 
 class TransactionHistoryState with EquatableMixin {
   Account? account;
-  WannseeTransactionsModel? transactions;
+  List<TransactionModel>? transactions;
   List<Token> tokens = [];
 
-  WannseeTransactionsModel? filterTransactions;
+  List<TransactionModel>? filterTransactions;
 
   TransactionType transactionType = TransactionType.all;
   SortOption sortOption = SortOption.date;

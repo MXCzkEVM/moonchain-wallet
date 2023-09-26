@@ -19,7 +19,7 @@ class LanguagePage extends ConsumerWidget {
     final selectedLanguage = state.currentLanguage ??
         state.languages.firstWhereOrNull((item) =>
             item.code == Localizations.localeOf(context).languageCode);
-            
+
     return MxcPage(
       appBar: AppNavBar(
         title: Text(

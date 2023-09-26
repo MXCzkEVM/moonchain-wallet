@@ -105,8 +105,7 @@ class AddCustomNetworkPage extends HookConsumerWidget {
               MxcTextField(
                 key: const ValueKey('symbolTextField'),
                 label: translate('symbol'),
-                hint:
-                    '${translate('currency')} ${translate('symbol')}',
+                hint: '${translate('currency')} ${translate('symbol')}',
                 controller: presenter.symbolController,
                 action: TextInputAction.next,
                 validator: (value) {
@@ -125,10 +124,22 @@ class AddCustomNetworkPage extends HookConsumerWidget {
               MxcTextField(
                 key: const ValueKey('explorerTextField'),
                 label: translate('block_explorer_url'),
-                hint:
-                    '${translate('block_explorer_url')} (${translate('optional')})',
+                hint: translate('block_explorer_url'),
                 controller: presenter.explorerController,
                 action: TextInputAction.done,
+                validator: (value) {
+                  final res = Validation.notEmpty(
+                      context,
+                      value,
+                      translate('x_not_empty').replaceFirst(
+                          '{0}', translate('block_explorer_url')));
+                  if (res != null) return res;
+                  return Validation.checkHttps(context, value);
+                },
+                onChanged: (value) {
+                  presenter.changeAbleToSave(
+                      formKey.currentState!.validate() ? true : false);
+                },
               ),
             ],
           ),

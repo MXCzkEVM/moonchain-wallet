@@ -1,6 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'portfolio_page_state.dart';
 
 final portfolioContainer =
@@ -80,20 +79,16 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     }
   }
 
-  void buyNFt() {
+  String? getNftUrl() {
     final enabledNetwork = _chainConfigurationUseCase.networks.value
         .where((element) => element.enabled)
         .toList()[0];
     if (enabledNetwork.chainId == Config.mxcTestnetChainId) {
-      openUrl(Urls.mxcTestnetNftMarketPlace);
+      return Urls.mxcTestnetNftMarketPlace;
     } else if (enabledNetwork.chainId == Config.mxcMainnetChainId) {
-      openUrl(Urls.mxcMainnetNftMarketPlace);
+      return Urls.mxcMainnetNftMarketPlace;
+    } else {
+      return null;
     }
-  }
-
-  void openUrl(String url) async {
-    (await canLaunchUrl(Uri.parse(url))) == true
-        ? launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)
-        : null;
   }
 }

@@ -1,16 +1,15 @@
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_info.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'transaction_info.dart';
-
-Future<bool?> showTransactionDialog(BuildContext context,
-    {String? title,
-    required String amount,
-    required String from,
-    required String to,
-    String? estimatedFee,
-    VoidCallback? onTap,
-    required String symbol}) {
+Future<bool?> showTypedMessageDialog(
+  BuildContext context, {
+  String? title,
+  required String networkName,
+  required String primaryType,
+  required Map<String, dynamic> message,
+  VoidCallback? onTap,
+}) {
   return showModalBottomSheet<bool>(
     context: context,
     useRootNavigator: true,
@@ -39,13 +38,11 @@ Future<bool?> showTransactionDialog(BuildContext context,
               ),
             ),
           ),
-          TransactionInfo(
-            amount: amount,
-            from: from,
-            to: to,
-            estimatedFee: estimatedFee,
+          TypeMessageInfo(
+            message: message,
+            networkName: networkName,
+            primaryType: primaryType,
             onTap: onTap,
-            symbol: symbol,
           ),
           const SizedBox(height: 10),
         ],

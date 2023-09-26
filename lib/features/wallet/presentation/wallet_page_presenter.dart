@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/components/components.dart';
 import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
@@ -20,12 +21,16 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   late final _tweetsUseCase = ref.read(tweetsUseCaseProvider);
   late final _customTokenUseCase = ref.read(customTokensUseCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
 
     getMXCTweets();
+    _transactionHistoryUseCase.checkForPendingTransactions(
+        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh().chainId);
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
@@ -40,6 +45,14 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       if (value != null) {
         notify(() => state.walletAddress = value.address);
         initializeWalletPage();
+      }
+    });
+
+    listen(_transactionHistoryUseCase.transactionsHistory, (value) {
+      if (value.isNotEmpty && state.network != null) {
+        if (!Config.isMxcChains(state.network!.chainId)) {
+          getCustomChainsTransactions(value);
+        }
       }
     });
 
@@ -86,12 +99,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   Future<void> initializeWalletPage() async {
     initializeBalancePanelAndTokens();
     createSubscriptions();
-    if (Config.isMxcChains(state.network!.chainId)) {
-      getTransactions();
-    } else {
-      notify(() => state.txList = WannseeTransactionsModel(items: const []));
-    }
-
+    getTransactions();
   }
 
   void createSubscriptions() async {
@@ -119,7 +127,10 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               final newTx = WannseeTransactionModel.fromJson(
                   json.encode(event.payload['transactions'][0]));
               if (newTx.value != null) {
-                notify(() => state.txList!.items!.insert(0, newTx));
+                notify(() => state.txList!.insert(
+                    0,
+                    TransactionModel.fromMXCTransaction(
+                        newTx, state.walletAddress!)));
               }
               break;
             // coin transfer done
@@ -130,15 +141,21 @@ class WalletPresenter extends CompletePresenter<WalletState> {
                 // We will filter token_transfer tx because It is also received from token_transfer event
                 if (newTx.txTypes != null &&
                     !(newTx.txTypes!.contains('token_transfer'))) {
-                  final itemIndex = state.txList!.items!
+                  final itemIndex = state.txList!
                       .indexWhere((txItem) => txItem.hash == newTx.hash);
                   // checking for if the transaction is found.
                   if (itemIndex != -1) {
-                    notify(() => state.txList!.items!
-                        .replaceRange(itemIndex, itemIndex + 1, [newTx]));
+                    notify(() => state.txList!.replaceRange(
+                            itemIndex, itemIndex + 1, [
+                          TransactionModel.fromMXCTransaction(
+                              newTx, state.walletAddress!)
+                        ]));
                   } else {
                     // we must have missed the pending tx
-                    notify(() => state.txList!.items!.insert(0, newTx));
+                    notify(() => state.txList!.insert(
+                        0,
+                        TransactionModel.fromMXCTransaction(
+                            newTx, state.walletAddress!)));
                   }
                 }
               }
@@ -150,19 +167,23 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               if (newTx.txHash != null) {
                 // Sender will get pending tx
                 // Receiver won't get pending tx
-                final itemIndex = state.txList!.items!
+                final itemIndex = state.txList!
                     .indexWhere((txItem) => txItem.hash == newTx.txHash);
                 // checking for if the transaction is found.
                 if (itemIndex != -1) {
-                  notify(() => state.txList!.items!
-                          .replaceRange(itemIndex, itemIndex + 1, [
-                        WannseeTransactionModel(tokenTransfers: [newTx])
+                  notify(() =>
+                      state.txList!.replaceRange(itemIndex, itemIndex + 1, [
+                        TransactionModel.fromMXCTransaction(
+                            WannseeTransactionModel(tokenTransfers: [newTx]),
+                            state.walletAddress!)
                       ]));
                 } else {
                   // we must have missed the token transfer pending tx
-                  notify(() => state.txList!.items!.insert(
+                  notify(() => state.txList!.insert(
                         0,
-                        WannseeTransactionModel(tokenTransfers: [newTx]),
+                        TransactionModel.fromMXCTransaction(
+                            WannseeTransactionModel(tokenTransfers: [newTx]),
+                            state.walletAddress!),
                       ));
                 }
               }
@@ -171,7 +192,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
             case 'balance':
               final wannseeBalanceEvent =
                   WannseeBalanceModel.fromJson(event.payload);
-              getWalletTokensBalance();
+              getWalletTokensBalance(true);
               break;
             default:
           }
@@ -181,6 +202,34 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void getTransactions() async {
+    if (Config.isMxcChains(state.network!.chainId)) {
+      getMXCTransactions();
+    } else {
+      getCustomChainsTransactions(null);
+    }
+  }
+
+  void getCustomChainsTransactions(List<TransactionHistoryModel>? txHistory) {
+    txHistory =
+        txHistory ?? _transactionHistoryUseCase.getTransactionsHistory();
+
+    if (state.network != null) {
+      final index = txHistory
+          .indexWhere((element) => element.chainId == state.network!.chainId);
+
+      if (index == -1) {
+        _transactionHistoryUseCase
+            .checkChainAvailability(state.network!.chainId);
+        return;
+      }
+
+      final chainTxHistory = txHistory[index];
+
+      notify(() => state.txList = chainTxHistory.txList);
+    }
+  }
+
+  void getMXCTransactions() async {
     // final walletAddress = await _walletUserCase.getPublicAddress();
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer
@@ -231,12 +280,22 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               }
             });
           }
+
           if (newTransactionsList.items!.length > 6) {
             newTransactionsList = newTransactionsList.copyWith(
                 items: newTransactionsList.items!.sublist(0, 6));
           }
 
-          notify(() => state.txList = newTransactionsList);
+          final finalTxList = newTransactionsList.items!
+              .map((e) =>
+                  TransactionModel.fromMXCTransaction(e, state.walletAddress!))
+              .toList();
+
+          finalTxList.removeWhere(
+            (element) => element.hash == "Unknown",
+          );
+
+          notify(() => state.txList = finalTxList);
         }
       } else {
         // looks like error
@@ -245,25 +304,10 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     });
   }
 
-  void getTransaction(
-    String hash,
-  ) async {
-    final newTx = await _tokenContractUseCase.getTransactionByHash(hash);
-
-    if (newTx != null) {
-      final oldTx = state.txList!.items!
-          .firstWhere((element) => element.hash == newTx.hash);
-      oldTx.tokenTransfers = [TokenTransfer()];
-      oldTx.tokenTransfers![0].from = newTx.tokenTransfers![0].from;
-      oldTx.tokenTransfers![0].to = newTx.tokenTransfers![0].to;
-      notify(
-          () => oldTx.value = newTx.tokenTransfers![0].total!.value.toString());
-    }
-  }
-
   initializeBalancePanelAndTokens() {
-    getDefaultTokens().then((value) =>
-        value != null ? getWalletTokensBalance() : getDefaultTokens());
+    getDefaultTokens().then((value) => getWalletTokensBalance(
+        Config.isMxcChains(state.network!.chainId) ||
+            Config.isEthereumMainnet(state.network!.chainId)));
   }
 
   Future<DefaultTokens?> getDefaultTokens() async {
@@ -275,11 +319,28 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void viewTransaction(String txHash) async {
-    final addressUrl = Uri.parse('https://wannsee-explorer.mxc.com/tx/$txHash');
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+
+    final addressUrl = Uri.parse('$explorerUrl${Config.txExplorer(txHash)}');
 
     if ((await canLaunchUrl(addressUrl))) {
       await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
     }
+  }
+
+  String getViewOtherTransactionsLink() {
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+
+    final address = state.walletAddress!;
+
+    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
+    return addressUrl;
   }
 
   void generateChartData(List<BalanceData> balanceData) {
@@ -383,7 +444,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  void getWalletTokensBalance() async {
-    _tokenContractUseCase.getTokensBalance(state.walletAddress!);
+  void getWalletTokensBalance(bool shouldGetPrice) async {
+    _tokenContractUseCase.getTokensBalance(
+        state.walletAddress!, shouldGetPrice);
   }
 }
