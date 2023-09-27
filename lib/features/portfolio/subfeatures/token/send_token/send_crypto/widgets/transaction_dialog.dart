@@ -18,6 +18,7 @@ Future<bool?> showTransactionDialog(
   String? estimatedFee,
   TransactionProcessType? processType,
   required Function(TransactionProcessType) onTap,
+  required void Function(String address) launchAddress
 }) {
   return showModalBottomSheet<bool>(
     context: context,
@@ -44,6 +45,7 @@ Future<bool?> showTransactionDialog(
         estimatedFee: estimatedFee,
         processType: processType,
         onTap: onTap,
+        launchAddress: launchAddress,
       ),
     ),
   );

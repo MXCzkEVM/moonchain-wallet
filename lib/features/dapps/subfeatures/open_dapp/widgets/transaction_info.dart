@@ -1,12 +1,14 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import '../open_dapp_presenter.dart';
 import 'transaction_dialog.dart';
 
-class TransactionInfo extends StatelessWidget {
+class TransactionInfo extends ConsumerWidget {
   const TransactionInfo(
       {Key? key,
       required this.amount,
@@ -25,7 +27,8 @@ class TransactionInfo extends StatelessWidget {
   final String symbol;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final presenter = ref.read(openDAppPageContainer.actions);
     return Column(
       children: [
         Padding(
@@ -33,8 +36,8 @@ class TransactionInfo extends StatelessWidget {
           child: Column(
             children: [
               amountItem(context),
-              addressItem(context, 'from', from),
-              addressItem(context, 'to', to),
+              addressItem(context, 'from', from, presenter),
+              addressItem(context, 'to', to, presenter),
               if (estimatedFee != null)
                 priceItem(context, 'estimated_fee', estimatedFee),
             ],
@@ -145,12 +148,12 @@ class TransactionInfo extends StatelessWidget {
     BuildContext context,
     String label,
     String address,
+    OpenDAppPresenter presenter
   ) {
     return TransactionItem(
       label: label,
       content: InkWell(
-        onTap: () =>
-            openUrl('https://wannsee-explorer.mxc.com/address/$address'),
+        onTap: () => presenter.launchAddress(address),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

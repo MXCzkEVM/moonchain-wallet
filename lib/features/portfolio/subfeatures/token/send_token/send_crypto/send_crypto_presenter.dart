@@ -8,6 +8,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import 'send_crypto_state.dart';
 import 'widgets/transaction_dialog.dart';
@@ -132,7 +134,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         to: recipient,
         estimatedFee: estimatedFee,
         onTap: (transactionType) => _nextTransactionStep(transactionType),
-        networkSymbol: state.network?.symbol ?? '--');
+        networkSymbol: state.network?.symbol ?? '--',
+        launchAddress: launchAddress);
   }
 
   Future<String?> _nextTransactionStep(TransactionProcessType type) async {
@@ -205,6 +208,19 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
   void resetRecipientError() {
     notify(() => state.recipientError = null);
+  }
+
+  void launchAddress(String address) async {
+    final chainExplorerUrl = state.network!.explorerUrl!;
+    final explorerUrl = chainExplorerUrl.endsWith('/')
+        ? chainExplorerUrl
+        : '$chainExplorerUrl/';
+
+    final addressUrl =
+        Uri.parse('$explorerUrl${Config.addressExplorer(address)}');
+    if ((await canLaunchUrl(addressUrl))) {
+      await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
+    }
   }
 
   @override

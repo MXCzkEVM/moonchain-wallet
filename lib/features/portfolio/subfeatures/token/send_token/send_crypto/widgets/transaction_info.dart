@@ -19,6 +19,7 @@ class TransactionInfo extends StatefulWidget {
     this.estimatedFee,
     this.processType = TransactionProcessType.confirm,
     required this.onTap,
+    required this.launchAddress
   }) : super(key: key);
 
   final String amount;
@@ -31,6 +32,7 @@ class TransactionInfo extends StatefulWidget {
   final String? estimatedFee;
   final TransactionProcessType? processType;
   final Function(TransactionProcessType) onTap;
+  final void Function(String address) launchAddress;
 
   @override
   State<TransactionInfo> createState() => _TransactionInfoState();
@@ -218,8 +220,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
     return TransactionItem(
       label: label,
       content: InkWell(
-        onTap: () =>
-            openUrl('https://wannsee-explorer.mxc.com/address/$address'),
+        onTap: () => widget..launchAddress(address),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
