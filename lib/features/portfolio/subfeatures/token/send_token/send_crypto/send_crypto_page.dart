@@ -54,7 +54,7 @@ class SendCryptoPage extends HookConsumerWidget {
                   FocusManager.instance.primaryFocus?.unfocus();
 
                   if (!ref.watch(state).formKey.currentState!.validate()) {
-                    ref.watch(presenter).onValidChange();
+                    ref.watch(presenter).validateAndUpdate();
                     return;
                   }
 
@@ -111,6 +111,7 @@ class SendCryptoPage extends HookConsumerWidget {
                 keyboardType: TextInputType.number,
                 action: TextInputAction.next,
                 validator: (v) {
+                  v = ref.read(presenter).amountController.text;
                   final res = Validation.notEmpty(
                       context,
                       v,
@@ -120,16 +121,16 @@ class SendCryptoPage extends HookConsumerWidget {
                     return res;
                   }
                   try {
-                    final doubleValue = double.parse(v!);
+                    final doubleValue = double.parse(v);
                     String stringValue = doubleValue.toString();
 
                     int decimalPlaces = stringValue.split('.')[1].length;
 
-                    if (doubleValue.isNegative || decimalPlaces > 8) {
+                    if (doubleValue.isNegative ||
+                        decimalPlaces > Config.decimalWriteFixed) {
                       return translate('invalid_format');
                     }
-
-                    return null;
+                    return ref.read(presenter).checkAmountCeiling();
                   } catch (e) {
                     return translate('invalid_format');
                   }
@@ -143,9 +144,6 @@ class SendCryptoPage extends HookConsumerWidget {
                     ref.watch(state).formKey.currentState!.validate();
                   },
                 ),
-                onFocused: (focused) => focused
-                    ? null
-                    : ref.watch(state).formKey.currentState!.validate(),
               ),
               Row(
                   children: [25, 50, 75]
@@ -173,9 +171,10 @@ class SendCryptoPage extends HookConsumerWidget {
               MxcTextField(
                 key: const ValueKey('recipientTextField'),
                 label: '${translate('recipient')} *',
-                controller: ref.read(presenter).recipientController,
+                controller: ref.watch(presenter).recipientController,
                 action: TextInputAction.done,
                 validator: (v) {
+                  v = ref.read(presenter).recipientController.text;
                   final res = Validation.notEmpty(
                       context,
                       v,
@@ -184,14 +183,13 @@ class SendCryptoPage extends HookConsumerWidget {
                   if (res != null) {
                     return res;
                   }
-                  if (v!.startsWith('0x')) {
+                  if (v.startsWith('0x')) {
                     return Validation.checkEthereumAddress(context, v);
                   } else {
                     return Validation.checkMnsValidation(context, v);
                   }
                 },
                 hint: translate('wallet_address_or_mns'),
-                errorText: ref.watch(state).recipientError,
                 suffixButton: MxcTextFieldButton.svg(
                   svg: 'assets/svg/ic_contact.svg',
                   onTap: () async {
@@ -203,12 +201,6 @@ class SendCryptoPage extends HookConsumerWidget {
                     ref.watch(state).formKey.currentState!.validate();
                   },
                 ),
-                onFocused: (focused) {
-                  ref.read(presenter).resetRecipientError();
-                  focused
-                      ? null
-                      : ref.watch(state).formKey.currentState!.validate();
-                },
               ),
             ],
           ),

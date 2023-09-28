@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:web3dart/json_rpc.dart';
 
 import 'send_crypto_state.dart';
 import 'widgets/transaction_dialog.dart';
@@ -76,8 +76,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       }
     });
 
-    amountController.addListener(onValidChange);
-    recipientController.addListener(onValidChange);
+    amountController.addListener(onAmountChange);
+    recipientController.addListener(onRecipientChange);
 
     recipientController.text = state.qrCode ?? '';
   }
@@ -87,11 +87,43 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void changeDiscount(int value) {
-    amountController.text = ((token.balance ?? 0) * value / 100).toString();
+    final doubleValue = (token.balance ?? 0) * value / 100;
+    final stringAmount = doubleValue.toString();
+    final isInvalid = Validation.isDecimalsStandard(stringAmount);
+
+    if (!isInvalid) {
+      amountController.text = Formatter.formatToStandardDecimals(stringAmount);
+    } else {
+      amountController.text = stringAmount;
+    }
+
     notify(() => state.discount = value);
   }
 
-  void onValidChange() {
+  void checkDiscount() {
+    try {
+      final discountValue =
+          double.parse(amountController.text) * 100 / (token.balance ?? 0);
+      notify(() => state.discount = discountValue.round());
+    } catch (e) {
+      notify(() => state.discount = 0);
+    }
+  }
+
+  void onAmountChange() {
+    if (amountController.text != '') {
+      checkDiscount();
+      validateAndUpdate();
+    } else {
+      notify(() => state.discount = 0);
+    }
+  }
+
+  void onRecipientChange() {
+    validateAndUpdate();
+  }
+
+  void validateAndUpdate() {
     final result = state.formKey.currentState!.validate();
     notify(() => state.valid = result);
   }
@@ -110,7 +142,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     String recipientAddress = await getAddress(recipient);
 
     if (recipientAddress == Config.zeroAddress) {
-      notify(() => state.recipientError = translate('invalid_format'));
+      addError(translate('unregistered_mns_notice'));
       return;
     }
 
@@ -136,6 +168,15 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         onTap: (transactionType) => _nextTransactionStep(transactionType),
         networkSymbol: state.network?.symbol ?? '--',
         launchAddress: launchAddress);
+  }
+
+  String? checkAmountCeiling() {
+    final amount = amountController.text;
+
+    if (double.parse(amount) > token.balance!) {
+      return translate('insufficient_balance');
+    }
+    return null;
   }
 
   Future<String?> _nextTransactionStep(TransactionProcessType type) async {
@@ -200,14 +241,15 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return res;
     } catch (e, s) {
-      addError(e, s);
+      if (e is RPCError) {
+        if (BottomFlowDialog.maybeOf(context!) != null) {
+          BottomFlowDialog.of(context!).close();
+        }
+        addError(e.message);
+      }
     } finally {
       loading = false;
     }
-  }
-
-  void resetRecipientError() {
-    notify(() => state.recipientError = null);
   }
 
   void launchAddress(String address) async {
@@ -227,7 +269,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   Future<void> dispose() async {
     super.dispose();
 
-    amountController.removeListener(onValidChange);
-    recipientController.removeListener(onValidChange);
+    amountController.removeListener(onAmountChange);
+    recipientController.removeListener(onRecipientChange);
   }
 }
