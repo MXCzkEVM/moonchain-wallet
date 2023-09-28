@@ -23,7 +23,8 @@ class Config {
       'https://wannsee-mns.mxc.com/$name.mxc/register';
 
   // Numbers fixed decimals
-  static int decimalFixed = 3;
+  static int decimalShowFixed = 3;
+  static int decimalWriteFixed = 8;
 
   static bool isMxcChains(int chainId) {
     return chainId == mxcMainnetChainId || chainId == mxcTestnetChainId;
