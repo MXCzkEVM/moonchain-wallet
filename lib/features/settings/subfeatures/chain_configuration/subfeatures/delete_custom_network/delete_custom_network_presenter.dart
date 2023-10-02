@@ -155,6 +155,8 @@ class DeleteCustomNetworkPresenter
     _chainConfigurationUseCase.switchDefaultNetwork(selectedNetwork!);
     _transactionHistoryUseCase.checkChainAvailability(selectedNetwork!.chainId);
     _authUseCase.resetNetwork(selectedNetwork!);
+    loadDataDashProviders(selectedNetwork!);
+
     addMessage(translate('x_is_now_active')!.replaceFirst(
         '{0}',
         selectedNetwork!.label ??

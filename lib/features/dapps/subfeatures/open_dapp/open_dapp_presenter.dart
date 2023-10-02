@@ -287,6 +287,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
     _transactionHistoryUseCase.checkChainAvailability(toNetwork.chainId);
     _authUseCase.resetNetwork(toNetwork);
+    loadDataDashProviders(toNetwork);
     notify(() => state.network = toNetwork);
 
     setChain(id);
