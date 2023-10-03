@@ -103,4 +103,12 @@ class Formatter {
     final splitValue = value.split('.');
     return '${splitValue[0]}.${splitValue[1].substring(0, 8)}';
   }
+
+  static Uri mergeUrl(String first, String second) {
+    return Uri.parse(first).resolve(second);
+  }
+
+  static String mergeUrlString(String first, String second) {
+    return Uri.parse(first).resolve(second).toString();
+  }
 }
