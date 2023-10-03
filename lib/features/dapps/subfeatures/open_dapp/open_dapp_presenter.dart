@@ -335,13 +335,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void launchAddress(String address) {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final explorerUrl = chainExplorerUrl.endsWith('/')
-        ? chainExplorerUrl
-        : '$chainExplorerUrl/';
+    final address = state.account!.address!;
+    final addressExplorer = Config.addressExplorer(address);
+    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
-    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
-    state.webviewController!
-        .loadUrl(urlRequest: URLRequest(url: Uri.parse(addressUrl)));
+    state.webviewController!.loadUrl(urlRequest: URLRequest(url: launchUri));
   }
 
   bool isAddress(String address) {

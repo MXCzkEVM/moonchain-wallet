@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/components/components.dart';
 import 'package:datadashwallet/common/config.dart';
+import 'package:datadashwallet/common/utils/formatter.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -314,27 +315,22 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   void viewTransaction(String txHash) async {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final explorerUrl = chainExplorerUrl.endsWith('/')
-        ? chainExplorerUrl
-        : '$chainExplorerUrl/';
+    final txExplorer = Config.txExplorer(txHash);
+    final launchUri = Formatter.mergeUrl(chainExplorerUrl, txExplorer);
 
-    final addressUrl = Uri.parse('$explorerUrl${Config.txExplorer(txHash)}');
-
-    if ((await canLaunchUrl(addressUrl))) {
-      await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
+    if ((await canLaunchUrl(launchUri))) {
+      await launchUrl(launchUri, mode: LaunchMode.inAppWebView);
     }
   }
 
   String getViewOtherTransactionsLink() {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final explorerUrl = chainExplorerUrl.endsWith('/')
-        ? chainExplorerUrl
-        : '$chainExplorerUrl/';
-
     final address = state.walletAddress!;
+    final addressExplorer = Config.addressExplorer(address);
+    final launchUri =
+        Formatter.mergeUrlString(chainExplorerUrl, addressExplorer);
 
-    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
-    return addressUrl;
+    return launchUri;
   }
 
   void generateChartData(List<BalanceData> balanceData) {

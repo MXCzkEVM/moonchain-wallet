@@ -234,9 +234,13 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
             token: token,
             timeStamp: DateTime.now());
 
-        _transactionHistoryUseCase.updateItem(tx,);
+        _transactionHistoryUseCase.updateItem(
+          tx,
+        );
 
-        _transactionHistoryUseCase.spyOnTransaction(tx,);
+        _transactionHistoryUseCase.spyOnTransaction(
+          tx,
+        );
       }
 
       return res;
@@ -254,14 +258,11 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
   void launchAddress(String address) async {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final explorerUrl = chainExplorerUrl.endsWith('/')
-        ? chainExplorerUrl
-        : '$chainExplorerUrl/';
+    final addressExplorer = Config.addressExplorer(address);
+    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
-    final addressUrl =
-        Uri.parse('$explorerUrl${Config.addressExplorer(address)}');
-    if ((await canLaunchUrl(addressUrl))) {
-      await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
+    if ((await canLaunchUrl(launchUri))) {
+      await launchUrl(launchUri, mode: LaunchMode.inAppWebView);
     }
   }
 
