@@ -80,9 +80,11 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     });
 
     listen(_customTokenUseCase.tokens, (customTokens) {
-      if (customTokens.isNotEmpty) {
-        _tokenContractUseCase.addCustomTokens(customTokens);
-      }
+      _tokenContractUseCase.addCustomTokens(
+          customTokens,
+          state.walletAddress ?? _accountUserCase.account.value!.address,
+          Config.isMxcChains(state.network!.chainId) ||
+              Config.isEthereumMainnet(state.network!.chainId));
     });
   }
 
@@ -192,7 +194,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
             case 'balance':
               final wannseeBalanceEvent =
                   WannseeBalanceModel.fromJson(event.payload);
-              getWalletTokensBalance(true);
+              getWalletTokensBalance(null, true);
               break;
             default:
           }
@@ -305,12 +307,13 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   initializeBalancePanelAndTokens() {
-    getDefaultTokens().then((value) => getWalletTokensBalance(
+    getDefaultTokens().then((tokenList) => getWalletTokensBalance(
+        tokenList,
         Config.isMxcChains(state.network!.chainId) ||
             Config.isEthereumMainnet(state.network!.chainId)));
   }
 
-  Future<DefaultTokens?> getDefaultTokens() async {
+  Future<List<Token>> getDefaultTokens() async {
     return await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
   }
 
@@ -444,8 +447,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  void getWalletTokensBalance(bool shouldGetPrice) async {
+  void getWalletTokensBalance(
+      List<Token>? tokenList, bool shouldGetPrice) async {
     _tokenContractUseCase.getTokensBalance(
-        state.walletAddress!, shouldGetPrice);
+        tokenList, state.walletAddress!, shouldGetPrice);
   }
 }

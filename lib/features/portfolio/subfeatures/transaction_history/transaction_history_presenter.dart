@@ -41,10 +41,8 @@ class TransactionHistoryPresenter
     await _tokenContractUseCase
         .getDefaultTokens(state.account!.address)
         .then((value) {
-      if (value != null) {
-        notify(() => state.tokens = value.tokens!);
+        notify(() => state.tokens = value);
         getTransactions();
-      }
     });
   }
 
