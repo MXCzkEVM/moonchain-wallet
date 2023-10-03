@@ -335,7 +335,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void launchAddress(String address) {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final address = state.account!.address!;
+    final address = state.account!.address;
     final addressExplorer = Config.addressExplorer(address);
     final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
