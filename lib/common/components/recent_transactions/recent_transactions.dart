@@ -11,7 +11,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 export 'domain/transactions_use_case.dart';
 export 'domain/transactions_repository.dart';
-export 'entity/transaction_history_model.dart';
 
 class RecentTransactions extends HookConsumerWidget {
   const RecentTransactions({

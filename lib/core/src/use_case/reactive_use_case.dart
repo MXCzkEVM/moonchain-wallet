@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -6,6 +8,7 @@ export 'package:rxdart/rxdart.dart';
 
 class ReactiveUseCase implements Disposable {
   final Map<ValueStream, ReactiveController> _streamToController = {};
+  final List<StreamSubscription> listeners = [];
 
   ValueStream<T> reactive<T>([T? value]) {
     final controller = ReactiveController(value);
@@ -18,6 +21,9 @@ class ReactiveUseCase implements Disposable {
     final controller = ReactiveFieldController(field);
     final stream = controller.stream;
     _streamToController[stream] = controller;
+
+    initUpdater(stream, field);
+
     return stream;
   }
 
@@ -35,11 +41,23 @@ class ReactiveUseCase implements Disposable {
 
   @override
   Future<void> dispose() async {
+    for (final l in listeners) {
+      l.cancel();
+    }
+
     for (final c in _streamToController.values) {
       await c.dispose();
     }
     for (final d in _disposables) {
       await d.dispose();
     }
+  }
+
+  /// This listener is initialized to update the reactive field value
+  /// via the data base updates.
+  void initUpdater<T>(ValueStream stream, Field<T> field) {
+    listeners.add(field.valueStream.listen((event) {
+      _streamToController[stream]!.save(event);
+    }));
   }
 }

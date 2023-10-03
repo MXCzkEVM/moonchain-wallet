@@ -143,8 +143,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       token: token,
     );
 
-    _transactionHistoryUseCase.spyOnTransaction(tx, chainId);
-    _transactionHistoryUseCase.updateItemTx(tx, chainId);
+    _transactionHistoryUseCase.spyOnTransaction(
+      tx,
+    );
+    _transactionHistoryUseCase.updateItem(
+      tx,
+    );
   }
 
   void signTransaction({
@@ -285,8 +289,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
-    _transactionHistoryUseCase.checkChainAvailability(toNetwork.chainId);
     _authUseCase.resetNetwork(toNetwork);
+    loadDataDashProviders(toNetwork);
     notify(() => state.network = toNetwork);
 
     setChain(id);
@@ -331,13 +335,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void launchAddress(String address) {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final explorerUrl = chainExplorerUrl.endsWith('/')
-        ? chainExplorerUrl
-        : '$chainExplorerUrl/';
+    final address = state.account!.address;
+    final addressExplorer = Config.addressExplorer(address);
+    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
-    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
-    state.webviewController!
-        .loadUrl(urlRequest: URLRequest(url: Uri.parse(addressUrl)));
+    state.webviewController!.loadUrl(urlRequest: URLRequest(url: launchUri));
   }
 
   bool isAddress(String address) {
