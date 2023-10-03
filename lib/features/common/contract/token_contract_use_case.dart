@@ -83,7 +83,7 @@ class TokenContractUseCase extends ReactiveUseCase {
 
     update(tokensList, tokensList.value);
     result?.tokens?.add(chainNativeToken);
-    return result?.tokens ?? [];
+    return result?.tokens ?? [chainNativeToken];
   }
 
   Future<Token?> getToken(String address) async =>
