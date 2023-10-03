@@ -58,7 +58,6 @@ class ChainConfigurationPresenter
 
   Future<void> setAsDefault(Network newDefault) async {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
-    _transactionHistoryUseCase.checkChainAvailability(newDefault.chainId);
     _authUseCase.resetNetwork(newDefault);
     _webviewUseCase.clearCache();
     loadDataDashProviders(newDefault);

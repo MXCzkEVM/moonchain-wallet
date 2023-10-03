@@ -234,9 +234,9 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
             token: token,
             timeStamp: DateTime.now());
 
-        _transactionHistoryUseCase.updateItemTx(tx, state.network!.chainId);
+        _transactionHistoryUseCase.updateItem(tx,);
 
-        _transactionHistoryUseCase.spyOnTransaction(tx, state.network!.chainId);
+        _transactionHistoryUseCase.spyOnTransaction(tx,);
       }
 
       return res;

@@ -49,7 +49,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     });
 
     listen(_transactionHistoryUseCase.transactionsHistory, (value) {
-      if (value.isNotEmpty && state.network != null) {
+      if (state.network != null) {
         if (!Config.isMxcChains(state.network!.chainId)) {
           getCustomChainsTransactions(value);
         }
@@ -211,23 +211,14 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  void getCustomChainsTransactions(List<TransactionHistoryModel>? txHistory) {
+  void getCustomChainsTransactions(List<TransactionModel>? txHistory) {
     txHistory =
         txHistory ?? _transactionHistoryUseCase.getTransactionsHistory();
 
     if (state.network != null) {
-      final index = txHistory
-          .indexWhere((element) => element.chainId == state.network!.chainId);
+      final chainTxHistory = txHistory;
 
-      if (index == -1) {
-        _transactionHistoryUseCase
-            .checkChainAvailability(state.network!.chainId);
-        return;
-      }
-
-      final chainTxHistory = txHistory[index];
-
-      notify(() => state.txList = chainTxHistory.txList);
+      notify(() => state.txList = chainTxHistory);
     }
   }
 
