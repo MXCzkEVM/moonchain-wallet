@@ -14,13 +14,13 @@ class SetupEnableBiometricPresenter extends CompletePresenter<void> {
   SetupEnableBiometricPresenter() : super(null);
 
   String getAppBarTitle() => (Platform.isAndroid)
-      ? 'biometrics'
+      ? 'fingerprint'
       : Biometric.iosSystemBiometric == BiometricType.face
           ? 'face_id'
           : 'touch_id';
 
   String getSvg() => (Platform.isAndroid)
-      ? 'assets/svg/security/ic_face_touch_id.svg'
+      ? 'assets/svg/security/ic_fingerprint.svg'
       : Biometric.iosSystemBiometric == BiometricType.face
           ? 'assets/svg/security/ic_biometric.svg'
           : 'assets/svg/security/ic_touch_id.svg';
