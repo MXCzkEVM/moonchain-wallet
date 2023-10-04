@@ -249,7 +249,11 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         if (BottomFlowDialog.maybeOf(context!) != null) {
           BottomFlowDialog.of(context!).close();
         }
-        addError(e.message);
+        String errorMessage = e.message;
+        if (e.message.contains('gas required exceeds allowance')) {
+          errorMessage = translate('insufficient_balance_for_fee') ?? e.message;
+        }
+        addError(errorMessage);
       }
     } finally {
       loading = false;
