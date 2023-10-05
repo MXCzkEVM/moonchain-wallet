@@ -68,24 +68,33 @@ class PasscodeRequirePage extends PasscodeBasePage {
                 style: FontTheme.of(context).body1.textWhite(),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 40),
-              Center(
-                child: numbersRow(context, ref),
-              ),
+              SizedBox(
+                  height: 84,
+                  child: Column(
+                    children: [
+                      Expanded(child: Container()),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: numbersRow(context, ref),
+                        ),
+                      )
+                    ],
+                  )),
             ],
           ),
         ),
-        const SizedBox(height: 12),
         buildErrorMessage(context, ref),
-        Padding(
-          padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
-          child: MxcButton.secondaryWhite(
-            key: const ValueKey('forgotPasscodeButton'),
-            title: FlutterI18n.translate(context, 'forgot_passcode'),
-            size: AxsButtonSize.xl,
-            onTap: () => showResetPasscodeDialog(context, ref),
+        if (ref.watch(state).wrongInputCounter != 0)
+          Padding(
+            padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
+            child: MxcButton.secondaryWhite(
+              key: const ValueKey('forgotPasscodeButton'),
+              title: FlutterI18n.translate(context, 'forgot_passcode'),
+              size: AxsButtonSize.xl,
+              onTap: () => showResetPasscodeDialog(context, ref),
+            ),
           ),
-        ),
         const Spacer(),
         numpad(context, ref),
       ],

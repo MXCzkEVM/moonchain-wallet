@@ -1,6 +1,7 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:vibration/vibration.dart';
 
 import 'passcode_require_state.dart';
 import 'wrapper/passcode_require_wrapper_presenter.dart';
@@ -28,12 +29,21 @@ class PasscodeRequirePresenter
   }
 
   @override
+  void startShakeAnimation() {
+    if (state.shakeAnimationController != null) {
+      state.shakeAnimationController!.forward();
+    }
+  }
+
+  @override
   void onAllNumbersEntered(String? dismissedPage) async {
     if (state.enteredNumbers.join('') != _passcodeUseCase.passcode.value) {
-      if (state.wrongInputCounter < 6) {
+      if (state.wrongInputCounter < 5) {
         state.wrongInputCounter++;
         state.errorText = translate('attempts_x')!
             .replaceFirst('{0}', '${6 - state.wrongInputCounter}');
+        vibrate();
+        startShakeAnimation();
       } else {
         state.errorText = null;
         state.wrongInputCounter = 0;
@@ -63,5 +73,11 @@ class PasscodeRequirePresenter
     }
 
     return result;
+  }
+
+  void vibrate() async {
+    if (await Vibration.hasVibrator() ?? false) {
+      Vibration.vibrate(duration: 400);
+    }
   }
 }
