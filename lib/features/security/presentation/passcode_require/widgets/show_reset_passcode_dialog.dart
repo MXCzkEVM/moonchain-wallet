@@ -13,6 +13,7 @@ void showResetPasscodeDialog(BuildContext context, WidgetRef ref) {
     context: context,
     useRootNavigator: true,
     isScrollControlled: true,
+    useSafeArea: true,
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) => ResetPasscode(
       onTap: () {
