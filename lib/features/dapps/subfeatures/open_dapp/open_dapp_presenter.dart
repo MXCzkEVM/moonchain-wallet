@@ -5,6 +5,7 @@ import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swti
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
@@ -333,13 +334,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     );
   }
 
-  void launchAddress(String address) {
+  void launchAddress(String address) async {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final address = state.account!.address;
     final addressExplorer = Config.addressExplorer(address);
     final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
-    state.webviewController!.loadUrl(urlRequest: URLRequest(url: launchUri));
+    if ((await canLaunchUrl(launchUri))) {
+      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
+    }
   }
 
   bool isAddress(String address) {

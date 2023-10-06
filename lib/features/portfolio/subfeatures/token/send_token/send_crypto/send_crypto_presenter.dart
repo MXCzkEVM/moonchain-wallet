@@ -266,7 +266,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
     if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.inAppWebView);
+      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
     }
   }
 
