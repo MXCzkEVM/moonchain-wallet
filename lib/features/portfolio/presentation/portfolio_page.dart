@@ -133,7 +133,7 @@ class PortfolioPage extends HookConsumerWidget {
         children: [
           Expanded(
               child: ListView(
-            padding: const EdgeInsets.only(bottom: 120),
+            padding: const EdgeInsets.only(bottom: 160),
             children: [
               Text(FlutterI18n.translate(context, 'portfolio'),
                   style: FontTheme.of(context).h4().copyWith(
