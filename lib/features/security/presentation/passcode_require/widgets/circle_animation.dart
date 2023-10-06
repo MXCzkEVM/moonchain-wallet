@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class CircleAnimation extends StatefulWidget {
-  const CircleAnimation({super.key});
+  const CircleAnimation({super.key, required this.isFilled});
+
+  final bool isFilled;
 
   @override
   State<CircleAnimation> createState() => _CircleAnimationState();
@@ -33,7 +35,6 @@ class _CircleAnimationState extends State<CircleAnimation>
         curve: Curves.easeOut,
       ),
     );
-    _controller.forward();
   }
 
   @override
@@ -44,6 +45,7 @@ class _CircleAnimationState extends State<CircleAnimation>
 
   @override
   Widget build(BuildContext context) {
+    widget.isFilled ? _controller.forward() : _controller.reverse();
     return SizedBox(
       height: 57.5,
       child: Stack(
@@ -54,10 +56,10 @@ class _CircleAnimationState extends State<CircleAnimation>
               height: 32,
               width: 32,
               decoration: BoxDecoration(
-                border: Border.all(
-                    color: ColorsTheme.of(context).iconWhite, width: 2),
-                shape: BoxShape.circle,
-              ),
+                  border: Border.all(
+                      color: ColorsTheme.of(context).iconWhite, width: 2),
+                  shape: BoxShape.circle,
+                  color: Colors.transparent),
             ),
           ),
           AnimatedBuilder(

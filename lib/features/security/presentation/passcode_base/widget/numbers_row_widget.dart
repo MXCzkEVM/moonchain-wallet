@@ -94,20 +94,10 @@ class _NumbersRowWidgetState extends State<NumbersRowWidget>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             for (var i = 0; i < widget.expectedNumbersLength; i++) ...[
-              widget.enteredNumbers > i
-                  ? const Expanded(child: CircleAnimation())
-                  : Expanded(
-                      child: SvgPicture.asset(
-                        'assets/svg/security/ic_ring.svg',
-                        height: 32,
-                        width: 32,
-                        colorFilter: filterFor(
-                          ColorsTheme.of(context).iconWhite,
-                        ),
-                      ),
-                    ),
-              // if (i != ref.watch(state).expectedNumbersLength - 1)
-              //   const SizedBox(width: 16),
+              Expanded(
+                  child: CircleAnimation(
+                isFilled: widget.enteredNumbers > i,
+              ))
             ],
           ],
         ),
