@@ -79,39 +79,37 @@ class _NumbersRowWidgetState extends State<NumbersRowWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) {
-          return Transform.rotate(
-            angle: _animationRotation.value,
-            child: child,
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              for (var i = 0; i < widget.expectedNumbersLength; i++) ...[
-                widget.enteredNumbers > i
-                    ? const Expanded(child: CircleAnimation())
-                    : Expanded(
-                        child: SvgPicture.asset(
-                          'assets/svg/security/ic_ring.svg',
-                          height: 32,
-                          width: 32,
-                          colorFilter: filterFor(
-                            ColorsTheme.of(context).iconWhite,
-                          ),
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Transform.rotate(
+          angle: _animationRotation.value,
+          child: child,
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            for (var i = 0; i < widget.expectedNumbersLength; i++) ...[
+              widget.enteredNumbers > i
+                  ? const Expanded(child: CircleAnimation())
+                  : Expanded(
+                      child: SvgPicture.asset(
+                        'assets/svg/security/ic_ring.svg',
+                        height: 32,
+                        width: 32,
+                        colorFilter: filterFor(
+                          ColorsTheme.of(context).iconWhite,
                         ),
                       ),
-                // if (i != ref.watch(state).expectedNumbersLength - 1)
-                //   const SizedBox(width: 16),
-              ],
+                    ),
+              // if (i != ref.watch(state).expectedNumbersLength - 1)
+              //   const SizedBox(width: 16),
             ],
-          ),
+          ],
         ),
       ),
     );
