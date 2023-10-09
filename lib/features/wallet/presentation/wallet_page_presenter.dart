@@ -86,6 +86,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
           state.walletAddress ?? _accountUserCase.account.value!.address,
           Config.isMxcChains(state.network!.chainId) ||
               Config.isEthereumMainnet(state.network!.chainId));
+      initializeBalancePanelAndTokens();
     });
   }
 
@@ -100,7 +101,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   Future<void> initializeWalletPage() async {
-    initializeBalancePanelAndTokens();
     createSubscriptions();
     getTransactions();
   }
@@ -319,18 +319,20 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     final launchUri = Formatter.mergeUrl(chainExplorerUrl, txExplorer);
 
     if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.inAppWebView);
+      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
     }
   }
 
-  String getViewOtherTransactionsLink() {
+  void getViewOtherTransactionsLink() async {
     final chainExplorerUrl = state.network!.explorerUrl!;
     final address = state.walletAddress!;
     final addressExplorer = Config.addressExplorer(address);
     final launchUri =
-        Formatter.mergeUrlString(chainExplorerUrl, addressExplorer);
+        Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
-    return launchUri;
+    if ((await canLaunchUrl(launchUri))) {
+      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
+    }
   }
 
   void generateChartData(List<BalanceData> balanceData) {

@@ -29,51 +29,43 @@ class RecentTransactions extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(walletContainer.actions);
-    return transactions != null && transactions!.isEmpty
-        ? Center(
-            child: Text(
-              FlutterI18n.translate(context, 'no_transactions_yet'),
-              style: FontTheme.of(context).body2(),
-            ),
-          )
-        : Column(
-            children: [
-              GreyContainer(
-                  child: walletAddress == null || transactions == null
-                      ? const SizedBox(
-                          height: 50,
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ))
-                      : Column(
-                          children: [
-                            ...RecentTransactionsUtils.generateTx(
-                              walletAddress!,
-                              transactions!,
-                              tokens,
-                            )
-                          ],
-                        )),
-              const SizedBox(
-                height: 12,
-              ),
-              if (transactions != null)
-                MxcChipButton(
-                  key: const Key('viewOtherTransactions'),
-                  title:
-                      FlutterI18n.translate(context, 'view_other_transactions'),
-                  iconData: MxcIcons.external_link,
-                  alignIconStart: false,
-                  onTap: () => Navigator.of(context).push(
-                    route.featureDialog(
-                      maintainState: false,
-                      OpenAppPage(
-                        url: presenter.getViewOtherTransactionsLink(),
-                      ),
-                    ),
-                  ),
+    return Column(
+      children: [
+        transactions != null && transactions!.isEmpty
+            ? Center(
+                child: Text(
+                  FlutterI18n.translate(context, 'no_transactions_yet'),
+                  style: FontTheme.of(context)
+                      .body2()
+                      .copyWith(color: ColorsTheme.of(context).textGrey2),
                 ),
-            ],
-          );
+              )
+            : GreyContainer(
+                child: walletAddress == null || transactions == null
+                    ? const SizedBox(
+                        height: 50,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ))
+                    : Column(
+                        children: [
+                          ...RecentTransactionsUtils.generateTx(
+                            walletAddress!,
+                            transactions!,
+                            tokens,
+                          )
+                        ],
+                      )),
+        const SizedBox(
+          height: Sizes.spaceSmall,
+        ),
+        MxcChipButton(
+            key: const Key('viewOtherTransactions'),
+            title: FlutterI18n.translate(context, 'view_other_transactions'),
+            iconData: MxcIcons.external_link,
+            alignIconStart: false,
+            onTap: () => presenter.getViewOtherTransactionsLink()),
+      ],
+    );
   }
 }

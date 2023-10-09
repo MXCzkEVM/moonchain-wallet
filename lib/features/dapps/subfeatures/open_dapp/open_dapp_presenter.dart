@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +29,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _authUseCase = ref.read(authUseCaseProvider);
+  late final _customTokensUseCase = ref.read(customTokensUseCaseProvider);
 
   @override
   void initState() {
@@ -116,6 +118,19 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       return res;
     } catch (e, s) {
       addError(e, s);
+    } finally {
+      loading = false;
+    }
+  }
+
+  bool _addAsset(Token token) {
+    loading = true;
+    try {
+      _customTokensUseCase.addItem(token);
+      return true;
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
+      return false;
     } finally {
       loading = false;
     }
@@ -350,6 +365,43 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  void addAsset(int id, Map<String, dynamic> data,
+      {required VoidCallback cancel,
+      required Function(String status) success}) async {
+    final watchAssetData = WatchAssetModel.fromMap(data);
+    String titleText = translate('add_x')
+            ?.replaceFirst('{0}', translate('token')?.toLowerCase() ?? '--') ??
+        '--';
+
+    try {
+      final result = await showAddAssetDialog(
+        context!,
+        token: watchAssetData,
+        title: titleText,
+      );
+
+      if (result != null && result) {
+        final res = _addAsset(Token(
+            decimals: watchAssetData.decimals,
+            address: watchAssetData.contract,
+            symbol: watchAssetData.symbol,
+            chainId: state.network?.chainId));
+
+        if (res) {
+          success.call(res.toString());
+          addMessage(translate('add_token_success_message'));
+        } else {
+          cancel.call();
+        }
+      } else {
+        cancel.call();
+      }
+    } catch (e, s) {
+      cancel.call();
+      addError(e, s);
     }
   }
 }

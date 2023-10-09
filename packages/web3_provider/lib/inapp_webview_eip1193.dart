@@ -34,6 +34,9 @@ enum EIP1193 {
 
   /// Pass when web app add a new chain
   addEthereumChain,
+
+  /// Pass when web app add a new token
+  watchAsset
 }
 
 /// InAppWebViewEIP1193 wrap InAppWebView(https://pub.dev/packages/flutter_inappwebview)
@@ -903,6 +906,8 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
         widget.signCallback(
             rawData, EIP1193.signTypedMessage, _webViewController);
       }
+    } else if (name == 'watchAsset') {
+      widget.signCallback(rawData, EIP1193.watchAsset, _webViewController);
     } else {
       widget.signCallback(
           rawData, EIP1193.addEthereumChain, _webViewController);
