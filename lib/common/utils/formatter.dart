@@ -111,4 +111,18 @@ class Formatter {
   static String mergeUrlString(String first, String second) {
     return Uri.parse(first).resolve(second).toString();
   }
+
+  // Function to trim and remove extra spaces
+  static String trimAndRemoveExtraSpaces(String value) {
+    if (value.isEmpty) return '';
+    // Remove all new lines spaces
+    String trimmedValue = value.replaceAll('\n', '');
+    // String trimmedValue = value.trim(); 
+    List<String> words = trimmedValue.split(' '); // Split into individual words
+
+    // Remove extra spaces and new lines between words
+    words = words.where((word) => word.isNotEmpty).toList();
+
+    return words.join(' '); // Join words back with a single space between each
+  }
 }
