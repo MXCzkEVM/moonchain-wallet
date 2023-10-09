@@ -13,11 +13,11 @@ class NumbersRowWidget extends StatefulWidget {
       {super.key,
       required this.expectedNumbersLength,
       required this.enteredNumbers,
-      required this.shakeAnimationInt});
+      required this.shakeAnimationInit});
 
   final int expectedNumbersLength;
   final int enteredNumbers;
-  final void Function(AnimationController) shakeAnimationInt;
+  final void Function(AnimationController) shakeAnimationInit;
 
   @override
   State<NumbersRowWidget> createState() => _NumbersRowWidgetState();
@@ -61,7 +61,7 @@ class _NumbersRowWidgetState extends State<NumbersRowWidget>
 
     _animationController.addStatusListener(_updateStatus);
 
-    widget.shakeAnimationInt(_animationController);
+    widget.shakeAnimationInit(_animationController);
   }
 
   @override

@@ -37,7 +37,7 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
   Widget numbersRow(BuildContext context, WidgetRef ref) => NumbersRowWidget(
         expectedNumbersLength: ref.watch(state).expectedNumbersLength,
         enteredNumbers: ref.watch(state).enteredNumbers.length,
-        shakeAnimationInt: ref.read(presenter).initShakeAnimationController,
+        shakeAnimationInit: ref.read(presenter).initShakeAnimationController,
       );
 
   Widget numpad(
