@@ -143,7 +143,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final chainId = state.network!.chainId;
     final token = Token(
         chainId: state.network!.chainId,
-        logoUri: Config.mxcLogoUri,
+        logoUri: Assets.mxcLogoUri,
         name: Config.mxcName,
         symbol: Config.mxcSymbol,
         // can separate Sepolia & Ethereum
