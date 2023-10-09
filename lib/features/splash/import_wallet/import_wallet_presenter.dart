@@ -1,3 +1,5 @@
+import 'package:clipboard/clipboard.dart';
+import 'package:datadashwallet/common/utils/formatter.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,9 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
   late final TextEditingController mnemonicController = TextEditingController();
 
   String? validate(String? value) {
-    if (!_authUseCase.validateMnemonic(value ?? '')) {
+    final formattedMnemonic = Formatter.trimAndRemoveExtraSpaces(value ?? "");
+
+    if (!_authUseCase.validateMnemonic(formattedMnemonic)) {
       return translate('recovery_phrase_limit')!;
     }
 
@@ -26,7 +30,8 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
     loading = true;
 
     try {
-      final account = await _authUseCase.createWallet(value);
+      final formattedMnemonic = Formatter.trimAndRemoveExtraSpaces(value);
+      final account = await _authUseCase.createWallet(formattedMnemonic);
       _accountUseCase.addAccount(account);
       pushSetupEnableBiometricPage(context!);
     } catch (e, s) {
@@ -34,5 +39,9 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
     } finally {
       loading = false;
     }
+  }
+
+  void pastFromClipBoard() async {
+    mnemonicController.text = await FlutterClipboard.paste();
   }
 }
