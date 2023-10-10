@@ -34,6 +34,8 @@ class WalletState with EquatableMixin {
 
   Network? network;
 
+  double maxTweetViewHeight = 620;
+
   @override
   List<Object?> get props => [
         currentIndex,
@@ -48,6 +50,7 @@ class WalletState with EquatableMixin {
         balanceSpots,
         embeddedTweets,
         xsdConversionRate,
-        network
+        network,
+        maxTweetViewHeight
       ];
 }
