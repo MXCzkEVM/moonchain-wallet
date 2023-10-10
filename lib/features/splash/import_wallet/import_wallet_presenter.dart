@@ -43,5 +43,7 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
 
   void pastFromClipBoard() async {
     mnemonicController.text = await FlutterClipboard.paste();
+    mnemonicController.selection = TextSelection.fromPosition(
+        TextPosition(offset: mnemonicController.text.length));
   }
 }
