@@ -441,4 +441,10 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     _tokenContractUseCase.getTokensBalance(
         tokenList, state.walletAddress!, shouldGetPrice);
   }
+
+  void checkMaxTweetHeight(double height) {
+    if (height >= state.maxTweetViewHeight - 120) {
+      notify(() => state.maxTweetViewHeight = height + 120);
+    }
+  }
 }
