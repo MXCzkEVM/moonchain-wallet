@@ -161,13 +161,12 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         amount: amount,
         balance: sumBalance.toString(),
         token: token,
-        newtork: state.network?.label ?? '--',
+        network: state.network?.label ?? '--',
         from: state.account!.address,
         to: recipient,
         estimatedFee: estimatedFee,
         onTap: (transactionType) => _nextTransactionStep(transactionType),
-        networkSymbol: state.network?.symbol ?? '--',
-        launchAddress: _chainConfigurationUserCase.launchAddress);
+        networkSymbol: state.network?.symbol ?? '--');
   }
 
   String? checkAmountCeiling() {

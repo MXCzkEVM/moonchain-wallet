@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/common/components/list/single_line_info_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -28,7 +29,6 @@ class TransactionInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(openDAppPageContainer.actions);
     return Column(
       children: [
         Padding(
@@ -36,32 +36,30 @@ class TransactionInfo extends ConsumerWidget {
           child: Column(
             children: [
               amountItem(context),
-              addressItem(context, 'from', from, presenter),
-              addressItem(context, 'to', to, presenter),
+              SingleLineInfoItem(
+                title: 'from',
+                value: from,
+              ),
+              SingleLineInfoItem(
+                title: 'to',
+                value: to,
+              ),
               if (estimatedFee != null)
-                priceItem(context, 'estimated_fee', estimatedFee),
+                SingleLineInfoItem(
+                  title: 'estimated_fee',
+                  value: estimatedFee != null
+                      ? Formatter.formatNumberForUI(
+                          estimatedFee!,
+                        )
+                      : '--',
+                  hint: symbol,
+                ),
             ],
           ),
         ),
         const SizedBox(height: 8),
         transactionButton(context),
       ],
-    );
-  }
-
-  Widget transactionButton(BuildContext context) {
-    String titleText = 'confirm';
-    AxsButtonType type = AxsButtonType.primary;
-
-    return MxcButton.primary(
-      key: const ValueKey('transactionButton'),
-      size: AxsButtonSize.xl,
-      title: FlutterI18n.translate(context, titleText),
-      type: type,
-      onTap: () {
-        if (onTap != null) onTap!();
-        Navigator.of(context).pop(true);
-      },
     );
   }
 
@@ -95,119 +93,19 @@ class TransactionInfo extends ConsumerWidget {
     );
   }
 
-  Widget priceItem(
-    BuildContext context,
-    String label,
-    String? price,
-  ) {
-    return TransactionItem(
-      label: label,
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            price != null
-                ? Formatter.formatNumberForUI(
-                    price,
-                  )
-                : '--',
-            style: FontTheme.of(context).body1.primary(),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            symbol,
-            style: FontTheme.of(context).body1().copyWith(
-                  color: ColorsTheme.of(context).grey2,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget transactionButton(BuildContext context) {
+    String titleText = 'confirm';
+    AxsButtonType type = AxsButtonType.primary;
 
-  Widget textItem(
-    BuildContext context,
-    String label,
-    String value,
-  ) {
-    return TransactionItem(
-      label: label,
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            value,
-            style: FontTheme.of(context).body1.primary(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget addressItem(
-    BuildContext context,
-    String label,
-    String address,
-    OpenDAppPresenter presenter
-  ) {
-    return TransactionItem(
-      label: label,
-      content: InkWell(
-        onTap: () => presenter.launchAddress(address),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Text(
-                address,
-                style: FontTheme.of(context).body1.primary(),
-                softWrap: true,
-                textAlign: TextAlign.right,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Icon(
-              MxcIcons.external_link,
-              size: 24,
-              color: ColorsTheme.of(context).textSecondary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TransactionItem extends StatelessWidget {
-  const TransactionItem({
-    Key? key,
-    required this.label,
-    required this.content,
-  }) : super(key: key);
-
-  final String label;
-  final Widget content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Row(
-            children: [
-              Text(
-                FlutterI18n.translate(context, label),
-                style: FontTheme.of(context).body1.secondary(),
-              ),
-              const SizedBox(width: 10),
-            ],
-          ),
-          Expanded(
-            child: content,
-          ),
-        ],
-      ),
+    return MxcButton.primary(
+      key: const ValueKey('transactionButton'),
+      size: AxsButtonSize.xl,
+      title: FlutterI18n.translate(context, titleText),
+      type: type,
+      onTap: () {
+        if (onTap != null) onTap!();
+        Navigator.of(context).pop(true);
+      },
     );
   }
 }
