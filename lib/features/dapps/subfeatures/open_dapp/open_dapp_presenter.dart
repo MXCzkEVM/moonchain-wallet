@@ -349,16 +349,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     );
   }
 
-  void launchAddress(String address) async {
-    final chainExplorerUrl = state.network!.explorerUrl!;
-    final addressExplorer = Config.addressExplorer(address);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
-
-    if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
-    }
-  }
-
   bool isAddress(String address) {
     try {
       EthereumAddress.fromHex(address);
@@ -403,5 +393,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       cancel.call();
       addError(e, s);
     }
+  }
+
+  void launchAddress(String address) {
+    _chainConfigurationUseCase.launchAddress(address);
   }
 }

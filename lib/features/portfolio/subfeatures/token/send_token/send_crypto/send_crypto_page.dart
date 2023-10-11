@@ -37,8 +37,6 @@ class SendCryptoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final formKey = useMemoized(() => );
-
     String translate(String text) => FlutterI18n.translate(context, text);
 
     return MxcPage.layer(
