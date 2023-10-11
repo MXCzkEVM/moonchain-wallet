@@ -161,13 +161,12 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         amount: amount,
         balance: sumBalance.toString(),
         token: token,
-        newtork: state.network?.label ?? '--',
+        network: state.network?.label ?? '--',
         from: state.account!.address,
         to: recipient,
         estimatedFee: estimatedFee,
         onTap: (transactionType) => _nextTransactionStep(transactionType),
-        networkSymbol: state.network?.symbol ?? '--',
-        launchAddress: launchAddress);
+        networkSymbol: state.network?.symbol ?? '--');
   }
 
   String? checkAmountCeiling() {
@@ -257,16 +256,6 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       }
     } finally {
       loading = false;
-    }
-  }
-
-  void launchAddress(String address) async {
-    final chainExplorerUrl = state.network!.explorerUrl!;
-    final addressExplorer = Config.addressExplorer(address);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
-
-    if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
     }
   }
 
