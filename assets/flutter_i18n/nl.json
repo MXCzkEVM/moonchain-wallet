@@ -279,5 +279,14 @@
     "biometrics": "biometrie",
     "checking_balance": "Saldo controleren...",
     "no_balance": "Je hebt geen saldo",
-    "no_balance_tip": "Je hebt momenteel geen MXC in je portemonnee. Je kunt tokens ontvangen of ervoor kiezen om later een gebruikersnaam te claimen."
+    "no_balance_tip": "Je hebt momenteel geen MXC in je portemonnee. Je kunt tokens ontvangen of ervoor kiezen om later een gebruikersnaam te claimen.",
+    "signature_request": "Handtekening verzoek",
+    "sign": "Teken",
+    "insufficient_balance": "Onvoldoende saldo",
+    "unregistered_mns_notice": "Oeps! Tokens versturen naar een gebruikersnaam zo ongrijpbaar als een eenhoorn in een bos. Controleer of ze geregistreerd zijn!",
+    "insufficient_balance_for_fee": "Onvoldoende saldo voor kosten",
+    "send_&_receive": "Versturen & Ontvangen",
+    "contract": "Contract",
+    "decimals": "Decimalen",
+    "add_token_success_message": "Hoera! De token is succesvol toegevoegd aan je AXS portemonnee! 🎉"
 }

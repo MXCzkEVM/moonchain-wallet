@@ -279,5 +279,14 @@
     "biometrics": "Biometrie",
     "checking_balance": "Kontostand prüfen...",
     "no_balance": "Sie haben kein Guthaben",
-    "no_balance_tip": "Sie haben derzeit keine MXC in Ihrer Wallet. Sie können entweder Tokens erhalten oder sich später für einen Benutzernamen entscheiden."
+    "no_balance_tip": "Sie haben derzeit keine MXC in Ihrer Wallet. Sie können entweder Tokens erhalten oder sich später für einen Benutzernamen entscheiden.",
+    "signature_request": "Unterschriftsanforderung",
+    "sign": "Unterschrift",
+    "insufficient_balance": "Unzureichendes Guthaben",
+    "unregistered_mns_notice": "Hoppla! Tokens an einen Benutzernamen senden, der so schwer zu fassen ist wie ein Einhorn in einem Wald. Überprüfen Sie, ob sie registriert sind!",
+    "insufficient_balance_for_fee": "Unzureichendes Guthaben für Gebühr",
+    "send_&_receive": "Senden & Empfangen",
+    "contract": "Vertrag",
+    "decimals": "Dezimalstellen",
+    "add_token_success_message": "Hurra! Der Token wurde erfolgreich zu Ihrer AXS-Brieftasche hinzugefügt! 🎉"
 }

@@ -279,5 +279,14 @@
     "biometrics": "biyometri",
     "checking_balance": "Bakiye kontrol ediliyor...",
     "no_balance": "Bakiyeniz yok.",
-    "no_balance_tip": "Cüzdanınızda şu anda hiç MXC bulunmamaktadır.\nToken almayı seçebilir veya daha sonra bir kullanıcı adı talep etmeyi seçebilirsiniz."
+    "no_balance_tip": "Cüzdanınızda şu anda hiç MXC bulunmamaktadır.\nToken almayı seçebilir veya daha sonra bir kullanıcı adı talep etmeyi seçebilirsiniz.",
+    "signature_request": "İmza talebi",
+    "sign": "İmza",
+    "insufficient_balance": "Yetersiz bakiye",
+    "unregistered_mns_notice": "Hata! Bir ormanda bir ünigorn kadar gizemli bir kullanıcı adına token gönderme. Kayıtlı olduklarını kontrol et!",
+    "insufficient_balance_for_fee": "Ücret için yetersiz bakiye",
+    "send_&_receive": "Gönder & Al",
+    "contract": "Sözleşme",
+    "decimals": "Ondalıklar",
+    "add_token_success_message": "Hurra! Token başarıyla AXS cüzdanınıza eklendi! 🎉"
 }

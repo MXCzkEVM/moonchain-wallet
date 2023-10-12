@@ -279,5 +279,14 @@
     "biometrics": "biométrie",
     "checking_balance": "Vérification du solde...",
     "no_balance": "Vous n'avez pas de solde",
-    "no_balance_tip": "Vous n'avez actuellement aucun MXC dans votre portefeuille. Vous pouvez soit recevoir des jetons, soit choisir de revendiquer un nom d'utilisateur plus tard."
+    "no_balance_tip": "Vous n'avez actuellement aucun MXC dans votre portefeuille. Vous pouvez soit recevoir des jetons, soit choisir de revendiquer un nom d'utilisateur plus tard.",
+    "signature_request": "Demande de signature",
+    "sign": "Signer",
+    "insufficient_balance": "Solde insuffisant",
+    "unregistered_mns_notice": "Oups! Envoyer des tokens à un nom d'utilisateur aussi insaisissable qu'une licorne dans une forêt. Vérifiez s'ils sont enregistrés !",
+    "insufficient_balance_for_fee": "Solde insuffisant pour les frais",
+    "send_&_receive": "Envoyer & Recevoir",
+    "contract": "Contrat",
+    "decimals": "Décimales",
+    "add_token_success_message": "Hourra! Le jeton a été ajouté avec succès à votre portefeuille AXS! 🎉"
 }
