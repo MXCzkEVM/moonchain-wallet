@@ -22,4 +22,9 @@ class CustomTokensUseCase extends ReactiveUseCase {
     _repository.removeItem(item);
     update(tokens, _repository.items);
   }
+
+  void removeAll() {
+    _repository.removeAll();
+    update(tokens, _repository.items);
+  }
 }

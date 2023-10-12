@@ -26,6 +26,8 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   late final ValueStream<List<Token>> tokensList = reactive([]);
 
+  List<Token> customTokenList = [];
+
   late final ValueStream<String?> name = reactive();
 
   late final ValueStream<double> totalBalanceInXsd = reactive(0.0);
@@ -57,9 +59,11 @@ class TokenContractUseCase extends ReactiveUseCase {
         .getTokenTransfersByAddress(address, TokenType.erc_20);
   }
 
-  Future<DefaultTokens?> getDefaultTokens(String walletAddress) async {
-    final result = await _repository.tokenContract.getDefaultTokens();
+  Future<List<Token>> getDefaultTokens(String walletAddress) async {
     tokensList.value.clear();
+    tokensList.value.addAll(customTokenList);
+    final result = await _repository.tokenContract.getDefaultTokens();
+
     final cNetwork = _repository.tokenContract.getCurrentNetwork();
 
     final chainNativeToken = Token(
@@ -73,11 +77,13 @@ class TokenContractUseCase extends ReactiveUseCase {
     if (result != null) {
       if (result.tokens != null) {
         tokensList.value.addAll(result.tokens!);
+        tokensList.value.unique((token) => token.symbol);
       }
     }
 
     update(tokensList, tokensList.value);
-    return result;
+    result?.tokens?.add(chainNativeToken);
+    return result?.tokens ?? [chainNativeToken];
   }
 
   Future<Token?> getToken(String address) async =>
@@ -99,15 +105,45 @@ class TokenContractUseCase extends ReactiveUseCase {
   }
 
   Future<void> getTokensBalance(
-      String walletAddress, bool shouldGetPrice) async {
-    final result = await _repository.tokenContract
-        .getTokensBalance(tokensList.value, walletAddress);
-    update(tokensList, result);
+    List<Token>? tokenList,
+    String walletAddress,
+    bool shouldGetPrice,
+  ) async {
+    late List<Token> result;
+    if (tokenList != null) {
+      // Check if tokenList and enwList values are the same
+      await _repository.tokenContract
+          .getTokensBalance(tokenList, walletAddress);
+      updateTokensList(tokenList);
+    } else {
+      result = await _repository.tokenContract
+          .getTokensBalance(tokensList.value, walletAddress);
+      update(tokensList, result);
+    }
+
     if (shouldGetPrice) {
-      getTokensPrice();
+      getTokensPrice(tokenList);
     } else {
       resetTokenPrice();
     }
+  }
+
+  void updateTokensList(
+    List<Token> tokenList,
+  ) {
+    for (int i = 0; i < tokensList.value.length; i++) {
+      final index = tokenList.indexWhere((element) {
+        final result = element.address == tokensList.value[i].address;
+        return result;
+      });
+      if (index != -1) {
+        final newListItem = tokenList[index];
+        if (newListItem.address == tokensList.value[i].address) {
+          tokensList.value[i] = newListItem;
+        }
+      }
+    }
+    update(tokensList, tokensList.value);
   }
 
   void resetTokenPrice() {
@@ -119,18 +155,32 @@ class TokenContractUseCase extends ReactiveUseCase {
     calculateTotalBalanceInXsd();
   }
 
-  Future<void> getTokensPrice() async {
-    final result =
-        await _repository.pricingRepository.getTokensPrice(tokensList.value);
-    update(tokensList, result);
+  Future<void> getTokensPrice(
+    List<Token>? tokenList,
+  ) async {
+    if (tokenList != null) {
+      await _repository.pricingRepository.getTokensPrice(tokenList);
+      updateTokensList(tokenList);
+    } else {
+      final result =
+          await _repository.pricingRepository.getTokensPrice(tokensList.value);
+      update(tokensList, result);
+    }
     calculateTotalBalanceInXsd();
   }
 
-  void addCustomTokens(List<Token> customTokens) {
+  void addCustomTokens(
+      List<Token> customTokens, String walletAddress, bool shouldGetPrice) {
     tokensList.value.addAll(customTokens);
     tokensList.value.unique((token) => token.address);
-
+    customTokenList = customTokens;
     update(tokensList, tokensList.value);
+
+    getTokensBalance(
+      customTokens,
+      walletAddress,
+      shouldGetPrice,
+    );
   }
 
   Future<EtherAmount> getGasPrice() async =>

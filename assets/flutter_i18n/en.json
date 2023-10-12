@@ -281,5 +281,12 @@
 	"no_balance": "You have no balance",
 	"no_balance_tip": "You currently have no MXC in your wallet.\nYou can either receive tokens or choose to claim a username later.",
 	"signature_request": "Signature request", 
-	"sign": "Sign"
+	"sign": "Sign",
+	"insufficient_balance": "Insufficient balance",
+	"unregistered_mns_notice": "Oops! Sending tokens to a username as elusive as a unicorn in a forest. Check if they're registered!",
+	"insufficient_balance_for_fee": "Insufficient balance for fee",
+	"send_&_receive": "Send & Receive",
+	"contract": "Contract",
+	"decimals": "Decimals",
+	"add_token_success_message" : "Hooray! The token has been successfully added to your AXS wallet! 🎉"
 }

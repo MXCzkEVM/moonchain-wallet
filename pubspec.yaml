@@ -78,9 +78,8 @@ dependencies:
   share_plus: ^6.3.4
   shimmer: ^2.0.0
   sliver_tools: ^0.2.5
-  social_embed_webview: ^0.3.2
-  twitter_oembed_api: ^0.1.0
   url_launcher: ^6.1.11
+  vibration: ^1.7.7
   wallet_connect: ^1.0.4
   web3_provider:
     path: packages/web3_provider

@@ -47,38 +47,45 @@ class PasscodeRequirePage extends PasscodeBasePage {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return WillPopScope(
-      onWillPop: () async => Future.value(false),
-      child: MxcPage(
-        layout: LayoutType.column,
-        presenter: ref.watch(presenter),
-        useSplashBackground: true,
-        children: [
-          const SizedBox(height: 40),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                Text(
-                  title(context, ref),
-                  style: FontTheme.of(context).h4.textWhite(),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  hint(context, ref),
-                  style: FontTheme.of(context).body1.textWhite(),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 40),
-                Center(
-                  child: numbersRow(context, ref),
-                ),
-              ],
-            ),
+    return MxcPage(
+      layout: LayoutType.column,
+      presenter: ref.watch(presenter),
+      useSplashBackground: true,
+      children: [
+        const SizedBox(height: 40),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              Text(
+                title(context, ref),
+                style: FontTheme.of(context).h4.textWhite(),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                hint(context, ref),
+                style: FontTheme.of(context).body1.textWhite(),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                  height: 84,
+                  child: Column(
+                    children: [
+                      Expanded(child: Container()),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: numbersRow(context, ref),
+                        ),
+                      )
+                    ],
+                  )),
+            ],
           ),
-          const SizedBox(height: 12),
-          buildErrorMessage(context, ref),
+        ),
+        buildErrorMessage(context, ref),
+        if (ref.watch(state).wrongInputCounter != 0)
           Padding(
             padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
             child: MxcButton.secondaryWhite(
@@ -88,10 +95,9 @@ class PasscodeRequirePage extends PasscodeBasePage {
               onTap: () => showResetPasscodeDialog(context, ref),
             ),
           ),
-          const Spacer(),
-          numpad(context, ref),
-        ],
-      ),
+        const Spacer(),
+        numpad(context, ref),
+      ],
     );
   }
 }

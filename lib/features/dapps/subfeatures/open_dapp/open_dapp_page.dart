@@ -128,6 +128,18 @@ class OpenAppPage extends HookConsumerWidget {
                         bool? result =
                             await presenter.addEthereumChain(id, params);
                         break;
+                      case EIP1193.watchAsset:
+                        presenter.addAsset(
+                          id,
+                          params['object'],
+                          cancel: () {
+                            controller?.cancel(id);
+                          },
+                          success: (idHash) {
+                            controller?.sendResult(idHash, id);
+                          },
+                        );
+                        break;
                       default:
                         break;
                     }

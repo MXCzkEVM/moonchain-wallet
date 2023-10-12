@@ -22,6 +22,7 @@ Future<bool?> showGesturesInstructionDialog(BuildContext context) async {
     isScrollControlled: true,
     isDismissible: false,
     enableDrag: false,
+    useSafeArea: true,
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) => const GesturesInstruction(),
   );

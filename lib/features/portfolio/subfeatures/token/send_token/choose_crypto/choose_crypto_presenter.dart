@@ -52,7 +52,7 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
     final shouldGetPrice =
         Config.isMxcChains(chainId) || Config.isEthereumMainnet(chainId);
     await _tokenContractUseCase.getTokensBalance(
-        state.account!.address, shouldGetPrice);
+        null, state.account!.address, shouldGetPrice);
   }
 
   void fliterTokenByName(String value) {

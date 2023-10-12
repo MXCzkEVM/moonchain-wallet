@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/utils/utils.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,7 +23,6 @@ class TypeMessageInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(openDAppPageContainer.actions);
-    final state = ref.watch(openDAppPageContainer.state);
     return Column(
       children: [
         Padding(
@@ -89,69 +88,8 @@ class TypeMessageInfo extends ConsumerWidget {
     for (int i = 0; i < keyList.length; i++) {
       final property = keyList[i];
       final value = valueList[i].toString();
-      final isAddress = presenter.isAddress(value);
-      infoList.add(InfoItem(
-        label: Formatter.capitalizeFirstLetter(property),
-        content: InkWell(
-          onTap: isAddress ? () => presenter.launchAddress(value) : null,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(
-                child: Text(
-                  value,
-                  style: FontTheme.of(context).body1.primary(),
-                  softWrap: true,
-                  textAlign: TextAlign.right,
-                ),
-              ),
-              if (isAddress) ...[
-                const SizedBox(width: 8),
-                Icon(
-                  MxcIcons.external_link,
-                  size: 24,
-                  color: ColorsTheme.of(context).textSecondary,
-                ),
-              ]
-            ],
-          ),
-        ),
-      ));
+      infoList.add(SingleLineInfoItem(title: property, value: value));
     }
     return infoList;
-  }
-}
-
-class InfoItem extends StatelessWidget {
-  const InfoItem({
-    Key? key,
-    required this.label,
-    required this.content,
-  }) : super(key: key);
-
-  final String label;
-  final Widget content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Row(
-            children: [
-              Text(
-                FlutterI18n.translate(context, label),
-                style: FontTheme.of(context).body1.secondary(),
-              ),
-              const SizedBox(width: 10),
-            ],
-          ),
-          Expanded(
-            child: content,
-          ),
-        ],
-      ),
-    );
   }
 }

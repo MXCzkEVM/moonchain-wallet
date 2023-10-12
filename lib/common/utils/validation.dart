@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
@@ -87,5 +88,28 @@ class Validation {
   static bool isExpoNumber(String input) {
     RegExp regex = RegExp(r'^(\d+\.\d+e[-+]\d+)$');
     return regex.hasMatch(input);
+  }
+
+  static bool isDecimalsStandard(String input) {
+    // since It is not number
+    if (!isDouble(input)) return false;
+
+    final splitValue = input.split('.');
+    final decimalPlaces = splitValue[1];
+
+    if (decimalPlaces.length > Config.decimalWriteFixed) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  static bool isDouble(String value) {
+    final doubleValue = double.tryParse(value);
+
+    if (doubleValue == null) {
+      return false;
+    }
+    return true;
   }
 }

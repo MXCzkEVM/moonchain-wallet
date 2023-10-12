@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
@@ -27,6 +29,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _authUseCase = ref.read(authUseCaseProvider);
+  late final _customTokensUseCase = ref.read(customTokensUseCaseProvider);
 
   @override
   void initState() {
@@ -120,6 +123,19 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
+  bool _addAsset(Token token) {
+    loading = true;
+    try {
+      _customTokensUseCase.addItem(token);
+      return true;
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
+      return false;
+    } finally {
+      loading = false;
+    }
+  }
+
   void recordTransaction(String hash) {
     final timeStamp = DateTime.now();
     const txStatus = TransactionStatus.pending;
@@ -127,7 +143,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final chainId = state.network!.chainId;
     final token = Token(
         chainId: state.network!.chainId,
-        logoUri: Config.mxcLogoUri,
+        logoUri: Assets.mxcLogoUri,
         name: Config.mxcName,
         symbol: Config.mxcSymbol,
         // can separate Sepolia & Ethereum
@@ -143,8 +159,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       token: token,
     );
 
-    _transactionHistoryUseCase.spyOnTransaction(tx, chainId);
-    _transactionHistoryUseCase.updateItemTx(tx, chainId);
+    _transactionHistoryUseCase.spyOnTransaction(
+      tx,
+    );
+    _transactionHistoryUseCase.updateItem(
+      tx,
+    );
   }
 
   void signTransaction({
@@ -285,8 +305,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
-    _transactionHistoryUseCase.checkChainAvailability(toNetwork.chainId);
     _authUseCase.resetNetwork(toNetwork);
+    loadDataDashProviders(toNetwork);
     notify(() => state.network = toNetwork);
 
     setChain(id);
@@ -329,17 +349,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     );
   }
 
-  void launchAddress(String address) {
-    final chainExplorerUrl = state.network!.explorerUrl!;
-    final explorerUrl = chainExplorerUrl.endsWith('/')
-        ? chainExplorerUrl
-        : '$chainExplorerUrl/';
-
-    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
-    state.webviewController!
-        .loadUrl(urlRequest: URLRequest(url: Uri.parse(addressUrl)));
-  }
-
   bool isAddress(String address) {
     try {
       EthereumAddress.fromHex(address);
@@ -347,5 +356,46 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     } catch (e) {
       return false;
     }
+  }
+
+  void addAsset(int id, Map<String, dynamic> data,
+      {required VoidCallback cancel,
+      required Function(String status) success}) async {
+    final watchAssetData = WatchAssetModel.fromMap(data);
+    String titleText = translate('add_x')
+            ?.replaceFirst('{0}', translate('token')?.toLowerCase() ?? '--') ??
+        '--';
+
+    try {
+      final result = await showAddAssetDialog(
+        context!,
+        token: watchAssetData,
+        title: titleText,
+      );
+
+      if (result != null && result) {
+        final res = _addAsset(Token(
+            decimals: watchAssetData.decimals,
+            address: watchAssetData.contract,
+            symbol: watchAssetData.symbol,
+            chainId: state.network?.chainId));
+
+        if (res) {
+          success.call(res.toString());
+          addMessage(translate('add_token_success_message'));
+        } else {
+          cancel.call();
+        }
+      } else {
+        cancel.call();
+      }
+    } catch (e, s) {
+      cancel.call();
+      addError(e, s);
+    }
+  }
+
+  void launchAddress(String address) {
+    _chainConfigurationUseCase.launchAddress(address);
   }
 }

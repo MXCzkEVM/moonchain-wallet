@@ -20,6 +20,7 @@ Future<bool?> showTransactionDialog(BuildContext context,
     context: context,
     useRootNavigator: true,
     isScrollControlled: true,
+    useSafeArea: true,
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) => Container(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 0, bottom: 44),

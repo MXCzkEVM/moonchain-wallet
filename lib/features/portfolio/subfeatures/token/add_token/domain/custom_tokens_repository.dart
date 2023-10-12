@@ -36,6 +36,8 @@ class CustomTokensRepository extends ControlledCacheRepository {
 
   void addItem(Token item) => tokens.value = [...tokens.value, item];
 
+  void removeAll() => tokens.value = [];
+
   void removeItem(Token item) =>
       tokens.value = tokens.value.where((e) => e.name != item.name).toList();
 }

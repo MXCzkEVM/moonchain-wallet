@@ -15,6 +15,7 @@ void showWalletAddressDialog({
     context: context,
     useRootNavigator: true,
     isScrollControlled: true,
+    useSafeArea: true,
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) => WalletAddress(
       walletAddress: walletAddress,

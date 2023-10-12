@@ -46,10 +46,10 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
   }
 
   void onAddNumber(int number) async {
-    state.errorText = null;
     state.enteredNumbers.add(number);
     notify();
     if (state.enteredNumbers.length != state.expectedNumbersLength) return;
+    state.errorText = null;
     onAllNumbersEntered(state.dismissedPage);
   }
 
@@ -57,4 +57,10 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
     if (state.enteredNumbers.isEmpty) return;
     notify(() => state.enteredNumbers.removeLast());
   }
+
+  void initShakeAnimationController(AnimationController animationController) {
+    state.shakeAnimationController = animationController;
+  }
+
+  void startShakeAnimation() {}
 }

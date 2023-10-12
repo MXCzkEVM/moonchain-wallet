@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:datadashwallet/app/app.dart';
+import 'package:datadashwallet/features/security/presentation/passcode_base/widget/numbers_row_widget.dart';
+import 'package:datadashwallet/features/security/presentation/passcode_require/widgets/circle_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,24 +34,10 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
 
   ProviderBase<PasscodeBasePageState> get state;
 
-  Widget numbersRow(BuildContext context, WidgetRef ref) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (var i = 0; i < ref.watch(state).expectedNumbersLength; i++) ...[
-            SvgPicture.asset(
-              'assets/svg/security/ic_ring.svg',
-              height: 32,
-              width: 32,
-              colorFilter: filterFor(
-                ref.watch(state).enteredNumbers.length > i
-                    ? ColorsTheme.of(context).primary60
-                    : ColorsTheme.of(context).iconWhite,
-              ),
-            ),
-            if (i != ref.watch(state).expectedNumbersLength - 1)
-              const SizedBox(width: 16),
-          ],
-        ],
+  Widget numbersRow(BuildContext context, WidgetRef ref) => NumbersRowWidget(
+        expectedNumbersLength: ref.watch(state).expectedNumbersLength,
+        enteredNumbers: ref.watch(state).enteredNumbers.length,
+        shakeAnimationInit: ref.read(presenter).initShakeAnimationController,
       );
 
   Widget numpad(
@@ -191,8 +179,11 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
               style: FontTheme.of(context).body1.white(),
             ),
             const SizedBox(height: 64),
-            Center(
-              child: numbersRow(context, ref),
+            SizedBox(
+              height: 57.5,
+              child: Center(
+                child: numbersRow(context, ref),
+              ),
             ),
           ],
         ),

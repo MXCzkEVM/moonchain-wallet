@@ -16,6 +16,7 @@ Future<bool?> showChainsDialog(BuildContext context,
     context: context,
     useRootNavigator: true,
     isScrollControlled: true,
+    useSafeArea: true,
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) => Container(
       padding: const EdgeInsets.only(

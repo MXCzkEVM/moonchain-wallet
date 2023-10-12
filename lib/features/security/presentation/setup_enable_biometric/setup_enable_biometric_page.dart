@@ -20,27 +20,24 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
       layout: LayoutType.column,
       presenter: presenter,
       useSplashBackground: true,
-      footer: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MxcButton.primaryWhite(
-              key: const ValueKey('useBiometricButton'),
-              title: FlutterI18n.translate(context, 'use_biometric')
-                  .replaceFirst(
-                      '{0}',
-                      FlutterI18n.translate(
-                          context, presenter.getAppBarTitle())),
-              onTap: () => presenter.authenticateBiometrics(),
-            ),
-            MxcButton.plainWhite(
-              key: const ValueKey('createPasscodeButton'),
-              title: FlutterI18n.translate(context, 'create_passcode'),
-              onTap: () => presenter.createPasscode(),
-            ),
-          ],
-        ),
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 24),
+      footer: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MxcButton.primaryWhite(
+            key: const ValueKey('useBiometricButton'),
+            title: FlutterI18n.translate(context, 'use_biometric').replaceFirst(
+                '{0}',
+                FlutterI18n.translate(context, presenter.getAppBarTitle())
+                    .toLowerCase()),
+            onTap: () => presenter.authenticateBiometrics(),
+          ),
+          MxcButton.plainWhite(
+            key: const ValueKey('createPasscodeButton'),
+            title: FlutterI18n.translate(context, 'create_passcode'),
+            onTap: () => presenter.createPasscode(),
+          ),
+        ],
       ),
       children: [
         const SizedBox(height: 75),
@@ -58,8 +55,10 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
         ),
         Text(
           FlutterI18n.translate(context, 'use_biometric_or_passcode')
-              .replaceFirst('{0}',
-                  FlutterI18n.translate(context, presenter.getAppBarTitle())),
+              .replaceFirst(
+                  '{0}',
+                  FlutterI18n.translate(context, presenter.getAppBarTitle())
+                      .toLowerCase()),
           style: FontTheme.of(context).h6.white(),
           textAlign: TextAlign.center,
         ),
