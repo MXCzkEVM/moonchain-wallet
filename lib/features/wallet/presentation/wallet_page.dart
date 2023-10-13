@@ -95,10 +95,10 @@ class WalletPage extends HookConsumerWidget {
                     const SizedBox(
                       height: 32,
                     ),
+                    const TweetsList()
                   ],
                 ),
               ),
-              const TweetsList()
             ],
           ))
         ]);

@@ -10,12 +10,14 @@ class Tweet extends StatefulWidget {
       required this.tweetId,
       required this.isDark,
       required this.height,
-      required this.checkMaxHeight});
+      required this.checkMaxHeight,
+      required this.isFirstItem});
 
   final String tweetId;
   final bool isDark;
   final double height;
   final Function(double) checkMaxHeight;
+  final bool isFirstItem;
 
   @override
   State<Tweet> createState() => _TweetState();
@@ -35,7 +37,11 @@ class _TweetState extends State<Tweet> {
     double? height;
     return Container(
       margin: EdgeInsetsDirectional.only(
-          start: MediaQuery.of(context).size.width > 600 ? 16 : 8),
+          start: widget.isFirstItem
+              ? 0
+              : MediaQuery.of(context).size.width > 600
+                  ? 16
+                  : Sizes.spaceXSmall),
       width: 320,
       height: widget.height,
       child: Stack(
