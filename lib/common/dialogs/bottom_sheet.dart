@@ -9,6 +9,7 @@ Future<T?> showGeneralBottomSheet<T>(
     context: context,
     backgroundColor: Colors.transparent,
     useRootNavigator: true,
+    useSafeArea: true,
     builder: (context) {
       return Container(
         decoration: ShapeDecoration(

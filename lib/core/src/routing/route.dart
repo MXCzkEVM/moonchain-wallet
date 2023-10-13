@@ -60,6 +60,7 @@ class _RouteBuilder {
   PageRoute featureDialog<T extends Widget>(
     T widget, {
     bool maintainState = true,
+    bool canPopThisPage = true
   }) {
     final routeName = extractNameForRoute(widget);
 
@@ -69,6 +70,7 @@ class _RouteBuilder {
       maintainState: maintainState,
       settings: routeSettings,
       builder: (ctx) => widget,
+      canPopThisPage: canPopThisPage
     );
   }
 

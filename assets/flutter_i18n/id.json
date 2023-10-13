@@ -279,5 +279,14 @@
     "biometrics": "biometrik",
     "checking_balance": "Memeriksa saldo...",
     "no_balance": "Anda tidak memiliki saldo",
-    "no_balance_tip": "Anda saat ini tidak memiliki MXC di dompet Anda.\nAnda bisa menerima token atau memilih untuk mengklaim nama pengguna nanti."
+    "no_balance_tip": "Anda saat ini tidak memiliki MXC di dompet Anda.\nAnda bisa menerima token atau memilih untuk mengklaim nama pengguna nanti.",
+    "signature_request": "Permintaan tanda tangan",
+    "sign": "Tanda Tangan",
+    "insufficient_balance": "Saldo tidak cukup",
+    "unregistered_mns_notice": "Ups! Mengirim token ke nama pengguna yang samar seperti unicorn di hutan. Periksa apakah mereka sudah terdaftar!",
+    "insufficient_balance_for_fee": "Saldo tidak cukup untuk biaya",
+    "send_&_receive": "Kirim & Terima",
+    "contract": "Kontrak",
+    "decimals": "Desimal",
+    "add_token_success_message": "Hore! Token telah berhasil ditambahkan ke dompet AXS Anda! 🎉"
 }

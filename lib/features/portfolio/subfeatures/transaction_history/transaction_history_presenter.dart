@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/components/recent_transactions/utils.dart';
+import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
@@ -18,6 +18,8 @@ class TransactionHistoryPresenter
       ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
+  late final _transactionHistoryUseCase =
+      ref.read(transactionHistoryUseCaseProvider);
 
   @override
   void initState() {
@@ -35,20 +37,48 @@ class TransactionHistoryPresenter
         loadPage();
       }
     });
+
+    listen(_transactionHistoryUseCase.transactionsHistory, (value) {
+      if (state.network != null) {
+        if (!Config.isMxcChains(state.network!.chainId)) {
+          getCustomChainsTransactions(value);
+        }
+      }
+    });
   }
 
   Future<void> loadPage() async {
     await _tokenContractUseCase
         .getDefaultTokens(state.account!.address)
         .then((value) {
-      if (value != null) {
-        notify(() => state.tokens = value.tokens!);
-        getTransactions();
-      }
+      notify(() => state.tokens = value);
+      getTransactions();
     });
   }
 
   void getTransactions() async {
+    if (Config.isMxcChains(state.network!.chainId)) {
+      getMXCTransactions();
+    } else {
+      getCustomChainsTransactions(null);
+    }
+  }
+
+  void getCustomChainsTransactions(List<TransactionModel>? txHistory) {
+    txHistory =
+        txHistory ?? _transactionHistoryUseCase.getTransactionsHistory();
+
+    if (state.network != null) {
+      final chainTxHistory = txHistory;
+
+      notify(() {
+        state.transactions = chainTxHistory;
+        state.filterTransactions = chainTxHistory;
+      });
+    }
+  }
+
+  void getMXCTransactions() async {
     // final walletAddress = await _walletUserCase.getPublicAddress();
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer

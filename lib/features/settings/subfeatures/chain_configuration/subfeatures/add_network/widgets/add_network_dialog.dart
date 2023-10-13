@@ -17,6 +17,7 @@ Future<bool?> showAddNetworkDialog(BuildContext context,
     useRootNavigator: true,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
+    useSafeArea: true,
     builder: (BuildContext context) => Container(
       padding: const EdgeInsets.only(
           top: Sizes.spaceNormal, bottom: Sizes.space3XLarge),

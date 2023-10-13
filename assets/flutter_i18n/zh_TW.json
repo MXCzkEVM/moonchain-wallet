@@ -279,5 +279,14 @@
     "biometrics": "生物識別技術",
     "checking_balance": "正在檢查餘額...",
     "no_balance": "您沒有餘額",
-    "no_balance_tip": "您目前的錢包中沒有MXC。您可以選擇接收代幣或稍後申請用戶名。"
+    "no_balance_tip": "您目前的錢包中沒有MXC。您可以選擇接收代幣或稍後申請用戶名。",
+    "signature_request": "簽名請求",
+    "sign": "簽名",
+    "insufficient_balance": "餘額不足",
+    "unregistered_mns_notice": "哎呀！將代幣發送給像森林中的獨角獸一樣難以捉摸的用戶名。請檢查他們是否已註冊！",
+    "insufficient_balance_for_fee": "手續費餘額不足",
+    "send_&_receive": "發送與接收",
+    "contract": "合約",
+    "decimals": "小數點",
+    "add_token_success_message": "好極了！代幣已成功添加到您的AXS錢包中！🎉"
 }

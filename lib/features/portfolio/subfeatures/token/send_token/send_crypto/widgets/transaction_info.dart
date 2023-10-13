@@ -12,7 +12,7 @@ class TransactionInfo extends StatefulWidget {
     required this.amount,
     required this.balance,
     required this.token,
-    required this.newtork,
+    required this.network,
     required this.networkSymbol,
     required this.from,
     required this.to,
@@ -24,7 +24,7 @@ class TransactionInfo extends StatefulWidget {
   final String amount;
   final String balance;
   final Token token;
-  final String newtork;
+  final String network;
   final String networkSymbol;
   final String from;
   final String to;
@@ -60,14 +60,33 @@ class _TransactionInfoState extends State<TransactionInfo> {
           child: Column(
             children: [
               amountItem(context),
-              priceItem(
-                  context, 'balance', widget.balance, widget.token.symbol),
-              textItem(context, 'network', widget.newtork),
-              addressItem(context, 'from', widget.from),
-              addressItem(context, 'to', widget.to),
+              SingleLineInfoItem(
+                title: 'balance',
+                value: widget.balance,
+                hint: widget.token.symbol,
+              ),
+              SingleLineInfoItem(
+                title: 'network',
+                value: widget.network,
+              ),
+              SingleLineInfoItem(
+                title: 'from',
+                value: widget.from,
+              ),
+              SingleLineInfoItem(
+                title: 'to',
+                value: widget.to,
+              ),
               if (TransactionProcessType.confirm != processType)
-                priceItem(context, 'estimated_fee', widget.estimatedFee,
-                    widget.networkSymbol),
+                SingleLineInfoItem(
+                  title: 'estimated_fee',
+                  value: widget.estimatedFee != null
+                      ? Formatter.formatNumberForUI(
+                          widget.estimatedFee!,
+                        )
+                      : '--',
+                  hint: widget.networkSymbol,
+                ),
             ],
           ),
         ),
@@ -161,119 +180,6 @@ class _TransactionInfoState extends State<TransactionInfo> {
           ],
         )
       ],
-    );
-  }
-
-  Widget priceItem(BuildContext context, String label, String? price,
-      String? networkSymbol) {
-    return TransactionItem(
-      label: label,
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            price != null
-                ? Formatter.formatNumberForUI(
-                    price,
-                  )
-                : '--',
-            style: FontTheme.of(context).body1.primary(),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            networkSymbol ?? '--',
-            style: FontTheme.of(context).body1().copyWith(
-                  color: ColorsTheme.of(context).grey2,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget textItem(
-    BuildContext context,
-    String label,
-    String value,
-  ) {
-    return TransactionItem(
-      label: label,
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            value,
-            style: FontTheme.of(context).body1.primary(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget addressItem(
-    BuildContext context,
-    String label,
-    String address,
-  ) {
-    return TransactionItem(
-      label: label,
-      content: InkWell(
-        onTap: () =>
-            openUrl('https://wannsee-explorer.mxc.com/address/$address'),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Text(
-                address,
-                style: FontTheme.of(context).body1.primary(),
-                softWrap: true,
-                textAlign: TextAlign.right,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Icon(
-              MxcIcons.external_link,
-              size: 24,
-              color: ColorsTheme.of(context).textSecondary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TransactionItem extends StatelessWidget {
-  const TransactionItem({
-    Key? key,
-    required this.label,
-    required this.content,
-  }) : super(key: key);
-
-  final String label;
-  final Widget content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Row(
-            children: [
-              Text(
-                FlutterI18n.translate(context, label),
-                style: FontTheme.of(context).body1.secondary(),
-              ),
-              const SizedBox(width: 10),
-            ],
-          ),
-          Expanded(
-            child: content,
-          ),
-        ],
-      ),
     );
   }
 }

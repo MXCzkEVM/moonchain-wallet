@@ -279,5 +279,14 @@
     "biometrics": "biometrie",
     "checking_balance": "Verificare sold...",
     "no_balance": "Nu ai niciun sold",
-    "no_balance_tip": "În prezent, nu aveți MXC în portofelul dvs.\nPuteți fie să primiți token-uri, fie să alegeți să revendicați un nume de utilizator mai târziu."
+    "no_balance_tip": "În prezent, nu aveți MXC în portofelul dvs.\nPuteți fie să primiți token-uri, fie să alegeți să revendicați un nume de utilizator mai târziu.",
+    "signature_request": "Cerere de semnătură",
+    "sign": "Semnează",
+    "insufficient_balance": "Sold insuficient",
+    "unregistered_mns_notice": "Hopa! Trimiterea de token-uri către un nume de utilizator la fel de greu de găsit ca un unicorn într-o pădure. Verifică dacă sunt înregistrate!",
+    "insufficient_balance_for_fee": "Sold insuficient pentru taxă",
+    "send_&_receive": "Trimite & Primește",
+    "contract": "Contract",
+    "decimals": "Zecimale",
+    "add_token_success_message": "Ura! Tokenul a fost adăugat cu succes în portofelul tău AXS! 🎉"
 }

@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/components/components.dart';
 import 'package:datadashwallet/common/config.dart';
+import 'package:datadashwallet/common/utils/formatter.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -49,7 +50,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     });
 
     listen(_transactionHistoryUseCase.transactionsHistory, (value) {
-      if (value.isNotEmpty && state.network != null) {
+      if (state.network != null) {
         if (!Config.isMxcChains(state.network!.chainId)) {
           getCustomChainsTransactions(value);
         }
@@ -80,9 +81,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     });
 
     listen(_customTokenUseCase.tokens, (customTokens) {
-      if (customTokens.isNotEmpty) {
-        _tokenContractUseCase.addCustomTokens(customTokens);
-      }
+      _tokenContractUseCase.addCustomTokens(
+          customTokens,
+          state.walletAddress ?? _accountUserCase.account.value!.address,
+          Config.isMxcChains(state.network!.chainId) ||
+              Config.isEthereumMainnet(state.network!.chainId));
+      initializeBalancePanelAndTokens();
     });
   }
 
@@ -97,7 +101,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   Future<void> initializeWalletPage() async {
-    initializeBalancePanelAndTokens();
     createSubscriptions();
     getTransactions();
   }
@@ -192,7 +195,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
             case 'balance':
               final wannseeBalanceEvent =
                   WannseeBalanceModel.fromJson(event.payload);
-              getWalletTokensBalance(true);
+              getWalletTokensBalance(null, true);
               break;
             default:
           }
@@ -209,23 +212,14 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  void getCustomChainsTransactions(List<TransactionHistoryModel>? txHistory) {
+  void getCustomChainsTransactions(List<TransactionModel>? txHistory) {
     txHistory =
         txHistory ?? _transactionHistoryUseCase.getTransactionsHistory();
 
     if (state.network != null) {
-      final index = txHistory
-          .indexWhere((element) => element.chainId == state.network!.chainId);
+      final chainTxHistory = txHistory;
 
-      if (index == -1) {
-        _transactionHistoryUseCase
-            .checkChainAvailability(state.network!.chainId);
-        return;
-      }
-
-      final chainTxHistory = txHistory[index];
-
-      notify(() => state.txList = chainTxHistory.txList);
+      notify(() => state.txList = chainTxHistory);
     }
   }
 
@@ -305,12 +299,13 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   initializeBalancePanelAndTokens() {
-    getDefaultTokens().then((value) => getWalletTokensBalance(
+    getDefaultTokens().then((tokenList) => getWalletTokensBalance(
+        tokenList,
         Config.isMxcChains(state.network!.chainId) ||
             Config.isEthereumMainnet(state.network!.chainId)));
   }
 
-  Future<DefaultTokens?> getDefaultTokens() async {
+  Future<List<Token>> getDefaultTokens() async {
     return await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
   }
 
@@ -320,27 +315,24 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   void viewTransaction(String txHash) async {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final explorerUrl = chainExplorerUrl.endsWith('/')
-        ? chainExplorerUrl
-        : '$chainExplorerUrl/';
+    final txExplorer = Config.txExplorer(txHash);
+    final launchUri = Formatter.mergeUrl(chainExplorerUrl, txExplorer);
 
-    final addressUrl = Uri.parse('$explorerUrl${Config.txExplorer(txHash)}');
-
-    if ((await canLaunchUrl(addressUrl))) {
-      await launchUrl(addressUrl, mode: LaunchMode.inAppWebView);
+    if ((await canLaunchUrl(launchUri))) {
+      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
     }
   }
 
-  String getViewOtherTransactionsLink() {
+  void getViewOtherTransactionsLink() async {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final explorerUrl = chainExplorerUrl.endsWith('/')
-        ? chainExplorerUrl
-        : '$chainExplorerUrl/';
-
     final address = state.walletAddress!;
+    final addressExplorer = Config.addressExplorer(address);
+    final launchUri =
+        Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
-    final addressUrl = '$explorerUrl${Config.addressExplorer(address)}';
-    return addressUrl;
+    if ((await canLaunchUrl(launchUri))) {
+      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
+    }
   }
 
   void generateChartData(List<BalanceData> balanceData) {
@@ -444,8 +436,15 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  void getWalletTokensBalance(bool shouldGetPrice) async {
+  void getWalletTokensBalance(
+      List<Token>? tokenList, bool shouldGetPrice) async {
     _tokenContractUseCase.getTokensBalance(
-        state.walletAddress!, shouldGetPrice);
+        tokenList, state.walletAddress!, shouldGetPrice);
+  }
+
+  void checkMaxTweetHeight(double height) {
+    if (height >= state.maxTweetViewHeight - 120) {
+      notify(() => state.maxTweetViewHeight = height + 120);
+    }
   }
 }

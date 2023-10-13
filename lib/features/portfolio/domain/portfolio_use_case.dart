@@ -16,6 +16,6 @@ class PortfolioUseCase extends ReactiveUseCase {
     final wallet =
         await (await _repository.tokenContract).getEthBalance(address);
     return (wallet.getInWei.toDouble() / pow(10, 18))
-        .toStringAsFixed(Config.decimalFixed);
+        .toStringAsFixed(Config.decimalShowFixed);
   }
 }

@@ -12,7 +12,6 @@ class SendCryptoState with EquatableMixin {
   Account? account;
   Network? network;
   String? qrCode;
-  String? recipientError;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -24,6 +23,5 @@ class SendCryptoState with EquatableMixin {
         account,
         network,
         qrCode,
-        recipientError
       ];
 }

@@ -34,6 +34,9 @@ enum EIP1193 {
 
   /// Pass when web app add a new chain
   addEthereumChain,
+
+  /// Pass when web app add a new token
+  watchAsset
 }
 
 /// InAppWebViewEIP1193 wrap InAppWebView(https://pub.dev/packages/flutter_inappwebview)
@@ -903,6 +906,8 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
         widget.signCallback(
             rawData, EIP1193.signTypedMessage, _webViewController);
       }
+    } else if (name == 'watchAsset') {
+      widget.signCallback(rawData, EIP1193.watchAsset, _webViewController);
     } else {
       widget.signCallback(
           rawData, EIP1193.addEthereumChain, _webViewController);
@@ -956,17 +961,6 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
             onConsoleMessage: widget.onConsoleMessage,
             onProgressChanged: (controller, progress) async {
               widget.onProgressChanged?.call(controller, progress);
-              // final url = await controller.getUrl();
-              // final isL3Bridge =
-              //     Config.reloadDapp.any((e) => e.contains(url!.host));
-              // if (isL3Bridge) {
-              //   await _webViewController?.evaluateJavascript(
-              //     source: jsProviderScript ?? '',
-              //   );
-              //   await _webViewController?.evaluateJavascript(
-              //     source: _getFunctionInject(),
-              //   );
-              // }
             },
             shouldOverrideUrlLoading: widget.shouldOverrideUrlLoading,
             onLoadResource: widget.onLoadResource,

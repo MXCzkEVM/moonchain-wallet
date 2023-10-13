@@ -1,13 +1,12 @@
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_info.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_info.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<bool?> showTypedMessageDialog(
+Future<bool?> showAddAssetDialog(
   BuildContext context, {
   String? title,
-  required String networkName,
-  required String primaryType,
-  required Map<String, dynamic> message,
+  required WatchAssetModel token,
   VoidCallback? onTap,
 }) {
   return showModalBottomSheet<bool>(
@@ -15,7 +14,6 @@ Future<bool?> showTypedMessageDialog(
     useRootNavigator: true,
     isScrollControlled: true,
     isDismissible: false,
-    useSafeArea: true,
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) => Container(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 0, bottom: 44),
@@ -39,10 +37,8 @@ Future<bool?> showTypedMessageDialog(
               ),
             ),
           ),
-          TypeMessageInfo(
-            message: message,
-            networkName: networkName,
-            primaryType: primaryType,
+          AddAssetInfo(
+            token: token,
             onTap: onTap,
           ),
           const SizedBox(height: 10),

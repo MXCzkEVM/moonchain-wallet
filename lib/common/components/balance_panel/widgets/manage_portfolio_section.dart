@@ -31,7 +31,7 @@ class ManagePortfolioSection extends HookConsumerWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            FlutterI18n.translate(context, 'manage_portfolio'),
+            FlutterI18n.translate(context, 'send_&_receive'),
             style: FontTheme.of(context)
                 .body1()
                 .copyWith(color: ColorsTheme.of(context).textPrimary),

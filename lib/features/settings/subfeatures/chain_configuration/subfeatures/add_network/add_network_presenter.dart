@@ -46,9 +46,9 @@ class AddNetworkPresenter extends CompletePresenter<AddNetworkState> {
 
   void switchNetwork(Network newDefault) {
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
-    _transactionHistoryUseCase.checkChainAvailability(newDefault.chainId);
     _authUseCase.resetNetwork(newDefault);
     _webviewUseCase.clearCache();
+    loadDataDashProviders(newDefault);
 
     addMessage(
       translate('x_is_now_active')!.replaceFirst(

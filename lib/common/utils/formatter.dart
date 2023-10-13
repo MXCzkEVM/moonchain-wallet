@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:datadashwallet/common/config.dart';
+import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:intl/intl.dart' as intl;
 
 class Formatter {
@@ -7,15 +8,15 @@ class Formatter {
     if (number >= 1000000000) {
       // Convert to millions
       double num = number / 1000000000.0;
-      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalFixed)}B';
+      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalShowFixed)}B';
     } else if (number >= 1000000) {
       // Convert to millions
       double num = number / 1000000.0;
-      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalFixed)}M';
+      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalShowFixed)}M';
     } else if (number >= 1000) {
       // Convert to thousands
       double num = number / 1000.0;
-      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalFixed)}K';
+      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : Config.decimalShowFixed)}K';
     } else {
       int accuracy = number.toString().split('.').last.length;
       var str = number.toString();
@@ -49,7 +50,7 @@ class Formatter {
     final valueDouble = double.parse(inputString).toDouble() / pow(10, 18);
     String convertedString = valueDouble % 1 == 0
         ? valueDouble.toString()
-        : valueDouble.toStringAsFixed(Config.decimalFixed);
+        : valueDouble.toStringAsFixed(Config.decimalShowFixed);
     return convertedString;
   }
 
@@ -63,7 +64,7 @@ class Formatter {
       final spitedString = input.split('.');
       integerPart = spitedString[0];
       fractionalPart =
-          ".${spitedString[1].substring(0, spitedString[1].length > Config.decimalFixed ? Config.decimalFixed : spitedString[1].length)}";
+          ".${spitedString[1].substring(0, spitedString[1].length > Config.decimalShowFixed ? Config.decimalShowFixed : spitedString[1].length)}";
     }
     integerPart = intThousandsSeparator(integerPart);
     return '$integerPart$fractionalPart';
@@ -91,5 +92,37 @@ class Formatter {
   static String capitalizeFirstLetter(String text) {
     if (text.isEmpty) return text;
     return text[0].toUpperCase() + text.substring(1);
+  }
+
+  /// returns the same value If It's empty or invalid double
+  static String formatToStandardDecimals(String value) {
+    if (value.isEmpty) return value;
+
+    if (!Validation.isDouble(value)) return value;
+
+    final splitValue = value.split('.');
+    return '${splitValue[0]}.${splitValue[1].substring(0, 8)}';
+  }
+
+  static Uri mergeUrl(String first, String second) {
+    return Uri.parse(first).resolve(second);
+  }
+
+  static String mergeUrlString(String first, String second) {
+    return Uri.parse(first).resolve(second).toString();
+  }
+
+  // Function to trim and remove extra spaces
+  static String trimAndRemoveExtraSpaces(String value) {
+    if (value.isEmpty) return '';
+    // Remove all new lines spaces
+    String trimmedValue = value.replaceAll('\n', '');
+    // String trimmedValue = value.trim(); 
+    List<String> words = trimmedValue.split(' '); // Split into individual words
+
+    // Remove extra spaces and new lines between words
+    words = words.where((word) => word.isNotEmpty).toList();
+
+    return words.join(' '); // Join words back with a single space between each
   }
 }

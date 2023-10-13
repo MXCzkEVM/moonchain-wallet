@@ -68,6 +68,11 @@ class SplashImportWalletPage extends HookConsumerWidget {
                 autoFocus: true,
                 borderUnFocusColor: ColorsTheme.of(context).borderPrimary100,
                 borderFocusColor: ColorsTheme.of(context).borderPrimary200,
+                suffixButton: MxcTextFieldButton.icon(
+                    icon: MxcIcons.clipboard,
+                    onTap: () {
+                      presenter.pastFromClipBoard();
+                    }),
               ),
             ),
           ],
