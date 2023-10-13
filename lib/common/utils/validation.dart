@@ -112,4 +112,10 @@ class Validation {
     }
     return true;
   }
+
+  static bool isAccountFormat(String value) {
+    RegExp regex = RegExp(r"Account \d+");
+
+    return regex.hasMatch(value);
+  }
 }

@@ -117,7 +117,7 @@ class Formatter {
     if (value.isEmpty) return '';
     // Remove all new lines spaces
     String trimmedValue = value.replaceAll('\n', '');
-    // String trimmedValue = value.trim(); 
+    // String trimmedValue = value.trim();
     List<String> words = trimmedValue.split(' '); // Split into individual words
 
     // Remove extra spaces and new lines between words
