@@ -5,22 +5,23 @@ class AccountCacheRepository extends GlobalCacheRepository {
   @override
   final String zone = 'account';
 
-  late final Field<Account?> account = fieldWithDefault(
-    'current-account',
-    null,
-    serializer: (s) => {
-      'name': s?.name,
-      'mns': s?.mns,
-      'privateKey': s?.privateKey,
-      'address': s?.address,
-    },
-    deserializer: (i) => Account(
-      name: i['name'],
-      mns: i['mns'],
-      privateKey: i['privateKey'],
-      address: i['address'],
-    ),
-  );
+  late final Field<Account?> account = fieldWithDefault('current-account', null,
+      serializer: (s) => {
+            'name': s?.name,
+            'mns': s?.mns,
+            'privateKey': s?.privateKey,
+            'address': s?.address,
+            'isCustom': s?.isCustom
+          },
+      deserializer: (i) => Account(
+            name: i['name'],
+            mns: i['mns'],
+            privateKey: i['privateKey'],
+            address: i['address'],
+            isCustom: (i as Map<String, dynamic>).containsKey('isCustom')
+                ? i['isCustom']
+                : false,
+          ));
   late final Field<String?> publicAddress = field('public-address');
   late final Field<String?> privateKey = field('pravate-key');
 
@@ -28,25 +29,27 @@ class AccountCacheRepository extends GlobalCacheRepository {
       fieldWithDefault('xsd-conversion-rate', 1.0);
 
   late final Field<List<Account>> accounts = fieldWithDefault<List<Account>>(
-    'items',
-    [],
-    serializer: (t) => t
-        .map((e) => {
-              'name': e.name,
-              'mns': e.mns,
-              'privateKey': e.privateKey,
-              'address': e.address,
-            })
-        .toList(),
-    deserializer: (t) => (t as List)
-        .map((e) => Account(
+      'items', [],
+      serializer: (t) => t
+          .map((e) => {
+                'name': e.name,
+                'mns': e.mns,
+                'privateKey': e.privateKey,
+                'address': e.address,
+                'isCustom': e.isCustom
+              })
+          .toList(),
+      deserializer: (t) => (t as List)
+          .map((e) => Account(
               name: e['name'],
               mns: e['mns'],
               privateKey: e['privateKey'],
               address: e['address'],
-            ))
-        .toList(),
-  );
+              // This key is new so It wil handle in old versions
+              isCustom: (e as Map<String, dynamic>).containsKey('isCustom')
+                  ? e['isCustom']
+                  : false))
+          .toList());
 
   List<Account> get accountItems => accounts.value;
   Account get accountItem => account.value!;

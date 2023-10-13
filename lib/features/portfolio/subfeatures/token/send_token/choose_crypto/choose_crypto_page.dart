@@ -34,8 +34,8 @@ class ChooseCryptoPage extends HookConsumerWidget {
 
     return MxcPage(
       presenter: ref.watch(presenter),
-      onRefresh: () => ref.read(presenter).loadPage(),
       crossAxisAlignment: CrossAxisAlignment.start,
+      layout: LayoutType.column,
       appBar: AppNavBar(
         action: IconButton(
           key: const ValueKey('appsButton'),
@@ -47,52 +47,60 @@ class ChooseCryptoPage extends HookConsumerWidget {
         ),
       ),
       children: [
-        Text(
-          translate('send_x')
-              .replaceFirst('{0}', translate('token').toLowerCase()),
-          style: FontTheme.of(context).h4(),
-        ),
-        const SizedBox(height: 12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              translate('choose_x')
-                  .replaceFirst('{0}', translate('token').toLowerCase()),
-              style: FontTheme.of(context).body1.secondary(),
-            ),
-            MxcTextField.search(
-              key: const ValueKey('chooseTokenTextField'),
-              width: 150,
-              backgroundColor: ColorsTheme.of(context).chipDefaultBg,
-              prefix: const Icon(Icons.search_rounded),
-              hint: translate('find_your_x')
-                  .replaceFirst('{0}', translate('token').toLowerCase()),
-              controller: ref.read(presenter).searchController,
-              action: TextInputAction.done,
-              onChanged: (value) =>
-                  ref.read(presenter).fliterTokenByName(value),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        if (ref.watch(state).filterTokens != null)
-          GreyContainer(
-              child: Column(
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.only(top: 24, right: 24, left: 24),
+          child: ListView(
             children: [
-              ...TokensBalanceListUtils.generateTokensBalanceList(
-                ref.watch(state).filterTokens!,
-                onSelected: (token) => Navigator.of(context).push(
-                  route.featureDialog(
-                    SendCryptoPage(
-                      token: token,
-                      qrCode: qrCode,
-                    ),
+              Text(
+                translate('send_x')
+                    .replaceFirst('{0}', translate('token').toLowerCase()),
+                style: FontTheme.of(context).h4(),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    translate('choose_x')
+                        .replaceFirst('{0}', translate('token').toLowerCase()),
+                    style: FontTheme.of(context).body1.secondary(),
                   ),
-                ),
-              )
+                  MxcTextField.search(
+                    key: const ValueKey('chooseTokenTextField'),
+                    width: 150,
+                    backgroundColor: ColorsTheme.of(context).chipDefaultBg,
+                    prefix: const Icon(Icons.search_rounded),
+                    hint: translate('find_your_x')
+                        .replaceFirst('{0}', translate('token').toLowerCase()),
+                    controller: ref.read(presenter).searchController,
+                    action: TextInputAction.done,
+                    onChanged: (value) =>
+                        ref.read(presenter).fliterTokenByName(value),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              if (ref.watch(state).filterTokens != null)
+                GreyContainer(
+                    child: Column(
+                  children: [
+                    ...TokensBalanceListUtils.generateTokensBalanceList(
+                      ref.watch(state).filterTokens!,
+                      onSelected: (token) => Navigator.of(context).push(
+                        route.featureDialog(
+                          SendCryptoPage(
+                            token: token,
+                            qrCode: qrCode,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )),
             ],
-          )),
+          ),
+        ))
       ],
     );
   }
