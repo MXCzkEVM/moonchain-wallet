@@ -56,7 +56,7 @@ class FileListenerWrapperPresenter extends CompletePresenter<void> {
 
       if (mnemonic != null && mnemonic.isNotEmpty) {
         if (_authUseCase.validateMnemonic(mnemonic)) {
-          final account = await _authUseCase.createWallet(mnemonic);
+          final account = await _authUseCase.addAccount(mnemonic);
           _accountUseCase.addAccount(account);
 
           pushPasscodeSetPage();

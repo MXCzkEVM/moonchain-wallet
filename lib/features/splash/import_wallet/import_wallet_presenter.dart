@@ -31,7 +31,7 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
 
     try {
       final formattedMnemonic = Formatter.trimAndRemoveExtraSpaces(value);
-      final account = await _authUseCase.createWallet(formattedMnemonic);
+      final account = await _authUseCase.addAccount(formattedMnemonic);
       _accountUseCase.addAccount(account);
       pushSetupEnableBiometricPage(context!);
     } catch (e, s) {
