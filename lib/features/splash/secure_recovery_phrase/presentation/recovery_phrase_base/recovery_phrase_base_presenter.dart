@@ -61,7 +61,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   Future<void> createAccount(String phrases) async {
-    final account = await _authUseCase.createWallet(phrases);
+    final account = await _authUseCase.addAccount(phrases);
     _accountUseCase.addAccount(account);
   }
 
