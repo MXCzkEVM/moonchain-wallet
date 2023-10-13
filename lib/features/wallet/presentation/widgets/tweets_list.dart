@@ -18,13 +18,16 @@ class TweetsList extends HookConsumerWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          ...state.embeddedTweets.map(
+          ...state.embeddedTweets.asMap().entries.map(
             (e) {
+              final index = e.key;
+              final tweetId = e.value;
               return Tweet(
-                tweetId: e,
+                tweetId: tweetId,
                 isDark: (Theme.of(context).brightness == Brightness.dark),
                 height: state.maxTweetViewHeight,
                 checkMaxHeight: presenter.checkMaxTweetHeight,
+                isFirstItem: index == 0,
               );
             },
           )
