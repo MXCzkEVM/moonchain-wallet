@@ -44,7 +44,7 @@ class Formatter {
 
   static String convertWeiToEth(String inputString, int tokenDecimal) {
     // 10^18 = 1000000000000000000 but we want to have up to 2 digits accuracy
-    if (double.parse(inputString).toDouble() < 10000000000000000) {
+    if (double.parse(inputString).toDouble() < 1000000000000000) {
       return '0';
     }
     final valueDouble = double.parse(inputString).toDouble() / pow(10, 18);
