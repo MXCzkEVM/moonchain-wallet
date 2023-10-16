@@ -48,29 +48,19 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     notify(() => state.isLoading = true);
 
     try {
-      final index = findAccountLastIndex(state.accounts);
-      // final index = state.accounts.length;
+      final index = _accountUserCase.findAccountsLastIndex();
+
       final newAccount = await _authUseCase.addNewAccount(index);
-      // final newAccount = await _authUseCase.addCustomAccount('index' ,'6373f6b31ccb382ea61f02a89c28d88972bdc8a45ea0d817826c097188832b3c');
       _accountUserCase.addAccount(newAccount);
       loadCache();
 
       notify(() => state.isLoading = false);
-      navigator?.pop();
+      navigator?.popUntil((route) {
+        return route.settings.name?.contains('SettingsPage') ?? false;
+      });
     } catch (e, s) {
       addError(e, s);
     }
-  }
-
-  int findAccountLastIndex(List<Account> accounts) {
-    int lastIndex = 0;
-    for (Account account in accounts.reversed) {
-      if (!account.isCustom) {
-        lastIndex = int.parse(account.name);
-        break;
-      }
-    }
-    return lastIndex;
   }
 
   void changeAccount(Account item) {
