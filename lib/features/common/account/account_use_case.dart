@@ -40,6 +40,15 @@ class AccountUseCase extends ReactiveUseCase {
     getAccountsNames();
   }
 
+  /// Deletes the given account, If the account is selected will select the index 0 account
+  /// This is only used to delete the imported accounts.
+  void removeAccount(Account item) async {
+    _accountCacheRepository.removeAccount(item);
+    final items = _accountCacheRepository.accountItems;
+    if (item.address == account.value!.address) update(account, items[0]);
+    update(accounts, items);
+  }
+
   void changeAccount(Account item) {
     update(account, item);
   }
