@@ -7,16 +7,19 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'portrait.dart';
 
 class AccountItem extends StatelessWidget {
-  const AccountItem({
-    super.key,
-    required this.account,
-    this.isSelected = false,
-    this.onSelect,
-  });
+  const AccountItem(
+      {super.key,
+      required this.account,
+      this.isSelected = false,
+      this.onSelect,
+      required this.isCustom});
 
   final Account account;
   final bool isSelected;
   final VoidCallback? onSelect;
+
+  /// Imported
+  final bool isCustom;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +38,19 @@ class AccountItem extends StatelessWidget {
                   '${FlutterI18n.translate(context, 'account')} ${account.name}',
                   style: FontTheme.of(context).body2.secondary(),
                 ),
+                const SizedBox(height: Sizes.space2XSmall),
                 Text(
                   account.mns ??
                       Formatter.formatWalletAddress(account.address,
                           nCharacters: 10),
                   style: FontTheme.of(context).body1.primary(),
                 ),
+                const SizedBox(height: Sizes.space2XSmall),
+                if (isCustom)
+                  MxcChipButton(
+                      key: const Key('importedChip'),
+                      onTap: () {},
+                      title: FlutterI18n.translate(context, 'imported'))
               ],
             ),
             const Spacer(),

@@ -11,6 +11,7 @@ void showAccountsDialog({
   required List<Account> accounts,
   bool isLoading = false,
   VoidCallback? onAdd,
+  VoidCallback? onImport,
   required Function(Account) onSelect,
 }) {
   showModalBottomSheet<void>(
@@ -41,17 +42,21 @@ void showAccountsDialog({
               ),
             ),
           ),
-          ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: accounts.length,
-            shrinkWrap: true,
-            itemBuilder: (ctx, index) {
-              return AccountItem(
-                account: accounts[index],
-                isSelected: currentAccount.address == accounts[index].address,
-                onSelect: () => onSelect(accounts[index]),
-              );
-            },
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 400),
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: accounts.length,
+              shrinkWrap: true,
+              itemBuilder: (ctx, index) {
+                return AccountItem(
+                  account: accounts[index],
+                  isSelected: currentAccount.address == accounts[index].address,
+                  onSelect: () => onSelect(accounts[index]),
+                  isCustom: accounts[index].isCustom,
+                );
+              },
+            ),
           ),
           const SizedBox(height: Sizes.spaceXSmall),
           MxcButton.primary(
