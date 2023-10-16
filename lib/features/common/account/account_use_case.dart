@@ -44,6 +44,17 @@ class AccountUseCase extends ReactiveUseCase {
     update(account, item);
   }
 
+  int findAccountsLastIndex() {
+    int lastIndex = 0;
+    for (Account account in accounts.value.reversed) {
+      if (!account.isCustom) {
+        lastIndex = int.parse(account.name);
+        break;
+      }
+    }
+    return lastIndex;
+  }
+
   void resetXsdConversionRate(double value) {
     _accountCacheRepository.setXsdConversionRate(value);
     update(xsdConversionRate, value);
