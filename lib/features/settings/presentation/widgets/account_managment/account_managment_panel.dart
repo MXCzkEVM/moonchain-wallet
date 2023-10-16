@@ -2,11 +2,13 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/settings/subfeatures/accounts/show_accounts_dialog.dart';
+import 'package:datadashwallet/features/settings/subfeatures/accounts/subfeatures/account_details/import_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import '../../../subfeatures/accounts/show_add_accounts_dialog.dart';
 import 'copyable_item.dart';
 
 class AccountManagementPanel extends HookConsumerWidget {
@@ -34,7 +36,15 @@ class AccountManagementPanel extends HookConsumerWidget {
                   currentAccount: state.account!,
                   accounts: state.accounts,
                   isLoading: state.isLoading,
-                  onAdd: () => presenter.addNewAccount(),
+                  onAdd: () => showAddAccountsDialog(
+                      context: context,
+                      isLoading: state.isLoading,
+                      onAdd: presenter.addNewAccount,
+                      onImport: () => Navigator.of(context).push(
+                route.featureDialog(
+                  const ImportAccountPage(),
+                ),
+              ),),
                   onSelect: (item) => presenter.changeAccount(item)),
               child: Row(
                 children: [
