@@ -12,11 +12,13 @@ class AccountItem extends StatelessWidget {
       required this.account,
       this.isSelected = false,
       this.onSelect,
-      required this.isCustom});
+      required this.isCustom,
+      this.onRemove});
 
   final Account account;
   final bool isSelected;
   final VoidCallback? onSelect;
+  final Function(Account)? onRemove;
 
   /// Imported
   final bool isCustom;
@@ -54,9 +56,14 @@ class AccountItem extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            if (isSelected) ...[
-              const Icon(Icons.check_rounded),
-            ]
+            if (isSelected) const Icon(Icons.check_rounded),
+            if (isCustom)
+              IconButton(
+                key: const Key('removeImportedAccountButton'),
+                icon: Icon(Icons.delete,
+                    size: 24, color: ColorsTheme.of(context).iconPrimary),
+                onPressed:() => onRemove!(account),
+              )
           ],
         ),
       ),

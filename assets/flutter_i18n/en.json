@@ -294,9 +294,9 @@
 	"private_key": "Private key",
 	"import_notice": "Imported accounts won’t be associated with your AXS wallet Secret Recovery Phrase.",
 	"imported": "Imported",
-	"show_private_key": "Show private key",
-	"show_private_key_notice": "Warning: Never disclose this key. Anyone with your private keys can steal any assets held in your account.",
-	"confirm_show_private_key_notice_1": "Your Private Key provides full access to your wallet and funds.",
-	"confirm_show_private_key_notice_2": "Do not share this with anyone. MetaMask Support will not request this, but phishers might.",
-	"confirm_show_private_key_title": "Keep your private key safe"
+	"view_private_key": "View private key",
+	"view_private_key_notice": "Warning: Never disclose this key. Anyone with your private keys can steal any assets held in your account.",
+	"removing_account": "Removing account",
+	"removing_account_warning": "Are you sure you want to remove this account?",
+	"remove": "Remove"
 }

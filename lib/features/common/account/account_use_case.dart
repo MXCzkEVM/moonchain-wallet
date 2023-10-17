@@ -45,8 +45,11 @@ class AccountUseCase extends ReactiveUseCase {
   void removeAccount(Account item) async {
     _accountCacheRepository.removeAccount(item);
     final items = _accountCacheRepository.accountItems;
-    if (item.address == account.value!.address) update(account, items[0]);
     update(accounts, items);
+  }
+  
+  bool isAccountSelected(Account item) {
+    return (item.address == account.value!.address);
   }
 
   void changeAccount(Account item) {
