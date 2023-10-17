@@ -2,6 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/settings/subfeatures/accounts/show_accounts_dialog.dart';
+import 'package:datadashwallet/features/settings/subfeatures/accounts/subfeatures/account_details/import_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,12 +31,19 @@ class AccountManagementPanel extends HookConsumerWidget {
           children: [
             InkWell(
               onTap: () => showAccountsDialog(
-                  context: context,
-                  currentAccount: state.account!,
-                  accounts: state.accounts,
-                  isLoading: state.isLoading,
-                  onAdd: () => presenter.addNewAccount(),
-                  onSelect: (item) => presenter.changeAccount(item)),
+                context: context,
+                currentAccount: state.account!,
+                accounts: state.accounts,
+                isLoading: state.isLoading,
+                onImport: () => Navigator.of(context).push(
+                  route.featureDialog(
+                    const ImportAccountPage(),
+                  ),
+                ),
+                onAdd: () => presenter.addNewAccount(),
+                onSelect: (item) => presenter.changeAccount(item),
+                onRemove: (item) => presenter.removeAccount(item),
+              ),
               child: Row(
                 children: [
                   Portrait(
@@ -85,6 +93,7 @@ class AccountManagementPanel extends HookConsumerWidget {
                   onTap: () => Navigator.of(context).push(route(QrCodePage(
                     name: account.mns,
                     address: account.address,
+                    privateKey: state.account?.privateKey ?? '',
                   ))),
                   child: Container(
                     padding: const EdgeInsets.all(Sizes.spaceXSmall),

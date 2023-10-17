@@ -280,7 +280,7 @@
 	"checking_balance": "Checking balance...",
 	"no_balance": "You have no balance",
 	"no_balance_tip": "You currently have no MXC in your wallet.\nYou can either receive tokens or choose to claim a username later.",
-	"signature_request": "Signature request", 
+	"signature_request": "Signature request",
 	"sign": "Sign",
 	"insufficient_balance": "Insufficient balance",
 	"unregistered_mns_notice": "Oops! Sending tokens to a username as elusive as a unicorn in a forest. Check if they're registered!",
@@ -288,5 +288,15 @@
 	"send_&_receive": "Send & Receive",
 	"contract": "Contract",
 	"decimals": "Decimals",
-	"add_token_success_message" : "Hooray! The token has been successfully added to your AXS wallet! 🎉"
+	"add_token_success_message": "Hooray! The token has been successfully added to your AXS wallet! 🎉",
+	"import_account": "Import account",
+	"add_account": "Add account",
+	"private_key": "Private key",
+	"import_notice": "Imported accounts won’t be associated with your AXS wallet Secret Recovery Phrase.",
+	"imported": "Imported",
+	"view_private_key": "View private key",
+	"view_private_key_notice": "Warning: Never disclose this key. Anyone with your private keys can steal any assets held in your account.",
+	"removing_account": "Removing account",
+	"removing_account_warning": "Are you sure you want to remove this account?",
+	"remove": "Remove"
 }

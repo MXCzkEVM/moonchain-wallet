@@ -22,6 +22,8 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
 
   String hint(BuildContext context, WidgetRef ref);
 
+  String? secondHint(BuildContext context, WidgetRef ref) => null;
+
   String description(BuildContext context, WidgetRef ref) => '';
 
   String? dismissedPage() => null;
@@ -178,6 +180,13 @@ abstract class PasscodeBasePage extends HookConsumerWidget {
               hint(context, ref),
               style: FontTheme.of(context).body1.white(),
             ),
+            if (secondHint(context, ref) != null) ...[
+              const SizedBox(height: 16),
+              Text(
+                secondHint(context, ref)!,
+                style: FontTheme.of(context).body1.white(),
+              ),
+            ],
             const SizedBox(height: 64),
             SizedBox(
               height: 57.5,

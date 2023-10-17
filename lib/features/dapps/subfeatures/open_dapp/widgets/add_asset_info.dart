@@ -65,7 +65,9 @@ class AddAssetInfo extends ConsumerWidget {
         title: FlutterI18n.translate(context, 'contract'),
         value: contractAddress ?? ''));
     infoList.add(SingleLineInfoItem(
-        title: FlutterI18n.translate(context, 'symbol'), value: symbol ?? ''));
+      title: FlutterI18n.translate(context, 'symbol'),
+      value: symbol ?? '',
+    ));
     infoList.add(SingleLineInfoItem(
         title: FlutterI18n.translate(context, 'decimals'),
         value: decimalsString));

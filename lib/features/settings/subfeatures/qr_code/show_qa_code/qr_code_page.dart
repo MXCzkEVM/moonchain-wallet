@@ -1,6 +1,8 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/security/presentation/passcode_authenticate/passcode_authenticate_user_page.dart';
 import 'package:datadashwallet/features/settings/presentation/widgets/account_managment/copyable_item.dart';
+import 'package:datadashwallet/features/settings/subfeatures/accounts/show_view_private_key_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -8,20 +10,21 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../../presentation/settings_page_presenter.dart';
 import '../qr_scanner/qr_scanner_page.dart';
 
 class QrCodePage extends HookConsumerWidget {
-  const QrCodePage({
-    Key? key,
-    this.name,
-    this.address,
-  }) : super(key: key);
+  const QrCodePage(
+      {Key? key, this.name, this.address, required this.privateKey})
+      : super(key: key);
 
   final String? name;
   final String? address;
+  final String privateKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final presenter = ref.read(settingsContainer.actions);
     String translate(String text) => FlutterI18n.translate(context, text);
 
     return MxcPage(
@@ -67,6 +70,25 @@ class QrCodePage extends HookConsumerWidget {
               ),
             ],
           ),
+        ),
+        MxcButton.secondary(
+          key: const ValueKey('viewPrivateKeyButton'),
+          title: FlutterI18n.translate(context, 'view_private_key'),
+          onTap: () => Navigator.of(context)
+              .push(
+            route.featureDialog<PasscodeAuthenticateUserPage>(
+                const PasscodeAuthenticateUserPage(
+              dismissedDest: 'QrCodePage',
+            )),
+          )
+              .then((value) {
+            if (value == true) {
+              showViewPrivateKeyDialog(
+                  context: context,
+                  privateKey: privateKey,
+                  onCopy: presenter.copyToClipboard);
+            }
+          }),
         ),
         const SizedBox(height: Sizes.space5XLarge),
         MxcButton.primary(
