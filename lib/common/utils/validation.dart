@@ -1,6 +1,8 @@
 import 'package:datadashwallet/common/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:web3dart/web3dart.dart';
+
 
 class Validation {
   static String? notEmpty(BuildContext context, String? value,
@@ -128,5 +130,24 @@ class Validation {
     RegExp regex = RegExp(r"Account \d+");
 
     return regex.hasMatch(value);
+  }
+
+
+  static bool isAddress(String address) {
+    try {
+      EthereumAddress.fromHex(address);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static bool isPrivateKey(String privateKey) {
+    try {
+      EthPrivateKey.fromHex(privateKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
