@@ -8,7 +8,6 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../../../subfeatures/accounts/show_add_accounts_dialog.dart';
 import 'copyable_item.dart';
 
 class AccountManagementPanel extends HookConsumerWidget {
@@ -32,20 +31,19 @@ class AccountManagementPanel extends HookConsumerWidget {
           children: [
             InkWell(
               onTap: () => showAccountsDialog(
-                  context: context,
-                  currentAccount: state.account!,
-                  accounts: state.accounts,
-                  isLoading: state.isLoading,
-                  onAdd: () => showAddAccountsDialog(
-                      context: context,
-                      isLoading: state.isLoading,
-                      onAdd: presenter.addNewAccount,
-                      onImport: () => Navigator.of(context).push(
-                route.featureDialog(
-                  const ImportAccountPage(),
+                context: context,
+                currentAccount: state.account!,
+                accounts: state.accounts,
+                isLoading: state.isLoading,
+                onImport: () => Navigator.of(context).push(
+                  route.featureDialog(
+                    const ImportAccountPage(),
+                  ),
                 ),
-              ),),
-                  onSelect: (item) => presenter.changeAccount(item)),
+                onAdd: () => presenter.addNewAccount(),
+                onSelect: (item) => presenter.changeAccount(item),
+                onRemove: (item) => presenter.removeAccount(item),
+              ),
               child: Row(
                 children: [
                   Portrait(
@@ -95,6 +93,7 @@ class AccountManagementPanel extends HookConsumerWidget {
                   onTap: () => Navigator.of(context).push(route(QrCodePage(
                     name: account.mns,
                     address: account.address,
+                    privateKey: state.account?.privateKey ?? '',
                   ))),
                   child: Container(
                     padding: const EdgeInsets.all(Sizes.spaceXSmall),
