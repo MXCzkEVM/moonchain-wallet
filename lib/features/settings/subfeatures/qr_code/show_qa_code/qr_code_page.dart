@@ -71,6 +71,9 @@ class QrCodePage extends HookConsumerWidget {
             ],
           ),
         ),
+        const SizedBox(
+          height: Sizes.space6XLarge,
+        ),
         MxcButton.secondary(
           key: const ValueKey('viewPrivateKeyButton'),
           title: FlutterI18n.translate(context, 'view_private_key'),
@@ -90,7 +93,7 @@ class QrCodePage extends HookConsumerWidget {
             }
           }),
         ),
-        const SizedBox(height: Sizes.space5XLarge),
+        const SizedBox(height: Sizes.spaceNormal),
         MxcButton.primary(
           key: const ValueKey('scanQrCodeButton'),
           title: FlutterI18n.translate(context, 'scan_qr_code'),
