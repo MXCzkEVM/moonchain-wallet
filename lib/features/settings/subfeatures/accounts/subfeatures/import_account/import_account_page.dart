@@ -49,8 +49,12 @@ class ImportAccountPage extends HookConsumerWidget {
                       translate('x_not_empty')
                           .replaceFirst('{0}', translate('private_key')));
                   if (res != null) return res;
-                  return Validation.checkEthereumPrivateKey(
-                      context, value ?? '');
+
+                  final isPrivateKey =
+                      Validation.checkEthereumPrivateKey(context, value ?? '');
+                  if (isPrivateKey != null) return isPrivateKey;
+
+                  return presenter.checkDuplicate(value ?? '');
                 },
                 onChanged: (value) {
                   presenter.changeAbleToSave(

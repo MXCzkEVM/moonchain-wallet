@@ -298,5 +298,6 @@
 	"view_private_key_notice": "Warning: Never disclose this key. Anyone with your private keys can steal any assets held in your account.",
 	"removing_account": "Removing account",
 	"removing_account_warning": "Are you sure you want to remove this account?",
-	"remove": "Remove"
+	"remove": "Remove",
+	"duplicate_account_import_notice": "The account you are trying to import is a duplicate"
 }
