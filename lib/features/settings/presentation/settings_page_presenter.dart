@@ -57,7 +57,7 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
       final index = _accountUserCase.findAccountsLastIndex();
 
       final newAccount = await _authUseCase.addNewAccount(index);
-      _accountUserCase.addAccount(newAccount);
+      _accountUserCase.addAccount(newAccount, index: index);
       loadCache();
 
       notify(() => state.isLoading = false);

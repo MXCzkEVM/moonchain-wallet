@@ -18,10 +18,19 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
 
   final TextEditingController privateKeyController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+
+    listen(_accountUserCase.accounts, (value) {
+      notify(() => state.accounts = value);
+    });
+  }
+
   void onSave() async {
     loading = true;
     try {
-      final index = _accountUserCase.findAccountsLastIndex();
+      final index = state.accounts.length;
       final privateKey = privateKeyController.text;
 
       final newAccount =
@@ -39,6 +48,18 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
     } finally {
       loading = false;
     }
+  }
+
+  String? checkDuplicate(String privateKey) {
+    if (privateKey.isEmpty) return translate('invalid_format');
+
+    final foundIndex = state.accounts
+        .indexWhere((element) => element.privateKey == privateKey);
+
+    if (foundIndex != -1) {
+      return translate('duplicate_account_import_notice')!;
+    }
+    return null;
   }
 
   void changeAbleToSave(bool value) {

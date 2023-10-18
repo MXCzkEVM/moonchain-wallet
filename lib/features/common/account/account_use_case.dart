@@ -32,8 +32,8 @@ class AccountUseCase extends ReactiveUseCase {
     update(account, item);
   }
 
-  void addAccount(Account item) async {
-    _accountCacheRepository.addAccount(item);
+  void addAccount(Account item, {int? index}) async {
+    _accountCacheRepository.addAccount(item, index: index);
     final items = _accountCacheRepository.accountItems;
     update(account, item);
     update(accounts, items);
@@ -47,7 +47,7 @@ class AccountUseCase extends ReactiveUseCase {
     final items = _accountCacheRepository.accountItems;
     update(accounts, items);
   }
-  
+
   bool isAccountSelected(Account item) {
     return (item.address == account.value!.address);
   }
