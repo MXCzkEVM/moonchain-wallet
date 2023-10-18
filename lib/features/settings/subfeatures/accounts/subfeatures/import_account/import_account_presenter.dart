@@ -21,7 +21,7 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
   void onSave() async {
     loading = true;
     try {
-      final index = _accountUserCase.findAccountsLastIndex();
+      final index = _accountUserCase.accounts.value.length;
       final privateKey = privateKeyController.text;
 
       final newAccount =
