@@ -279,5 +279,14 @@
     "biometrics": "sinh trắc học",
     "checking_balance": "Đang kiểm tra số dư...",
     "no_balance": "Bạn không có số dư",
-    "no_balance_tip": "Bạn hiện tại không có MXC trong ví của mình.\nBạn có thể nhận token hoặc chọn để đặt tên người dùng sau."
+    "no_balance_tip": "Bạn hiện tại không có MXC trong ví của mình.\nBạn có thể nhận token hoặc chọn để đặt tên người dùng sau.",
+    "signature_request": "Yêu cầu chữ ký",
+    "sign": "Ký tên",
+    "insufficient_balance": "Số dư không đủ",
+    "unregistered_mns_notice": "Ối! Gửi token cho một tên người dùng khó nắm bắt như một con kỳ lân trong rừng. Hãy kiểm tra xem họ đã đăng ký chưa!",
+    "insufficient_balance_for_fee": "Số dư không đủ để trả phí",
+    "send_&_receive": "Gửi & Nhận",
+    "contract": "Hợp đồng",
+    "decimals": "Số thập phân",
+    "add_token_success_message": "Hú hồn! Token đã được thêm thành công vào ví AXS của bạn! 🎉"
 }

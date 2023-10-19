@@ -279,5 +279,14 @@
     "biometrics": "バイオメトリクス",
     "checking_balance": "残高を確認中...",
     "no_balance": "あなたの残高はありません",
-    "no_balance_tip": "あなたのウォレットには現在、MXCがありません。\nトークンを受け取るか、後でユーザーネームを請求することを選択できます。"
+    "no_balance_tip": "あなたのウォレットには現在、MXCがありません。\nトークンを受け取るか、後でユーザーネームを請求することを選択できます。",
+    "signature_request": "署名リクエスト",
+    "sign": "サイン",
+    "insufficient_balance": "残高不足",
+    "unregistered_mns_notice": "おっと！ユニコーンが森の中で見つけられないように、トークンをユーザーネームに送信することは難しいです。彼らが登録されているか確認してください！",
+    "insufficient_balance_for_fee": "手数料のための残高不足",
+    "send_&_receive": "送信＆受信",
+    "contract": "契約",
+    "decimals": "小数点",
+    "add_token_success_message": "万歳！トークンがあなたのAXSウォレットに成功的に追加されました！🎉"
 }

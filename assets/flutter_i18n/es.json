@@ -279,5 +279,14 @@
     "biometrics": "biometría",
     "checking_balance": "Verificando saldo...",
     "no_balance": "No tienes saldo",
-    "no_balance_tip": "Actualmente no tienes MXC en tu billetera.\nPuedes recibir tokens o elegir reclamar un nombre de usuario más tarde."
+    "no_balance_tip": "Actualmente no tienes MXC en tu billetera.\nPuedes recibir tokens o elegir reclamar un nombre de usuario más tarde.",
+    "signature_request": "Solicitud de firma",
+    "sign": "Firma",
+    "insufficient_balance": "Saldo insuficiente",
+    "unregistered_mns_notice": "¡Vaya! Enviando tokens a un nombre de usuario tan esquivo como un unicornio en un bosque. ¡Verifica si están registrados!",
+    "insufficient_balance_for_fee": "Saldo insuficiente para la tarifa",
+    "send_&_receive": "Enviar y Recibir",
+    "contract": "Contrato",
+    "decimals": "Decimales",
+    "add_token_success_message": "¡Hurra! El token ha sido agregado exitosamente a tu billetera AXS! 🎉"
 }
