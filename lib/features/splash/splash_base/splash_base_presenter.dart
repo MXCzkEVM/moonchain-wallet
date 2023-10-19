@@ -1,3 +1,4 @@
+import '../../../common/common.dart';
 import '../../../core/core.dart';
 import 'package:appinio_social_share/appinio_social_share.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
@@ -16,11 +17,9 @@ abstract class SplashBasePresenter<T extends SplashBaseState>
     notify(() => state.applist = applist);
   }
 
-  Future<void> isInstallEmail() async {
-    final result = await FlutterMailer.canSendMail() ||
-        await FlutterMailer.isAppInstalled('mailto:');
-
-    notify(() => state.isInstallEmail = result);
+  void checkEmailAppAvailability() async {
+    final isEmailAppAvailable = await Utils.isEmailAppAvailable();
+    notify(() => state.isEmailAppAvailable = isEmailAppAvailable);
   }
 }
 
