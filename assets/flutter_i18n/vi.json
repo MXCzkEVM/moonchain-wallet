@@ -288,5 +288,17 @@
     "send_&_receive": "Gửi & Nhận",
     "contract": "Hợp đồng",
     "decimals": "Số thập phân",
-    "add_token_success_message": "Hú hồn! Token đã được thêm thành công vào ví AXS của bạn! 🎉"
+    "add_token_success_message": "Hú hồn! Token đã được thêm thành công vào ví AXS của bạn! 🎉",
+    "import_account": "Nhập tài khoản",
+    "add_account": "Thêm tài khoản",
+    "private_key": "Khóa riêng tư",
+    "import_notice": "Các tài khoản được nhập vào sẽ không được liên kết với Cụm từ Khôi phục Bí mật của ví AXS của bạn.",
+    "imported": "Đã nhập khẩu",
+    "view_private_key": "Xem khóa riêng tư",
+    "view_private_key_notice": "Cảnh báo: Đừng bao giờ tiết lộ khóa này. Bất kỳ ai có khóa riêng của bạn đều có thể ăn cắp tất cả tài sản được giữ trong tài khoản của bạn.",
+    "removing_account": "Xóa tài khoản",
+    "removing_account_warning": "Bạn có chắc chắn muốn xóa tài khoản này không?",
+    "remove": "Xóa bỏ",
+    "duplicate_account_import_notice": "Tài khoản bạn đang cố gắng nhập vào là một bản sao.",
+    "unable_to_launch_email_app": "Không thể khởi chạy ứng dụng email"
 }

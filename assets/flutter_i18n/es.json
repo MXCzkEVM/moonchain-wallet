@@ -288,5 +288,17 @@
     "send_&_receive": "Enviar y Recibir",
     "contract": "Contrato",
     "decimals": "Decimales",
-    "add_token_success_message": "¡Hurra! El token ha sido agregado exitosamente a tu billetera AXS! 🎉"
+    "add_token_success_message": "¡Hurra! El token ha sido agregado exitosamente a tu billetera AXS! 🎉",
+    "import_account": "Importar cuenta",
+    "add_account": "Añadir cuenta",
+    "private_key": "Clave privada",
+    "import_notice": "Las cuentas importadas no estarán asociadas con tu Frase de Recuperación Secreta de la billetera AXS.",
+    "imported": "Importado",
+    "view_private_key": "Ver clave privada",
+    "view_private_key_notice": "Advertencia: Nunca revele esta clave. Cualquiera con sus claves privadas puede robar cualquier activo que se encuentre en su cuenta.",
+    "removing_account": "Eliminando cuenta",
+    "removing_account_warning": "¿Estás seguro de que quieres eliminar esta cuenta?",
+    "remove": "Eliminar",
+    "duplicate_account_import_notice": "La cuenta que intentas importar es un duplicado.",
+    "unable_to_launch_email_app": "Incapaz de iniciar la aplicación de correo electrónico"
 }

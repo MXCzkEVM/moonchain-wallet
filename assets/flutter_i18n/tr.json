@@ -288,5 +288,17 @@
     "send_&_receive": "Gönder & Al",
     "contract": "Sözleşme",
     "decimals": "Ondalıklar",
-    "add_token_success_message": "Hurra! Token başarıyla AXS cüzdanınıza eklendi! 🎉"
+    "add_token_success_message": "Hurra! Token başarıyla AXS cüzdanınıza eklendi! 🎉",
+    "import_account": "Hesabı İçe Aktar",
+    "add_account": "Hesap Ekle",
+    "private_key": "Özel anahtar",
+    "import_notice": "İçe aktarılan hesaplar, AXS cüzdanınızın Gizli Kurtarma İfadesi ile ilişkilendirilmeyecektir.",
+    "imported": "İthal edilmiş",
+    "view_private_key": "Özel anahtarı görüntüle",
+    "view_private_key_notice": "Uyarı: Bu anahtarı asla açıklamayın. Özel anahtarlarınıza sahip olan herkes, hesabınızdaki tüm varlıkları çalabilir.",
+    "removing_account": "Hesabı kaldırma",
+    "removing_account_warning": "Bu hesabı kaldırmak istediğinize emin misiniz?",
+    "remove": "Kaldır",
+    "duplicate_account_import_notice": "İçe aktarmaya çalıştığınız hesap bir kopyadır.",
+    "unable_to_launch_email_app": "E-posta uygulaması başlatılamıyor"
 }

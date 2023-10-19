@@ -288,5 +288,17 @@
     "send_&_receive": "送信＆受信",
     "contract": "契約",
     "decimals": "小数点",
-    "add_token_success_message": "万歳！トークンがあなたのAXSウォレットに成功的に追加されました！🎉"
+    "add_token_success_message": "万歳！トークンがあなたのAXSウォレットに成功的に追加されました！🎉",
+    "import_account": "アカウントをインポートする",
+    "add_account": "アカウントを追加する",
+    "private_key": "プライベートキー",
+    "import_notice": "インポートされたアカウントは、あなたのAXSウォレットのシークレットリカバリーフレーズと関連付けられません。",
+    "imported": "輸入された",
+    "view_private_key": "プライベートキーを表示する",
+    "view_private_key_notice": "警告：このキーを絶対に公開しないでください。あなたのプライベートキーを持っている人は、あなたのアカウントに保管されている資産を盗むことができます。",
+    "removing_account": "アカウントを削除する",
+    "removing_account_warning": "このアカウントを削除してもよろしいですか？",
+    "remove": "削除する",
+    "duplicate_account_import_notice": "あなたがインポートしようとしているアカウントは重複しています。",
+    "unable_to_launch_email_app": "メールアプリを起動できません"
 }

@@ -288,5 +288,17 @@
     "send_&_receive": "Kirim & Terima",
     "contract": "Kontrak",
     "decimals": "Desimal",
-    "add_token_success_message": "Hore! Token telah berhasil ditambahkan ke dompet AXS Anda! 🎉"
+    "add_token_success_message": "Hore! Token telah berhasil ditambahkan ke dompet AXS Anda! 🎉",
+    "import_account": "Impor akun",
+    "add_account": "Tambahkan akun",
+    "private_key": "Kunci privat",
+    "import_notice": "Akun yang diimpor tidak akan dikaitkan dengan Frasa Pemulihan Rahasia dompet AXS Anda.",
+    "imported": "Diimpor",
+    "view_private_key": "Lihat kunci privat",
+    "view_private_key_notice": "Peringatan: Jangan pernah mengungkapkan kunci ini. Siapa saja yang memiliki kunci pribadi Anda dapat mencuri semua aset yang ada di akun Anda.",
+    "removing_account": "Menghapus akun",
+    "removing_account_warning": "Apakah Anda yakin ingin menghapus akun ini?",
+    "remove": "Hapus",
+    "duplicate_account_import_notice": "Akun yang Anda coba impor adalah duplikat.",
+    "unable_to_launch_email_app": "Tidak dapat meluncurkan aplikasi email"
 }
