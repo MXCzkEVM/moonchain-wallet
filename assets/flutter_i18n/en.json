@@ -299,5 +299,6 @@
 	"removing_account": "Removing account",
 	"removing_account_warning": "Are you sure you want to remove this account?",
 	"remove": "Remove",
-	"duplicate_account_import_notice": "The account you are trying to import is a duplicate"
+	"duplicate_account_import_notice": "The account you are trying to import is a duplicate",
+	"unable_to_launch_email_app": "Unable to launch email app"
 }
