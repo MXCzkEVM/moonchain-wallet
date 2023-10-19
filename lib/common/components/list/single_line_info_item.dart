@@ -1,23 +1,29 @@
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/open_dapp_presenter.dart';
+import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/core/src/providers/providers_use_cases.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class SingleLineInfoItem extends HookConsumerWidget {
-  const SingleLineInfoItem({
-    super.key,
-    required this.title,
-    required this.value,
-    this.hint,
-  });
+  const SingleLineInfoItem(
+      {super.key,
+      required this.title,
+      required this.value,
+      this.hint,
+      this.valueActionIcon});
+
   final String title;
   final String value;
   final String? hint;
+  final Widget? valueActionIcon;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final presenter = ref.read(openDAppPageContainer.actions);
-    final isAddress = presenter.isAddress(value);
+    late final _chainConfigurationUseCase =
+        ref.read(chainConfigurationUseCaseProvider);
+
+    final isAddress = Validation.isAddress(value);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Sizes.spaceXSmall),
       child: Row(
@@ -34,7 +40,9 @@ class SingleLineInfoItem extends HookConsumerWidget {
           ),
           Expanded(
             child: InkWell(
-              onTap: isAddress ? () => presenter.launchAddress(value) : null,
+              onTap: isAddress
+                  ? () => _chainConfigurationUseCase.launchAddress(value)
+                  : null,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -46,7 +54,9 @@ class SingleLineInfoItem extends HookConsumerWidget {
                       textAlign: TextAlign.end,
                     ),
                   ),
-                  if (isAddress) ...[
+                  if (valueActionIcon != null)
+                    valueActionIcon!
+                  else if (isAddress) ...[
                     const SizedBox(width: 8),
                     Icon(
                       MxcIcons.external_link,

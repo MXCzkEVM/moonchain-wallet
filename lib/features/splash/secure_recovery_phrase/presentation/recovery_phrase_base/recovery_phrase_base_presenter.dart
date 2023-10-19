@@ -114,15 +114,25 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     );
 
     try {
-      MailerResponse sendResult = await FlutterMailer.send(email);
-      // only [ios] can return sent | saved | cancelled
-      // [android] will return android there is no way of knowing on android
-      // if the intent was sent saved or even cancelled.
-      if (MailerResponse.cancelled != sendResult) {
-        nextProcess(settingsFlow, res['phrases']);
+      bool canSend = await FlutterMailer.canSendMail();
+
+      if (Platform.isIOS && !canSend) {
+        await Utils.launchEmailApp();
+      } else {
+        MailerResponse sendResult = await FlutterMailer.send(email);
+        // only [ios] can return sent | saved | cancelled
+        // [android] will return android there is no way of knowing on android
+        // if the intent was sent saved or even cancelled.
+        if (MailerResponse.cancelled != sendResult) {
+          nextProcess(settingsFlow, res['phrases']);
+        }
       }
     } catch (e, s) {
-      addError(e, s);
+      if (e == 'unable_to_launch_email_app') {
+        addError(translate('unable_to_launch_email_app'));
+      } else {
+        addError(e, s);
+      }
     }
   }
 }

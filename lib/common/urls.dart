@@ -8,4 +8,6 @@ class Urls {
 
   static const String iOSUrl =
       'https://apps.apple.com/us/app/axs-decentralized-wallet/id6460891587';
+
+  static const String emailApp = 'mailto:';
 }

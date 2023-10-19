@@ -54,9 +54,19 @@ class AccountCacheRepository extends GlobalCacheRepository {
   List<Account> get accountItems => accounts.value;
   Account get accountItem => account.value!;
 
-  void addAccount(Account item) => accounts.value = [...accounts.value, item];
+  void addAccount(Account item, {int? index}) {
+    if (index == null) {
+      accounts.value = [...accounts.value, item];
+    } else {
+      final newList = accounts.value;
+      newList.insert(index, item);
+      accounts.value = newList;
+    }
+  }
+
   void removeAccount(Account item) => accounts.value =
-      accounts.value.where((e) => e.name != item.name).toList();
+      accounts.value.where((e) => e.address != item.address).toList();
+
   void updateAccount(Account item) => accounts.value = accounts.value.map((e) {
         if (item.address == account.value!.address) {
           account.value = item;
@@ -67,6 +77,7 @@ class AccountCacheRepository extends GlobalCacheRepository {
         }
         return e;
       }).toList();
+
   void resetAccounts() => accounts.value = [];
 
   void setXsdConversionRate(double value) => xsdConversionRate.value = value;
