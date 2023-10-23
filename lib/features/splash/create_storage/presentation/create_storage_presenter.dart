@@ -11,7 +11,7 @@ class SplashStoragePresenter extends SplashBasePresenter<SplashBaseState> {
   @override
   void initState() {
     super.initState();
-
     isInstallApps();
+    checkEmailAppAvailability();
   }
 }

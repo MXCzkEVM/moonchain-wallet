@@ -150,23 +150,25 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     double sumBalance = token.balance! - double.parse(amount);
     estimatedGasFee = await _estimatedFee(recipientAddress);
-    sumBalance -= estimatedGasFee?.gasFee ?? 0.0;
-    final estimatedFee = estimatedGasFee == null
-        ? '--'
-        : Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
-            ? '0.000'
-            : estimatedGasFee.gasFee.toString();
+    if (estimatedGasFee != null) {
+      sumBalance -= estimatedGasFee.gasFee;
+      final estimatedFee =
+          Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
+              ? '0.000'
+              : estimatedGasFee.gasFee.toString();
 
-    final result = await showTransactionDialog(context!,
-        amount: amount,
-        balance: sumBalance.toString(),
-        token: token,
-        network: state.network?.label ?? '--',
-        from: state.account!.address,
-        to: recipient,
-        estimatedFee: estimatedFee,
-        onTap: (transactionType) => _nextTransactionStep(transactionType),
-        networkSymbol: state.network?.symbol ?? '--');
+      final result = await showTransactionDialog(context!,
+          amount: amount,
+          balance: sumBalance.toString(),
+          token: token,
+          network: state.network?.label ?? '--',
+          from: state.account!.address,
+          to: recipient,
+          estimatedFee: estimatedFee,
+          onTap: (transactionType) =>
+              _nextTransactionStep(transactionType, estimatedGasFee!),
+          networkSymbol: state.network?.symbol ?? '--');
+    }
   }
 
   String? checkAmountCeiling() {
@@ -178,9 +180,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     return null;
   }
 
-  Future<String?> _nextTransactionStep(TransactionProcessType type) async {
+  Future<String?> _nextTransactionStep(
+      TransactionProcessType type, EstimatedGasFee estimatedGasFee) async {
     if (TransactionProcessType.sending == type) {
-      final res = await _sendTransaction();
+      final res = await _sendTransaction(estimatedGasFee);
       if (res != null) {
         // Unnecessary on MXC chains wince we have websocket
         // ref.read(chooseCryptoPageContainer.actions).loadPage();
@@ -203,13 +206,17 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return gasFee;
     } catch (e, s) {
-      addError(e, s);
+      if (e is RPCError) {
+        String errorMessage = e.message;
+        errorMessage = changeErrorMessage(errorMessage);
+        addError(errorMessage);
+      }
     } finally {
       loading = false;
     }
   }
 
-  Future<String?> _sendTransaction() async {
+  Future<String?> _sendTransaction(EstimatedGasFee estimatedGasFee) async {
     final amountDouble = double.parse(amountController.text);
     final amount = MxcAmount.fromDoubleByEther(amountDouble);
     final recipient = recipientController.text;
@@ -222,14 +229,15 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           privateKey: state.account!.privateKey,
           to: recipientAddress,
           amount: amount,
-          tokenAddress: token.address);
+          tokenAddress: token.address,
+          estimatedGasFee: estimatedGasFee);
 
       if (!Config.isMxcChains(state.network!.chainId)) {
         final tx = TransactionModel(
             hash: res,
             status: TransactionStatus.pending,
             type: TransactionType.sent,
-            value: amount.getValueInUnit(EtherUnit.wei).toString(),
+            value: amount.getValueInUnitBI(EtherUnit.wei).toString(),
             token: token,
             timeStamp: DateTime.now());
 
@@ -249,14 +257,19 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           BottomFlowDialog.of(context!).close();
         }
         String errorMessage = e.message;
-        if (e.message.contains('gas required exceeds allowance')) {
-          errorMessage = translate('insufficient_balance_for_fee') ?? e.message;
-        }
+        errorMessage = changeErrorMessage(errorMessage);
         addError(errorMessage);
       }
     } finally {
       loading = false;
     }
+  }
+
+  String changeErrorMessage(String message) {
+    if (message.contains('gas required exceeds allowance')) {
+      return translate('insufficient_balance_for_fee') ?? message;
+    }
+    return message;
   }
 
   @override

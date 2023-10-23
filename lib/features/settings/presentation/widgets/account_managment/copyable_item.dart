@@ -19,9 +19,6 @@ class CopyableItem extends HookConsumerWidget {
     return InkWell(
       onTap: () {
         presenter.copyToClipboard(copyableText);
-        showSnackBar(
-            context: context,
-            content: FlutterI18n.translate(context, 'copied'));
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

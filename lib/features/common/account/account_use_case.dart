@@ -32,16 +32,39 @@ class AccountUseCase extends ReactiveUseCase {
     update(account, item);
   }
 
-  void addAccount(Account item) async {
-    _accountCacheRepository.addAccount(item);
+  void addAccount(Account item, {int? index}) async {
+    _accountCacheRepository.addAccount(item, index: index);
     final items = _accountCacheRepository.accountItems;
     update(account, item);
     update(accounts, items);
     getAccountsNames();
   }
 
+  /// Deletes the given account, If the account is selected will select the index 0 account
+  /// This is only used to delete the imported accounts.
+  void removeAccount(Account item) async {
+    _accountCacheRepository.removeAccount(item);
+    final items = _accountCacheRepository.accountItems;
+    update(accounts, items);
+  }
+
+  bool isAccountSelected(Account item) {
+    return (item.address == account.value!.address);
+  }
+
   void changeAccount(Account item) {
     update(account, item);
+  }
+
+  int findAccountsLastIndex() {
+    int lastIndex = 0;
+    for (Account account in accounts.value.reversed) {
+      if (!account.isCustom) {
+        lastIndex = int.parse(account.name);
+        break;
+      }
+    }
+    return lastIndex;
   }
 
   void resetXsdConversionRate(double value) {

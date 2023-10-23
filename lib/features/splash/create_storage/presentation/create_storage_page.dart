@@ -65,13 +65,15 @@ class SplashStoragePage extends SplashBasePage {
         icon: MxcIcons.email,
         iconSize: 18,
         title: FlutterI18n.translate(context, 'email_secured_storage'),
-        onTap: () => Navigator.of(context).push(
-          route.featureDialog(
-            EmailRecoveryPhrasePage(
-              settingsFlow: settingsFlow,
-            ),
-          ),
-        ),
+        onTap: ref.watch(state).isEmailAppAvailable == true
+            ? () => Navigator.of(context).push(
+                  route.featureDialog(
+                    EmailRecoveryPhrasePage(
+                      settingsFlow: settingsFlow,
+                    ),
+                  ),
+                )
+            : null,
       ),
     ];
   }

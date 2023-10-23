@@ -288,5 +288,17 @@
     "send_&_receive": "Envoyer & Recevoir",
     "contract": "Contrat",
     "decimals": "Décimales",
-    "add_token_success_message": "Hourra! Le jeton a été ajouté avec succès à votre portefeuille AXS! 🎉"
+    "add_token_success_message": "Hourra! Le jeton a été ajouté avec succès à votre portefeuille AXS! 🎉",
+    "import_account": "Importer le compte",
+    "add_account": "Ajouter un compte",
+    "private_key": "Clé privée",
+    "import_notice": "Les comptes importés ne seront pas associés à votre phrase secrète de récupération de portefeuille AXS.",
+    "imported": "Importé",
+    "view_private_key": "Voir la clé privée",
+    "view_private_key_notice": "Avertissement: Ne divulguez jamais cette clé. Toute personne ayant vos clés privées peut voler tous les actifs détenus dans votre compte.",
+    "removing_account": "Suppression de compte",
+    "removing_account_warning": "Êtes-vous sûr de vouloir supprimer ce compte?",
+    "remove": "Supprimer",
+    "duplicate_account_import_notice": "Le compte que vous essayez d'importer est un doublon.",
+    "unable_to_launch_email_app": "Impossible de lancer l'application email"
 }

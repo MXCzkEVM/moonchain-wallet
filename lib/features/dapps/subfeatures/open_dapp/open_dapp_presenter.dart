@@ -350,12 +350,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   bool isAddress(String address) {
-    try {
-      EthereumAddress.fromHex(address);
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return Validation.isAddress(address);
   }
 
   void addAsset(int id, Map<String, dynamic> data,
