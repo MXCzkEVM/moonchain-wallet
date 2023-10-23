@@ -52,6 +52,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   }
 
   void updateFixedNetworks() {
+    final fixedList = Network.fixedNetworks();
     for (int i = 0; i < _repository.items.length; i++) {
       final repoItem = _repository.items[i];
 
@@ -61,12 +62,26 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
 
       if (index != -1) {
         // matches
-        final fixedItem = Network.fixedNetworks().elementAt(index);
+        final fixedItem = fixedList.elementAt(index);
         if (!repoItem.compareWithOther(fixedItem)) {
           _repository.updateItem(repoItem.copyWithOther(fixedItem), i);
         }
+      } else {
+        // Fixed network does't contain repo Item It means It's deleted
+        _repository.removeItem(repoItem);
       }
     }
+
+    // Adding new networks If available
+    for (Network network in fixedList) {
+      final foundIndex =
+          _repository.items.indexWhere((e) => e.chainId == network.chainId);
+
+      if (foundIndex == -1) {
+        _repository.addItem(network);
+      }
+    }
+
     update(networks, _repository.items);
   }
 
@@ -112,6 +127,10 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   void refresh() {
     update(networks, networks.value);
     update(selectedNetwork, selectedNetwork.value);
+  }
+
+  void updateSelectedNetwork(Network updatedSelectedNetwork) {
+    update(selectedNetwork, updatedSelectedNetwork);
   }
 
   /// only for details of custom network delete network page
