@@ -34,7 +34,7 @@ void main() {
       await appVersionUseCase.checkLatestVersion();
 
       final initializationUseCase = container.read(chainsUseCaseProvider);
-      initializationUseCase.updateChainsRPCUrls();
+      initializationUseCase.updateChains();
 
       runApp(
         UncontrolledProviderScope(
