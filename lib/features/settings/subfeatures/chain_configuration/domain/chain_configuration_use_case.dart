@@ -9,9 +9,7 @@ import 'chain_configuration_repository.dart';
 class ChainConfigurationUseCase extends ReactiveUseCase {
   ChainConfigurationUseCase(
     this._repository,
-  ) {
-    updateFixedNetworks();
-  }
+  );
 
   final ChainConfigurationRepository _repository;
 
@@ -51,23 +49,50 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
     update(networks, _repository.items);
   }
 
-  void updateFixedNetworks() {
+  /// If return true then the enabled network props changed
+  Network? updateNetworks(List<Network> newNetworkList) {
+    Network? selectedNetwork;
+
     for (int i = 0; i < _repository.items.length; i++) {
       final repoItem = _repository.items[i];
 
-      final index = Network.fixedNetworks().indexWhere(
+      final index = newNetworkList.indexWhere(
         (element) => element.chainId == repoItem.chainId,
       );
 
       if (index != -1) {
         // matches
-        final fixedItem = Network.fixedNetworks().elementAt(index);
-        if (!repoItem.compareWithOther(fixedItem)) {
-          _repository.updateItem(repoItem.copyWithOther(fixedItem), i);
+        final toCompareItem = newNetworkList.elementAt(index);
+        if (!repoItem.compareWithOther(toCompareItem)) {
+          final mergedItem = repoItem.copyWithOther(toCompareItem);
+          if (repoItem.enabled) {
+            updateSelectedNetwork(mergedItem);
+            selectedNetwork = mergedItem;
+          }
+          _repository.updateItem(mergedItem, i);
+        }
+      } else {
+        // Fixed network does't contain repo Item It means It's deleted
+        // But we check If It's not a custom network
+        if (repoItem.networkType != NetworkType.custom) {
+          _repository.removeItem(repoItem);
         }
       }
     }
+
+    // Adding new networks If available
+    for (Network network in newNetworkList) {
+      final foundIndex =
+          _repository.items.indexWhere((e) => e.chainId == network.chainId);
+
+      if (foundIndex == -1) {
+        // Disable the network, Just in case
+        _repository.addItem(network.copyWith(enabled: false));
+      }
+    }
+
     update(networks, _repository.items);
+    return selectedNetwork;
   }
 
   void changeIpfsGateWay(String newIpfsGateWay) {
@@ -112,6 +137,10 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   void refresh() {
     update(networks, networks.value);
     update(selectedNetwork, selectedNetwork.value);
+  }
+
+  void updateSelectedNetwork(Network updatedSelectedNetwork) {
+    update(selectedNetwork, updatedSelectedNetwork);
   }
 
   /// only for details of custom network delete network page

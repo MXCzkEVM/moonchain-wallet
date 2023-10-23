@@ -288,5 +288,17 @@
     "send_&_receive": "Senden & Empfangen",
     "contract": "Vertrag",
     "decimals": "Dezimalstellen",
-    "add_token_success_message": "Hurra! Der Token wurde erfolgreich zu Ihrer AXS-Brieftasche hinzugefügt! 🎉"
+    "add_token_success_message": "Hurra! Der Token wurde erfolgreich zu Ihrer AXS-Brieftasche hinzugefügt! 🎉",
+    "import_account": "Konto importieren",
+    "add_account": "Konto hinzufügen",
+    "private_key": "Privater Schlüssel",
+    "import_notice": "Importierte Konten werden nicht mit Ihrem AXS Wallet Secret Recovery Phrase verknüpft sein.",
+    "imported": "Importiert",
+    "view_private_key": "Privaten Schlüssel anzeigen",
+    "view_private_key_notice": "Warnung: Geben Sie diesen Schlüssel niemals preis. Jeder, der Ihre privaten Schlüssel besitzt, kann alle Vermögenswerte stehlen, die auf Ihrem Konto gehalten werden.",
+    "removing_account": "Konto entfernen",
+    "removing_account_warning": "Sind Sie sicher, dass Sie dieses Konto entfernen möchten?",
+    "remove": "Entfernen",
+    "duplicate_account_import_notice": "Das Konto, das Sie versuchen zu importieren, ist ein Duplikat.",
+    "unable_to_launch_email_app": "Nicht in der Lage, E-Mail-App zu starten"
 }

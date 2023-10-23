@@ -288,5 +288,17 @@
     "send_&_receive": "Trimite & Primește",
     "contract": "Contract",
     "decimals": "Zecimale",
-    "add_token_success_message": "Ura! Tokenul a fost adăugat cu succes în portofelul tău AXS! 🎉"
+    "add_token_success_message": "Ura! Tokenul a fost adăugat cu succes în portofelul tău AXS! 🎉",
+    "import_account": "Importă contul",
+    "add_account": "Adaugă cont",
+    "private_key": "Cheie privată",
+    "import_notice": "Conturile importate nu vor fi asociate cu fraza ta secretă de recuperare a portofelului AXS.",
+    "imported": "Importat",
+    "view_private_key": "Vizualizează cheia privată",
+    "view_private_key_notice": "Avertisment: Nu divulgați niciodată această cheie. Oricine are cheile dvs. private poate fura toate activele deținute în contul dvs.",
+    "removing_account": "Ștergerea contului",
+    "removing_account_warning": "Ești sigur că vrei să ștergi acest cont?",
+    "remove": "Eliminați",
+    "duplicate_account_import_notice": "Contul pe care încercați să-l importați este un duplicat.",
+    "unable_to_launch_email_app": "Imposibil de lansat aplicația de email"
 }

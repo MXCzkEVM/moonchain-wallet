@@ -288,5 +288,17 @@
     "send_&_receive": "Versturen & Ontvangen",
     "contract": "Contract",
     "decimals": "Decimalen",
-    "add_token_success_message": "Hoera! De token is succesvol toegevoegd aan je AXS portemonnee! 🎉"
+    "add_token_success_message": "Hoera! De token is succesvol toegevoegd aan je AXS portemonnee! 🎉",
+    "import_account": "Account importeren",
+    "add_account": "Voeg account toe",
+    "private_key": "Prive sleutel",
+    "import_notice": "Geïmporteerde accounts zullen niet worden geassocieerd met uw AXS wallet Geheime Herstelzin.",
+    "imported": "Geïmporteerd",
+    "view_private_key": "Bekijk privésleutel",
+    "view_private_key_notice": "Waarschuwing: Geef deze sleutel nooit vrij. Iedereen met uw privésleutels kan alle activa die op uw account staan stelen.",
+    "removing_account": "Account verwijderen",
+    "removing_account_warning": "Weet je zeker dat je dit account wilt verwijderen?",
+    "remove": "Verwijderen",
+    "duplicate_account_import_notice": "Het account dat u probeert te importeren is een duplicaat.",
+    "unable_to_launch_email_app": "Kan e-mail app niet starten"
 }

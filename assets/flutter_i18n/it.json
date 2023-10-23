@@ -288,5 +288,17 @@
     "send_&_receive": "Invia & Ricevi",
     "contract": "Contratto",
     "decimals": "Decimali",
-    "add_token_success_message": "Evviva! Il token è stato aggiunto con successo al tuo portafoglio AXS! 🎉"
+    "add_token_success_message": "Evviva! Il token è stato aggiunto con successo al tuo portafoglio AXS! 🎉",
+    "import_account": "Importa account",
+    "add_account": "Aggiungi account",
+    "private_key": "Chiave privata",
+    "import_notice": "Gli account importati non saranno associati alla tua Frase Segreta di Recupero del portafoglio AXS.",
+    "imported": "Importato",
+    "view_private_key": "Visualizza chiave privata",
+    "view_private_key_notice": "Attenzione: Non rivelare mai questa chiave. Chiunque abbia le tue chiavi private può rubare qualsiasi asset detenuto nel tuo account.",
+    "removing_account": "Rimozione dell'account",
+    "removing_account_warning": "Sei sicuro di voler rimuovere questo account?",
+    "remove": "Rimuovi",
+    "duplicate_account_import_notice": "L'account che stai cercando di importare è un duplicato.",
+    "unable_to_launch_email_app": "Impossibile avviare l'app di posta elettronica"
 }

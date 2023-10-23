@@ -33,6 +33,9 @@ void main() {
       final appVersionUseCase = container.read(appVersionUseCaseProvider);
       await appVersionUseCase.checkLatestVersion();
 
+      final initializationUseCase = container.read(chainsUseCaseProvider);
+      initializationUseCase.updateChains();
+
       runApp(
         UncontrolledProviderScope(
           container: container,
