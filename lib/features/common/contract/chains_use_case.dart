@@ -12,41 +12,25 @@ class ChainsUseCase extends ReactiveUseCase {
   final ChainConfigurationUseCase _chainConfigurationUseCase;
   final AuthUseCase _authUseCase;
 
-  Future<ChainsRpcList> getChainsRpcUrls() async {
+  Future<ChainsList> getChainsRpcUrls() async {
     return await _repository.chainsRepository.getChainsRpcUrls();
   }
 
-  void updateChainsRPCUrls() async {
+  void updateChains() async {
     try {
       final chainsRpcUrls = await getChainsRpcUrls();
-      final networks = _chainConfigurationUseCase.networks.value;
 
-      for (ChainRpcUrl chainRpcUrl in chainsRpcUrls.chainList ?? []) {
-        final foundIndex = networks
-            .indexWhere((element) => element.chainId == chainRpcUrl.chainId);
+      if (chainsRpcUrls.networks?.isNotEmpty ?? false) {
+        final selectedNetwork =
+            _chainConfigurationUseCase.updateNetworks(chainsRpcUrls.networks!);
 
-        if (foundIndex != -1) {
-          final network = networks.elementAt(foundIndex);
-
-          // If any change is detected
-          if (network.web3RpcHttpUrl != chainRpcUrl.httpUrl ||
-              network.web3RpcWebsocketUrl != chainRpcUrl.wssUrl) {
-            final updatedNetwork = network.copyWith(
-                web3RpcHttpUrl: chainRpcUrl.httpUrl,
-                web3RpcWebsocketUrl: chainRpcUrl.wssUrl);
-            // Update in DB
-            _chainConfigurationUseCase.updateItem(updatedNetwork, foundIndex);
-
-            if (network.enabled) {
-              _chainConfigurationUseCase.updateSelectedNetwork(updatedNetwork);
-              _authUseCase.resetNetwork(updatedNetwork);
-            }
-          }
+        if (selectedNetwork != null) {
+          _authUseCase.resetNetwork(selectedNetwork);
         }
       }
     } catch (e) {
       // This update necessary since, RPC change might be essential.
-      updateChainsRPCUrls();
+      updateChains();
     }
   }
 
