@@ -152,9 +152,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     estimatedGasFee = await _estimatedFee(recipientAddress);
     if (estimatedGasFee != null) {
       sumBalance -= estimatedGasFee.gasFee;
-      final estimatedFee = estimatedGasFee == null
-          ? '--'
-          : Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
+      final estimatedFee =
+          Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
               ? '0.000'
               : estimatedGasFee.gasFee.toString();
 
@@ -166,7 +165,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           from: state.account!.address,
           to: recipient,
           estimatedFee: estimatedFee,
-          onTap: (transactionType) => _nextTransactionStep(transactionType),
+          onTap: (transactionType) =>
+              _nextTransactionStep(transactionType, estimatedGasFee!),
           networkSymbol: state.network?.symbol ?? '--');
     }
   }
@@ -180,9 +180,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     return null;
   }
 
-  Future<String?> _nextTransactionStep(TransactionProcessType type) async {
+  Future<String?> _nextTransactionStep(
+      TransactionProcessType type, EstimatedGasFee estimatedGasFee) async {
     if (TransactionProcessType.sending == type) {
-      final res = await _sendTransaction();
+      final res = await _sendTransaction(estimatedGasFee);
       if (res != null) {
         // Unnecessary on MXC chains wince we have websocket
         // ref.read(chooseCryptoPageContainer.actions).loadPage();
@@ -215,7 +216,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     }
   }
 
-  Future<String?> _sendTransaction() async {
+  Future<String?> _sendTransaction(EstimatedGasFee estimatedGasFee) async {
     final amountDouble = double.parse(amountController.text);
     final amount = MxcAmount.fromDoubleByEther(amountDouble);
     final recipient = recipientController.text;
@@ -228,7 +229,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           privateKey: state.account!.privateKey,
           to: recipientAddress,
           amount: amount,
-          tokenAddress: token.address);
+          tokenAddress: token.address,
+          estimatedGasFee: estimatedGasFee);
 
       if (!Config.isMxcChains(state.network!.chainId)) {
         final tx = TransactionModel(
