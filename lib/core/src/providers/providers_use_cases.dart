@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/common/contract/chains_use_case.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
 import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
@@ -144,5 +145,13 @@ final Provider<DappStoreUseCase> dappStoreUseCaseProvider = Provider(
 final Provider<AppVersionUseCase> appVersionUseCaseProvider = Provider(
   (ref) => AppVersionUseCase(
     ref.watch(web3RepositoryProvider),
+  ),
+);
+
+final Provider<ChainsUseCase> chainsUseCaseProvider = Provider(
+  (ref) => ChainsUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(authUseCaseProvider),
   ),
 );
