@@ -53,6 +53,9 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
   String? checkDuplicate(String privateKey) {
     if (privateKey.isEmpty) return translate('invalid_format');
 
+    privateKey =
+        privateKey.contains('0x') ? privateKey.substring(2) : privateKey;
+
     final foundIndex = state.accounts
         .indexWhere((element) => element.privateKey == privateKey);
 
