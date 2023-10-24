@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/domain/webview_use_case.dart';
 import 'package:flutter/material.dart';
@@ -33,8 +34,8 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
       final index = state.accounts.length;
       final privateKey = privateKeyController.text;
 
-      final newAccount =
-          await _authUseCase.addCustomAccount('${index + 1}', privateKey);
+      final newAccount = await _authUseCase.addCustomAccount(
+          '${index + 1}', Formatter.removeZeroX(privateKey));
       _accountUserCase.addAccount(newAccount);
       loadCache();
 
@@ -53,11 +54,9 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
   String? checkDuplicate(String privateKey) {
     if (privateKey.isEmpty) return translate('invalid_format');
 
-    privateKey =
-        privateKey.contains('0x') ? privateKey.substring(2) : privateKey;
+    final foundIndex = state.accounts.indexWhere(
+        (element) => element.privateKey == Formatter.removeZeroX(privateKey));
 
-    final foundIndex = state.accounts
-        .indexWhere((element) => element.privateKey == privateKey);
 
     if (foundIndex != -1) {
       return translate('duplicate_account_import_notice')!;

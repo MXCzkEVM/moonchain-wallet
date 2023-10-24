@@ -125,4 +125,8 @@ class Formatter {
 
     return words.join(' '); // Join words back with a single space between each
   }
+
+  static String removeZeroX(String value) {
+    return value.startsWith('0x') ? value.substring(2) : value;
+  }
 }

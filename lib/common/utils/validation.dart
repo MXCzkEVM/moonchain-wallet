@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/config.dart';
+import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:web3dart/web3dart.dart';
@@ -138,9 +139,7 @@ class Validation {
 
   static bool isPrivateKey(String privateKey) {
     try {
-      privateKey =
-          privateKey.contains('0x') ? privateKey.substring(2) : privateKey;
-      EthPrivateKey.fromHex(privateKey);
+      EthPrivateKey.fromHex(Formatter.removeZeroX(privateKey));
       return true;
     } catch (e) {
       return false;
