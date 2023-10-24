@@ -191,7 +191,12 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       }
       return res;
     } else if (TransactionProcessType.done == type) {
-      BottomFlowDialog.of(context!).close();
+      navigator!.pop();
+      Future.delayed(const Duration(milliseconds: 200), () {
+        navigator?.popUntil((route) {
+          return route.settings.name?.contains('WalletPage') ?? false;
+        });
+      });
     }
   }
 
