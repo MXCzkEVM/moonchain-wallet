@@ -148,7 +148,6 @@ class _TransactionInfoState extends State<TransactionInfo> {
           }
         } else {
           widget.onTap(processType);
-          Navigator.of(context).pop(true);
         }
       },
     );
