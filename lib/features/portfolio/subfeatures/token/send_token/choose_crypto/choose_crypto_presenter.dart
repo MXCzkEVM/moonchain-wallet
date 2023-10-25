@@ -24,7 +24,6 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
     listen(_accountUserCase.account, (value) {
       if (value != null) {
         notify(() => state.account = value);
-        loadPage();
       }
     });
 
