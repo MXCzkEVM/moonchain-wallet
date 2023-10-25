@@ -38,10 +38,14 @@ class TokenContractUseCase extends ReactiveUseCase {
         balance.getInWei.toString(), Config.ethDecimals);
   }
 
-  Future<Stream<dynamic>?> subscribeToBalance(String event) async {
-    return await _repository.tokenContract.subscribeToBalanceEvent(
+  Future<Stream<dynamic>?> subscribeEvent(String event) async {
+    return await _repository.tokenContract.subscribeEvent(
       event,
     );
+  }
+
+  Future<bool> connectToWebsSocket() async {
+    return await _repository.tokenContract.connectToWebSocket();
   }
 
   Future<WannseeTransactionsModel?> getTransactionsByAddress(

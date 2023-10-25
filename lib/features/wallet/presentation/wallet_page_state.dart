@@ -14,7 +14,7 @@ class WalletState with EquatableMixin {
 
   List<Token> tokensList = [];
 
-  String? walletAddress;
+  Account? account;
 
   bool hideBalance = false;
 
@@ -43,7 +43,7 @@ class WalletState with EquatableMixin {
         txList,
         isTxListLoading,
         tokensList,
-        walletAddress,
+        account,
         hideBalance,
         chartMaxAmount,
         chartMinAmount,
