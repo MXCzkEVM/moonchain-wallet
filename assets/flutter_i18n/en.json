@@ -141,6 +141,7 @@
 	"from": "From",
 	"to": "To",
 	"estimated_fee": "Estimated Fee",
+	"max_fee": "Max Fee",
 	"sending": "Sending",
 	"confirm_transaction": "Confirm transaction",
 	"add_nft": "Add NFT",
