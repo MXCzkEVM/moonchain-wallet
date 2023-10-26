@@ -205,6 +205,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
 
     String finalFee = estimatedGasFee.gasFee.toString();
+    final maxFeeDouble = estimatedGasFee.gasFee * Config.priority;
+    final maxFeeString = maxFeeDouble.toString();
+    final maxFee =
+        Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
 
     if (Validation.isExpoNumber(finalFee)) {
       finalFee = '0.000';
@@ -219,6 +223,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           from: bridge.from!,
           to: bridge.to!,
           estimatedFee: finalFee,
+          maxFee: maxFee,
           symbol: symbol);
 
       if (result != null && result) {

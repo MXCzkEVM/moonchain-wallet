@@ -146,16 +146,19 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       return;
     }
 
-    EstimatedGasFee? estimatedGasFee;
-
     double sumBalance = token.balance! - double.parse(amount);
-    estimatedGasFee = await _estimatedFee(recipientAddress);
+    EstimatedGasFee? estimatedGasFee = await _estimatedFee(recipientAddress);
     if (estimatedGasFee != null) {
       sumBalance -= estimatedGasFee.gasFee;
       final estimatedFee =
           Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
               ? '0.000'
               : estimatedGasFee.gasFee.toString();
+
+      final maxFeeDouble = estimatedGasFee.gasFee * Config.priority;
+      final maxFeeString = maxFeeDouble.toString();
+      final maxFee =
+          Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
 
       final result = await showTransactionDialog(context!,
           amount: amount,
@@ -165,8 +168,9 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           from: state.account!.address,
           to: recipient,
           estimatedFee: estimatedFee,
+          maxFee: maxFee,
           onTap: (transactionType) =>
-              _nextTransactionStep(transactionType, estimatedGasFee!),
+              _nextTransactionStep(transactionType, estimatedGasFee),
           networkSymbol: state.network?.symbol ?? '--');
     }
   }

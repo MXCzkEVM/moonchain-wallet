@@ -5,6 +5,7 @@ class Config {
   static const int ethDecimals = 18;
   static const String mxcSymbol = 'MXC';
   static const String mxcName = 'MXC Token';
+  static const priority = 1.5;
   static const String zeroAddress =
       '0x0000000000000000000000000000000000000000';
   static const String mxcAddressSepolia =
