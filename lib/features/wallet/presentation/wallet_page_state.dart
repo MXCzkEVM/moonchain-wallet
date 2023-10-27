@@ -32,6 +32,9 @@ class WalletState with EquatableMixin {
 
   StreamSubscription<dynamic>? subscription;
 
+  /// This stream is only used for chains other than MXC
+  StreamSubscription<void>? balancesUpdateSubscription;
+
   Network? network;
 
   double maxTweetViewHeight = 620;
