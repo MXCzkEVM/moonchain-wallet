@@ -30,8 +30,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     super.initState();
 
     getMXCTweets();
-    _transactionHistoryUseCase.checkForPendingTransactions(
-        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh().chainId);
+    checkForPendingTx();
 
     listen(_accountUserCase.account, (value) {
       if (value != null) {
@@ -52,14 +51,15 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         state.network = value;
         connectAndSubscribe();
         getTransactions();
+        resetBalanceUpdateStream();
       }
     });
 
     listen(_transactionHistoryUseCase.transactionsHistory, (value) {
-      if (state.network != null) {
-        if (!Config.isMxcChains(state.network!.chainId)) {
-          getCustomChainsTransactions(value);
-        }
+      if (state.network != null &&
+          !Config.isMxcChains(state.network!.chainId)) {
+        getCustomChainsTransactions(value);
+        initBalanceUpdateStream();
       }
     });
 
@@ -230,12 +230,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   void getCustomChainsTransactions(List<TransactionModel>? txHistory) {
     txHistory =
         txHistory ?? _transactionHistoryUseCase.getTransactionsHistory();
+    final chainTxHistory = txHistory;
 
-    if (state.network != null) {
-      final chainTxHistory = txHistory;
-
-      notify(() => state.txList = chainTxHistory);
-    }
+    notify(() => state.txList = chainTxHistory);
   }
 
   void getMXCTransactions() async {
@@ -458,6 +455,26 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   void checkMaxTweetHeight(double height) {
     if (height >= state.maxTweetViewHeight - 120) {
       notify(() => state.maxTweetViewHeight = height + 120);
+    }
+  }
+
+  void checkForPendingTx() {
+    _transactionHistoryUseCase.checkForPendingTransactions(
+        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh().chainId);
+  }
+
+  void initBalanceUpdateStream() {
+    state.balancesUpdateSubscription ??=
+        listen(_transactionHistoryUseCase.shouldUpdateBalances, (value) {
+      if (value) initializeBalancePanelAndTokens();
+    });
+  }
+
+  void resetBalanceUpdateStream() {
+    if (Config.isMxcChains(state.network!.chainId) &&
+        state.balancesUpdateSubscription != null) {
+      state.balancesUpdateSubscription!.cancel();
+      state.balancesUpdateSubscription = null;
     }
   }
 }

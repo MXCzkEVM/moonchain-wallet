@@ -15,6 +15,8 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
 
   List<TransactionModel> getTransactionsHistory() => _repository.items;
 
+  late final ValueStream<bool> shouldUpdateBalances = reactive(false);
+
   List<String> updatingTxList = [];
 
   void updateItem(
@@ -52,6 +54,7 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
     if (!updatingTxList.contains(item.hash)) {
       updatingTxList.add(item.hash);
       final stream = _web3Repository.tokenContract.spyTransaction(item.hash);
+
       stream.onData((succeeded) {
         if (succeeded) {
           final updatedItem = item.copyWith(status: TransactionStatus.done);
@@ -59,6 +62,7 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
             updatedItem,
           );
           updatingTxList.remove(item.hash);
+          update(shouldUpdateBalances, true);
           stream.cancel();
         }
       });
