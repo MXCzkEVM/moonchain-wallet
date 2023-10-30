@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/common/dialogs/wallet_address_dialog.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
@@ -230,7 +231,36 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         final hash = await _sendTransaction(
             bridge.to!, amountEther, bridgeData, estimatedGasFee, url,
             from: bridge.from);
-        if (hash != null) success.call(hash);
+        if (hash != null) {
+          success.call(hash);
+        } else {
+          /// We could have balance in a global state
+          final walletAddress = state.account!.address;
+          final balance = await _tokenContractUseCase
+              .getWalletNativeTokenBalance(walletAddress);
+          if (double.parse(balance) <= 0) {
+            if (Config.isMxcChains(state.network!.chainId)) {
+              showWalletAddressDialogMXCChains(
+                  context: context!,
+                  walletAddress: walletAddress,
+                  onL3Tap: () {
+                    final chainId = state.network!.chainId;
+                    final l3BridgeUri =
+                        Uri.parse(Urls.networkL3Bridge(chainId));
+                    state.webviewController!
+                        .loadUrl(urlRequest: URLRequest(url: l3BridgeUri));
+                  },
+                  launchUrlInPlatformDefault:
+                      _chainConfigurationUseCase.launchUrlInPlatformDefault);
+            } else {
+              final networkSymbol = state.network!.symbol;
+              showWalletAddressDialogOtherChains(
+                  context: context!,
+                  walletAddress: walletAddress,
+                  networkSymbol: networkSymbol);
+            }
+          }
+        }
       } else {
         cancel.call();
       }
