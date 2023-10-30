@@ -92,6 +92,11 @@ class ChooseCryptoPage extends HookConsumerWidget {
                           SendCryptoPage(
                             token: token,
                             qrCode: qrCode,
+                            isBalanceZero:
+                                ref.watch(state).tokens?[0].balance == null
+                                    ? false
+                                    : ref.watch(state).tokens![0].balance! <=
+                                        0.0,
                           ),
                         ),
                       ),

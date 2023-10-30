@@ -49,6 +49,13 @@ class TokensBalanceList extends HookConsumerWidget {
                                     route.featureDialog(
                                       SendCryptoPage(
                                         token: token,
+                                        isBalanceZero: portfolioState
+                                                    .tokensList?[0].balance ==
+                                                null
+                                            ? false
+                                            : portfolioState
+                                                    .tokensList![0].balance! <=
+                                                0.0,
                                       ),
                                     ),
                                   ),
