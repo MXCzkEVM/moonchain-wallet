@@ -26,6 +26,10 @@ class Config {
     return chainId == mxcMainnetChainId || chainId == mxcTestnetChainId;
   }
 
+  static bool isMXCMainnet(int chainId) {
+    return chainId == mxcMainnetChainId;
+  }
+
   static bool isEthereumMainnet(int chainId) {
     return chainId == ethereumMainnetChainId;
   }
