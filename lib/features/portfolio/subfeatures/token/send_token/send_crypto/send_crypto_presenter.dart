@@ -1,8 +1,11 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/config.dart';
+import 'package:datadashwallet/common/dialogs/wallet_address_dialog.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +18,12 @@ import 'send_crypto_state.dart';
 import 'widgets/transaction_dialog.dart';
 
 class SendCryptoArguments with EquatableMixin {
-  const SendCryptoArguments({
-    required this.token,
-    this.qrCode,
-  });
+  const SendCryptoArguments(
+      {required this.token, this.qrCode, required this.isBalanceZero});
 
   final Token token;
   final String? qrCode;
+  final bool isBalanceZero;
 
   @override
   List<dynamic> get props => [token, qrCode];
@@ -29,16 +31,17 @@ class SendCryptoArguments with EquatableMixin {
 
 final sendTokenPageContainer = PresenterContainerWithParameter<
         SendCryptoPresenter, SendCryptoState, SendCryptoArguments>(
-    (params) => SendCryptoPresenter(
-          params.token,
-          params.qrCode,
-        ));
+    (params) =>
+        SendCryptoPresenter(params.token, params.qrCode, params.isBalanceZero));
 
 class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
-  SendCryptoPresenter(this.token, String? qrCode)
+  SendCryptoPresenter(this.token, String? qrCode, this.isBalanceZero)
       : super(SendCryptoState()..qrCode = qrCode);
 
   final Token token;
+
+  // Native token balance
+  final bool isBalanceZero;
 
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
@@ -48,6 +51,9 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   late final _chainConfigurationUserCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final accountInfo = ref.read(appNavBarContainer.state);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
+
   late final TextEditingController amountController = TextEditingController();
   late final TextEditingController recipientController =
       TextEditingController();
@@ -215,10 +221,14 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return gasFee;
     } catch (e, s) {
-      if (e is RPCError) {
-        String errorMessage = e.message;
-        errorMessage = changeErrorMessage(errorMessage);
-        addError(errorMessage);
+      if (isBalanceZero) {
+        showReceiveBottomSheet();
+      } else {
+        if (e is RPCError) {
+          String errorMessage = e.message;
+          errorMessage = changeErrorMessage(errorMessage);
+          addError(errorMessage);
+        }
       }
     } finally {
       loading = false;
@@ -279,6 +289,33 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       return translate('insufficient_balance_for_fee') ?? message;
     }
     return message;
+  }
+
+  void showReceiveBottomSheet() {
+    final walletAddress = state.account!.address;
+    if (Config.isMxcChains(state.network!.chainId)) {
+      showWalletAddressDialogMXCChains(
+          context: context!,
+          walletAddress: walletAddress,
+          onL3Tap: () {
+            final chainId = state.network!.chainId;
+            final l3BridgeUri = Urls.networkL3Bridge(chainId);
+            Navigator.of(context!).push(route.featureDialog(
+              maintainState: false,
+              OpenAppPage(
+                url: l3BridgeUri,
+              ),
+            ));
+          },
+          launchUrlInPlatformDefault:
+              _chainConfigurationUseCase.launchUrlInPlatformDefault);
+    } else {
+      final networkSymbol = state.network!.symbol;
+      showWalletAddressDialogOtherChains(
+          context: context!,
+          walletAddress: walletAddress,
+          networkSymbol: networkSymbol);
+    }
   }
 
   @override

@@ -16,16 +16,19 @@ class SendCryptoPage extends HookConsumerWidget {
     Key? key,
     required this.token,
     this.qrCode,
+    required this.isBalanceZero
   }) : super(key: key);
 
   final Token token;
   final String? qrCode;
+  final bool isBalanceZero;
 
   @override
   ProviderBase<SendCryptoPresenter> get presenter =>
       sendTokenPageContainer.actions(SendCryptoArguments(
         token: token,
         qrCode: qrCode,
+        isBalanceZero: isBalanceZero
       ));
 
   @override
@@ -33,6 +36,7 @@ class SendCryptoPage extends HookConsumerWidget {
       sendTokenPageContainer.state(SendCryptoArguments(
         token: token,
         qrCode: qrCode,
+        isBalanceZero: isBalanceZero
       ));
 
   @override

@@ -10,6 +10,8 @@ class PortfolioState with EquatableMixin {
 
   String? walletAddress;
 
+  Network? network;
+
   bool switchTokensOrNFTs = true;
 
   String? ipfsGateway;

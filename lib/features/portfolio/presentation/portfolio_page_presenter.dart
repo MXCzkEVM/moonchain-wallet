@@ -1,5 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:flutter/material.dart';
 import 'portfolio_page_state.dart';
 
 final portfolioContainer =
@@ -28,6 +30,12 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
     listen(_chainConfigurationUseCase.networks, (value) {
       getBuyEnabled();
+    });
+
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        state.network = value;
+      }
     });
 
     listen(_accountUserCase.account, (value) {
@@ -89,6 +97,33 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
       return Urls.mxcMainnetNftMarketPlace;
     } else {
       return null;
+    }
+  }
+
+  void showReceiveBottomSheet() {
+    final walletAddress = state.walletAddress!;
+    if (Config.isMxcChains(state.network!.chainId)) {
+      showWalletAddressDialogMXCChains(
+          context: context!,
+          walletAddress: walletAddress,
+          onL3Tap: () {
+            final chainId = state.network!.chainId;
+            final l3BridgeUri = Urls.networkL3Bridge(chainId);
+            Navigator.of(context!).push(route.featureDialog(
+              maintainState: false,
+              OpenAppPage(
+                url: l3BridgeUri,
+              ),
+            ));
+          },
+          launchUrlInPlatformDefault:
+              _chainConfigurationUseCase.launchUrlInPlatformDefault);
+    } else {
+      final networkSymbol = state.network!.symbol;
+      showWalletAddressDialogOtherChains(
+          context: context!,
+          walletAddress: walletAddress,
+          networkSymbol: networkSymbol);
     }
   }
 }
