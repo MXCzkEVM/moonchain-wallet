@@ -20,33 +20,46 @@ class ErrorUseCase extends ReactiveUseCase {
   final AccountUseCase _accountUseCase;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
 
+  /// If error is known & handled will return true, otherwise return false.
   handleError(BuildContext context, dynamic e, {VoidCallback? onL3Tap}) {
     if (e is RPCError) {
-      handlerRPCError(context, e.message, onL3Tap!);
+      return handlerRPCError(context, e.message, onL3Tap!);
+    } else {
+      return false;
     }
   }
 
-  Future<void> handlerRPCError(
-      BuildContext context, String message, VoidCallback onL3Tap) async {
-    for (String error in Config.fundErrors) {
-      if (message.contains(error)) {
-        final network = _chainConfigurationUseCase.selectedNetwork.value!;
-        final walletAddress = _accountUseCase.account.value!.address;
-        showReceiveBottomSheet(
+  bool handlerRPCError(
+      BuildContext context, String message, VoidCallback onL3Tap) {
+    final isInsufficientFundError = isFundError(message);
+    if (isInsufficientFundError) {
+      final network = _chainConfigurationUseCase.selectedNetwork.value!;
+      final walletAddress = _accountUseCase.account.value!.address;
+      showReceiveBottomSheet(
           context,
           walletAddress,
           network.chainId,
           network.symbol,
           onL3Tap,
           _chainConfigurationUseCase.launchUrlInPlatformDefault,
-        );
-        break;
-      }
+          true);
     }
 
+    return isInsufficientFundError;
     // String errorMessage = message;
     // errorMessage = changeErrorMessage(errorMessage);
     // addError(errorMessage);
+  }
+
+  bool isFundError(String message) {
+    bool isError = false;
+    for (String error in Config.fundErrors) {
+      if (message.contains(error)) {
+        isError = true;
+        break;
+      }
+    }
+    return isError;
   }
 
   // String _changeErrorMessage(String message) {

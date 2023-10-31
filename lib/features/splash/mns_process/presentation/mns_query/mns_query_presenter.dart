@@ -93,6 +93,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
                 ));
               },
               _chainConfigurationUseCase.launchUrlInPlatformDefault,
+              true,
             );
           } else {
             navigator?.replaceAll(route(const DAppsPage()));
