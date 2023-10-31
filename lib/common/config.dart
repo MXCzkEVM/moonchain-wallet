@@ -46,4 +46,15 @@ class Config {
   static String addressExplorer(String address) {
     return 'address/$address';
   }
+
+  /// If error happens with these messages then we will need to show receive bottom sheet
+  static List<String> fundErrors = [
+    // User doesn't have enough to pay for native token transfer
+    // Zero native token balance or not enough for fee
+    'gas required exceeds allowance',
+    // Sending more than tokens balance
+    'execution reverted: ERC20: transfer amount exceeds balance',
+    // Sending more than native token balance
+    'insufficient funds for gas * price + value'
+  ];
 }

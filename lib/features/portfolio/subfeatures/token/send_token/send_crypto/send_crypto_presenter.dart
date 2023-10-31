@@ -1,6 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/config.dart';
-import 'package:datadashwallet/common/dialogs/wallet_address_dialog.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
@@ -18,30 +17,35 @@ import 'send_crypto_state.dart';
 import 'widgets/transaction_dialog.dart';
 
 class SendCryptoArguments with EquatableMixin {
-  const SendCryptoArguments(
-      {required this.token, this.qrCode, required this.isBalanceZero});
+  const SendCryptoArguments({
+    required this.token,
+    this.qrCode,
+  });
 
   final Token token;
   final String? qrCode;
-  final bool isBalanceZero;
 
   @override
-  List<dynamic> get props => [token, qrCode];
+  List<dynamic> get props => [
+        token,
+        qrCode,
+      ];
 }
 
 final sendTokenPageContainer = PresenterContainerWithParameter<
         SendCryptoPresenter, SendCryptoState, SendCryptoArguments>(
-    (params) =>
-        SendCryptoPresenter(params.token, params.qrCode, params.isBalanceZero));
+    (params) => SendCryptoPresenter(
+          params.token,
+          params.qrCode,
+        ));
 
 class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
-  SendCryptoPresenter(this.token, String? qrCode, this.isBalanceZero)
-      : super(SendCryptoState()..qrCode = qrCode);
+  SendCryptoPresenter(
+    this.token,
+    String? qrCode,
+  ) : super(SendCryptoState()..qrCode = qrCode);
 
   final Token token;
-
-  // Native token balance
-  final bool isBalanceZero;
 
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
@@ -53,6 +57,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   late final accountInfo = ref.read(appNavBarContainer.state);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _errorUseCase = ref.read(errorUseCaseProvider);
 
   late final TextEditingController amountController = TextEditingController();
   late final TextEditingController recipientController =
@@ -221,15 +226,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return gasFee;
     } catch (e, s) {
-      if (isBalanceZero) {
-        showReceiveBottomSheet();
-      } else {
-        if (e is RPCError) {
-          String errorMessage = e.message;
-          errorMessage = changeErrorMessage(errorMessage);
-          addError(errorMessage);
-        }
-      }
+      callErrorHandler(e, s);
     } finally {
       loading = false;
     }
@@ -271,50 +268,28 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return res;
     } catch (e, s) {
-      if (e is RPCError) {
-        if (BottomFlowDialog.maybeOf(context!) != null) {
-          BottomFlowDialog.of(context!).close();
-        }
-        String errorMessage = e.message;
-        errorMessage = changeErrorMessage(errorMessage);
-        addError(errorMessage);
+      if (BottomFlowDialog.maybeOf(context!) != null) {
+        BottomFlowDialog.of(context!).close();
       }
+      callErrorHandler(e, s);
     } finally {
       loading = false;
     }
   }
 
-  String changeErrorMessage(String message) {
-    if (message.contains('gas required exceeds allowance')) {
-      return translate('insufficient_balance_for_fee') ?? message;
-    }
-    return message;
-  }
-
-  void showReceiveBottomSheet() {
-    final walletAddress = state.account!.address;
-    if (Config.isMxcChains(state.network!.chainId)) {
-      showWalletAddressDialogMXCChains(
-          context: context!,
-          walletAddress: walletAddress,
-          onL3Tap: () {
-            final chainId = state.network!.chainId;
-            final l3BridgeUri = Urls.networkL3Bridge(chainId);
-            Navigator.of(context!).push(route.featureDialog(
-              maintainState: false,
-              OpenAppPage(
-                url: l3BridgeUri,
-              ),
-            ));
-          },
-          launchUrlInPlatformDefault:
-              _chainConfigurationUseCase.launchUrlInPlatformDefault);
-    } else {
-      final networkSymbol = state.network!.symbol;
-      showWalletAddressDialogOtherChains(
-          context: context!,
-          walletAddress: walletAddress,
-          networkSymbol: networkSymbol);
+  void callErrorHandler(dynamic e, StackTrace s) {
+    final isHandled = _errorUseCase.handleError(context!, e, onL3Tap: () {
+      final chainId = state.network!.chainId;
+      final l3BridgeUri = Urls.networkL3Bridge(chainId);
+      Navigator.of(context!).push(route.featureDialog(
+        maintainState: false,
+        OpenAppPage(
+          url: l3BridgeUri,
+        ),
+      ));
+    });
+    if (!isHandled) {
+      addError(e, s);
     }
   }
 

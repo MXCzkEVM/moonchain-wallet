@@ -155,3 +155,11 @@ final Provider<ChainsUseCase> chainsUseCaseProvider = Provider(
     ref.watch(authUseCaseProvider),
   ),
 );
+
+final Provider<ErrorUseCase> errorUseCaseProvider = Provider(
+  (ref) => ErrorUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(accountUseCaseProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+  ),
+);
