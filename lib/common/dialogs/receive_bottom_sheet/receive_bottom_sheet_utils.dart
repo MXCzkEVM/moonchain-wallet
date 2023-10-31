@@ -9,20 +9,13 @@ void showReceiveBottomSheet(
     String walletAddress,
     int chainId,
     String networkSymbol,
+    VoidCallback onL3Tap,
     void Function(String url) launchUrlInPlatformDefault) {
   if (Config.isMxcChains(chainId)) {
     showWalletAddressDialogMXCChains(
         context: context,
         walletAddress: walletAddress,
-        onL3Tap: () {
-          final l3BridgeUri = Urls.networkL3Bridge(chainId);
-          Navigator.of(context).push(route.featureDialog(
-            maintainState: false,
-            OpenAppPage(
-              url: l3BridgeUri,
-            ),
-          ));
-        },
+        onL3Tap: () => onL3Tap(),
         launchUrlInPlatformDefault: launchUrlInPlatformDefault);
   } else {
     showWalletAddressDialogOtherChains(
