@@ -14,7 +14,6 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'portfolio_page_presenter.dart';
-import '../../../common/dialogs/wallet_address_dialog.dart';
 
 class PortfolioPage extends HookConsumerWidget {
   const PortfolioPage({Key? key}) : super(key: key);

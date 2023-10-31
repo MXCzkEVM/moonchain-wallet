@@ -9,11 +9,15 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class ReceiveBottomSheet extends StatelessWidget {
   const ReceiveBottomSheet(
-      {Key? key, this.walletAddress, required this.noticeComponents})
+      {Key? key,
+      this.walletAddress,
+      required this.noticeComponents,
+      required this.showError})
       : super(key: key);
 
   final String? walletAddress;
   final List<Widget> noticeComponents;
+  final bool showError;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +52,12 @@ class ReceiveBottomSheet extends StatelessWidget {
                 ),
               ),
             ),
+            if (showError)
+              Text(
+                FlutterI18n.translate(context, 'insufficient_funds_notice'),
+                style: FontTheme.of(context).body1.error(),
+                textAlign: TextAlign.center,
+              ),
             QrImageView(
               data: walletAddress ?? '',
               size: 215,

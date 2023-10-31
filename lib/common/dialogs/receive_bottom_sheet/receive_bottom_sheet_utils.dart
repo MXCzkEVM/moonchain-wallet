@@ -10,18 +10,21 @@ void showReceiveBottomSheet(
     int chainId,
     String networkSymbol,
     VoidCallback onL3Tap,
-    void Function(String url) launchUrlInPlatformDefault) {
+    void Function(String url) launchUrlInPlatformDefault,
+    bool showError) {
   if (Config.isMxcChains(chainId)) {
     showWalletAddressDialogMXCChains(
         context: context,
         walletAddress: walletAddress,
         onL3Tap: () => onL3Tap(),
-        launchUrlInPlatformDefault: launchUrlInPlatformDefault);
+        launchUrlInPlatformDefault: launchUrlInPlatformDefault,
+        showError: showError);
   } else {
     showWalletAddressDialogOtherChains(
         context: context,
         walletAddress: walletAddress,
-        networkSymbol: networkSymbol);
+        networkSymbol: networkSymbol,
+        showError: showError);
   }
 }
 
@@ -29,7 +32,8 @@ void showWalletAddressDialogMXCChains(
         {required BuildContext context,
         required String walletAddress,
         required VoidCallback onL3Tap,
-        required Function(String) launchUrlInPlatformDefault}) =>
+        required Function(String) launchUrlInPlatformDefault,
+        required bool showError}) =>
     showWalletAddressDialog(
         context: context,
         walletAddress: walletAddress,
@@ -42,12 +46,14 @@ void showWalletAddressDialogMXCChains(
           BlackBox(
               child: applyTextStyle(
                   context, depositWithL3BridgeNotice(context, onL3Tap))),
-        ]);
+        ],
+        showError: showError);
 
 void showWalletAddressDialogOtherChains(
         {required BuildContext context,
         required String walletAddress,
-        required String networkSymbol}) =>
+        required String networkSymbol,
+        required bool showError}) =>
     showWalletAddressDialog(
         context: context,
         walletAddress: walletAddress,
@@ -55,19 +61,24 @@ void showWalletAddressDialogOtherChains(
           BlackBox(
               child: applyTextStyle(
                   context, buySomeXForFeeNotice(context, networkSymbol)))
-        ]);
+        ],
+        showError: showError);
 
-void showWalletAddressDialogSimple({
-  required BuildContext context,
-  required String walletAddress,
-}) =>
+void showWalletAddressDialogSimple(
+        {required BuildContext context,
+        required String walletAddress,
+        required bool showError}) =>
     showWalletAddressDialog(
-        context: context, walletAddress: walletAddress, noticeComponents: []);
+        context: context,
+        walletAddress: walletAddress,
+        noticeComponents: [],
+        showError: showError);
 
 void showWalletAddressDialog(
     {required BuildContext context,
     required String walletAddress,
-    required List<Widget> noticeComponents}) {
+    required List<Widget> noticeComponents,
+    required bool showError}) {
   showModalBottomSheet<bool>(
     context: context,
     useRootNavigator: true,
@@ -77,6 +88,7 @@ void showWalletAddressDialog(
     builder: (BuildContext context) => ReceiveBottomSheet(
       walletAddress: walletAddress,
       noticeComponents: noticeComponents,
+      showError: showError,
     ),
   );
 }
