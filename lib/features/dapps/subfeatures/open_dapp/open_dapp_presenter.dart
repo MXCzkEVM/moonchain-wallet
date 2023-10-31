@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/common/dialogs/wallet_address_dialog.dart';
+
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
+import 'package:web3dart/json_rpc.dart';
 
 import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
@@ -87,26 +88,18 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<String?> _sendTransaction(String to, EtherAmount amount,
       Uint8List? data, EstimatedGasFee? estimatedGasFee, String url,
       {String? from}) async {
-    loading = true;
-    try {
-      final res = await _tokenContractUseCase.sendTransaction(
-          privateKey: state.account!.privateKey,
-          to: to,
-          from: from,
-          amount: amount,
-          data: data,
-          estimatedGasFee: estimatedGasFee);
-      if (!Config.isMxcChains(state.network!.chainId) &&
-          Config.isL3Bridge(url)) {
-        recordTransaction(res);
-      }
-
-      return res;
-    } catch (e, s) {
-      addError(e, s);
-    } finally {
-      loading = false;
+    final res = await _tokenContractUseCase.sendTransaction(
+        privateKey: state.account!.privateKey,
+        to: to,
+        from: from,
+        amount: amount,
+        data: data,
+        estimatedGasFee: estimatedGasFee);
+    if (!Config.isMxcChains(state.network!.chainId) && Config.isL3Bridge(url)) {
+      recordTransaction(res);
     }
+
+    return res;
   }
 
   String? _signTypedMessage(
@@ -228,46 +221,59 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           symbol: symbol);
 
       if (result != null && result) {
+        loading = true;
+
         final hash = await _sendTransaction(
             bridge.to!, amountEther, bridgeData, estimatedGasFee, url,
             from: bridge.from);
-        if (hash != null) {
-          success.call(hash);
-        } else {
-          /// We could have balance in a global state
-          final walletAddress = state.account!.address;
-          final balance = await _tokenContractUseCase
-              .getWalletNativeTokenBalance(walletAddress);
-          if (double.parse(balance) <= 0) {
-            if (Config.isMxcChains(state.network!.chainId)) {
-              showWalletAddressDialogMXCChains(
-                  context: context!,
-                  walletAddress: walletAddress,
-                  onL3Tap: () {
-                    final chainId = state.network!.chainId;
-                    final l3BridgeUri =
-                        Uri.parse(Urls.networkL3Bridge(chainId));
-                    state.webviewController!
-                        .loadUrl(urlRequest: URLRequest(url: l3BridgeUri));
-                  },
-                  launchUrlInPlatformDefault:
-                      _chainConfigurationUseCase.launchUrlInPlatformDefault);
-            } else {
-              final networkSymbol = state.network!.symbol;
-              showWalletAddressDialogOtherChains(
-                  context: context!,
-                  walletAddress: walletAddress,
-                  networkSymbol: networkSymbol);
-            }
-          }
-        }
+        if (hash != null) success.call(hash);
       } else {
         cancel.call();
       }
     } catch (e, s) {
       cancel.call();
+      if (e is RPCError) {
+        handleError(e.message);
+      }
       addError(e, s);
+    } finally {
+      loading = false;
     }
+  }
+
+  void handleError(String message) {
+    final isBottomSheetShown = checkBalanceErrors(message);
+
+    // String errorMessage = message;
+    // errorMessage = changeErrorMessage(errorMessage);
+    // addError(errorMessage);
+  }
+
+  bool checkBalanceErrors(String message) {
+    bool isShown = false;
+    for (String error in Config.fundErrors) {
+      if (message.contains(error)) {
+        final network = state.network!;
+        final walletAddress = state.account!.address;
+        showReceiveBottomSheet(
+          context!,
+          walletAddress,
+          network.chainId,
+          network.symbol,
+          () {
+            navigator!.pop();
+            final chainId = state.network!.chainId;
+            final l3BridgeUri = Uri.parse(Urls.networkL3Bridge(chainId));
+            state.webviewController!
+                .loadUrl(urlRequest: URLRequest(url: l3BridgeUri));
+          },
+          _chainConfigurationUseCase.launchUrlInPlatformDefault,
+        );
+        isShown = true;
+        break;
+      }
+    }
+    return isShown;
   }
 
   Future<bool?> addEthereumChain(
