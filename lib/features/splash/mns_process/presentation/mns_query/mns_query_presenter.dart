@@ -2,9 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/common/dialogs/wallet_address_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/src/consumer.dart';
 import 'mns_query_state.dart';
 import '../widgets/no_balance_dialog.dart';
 
@@ -77,30 +75,15 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
         final result = await showNoBalanceDialog(context!);
         if (result != null) {
           if (result) {
+            final network = state.network!;
             final walletAddress = state.walletAddress!;
-            if (Config.isMxcChains(state.network!.chainId)) {
-              showWalletAddressDialogMXCChains(
-                  context: context!,
-                  walletAddress: walletAddress,
-                  onL3Tap: () {
-                    final chainId = state.network!.chainId;
-                    final l3BridgeUri = Urls.networkL3Bridge(chainId);
-                    Navigator.of(context!).push(route.featureDialog(
-                      maintainState: false,
-                      OpenAppPage(
-                        url: l3BridgeUri,
-                      ),
-                    ));
-                  },
-                  launchUrlInPlatformDefault:
-                      _chainConfigurationUseCase.launchUrlInPlatformDefault);
-            } else {
-              final networkSymbol = state.network!.symbol;
-              showWalletAddressDialogOtherChains(
-                  context: context!,
-                  walletAddress: walletAddress,
-                  networkSymbol: networkSymbol);
-            }
+            showReceiveBottomSheet(
+              context!,
+              walletAddress,
+              network.chainId,
+              network.symbol,
+              _chainConfigurationUseCase.launchUrlInPlatformDefault,
+            );
           } else {
             navigator?.replaceAll(route(const DAppsPage()));
           }
