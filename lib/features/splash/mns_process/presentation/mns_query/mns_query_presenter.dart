@@ -77,11 +77,21 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
           if (result) {
             final network = state.network!;
             final walletAddress = state.walletAddress!;
+            final chainId = network.chainId;
             showReceiveBottomSheet(
               context!,
               walletAddress,
               network.chainId,
               network.symbol,
+              () {
+                final l3BridgeUri = Urls.networkL3Bridge(chainId);
+                Navigator.of(context!).push(route.featureDialog(
+                  maintainState: false,
+                  OpenAppPage(
+                    url: l3BridgeUri,
+                  ),
+                ));
+              },
               _chainConfigurationUseCase.launchUrlInPlatformDefault,
             );
           } else {

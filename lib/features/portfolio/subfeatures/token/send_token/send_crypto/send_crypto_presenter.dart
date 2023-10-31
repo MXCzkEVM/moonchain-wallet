@@ -1,6 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/config.dart';
-import 'package:datadashwallet/common/dialogs/wallet_address_dialog.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
@@ -221,14 +220,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return gasFee;
     } catch (e, s) {
-      if (isBalanceZero) {
-        showReceiveBottomSheet();
-      } else {
-        if (e is RPCError) {
-          String errorMessage = e.message;
-          errorMessage = changeErrorMessage(errorMessage);
-          addError(errorMessage);
-        }
+      if (e is RPCError) {
+        handleError(e.message);
       }
     } finally {
       loading = false;
@@ -275,30 +268,34 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         if (BottomFlowDialog.maybeOf(context!) != null) {
           BottomFlowDialog.of(context!).close();
         }
-        String errorMessage = e.message;
-        errorMessage = changeErrorMessage(errorMessage);
-        addError(errorMessage);
+        handleError(e.message);
       }
     } finally {
       loading = false;
     }
   }
 
-  String changeErrorMessage(String message) {
-    if (message.contains('gas required exceeds allowance')) {
-      return translate('insufficient_balance_for_fee') ?? message;
-    }
-    return message;
+  void handleError(String message) {
+    final isBottomSheetShown = checkBalanceErrors(message);
+
+    // String errorMessage = message;
+    // errorMessage = changeErrorMessage(errorMessage);
+    // addError(errorMessage);
   }
 
-  void showReceiveBottomSheet() {
-    final walletAddress = state.account!.address;
-    if (Config.isMxcChains(state.network!.chainId)) {
-      showWalletAddressDialogMXCChains(
-          context: context!,
-          walletAddress: walletAddress,
-          onL3Tap: () {
-            final chainId = state.network!.chainId;
+  bool checkBalanceErrors(String message) {
+    bool isShown = false;
+    for (String error in Config.fundErrors) {
+      if (message.contains(error)) {
+        final network = state.network!;
+        final walletAddress = state.account!.address;
+        final chainId = network.chainId;
+        showReceiveBottomSheet(
+          context!,
+          walletAddress,
+          chainId,
+          network.symbol,
+          () {
             final l3BridgeUri = Urls.networkL3Bridge(chainId);
             Navigator.of(context!).push(route.featureDialog(
               maintainState: false,
@@ -307,17 +304,15 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
               ),
             ));
           },
-          launchUrlInPlatformDefault:
-              _chainConfigurationUseCase.launchUrlInPlatformDefault);
-    } else {
-      final networkSymbol = state.network!.symbol;
-      showWalletAddressDialogOtherChains(
-          context: context!,
-          walletAddress: walletAddress,
-          networkSymbol: networkSymbol);
+          _chainConfigurationUseCase.launchUrlInPlatformDefault,
+        );
+        isShown = true;
+        break;
+      }
     }
+    return isShown;
   }
-
+  
   @override
   Future<void> dispose() async {
     super.dispose();
