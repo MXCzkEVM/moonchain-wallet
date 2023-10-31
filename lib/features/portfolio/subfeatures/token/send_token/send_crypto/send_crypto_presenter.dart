@@ -17,30 +17,35 @@ import 'send_crypto_state.dart';
 import 'widgets/transaction_dialog.dart';
 
 class SendCryptoArguments with EquatableMixin {
-  const SendCryptoArguments(
-      {required this.token, this.qrCode, required this.isBalanceZero});
+  const SendCryptoArguments({
+    required this.token,
+    this.qrCode,
+  });
 
   final Token token;
   final String? qrCode;
-  final bool isBalanceZero;
 
   @override
-  List<dynamic> get props => [token, qrCode];
+  List<dynamic> get props => [
+        token,
+        qrCode,
+      ];
 }
 
 final sendTokenPageContainer = PresenterContainerWithParameter<
         SendCryptoPresenter, SendCryptoState, SendCryptoArguments>(
-    (params) =>
-        SendCryptoPresenter(params.token, params.qrCode, params.isBalanceZero));
+    (params) => SendCryptoPresenter(
+          params.token,
+          params.qrCode,
+        ));
 
 class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
-  SendCryptoPresenter(this.token, String? qrCode, this.isBalanceZero)
-      : super(SendCryptoState()..qrCode = qrCode);
+  SendCryptoPresenter(
+    this.token,
+    String? qrCode,
+  ) : super(SendCryptoState()..qrCode = qrCode);
 
   final Token token;
-
-  // Native token balance
-  final bool isBalanceZero;
 
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
