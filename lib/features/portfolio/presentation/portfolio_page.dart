@@ -96,7 +96,7 @@ class PortfolioPage extends HookConsumerWidget {
                               .iconButtonBackgroundActive,
                           color: ColorsTheme.of(context).iconButtonInvertActive,
                           icon: MxcIcons.receive,
-                          onTap: () => presenter.showReceiveBottomSheet(),
+                          onTap: () => presenter.showReceiveSheet(),
                           titleStyle: FontTheme.of(context).subtitle1.primary(),
                           iconSize: 24,
                           filled: false,

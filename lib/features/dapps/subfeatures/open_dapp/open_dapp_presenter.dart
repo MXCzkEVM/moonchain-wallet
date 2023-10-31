@@ -32,6 +32,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _customTokensUseCase = ref.read(customTokensUseCaseProvider);
+  late final _errorUseCase = ref.read(errorUseCaseProvider);
 
   @override
   void initState() {
@@ -232,48 +233,27 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       }
     } catch (e, s) {
       cancel.call();
-      if (e is RPCError) {
-        handleError(e.message);
-      }
-      addError(e, s);
+      callErrorHandler(e, s);
     } finally {
       loading = false;
     }
   }
 
-  void handleError(String message) {
-    final isBottomSheetShown = checkBalanceErrors(message);
-
-    // String errorMessage = message;
-    // errorMessage = changeErrorMessage(errorMessage);
-    // addError(errorMessage);
-  }
-
-  bool checkBalanceErrors(String message) {
-    bool isShown = false;
-    for (String error in Config.fundErrors) {
-      if (message.contains(error)) {
-        final network = state.network!;
-        final walletAddress = state.account!.address;
-        showReceiveBottomSheet(
-          context!,
-          walletAddress,
-          network.chainId,
-          network.symbol,
-          () {
-            navigator!.pop();
-            final chainId = state.network!.chainId;
-            final l3BridgeUri = Uri.parse(Urls.networkL3Bridge(chainId));
-            state.webviewController!
-                .loadUrl(urlRequest: URLRequest(url: l3BridgeUri));
-          },
-          _chainConfigurationUseCase.launchUrlInPlatformDefault,
-        );
-        isShown = true;
-        break;
-      }
+  void callErrorHandler(dynamic e, StackTrace s) {
+    final isHandled = _errorUseCase.handleError(
+      context!,
+      e,
+      onL3Tap: () {
+        navigator!.pop();
+        final chainId = state.network!.chainId;
+        final l3BridgeUri = Uri.parse(Urls.networkL3Bridge(chainId));
+        state.webviewController!
+            .loadUrl(urlRequest: URLRequest(url: l3BridgeUri));
+      },
+    );
+    if (!isHandled) {
+      addError(e, s);
     }
-    return isShown;
   }
 
   Future<bool?> addEthereumChain(

@@ -52,6 +52,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   late final accountInfo = ref.read(appNavBarContainer.state);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _errorUseCase = ref.read(errorUseCaseProvider);
 
   late final TextEditingController amountController = TextEditingController();
   late final TextEditingController recipientController =
@@ -220,9 +221,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return gasFee;
     } catch (e, s) {
-      if (e is RPCError) {
-        handleError(e.message);
-      }
+      callErrorHandler(e, s);
     } finally {
       loading = false;
     }
@@ -264,55 +263,31 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return res;
     } catch (e, s) {
-      if (e is RPCError) {
-        if (BottomFlowDialog.maybeOf(context!) != null) {
-          BottomFlowDialog.of(context!).close();
-        }
-        handleError(e.message);
+      if (BottomFlowDialog.maybeOf(context!) != null) {
+        BottomFlowDialog.of(context!).close();
       }
+      callErrorHandler(e, s);
     } finally {
       loading = false;
     }
   }
 
-  void handleError(String message) {
-    final isBottomSheetShown = checkBalanceErrors(message);
-
-    // String errorMessage = message;
-    // errorMessage = changeErrorMessage(errorMessage);
-    // addError(errorMessage);
-  }
-
-  bool checkBalanceErrors(String message) {
-    bool isShown = false;
-    for (String error in Config.fundErrors) {
-      if (message.contains(error)) {
-        final network = state.network!;
-        final walletAddress = state.account!.address;
-        final chainId = network.chainId;
-        showReceiveBottomSheet(
-          context!,
-          walletAddress,
-          chainId,
-          network.symbol,
-          () {
-            final l3BridgeUri = Urls.networkL3Bridge(chainId);
-            Navigator.of(context!).push(route.featureDialog(
-              maintainState: false,
-              OpenAppPage(
-                url: l3BridgeUri,
-              ),
-            ));
-          },
-          _chainConfigurationUseCase.launchUrlInPlatformDefault,
-        );
-        isShown = true;
-        break;
-      }
+  void callErrorHandler(dynamic e, StackTrace s) {
+    final isHandled = _errorUseCase.handleError(context!, e, onL3Tap: () {
+      final chainId = state.network!.chainId;
+      final l3BridgeUri = Urls.networkL3Bridge(chainId);
+      Navigator.of(context!).push(route.featureDialog(
+        maintainState: false,
+        OpenAppPage(
+          url: l3BridgeUri,
+        ),
+      ));
+    });
+    if (!isHandled) {
+      addError(e, s);
     }
-    return isShown;
   }
-  
+
   @override
   Future<void> dispose() async {
     super.dispose();

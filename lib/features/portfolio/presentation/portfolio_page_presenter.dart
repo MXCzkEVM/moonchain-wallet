@@ -100,30 +100,18 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     }
   }
 
-  void showReceiveBottomSheet() {
+  void showReceiveSheet() {
     final walletAddress = state.walletAddress!;
-    if (Config.isMxcChains(state.network!.chainId)) {
-      showWalletAddressDialogMXCChains(
-          context: context!,
-          walletAddress: walletAddress,
-          onL3Tap: () {
-            final chainId = state.network!.chainId;
-            final l3BridgeUri = Urls.networkL3Bridge(chainId);
-            Navigator.of(context!).push(route.featureDialog(
-              maintainState: false,
-              OpenAppPage(
-                url: l3BridgeUri,
-              ),
-            ));
-          },
-          launchUrlInPlatformDefault:
-              _chainConfigurationUseCase.launchUrlInPlatformDefault);
-    } else {
-      final networkSymbol = state.network!.symbol;
-      showWalletAddressDialogOtherChains(
-          context: context!,
-          walletAddress: walletAddress,
-          networkSymbol: networkSymbol);
-    }
+    final chainId = state.network!.chainId;
+    final networkSymbol = state.network!.symbol;
+    showReceiveBottomSheet(context!, walletAddress, chainId, networkSymbol, () {
+      final l3BridgeUri = Urls.networkL3Bridge(chainId);
+      Navigator.of(context!).push(route.featureDialog(
+        maintainState: false,
+        OpenAppPage(
+          url: l3BridgeUri,
+        ),
+      ));
+    }, _chainConfigurationUseCase.launchUrlInPlatformDefault, false);
   }
 }
