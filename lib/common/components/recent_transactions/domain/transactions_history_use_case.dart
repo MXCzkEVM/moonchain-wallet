@@ -56,14 +56,21 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
       updatingTxList.add(item.hash);
       final stream = _web3Repository.tokenContract.spyTransaction(item.hash);
 
-      stream.onData((succeeded) {
-        if (succeeded) {
-          final updatedItem = item.copyWith(status: TransactionStatus.done);
+      stream.onData((receipt) {
+        if (receipt?.status ?? false) {
+          // success
+          final itemValue = item.value ??
+              (receipt!.gasUsed! * receipt.effectiveGasPrice!.getInWei)
+                  .toString();
+
+          final updatedItem =
+              item.copyWith(status: TransactionStatus.done, value: itemValue);
           updateItem(
             updatedItem,
           );
           updatingTxList.remove(item.hash);
           update(shouldUpdateBalances, true);
+
           stream.cancel();
         }
       });
