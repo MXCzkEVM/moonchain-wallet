@@ -36,20 +36,5 @@ echo "APPCENTER_DISTRIBUTION_GROUP_ID_ANDROID=${APPCENTER_DISTRIBUTION_GROUP_ID_
 # flutter build apk --profile
 flutter build apk --flavor product --release
 
-# if you need build bundle (AAB) in addition to your APK, uncomment line below and last line of this script.
-flutter build appbundle --flavor googlePlay --release --build-number $APPCENTER_BUILD_ID
-
 # copy the APK where AppCenter will find it
-mkdir -p android/app/build/outputs/apk/; mv build/app/outputs/apk/product/release/app-product-release.apk $_
-
-# copy the AAB where AppCenter will find it
-mkdir -p android/app/build/outputs/bundle/; mv build/app/outputs/bundle/googleplayRelease/app-googleplay-release.aab $_
-
-# To configure appCenter builds with Waldo UI Automation tool
-export WALDO_CLI_BIN=/usr/local/bin
-bash -c "$(curl -fLs https://github.com/waldoapp/waldo-go-cli/raw/master/install-waldo.sh)"
-
-# To configure appCenter builds with Waldo UI Automation tool
-export WALDO_UPLOAD_TOKEN=e8de69cc07c34d08807e3715286e67fe
-BUILD_PATH=android/app/build/outputs/apk/app-product-release.apk
-/usr/local/bin/waldo upload "$BUILD_PATH"
+mkdir -p android/app/build/outputs/apk/; mv build/app/outputs/apk/product/release/axs-wallet.apk $_

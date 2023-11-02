@@ -5,6 +5,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
 import 'mns_query_state.dart';
 import '../widgets/no_balance_dialog.dart';
+import 'mns_query_state.dart';
 
 final splashMNSQueryContainer =
     PresenterContainer<SplashMNSQueryPresenter, SplashMNSQueryState>(

@@ -87,6 +87,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
+
+    applicationVariants.all { variant ->
+       variant.outputs.all {
+           outputFileName = "axs-wallet.apk"
+       }
+   }
 }
 
 flutter {
