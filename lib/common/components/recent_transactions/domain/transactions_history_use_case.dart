@@ -48,6 +48,7 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
     update(transactionsHistory, _repository.items);
   }
 
+  /// This function will spy on the given transaction
   void spyOnTransaction(
     TransactionModel item,
   ) {
@@ -69,6 +70,8 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
     }
   }
 
+  /// This function will run through all the transactions and will start spying on
+  /// pending transactions
   void checkForPendingTransactions(int chainId) {
     if (!Config.isMxcChains(chainId)) {
       final txList = transactionsHistory.value;
