@@ -9,8 +9,8 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-export 'domain/transactions_use_case.dart';
-export 'domain/transactions_repository.dart';
+export 'domain/transactions_history_use_case.dart';
+export 'domain/transactions_history_repository.dart';
 
 class RecentTransactions extends HookConsumerWidget {
   const RecentTransactions({
