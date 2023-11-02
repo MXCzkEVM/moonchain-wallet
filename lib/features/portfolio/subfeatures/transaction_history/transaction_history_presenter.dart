@@ -20,6 +20,7 @@ class TransactionHistoryPresenter
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
+  late final _mxcTransactionsUseCase = ref.read(mxcTransactionsUseCaseProvider);
 
   @override
   void initState() {
@@ -92,61 +93,30 @@ class TransactionHistoryPresenter
       if (newTokenTransfersList != null && newTransactionsList != null) {
         // loading over and we have the data
         // merge
-        if (newTransactionsList.items != null) {
-          newTransactionsList = newTransactionsList.copyWith(
-              items: newTransactionsList.items!.where((element) {
-            if (element.txTypes != null) {
-              return element.txTypes!
-                  .any((element) => element == 'coin_transfer');
-            } else {
-              return false;
-            }
-          }).toList());
-        }
+        newTransactionsList = newTransactionsList.copyWith(
+            items: _mxcTransactionsUseCase.removeTokenTransfersFromTxList(
+                newTransactionsList.items!, newTokenTransfersList.items!));
 
         if (newTokenTransfersList.items != null) {
-          for (int i = 0; i < newTokenTransfersList.items!.length; i++) {
-            final item = newTokenTransfersList.items![i];
-            newTransactionsList.items!
-                .add(WannseeTransactionModel(tokenTransfers: [item]));
-          }
-          if (newTransactionsList.items!.isNotEmpty) {
-            newTransactionsList.items!.sort((a, b) {
-              final item1 = a.timestamp ?? a.tokenTransfers![0].timestamp;
-              final item2 = b.timestamp ?? b.tokenTransfers![0].timestamp;
+          _mxcTransactionsUseCase.addTokenTransfersToTxList(
+              newTransactionsList.items!, newTokenTransfersList.items!);
 
-              return item2!.compareTo(item1!);
-            });
-          }
+          _mxcTransactionsUseCase.sortByDate(newTransactionsList.items!);
 
-          final sevenDays = DateTime.now().subtract(const Duration(days: 7));
+          final sevenDays = DateTime.now()
+              .subtract(Duration(days: Config.transactionsHistoryLimit));
           newTransactionsList = newTransactionsList.copyWith(
-              items: newTransactionsList.items!.where((element) {
-            if (element.timestamp != null) {
-              return element.timestamp!.isAfter(sevenDays);
-            }
-            return element.tokenTransfers![0].timestamp!.isAfter(sevenDays);
-          }).toList());
+              items: _mxcTransactionsUseCase
+                  .applyTxDateLimit(newTransactionsList.items!));
 
-          newTransactionsList = newTransactionsList.copyWith(
-              items: newTransactionsList.items!.where((element) {
-            if (element.timestamp != null) {
-              return element.timestamp!.isAfter(sevenDays);
-            }
-            return element.tokenTransfers![0].timestamp!.isAfter(sevenDays);
-          }).toList());
+          final finalTxList = _mxcTransactionsUseCase.axsTxListFromMxcTxList(
+              newTransactionsList.items!, state.account!.address);
 
-          final newTxList = newTransactionsList.items!
-              .map((e) => TransactionModel.fromMXCTransaction(
-                  e, state.account!.address))
-              .toList();
-          newTxList.removeWhere(
-            (element) => element.hash == "Unknown",
-          );
+          _mxcTransactionsUseCase.removeInvalidTx(finalTxList);
 
           notify(() {
-            state.transactions = newTxList;
-            state.filterTransactions = newTxList;
+            state.transactions = finalTxList;
+            state.filterTransactions = finalTxList;
           });
         }
       }
@@ -181,6 +151,12 @@ class TransactionHistoryPresenter
           return transactionType == item.type;
         }).toList();
 
+        if (SortOption.amount == sortOption) {
+          result = state.transactions!.where((item) {
+            return TransactionType.contractCall != item.type;
+          }).toList();
+        }
+
         result.sort((a, b) {
           if (SortOption.date == sortOption) {
             final item1 = a.timeStamp;
@@ -194,8 +170,8 @@ class TransactionHistoryPresenter
               return item2.compareTo(item1);
             }
           } else {
-            final item1 = double.parse(a.value);
-            final item2 = double.parse(b.value);
+            final item1 = double.parse(a.value!);
+            final item2 = double.parse(b.value!);
 
             if (SortType.increase == amountSort) {
               return item1.compareTo(item2);
