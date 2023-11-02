@@ -24,6 +24,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
+  late final _mxcTransactionsUseCase = ref.read(mxcTransactionsUseCaseProvider);
 
   @override
   void initState() {
@@ -249,56 +250,28 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         // loading over and we have the data
         state.isTxListLoading = false;
         // merge
-        if (newTransactionsList.items != null) {
+        if (newTransactionsList.items != null &&
+            newTokenTransfersList.items != null) {
+          // Separating token transfer from all transaction since they have different structure
           newTransactionsList = newTransactionsList.copyWith(
-              items: newTransactionsList.items!.where((element) {
-            if (element.txTypes != null) {
-              return element.txTypes!
-                  .any((element) => element == 'coin_transfer');
-            } else {
-              return false;
-            }
-          }).toList());
+              items: _mxcTransactionsUseCase.removeTokenTransfersFromTxList(
+                  newTransactionsList.items!, newTokenTransfersList.items!));
         }
 
         if (newTokenTransfersList.items != null) {
-          for (int i = 0; i < newTokenTransfersList.items!.length; i++) {
-            final item = newTokenTransfersList.items![i];
-            newTransactionsList.items!
-                .add(WannseeTransactionModel(tokenTransfers: [item]));
-          }
-          if (newTransactionsList.items!.isNotEmpty) {
-            newTransactionsList.items!.sort((a, b) {
-              if (b.timestamp == null && a.timestamp == null) {
-                // both token transfer
-                return b.tokenTransfers![0].timestamp!
-                    .compareTo(a.tokenTransfers![0].timestamp!);
-              } else if (b.timestamp != null && a.timestamp != null) {
-                // both coin transfer
-                return b.timestamp!.compareTo(a.timestamp!);
-              } else if (b.timestamp == null) {
-                // b is token transfer
-                return b.tokenTransfers![0].timestamp!.compareTo(a.timestamp!);
-              } else {
-                // a is token transfer
-                return b.timestamp!.compareTo(a.tokenTransfers![0].timestamp!);
-              }
-            });
-          }
+          _mxcTransactionsUseCase.addTokenTransfersToTxList(
+              newTransactionsList.items!, newTokenTransfersList.items!);
 
-          if (newTransactionsList.items!.length > 6) {
-            newTransactionsList = newTransactionsList.copyWith(
-                items: newTransactionsList.items!.sublist(0, 6));
-          }
+          _mxcTransactionsUseCase.sortByDate(newTransactionsList.items!);
 
-          final finalTxList = newTransactionsList.items!
-              .map((e) => TransactionModel.fromMXCTransaction(
-                  e, state.account!.address))
-              .toList();
+          newTransactionsList = newTransactionsList.copyWith(
+              items: _mxcTransactionsUseCase
+                  .keepOnlySixTransactions(newTransactionsList.items!));
 
-          finalTxList.removeWhere(
-            (element) => element.hash == "Unknown",
-          );
+          final finalTxList = _mxcTransactionsUseCase.axsTxListFromMxcTxList(
+              newTransactionsList.items!, state.account!.address);
+
+          _mxcTransactionsUseCase.removeInvalidTx(finalTxList);
 
           notify(() => state.txList = finalTxList);
         }

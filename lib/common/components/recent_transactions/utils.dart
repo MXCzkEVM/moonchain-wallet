@@ -37,6 +37,9 @@ class RecentTransactionsUtils {
       case TransactionType.received:
         txColor = ColorsTheme.of(context).greenMain;
         break;
+      case TransactionType.contractCall:
+        txColor = ColorsTheme.of(context).textGrey1;
+        break;
       default:
         txColor = ColorsTheme.of(context).mainRed;
     }
@@ -51,6 +54,9 @@ class RecentTransactionsUtils {
         break;
       case TransactionType.received:
         txIcon = MxcIcons.receive;
+        break;
+      case TransactionType.contractCall:
+        txIcon = Icons.article_rounded;
         break;
       default:
         txIcon = Icons.question_mark;
@@ -85,11 +91,13 @@ class RecentTransactionsUtils {
           'assets/svg/networks/unknown.svg';
       final decimal =
           foundToken.decimals ?? e.token.decimals ?? Config.ethDecimals;
-      final symbol = foundToken.symbol ?? e.token.symbol ?? 'Unknown';
+      final symbol = foundToken.symbol ?? e.token.symbol;
 
       return RecentTrxListItem(
         logoUrl: logoUrl,
-        amount: Formatter.convertWeiToEth(e.value, decimal),
+        amount: e.value == null
+            ? null
+            : Formatter.convertWeiToEth(e.value!, decimal),
         symbol: symbol,
         timestamp:
             e.timeStamp == null ? "Unknown" : Formatter.localTime(e.timeStamp!),

@@ -11,8 +11,8 @@ import '../../../common.dart';
 import '../utils.dart';
 
 class RecentTrxListItem extends HookConsumerWidget {
-  final String amount;
-  final String symbol;
+  final String? amount;
+  final String? symbol;
   final String txHash;
   final String timestamp;
   final TransactionType transactionType;
@@ -86,40 +86,42 @@ class RecentTrxListItem extends HookConsumerWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                            amount,
-                            style: FontTheme.of(context)
-                                .body1
-                                .primary()
-                                .copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  foreground: state.hideBalance == true
-                                      ? (Paint()
-                                        ..style = PaintingStyle.fill
-                                        ..color = Colors.white
-                                        ..maskFilter = const MaskFilter.blur(
-                                            BlurStyle.normal, 6))
-                                      : null,
-                                ),
-                            softWrap: true,
-                          ),
+                          if (amount != null)
+                            Text(
+                              amount!,
+                              style: FontTheme.of(context)
+                                  .body1
+                                  .primary()
+                                  .copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    foreground: state.hideBalance == true
+                                        ? (Paint()
+                                          ..style = PaintingStyle.fill
+                                          ..color = Colors.white
+                                          ..maskFilter = const MaskFilter.blur(
+                                              BlurStyle.normal, 6))
+                                        : null,
+                                  ),
+                              softWrap: true,
+                            ),
                           const SizedBox(
                             width: 4,
                           ),
-                          Expanded(
-                            child: Text(
-                              symbol,
-                              style: FontTheme.of(context).h7().copyWith(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color:
-                                        ColorsTheme.of(context).textSecondary,
-                                  ),
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: false,
+                          if (symbol != null)
+                            Expanded(
+                              child: Text(
+                                symbol!,
+                                style: FontTheme.of(context).h7().copyWith(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color:
+                                          ColorsTheme.of(context).textSecondary,
+                                    ),
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ],
