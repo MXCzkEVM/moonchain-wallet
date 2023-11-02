@@ -71,7 +71,7 @@ class TokenContractUseCase extends ReactiveUseCase {
     final cNetwork = _repository.tokenContract.getCurrentNetwork();
 
     final chainNativeToken = Token(
-        logoUri: result?.logoUri ?? 'assets/svg/networks/unknown.svg',
+        logoUri: result?.logoUri ?? cNetwork.logo,
         symbol: cNetwork.symbol,
         name: '${cNetwork.symbol} Token',
         decimals: Config.ethDecimals);
@@ -240,7 +240,7 @@ class TokenContractUseCase extends ReactiveUseCase {
     update(totalBalanceInXsd, totalPrice);
   }
 
-  StreamSubscription<bool> spyOnTransaction(String hash) {
+  StreamSubscription<TransactionReceipt?> spyOnTransaction(String hash) {
     return _repository.tokenContract.spyTransaction(hash);
   }
 }

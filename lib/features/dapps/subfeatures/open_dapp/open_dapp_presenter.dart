@@ -96,7 +96,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         amount: amount,
         data: data,
         estimatedGasFee: estimatedGasFee);
-    if (!Config.isMxcChains(state.network!.chainId) && Config.isL3Bridge(url)) {
+    if (!Config.isMxcChains(state.network!.chainId)) {
       recordTransaction(res);
     }
 
@@ -134,23 +134,21 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void recordTransaction(String hash) {
     final timeStamp = DateTime.now();
     const txStatus = TransactionStatus.pending;
-    const txType = TransactionType.sent;
-    final chainId = state.network!.chainId;
+    const txType = TransactionType.contractCall;
+    final currentNetwork = state.network!;
+    final chainId = currentNetwork.chainId;
     final token = Token(
-        chainId: state.network!.chainId,
-        logoUri: Assets.mxcLogoUri,
-        name: Config.mxcName,
-        symbol: Config.mxcSymbol,
-        // can separate Sepolia & Ethereum
-        address: Config.isEthereumMainnet(chainId)
-            ? Config.mxcAddressEthereum
-            : Config.mxcAddressSepolia);
+        chainId: currentNetwork.chainId,
+        logoUri: currentNetwork.logo,
+        name: currentNetwork.label ?? currentNetwork.web3RpcHttpUrl,
+        symbol: currentNetwork.symbol,
+        address: null);
     final tx = TransactionModel(
       hash: hash,
       timeStamp: timeStamp,
       status: txStatus,
       type: txType,
-      value: '0',
+      value: null,
       token: token,
     );
 
