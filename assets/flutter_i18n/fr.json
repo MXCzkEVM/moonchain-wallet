@@ -305,5 +305,7 @@
     "deposit_from_exchanges_notice": "Achetez auprès de {0}, {1} échanges et déposez directement zkEVM MXC dans le portefeuille AXS",
     "deposit_with_l3_bridge_notice": "Achetez sur d'autres échanges et utilisez {0} pour déposer ERC20 MXC dans le portefeuille AXS",
     "buy_some_x_for_fee_notice": "Achetez un peu de {0} pour payer les frais de gaz pour la transaction, normalement moins de 2 USD lorsque le réseau n'est pas occupé",
-    "insufficient_funds_notice": "Solde insuffisant pour cette transaction. Veuillez ajouter des fonds."
+    "insufficient_funds_notice": "Solde insuffisant pour cette transaction. Veuillez ajouter des fonds.",
+    "contractCall": "Appel de contrat",
+    "contract_call_transactions": "Transactions d'appel de contrat"
 }
