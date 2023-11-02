@@ -300,5 +300,12 @@
     "removing_account_warning": "Weet je zeker dat je dit account wilt verwijderen?",
     "remove": "Verwijderen",
     "duplicate_account_import_notice": "Het account dat u probeert te importeren is een duplicaat.",
-    "unable_to_launch_email_app": "Kan e-mail app niet starten"
+    "unable_to_launch_email_app": "Kan e-mail app niet starten",
+    "max_fee": "Maximale Vergoeding",
+    "deposit_from_exchanges_notice": "Koop van {0}, {1} beurzen en stort zkEVM MXC direct in de AXS portemonnee",
+    "deposit_with_l3_bridge_notice": "Koop van andere beurzen en gebruik {0} om ERC20 MXC te storten in de AXS portemonnee",
+    "buy_some_x_for_fee_notice": "Koop wat {0} om de gasprijs voor de transactie te betalen, normaal gesproken minder dan 2 USD wanneer het netwerk niet druk is.",
+    "insufficient_funds_notice": "Onvoldoende saldo voor deze transactie. Voeg alsjeblieft fondsen toe.",
+    "contractCall": "Contractoproep",
+    "contract_call_transactions": "Contractoproep transacties"
 }

@@ -300,5 +300,12 @@
     "removing_account_warning": "您确定要删除这个账户吗？",
     "remove": "删除",
     "duplicate_account_import_notice": "您试图导入的账户是重复的。",
-    "unable_to_launch_email_app": "无法启动电子邮件应用程序"
+    "unable_to_launch_email_app": "无法启动电子邮件应用程序",
+    "max_fee": "最大费用",
+    "deposit_from_exchanges_notice": "从{0}，{1}交易所购买并直接将zkEVM MXC存入AXS钱包",
+    "deposit_with_l3_bridge_notice": "从其他交易所购买并使用{0}将ERC20 MXC存入AXS钱包",
+    "buy_some_x_for_fee_notice": "购买一些{0}来支付交易的燃气费，通常在网络不忙的时候少于2美元。",
+    "insufficient_funds_notice": "此交易余额不足。请添加资金。",
+    "contractCall": "合约调用",
+    "contract_call_transactions": "合约调用交易"
 }

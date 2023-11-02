@@ -300,5 +300,12 @@
     "removing_account_warning": "Bu hesabı kaldırmak istediğinize emin misiniz?",
     "remove": "Kaldır",
     "duplicate_account_import_notice": "İçe aktarmaya çalıştığınız hesap bir kopyadır.",
-    "unable_to_launch_email_app": "E-posta uygulaması başlatılamıyor"
+    "unable_to_launch_email_app": "E-posta uygulaması başlatılamıyor",
+    "max_fee": "Maksimum Ücret",
+    "deposit_from_exchanges_notice": "{0}, {1} borsalarından satın alın ve zkEVM MXC'yi doğrudan AXS cüzdanına yatırın.",
+    "deposit_with_l3_bridge_notice": "Diğer borsalardan satın alın ve ERC20 MXC'yi AXS cüzdanına yatırmak için {0} kullanın.",
+    "buy_some_x_for_fee_notice": "İşlem için gaz ücretini ödemek üzere biraz {0} satın alın, ağ meşgul olmadığında genellikle 2 USD'den azdır.",
+    "insufficient_funds_notice": "Bu işlem için yetersiz bakiye. Lütfen fon ekleyin.",
+    "contractCall": "Sözleşme çağrısı",
+    "contract_call_transactions": "Sözleşme çağrı işlemleri"
 }

@@ -24,36 +24,43 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
+  late final _mxcTransactionsUseCase = ref.read(mxcTransactionsUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
 
     getMXCTweets();
-    _transactionHistoryUseCase.checkForPendingTransactions(
-        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh().chainId);
+    checkForPendingTx();
+
+    listen(_accountUserCase.account, (value) {
+      if (value != null) {
+        final cAccount = state.account;
+        notify(() => state.account = value);
+        if (cAccount != null && cAccount.address != value.address) {
+          /// Not first time & there is a change
+          createSubscriptions();
+        }
+        if (state.network != null) {
+          getTransactions();
+        }
+      }
+    });
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
         state.network = value;
-        if (state.walletAddress != null) {
-          initializeWalletPage();
-        }
-      }
-    });
-
-    listen(_accountUserCase.account, (value) {
-      if (value != null) {
-        notify(() => state.walletAddress = value.address);
-        initializeWalletPage();
+        connectAndSubscribe();
+        getTransactions();
+        resetBalanceUpdateStream();
       }
     });
 
     listen(_transactionHistoryUseCase.transactionsHistory, (value) {
-      if (state.network != null) {
-        if (!Config.isMxcChains(state.network!.chainId)) {
-          getCustomChainsTransactions(value);
-        }
+      if (state.network != null &&
+          !Config.isMxcChains(state.network!.chainId)) {
+        getCustomChainsTransactions(value);
+        initBalanceUpdateStream();
       }
     });
 
@@ -83,7 +90,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     listen(_customTokenUseCase.tokens, (customTokens) {
       _tokenContractUseCase.addCustomTokens(
           customTokens,
-          state.walletAddress ?? _accountUserCase.account.value!.address,
+          state.account?.address ?? _accountUserCase.account.value!.address,
           Config.isMxcChains(state.network!.chainId) ||
               Config.isEthereumMainnet(state.network!.chainId));
       initializeBalancePanelAndTokens();
@@ -100,107 +107,116 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     notify(() => state.currentIndex = newIndex);
   }
 
-  Future<void> initializeWalletPage() async {
-    createSubscriptions();
-    getTransactions();
+  void connectAndSubscribe() async {
+    try {
+      if (state.network?.web3WebSocketUrl?.isNotEmpty ?? false) {
+        final isConnected = await connectToWebsocket();
+        if (isConnected) {
+          createSubscriptions();
+        } else {
+          connectAndSubscribe();
+        }
+      }
+    } catch (e) {
+      connectAndSubscribe();
+    }
+  }
+
+  Future<bool> connectToWebsocket() async {
+    return await _tokenContractUseCase.connectToWebsSocket();
+  }
+
+  Future<Stream<dynamic>?> subscribeToBalance() async {
+    return await _tokenContractUseCase.subscribeEvent(
+      "addresses:${state.account!.address}".toLowerCase(),
+    );
   }
 
   void createSubscriptions() async {
-    if (state.subscription == null && state.network!.web3WebSocketUrl != null) {
-      if (state.network!.web3WebSocketUrl!.isNotEmpty) {
-        final subscription = await _tokenContractUseCase.subscribeToBalance(
-          "addresses:${state.walletAddress}".toLowerCase(),
-        );
+    final subscription = await subscribeToBalance();
 
-        if (subscription == null) {
-          createSubscriptions();
+    if (subscription == null) {
+      createSubscriptions();
+    }
+
+    if (state.subscription != null) state.subscription!.cancel();
+    state.subscription = subscription!.listen(handleWebSocketEvents);
+  }
+
+  handleWebSocketEvents(dynamic event) {
+    if (!mounted) return;
+    switch (event.event.value as String) {
+      // coin transfer pending tx token transfer - coin transfer
+      case 'pending_transaction':
+        final newTx = WannseeTransactionModel.fromJson(
+            json.encode(event.payload['transactions'][0]));
+        if (newTx.value != null) {
+          notify(() => state.txList!.insert(
+              0,
+              TransactionModel.fromMXCTransaction(
+                  newTx, state.account!.address)));
         }
-
-        subscription!.doOnError(
-          (object, trace) {
-            createSubscriptions();
-          },
-        );
-
-        state.subscription = subscription.listen((event) {
-          if (!mounted) return;
-          switch (event.event.value as String) {
-            // coin transfer pending tx token transfer - coin transfer
-            case 'pending_transaction':
-              final newTx = WannseeTransactionModel.fromJson(
-                  json.encode(event.payload['transactions'][0]));
-              if (newTx.value != null) {
-                notify(() => state.txList!.insert(
-                    0,
+        break;
+      // coin transfer done
+      case 'transaction':
+        final newTx = WannseeTransactionModel.fromJson(
+            json.encode(event.payload['transactions'][0]));
+        if (newTx.value != null) {
+          // We will filter token_transfer tx because It is also received from token_transfer event
+          if (newTx.txTypes != null &&
+              !(newTx.txTypes!.contains('token_transfer'))) {
+            final itemIndex =
+                state.txList!.indexWhere((txItem) => txItem.hash == newTx.hash);
+            // checking for if the transaction is found.
+            if (itemIndex != -1) {
+              notify(() => state.txList!.replaceRange(
+                      itemIndex, itemIndex + 1, [
                     TransactionModel.fromMXCTransaction(
-                        newTx, state.walletAddress!)));
-              }
-              break;
-            // coin transfer done
-            case 'transaction':
-              final newTx = WannseeTransactionModel.fromJson(
-                  json.encode(event.payload['transactions'][0]));
-              if (newTx.value != null) {
-                // We will filter token_transfer tx because It is also received from token_transfer event
-                if (newTx.txTypes != null &&
-                    !(newTx.txTypes!.contains('token_transfer'))) {
-                  final itemIndex = state.txList!
-                      .indexWhere((txItem) => txItem.hash == newTx.hash);
-                  // checking for if the transaction is found.
-                  if (itemIndex != -1) {
-                    notify(() => state.txList!.replaceRange(
-                            itemIndex, itemIndex + 1, [
-                          TransactionModel.fromMXCTransaction(
-                              newTx, state.walletAddress!)
-                        ]));
-                  } else {
-                    // we must have missed the pending tx
-                    notify(() => state.txList!.insert(
-                        0,
-                        TransactionModel.fromMXCTransaction(
-                            newTx, state.walletAddress!)));
-                  }
-                }
-              }
-              break;
-            // token transfer pending
-            case 'token_transfer':
-              final newTx = TokenTransfer.fromJson(
-                  json.encode(event.payload['token_transfers'][0]));
-              if (newTx.txHash != null) {
-                // Sender will get pending tx
-                // Receiver won't get pending tx
-                final itemIndex = state.txList!
-                    .indexWhere((txItem) => txItem.hash == newTx.txHash);
-                // checking for if the transaction is found.
-                if (itemIndex != -1) {
-                  notify(() =>
-                      state.txList!.replaceRange(itemIndex, itemIndex + 1, [
-                        TransactionModel.fromMXCTransaction(
-                            WannseeTransactionModel(tokenTransfers: [newTx]),
-                            state.walletAddress!)
-                      ]));
-                } else {
-                  // we must have missed the token transfer pending tx
-                  notify(() => state.txList!.insert(
-                        0,
-                        TransactionModel.fromMXCTransaction(
-                            WannseeTransactionModel(tokenTransfers: [newTx]),
-                            state.walletAddress!),
-                      ));
-                }
-              }
-              break;
-            // new balance
-            case 'balance':
-              final wannseeBalanceEvent =
-                  WannseeBalanceModel.fromJson(event.payload);
-              getWalletTokensBalance(null, true);
-              break;
-            default:
+                        newTx, state.account!.address)
+                  ]));
+            } else {
+              // we must have missed the pending tx
+              notify(() => state.txList!.insert(
+                  0,
+                  TransactionModel.fromMXCTransaction(
+                      newTx, state.account!.address)));
+            }
           }
-        });
-      }
+        }
+        break;
+      // token transfer pending
+      case 'token_transfer':
+        final newTx = TokenTransfer.fromJson(
+            json.encode(event.payload['token_transfers'][0]));
+        if (newTx.txHash != null) {
+          // Sender will get pending tx
+          // Receiver won't get pending tx
+          final itemIndex =
+              state.txList!.indexWhere((txItem) => txItem.hash == newTx.txHash);
+          // checking for if the transaction is found.
+          if (itemIndex != -1) {
+            notify(() => state.txList!.replaceRange(itemIndex, itemIndex + 1, [
+                  TransactionModel.fromMXCTransaction(
+                      WannseeTransactionModel(tokenTransfers: [newTx]),
+                      state.account!.address)
+                ]));
+          } else {
+            // we must have missed the token transfer pending tx
+            notify(() => state.txList!.insert(
+                  0,
+                  TransactionModel.fromMXCTransaction(
+                      WannseeTransactionModel(tokenTransfers: [newTx]),
+                      state.account!.address),
+                ));
+          }
+        }
+        break;
+      // new balance
+      case 'balance':
+        final wannseeBalanceEvent = WannseeBalanceModel.fromJson(event.payload);
+        getWalletTokensBalance(null, true);
+        break;
+      default:
     }
   }
 
@@ -215,79 +231,47 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   void getCustomChainsTransactions(List<TransactionModel>? txHistory) {
     txHistory =
         txHistory ?? _transactionHistoryUseCase.getTransactionsHistory();
+    final chainTxHistory = txHistory;
 
-    if (state.network != null) {
-      final chainTxHistory = txHistory;
-
-      notify(() => state.txList = chainTxHistory);
-    }
+    notify(() => state.txList = chainTxHistory);
   }
 
   void getMXCTransactions() async {
-    // final walletAddress = await _walletUserCase.getPublicAddress();
     // transactions list contains all the kind of transactions
     // It's going to be filtered to only have native coin transfer
     await _tokenContractUseCase
-        .getTransactionsByAddress(state.walletAddress!)
+        .getTransactionsByAddress(state.account!.address)
         .then((newTransactionsList) async {
       // token transfer list contains only one kind transaction which is token transfer
       final newTokenTransfersList = await _tokenContractUseCase
-          .getTokenTransfersByAddress(state.walletAddress!);
+          .getTokenTransfersByAddress(state.account!.address);
 
       if (newTokenTransfersList != null && newTransactionsList != null) {
         // loading over and we have the data
         state.isTxListLoading = false;
         // merge
-        if (newTransactionsList.items != null) {
+        if (newTransactionsList.items != null &&
+            newTokenTransfersList.items != null) {
+          // Separating token transfer from all transaction since they have different structure
           newTransactionsList = newTransactionsList.copyWith(
-              items: newTransactionsList.items!.where((element) {
-            if (element.txTypes != null) {
-              return element.txTypes!
-                  .any((element) => element == 'coin_transfer');
-            } else {
-              return false;
-            }
-          }).toList());
+              items: _mxcTransactionsUseCase.removeTokenTransfersFromTxList(
+                  newTransactionsList.items!, newTokenTransfersList.items!));
         }
 
         if (newTokenTransfersList.items != null) {
-          for (int i = 0; i < newTokenTransfersList.items!.length; i++) {
-            final item = newTokenTransfersList.items![i];
-            newTransactionsList.items!
-                .add(WannseeTransactionModel(tokenTransfers: [item]));
-          }
-          if (newTransactionsList.items!.isNotEmpty) {
-            newTransactionsList.items!.sort((a, b) {
-              if (b.timestamp == null && a.timestamp == null) {
-                // both token transfer
-                return b.tokenTransfers![0].timestamp!
-                    .compareTo(a.tokenTransfers![0].timestamp!);
-              } else if (b.timestamp != null && a.timestamp != null) {
-                // both coin transfer
-                return b.timestamp!.compareTo(a.timestamp!);
-              } else if (b.timestamp == null) {
-                // b is token transfer
-                return b.tokenTransfers![0].timestamp!.compareTo(a.timestamp!);
-              } else {
-                // a is token transfer
-                return b.timestamp!.compareTo(a.tokenTransfers![0].timestamp!);
-              }
-            });
-          }
+          _mxcTransactionsUseCase.addTokenTransfersToTxList(
+              newTransactionsList.items!, newTokenTransfersList.items!);
 
-          if (newTransactionsList.items!.length > 6) {
-            newTransactionsList = newTransactionsList.copyWith(
-                items: newTransactionsList.items!.sublist(0, 6));
-          }
+          _mxcTransactionsUseCase.sortByDate(newTransactionsList.items!);
 
-          final finalTxList = newTransactionsList.items!
-              .map((e) =>
-                  TransactionModel.fromMXCTransaction(e, state.walletAddress!))
-              .toList();
+          newTransactionsList = newTransactionsList.copyWith(
+              items: _mxcTransactionsUseCase
+                  .keepOnlySixTransactions(newTransactionsList.items!));
 
-          finalTxList.removeWhere(
-            (element) => element.hash == "Unknown",
-          );
+          final finalTxList = _mxcTransactionsUseCase.axsTxListFromMxcTxList(
+              newTransactionsList.items!, state.account!.address);
+
+          _mxcTransactionsUseCase.removeInvalidTx(finalTxList);
 
           notify(() => state.txList = finalTxList);
         }
@@ -306,7 +290,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   Future<List<Token>> getDefaultTokens() async {
-    return await _tokenContractUseCase.getDefaultTokens(state.walletAddress!);
+    return await _tokenContractUseCase.getDefaultTokens(state.account!.address);
   }
 
   void changeHideBalanceState() {
@@ -325,10 +309,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   void getViewOtherTransactionsLink() async {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final address = state.walletAddress!;
+    final address = state.account!.address;
     final addressExplorer = Config.addressExplorer(address);
-    final launchUri =
-        Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
+    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
     if ((await canLaunchUrl(launchUri))) {
       await launchUrl(launchUri, mode: LaunchMode.platformDefault);
@@ -439,12 +422,32 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   void getWalletTokensBalance(
       List<Token>? tokenList, bool shouldGetPrice) async {
     _tokenContractUseCase.getTokensBalance(
-        tokenList, state.walletAddress!, shouldGetPrice);
+        tokenList, state.account!.address, shouldGetPrice);
   }
 
   void checkMaxTweetHeight(double height) {
     if (height >= state.maxTweetViewHeight - 120) {
       notify(() => state.maxTweetViewHeight = height + 120);
+    }
+  }
+
+  void checkForPendingTx() {
+    _transactionHistoryUseCase.checkForPendingTransactions(
+        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh().chainId);
+  }
+
+  void initBalanceUpdateStream() {
+    state.balancesUpdateSubscription ??=
+        listen(_transactionHistoryUseCase.shouldUpdateBalances, (value) {
+      if (value) initializeBalancePanelAndTokens();
+    });
+  }
+
+  void resetBalanceUpdateStream() {
+    if (Config.isMxcChains(state.network!.chainId) &&
+        state.balancesUpdateSubscription != null) {
+      state.balancesUpdateSubscription!.cancel();
+      state.balancesUpdateSubscription = null;
     }
   }
 }

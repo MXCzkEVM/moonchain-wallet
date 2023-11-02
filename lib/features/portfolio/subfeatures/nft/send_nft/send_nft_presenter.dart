@@ -104,7 +104,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
       BottomFlowDialog.of(context!).close();
 
       ref.read(chooseCryptoPageContainer.actions).loadPage();
-      ref.read(walletContainer.actions).initializeWalletPage();
+      // ref.read(walletContainer.actions).initializeWalletPage();
     }
   }
 

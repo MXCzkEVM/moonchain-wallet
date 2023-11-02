@@ -300,5 +300,12 @@
     "removing_account_warning": "Tem certeza de que deseja remover esta conta?",
     "remove": "Remover",
     "duplicate_account_import_notice": "A conta que você está tentando importar é uma duplicata.",
-    "unable_to_launch_email_app": "Incapaz de iniciar o aplicativo de email"
+    "unable_to_launch_email_app": "Incapaz de iniciar o aplicativo de email",
+    "max_fee": "Taxa Máxima",
+    "deposit_from_exchanges_notice": "Compre de {0}, {1} bolsas e deposite zkEVM MXC diretamente na carteira AXS",
+    "deposit_with_l3_bridge_notice": "Compre de outras bolsas e use {0} para depositar ERC20 MXC na carteira AXS",
+    "buy_some_x_for_fee_notice": "Compre algum {0} para pagar a taxa de gás para a transação, normalmente menos de 2 USD quando a rede não está ocupada.",
+    "insufficient_funds_notice": "Saldo insuficiente para esta transação. Por favor, adicione fundos.",
+    "contractCall": "Chamada de contrato",
+    "contract_call_transactions": "Transações de chamada de contrato"
 }

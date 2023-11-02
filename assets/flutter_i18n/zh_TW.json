@@ -300,5 +300,12 @@
     "removing_account_warning": "您確定要刪除此帳戶嗎？",
     "remove": "移除",
     "duplicate_account_import_notice": "您試圖導入的帳戶是重複的。",
-    "unable_to_launch_email_app": "無法啟動電子郵件應用程式"
+    "unable_to_launch_email_app": "無法啟動電子郵件應用程式",
+    "max_fee": "最高費用",
+    "deposit_from_exchanges_notice": "從{0}，{1}交易所購買並直接將zkEVM MXC存入AXS錢包",
+    "deposit_with_l3_bridge_notice": "從其他交易所購買，並使用 {0} 存款 ERC20 MXC 到 AXS 錢包",
+    "buy_some_x_for_fee_notice": "購買一些{0}來支付交易的燃氣費，通常在網路不忙碌時少於2美元。",
+    "insufficient_funds_notice": "此交易餘額不足。請增加資金。",
+    "contractCall": "合約呼叫",
+    "contract_call_transactions": "合約呼叫交易"
 }

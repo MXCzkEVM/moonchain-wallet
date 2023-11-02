@@ -7,17 +7,11 @@ class TransactionsHistoryRepository extends ControlledCacheRepository {
 
   late final Field<List<TransactionModel>> transactionsHistory =
       fieldWithDefault<List<TransactionModel>>('items', [],
-          serializer: (b) => b
-              .map((e) => e.toMap())
-              .toList(),
-          deserializer: (b) => (b as List)
-              .map((e) => TransactionModel.fromMap(e)
-                  )
-              .toList());
+          serializer: (b) => b.map((e) => e.toMap()).toList(),
+          deserializer: (b) =>
+              (b as List).map((e) => TransactionModel.fromMap(e)).toList());
 
   List<TransactionModel> get items => transactionsHistory.value;
-
-
 
   void addItem(TransactionModel item, int index) {
     final newList = transactionsHistory.value;
@@ -25,7 +19,10 @@ class TransactionsHistoryRepository extends ControlledCacheRepository {
     transactionsHistory.value = newList;
   }
 
-  void updateItem(TransactionModel item, int index,) {
+  void updateItem(
+    TransactionModel item,
+    int index,
+  ) {
     final newList = transactionsHistory.value;
 
     newList[index] = item;
@@ -33,10 +30,8 @@ class TransactionsHistoryRepository extends ControlledCacheRepository {
     transactionsHistory.value = newList;
   }
 
-  void removeItem(TransactionModel item) =>
-      transactionsHistory.value = transactionsHistory.value
-          .where((e) => e.hash != item.hash)
-          .toList();
+  void removeItem(TransactionModel item) => transactionsHistory.value =
+      transactionsHistory.value.where((e) => e.hash != item.hash).toList();
 
   void removeAll() => transactionsHistory.value = [];
 }

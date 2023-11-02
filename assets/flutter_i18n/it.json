@@ -300,5 +300,12 @@
     "removing_account_warning": "Sei sicuro di voler rimuovere questo account?",
     "remove": "Rimuovi",
     "duplicate_account_import_notice": "L'account che stai cercando di importare è un duplicato.",
-    "unable_to_launch_email_app": "Impossibile avviare l'app di posta elettronica"
+    "unable_to_launch_email_app": "Impossibile avviare l'app di posta elettronica",
+    "max_fee": "Commissione Massima",
+    "deposit_from_exchanges_notice": "Acquista da {0}, {1} scambi e deposita direttamente zkEVM MXC nel portafoglio AXS",
+    "deposit_with_l3_bridge_notice": "Acquista da altri exchange e usa {0} per depositare MXC ERC20 nel portafoglio AXS",
+    "buy_some_x_for_fee_notice": "Acquista un po' di {0} per pagare la commissione di gas per la transazione, normalmente meno di 2 USD quando la rete non è occupata.",
+    "insufficient_funds_notice": "Saldo insufficiente per questa transazione. Per favore, aggiungi fondi.",
+    "contractCall": "Chiamata del contratto",
+    "contract_call_transactions": "Transazioni di chiamata del contratto"
 }

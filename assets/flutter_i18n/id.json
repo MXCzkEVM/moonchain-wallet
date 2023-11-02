@@ -300,5 +300,12 @@
     "removing_account_warning": "Apakah Anda yakin ingin menghapus akun ini?",
     "remove": "Hapus",
     "duplicate_account_import_notice": "Akun yang Anda coba impor adalah duplikat.",
-    "unable_to_launch_email_app": "Tidak dapat meluncurkan aplikasi email"
+    "unable_to_launch_email_app": "Tidak dapat meluncurkan aplikasi email",
+    "max_fee": "Biaya Maksimal",
+    "deposit_from_exchanges_notice": "Beli dari {0}, {1} bursa dan setor langsung zkEVM MXC ke dompet AXS",
+    "deposit_with_l3_bridge_notice": "Beli dari bursa lain dan gunakan {0} untuk menyetor MXC ERC20 ke dompet AXS",
+    "buy_some_x_for_fee_notice": "Beli beberapa {0} untuk membayar biaya gas untuk transaksi, biasanya kurang dari 2 USD saat jaringan tidak sibuk",
+    "insufficient_funds_notice": "Saldo tidak cukup untuk transaksi ini. \nSilakan tambahkan dana.",
+    "contractCall": "Panggilan kontrak",
+    "contract_call_transactions": "Transaksi panggilan kontrak"
 }

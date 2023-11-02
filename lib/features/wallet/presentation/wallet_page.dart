@@ -87,7 +87,7 @@ class WalletPage extends HookConsumerWidget {
                       height: 12,
                     ),
                     RecentTransactions(
-                      walletAddress: state.walletAddress,
+                      walletAddress: state.account?.address,
                       transactions: txList,
                       tokens: state.tokensList,
                       networkType: state.network?.networkType,

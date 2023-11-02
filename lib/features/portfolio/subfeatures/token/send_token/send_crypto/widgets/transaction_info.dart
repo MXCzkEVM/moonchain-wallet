@@ -16,7 +16,8 @@ class TransactionInfo extends StatefulWidget {
     required this.networkSymbol,
     required this.from,
     required this.to,
-    this.estimatedFee,
+    required this.estimatedFee,
+    required this.maxFee,
     this.processType = TransactionProcessType.confirm,
     required this.onTap,
   }) : super(key: key);
@@ -28,7 +29,8 @@ class TransactionInfo extends StatefulWidget {
   final String networkSymbol;
   final String from;
   final String to;
-  final String? estimatedFee;
+  final String estimatedFee;
+  final String maxFee;
   final TransactionProcessType? processType;
   final Function(TransactionProcessType) onTap;
 
@@ -77,16 +79,22 @@ class _TransactionInfoState extends State<TransactionInfo> {
                 title: 'to',
                 value: widget.to,
               ),
-              if (TransactionProcessType.confirm != processType)
+              if (TransactionProcessType.confirm != processType) ...[
                 SingleLineInfoItem(
                   title: 'estimated_fee',
-                  value: widget.estimatedFee != null
-                      ? Formatter.formatNumberForUI(
-                          widget.estimatedFee!,
-                        )
-                      : '--',
+                  value: Formatter.formatNumberForUI(
+                    widget.estimatedFee,
+                  ),
                   hint: widget.networkSymbol,
                 ),
+                SingleLineInfoItem(
+                  title: 'max_fee',
+                  value: Formatter.formatNumberForUI(
+                    widget.maxFee,
+                  ),
+                  hint: widget.networkSymbol,
+                ),
+              ]
             ],
           ),
         ),
@@ -148,7 +156,6 @@ class _TransactionInfoState extends State<TransactionInfo> {
           }
         } else {
           widget.onTap(processType);
-          Navigator.of(context).pop(true);
         }
       },
     );

@@ -15,7 +15,8 @@ class TransactionInfo extends ConsumerWidget {
       required this.amount,
       required this.from,
       required this.to,
-      this.estimatedFee,
+      required this.estimatedFee,
+      required this.maxFee,
       this.onTap,
       required this.symbol})
       : super(key: key);
@@ -23,7 +24,8 @@ class TransactionInfo extends ConsumerWidget {
   final String amount;
   final String from;
   final String to;
-  final String? estimatedFee;
+  final String estimatedFee;
+  final String maxFee;
   final VoidCallback? onTap;
   final String symbol;
 
@@ -44,16 +46,20 @@ class TransactionInfo extends ConsumerWidget {
                 title: 'to',
                 value: to,
               ),
-              if (estimatedFee != null)
-                SingleLineInfoItem(
-                  title: 'estimated_fee',
-                  value: estimatedFee != null
-                      ? Formatter.formatNumberForUI(
-                          estimatedFee!,
-                        )
-                      : '--',
-                  hint: symbol,
+              SingleLineInfoItem(
+                title: 'estimated_fee',
+                value: Formatter.formatNumberForUI(
+                  estimatedFee,
                 ),
+                hint: symbol,
+              ),
+              SingleLineInfoItem(
+                title: 'max_fee',
+                value: Formatter.formatNumberForUI(
+                  maxFee,
+                ),
+                hint: symbol,
+              ),
             ],
           ),
         ),

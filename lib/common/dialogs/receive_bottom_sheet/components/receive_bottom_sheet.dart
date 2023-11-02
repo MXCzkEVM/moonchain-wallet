@@ -1,37 +1,23 @@
 import 'dart:ui';
 
 import 'package:clipboard/clipboard.dart';
-import 'package:datadashwallet/common/utils/utils.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-void showWalletAddressDialog({
-  required BuildContext context,
-  String? walletAddress,
-}) {
-  showModalBottomSheet<bool>(
-    context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
-    useSafeArea: true,
-    backgroundColor: Colors.transparent,
-    builder: (BuildContext context) => WalletAddress(
-      walletAddress: walletAddress,
-    ),
-  );
-}
-
-class WalletAddress extends StatelessWidget {
-  const WalletAddress({
-    Key? key,
-    this.walletAddress,
-    this.onTap,
-  }) : super(key: key);
+class ReceiveBottomSheet extends StatelessWidget {
+  const ReceiveBottomSheet(
+      {Key? key,
+      this.walletAddress,
+      required this.noticeComponents,
+      required this.showError})
+      : super(key: key);
 
   final String? walletAddress;
-  final VoidCallback? onTap;
+  final List<Widget> noticeComponents;
+  final bool showError;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +52,12 @@ class WalletAddress extends StatelessWidget {
                 ),
               ),
             ),
+            if (showError)
+              Text(
+                FlutterI18n.translate(context, 'insufficient_funds_notice'),
+                style: FontTheme.of(context).body1.error(),
+                textAlign: TextAlign.center,
+              ),
             QrImageView(
               data: walletAddress ?? '',
               size: 215,
@@ -83,13 +75,7 @@ class WalletAddress extends StatelessWidget {
               style: FontTheme.of(context).body1.secondary(),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: ColorsTheme.of(context).grey6,
-                borderRadius: const BorderRadius.all(Radius.circular(35)),
-              ),
+            BlackBox(
               child: StatefulBuilder(builder: (_, setState) {
                 return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +109,8 @@ class WalletAddress extends StatelessWidget {
                       )
                     ]);
               }),
-            )
+            ),
+            ...noticeComponents
           ],
         ),
       ),

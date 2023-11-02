@@ -53,7 +53,8 @@ class _FilterAndSortItemsState extends State<FilterAndSortItems> {
         ...{
           'all_transactions': TransactionType.all,
           'send_transactions': TransactionType.sent,
-          'receive_transactions': TransactionType.received
+          'receive_transactions': TransactionType.received,
+          'contract_call_transactions': TransactionType.contractCall
         }
             .entries
             .map(

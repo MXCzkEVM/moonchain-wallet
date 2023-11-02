@@ -300,5 +300,12 @@
     "removing_account_warning": "このアカウントを削除してもよろしいですか？",
     "remove": "削除する",
     "duplicate_account_import_notice": "あなたがインポートしようとしているアカウントは重複しています。",
-    "unable_to_launch_email_app": "メールアプリを起動できません"
+    "unable_to_launch_email_app": "メールアプリを起動できません",
+    "max_fee": "最大手数料",
+    "deposit_from_exchanges_notice": "{0}から購入し、{1}の取引所でzkEVM MXCを直接AXSウォレットに預けてください。",
+    "deposit_with_l3_bridge_notice": "他の取引所から購入し、{0}を使用してERC20 MXCをAXSウォレットに預ける",
+    "buy_some_x_for_fee_notice": "取引のガス料を支払うために{0}をいくつか購入してください。通常、ネットワークが混雑していないときは2ドル未満です。",
+    "insufficient_funds_notice": "このトランザクションには残高が不足しています。資金を追加してください。",
+    "contractCall": "契約の呼び出し",
+    "contract_call_transactions": "契約呼び出しトランザクション"
 }

@@ -2,6 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/portfolio/portfolio.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/add_token_page.dart';
+import '../token/send_token/send_crypto/send_crypto_page.dart';
 import './utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -43,6 +44,21 @@ class TokensBalanceList extends HookConsumerWidget {
                                 ...TokensBalanceListUtils
                                     .generateTokensBalanceList(
                                   portfolioState.tokensList!,
+                                  onSelected: (token) =>
+                                      Navigator.of(context).push(
+                                    route.featureDialog(
+                                      SendCryptoPage(
+                                        token: token,
+                                        isBalanceZero: portfolioState
+                                                    .tokensList?[0].balance ==
+                                                null
+                                            ? false
+                                            : portfolioState
+                                                    .tokensList![0].balance! <=
+                                                0.0,
+                                      ),
+                                    ),
+                                  ),
                                 )
                               ],
                             )),

@@ -14,7 +14,6 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'portfolio_page_presenter.dart';
-import 'widgets/show_wallet_address_dialog.dart';
 
 class PortfolioPage extends HookConsumerWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -97,10 +96,7 @@ class PortfolioPage extends HookConsumerWidget {
                               .iconButtonBackgroundActive,
                           color: ColorsTheme.of(context).iconButtonInvertActive,
                           icon: MxcIcons.receive,
-                          onTap: () => showWalletAddressDialog(
-                            context: context,
-                            walletAddress: state.walletAddress,
-                          ),
+                          onTap: () => presenter.showReceiveSheet(),
                           titleStyle: FontTheme.of(context).subtitle1.primary(),
                           iconSize: 24,
                           filled: false,

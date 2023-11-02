@@ -31,7 +31,7 @@
     "wallet": "Wallet",
     "active": "Aktiv",
     "date": "Datum",
-    "tx": "Tx = Transaktion",
+    "tx": "Transaktion",
     "manage_portfolio": "Token senden/Portfolio verwalten",
     "fiat_options": "FIAT Optionen",
     "show/hide_balance": "Balance anzeigen/verbergen",
@@ -300,5 +300,12 @@
     "removing_account_warning": "Sind Sie sicher, dass Sie dieses Konto entfernen möchten?",
     "remove": "Entfernen",
     "duplicate_account_import_notice": "Das Konto, das Sie versuchen zu importieren, ist ein Duplikat.",
-    "unable_to_launch_email_app": "Nicht in der Lage, E-Mail-App zu starten"
+    "unable_to_launch_email_app": "Nicht in der Lage, E-Mail-App zu starten",
+    "max_fee": "Maximale Gebühr",
+    "deposit_from_exchanges_notice": "Kaufen Sie von {0}, {1} Börsen und hinterlegen Sie zkEVM MXC direkt in die AXS Wallet.",
+    "deposit_with_l3_bridge_notice": "Kaufen Sie von anderen Börsen und verwenden Sie {0}, um ERC20 MXC in die AXS Wallet einzuzahlen.",
+    "buy_some_x_for_fee_notice": "Kaufen Sie etwas {0}, um die Gasgebühr für die Transaktion zu bezahlen, normalerweise weniger als 2 USD, wenn das Netzwerk nicht ausgelastet ist.",
+    "insufficient_funds_notice": "Unzureichendes Guthaben für diese Transaktion. Bitte fügen Sie Geldmittel hinzu.",
+    "contractCall": "Vertragsaufruf",
+    "contract_call_transactions": "Vertragsaufruf-Transaktionen"
 }

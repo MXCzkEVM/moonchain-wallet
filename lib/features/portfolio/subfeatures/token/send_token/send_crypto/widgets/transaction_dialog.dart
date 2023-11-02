@@ -6,17 +6,20 @@ import 'transaction_info.dart';
 
 enum TransactionProcessType { confirm, send, sending, done }
 
-Future<bool?> showTransactionDialog(BuildContext context,
-    {required String amount,
-    required String balance,
-    required Token token,
-    required String network,
-    required String networkSymbol,
-    required String from,
-    required String to,
-    String? estimatedFee,
-    TransactionProcessType? processType,
-    required Function(TransactionProcessType) onTap,}) {
+Future<bool?> showTransactionDialog(
+  BuildContext context, {
+  required String amount,
+  required String balance,
+  required Token token,
+  required String network,
+  required String networkSymbol,
+  required String from,
+  required String to,
+  required String estimatedFee,
+  required String maxFee,
+  TransactionProcessType? processType,
+  required Function(TransactionProcessType) onTap,
+}) {
   return showModalBottomSheet<bool>(
     context: context,
     useRootNavigator: true,
@@ -41,6 +44,7 @@ Future<bool?> showTransactionDialog(BuildContext context,
         from: from,
         to: to,
         estimatedFee: estimatedFee,
+        maxFee: maxFee,
         processType: processType,
         onTap: onTap,
       ),

@@ -42,6 +42,7 @@
 	"send": "Send",
 	"received": "Received",
 	"sent": "Sent",
+	"contractCall": "Contract call",
 	"email_secured_body": "For the security and privacy of your AXS wallet it's essential that you keep all information contained in this email strictly confidential. \nPlease follow these next steps carefully: \n1. Ensure you're the sole recipient of this email by replacing the recipient's address with your own. \n2. After confirming the correct email address, proceed to click the 'Send' button to forward this vital information to yourself securely. By adhering to these measures, you'll ensure the utmost safety for your AXS wallet. Thank you for your diligence in this matter.",
 	"email_secured_subject": "Secure Your AXS Wallet Key - Important Instructions",
 	"face_id": "Face ID",
@@ -141,6 +142,7 @@
 	"from": "From",
 	"to": "To",
 	"estimated_fee": "Estimated Fee",
+	"max_fee": "Max Fee",
 	"sending": "Sending",
 	"confirm_transaction": "Confirm transaction",
 	"add_nft": "Add NFT",
@@ -171,6 +173,7 @@
 	"all_transactions": "All transactions",
 	"send_transactions": "Send transactions",
 	"receive_transactions": "Receive transactions",
+	"contract_call_transactions": "Contract call transactions",
 	"sort": "Sort",
 	"new_to_old": "New to Old",
 	"old_to_new": "Old to New",
@@ -300,5 +303,9 @@
 	"removing_account_warning": "Are you sure you want to remove this account?",
 	"remove": "Remove",
 	"duplicate_account_import_notice": "The account you are trying to import is a duplicate",
-	"unable_to_launch_email_app": "Unable to launch email app"
+	"unable_to_launch_email_app": "Unable to launch email app",
+	"deposit_from_exchanges_notice": "Buy from {0}, {1} exchanges and deposit zkEVM MXC directly to AXS wallet",
+	"deposit_with_l3_bridge_notice": "Buy from other exchanges and use {0} to deposit ERC20 MXC to AXS wallet",
+	"buy_some_x_for_fee_notice": "Buy some {0} to pay for gas fee for the transaction, normally less than 2 USD when the network is not busy",
+	"insufficient_funds_notice": "Insufficient balance for this transaction.\n Please add funds."
 }

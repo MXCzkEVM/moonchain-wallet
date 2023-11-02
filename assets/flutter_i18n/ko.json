@@ -300,5 +300,12 @@
     "removing_account_warning": "이 계정을 삭제하시겠습니까?",
     "remove": "제거하다",
     "duplicate_account_import_notice": "당신이 가져오려고 하는 계정은 중복된 계정입니다.",
-    "unable_to_launch_email_app": "이메일 앱을 실행할 수 없습니다."
+    "unable_to_launch_email_app": "이메일 앱을 실행할 수 없습니다.",
+    "max_fee": "최대 수수료",
+    "deposit_from_exchanges_notice": "{0}에서 구매하고, {1} 거래소에서 zkEVM MXC를 직접 AXS 지갑에 입금하세요.",
+    "deposit_with_l3_bridge_notice": "다른 거래소에서 구매하고 {0}을 사용하여 ERC20 MXC를 AXS 지갑에 입금하십시오.",
+    "buy_some_x_for_fee_notice": "거래 수수료를 위해 {0}을 구매하세요, 네트워크가 바쁘지 않을 때는 일반적으로 2 달러 미만입니다.",
+    "insufficient_funds_notice": "이 거래를 위한 잔액이 부족합니다. 자금을 추가해 주세요.",
+    "contractCall": "계약 호출",
+    "contract_call_transactions": "계약 호출 트랜잭션"
 }

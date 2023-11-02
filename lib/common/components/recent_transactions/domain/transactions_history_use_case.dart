@@ -15,6 +15,8 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
 
   List<TransactionModel> getTransactionsHistory() => _repository.items;
 
+  late final ValueStream<bool> shouldUpdateBalances = reactive(false);
+
   List<String> updatingTxList = [];
 
   void updateItem(
@@ -46,25 +48,37 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
     update(transactionsHistory, _repository.items);
   }
 
+  /// This function will spy on the given transaction
   void spyOnTransaction(
     TransactionModel item,
   ) {
     if (!updatingTxList.contains(item.hash)) {
       updatingTxList.add(item.hash);
       final stream = _web3Repository.tokenContract.spyTransaction(item.hash);
-      stream.onData((succeeded) {
-        if (succeeded) {
-          final updatedItem = item.copyWith(status: TransactionStatus.done);
+
+      stream.onData((receipt) {
+        if (receipt?.status ?? false) {
+          // success
+          final itemValue = item.value ??
+              (receipt!.gasUsed! * receipt.effectiveGasPrice!.getInWei)
+                  .toString();
+
+          final updatedItem =
+              item.copyWith(status: TransactionStatus.done, value: itemValue);
           updateItem(
             updatedItem,
           );
           updatingTxList.remove(item.hash);
+          update(shouldUpdateBalances, true);
+
           stream.cancel();
         }
       });
     }
   }
 
+  /// This function will run through all the transactions and will start spying on
+  /// pending transactions
   void checkForPendingTransactions(int chainId) {
     if (!Config.isMxcChains(chainId)) {
       final txList = transactionsHistory.value;

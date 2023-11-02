@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/common/components/recent_transactions/domain/mxc_transaction_use_case.dart';
 import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/chains_use_case.dart';
@@ -114,6 +115,13 @@ final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
   ),
 );
 
+final Provider<MXCTransactionsUseCase> mxcTransactionsUseCaseProvider =
+    Provider(
+  (ref) => MXCTransactionsUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
 final Provider<TransactionsHistoryUseCase> transactionHistoryUseCaseProvider =
     Provider(
   (ref) => TransactionsHistoryUseCase(
@@ -153,5 +161,13 @@ final Provider<ChainsUseCase> chainsUseCaseProvider = Provider(
     ref.watch(web3RepositoryProvider),
     ref.watch(chainConfigurationUseCaseProvider),
     ref.watch(authUseCaseProvider),
+  ),
+);
+
+final Provider<ErrorUseCase> errorUseCaseProvider = Provider(
+  (ref) => ErrorUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(accountUseCaseProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
   ),
 );

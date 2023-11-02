@@ -300,5 +300,12 @@
     "removing_account_warning": "Ești sigur că vrei să ștergi acest cont?",
     "remove": "Eliminați",
     "duplicate_account_import_notice": "Contul pe care încercați să-l importați este un duplicat.",
-    "unable_to_launch_email_app": "Imposibil de lansat aplicația de email"
+    "unable_to_launch_email_app": "Imposibil de lansat aplicația de email",
+    "max_fee": "Taxă Maximă",
+    "deposit_from_exchanges_notice": "Cumpărați de la {0}, {1} burse și depuneți direct zkEVM MXC în portofelul AXS",
+    "deposit_with_l3_bridge_notice": "Cumpărați de la alte burse și utilizați {0} pentru a depune MXC ERC20 în portofelul AXS.",
+    "buy_some_x_for_fee_notice": "Cumpărați ceva {0} pentru a plăti taxa de gaz pentru tranzacție, de obicei mai puțin de 2 USD când rețeaua nu este ocupată.",
+    "insufficient_funds_notice": "Sold insuficient pentru această tranzacție. Vă rugăm să adăugați fonduri.",
+    "contractCall": "Apel de contract",
+    "contract_call_transactions": "Tranzacții de apel contractuale"
 }

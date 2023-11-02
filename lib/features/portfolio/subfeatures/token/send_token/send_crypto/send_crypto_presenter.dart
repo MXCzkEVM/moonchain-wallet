@@ -1,8 +1,10 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,10 @@ class SendCryptoArguments with EquatableMixin {
   final String? qrCode;
 
   @override
-  List<dynamic> get props => [token, qrCode];
+  List<dynamic> get props => [
+        token,
+        qrCode,
+      ];
 }
 
 final sendTokenPageContainer = PresenterContainerWithParameter<
@@ -35,8 +40,10 @@ final sendTokenPageContainer = PresenterContainerWithParameter<
         ));
 
 class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
-  SendCryptoPresenter(this.token, String? qrCode)
-      : super(SendCryptoState()..qrCode = qrCode);
+  SendCryptoPresenter(
+    this.token,
+    String? qrCode,
+  ) : super(SendCryptoState()..qrCode = qrCode);
 
   final Token token;
 
@@ -48,6 +55,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   late final _chainConfigurationUserCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final accountInfo = ref.read(appNavBarContainer.state);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
+  late final _errorUseCase = ref.read(errorUseCaseProvider);
+
   late final TextEditingController amountController = TextEditingController();
   late final TextEditingController recipientController =
       TextEditingController();
@@ -146,16 +157,19 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       return;
     }
 
-    EstimatedGasFee? estimatedGasFee;
-
     double sumBalance = token.balance! - double.parse(amount);
-    estimatedGasFee = await _estimatedFee(recipientAddress);
+    EstimatedGasFee? estimatedGasFee = await _estimatedFee(recipientAddress);
     if (estimatedGasFee != null) {
       sumBalance -= estimatedGasFee.gasFee;
       final estimatedFee =
           Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
               ? '0.000'
               : estimatedGasFee.gasFee.toString();
+
+      final maxFeeDouble = estimatedGasFee.gasFee * Config.priority;
+      final maxFeeString = maxFeeDouble.toString();
+      final maxFee =
+          Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
 
       final result = await showTransactionDialog(context!,
           amount: amount,
@@ -165,8 +179,9 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           from: state.account!.address,
           to: recipient,
           estimatedFee: estimatedFee,
+          maxFee: maxFee,
           onTap: (transactionType) =>
-              _nextTransactionStep(transactionType, estimatedGasFee!),
+              _nextTransactionStep(transactionType, estimatedGasFee),
           networkSymbol: state.network?.symbol ?? '--');
     }
   }
@@ -191,7 +206,12 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       }
       return res;
     } else if (TransactionProcessType.done == type) {
-      BottomFlowDialog.of(context!).close();
+      navigator!.pop();
+      Future.delayed(const Duration(milliseconds: 200), () {
+        navigator?.popUntil((route) {
+          return route.settings.name?.contains('WalletPage') ?? false;
+        });
+      });
     }
   }
 
@@ -206,11 +226,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return gasFee;
     } catch (e, s) {
-      if (e is RPCError) {
-        String errorMessage = e.message;
-        errorMessage = changeErrorMessage(errorMessage);
-        addError(errorMessage);
-      }
+      callErrorHandler(e, s);
     } finally {
       loading = false;
     }
@@ -252,24 +268,29 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       return res;
     } catch (e, s) {
-      if (e is RPCError) {
-        if (BottomFlowDialog.maybeOf(context!) != null) {
-          BottomFlowDialog.of(context!).close();
-        }
-        String errorMessage = e.message;
-        errorMessage = changeErrorMessage(errorMessage);
-        addError(errorMessage);
+      if (BottomFlowDialog.maybeOf(context!) != null) {
+        BottomFlowDialog.of(context!).close();
       }
+      callErrorHandler(e, s);
     } finally {
       loading = false;
     }
   }
 
-  String changeErrorMessage(String message) {
-    if (message.contains('gas required exceeds allowance')) {
-      return translate('insufficient_balance_for_fee') ?? message;
+  void callErrorHandler(dynamic e, StackTrace s) {
+    final isHandled = _errorUseCase.handleError(context!, e, onL3Tap: () {
+      final chainId = state.network!.chainId;
+      final l3BridgeUri = Urls.networkL3Bridge(chainId);
+      Navigator.of(context!).push(route.featureDialog(
+        maintainState: false,
+        OpenAppPage(
+          url: l3BridgeUri,
+        ),
+      ));
+    });
+    if (!isHandled) {
+      addError(e, s);
     }
-    return message;
   }
 
   @override

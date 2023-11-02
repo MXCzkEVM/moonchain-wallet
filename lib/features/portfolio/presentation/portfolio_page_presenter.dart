@@ -1,5 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:flutter/material.dart';
 import 'portfolio_page_state.dart';
 
 final portfolioContainer =
@@ -28,6 +30,12 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
     listen(_chainConfigurationUseCase.networks, (value) {
       getBuyEnabled();
+    });
+
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      if (value != null) {
+        state.network = value;
+      }
     });
 
     listen(_accountUserCase.account, (value) {
@@ -90,5 +98,20 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     } else {
       return null;
     }
+  }
+
+  void showReceiveSheet() {
+    final walletAddress = state.walletAddress!;
+    final chainId = state.network!.chainId;
+    final networkSymbol = state.network!.symbol;
+    showReceiveBottomSheet(context!, walletAddress, chainId, networkSymbol, () {
+      final l3BridgeUri = Urls.networkL3Bridge(chainId);
+      Navigator.of(context!).push(route.featureDialog(
+        maintainState: false,
+        OpenAppPage(
+          url: l3BridgeUri,
+        ),
+      ));
+    }, _chainConfigurationUseCase.launchUrlInPlatformDefault, false);
   }
 }

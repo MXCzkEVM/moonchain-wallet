@@ -14,7 +14,7 @@ class WalletState with EquatableMixin {
 
   List<Token> tokensList = [];
 
-  String? walletAddress;
+  Account? account;
 
   bool hideBalance = false;
 
@@ -32,6 +32,9 @@ class WalletState with EquatableMixin {
 
   StreamSubscription<dynamic>? subscription;
 
+  /// This stream is only used for chains other than MXC
+  StreamSubscription<void>? balancesUpdateSubscription;
+
   Network? network;
 
   double maxTweetViewHeight = 620;
@@ -43,7 +46,7 @@ class WalletState with EquatableMixin {
         txList,
         isTxListLoading,
         tokensList,
-        walletAddress,
+        account,
         hideBalance,
         chartMaxAmount,
         chartMinAmount,
