@@ -1,3 +1,4 @@
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/subfeatures/add_network/add_network_presenter.dart';
 import 'package:mxc_logic/src/domain/entities/network.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/chain_logo_widget.dart';
 import 'package:flutter/material.dart';
@@ -5,13 +6,19 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../add_network_presenter.dart';
 import 'add_network_dialog.dart';
 
 class AddNetworkItem extends HookConsumerWidget {
   final Network network;
+  final void Function(Network)? switchNetwork;
+  final Network? Function(Network)? addNetworkToNetworkSelector;
 
-  const AddNetworkItem({super.key, required this.network});
+  const AddNetworkItem({
+    super.key,
+    required this.network,
+    this.switchNetwork,
+    this.addNetworkToNetworkSelector,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,8 +57,9 @@ class AddNetworkItem extends HookConsumerWidget {
             onTap: () {
               showAddNetworkDialog(context,
                   network: network,
-                  approveFunction: presenter.addNetworkToNetworkSelector,
-                  switchFunction: presenter.switchNetwork);
+                  approveFunction: addNetworkToNetworkSelector ??
+                      presenter.addNetworkToNetworkSelector,
+                  switchFunction: switchNetwork ?? presenter.switchNetwork);
             },
             title: translate('add_x').replaceFirst('{0}', ''),
             buttonState: ChipButtonStates.defaultState,

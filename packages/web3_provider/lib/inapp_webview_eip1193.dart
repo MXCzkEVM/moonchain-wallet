@@ -42,7 +42,7 @@ enum EIP1193 {
   watchAsset,
 
   /// Unsupported request
-  unknown
+  unKnown
 }
 
 /// InAppWebViewEIP1193 wrap InAppWebView(https://pub.dev/packages/flutter_inappwebview)
@@ -921,7 +921,7 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
       widget.signCallback(
           rawData, EIP1193.addEthereumChain, _webViewController);
     } else {
-      widget.signCallback(rawData, EIP1193.unknown, _webViewController);
+      widget.signCallback(rawData, EIP1193.unKnown, _webViewController);
     }
   }
 

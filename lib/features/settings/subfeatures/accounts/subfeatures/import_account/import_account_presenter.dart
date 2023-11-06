@@ -57,7 +57,6 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
     final foundIndex = state.accounts.indexWhere(
         (element) => element.privateKey == Formatter.removeZeroX(privateKey));
 
-
     if (foundIndex != -1) {
       return translate('duplicate_account_import_notice')!;
     }

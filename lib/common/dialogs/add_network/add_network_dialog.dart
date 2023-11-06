@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../../../widgets/property_item.dart';
+import '../../common.dart';
+
 
 Future<bool?> showAddNetworkDialog(BuildContext context,
     {required Network network,

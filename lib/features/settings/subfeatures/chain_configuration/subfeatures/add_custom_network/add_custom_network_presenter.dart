@@ -9,7 +9,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_custom_network_state.dart';
-import 'widgets/custom_network_swtich_dialog.dart';
+
 
 final addCustomNetworkContainer =
     PresenterContainer<AddCustomNetworkPresenter, AddCustomNetworkState>(
