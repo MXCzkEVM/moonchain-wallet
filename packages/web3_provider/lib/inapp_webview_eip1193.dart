@@ -35,8 +35,14 @@ enum EIP1193 {
   /// Pass when web app add a new chain
   addEthereumChain,
 
+  /// Pass when web app wants to change current chain
+  switchEthereumChain,
+
   /// Pass when web app add a new token
-  watchAsset
+  watchAsset,
+
+  /// Unsupported request
+  unknown
 }
 
 /// InAppWebViewEIP1193 wrap InAppWebView(https://pub.dev/packages/flutter_inappwebview)
@@ -908,9 +914,14 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
       }
     } else if (name == 'watchAsset') {
       widget.signCallback(rawData, EIP1193.watchAsset, _webViewController);
-    } else {
+    } else if (name == 'switchEthereumChain') {
+      widget.signCallback(
+          rawData, EIP1193.switchEthereumChain, _webViewController);
+    } else if (name == 'addEthereumChain') {
       widget.signCallback(
           rawData, EIP1193.addEthereumChain, _webViewController);
+    } else {
+      widget.signCallback(rawData, EIP1193.unknown, _webViewController);
     }
   }
 
