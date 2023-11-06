@@ -22,7 +22,7 @@ class Config {
   static int decimalShowFixed = 3;
   static int decimalWriteFixed = 8;
 
-  /// It's in days 
+  /// It's in days
   static int transactionsHistoryLimit = 7;
 
   static bool isMxcChains(int chainId) {

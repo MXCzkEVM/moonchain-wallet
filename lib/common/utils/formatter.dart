@@ -129,4 +129,8 @@ class Formatter {
   static String removeZeroX(String value) {
     return value.startsWith('0x') ? value.substring(2) : value;
   }
+
+  static String escapeDoubleQuotes(String value) {
+    return value.replaceAll('"', '\\"');
+  }
 }
