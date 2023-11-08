@@ -315,21 +315,26 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final networks = _chainConfigurationUseCase.networks.value;
     final foundChainIdIndex =
         networks.indexWhere((element) => element.chainId == chainId);
+    // user can add a network again meaning It will override the old network
+    final alreadyExists = foundChainIdIndex != -1;
+    final alreadyEnabled =
+        alreadyExists ? networks[foundChainIdIndex].enabled : false;
 
-    // TODO:
-    if (foundChainIdIndex == -1) {
-      // Add network
-      final newNetwork = Network.fromAddEthereumChain(networkDetails, chainId);
+    // Add network
+    final newNetwork = Network.fromAddEthereumChain(networkDetails, chainId);
+    
+    final res = await showAddNetworkDialog(
+      context!,
+      network: newNetwork,
+      approveFunction: (network) => alreadyExists
+          ? updateNetwork(network, foundChainIdIndex)
+          : addNewNetwork(network),
+    );
 
-      final res = await showAddNetworkDialog(
-        context!,
-        network: newNetwork,
-        approveFunction: addNewNetwork,
-      );
-
-      if (!(res ?? false)) {
-        cancelRequest(id);
-      } else {
+    if (!(res ?? false)) {
+      cancelRequest(id);
+    } else {
+      if (!alreadyEnabled) {
         final res = await showSwitchNetworkDialog(context!,
             fromNetwork: state.network!.label ?? state.network!.web3RpcHttpUrl,
             toNetwork: newNetwork.label ?? newNetwork.web3RpcHttpUrl,
@@ -340,11 +345,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           cancelRequest(id);
         }
       }
-    } else {
-      // TODO:
-      addError(translate('Network already exists!'));
-      cancelRequest(id);
     }
+  }
+
+  Network? updateNetwork(Network network, int index) {
+    _chainConfigurationUseCase.updateItem(network, index);
+    return network;
   }
 
   Network? addNewNetwork(Network newNetwork) {
