@@ -7,7 +7,7 @@ import 'package:mxc_ui/mxc_ui.dart';
 Future<bool?> showSwitchNetworkDialog(
   BuildContext context, {
   required Network network,
-  required void Function(Network network) onTap,
+  required void Function(Network network) onSwitch,
 }) {
   String translate(String text) => FlutterI18n.translate(context, text);
 
@@ -65,12 +65,7 @@ Future<bool?> showSwitchNetworkDialog(
               key: const ValueKey('switchToNetwork'),
               title: translate('switch_to_network'),
               onTap: () {
-                onTap(network);
-                Navigator.of(context).popUntil((route) {
-                  return route.settings.name
-                          ?.contains('ChainConfigurationPage') ??
-                      false;
-                });
+                onSwitch(network);
               },
               size: AxsButtonSize.xl,
             ),

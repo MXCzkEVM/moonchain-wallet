@@ -3,17 +3,15 @@ import 'package:datadashwallet/features/security/security.dart';
 import 'passcode_authenticate_user_state.dart';
 
 final passcodeAuthenticateUserContainer = PresenterContainer<
-        PasscodeAuthenticateUserPresenter,
-        PasscodeAuthenticateUserState>(
-    () => PasscodeAuthenticateUserPresenter());
+    PasscodeAuthenticateUserPresenter,
+    PasscodeAuthenticateUserState>(() => PasscodeAuthenticateUserPresenter());
 
 class PasscodeAuthenticateUserPresenter
     extends PasscodeBasePagePresenter<PasscodeAuthenticateUserState> {
-  PasscodeAuthenticateUserPresenter()
-      : super(PasscodeAuthenticateUserState());
+  PasscodeAuthenticateUserPresenter() : super(PasscodeAuthenticateUserState());
 
   late final PasscodeUseCase _passcodeUseCase =
-    ref.read(passcodeUseCaseProvider);
+      ref.read(passcodeUseCaseProvider);
 
   @override
   void onAllNumbersEntered(String? dismissedPage) async {

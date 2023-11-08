@@ -4,3 +4,4 @@ export 'grey_container.dart';
 export 'balance_panel/balance.dart';
 export 'snack_bar.dart';
 export 'list/list.dart';
+export 'property_item.dart';

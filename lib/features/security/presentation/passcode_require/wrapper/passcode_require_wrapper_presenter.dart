@@ -94,8 +94,9 @@ class PasscodeRequireWrapperPresenter
       _passcodeUseCase.setPasscodeScreenIsShown(true);
 
       await Future.delayed(const Duration(milliseconds: 0));
-      Navigator.of(context!, rootNavigator: true)
-          .push(route.featureDialog(const PasscodeRequirePage(), canPopThisPage: false), );
+      Navigator.of(context!, rootNavigator: true).push(
+        route.featureDialog(const PasscodeRequirePage(), canPopThisPage: false),
+      );
     }
   }
 

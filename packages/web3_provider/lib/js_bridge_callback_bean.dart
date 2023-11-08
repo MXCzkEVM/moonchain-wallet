@@ -13,6 +13,12 @@ extension Web3Result on InAppWebViewController {
     evaluateJavascript(source: script);
   }
 
+  /// send error to dapp
+  void sendProviderError(int id, int code, String message) {
+    final script = "window.ethereum.sendProviderError($id, $code,\"$message\")";
+    evaluateJavascript(source: script);
+  }
+
   /// send result to dapp
   void sendResult(String result, int id) {
     final script = "window.ethereum.sendResponse($id, \"$result\")";
