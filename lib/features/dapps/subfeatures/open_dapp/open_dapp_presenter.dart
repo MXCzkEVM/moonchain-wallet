@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
 
 import 'package:datadashwallet/core/core.dart';
+import 'package:mxc_logic/src/domain/entities/add_ethereum_chain/add_ethereum_chain.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
@@ -254,8 +256,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
-  Future<bool?> addEthereumChain(
-      dynamic id, Map<dynamic, dynamic> params) async {
+  void switchEthereumChain(dynamic id, Map<dynamic, dynamic> params) async {
     final rawChainId = params["object"]["chainId"] as String;
     final chainId = Formatter.hexToDecimal(rawChainId);
     final networks = _chainConfigurationUseCase.networks.value;
@@ -264,16 +265,91 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     if (foundChainIdIndex != -1) {
       final foundNetwork = networks[foundChainIdIndex];
-      return await showSwitchNetworkDialog(context!,
+      final res = await showSwitchNetworkDialog(context!,
           fromNetwork: state.network!.label ?? state.network!.web3RpcHttpUrl,
           toNetwork: foundNetwork.label ?? foundNetwork.web3RpcHttpUrl,
           onTap: () {
-        switchNetwork(id, foundNetwork, rawChainId);
+        switchDefaultNetwork(id, foundNetwork, rawChainId);
       });
+      if (!(res ?? false)) {
+        cancelRequest(id);
+      }
     } else {
       addError(translate('network_not_found'));
-      state.webviewController?.sendError(translate('network_not_found')!, id);
+      final e =
+          DAppErrors.switchEthereumChainErrors.unRecognizedChain(rawChainId);
+      sendProviderError(
+          id, e['code'], Formatter.escapeDoubleQuotes(e['message']));
     }
+  }
+
+  void checkCancel(bool? res, Function moveOn, int id) {
+    if (!(res ?? false)) {
+      cancelRequest(id);
+    } else {
+      moveOn();
+    }
+  }
+
+  void sendProviderError(int id, int code, String message) {
+    state.webviewController?.sendProviderError(id, code, message);
+  }
+
+  void sendError(String error, int id) {
+    state.webviewController?.sendError(Formatter.escapeDoubleQuotes(error), id);
+  }
+
+  void cancelRequest(int id) {
+    state.webviewController?.cancel(id);
+  }
+
+  void unSupportedRequest() {
+    addError(translate('network_not_found'));
+  }
+
+  void addEthereumChain(dynamic id, Map<dynamic, dynamic> params) async {
+    final networkDetails = AddEthereumChain.fromMap(params["object"]);
+
+    final rawChainId = networkDetails.chainId;
+    final chainId = Formatter.hexToDecimal(rawChainId);
+    final networks = _chainConfigurationUseCase.networks.value;
+    final foundChainIdIndex =
+        networks.indexWhere((element) => element.chainId == chainId);
+
+    // TODO:
+    if (foundChainIdIndex == -1) {
+      // Add network
+      final newNetwork = Network.fromAddEthereumChain(networkDetails, chainId);
+
+      final res = await showAddNetworkDialog(
+        context!,
+        network: newNetwork,
+        approveFunction: addNewNetwork,
+      );
+
+      if (!(res ?? false)) {
+        cancelRequest(id);
+      } else {
+        final res = await showSwitchNetworkDialog(context!,
+            fromNetwork: state.network!.label ?? state.network!.web3RpcHttpUrl,
+            toNetwork: newNetwork.label ?? newNetwork.web3RpcHttpUrl,
+            onTap: () {
+          switchDefaultNetwork(id, newNetwork, rawChainId);
+        });
+        if (!(res ?? false)) {
+          cancelRequest(id);
+        }
+      }
+    } else {
+      // TODO:
+      addError(translate('Network already exists!'));
+      cancelRequest(id);
+    }
+  }
+
+  Network? addNewNetwork(Network newNetwork) {
+    _chainConfigurationUseCase.addItem(newNetwork);
+    return newNetwork;
   }
 
   void signPersonalMessage() {}
@@ -321,7 +397,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
-  void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
+  void switchDefaultNetwork(int id, Network toNetwork, String rawChainId) {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
     _authUseCase.resetNetwork(toNetwork);
