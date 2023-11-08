@@ -36,7 +36,9 @@ class AddBookmarkPresenter extends CompletePresenter<void> {
       final response = await http.get(Uri.parse(url));
       final startIndex = response.body.indexOf('<title>');
       final endIndex = response.body.indexOf('</title>');
-      String title = response.body.substring(startIndex + 7, endIndex);
+      String title = startIndex == -1 || endIndex == -1
+          ? ''
+          : response.body.substring(startIndex + 7, endIndex);
 
       if (startIndex == -1 || title.isEmpty) {
         title = 'Unknown';
