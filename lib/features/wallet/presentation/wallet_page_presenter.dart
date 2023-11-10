@@ -31,7 +31,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     super.initState();
 
     getMXCTweets();
-    checkForPendingTx();
 
     listen(_accountUserCase.account, (value) {
       if (value != null) {
@@ -429,11 +428,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     if (height >= state.maxTweetViewHeight - 120) {
       notify(() => state.maxTweetViewHeight = height + 120);
     }
-  }
-
-  void checkForPendingTx() {
-    _transactionHistoryUseCase.checkForPendingTransactions(
-        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh().chainId);
   }
 
   void initBalanceUpdateStream() {

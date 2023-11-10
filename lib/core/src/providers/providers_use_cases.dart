@@ -127,6 +127,7 @@ final Provider<TransactionsHistoryUseCase> transactionHistoryUseCaseProvider =
   (ref) => TransactionsHistoryUseCase(
     ref.watch(datadashCacheProvider).transactionsHistoryRepository,
     ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
   ),
 );
 
