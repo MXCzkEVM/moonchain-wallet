@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:retry/retry.dart';
 
 export 'formatter.dart';
 export 'permission.dart';
@@ -20,5 +21,9 @@ class Utils {
     } else {
       throw 'unable_to_launch_email_app';
     }
+  }
+
+  static void retryFunction(Function function) {
+    retry(() => function());
   }
 }
