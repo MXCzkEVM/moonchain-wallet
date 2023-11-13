@@ -2,6 +2,8 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
+
 import 'portfolio_page_state.dart';
 
 final portfolioContainer =

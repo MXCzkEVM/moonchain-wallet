@@ -3,6 +3,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
 
+
 class MXCTransactionsUseCase extends ReactiveUseCase {
   MXCTransactionsUseCase(this._web3Repository);
 

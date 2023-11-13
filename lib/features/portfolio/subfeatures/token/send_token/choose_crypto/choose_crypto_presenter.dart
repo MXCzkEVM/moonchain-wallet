@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/config.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
 

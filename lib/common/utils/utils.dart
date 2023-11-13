@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:retry/retry.dart';
 
