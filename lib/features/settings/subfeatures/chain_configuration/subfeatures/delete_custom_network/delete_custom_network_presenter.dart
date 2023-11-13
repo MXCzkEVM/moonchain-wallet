@@ -1,6 +1,7 @@
 import 'package:datadashwallet/app/app.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -28,6 +29,7 @@ class DeleteCustomNetworkPresenter
   late final TextEditingController symbolController = TextEditingController();
   late final TextEditingController explorerController = TextEditingController();
   late final _authUseCase = ref.read(authUseCaseProvider);
+  late final _webviewUseCase = WebviewUseCase();
 
   Network? selectedNetwork;
 
@@ -165,6 +167,10 @@ class DeleteCustomNetworkPresenter
   void setNewDefault() {
     final newDefault = state.networks[0];
     _chainConfigurationUseCase.switchDefaultNetwork(newDefault);
+    _authUseCase.resetNetwork(newDefault);
+    _webviewUseCase.clearCache();
+    loadDataDashProviders(newDefault);
+
     addMessage(translate('x_is_now_active')!.replaceFirst(
         '{0}',
         newDefault.label ??
