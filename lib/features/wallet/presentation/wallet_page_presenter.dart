@@ -75,10 +75,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     });
 
     listen(_tokenContractUseCase.tokensList, (newTokenList) {
-      if (newTokenList.isNotEmpty) {
-        state.tokensList.clear();
-        state.tokensList.addAll(newTokenList);
-      }
+      state.tokensList.clear();
+      state.tokensList.addAll(newTokenList);
     });
 
     listen(_tokenContractUseCase.totalBalanceInXsd, (newValue) {
