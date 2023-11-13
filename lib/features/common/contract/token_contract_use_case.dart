@@ -48,6 +48,10 @@ class TokenContractUseCase extends ReactiveUseCase {
     return await _repository.tokenContract.connectToWebSocket();
   }
 
+  void disconnectWebsSocket() {
+    return _repository.tokenContract.disconnectWebSocket();
+  }
+
   Future<WannseeTransactionsModel?> getTransactionsByAddress(
       String address) async {
     return _repository.tokenContract.getTransactionsByAddress(address);
