@@ -1,5 +1,4 @@
-import 'package:datadashwallet/common/config.dart';
-import 'package:datadashwallet/common/utils/formatter.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -151,7 +150,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   /// TODO: Make a ur launcher use case
   void launchAddress(String address) async {
     final chainExplorerUrl = selectedNetwork.value!.explorerUrl!;
-    final addressExplorer = Config.addressExplorer(address);
+    final addressExplorer = Urls.addressExplorer(address);
     final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
     if ((await canLaunchUrl(launchUri))) {

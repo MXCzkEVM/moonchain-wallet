@@ -18,6 +18,24 @@ class Urls {
   static const String mainnetL3Bridge = 'https://erc20.mxc.com/';
   static const String testnetL3Bridge = 'https://wannsee-erc20.mxc.com/';
 
+  static String mainnetMns(String name) =>
+      'https://mns.mxc.com/$name.mxc/register';
+  static String testnetMns(String name) =>
+      'https://wannsee-mns.mxc.com/$name.mxc/register';
+
+  static String txExplorer(String hash) {
+    return 'tx/$hash';
+  }
+
+  static String addressExplorer(String address) {
+    return 'address/$address';
+  }
+
+  static bool isL3Bridge(String url) {
+    return url.contains('erc20.mxc.com') ||
+        url.contains('wannsee-erc20.mxc.com');
+  }
+
   static String networkL3Bridge(int chainId) =>
       Config.isMXCMainnet(chainId) ? mainnetL3Bridge : testnetL3Bridge;
 }

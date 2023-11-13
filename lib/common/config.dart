@@ -13,10 +13,6 @@ class Config {
   static const String mxcAddressEthereum =
       '0x5Ca381bBfb58f0092df149bD3D243b08B9a8386e';
 
-  static String mainnetMns(String name) =>
-      'https://mns.mxc.com/$name.mxc/register';
-  static String testnetMns(String name) =>
-      'https://wannsee-mns.mxc.com/$name.mxc/register';
 
   // Numbers fixed decimals
   static int decimalShowFixed = 3;
@@ -37,18 +33,6 @@ class Config {
     return chainId == ethereumMainnetChainId;
   }
 
-  static bool isL3Bridge(String url) {
-    return url.contains('erc20.mxc.com') ||
-        url.contains('wannsee-erc20.mxc.com');
-  }
-
-  static String txExplorer(String hash) {
-    return 'tx/$hash';
-  }
-
-  static String addressExplorer(String address) {
-    return 'address/$address';
-  }
 
   /// If error happens with these messages then we will need to show receive bottom sheet
   static List<String> fundErrors = [
