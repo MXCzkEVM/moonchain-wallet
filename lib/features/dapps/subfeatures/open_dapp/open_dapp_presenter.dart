@@ -9,11 +9,9 @@ import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swti
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
-import 'package:web3dart/json_rpc.dart';
 
 import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
@@ -67,12 +65,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     String from,
     String to,
     EtherAmount? gasPrice,
-    Uint8List? data,
+    Uint8List data,
     BigInt? amountOfGas,
   ) async {
     loading = true;
     try {
-      final gasFee = await _tokenContractUseCase.estimateGesFee(
+      final gasFee = await _tokenContractUseCase.estimateGasFeeForContractCall(
           from: from,
           to: to,
           gasPrice: gasPrice,
@@ -322,7 +320,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     // Add network
     final newNetwork = Network.fromAddEthereumChain(networkDetails, chainId);
-    
+
     final res = await showAddNetworkDialog(
       context!,
       network: newNetwork,

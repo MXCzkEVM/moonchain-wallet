@@ -159,8 +159,6 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       return;
     }
 
-    Uint8List? data;
-
     final amountDouble = double.parse(amountController.text);
     final amountEtherAmount = MxcAmount.fromDoubleByEther(amountDouble);
 
@@ -168,7 +166,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     if (token.address != null) {
       final toAddress = EthereumAddress.fromHex(recipientController.text);
 
-      data = _tokenContractUseCase.getTokenTransferData(
+      final data = _tokenContractUseCase.getTokenTransferData(
           token.address!, toAddress, amountEtherAmount.getInWei);
 
       estimatedGasFee = await _estimateGasFeeForContractCall(data);
@@ -251,6 +249,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       return gasFee;
     } catch (e, s) {
       callErrorHandler(e, s);
+      return null;
     } finally {
       loading = false;
     }
@@ -271,6 +270,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
       return gasFee;
     } catch (e, s) {
       callErrorHandler(e, s);
+      return null;
     } finally {
       loading = false;
     }
