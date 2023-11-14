@@ -59,7 +59,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
 
   void transactionProcess() async {
     final recipient = recipientController.text;
-    EstimatedGasFee? estimatedGasFee;
+    TransactionGasEstimation? estimatedGasFee;
 
     if (TransactionProcessType.confirm != state.processType) {
       if (TransactionProcessType.send == state.processType) {
@@ -112,7 +112,7 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
     }
   }
 
-  Future<EstimatedGasFee?> _estimateGasFeeForContractCall(
+  Future<TransactionGasEstimation?> _estimateGasFeeForContractCall(
     Uint8List data,
   ) async {
     loading = true;

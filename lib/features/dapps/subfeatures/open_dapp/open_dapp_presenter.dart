@@ -61,7 +61,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     notify(() => state.webviewController = controller);
   }
 
-  Future<EstimatedGasFee?> _estimatedFee(
+  Future<TransactionGasEstimation?> _estimatedFee(
     String from,
     String to,
     EtherAmount? gasPrice,
@@ -87,7 +87,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<String?> _sendTransaction(String to, EtherAmount amount,
-      Uint8List? data, EstimatedGasFee? estimatedGasFee, String url,
+      Uint8List? data, TransactionGasEstimation? estimatedGasFee, String url,
       {String? from}) async {
     final res = await _tokenContractUseCase.sendTransaction(
         privateKey: state.account!.privateKey,
@@ -171,7 +171,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final bridgeData = hexToBytes(bridge.data ?? '');
     EtherAmount? gasPrice;
     double? gasFee;
-    EstimatedGasFee? estimatedGasFee;
+    TransactionGasEstimation? estimatedGasFee;
     BigInt? amountOfGas;
 
     if (bridge.gasPrice != null) {
@@ -185,8 +185,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           gasPrice.getValueInUnit(EtherUnit.ether).toDouble();
       gasFee = gasPriceDouble * amountOfGas.toDouble();
 
-      estimatedGasFee =
-          EstimatedGasFee(gasPrice: gasPrice, gas: amountOfGas, gasFee: gasFee);
+      estimatedGasFee = TransactionGasEstimation(
+          gasPrice: gasPrice, gas: amountOfGas, gasFee: gasFee);
     } else {
       estimatedGasFee = await _estimatedFee(
           bridge.from!, bridge.to!, gasPrice, bridgeData, amountOfGas);

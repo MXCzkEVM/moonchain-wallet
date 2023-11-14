@@ -152,7 +152,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     String recipientAddress = await getAddress(recipient);
     double sumBalance = token.balance! - double.parse(amount);
 
-    EstimatedGasFee? estimatedGasFee;
+    TransactionGasEstimation? estimatedGasFee;
 
     if (recipientAddress == Config.zeroAddress) {
       addError(translate('unregistered_mns_notice'));
@@ -211,8 +211,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     return null;
   }
 
-  Future<String?> _nextTransactionStep(
-      TransactionProcessType type, EstimatedGasFee estimatedGasFee) async {
+  Future<String?> _nextTransactionStep(TransactionProcessType type,
+      TransactionGasEstimation estimatedGasFee) async {
     if (TransactionProcessType.sending == type) {
       final res = await _sendTransaction(estimatedGasFee);
       if (res != null) {
@@ -231,7 +231,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     }
   }
 
-  Future<EstimatedGasFee?> _estimateGasFeeForCoinTransfer(
+  Future<TransactionGasEstimation?> _estimateGasFeeForCoinTransfer(
     String to,
     EtherAmount? gasPrice,
     EtherAmount value,
@@ -255,7 +255,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     }
   }
 
-  Future<EstimatedGasFee?> _estimateGasFeeForContractCall(
+  Future<TransactionGasEstimation?> _estimateGasFeeForContractCall(
     Uint8List data,
   ) async {
     loading = true;
@@ -276,7 +276,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     }
   }
 
-  Future<String?> _sendTransaction(EstimatedGasFee estimatedGasFee) async {
+  Future<String?> _sendTransaction(
+      TransactionGasEstimation estimatedGasFee) async {
     final amountDouble = double.parse(amountController.text);
     final amount = MxcAmount.fromDoubleByEther(amountDouble);
     final recipient = recipientController.text;

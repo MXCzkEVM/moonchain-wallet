@@ -194,7 +194,7 @@ class TokenContractUseCase extends ReactiveUseCase {
   Future<EtherAmount> getGasPrice() async =>
       await _repository.tokenContract.getGasPrice();
 
-  Future<EstimatedGasFee> estimateGasFeeForCoinTransfer({
+  Future<TransactionGasEstimation> estimateGasFeeForCoinTransfer({
     required String from,
     required String to,
     EtherAmount? gasPrice,
@@ -203,7 +203,7 @@ class TokenContractUseCase extends ReactiveUseCase {
       await _repository.tokenContract.estimateGasFeeForCoinTransfer(
           from: from, to: to, gasPrice: gasPrice, value: value);
 
-  Future<EstimatedGasFee> estimateGasFeeForContractCall({
+  Future<TransactionGasEstimation> estimateGasFeeForContractCall({
     required String from,
     required String to,
     required Uint8List data,
@@ -221,7 +221,7 @@ class TokenContractUseCase extends ReactiveUseCase {
     required String to,
     String? from,
     required EtherAmount amount,
-    EstimatedGasFee? estimatedGasFee,
+    TransactionGasEstimation? estimatedGasFee,
     Uint8List? data,
     String? tokenAddress,
   }) async =>
