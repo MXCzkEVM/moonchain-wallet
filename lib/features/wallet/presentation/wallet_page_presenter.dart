@@ -1,5 +1,3 @@
-import 'package:datadashwallet/common/components/components.dart';
-import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
@@ -303,7 +301,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   void viewTransaction(String txHash) async {
     final chainExplorerUrl = state.network!.explorerUrl!;
-    final txExplorer = Config.txExplorer(txHash);
+    final txExplorer = Urls.txExplorer(txHash);
     final launchUri = Formatter.mergeUrl(chainExplorerUrl, txExplorer);
 
     if ((await canLaunchUrl(launchUri))) {
@@ -314,7 +312,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   void getViewOtherTransactionsLink() async {
     final chainExplorerUrl = state.network!.explorerUrl!;
     final address = state.account!.address;
-    final addressExplorer = Config.addressExplorer(address);
+    final addressExplorer = Urls.addressExplorer(address);
     final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
     if ((await canLaunchUrl(launchUri))) {

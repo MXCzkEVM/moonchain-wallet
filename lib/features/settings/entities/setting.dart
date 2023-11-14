@@ -1,5 +1,5 @@
 import 'package:mxc_ui/mxc_ui.dart';
-import 'package:datadashwallet/common/common.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_page.dart';

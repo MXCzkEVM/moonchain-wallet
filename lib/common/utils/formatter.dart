@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:datadashwallet/common/config.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:intl/intl.dart' as intl;
 

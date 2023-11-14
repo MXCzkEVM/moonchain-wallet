@@ -10,6 +10,4 @@ export 'color_filter.dart';
 export 'biometric.dart';
 export 'components/components.dart';
 export 'dialogs/dialogs.dart';
-export 'urls.dart';
-export 'config.dart';
 export 'assets.dart';
