@@ -200,13 +200,35 @@ class TokenContractUseCase extends ReactiveUseCase {
     EtherAmount? gasPrice,
     Uint8List? data,
     BigInt? amountOfGas,
+    EtherAmount? value,
   }) async =>
       await _repository.tokenContract.estimateGesFee(
           from: from,
           to: to,
           gasPrice: gasPrice,
           data: data,
-          amountOfGas: amountOfGas);
+          amountOfGas: amountOfGas,
+          value: value);
+
+  Future<EstimatedGasFee> estimateGasFeeForCoinTransfer({
+    required String from,
+    required String to,
+    EtherAmount? gasPrice,
+    required EtherAmount value,
+  }) async =>
+      await _repository.tokenContract.estimateGasFeeForCoinTransfer(
+          from: from, to: to, gasPrice: gasPrice, value: value);
+
+  Future<EstimatedGasFee> estimateGasFeeForContractCall({
+    required String from,
+    required String to,
+    required Uint8List data,
+  }) async =>
+      await _repository.tokenContract.estimateGasFeeForContractCall(
+        from: from,
+        to: to,
+        data: data,
+      );
 
   Future<String> sendTransaction({
     required String privateKey,
@@ -225,6 +247,12 @@ class TokenContractUseCase extends ReactiveUseCase {
           estimatedGasFee: estimatedGasFee,
           data: data,
           tokenAddress: tokenAddress);
+
+  Uint8List getTokenTransferData(
+      String tokenHash, EthereumAddress toAddress, BigInt amount) {
+    return _repository.tokenContract
+        .getTokenTransferData(tokenHash, toAddress, amount);
+  }
 
   String signTypedMessage({required String privateKey, required String data}) {
     return _repository.tokenContract
