@@ -12,6 +12,8 @@ class SplashImportStoragePresenter
     extends SplashBasePresenter<SplashBaseState> {
   SplashImportStoragePresenter() : super(SplashBaseState());
 
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+
   @override
   void initState() {
     super.initState();
@@ -19,9 +21,9 @@ class SplashImportStoragePresenter
     isInstallApps();
   }
 
-  void openTelegram() => openUrl('tg://');
+  void openTelegram() => openUrl(_launcherUseCase.openTelegram);
 
-  void openWechat() => openUrl('weixin://');
+  void openWechat() => openUrl(_launcherUseCase.openWeChat);
 
   void openEmail() async {
     try {
@@ -35,16 +37,11 @@ class SplashImportStoragePresenter
     }
   }
 
-  void openUrl(String url) async {
-    final uri = Uri.parse(url);
+  void openUrl(Function launcherFunction) async {
     loading = true;
 
     try {
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
-      } else {
-        throw UnimplementedError('Could not launch $url');
-      }
+      launcherFunction();
     } catch (error, tackTrace) {
       addError(error, tackTrace);
     } finally {

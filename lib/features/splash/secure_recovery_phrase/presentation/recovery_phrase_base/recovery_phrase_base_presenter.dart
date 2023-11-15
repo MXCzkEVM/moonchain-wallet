@@ -20,6 +20,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
 
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
   final _mnemonicTitle = 'AXS Wallet Mnemonic Key';
   final _mnemonicFileName =
@@ -117,7 +118,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
       bool canSend = await FlutterMailer.canSendMail();
 
       if (Platform.isIOS && !canSend) {
-        await Utils.launchEmailApp();
+        await _launcherUseCase.launchEmailApp();
       } else {
         MailerResponse sendResult = await FlutterMailer.send(email);
         // only [ios] can return sent | saved | cancelled
