@@ -146,22 +146,4 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   void selectNetworkForDetails(Network network) {
     update(selectedNetworkForDetails, network);
   }
-
-  /// TODO: Make a ur launcher use case
-  void launchAddress(String address) async {
-    final chainExplorerUrl = selectedNetwork.value!.explorerUrl!;
-    final addressExplorer = Urls.addressExplorer(address);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
-
-    if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
-    }
-  }
-
-  void launchUrlInPlatformDefault(String url) async {
-    final launchUri = Uri.parse(url);
-    if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
-    }
-  }
 }

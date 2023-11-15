@@ -147,8 +147,8 @@ class TransactionInfo extends StatelessWidget {
     return TransactionItem(
       label: label,
       content: InkWell(
-        onTap: () =>
-            openUrl('https://wannsee-explorer.mxc.com/address/$address'),
+        // onTap: () =>
+        //     openUrl('https://wannsee-explorer.mxc.com/address/$address'),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

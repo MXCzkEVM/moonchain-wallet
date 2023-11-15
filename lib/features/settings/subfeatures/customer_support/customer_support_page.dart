@@ -71,7 +71,7 @@ class CustomerSupportPage extends HookConsumerWidget {
           size: AxsButtonSize.xl,
           onTap: ref.watch(state).applist['telegram'] == true ||
                   ref.watch(state).applist['telegram_web'] == true
-              ? () => openUrl('http://t.me/mxcchatgpt_bot')
+              ? () => ref.read(presenter).launchMXCChatGPT()
               : null,
         ),
       ],
