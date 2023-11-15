@@ -24,6 +24,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
   late final _mxcTransactionsUseCase = ref.read(mxcTransactionsUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+
 
   @override
   void initState() {
@@ -300,24 +302,11 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void viewTransaction(String txHash) async {
-    final chainExplorerUrl = state.network!.explorerUrl!;
-    final txExplorer = Urls.txExplorer(txHash);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, txExplorer);
-
-    if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
-    }
+    _launcherUseCase.viewTransaction(txHash);
   }
 
   void getViewOtherTransactionsLink() async {
-    final chainExplorerUrl = state.network!.explorerUrl!;
-    final address = state.account!.address;
-    final addressExplorer = Urls.addressExplorer(address);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
-
-    if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
-    }
+  _launcherUseCase.viewTransactions();
   }
 
   void generateChartData(List<BalanceData> balanceData) {
