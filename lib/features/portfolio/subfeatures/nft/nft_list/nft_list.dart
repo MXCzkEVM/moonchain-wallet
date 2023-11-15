@@ -53,7 +53,7 @@ class NFTList extends HookConsumerWidget {
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 onTap: () {
-                  final launchUrl = presenter.getNftUrl();
+                  final launchUrl = presenter.getNftMarketPlaceUrl();
                   if (launchUrl != null) {
                     Navigator.of(context).push(route.featureDialog(
                       maintainState: false,

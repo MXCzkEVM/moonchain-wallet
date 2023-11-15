@@ -20,8 +20,7 @@ class SingleLineInfoItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    late final _chainConfigurationUseCase =
-        ref.read(chainConfigurationUseCaseProvider);
+    late final launcherUseCase = ref.read(launcherUseCaseProvider);
 
     final isAddress = Validation.isAddress(value);
     return Padding(
@@ -40,9 +39,8 @@ class SingleLineInfoItem extends HookConsumerWidget {
           ),
           Expanded(
             child: InkWell(
-              onTap: isAddress
-                  ? () => _chainConfigurationUseCase.launchAddress(value)
-                  : null,
+              onTap:
+                  isAddress ? () => launcherUseCase.viewAddress(value) : null,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

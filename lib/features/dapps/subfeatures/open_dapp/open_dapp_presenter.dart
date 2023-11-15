@@ -33,6 +33,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _customTokensUseCase = ref.read(customTokensUseCaseProvider);
   late final _errorUseCase = ref.read(errorUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
   @override
   void initState() {
@@ -490,6 +491,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void launchAddress(String address) {
-    _chainConfigurationUseCase.launchAddress(address);
+    _launcherUseCase.viewAddress(address);
   }
 }

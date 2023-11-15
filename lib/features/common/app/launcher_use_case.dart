@@ -107,4 +107,8 @@ class LauncherUseCase extends ReactiveUseCase {
   Future<void> launchAxsTermsConditions() async {
     await launchUrlInExternalAppWithString(Urls.axsTermsConditions);
   }
+
+  void openTelegram() => launchUrlInPlatformDefaultWithString(Urls.telegram);
+
+  void openWeChat() => launchUrlInPlatformDefaultWithString(Urls.weChat);
 }
