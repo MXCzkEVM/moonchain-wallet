@@ -10,6 +10,7 @@ abstract class SplashBasePresenter<T extends SplashBaseState>
   SplashBasePresenter(T state) : super(state);
 
   final AppinioSocialShare _socialShare = AppinioSocialShare();
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
   Future<void> isInstallApps() async {
     final applist = await _socialShare.getInstalledApps();
@@ -18,7 +19,7 @@ abstract class SplashBasePresenter<T extends SplashBaseState>
   }
 
   void checkEmailAppAvailability() async {
-    final isEmailAppAvailable = await Utils.isEmailAppAvailable();
+    final isEmailAppAvailable = await _launcherUseCase.isEmailAppAvailable();
     notify(() => state.isEmailAppAvailable = isEmailAppAvailable);
   }
 }
