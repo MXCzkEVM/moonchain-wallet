@@ -48,7 +48,7 @@ class SplashSetupWalletPage extends SplashBasePage {
   Widget buildAppBar(BuildContext context, WidgetRef ref) => Container();
 
   @override
-  Widget? buildFooter(BuildContext context) {
+  Widget? buildFooter(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         MxcButton.primaryWhite(
@@ -88,7 +88,7 @@ class SplashSetupWalletPage extends SplashBasePage {
                     ),
                 recognizer: TapGestureRecognizer()
                   ..onTap =
-                      () => openUrl('https://doc.mxc.com/docs/Resources/tns'),
+                      () => ref.read(presenter).launchAxsTermsConditions(),
               ),
             ],
           ),

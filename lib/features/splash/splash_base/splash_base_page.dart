@@ -39,7 +39,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
   Widget buildAppBar(BuildContext context, WidgetRef ref) =>
       const SizedBox(height: 20);
 
-  Widget? buildFooter(BuildContext context) => null;
+  Widget? buildFooter(BuildContext context, WidgetRef ref) => null;
 
   Widget appLogo(BuildContext context) {
     return Column(
@@ -84,7 +84,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
                       width: MediaQuery.of(context).size.width,
                       child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: buildFooter(context)!)),
+                          child: buildFooter(context, ref)!)),
                 );
               } else {
                 return AnimatedPositioned(
@@ -99,7 +99,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
                       width: MediaQuery.of(context).size.width,
                       child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: buildFooter(context)!)),
+                          child: buildFooter(context, ref)!)),
                 );
               }
             },
@@ -114,7 +114,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
       childrenPadding: childrenPadding,
       presenter: ref.watch(presenter),
       appBar: buildAppBar(context, ref),
-      footer: drawAnimated == true ? null : buildFooter(context),
+      footer: drawAnimated == true ? null : buildFooter(context, ref),
       children: [
         if (drawAnimated == true)
           buildAnimatedLayout(context)!

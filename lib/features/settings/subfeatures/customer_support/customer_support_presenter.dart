@@ -14,6 +14,7 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
   CustomerSupportPresenter() : super(CustomerSupportState());
 
   final AppinioSocialShare _socialShare = AppinioSocialShare();
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
   @override
   void initState() {
@@ -62,5 +63,9 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
     final applist = await _socialShare.getInstalledApps();
 
     notify(() => state.applist = applist);
+  }
+
+  launchMXCChatGPT() {
+    return _launcherUseCase.launchMXCChatGPT();
   }
 }

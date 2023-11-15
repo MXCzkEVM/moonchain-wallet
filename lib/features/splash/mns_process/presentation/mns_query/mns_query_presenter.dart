@@ -18,6 +18,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
   late final TextEditingController usernameController = TextEditingController();
 
@@ -93,7 +94,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
                   ),
                 ));
               },
-              _chainConfigurationUseCase.launchUrlInPlatformDefault,
+              _launcherUseCase.launchUrlInPlatformDefaultWithString,
               true,
             );
           } else {

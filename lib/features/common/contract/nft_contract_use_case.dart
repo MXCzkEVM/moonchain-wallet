@@ -41,7 +41,7 @@ class NftContractUseCase extends ReactiveUseCase {
     required int tokenId,
     required String privateKey,
     required String to,
-    EstimatedGasFee? estimatedGasFee,
+    TransactionGasEstimation? estimatedGasFee,
   }) async =>
       await _repository.nftContract.sendTransaction(
         address: address,

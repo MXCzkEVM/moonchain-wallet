@@ -9,11 +9,9 @@ import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swti
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
-import 'package:web3dart/json_rpc.dart';
 
 import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
@@ -35,6 +33,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _customTokensUseCase = ref.read(customTokensUseCaseProvider);
   late final _errorUseCase = ref.read(errorUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
   @override
   void initState() {
@@ -63,16 +62,16 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     notify(() => state.webviewController = controller);
   }
 
-  Future<EstimatedGasFee?> _estimatedFee(
+  Future<TransactionGasEstimation?> _estimatedFee(
     String from,
     String to,
     EtherAmount? gasPrice,
-    Uint8List? data,
+    Uint8List data,
     BigInt? amountOfGas,
   ) async {
     loading = true;
     try {
-      final gasFee = await _tokenContractUseCase.estimateGesFee(
+      final gasFee = await _tokenContractUseCase.estimateGasFeeForContractCall(
           from: from,
           to: to,
           gasPrice: gasPrice,
@@ -89,7 +88,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<String?> _sendTransaction(String to, EtherAmount amount,
-      Uint8List? data, EstimatedGasFee? estimatedGasFee, String url,
+      Uint8List? data, TransactionGasEstimation? estimatedGasFee, String url,
       {String? from}) async {
     final res = await _tokenContractUseCase.sendTransaction(
         privateKey: state.account!.privateKey,
@@ -173,7 +172,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final bridgeData = hexToBytes(bridge.data ?? '');
     EtherAmount? gasPrice;
     double? gasFee;
-    EstimatedGasFee? estimatedGasFee;
+    TransactionGasEstimation? estimatedGasFee;
     BigInt? amountOfGas;
 
     if (bridge.gasPrice != null) {
@@ -187,8 +186,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           gasPrice.getValueInUnit(EtherUnit.ether).toDouble();
       gasFee = gasPriceDouble * amountOfGas.toDouble();
 
-      estimatedGasFee =
-          EstimatedGasFee(gasPrice: gasPrice, gas: amountOfGas, gasFee: gasFee);
+      estimatedGasFee = TransactionGasEstimation(
+          gasPrice: gasPrice, gas: amountOfGas, gasFee: gasFee);
     } else {
       estimatedGasFee = await _estimatedFee(
           bridge.from!, bridge.to!, gasPrice, bridgeData, amountOfGas);
@@ -322,7 +321,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     // Add network
     final newNetwork = Network.fromAddEthereumChain(networkDetails, chainId);
-    
+
     final res = await showAddNetworkDialog(
       context!,
       network: newNetwork,
@@ -492,6 +491,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void launchAddress(String address) {
-    _chainConfigurationUseCase.launchAddress(address);
+    _launcherUseCase.viewAddress(address);
   }
 }
