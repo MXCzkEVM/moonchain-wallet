@@ -41,11 +41,13 @@ class OpenAppPage extends HookConsumerWidget {
                         if (details.primaryVelocity! < 0 - primaryVelocity &&
                             (await webViewController.canGoForward())) {
                           webViewController.goForward();
+                          return;
                         }
 
                         if (details.primaryVelocity! > primaryVelocity &&
                             (await webViewController.canGoBack())) {
                           webViewController.goBack();
+                          return;
                         }
 
                         if (details.primaryVelocity! > primaryVelocity &&
