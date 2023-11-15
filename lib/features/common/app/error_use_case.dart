@@ -10,15 +10,13 @@ import 'package:web3dart/web3dart.dart';
 import 'package:web3dart/json_rpc.dart';
 
 class ErrorUseCase extends ReactiveUseCase {
-  ErrorUseCase(
-    this._repository,
-    this._accountUseCase,
-    this._chainConfigurationUseCase,
-  );
+  ErrorUseCase(this._repository, this._accountUseCase,
+      this._chainConfigurationUseCase, this._launcherUseCase);
 
   final Web3Repository _repository;
   final AccountUseCase _accountUseCase;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
+  final LauncherUseCase _launcherUseCase;
 
   /// If error is known & handled will return true, otherwise return false.
   handleError(BuildContext context, dynamic e, {VoidCallback? onL3Tap}) {
@@ -41,7 +39,7 @@ class ErrorUseCase extends ReactiveUseCase {
           network.chainId,
           network.symbol,
           onL3Tap,
-          _chainConfigurationUseCase.launchUrlInPlatformDefault,
+          _launcherUseCase.launchUrlInPlatformDefaultWithString,
           true);
     }
 
