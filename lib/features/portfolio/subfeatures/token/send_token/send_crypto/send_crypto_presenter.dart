@@ -288,6 +288,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       final res = await _tokenContractUseCase.sendTransaction(
           privateKey: state.account!.privateKey,
+          from: state.account!.address,
           to: recipientAddress,
           amount: amount,
           tokenAddress: token.address,
