@@ -1,12 +1,19 @@
+import 'dart:async';
+
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
 
 class TransactionsHistoryUseCase extends ReactiveUseCase {
-  TransactionsHistoryUseCase(this._repository, this._web3Repository);
+  TransactionsHistoryUseCase(
+      this._repository, this._web3Repository, this._chainConfigurationUseCase) {
+    initTransactionHistoryListening();
+  }
 
   final Web3Repository _web3Repository;
+  final ChainConfigurationUseCase _chainConfigurationUseCase;
 
   final TransactionsHistoryRepository _repository;
 
@@ -17,7 +24,25 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
 
   late final ValueStream<bool> shouldUpdateBalances = reactive(false);
 
-  List<String> updatingTxList = [];
+  int? currentChainId;
+
+  Map<String, StreamSubscription<TransactionReceipt?>> updatingTransactions =
+      {};
+
+  initTransactionHistoryListening() {
+    transactionsHistory.listen(listenToTransactionsHistory);
+  }
+
+  listenToTransactionsHistory(List<TransactionModel> event) {
+    final selectedNetwork = _chainConfigurationUseCase.selectedNetwork.value;
+    if (selectedNetwork != null) {
+      final chainId = selectedNetwork.chainId;
+      checkChainChange(chainId);
+      if (!Config.isMxcChains(chainId)) {
+        checkForPendingTransactions();
+      }
+    }
+  }
 
   void updateItem(
     TransactionModel item,
@@ -52,13 +77,15 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
   void spyOnTransaction(
     TransactionModel item,
   ) {
-    if (!updatingTxList.contains(item.hash)) {
-      updatingTxList.add(item.hash);
-      final stream = _web3Repository.tokenContract.spyTransaction(item.hash);
+    if (!updatingTransactions.keys.contains(item.hash)) {
+      updatingTransactions[item.hash] =
+          _web3Repository.tokenContract.spyTransaction(item.hash);
 
-      stream.onData((receipt) {
+      updatingTransactions[item.hash]?.onData((receipt) {
         if (receipt?.status ?? false) {
           // success
+          updatingTransactions[item.hash]?.cancel();
+
           final itemValue = item.value ??
               (receipt!.gasUsed! * receipt.effectiveGasPrice!.getInWei)
                   .toString();
@@ -68,10 +95,8 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
           updateItem(
             updatedItem,
           );
-          updatingTxList.remove(item.hash);
+          updatingTransactions.remove(item.hash);
           update(shouldUpdateBalances, true);
-
-          stream.cancel();
         }
       });
     }
@@ -79,21 +104,22 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
 
   /// This function will run through all the transactions and will start spying on
   /// pending transactions
-  void checkForPendingTransactions(int chainId) {
-    if (!Config.isMxcChains(chainId)) {
-      final txList = transactionsHistory.value;
-      final pendingTxList = txList
-          .where((element) => element.status == TransactionStatus.pending);
-      for (TransactionModel pendingTx in pendingTxList) {
-        spyOnTransaction(
-          pendingTx,
-        );
-      }
+  void checkForPendingTransactions() async {
+    final txList = transactionsHistory.value;
+    final pendingTxList =
+        txList.where((element) => element.status == TransactionStatus.pending);
+    for (TransactionModel pendingTx in pendingTxList) {
+      spyOnTransaction(
+        pendingTx,
+      );
     }
   }
 
   void spyOnUnknownTransaction(
-      String hash, String address, Token token, int chainId) async {
+    String hash,
+    String address,
+    Token token,
+  ) async {
     TransactionInformation? receipt;
 
     receipt = await _web3Repository.tokenContract
@@ -106,5 +132,15 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
         tx,
       );
     }
+  }
+
+  void checkChainChange(int chainId) async {
+    if (currentChainId != chainId) {
+      for (String txHash in updatingTransactions.keys) {
+        await updatingTransactions[txHash]?.cancel();
+      }
+      updatingTransactions.clear();
+    }
+    currentChainId = chainId;
   }
 }

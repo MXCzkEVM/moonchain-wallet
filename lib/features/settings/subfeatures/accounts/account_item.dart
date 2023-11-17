@@ -62,7 +62,7 @@ class AccountItem extends StatelessWidget {
                 key: const Key('removeImportedAccountButton'),
                 icon: Icon(Icons.delete,
                     size: 24, color: ColorsTheme.of(context).iconPrimary),
-                onPressed:() => onRemove!(account),
+                onPressed: () => onRemove!(account),
               )
           ],
         ),

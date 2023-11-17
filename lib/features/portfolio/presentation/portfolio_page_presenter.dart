@@ -2,6 +2,8 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
+
 import 'portfolio_page_state.dart';
 
 final portfolioContainer =
@@ -17,6 +19,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   late final _nftUseCase = ref.read(nftsUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
   @override
   void initState() {
@@ -87,17 +90,8 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     }
   }
 
-  String? getNftUrl() {
-    final enabledNetwork = _chainConfigurationUseCase.networks.value
-        .where((element) => element.enabled)
-        .toList()[0];
-    if (enabledNetwork.chainId == Config.mxcTestnetChainId) {
-      return Urls.mxcTestnetNftMarketPlace;
-    } else if (enabledNetwork.chainId == Config.mxcMainnetChainId) {
-      return Urls.mxcMainnetNftMarketPlace;
-    } else {
-      return null;
-    }
+  String? getNftMarketPlaceUrl() {
+    return _launcherUseCase.getNftMarketPlaceUrl();
   }
 
   void showReceiveSheet() {
@@ -112,6 +106,6 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
           url: l3BridgeUri,
         ),
       ));
-    }, _chainConfigurationUseCase.launchUrlInPlatformDefault, false);
+    }, _launcherUseCase.launchUrlInPlatformDefaultWithString, false);
   }
 }

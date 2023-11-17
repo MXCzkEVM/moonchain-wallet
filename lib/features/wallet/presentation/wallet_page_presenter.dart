@@ -1,12 +1,11 @@
-import 'package:datadashwallet/common/components/components.dart';
-import 'package:datadashwallet/common/config.dart';
-import 'package:datadashwallet/common/utils/formatter.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'wallet_page_state.dart';
 
 final walletContainer =
@@ -25,13 +24,14 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
   late final _mxcTransactionsUseCase = ref.read(mxcTransactionsUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+
 
   @override
   void initState() {
     super.initState();
 
     getMXCTweets();
-    checkForPendingTx();
 
     listen(_accountUserCase.account, (value) {
       if (value != null) {
@@ -39,7 +39,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         notify(() => state.account = value);
         if (cAccount != null && cAccount.address != value.address) {
           /// Not first time & there is a change
-          createSubscriptions();
+          Utils.retryFunction(connectAndSubscribe);
         }
         if (state.network != null) {
           getTransactions();
@@ -50,7 +50,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
         state.network = value;
-        connectAndSubscribe();
+        Utils.retryFunction(connectAndSubscribe);
         getTransactions();
         resetBalanceUpdateStream();
       }
@@ -75,10 +75,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     });
 
     listen(_tokenContractUseCase.tokensList, (newTokenList) {
-      if (newTokenList.isNotEmpty) {
-        state.tokensList.clear();
-        state.tokensList.addAll(newTokenList);
-      }
+      state.tokensList.clear();
+      state.tokensList.addAll(newTokenList);
     });
 
     listen(_tokenContractUseCase.totalBalanceInXsd, (newValue) {
@@ -108,22 +106,28 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void connectAndSubscribe() async {
-    try {
-      if (state.network?.web3WebSocketUrl?.isNotEmpty ?? false) {
-        final isConnected = await connectToWebsocket();
-        if (isConnected) {
-          createSubscriptions();
-        } else {
-          connectAndSubscribe();
-        }
+    if (!Config.isMxcChains(state.network!.chainId)) {
+      if (state.subscription != null) state.subscription!.cancel();
+      disconnectWebsocket();
+      return;
+    }
+
+    if (state.network?.web3WebSocketUrl?.isNotEmpty ?? false) {
+      final isConnected = await connectToWebsocket();
+      if (isConnected) {
+        createSubscriptions();
+      } else {
+        throw 'Couldn\'t connect';
       }
-    } catch (e) {
-      connectAndSubscribe();
     }
   }
 
   Future<bool> connectToWebsocket() async {
     return await _tokenContractUseCase.connectToWebsSocket();
+  }
+
+  void disconnectWebsocket() async {
+    return _tokenContractUseCase.disconnectWebsSocket();
   }
 
   Future<Stream<dynamic>?> subscribeToBalance() async {
@@ -298,24 +302,11 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void viewTransaction(String txHash) async {
-    final chainExplorerUrl = state.network!.explorerUrl!;
-    final txExplorer = Config.txExplorer(txHash);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, txExplorer);
-
-    if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
-    }
+    _launcherUseCase.viewTransaction(txHash);
   }
 
   void getViewOtherTransactionsLink() async {
-    final chainExplorerUrl = state.network!.explorerUrl!;
-    final address = state.account!.address;
-    final addressExplorer = Config.addressExplorer(address);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
-
-    if ((await canLaunchUrl(launchUri))) {
-      await launchUrl(launchUri, mode: LaunchMode.platformDefault);
-    }
+  _launcherUseCase.viewTransactions();
   }
 
   void generateChartData(List<BalanceData> balanceData) {
@@ -429,11 +420,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     if (height >= state.maxTweetViewHeight - 120) {
       notify(() => state.maxTweetViewHeight = height + 120);
     }
-  }
-
-  void checkForPendingTx() {
-    _transactionHistoryUseCase.checkForPendingTransactions(
-        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh().chainId);
   }
 
   void initBalanceUpdateStream() {

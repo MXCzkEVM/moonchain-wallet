@@ -2,8 +2,8 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/address_book/entities/recipient.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
-import '../../../../../../common/common.dart';
 import 'edit_recipient_state.dart';
 
 final editRecipientContainer = PresenterContainerWithParameter<

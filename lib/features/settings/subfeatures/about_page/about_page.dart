@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class AboutPage extends HookConsumerWidget {
@@ -39,11 +40,11 @@ class AboutPage extends HookConsumerWidget {
         const SizedBox(height: Sizes.space2XLarge),
         const AppTerm(
           name: 'terms_and_service',
-          externalLink: 'https://doc.mxc.com/docs/Resources/tns',
+          externalLink: Urls.axsTermsConditions,
         ),
         const AppTerm(
           name: 'privacy_policy',
-          externalLink: 'https://doc.mxc.com/docs/Resources/Privacy',
+          externalLink: Urls.axsPrivacy,
         ),
       ],
     );

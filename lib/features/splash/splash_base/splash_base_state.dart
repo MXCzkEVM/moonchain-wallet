@@ -7,6 +7,5 @@ class SplashBaseState with EquatableMixin {
   bool animate = false;
 
   @override
-  List<Object?> get props =>
-      [applist, animate, isEmailAppAvailable];
+  List<Object?> get props => [applist, animate, isEmailAppAvailable];
 }

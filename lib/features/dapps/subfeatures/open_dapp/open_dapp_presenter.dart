@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
 
 import 'package:datadashwallet/core/core.dart';
+import 'package:mxc_logic/src/domain/entities/add_ethereum_chain/add_ethereum_chain.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
-import 'package:web3dart/json_rpc.dart';
 
 import 'open_dapp_state.dart';
 import 'widgets/bridge_params.dart';
@@ -33,6 +33,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _customTokensUseCase = ref.read(customTokensUseCaseProvider);
   late final _errorUseCase = ref.read(errorUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
   @override
   void initState() {
@@ -61,16 +62,16 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     notify(() => state.webviewController = controller);
   }
 
-  Future<EstimatedGasFee?> _estimatedFee(
+  Future<TransactionGasEstimation?> _estimatedFee(
     String from,
     String to,
     EtherAmount? gasPrice,
-    Uint8List? data,
+    Uint8List data,
     BigInt? amountOfGas,
   ) async {
     loading = true;
     try {
-      final gasFee = await _tokenContractUseCase.estimateGesFee(
+      final gasFee = await _tokenContractUseCase.estimateGasFeeForContractCall(
           from: from,
           to: to,
           gasPrice: gasPrice,
@@ -87,7 +88,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<String?> _sendTransaction(String to, EtherAmount amount,
-      Uint8List? data, EstimatedGasFee? estimatedGasFee, String url,
+      Uint8List? data, TransactionGasEstimation? estimatedGasFee, String url,
       {String? from}) async {
     final res = await _tokenContractUseCase.sendTransaction(
         privateKey: state.account!.privateKey,
@@ -171,7 +172,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final bridgeData = hexToBytes(bridge.data ?? '');
     EtherAmount? gasPrice;
     double? gasFee;
-    EstimatedGasFee? estimatedGasFee;
+    TransactionGasEstimation? estimatedGasFee;
     BigInt? amountOfGas;
 
     if (bridge.gasPrice != null) {
@@ -185,8 +186,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           gasPrice.getValueInUnit(EtherUnit.ether).toDouble();
       gasFee = gasPriceDouble * amountOfGas.toDouble();
 
-      estimatedGasFee =
-          EstimatedGasFee(gasPrice: gasPrice, gas: amountOfGas, gasFee: gasFee);
+      estimatedGasFee = TransactionGasEstimation(
+          gasPrice: gasPrice, gas: amountOfGas, gasFee: gasFee);
     } else {
       estimatedGasFee = await _estimatedFee(
           bridge.from!, bridge.to!, gasPrice, bridgeData, amountOfGas);
@@ -254,8 +255,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
-  Future<bool?> addEthereumChain(
-      dynamic id, Map<dynamic, dynamic> params) async {
+  void switchEthereumChain(dynamic id, Map<dynamic, dynamic> params) async {
     final rawChainId = params["object"]["chainId"] as String;
     final chainId = Formatter.hexToDecimal(rawChainId);
     final networks = _chainConfigurationUseCase.networks.value;
@@ -264,16 +264,97 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     if (foundChainIdIndex != -1) {
       final foundNetwork = networks[foundChainIdIndex];
-      return await showSwitchNetworkDialog(context!,
+      final res = await showSwitchNetworkDialog(context!,
           fromNetwork: state.network!.label ?? state.network!.web3RpcHttpUrl,
           toNetwork: foundNetwork.label ?? foundNetwork.web3RpcHttpUrl,
           onTap: () {
-        switchNetwork(id, foundNetwork, rawChainId);
+        switchDefaultNetwork(id, foundNetwork, rawChainId);
       });
+      if (!(res ?? false)) {
+        cancelRequest(id);
+      }
     } else {
       addError(translate('network_not_found'));
-      state.webviewController?.sendError(translate('network_not_found')!, id);
+      final e =
+          DAppErrors.switchEthereumChainErrors.unRecognizedChain(rawChainId);
+      sendProviderError(
+          id, e['code'], Formatter.escapeDoubleQuotes(e['message']));
     }
+  }
+
+  void checkCancel(bool? res, Function moveOn, int id) {
+    if (!(res ?? false)) {
+      cancelRequest(id);
+    } else {
+      moveOn();
+    }
+  }
+
+  void sendProviderError(int id, int code, String message) {
+    state.webviewController?.sendProviderError(id, code, message);
+  }
+
+  void sendError(String error, int id) {
+    state.webviewController?.sendError(Formatter.escapeDoubleQuotes(error), id);
+  }
+
+  void cancelRequest(int id) {
+    state.webviewController?.cancel(id);
+  }
+
+  void unSupportedRequest() {
+    addError(translate('network_not_found'));
+  }
+
+  void addEthereumChain(dynamic id, Map<dynamic, dynamic> params) async {
+    final networkDetails = AddEthereumChain.fromMap(params["object"]);
+
+    final rawChainId = networkDetails.chainId;
+    final chainId = Formatter.hexToDecimal(rawChainId);
+    final networks = _chainConfigurationUseCase.networks.value;
+    final foundChainIdIndex =
+        networks.indexWhere((element) => element.chainId == chainId);
+    // user can add a network again meaning It will override the old network
+    final alreadyExists = foundChainIdIndex != -1;
+    final alreadyEnabled =
+        alreadyExists ? networks[foundChainIdIndex].enabled : false;
+
+    // Add network
+    final newNetwork = Network.fromAddEthereumChain(networkDetails, chainId);
+
+    final res = await showAddNetworkDialog(
+      context!,
+      network: newNetwork,
+      approveFunction: (network) => alreadyExists
+          ? updateNetwork(network, foundChainIdIndex)
+          : addNewNetwork(network),
+    );
+
+    if (!(res ?? false)) {
+      cancelRequest(id);
+    } else {
+      if (!alreadyEnabled) {
+        final res = await showSwitchNetworkDialog(context!,
+            fromNetwork: state.network!.label ?? state.network!.web3RpcHttpUrl,
+            toNetwork: newNetwork.label ?? newNetwork.web3RpcHttpUrl,
+            onTap: () {
+          switchDefaultNetwork(id, newNetwork, rawChainId);
+        });
+        if (!(res ?? false)) {
+          cancelRequest(id);
+        }
+      }
+    }
+  }
+
+  Network? updateNetwork(Network network, int index) {
+    _chainConfigurationUseCase.updateItem(network, index);
+    return network;
+  }
+
+  Network? addNewNetwork(Network newNetwork) {
+    _chainConfigurationUseCase.addItem(newNetwork);
+    return newNetwork;
   }
 
   void signPersonalMessage() {}
@@ -321,7 +402,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
-  void switchNetwork(dynamic id, Network toNetwork, String rawChainId) {
+  void switchDefaultNetwork(int id, Network toNetwork, String rawChainId) {
     // "{"id":1692336424091,"name":"switchEthereumChain","object":{"chainId":"0x66eed"},"network":"ethereum"}"
     _chainConfigurationUseCase.switchDefaultNetwork(toNetwork);
     _authUseCase.resetNetwork(toNetwork);
@@ -410,6 +491,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void launchAddress(String address) {
-    _chainConfigurationUseCase.launchAddress(address);
+    _launcherUseCase.viewAddress(address);
   }
 }

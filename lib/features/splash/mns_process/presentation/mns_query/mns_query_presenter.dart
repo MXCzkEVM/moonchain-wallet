@@ -1,8 +1,9 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
+
 import 'mns_query_state.dart';
 import '../widgets/no_balance_dialog.dart';
 
@@ -17,6 +18,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
   late final TextEditingController usernameController = TextEditingController();
 
@@ -92,7 +94,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
                   ),
                 ));
               },
-              _chainConfigurationUseCase.launchUrlInPlatformDefault,
+              _launcherUseCase.launchUrlInPlatformDefaultWithString,
               true,
             );
           } else {
@@ -111,8 +113,8 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
 
   Future<void> claim(String name) async {
     final launchUrl = state.network!.chainId == Config.mxcMainnetChainId
-        ? Config.mainnetMns(name)
-        : Config.testnetMns(name);
+        ? Urls.mainnetMns(name)
+        : Urls.testnetMns(name);
     await navigator
         ?.push(route.featureDialog(OpenAppPage(url: launchUrl)))
         .then((_) {

@@ -3,6 +3,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
 
+
 class MXCTransactionsUseCase extends ReactiveUseCase {
   MXCTransactionsUseCase(this._web3Repository);
 
@@ -45,10 +46,13 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
   void sortByDate(List<WannseeTransactionModel> txList) {
     if (txList.isNotEmpty) {
       txList.sort((a, b) {
-        final item1 = a.timestamp ?? a.tokenTransfers![0].timestamp;
-        final item2 = b.timestamp ?? b.tokenTransfers![0].timestamp;
+        // If not simple transaction If not token transfer Then It is pending tx
+        final item1 =
+            a.timestamp ?? a.tokenTransfers?[0].timestamp ?? DateTime.now();
+        final item2 =
+            b.timestamp ?? b.tokenTransfers?[0].timestamp ?? DateTime.now();
 
-        return item2!.compareTo(item1!);
+        return item2.compareTo(item1);
       });
     }
   }

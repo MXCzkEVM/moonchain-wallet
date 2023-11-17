@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/entities/setting.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';

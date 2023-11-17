@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import '../../../widgets/property_item.dart';
+import '../../common.dart';
 
-Future<bool?> showAddNetworkDialog(BuildContext context,
-    {required Network network,
-    required void Function(Network network) switchFunction,
-    required Network? Function(Network network) approveFunction}) {
+Future<bool?> showAddNetworkDialog(
+  BuildContext context, {
+  required Network network,
+  required Network? Function(Network network) approveFunction,
+}) {
   String translate(String text) => FlutterI18n.translate(context, text);
 
   return showModalBottomSheet<bool>(
@@ -116,11 +117,7 @@ Future<bool?> showAddNetworkDialog(BuildContext context,
               title: translate('approve'),
               onTap: () {
                 final updatedNetwork = approveFunction(network);
-                Navigator.of(context).pop(false);
-                if (updatedNetwork != null) {
-                  showSwitchNetworkDialog(context,
-                      network: updatedNetwork, onTap: switchFunction);
-                }
+                Navigator.of(context).pop(updatedNetwork != null);
               },
               size: AxsButtonSize.xl,
             ),

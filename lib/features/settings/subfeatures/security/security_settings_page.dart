@@ -82,6 +82,7 @@ class SecuritySettingsPage extends HookConsumerWidget {
           title: translate('delete_wallet'),
           size: AxsButtonSize.xl,
           onTap: () => ref.read(presenter).deleteWallet(),
+          titleColor: ColorsTheme.of(context).textBlack200,
         ),
         const SizedBox(height: Sizes.space4XLarge),
         Text(

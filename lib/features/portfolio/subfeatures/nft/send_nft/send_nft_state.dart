@@ -10,7 +10,7 @@ class SendNftState with EquatableMixin {
   bool valid = false;
   TransactionProcessType processType = TransactionProcessType.confirm;
   Account? account;
-  EstimatedGasFee? estimatedGasFee;
+  TransactionGasEstimation? estimatedGasFee;
   Network? network;
 
   @override

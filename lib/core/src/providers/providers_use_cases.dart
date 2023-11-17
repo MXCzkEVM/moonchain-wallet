@@ -127,6 +127,7 @@ final Provider<TransactionsHistoryUseCase> transactionHistoryUseCaseProvider =
   (ref) => TransactionsHistoryUseCase(
     ref.watch(datadashCacheProvider).transactionsHistoryRepository,
     ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
   ),
 );
 
@@ -166,6 +167,15 @@ final Provider<ChainsUseCase> chainsUseCaseProvider = Provider(
 
 final Provider<ErrorUseCase> errorUseCaseProvider = Provider(
   (ref) => ErrorUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(accountUseCaseProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(launcherUseCaseProvider),
+  ),
+);
+
+final Provider<LauncherUseCase> launcherUseCaseProvider = Provider(
+  (ref) => LauncherUseCase(
     ref.watch(web3RepositoryProvider),
     ref.watch(accountUseCaseProvider),
     ref.watch(chainConfigurationUseCaseProvider),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-import '../widgets/add_network_item.dart';
+import '../../../../../../../common/common.dart';
+
 
 class AddNetworkUtils {
   static List<Widget> generateMainnetList(List<Network> networkList) {

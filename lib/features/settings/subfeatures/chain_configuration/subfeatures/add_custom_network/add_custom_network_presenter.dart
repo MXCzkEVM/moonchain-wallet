@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:datadashwallet/app/app.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:mxc_logic/src/domain/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_custom_network_state.dart';
-import 'widgets/custom_network_swtich_dialog.dart';
 
 final addCustomNetworkContainer =
     PresenterContainer<AddCustomNetworkPresenter, AddCustomNetworkState>(
@@ -22,6 +22,8 @@ class AddCustomNetworkPresenter
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _webviewUseCase = WebviewUseCase();
+  late final _authUseCase = ref.read(authUseCaseProvider);
 
   final TextEditingController networkNameController = TextEditingController();
   final TextEditingController rpcUrlController = TextEditingController();
@@ -67,6 +69,9 @@ class AddCustomNetworkPresenter
       _chainConfigurationUseCase.addItem(newNetwork);
 
       _chainConfigurationUseCase.switchDefaultNetwork(newNetwork);
+      _authUseCase.resetNetwork(newNetwork);
+      _webviewUseCase.clearCache();
+      loadDataDashProviders(newNetwork);
     }
   }
 

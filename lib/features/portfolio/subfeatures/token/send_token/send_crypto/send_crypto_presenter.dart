@@ -1,5 +1,6 @@
+import 'dart:typed_data';
+
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/common/config.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
@@ -10,8 +11,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:web3dart/json_rpc.dart';
 
 import 'send_crypto_state.dart';
 import 'widgets/transaction_dialog.dart';
@@ -151,14 +150,31 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     final amount = amountController.text;
     final recipient = recipientController.text;
     String recipientAddress = await getAddress(recipient);
+    double sumBalance = token.balance! - double.parse(amount);
+
+    TransactionGasEstimation? estimatedGasFee;
 
     if (recipientAddress == Config.zeroAddress) {
       addError(translate('unregistered_mns_notice'));
       return;
     }
 
-    double sumBalance = token.balance! - double.parse(amount);
-    EstimatedGasFee? estimatedGasFee = await _estimatedFee(recipientAddress);
+    final amountDouble = double.parse(amountController.text);
+    final amountEtherAmount = MxcAmount.fromDoubleByEther(amountDouble);
+
+    // If It's token transfer, data is required for gas estimation
+    if (token.address != null) {
+      final toAddress = EthereumAddress.fromHex(recipientController.text);
+
+      final data = _tokenContractUseCase.getTokenTransferData(
+          token.address!, toAddress, amountEtherAmount.getInWei);
+
+      estimatedGasFee = await _estimateGasFeeForContractCall(data);
+    } else {
+      estimatedGasFee = await _estimateGasFeeForCoinTransfer(
+          recipientAddress, null, amountEtherAmount);
+    }
+
     if (estimatedGasFee != null) {
       sumBalance -= estimatedGasFee.gasFee;
       final estimatedFee =
@@ -181,7 +197,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
           estimatedFee: estimatedFee,
           maxFee: maxFee,
           onTap: (transactionType) =>
-              _nextTransactionStep(transactionType, estimatedGasFee),
+              _nextTransactionStep(transactionType, estimatedGasFee!),
           networkSymbol: state.network?.symbol ?? '--');
     }
   }
@@ -195,8 +211,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     return null;
   }
 
-  Future<String?> _nextTransactionStep(
-      TransactionProcessType type, EstimatedGasFee estimatedGasFee) async {
+  Future<String?> _nextTransactionStep(TransactionProcessType type,
+      TransactionGasEstimation estimatedGasFee) async {
     if (TransactionProcessType.sending == type) {
       final res = await _sendTransaction(estimatedGasFee);
       if (res != null) {
@@ -215,24 +231,53 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     }
   }
 
-  Future<EstimatedGasFee?> _estimatedFee(String recipient) async {
+  Future<TransactionGasEstimation?> _estimateGasFeeForCoinTransfer(
+    String to,
+    EtherAmount? gasPrice,
+    EtherAmount value,
+  ) async {
+    loading = true;
+
+    try {
+      final gasFee = await _tokenContractUseCase.estimateGasFeeForCoinTransfer(
+          from: state.account!.address,
+          to: to,
+          gasPrice: gasPrice,
+          value: value);
+      loading = false;
+
+      return gasFee;
+    } catch (e, s) {
+      callErrorHandler(e, s);
+      return null;
+    } finally {
+      loading = false;
+    }
+  }
+
+  Future<TransactionGasEstimation?> _estimateGasFeeForContractCall(
+    Uint8List data,
+  ) async {
     loading = true;
     try {
-      final gasFee = await _tokenContractUseCase.estimateGesFee(
+      final gasFee = await _tokenContractUseCase.estimateGasFeeForContractCall(
         from: state.account!.address,
-        to: recipient,
+        to: token.address!,
+        data: data,
       );
       loading = false;
 
       return gasFee;
     } catch (e, s) {
       callErrorHandler(e, s);
+      return null;
     } finally {
       loading = false;
     }
   }
 
-  Future<String?> _sendTransaction(EstimatedGasFee estimatedGasFee) async {
+  Future<String?> _sendTransaction(
+      TransactionGasEstimation estimatedGasFee) async {
     final amountDouble = double.parse(amountController.text);
     final amount = MxcAmount.fromDoubleByEther(amountDouble);
     final recipient = recipientController.text;
@@ -243,6 +288,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
       final res = await _tokenContractUseCase.sendTransaction(
           privateKey: state.account!.privateKey,
+          from: state.account!.address,
           to: recipientAddress,
           amount: amount,
           tokenAddress: token.address,

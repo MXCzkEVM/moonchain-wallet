@@ -18,6 +18,8 @@ class SplashSetupWalletPresenter
   late final LanguageUseCase _languageUseCase =
       ref.read(languageUseCaseProvider);
   late final _authUseCase = ref.read(authUseCaseProvider);
+  late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+
 
   @override
   void initState() {
@@ -53,5 +55,9 @@ class SplashSetupWalletPresenter
     );
 
     super.initState();
+  }
+
+  void launchAxsTermsConditions() {
+    _launcherUseCase.launchAxsTermsConditions();
   }
 }

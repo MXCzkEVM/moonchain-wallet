@@ -41,11 +41,13 @@ class OpenAppPage extends HookConsumerWidget {
                         if (details.primaryVelocity! < 0 - primaryVelocity &&
                             (await webViewController.canGoForward())) {
                           webViewController.goForward();
+                          return;
                         }
 
                         if (details.primaryVelocity! > primaryVelocity &&
                             (await webViewController.canGoBack())) {
                           webViewController.goBack();
+                          return;
                         }
 
                         if (details.primaryVelocity! > primaryVelocity &&
@@ -124,9 +126,11 @@ class OpenAppPage extends HookConsumerWidget {
                           },
                         );
                         break;
+                      case EIP1193.switchEthereumChain:
+                        presenter.switchEthereumChain(id, params);
+                        break;
                       case EIP1193.addEthereumChain:
-                        bool? result =
-                            await presenter.addEthereumChain(id, params);
+                        presenter.addEthereumChain(id, params);
                         break;
                       case EIP1193.watchAsset:
                         presenter.addAsset(
@@ -139,6 +143,8 @@ class OpenAppPage extends HookConsumerWidget {
                             controller?.sendResult(idHash, id);
                           },
                         );
+                        break;
+                      case EIP1193.unKnown:
                         break;
                       default:
                         break;

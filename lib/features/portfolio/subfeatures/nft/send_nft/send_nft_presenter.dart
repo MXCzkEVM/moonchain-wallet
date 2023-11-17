@@ -1,5 +1,6 @@
+import 'dart:typed_data';
+
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/wallet/presentation/wallet_page_presenter.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/choose_crypto/choose_crypto_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -58,11 +59,14 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
 
   void transactionProcess() async {
     final recipient = recipientController.text;
-    EstimatedGasFee? estimatedGasFee;
+    TransactionGasEstimation? estimatedGasFee;
 
     if (TransactionProcessType.confirm != state.processType) {
       if (TransactionProcessType.send == state.processType) {
-        estimatedGasFee = await _estimatedFee();
+        // final data = _tokenContractUseCase.getTokenTransferData(
+        //     token.address!, toAddress, amountEtherAmount.getInWei);
+
+        // estimatedGasFee = await _estimateGasFeeForContractCall(data);
         notify(() => state.estimatedGasFee = estimatedGasFee);
       }
     }
@@ -108,21 +112,22 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
     }
   }
 
-  Future<EstimatedGasFee?> _estimatedFee() async {
-    final recipient = recipientController.text;
-
+  Future<TransactionGasEstimation?> _estimateGasFeeForContractCall(
+    Uint8List data,
+  ) async {
     loading = true;
     try {
-      final gasFee = await _tokenContractUseCase.estimateGesFee(
+      final gasFee = await _tokenContractUseCase.estimateGasFeeForContractCall(
         from: state.account!.address,
-        to: recipient,
+        to: nft.address,
+        data: data,
       );
       loading = false;
 
       return gasFee;
     } catch (e, s) {
-      notify(() => state.processType = TransactionProcessType.confirm);
       addError(e, s);
+      return null;
     } finally {
       loading = false;
     }

@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:datadashwallet/common/config.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -128,5 +128,9 @@ class Formatter {
 
   static String removeZeroX(String value) {
     return value.startsWith('0x') ? value.substring(2) : value;
+  }
+
+  static String escapeDoubleQuotes(String value) {
+    return value.replaceAll('"', '\\"');
   }
 }

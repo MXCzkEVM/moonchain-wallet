@@ -57,21 +57,17 @@ class _RouteBuilder {
     }
   }
 
-  PageRoute featureDialog<T extends Widget>(
-    T widget, {
-    bool maintainState = true,
-    bool canPopThisPage = true
-  }) {
+  PageRoute featureDialog<T extends Widget>(T widget,
+      {bool maintainState = true, bool canPopThisPage = true}) {
     final routeName = extractNameForRoute(widget);
 
     final routeSettings = RouteSettings(name: routeName);
 
     return BottomFlowDialogRoute(
-      maintainState: maintainState,
-      settings: routeSettings,
-      builder: (ctx) => widget,
-      canPopThisPage: canPopThisPage
-    );
+        maintainState: maintainState,
+        settings: routeSettings,
+        builder: (ctx) => widget,
+        canPopThisPage: canPopThisPage);
   }
 
   PageRoute featureDialogPage<T extends Widget>(

@@ -1,11 +1,10 @@
 library web3_provider;
 
 import 'dart:collection';
-import 'dart:io';
 import 'dart:async';
-import 'dart:typed_data';
 
-import 'package:datadashwallet/common/config.dart';
+
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,8 +34,14 @@ enum EIP1193 {
   /// Pass when web app add a new chain
   addEthereumChain,
 
+  /// Pass when web app wants to change current chain
+  switchEthereumChain,
+
   /// Pass when web app add a new token
-  watchAsset
+  watchAsset,
+
+  /// Unsupported request
+  unKnown
 }
 
 /// InAppWebViewEIP1193 wrap InAppWebView(https://pub.dev/packages/flutter_inappwebview)
@@ -908,9 +913,14 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
       }
     } else if (name == 'watchAsset') {
       widget.signCallback(rawData, EIP1193.watchAsset, _webViewController);
-    } else {
+    } else if (name == 'switchEthereumChain') {
+      widget.signCallback(
+          rawData, EIP1193.switchEthereumChain, _webViewController);
+    } else if (name == 'addEthereumChain') {
       widget.signCallback(
           rawData, EIP1193.addEthereumChain, _webViewController);
+    } else {
+      widget.signCallback(rawData, EIP1193.unKnown, _webViewController);
     }
   }
 
