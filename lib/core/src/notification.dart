@@ -1,8 +1,9 @@
-import 'package:datadashwallet/core/src/firebase.dart';
+import 'package:datadashwallet/core/src/firebase/firebase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mxc_ui/mxc_ui.dart';
 
 class AXSNotification {
 
@@ -33,6 +34,7 @@ class AXSNotification {
       description:
           'This channel is related to AXS wallet app notifications.',
       importance: Importance.high,
+      
     );
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -67,10 +69,12 @@ class AXSNotification {
             channel.name,
             channelDescription: channel.description,
             importance: Importance.high,
+            priority: Priority.high,
             playSound: true,
             visibility: NotificationVisibility.public,
-            icon: 'axs',
-            
+            icon: 'axs_logo',
+            largeIcon: const DrawableResourceAndroidBitmap('axs_logo'),
+            color: ColorsTheme.primary300
           ),
         ),
       );
