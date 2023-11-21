@@ -25,10 +25,8 @@ void main() {
 
       await Firebase.initializeApp(
         name: Config.appName,
-        options: AXSFireBase.defaultOptions,
+        options: DefaultFirebaseOptions.currentPlatform,
       );
-      FirebaseMessaging.onBackgroundMessage(
-          AXSFireBase.firebaseMessagingBackgroundHandler);
 
       await dotenv.load(fileName: 'assets/.env');
       await initLogs();
@@ -46,7 +44,7 @@ void main() {
       final initializationUseCase = container.read(chainsUseCaseProvider);
       initializationUseCase.updateChains();
 
-      AXSFireBase.initLocalNotificationsAndInteractions();
+      AXSFireBase.initLocalNotificationsAndListeners();
 
       runApp(
         UncontrolledProviderScope(
