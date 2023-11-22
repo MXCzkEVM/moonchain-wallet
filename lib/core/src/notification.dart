@@ -6,7 +6,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class AXSNotification {
-
   static AXSNotification? _instance;
 
   AXSNotification._();
@@ -31,10 +30,8 @@ class AXSNotification {
     channel = const AndroidNotificationChannel(
       'axs_wallet_channel',
       'AXS Notifications Cannel',
-      description:
-          'This channel is related to AXS wallet app notifications.',
+      description: 'This channel is related to AXS wallet app notifications.',
       importance: Importance.high,
-      
     );
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -64,18 +61,15 @@ class AXSNotification {
         notification.title,
         notification.body,
         NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
-            importance: Importance.high,
-            priority: Priority.high,
-            playSound: true,
-            visibility: NotificationVisibility.public,
-            icon: 'axs_logo',
-            largeIcon: const DrawableResourceAndroidBitmap('axs_logo'),
-            color: ColorsTheme.primary300
-          ),
+          android: AndroidNotificationDetails(channel.id, channel.name,
+              groupKey: 'axs_wallet',
+              channelDescription: channel.description,
+              importance: Importance.high,
+              priority: Priority.high,
+              playSound: true,
+              visibility: NotificationVisibility.public,
+              icon: 'axs_logo',
+              color: ColorsTheme.primary300),
         ),
       );
     }
