@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:datadashwallet/core/src/firebase/firebase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mxc_ui/mxc_ui.dart';
+import 'package:http/http.dart' as http;
 
 class AXSNotification {
   static AXSNotification? _instance;
@@ -52,9 +55,16 @@ class AXSNotification {
     isFlutterLocalNotificationsInitialized = true;
   }
 
-  void showFlutterNotification(RemoteMessage message) {
+  void showFlutterNotification(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
+    final imageUrl = android?.imageUrl;
+    AndroidBitmap<Object>? largeImage;
+    if (imageUrl != null) {
+      final http.Response response = await http.get(Uri.parse(imageUrl));
+      largeImage = ByteArrayAndroidBitmap.fromBase64String(
+          base64Encode(response.bodyBytes));
+    }
     if (notification != null && android != null && !kIsWeb) {
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
@@ -69,7 +79,8 @@ class AXSNotification {
               playSound: true,
               visibility: NotificationVisibility.public,
               icon: 'axs_logo',
-              color: ColorsTheme.primary300),
+              color: ColorsTheme.primary300,
+              largeIcon: largeImage),
         ),
       );
     }
