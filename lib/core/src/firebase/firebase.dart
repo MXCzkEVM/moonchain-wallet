@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/src/notification.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,6 +11,9 @@ export 'firebase_options.dart';
 class AXSFireBase {
   static AXSNotification get axsNotification => AXSNotification();
 
+  static String? firebaseToken;
+  static int buildTap = 0;
+
   @pragma('vm:entry-point')
   static Future<void> _firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
@@ -17,7 +21,7 @@ class AXSFireBase {
     // make sure you call `initializeApp` before using other Firebase services.
     await Firebase.initializeApp(
         name: Config.appName, options: DefaultFirebaseOptions.currentPlatform);
-
+    print(message.data);
     await axsNotification.setupFlutterNotifications();
     // Firebase triggers notifications Itself
     // axsNotification.showFlutterNotification(message);
@@ -26,6 +30,7 @@ class AXSFireBase {
 
   // Listening to the foreground messages
   static void _setupFirebaseMessagingForegroundHandler() async {
+    firebaseToken = await FirebaseMessaging.instance.getToken();
     FirebaseMessaging.onMessage.listen(axsNotification.showFlutterNotification);
   }
 
@@ -86,5 +91,13 @@ class AXSFireBase {
       axsNotification.setupFlutterNotifications();
     }
     return isGranted;
+  }
+
+  static void incrementBuildTap() {
+    buildTap++;
+    if (buildTap == 10) {
+      FlutterClipboard.copy(firebaseToken ?? '');
+      buildTap = 0;
+    }
   }
 }
