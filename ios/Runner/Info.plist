@@ -102,6 +102,8 @@
 		<string>Would you allow AXS Wallet to use the Location?</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Would you allow AXS Wallet to use the Location?</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Would you allow AXS Wallet to use the Location?</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>AXS Wallet needs microphone access to scan QR codes for transactions. Scanned data is stored locally and isn't shared.</string>
 		<key>NSMotionUsageDescription</key>
