@@ -1,5 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/settings/subfeatures/customer_support/widget/customer_support_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -60,20 +61,29 @@ class CustomerSupportPage extends HookConsumerWidget {
           ),
         ],
         const SizedBox(height: Sizes.space4XLarge),
-        Text(
-          FlutterI18n.translate(context, 'contact_chatgpt_support'),
-          style: FontTheme.of(context).body2(),
-        ),
-        const SizedBox(height: Sizes.spaceNormal),
-        MxcButton.secondary(
-          key: const ValueKey('jumpToTelegramButton'),
-          title: FlutterI18n.translate(context, 'jump_to_telegram'),
-          size: AxsButtonSize.xl,
-          onTap: ref.watch(state).applist['telegram'] == true ||
-                  ref.watch(state).applist['telegram_web'] == true
-              ? () => ref.read(presenter).launchMXCChatGPT()
-              : null,
-        ),
+        CustomerSupportButton(
+            key: const ValueKey('jumpToTelegramButton'),
+            title: translate('contact_chatgpt_support'),
+            buttonLabel: translate('jump_to_telegram'),
+            buttonFunction: ref.watch(state).applist['telegram'] == true ||
+                    ref.watch(state).applist['telegram_web'] == true
+                ? () => ref.read(presenter).launchMXCChatGPT()
+                : null),
+        CustomerSupportButton(
+            key: const ValueKey('mxcSupport'),
+            title: translate('mxc_support_form'),
+            buttonLabel: translate('mxc_support'),
+            buttonFunction: ref.read(presenter).launchMXCZendesk),
+        CustomerSupportButton(
+            key: const ValueKey('browseDocuments'),
+            title: translate('mxc_design_documents'),
+            buttonLabel: translate('browse_documents'),
+            buttonFunction: ref.read(presenter).launchMXCDesignDocs),
+        CustomerSupportButton(
+            key: const ValueKey('learnMore'),
+            title: translate('knowledge_hub'),
+            buttonLabel: translate('learn_more'),
+            buttonFunction: ref.read(presenter).launchMXCKnowledgeHub),
       ],
     );
   }
