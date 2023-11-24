@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/src/notification.dart';
@@ -30,7 +32,9 @@ class AXSFireBase {
 
   // Listening to the foreground messages
   static void _setupFirebaseMessagingForegroundHandler() async {
-    firebaseToken = await FirebaseMessaging.instance.getToken();
+    firebaseToken = Platform.isAndroid
+        ? await FirebaseMessaging.instance.getToken()
+        : await FirebaseMessaging.instance.getAPNSToken();
     FirebaseMessaging.onMessage.listen(axsNotification.showFlutterNotification);
   }
 
