@@ -308,5 +308,11 @@
 	"deposit_with_l3_bridge_notice": "Buy from other exchanges and use {0} to deposit ERC20 MXC to AXS wallet",
 	"buy_some_x_for_fee_notice": "Buy some {0} to pay for gas fee for the transaction, normally less than 2 USD when the network is not busy",
 	"insufficient_funds_notice": "Insufficient balance for this transaction.\n Please add funds.",
-	"notifications": "Notifications"
+	"notifications": "Notifications",
+	"mxc_support_form": "MXC Support Form",
+	"mxc_support": "MXC Support",
+	"mxc_design_documents": "MXC zkEVM design documents",
+	"browse_documents": "Browse Documents",
+	"knowledge_hub": "Knowledge Hub",
+	"learn_more": "Learn More"
 }
