@@ -29,6 +29,8 @@ class SplashImportStoragePage extends SplashBasePage {
       MxcButton.secondaryWhite(
         key: const ValueKey('telegramButton'),
         icon: MxcIcons.telegram,
+        iconSize: 32,
+        titleSize: 18,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: ref.watch(state).applist['telegram'] == true ||
                 ref.watch(state).applist['telegram_web'] == true
@@ -38,6 +40,8 @@ class SplashImportStoragePage extends SplashBasePage {
       MxcButton.secondaryWhite(
         key: const ValueKey('wechatButton'),
         icon: MxcIcons.wechat,
+        iconSize: 32,
+        titleSize: 18,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap: ref.watch(state).applist['weixin'] == true ||
                 ref.watch(state).applist['wechat'] == true
@@ -54,7 +58,8 @@ class SplashImportStoragePage extends SplashBasePage {
       MxcButton.secondaryWhite(
         key: const ValueKey('mnemonicButton'),
         icon: MxcIcons.cloud,
-        iconSize: 20,
+        iconSize: 32,
+        titleSize: 18,
         title: FlutterI18n.translate(context, 'secret_recovery_phrase'),
         onTap: () => Navigator.of(context).push(
           route(

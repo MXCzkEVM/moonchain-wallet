@@ -33,6 +33,8 @@ class SplashStoragePage extends SplashBasePage {
       MxcButton.secondaryWhite(
         key: const ValueKey('telegramButton'),
         icon: MxcIcons.telegram,
+        iconSize: 32,
+        titleSize: 18,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: ref.watch(state).applist['telegram'] == true ||
                 ref.watch(state).applist['telegram_web'] == true
@@ -48,6 +50,8 @@ class SplashStoragePage extends SplashBasePage {
       MxcButton.secondaryWhite(
         key: const ValueKey('wechatButton'),
         icon: MxcIcons.wechat,
+        iconSize: 32,
+        titleSize: 18,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap: ref.watch(state).applist['weixin'] == true ||
                 ref.watch(state).applist['wechat'] == true
@@ -63,7 +67,8 @@ class SplashStoragePage extends SplashBasePage {
       MxcButton.secondaryWhite(
         key: const ValueKey('emailButton'),
         icon: MxcIcons.email,
-        iconSize: 18,
+        iconSize: 32,
+        titleSize: 18,
         title: FlutterI18n.translate(context, 'email_secured_storage'),
         onTap: ref.watch(state).isEmailAppAvailable == true
             ? () => Navigator.of(context).push(
