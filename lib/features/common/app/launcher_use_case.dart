@@ -53,8 +53,7 @@ class LauncherUseCase extends ReactiveUseCase {
   Future<void> openUrl(Uri url, LaunchMode launchMode) async {
     if ((await canLaunchUrl(url))) {
       await launchUrl(url, mode: launchMode);
-    }
-    {
+    } else {
       throw UnimplementedError('Could not launch $url');
     }
   }
@@ -102,6 +101,18 @@ class LauncherUseCase extends ReactiveUseCase {
 
   Future<void> launchMXCChatGPT() async {
     await launchUrlInExternalAppWithString(Urls.mxcChatGPT);
+  }
+
+  Future<void> launchMXCZendesk() async {
+    await launchUrlInExternalAppWithString(Urls.mxcZendesk);
+  }
+
+  Future<void> launchMXCKnowledgeHub() async {
+    await launchUrlInExternalAppWithString(Urls.mxcKnowledgeHub);
+  }
+
+  Future<void> launchMXCDesignDocs() async {
+    await launchUrlInExternalAppWithString(Urls.mxcDesignDocs);
   }
 
   Future<void> launchAxsTermsConditions() async {
