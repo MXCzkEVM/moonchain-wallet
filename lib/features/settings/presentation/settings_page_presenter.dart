@@ -1,19 +1,18 @@
 import 'package:clipboard/clipboard.dart';
-import 'package:datadashwallet/common/components/snack_bar.dart';
-import 'package:datadashwallet/common/dialogs/alert_dialog.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import '../../../common/common.dart';
 import 'settings_page_state.dart';
 
 final settingsContainer = PresenterContainer<SettingsPresenter, SettingsState>(
     () => SettingsPresenter());
 
-class SettingsPresenter extends CompletePresenter<SettingsState> {
-  SettingsPresenter() : super(SettingsState());
-
+class SettingsPresenter extends CompletePresenter<SettingsState>
+   {
+  SettingsPresenter() : super(SettingsState()); 
   late final _webviewUseCase = WebviewUseCase();
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
@@ -22,6 +21,7 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
   void initState() {
     super.initState();
     getAppVersion();
+
 
     listen(_accountUserCase.account, (value) {
       if (value != null) {
@@ -104,4 +104,5 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
   void loadCache() {
     _webviewUseCase.clearCache();
   }
+
 }
