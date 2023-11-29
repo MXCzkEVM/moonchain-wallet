@@ -1,6 +1,4 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import './utils.dart';

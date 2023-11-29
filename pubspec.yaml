@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.8.0
+version: 2.0.0
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   android_metadata: ^0.2.1
+  app_settings: ^5.1.1
   appinio_social_share:
     path: packages/appinio_social_share
   cached_network_image: ^3.2.3
@@ -43,6 +44,8 @@ dependencies:
   equatable: ^2.0.3
   eth_sig_util: ^0.0.9
   f_logs: ^2.0.1
+  firebase_core: ^2.22.0
+  firebase_messaging: ^14.7.4
   fl_chart: ^0.62.0
   fl_shared_link: ^0.0.3
   flutter:
@@ -53,6 +56,7 @@ dependencies:
   flutter_hooks: ^0.18.5+1
   flutter_i18n: ^0.32.4
   flutter_inappwebview: ^5.7.2+3
+  flutter_local_notifications: ^16.1.0
   flutter_mailer: ^2.0.2
   flutter_staggered_grid_view: ^0.7.0
   flutter_svg: ^2.0.1

@@ -1,9 +1,9 @@
 {
 	"create_wallet": "Create wallet",
 	"import_wallet": "Import wallet",
-	"telegram_secured_storage": "Telegram Secured Storage",
-	"wechat_secured_storage": "WeChat Secured Storage",
-	"email_secured_storage": "Email Secured Storage",
+	"telegram_secured_storage": "Telegram secured storage",
+	"wechat_secured_storage": "WeChat secured storage",
+	"email_secured_storage": "Email secured storage",
 	"set_passcode": "Create passcode",
 	"set_passcode_hint": "Enter a 6-digit passcode to unlock your wallet with ease. This passcode can’t be used to recover your wallet.",
 	"passcode_didnt_match": "Passcodes did not match. Try again.",
@@ -307,5 +307,14 @@
 	"deposit_from_exchanges_notice": "Buy from {0}, {1} exchanges and deposit zkEVM MXC directly to AXS wallet",
 	"deposit_with_l3_bridge_notice": "Buy from other exchanges and use {0} to deposit ERC20 MXC to AXS wallet",
 	"buy_some_x_for_fee_notice": "Buy some {0} to pay for gas fee for the transaction, normally less than 2 USD when the network is not busy",
-	"insufficient_funds_notice": "Insufficient balance for this transaction.\n Please add funds."
+	"insufficient_funds_notice": "Insufficient balance for this transaction.\n Please add funds.",
+	"notifications": "Notifications",
+	"mxc_support_form": "MXC Support Form",
+	"mxc_support": "MXC Support",
+	"mxc_design_documents": "MXC zkEVM design documents",
+	"browse_documents": "Browse Documents",
+	"knowledge_hub": "Knowledge Hub",
+	"learn_more": "Learn More",
+	"why_enable_notifications": "Why Enable Notifications?",
+	"why_enable_notifications_notice": "By turning on notifications for MXC zkEVM, you stay informed about the latest mining activities, token rewards and important updates. This real-time information allows you to respond promptly to changes and optimize your mining strategy.\nStay ahead by keeping notifications enabled!"
 }

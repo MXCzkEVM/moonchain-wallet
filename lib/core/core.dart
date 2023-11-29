@@ -13,3 +13,5 @@ export 'src/wrap.dart';
 export 'src/pagination_list.dart';
 export 'src/disposable.dart';
 export 'src/cache/base_cache.dart';
+export 'src/notification.dart';
+export 'src/firebase/firebase.dart';

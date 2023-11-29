@@ -7,11 +7,8 @@ class SettingsState with EquatableMixin {
   String? appVersion;
   bool isLoading = false;
 
+
   @override
-  List<Object?> get props => [
-        account,
-        accounts,
-        appVersion,
-        isLoading,
-      ];
+  List<Object?> get props =>
+      [account, accounts, appVersion, isLoading, ];
 }

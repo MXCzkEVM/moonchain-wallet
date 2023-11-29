@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
 
 import 'package:datadashwallet/core/core.dart';
-import 'package:mxc_logic/src/domain/entities/add_ethereum_chain/add_ethereum_chain.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
@@ -492,5 +491,21 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void launchAddress(String address) {
     _launcherUseCase.viewAddress(address);
+  }
+
+  Future<NavigationActionPolicy?> checkDeepLink(
+      InAppWebViewController inAppWebViewController,
+      NavigationAction navigationAction) async {
+    final url = await state.webviewController?.getUrl();
+    final deepLink = navigationAction.request.url;
+
+    if (deepLink != null &&
+        url != navigationAction.request.url &&
+        (deepLink.scheme != 'https' && deepLink.scheme != 'http')) {
+      _launcherUseCase.launchUrlInExternalApp(deepLink);
+      return NavigationActionPolicy.CANCEL;
+    }
+
+    return NavigationActionPolicy.ALLOW;
   }
 }
