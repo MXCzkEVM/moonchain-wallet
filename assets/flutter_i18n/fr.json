@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Achetez un peu de {0} pour payer les frais de gaz pour la transaction, normalement moins de 2 USD lorsque le réseau n'est pas occupé",
     "insufficient_funds_notice": "Solde insuffisant pour cette transaction. Veuillez ajouter des fonds.",
     "contractCall": "Appel de contrat",
-    "contract_call_transactions": "Transactions d'appel de contrat"
+    "contract_call_transactions": "Transactions d'appel de contrat",
+    "notifications": "Notifications",
+    "mxc_support_form": "Formulaire de Support MXC",
+    "mxc_support": "Support MXC",
+    "mxc_design_documents": "Documents de conception MXC zkEVM en Français",
+    "browse_documents": "Parcourir les Documents",
+    "knowledge_hub": "Centre de Connaissance",
+    "learn_more": "En savoir plus",
+    "why_enable_notifications": "Pourquoi Activer les Notifications?",
+    "why_enable_notifications_notice": "En activant les notifications pour MXC zkEVM, vous restez informé des dernières activités de minage, des récompenses en tokens et des mises à jour importantes. Ces informations en temps réel vous permettent de réagir rapidement aux changements et d'optimiser votre stratégie de minage.\nRestez en avance en gardant les notifications activées !"
 }

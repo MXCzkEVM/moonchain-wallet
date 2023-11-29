@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "取引のガス料を支払うために{0}をいくつか購入してください。通常、ネットワークが混雑していないときは2ドル未満です。",
     "insufficient_funds_notice": "このトランザクションには残高が不足しています。資金を追加してください。",
     "contractCall": "契約の呼び出し",
-    "contract_call_transactions": "契約呼び出しトランザクション"
+    "contract_call_transactions": "契約呼び出しトランザクション",
+    "notifications": "通知",
+    "mxc_support_form": "MXCサポートフォーム",
+    "mxc_support": "MXC サポート",
+    "mxc_design_documents": "MXC zkEVMデザインドキュメント",
+    "browse_documents": "ドキュメントを閲覧する",
+    "knowledge_hub": "ナレッジハブ",
+    "learn_more": "もっと詳しく学ぶ",
+    "why_enable_notifications": "なぜ通知を有効にするのか？",
+    "why_enable_notifications_notice": "MXC zkEVMの通知をオンにすることで、最新のマイニング活動、トークン報酬、重要な更新情報について常に情報を得ることができます。このリアルタイム情報により、変化に迅速に対応し、マイニング戦略を最適化することが可能です。\n通知を有効にして一歩先を行きましょう！"
 }
