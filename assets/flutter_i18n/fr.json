@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Veuillez noter que cette action est irréversible. Une fois votre portefeuille réinitialisé, toutes les données stockées, y compris vos méthodes de paiement, l'historique des transactions et toutes les monnaies numériques (le cas échéant) seront définitivement supprimées.\n\nSi vous n'avez pas sauvegardé votre portefeuille, nous vous recommandons vivement de le faire maintenant pour vous assurer de ne pas perdre d'informations ou d'actifs essentiels.",
     "understand_delete": "Je comprends, réinitialiser",
     "delete_wallet_warning": "Tapez \"yes\" pour réinitialiser votre portefeuille actuel",
-    "type_yes": "Tapez \"oui\"",
+    "type_yes": "Tapez \"yes\"",
     "clear_browser_successfully": "Historique et cookies effacés avec succès",
     "exported_logs_successfully": "Journaux exportés avec succès",
     "account": "Compte",

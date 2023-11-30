@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "이 작업은 되돌릴 수 없는 점을 유의해 주세요. 한번 지갑이 초기화되면, 모든 저장된 데이터, 결제 방법, 거래 내역, 그리고 모든 디지털 화폐(해당되는 경우)가 영구적으로 삭제됩니다.\n\n아직 지갑을 백업하지 않았다면, 중요한 정보나 자산을 잃지 않도록 지금 바로 백업하는 것을 강력히 권장합니다.",
     "understand_delete": "알겠습니다, 초기화",
     "delete_wallet_warning": "\"예\"를 입력하여 현재 지갑을 초기화하세요.",
-    "type_yes": "\"예\"를 입력하세요",
+    "type_yes": "\"yes\"를 입력하세요",
     "clear_browser_successfully": "성공적으로 기록과 쿠키를 삭제했습니다",
     "exported_logs_successfully": "로그 성공적으로 내보냄",
     "account": "계정",

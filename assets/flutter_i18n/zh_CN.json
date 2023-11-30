@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "请注意，此操作无法撤销。一旦您的钱包被重置，所有存储的数据，包括您的支付方式、交易历史以及任何数字货币（如适用）都将被永久删除。\n\n如果您还没有备份您的钱包，我们强烈建议您现在就进行备份，以确保不会丢失任何重要信息或资产。",
     "understand_delete": "我明白，重置",
     "delete_wallet_warning": "输入\"yes\"以重置您当前的钱包",
-    "type_yes": "输入\"是\"",
+    "type_yes": "输入\"yes\"",
     "clear_browser_successfully": "成功清除历史记录和cookies",
     "exported_logs_successfully": "成功导出日志",
     "account": "账户",

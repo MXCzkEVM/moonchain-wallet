@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Vă rugăm să fiți conștient că această acțiune este ireversibilă. Odată ce portofelul dvs. este resetat, toate datele stocate, inclusiv metodele de plată, istoricul tranzacțiilor și orice monede digitale (dacă este cazul) vor fi eliminate permanent.\n\nDacă nu ați făcut o copie de rezervă a portofelului dvs., vă recomandăm insistent să o faceți acum pentru a vă asigura că nu pierdeți nicio informație sau active esențiale.",
     "understand_delete": "Înțeleg, resetează",
     "delete_wallet_warning": "Tastați \"yes\" pentru a reseta portofelul dvs. actual",
-    "type_yes": "Tastați \"da\"",
+    "type_yes": "Tastați \"yes\"",
     "clear_browser_successfully": "Istoric și cookie-uri șterse cu succes",
     "exported_logs_successfully": "Jurnale exportate cu succes",
     "account": "Contul",
