@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Por favor, esteja ciente de que esta ação é irreversível. Uma vez que sua carteira seja redefinida, todos os dados armazenados, incluindo seus métodos de pagamento, histórico de transações e quaisquer moedas digitais (se aplicável) serão removidos permanentemente.\n\nSe você não fez backup da sua carteira, recomendamos fortemente que faça agora para garantir que não perca nenhuma informação ou ativo vital.",
     "understand_delete": "Eu entendo, redefinir",
     "delete_wallet_warning": "Digite \"sim\" para redefinir sua carteira atual",
-    "type_yes": "Digite \"sim\"",
+    "type_yes": "Digite \"yes\"",
     "clear_browser_successfully": "Histórico e cookies apagados com sucesso",
     "exported_logs_successfully": "Logs exportados com sucesso",
     "account": "Conta",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Compre algum {0} para pagar a taxa de gás para a transação, normalmente menos de 2 USD quando a rede não está ocupada.",
     "insufficient_funds_notice": "Saldo insuficiente para esta transação. Por favor, adicione fundos.",
     "contractCall": "Chamada de contrato",
-    "contract_call_transactions": "Transações de chamada de contrato"
+    "contract_call_transactions": "Transações de chamada de contrato",
+    "notifications": "Notificações",
+    "mxc_support_form": "Formulário de Suporte MXC",
+    "mxc_support": "Suporte MXC",
+    "mxc_design_documents": "Documentos de design do MXC zkEVM",
+    "browse_documents": "Navegue pelos Documentos",
+    "knowledge_hub": "Centro de Conhecimento",
+    "learn_more": "Saiba Mais",
+    "why_enable_notifications": "Por Que Ativar Notificações?",
+    "why_enable_notifications_notice": "Ao ativar as notificações para o MXC zkEVM, você fica informado sobre as últimas atividades de mineração, recompensas de tokens e atualizações importantes. Essa informação em tempo real permite que você responda prontamente às mudanças e otimize sua estratégia de mineração.\nMantenha-se à frente mantendo as notificações ativadas!"
 }

@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Tenga en cuenta que esta acción es irreversible. Una vez que su billetera se reinicie, todos los datos almacenados, incluyendo sus métodos de pago, historial de transacciones y cualquier moneda digital (si corresponde) serán eliminados permanentemente.\n\nSi no ha respaldado su billetera, le recomendamos encarecidamente que lo haga ahora para asegurarse de no perder ninguna información o activos vitales.",
     "understand_delete": "Entiendo, reiniciar",
     "delete_wallet_warning": "Escribe \"sí\" para restablecer tu billetera actual",
-    "type_yes": "Escribe \"sí\"",
+    "type_yes": "Escribe \"yes\"",
     "clear_browser_successfully": "Historial y cookies borrados con éxito",
     "exported_logs_successfully": "Registros exportados con éxito",
     "account": "Cuenta",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Compra algo de {0} para pagar la tarifa de gas para la transacción, normalmente menos de 2 USD cuando la red no está ocupada.",
     "insufficient_funds_notice": "Saldo insuficiente para esta transacción. Por favor, añade fondos.",
     "contractCall": "Llamada de contrato",
-    "contract_call_transactions": "Transacciones de llamada de contrato"
+    "contract_call_transactions": "Transacciones de llamada de contrato",
+    "notifications": "Notificaciones",
+    "mxc_support_form": "Formulario de Soporte MXC",
+    "mxc_support": "Soporte de MXC",
+    "mxc_design_documents": "Documentos de diseño de MXC zkEVM en Español",
+    "browse_documents": "Explorar Documentos",
+    "knowledge_hub": "Centro de Conocimiento",
+    "learn_more": "Aprende Más",
+    "why_enable_notifications": "¿Por qué activar las notificaciones?",
+    "why_enable_notifications_notice": "Al activar las notificaciones para MXC zkEVM, te mantienes informado sobre las últimas actividades de minería, recompensas de tokens e importantes actualizaciones. Esta información en tiempo real te permite responder rápidamente a los cambios y optimizar tu estrategia de minería.\n¡Mantente adelante manteniendo las notificaciones activadas!"
 }

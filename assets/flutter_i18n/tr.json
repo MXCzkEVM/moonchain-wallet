@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Lütfen bu işlemin geri alınamaz olduğunu unutmayın. Cüzdanınız sıfırlandığında, ödeme yöntemleriniz, işlem geçmişiniz ve varsa tüm dijital para birimleri kalıcı olarak silinecektir.\n\nCüzdanınızın yedeğini almadıysanız, önemli bilgi veya varlıklarınızı kaybetmemek için şimdi yapmanızı şiddetle tavsiye ederiz.",
     "understand_delete": "Anladım, sıfırla",
     "delete_wallet_warning": "\"Mevcut cüzdanınızı sıfırlamak için \"evet\" yazın\"",
-    "type_yes": "\"evet\" yazın",
+    "type_yes": "\"yes\" yazın",
     "clear_browser_successfully": "Geçmiş ve çerezler başarıyla temizlendi",
     "exported_logs_successfully": "Başarıyla dışa aktarılan loglar",
     "account": "Hesap",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "İşlem için gaz ücretini ödemek üzere biraz {0} satın alın, ağ meşgul olmadığında genellikle 2 USD'den azdır.",
     "insufficient_funds_notice": "Bu işlem için yetersiz bakiye. Lütfen fon ekleyin.",
     "contractCall": "Sözleşme çağrısı",
-    "contract_call_transactions": "Sözleşme çağrı işlemleri"
+    "contract_call_transactions": "Sözleşme çağrı işlemleri",
+    "notifications": "Bildirimler",
+    "mxc_support_form": "MXC Destek Formu",
+    "mxc_support": "MXC Destek",
+    "mxc_design_documents": "MXC zkEVM tasarım belgeleri",
+    "browse_documents": "Belgeleri Gözden Geçirin",
+    "knowledge_hub": "Bilgi Merkezi",
+    "learn_more": "Daha Fazla Öğrenin",
+    "why_enable_notifications": "Neden Bildirimleri Etkinleştirmeliyiz?",
+    "why_enable_notifications_notice": "MXC zkEVM için bildirimleri açarak, en son madencilik aktiviteleri, token ödülleri ve önemli güncellemeler hakkında bilgi sahibi olursunuz. Bu gerçek zamanlı bilgi, değişikliklere hızla yanıt vermenizi ve madencilik stratejinizi optimize etmenizi sağlar.\nBildirimleri etkin tutarak bir adım önde kalın!"
 }

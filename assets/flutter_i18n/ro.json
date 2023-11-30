@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Vă rugăm să fiți conștient că această acțiune este ireversibilă. Odată ce portofelul dvs. este resetat, toate datele stocate, inclusiv metodele de plată, istoricul tranzacțiilor și orice monede digitale (dacă este cazul) vor fi eliminate permanent.\n\nDacă nu ați făcut o copie de rezervă a portofelului dvs., vă recomandăm insistent să o faceți acum pentru a vă asigura că nu pierdeți nicio informație sau active esențiale.",
     "understand_delete": "Înțeleg, resetează",
     "delete_wallet_warning": "Tastați \"yes\" pentru a reseta portofelul dvs. actual",
-    "type_yes": "Tastați \"da\"",
+    "type_yes": "Tastați \"yes\"",
     "clear_browser_successfully": "Istoric și cookie-uri șterse cu succes",
     "exported_logs_successfully": "Jurnale exportate cu succes",
     "account": "Contul",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Cumpărați ceva {0} pentru a plăti taxa de gaz pentru tranzacție, de obicei mai puțin de 2 USD când rețeaua nu este ocupată.",
     "insufficient_funds_notice": "Sold insuficient pentru această tranzacție. Vă rugăm să adăugați fonduri.",
     "contractCall": "Apel de contract",
-    "contract_call_transactions": "Tranzacții de apel contractuale"
+    "contract_call_transactions": "Tranzacții de apel contractuale",
+    "notifications": "Notificări",
+    "mxc_support_form": "Formular de Suport MXC",
+    "mxc_support": "Suport MXC",
+    "mxc_design_documents": "Documente de design MXC zkEVM în limba română",
+    "browse_documents": "Răsfoiește Documente",
+    "knowledge_hub": "Centru de Cunoștințe",
+    "learn_more": "Aflați Mai Multe",
+    "why_enable_notifications": "De ce să activați notificările?",
+    "why_enable_notifications_notice": "Prin activarea notificărilor pentru MXC zkEVM, rămâneți informat despre cele mai recente activități de minare, recompensele token și actualizările importante. Aceste informații în timp real vă permit să răspundeți prompt la schimbări și să vă optimizați strategia de minare.\nRămâneți în avans prin menținerea notificărilor activate!"
 }

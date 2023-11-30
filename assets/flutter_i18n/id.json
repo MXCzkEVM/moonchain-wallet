@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Harap perhatikan bahwa tindakan ini tidak dapat dibatalkan. Setelah dompet Anda direset, semua data yang tersimpan, termasuk metode pembayaran Anda, riwayat transaksi, dan mata uang digital (jika ada) akan dihapus secara permanen.\n\nJika Anda belum mencadangkan dompet Anda, kami sangat menyarankan untuk melakukannya sekarang untuk memastikan Anda tidak kehilangan informasi atau aset penting.",
     "understand_delete": "Saya mengerti, atur ulang",
     "delete_wallet_warning": "Ketik \"yes\" untuk mengatur ulang dompet Anda saat ini",
-    "type_yes": "Ketik \"ya\"",
+    "type_yes": "Ketik \"yes\"",
     "clear_browser_successfully": "Berhasil menghapus riwayat dan cookies",
     "exported_logs_successfully": "Log berhasil diekspor",
     "account": "Akun",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Beli beberapa {0} untuk membayar biaya gas untuk transaksi, biasanya kurang dari 2 USD saat jaringan tidak sibuk",
     "insufficient_funds_notice": "Saldo tidak cukup untuk transaksi ini. \nSilakan tambahkan dana.",
     "contractCall": "Panggilan kontrak",
-    "contract_call_transactions": "Transaksi panggilan kontrak"
+    "contract_call_transactions": "Transaksi panggilan kontrak",
+    "notifications": "Notifikasi",
+    "mxc_support_form": "Formulir Dukungan MXC",
+    "mxc_support": "Dukungan MXC",
+    "mxc_design_documents": "Dokumen desain MXC zkEVM dalam bahasa Indonesia",
+    "browse_documents": "Telusuri Dokumen",
+    "knowledge_hub": "Pusat Pengetahuan",
+    "learn_more": "Pelajari Lebih Lanjut",
+    "why_enable_notifications": "Mengapa Mengaktifkan Notifikasi?",
+    "why_enable_notifications_notice": "Dengan mengaktifkan notifikasi untuk MXC zkEVM, Anda tetap mendapatkan informasi terbaru tentang aktivitas penambangan, hadiah token, dan pembaruan penting. Informasi real-time ini memungkinkan Anda untuk merespon segera terhadap perubahan dan mengoptimalkan strategi penambangan Anda.\nTetap unggul dengan menjaga notifikasi tetap aktif!"
 }

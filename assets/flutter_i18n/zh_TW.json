@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "購買一些{0}來支付交易的燃氣費，通常在網路不忙碌時少於2美元。",
     "insufficient_funds_notice": "此交易餘額不足。請增加資金。",
     "contractCall": "合約呼叫",
-    "contract_call_transactions": "合約呼叫交易"
+    "contract_call_transactions": "合約呼叫交易",
+    "notifications": "通知",
+    "mxc_support_form": "MXC支援表格",
+    "mxc_support": "MXC 支援",
+    "mxc_design_documents": "MXC zkEVM 設計文件",
+    "browse_documents": "瀏覽文件",
+    "knowledge_hub": "知識中心",
+    "learn_more": "了解更多",
+    "why_enable_notifications": "為什麼要啟用通知？",
+    "why_enable_notifications_notice": "通過開啟MXC zkEVM的通知，您可以及時獲得最新的挖礦活動、代幣獎勵和重要更新信息。這些實時信息讓您能夠迅速響應變化並優化您的挖礦策略。\n保持通知開啟，保持領先！"
 }

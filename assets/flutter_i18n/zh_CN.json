@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "请注意，此操作无法撤销。一旦您的钱包被重置，所有存储的数据，包括您的支付方式、交易历史以及任何数字货币（如适用）都将被永久删除。\n\n如果您还没有备份您的钱包，我们强烈建议您现在就进行备份，以确保不会丢失任何重要信息或资产。",
     "understand_delete": "我明白，重置",
     "delete_wallet_warning": "输入\"yes\"以重置您当前的钱包",
-    "type_yes": "输入\"是\"",
+    "type_yes": "输入\"yes\"",
     "clear_browser_successfully": "成功清除历史记录和cookies",
     "exported_logs_successfully": "成功导出日志",
     "account": "账户",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "购买一些{0}来支付交易的燃气费，通常在网络不忙的时候少于2美元。",
     "insufficient_funds_notice": "此交易余额不足。请添加资金。",
     "contractCall": "合约调用",
-    "contract_call_transactions": "合约调用交易"
+    "contract_call_transactions": "合约调用交易",
+    "notifications": "通知",
+    "mxc_support_form": "MXC支持表格",
+    "mxc_support": "MXC支持",
+    "mxc_design_documents": "MXC zkEVM设计文档",
+    "browse_documents": "浏览文件",
+    "knowledge_hub": "知识中心",
+    "learn_more": "了解更多",
+    "why_enable_notifications": "为什么要启用通知？",
+    "why_enable_notifications_notice": "通过打开MXC zkEVM的通知，您可以及时了解最新的挖矿活动、代币奖励和重要更新。这些实时信息使您能够迅速响应变化并优化您的挖矿策略。\n保持通知启用，领先一步！"
 }

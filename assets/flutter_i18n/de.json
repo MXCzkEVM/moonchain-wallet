@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Bitte beachten Sie, dass diese Aktion nicht rückgängig gemacht werden kann. Sobald Ihre Wallet zurückgesetzt ist, werden alle gespeicherten Daten, einschließlich Ihrer Zahlungsmethoden, Transaktionshistorie und aller digitalen Währungen (falls zutreffend), dauerhaft entfernt.\n\nWenn Sie Ihre Wallet noch nicht gesichert haben, empfehlen wir Ihnen dringend, dies jetzt zu tun, um sicherzustellen, dass Sie keine wichtigen Informationen oder Vermögenswerte verlieren.",
     "understand_delete": "Ich verstehe, zurücksetzen",
     "delete_wallet_warning": "Geben Sie \"yes\" ein, um Ihre aktuelle Wallet zurückzusetzen.",
-    "type_yes": "Geben Sie \"ja\" ein",
+    "type_yes": "Geben Sie \"yes\" ein",
     "clear_browser_successfully": "Erfolgreich Verlauf und Cookies gelöscht",
     "exported_logs_successfully": "Erfolgreich exportierte Protokolle",
     "account": "Konto",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Kaufen Sie etwas {0}, um die Gasgebühr für die Transaktion zu bezahlen, normalerweise weniger als 2 USD, wenn das Netzwerk nicht ausgelastet ist.",
     "insufficient_funds_notice": "Unzureichendes Guthaben für diese Transaktion. Bitte fügen Sie Geldmittel hinzu.",
     "contractCall": "Vertragsaufruf",
-    "contract_call_transactions": "Vertragsaufruf-Transaktionen"
+    "contract_call_transactions": "Vertragsaufruf-Transaktionen",
+    "notifications": "Benachrichtigungen",
+    "mxc_support_form": "MXC Unterstützungsformular",
+    "mxc_support": "MXC Unterstützung",
+    "mxc_design_documents": "MXC zkEVM Design-Dokumente",
+    "browse_documents": "Dokumente durchsuchen",
+    "knowledge_hub": "Wissenszentrum",
+    "learn_more": "Erfahren Sie mehr",
+    "why_enable_notifications": "Warum Benachrichtigungen aktivieren?",
+    "why_enable_notifications_notice": "Indem Sie Benachrichtigungen für MXC zkEVM aktivieren, bleiben Sie über die neuesten Mining-Aktivitäten, Token-Belohnungen und wichtige Updates informiert. Diese Echtzeitinformationen ermöglichen es Ihnen, schnell auf Änderungen zu reagieren und Ihre Mining-Strategie zu optimieren.\nBleiben Sie voraus, indem Sie Benachrichtigungen aktiviert lassen!"
 }

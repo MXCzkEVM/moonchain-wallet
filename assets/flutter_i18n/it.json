@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Si prega di essere consapevoli che questa azione è irreversibile. Una volta resettato il tuo portafoglio, tutti i dati memorizzati, compresi i tuoi metodi di pagamento, la cronologia delle transazioni e qualsiasi valuta digitale (se applicabile) saranno rimossi permanentemente.\n\nSe non hai eseguito il backup del tuo portafoglio, ti consigliamo vivamente di farlo ora per garantire che non perda informazioni o asset vitali.",
     "understand_delete": "Capisco, reimposta",
     "delete_wallet_warning": "Digita \"yes\" per resettare il tuo portafoglio attuale",
-    "type_yes": "Digita \"sì\"",
+    "type_yes": "Digita \"yes\"",
     "clear_browser_successfully": "Storia e cookie cancellati con successo",
     "exported_logs_successfully": "Esportazione dei registri riuscita con successo",
     "account": "Conto",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Acquista un po' di {0} per pagare la commissione di gas per la transazione, normalmente meno di 2 USD quando la rete non è occupata.",
     "insufficient_funds_notice": "Saldo insufficiente per questa transazione. Per favore, aggiungi fondi.",
     "contractCall": "Chiamata del contratto",
-    "contract_call_transactions": "Transazioni di chiamata del contratto"
+    "contract_call_transactions": "Transazioni di chiamata del contratto",
+    "notifications": "Notifiche",
+    "mxc_support_form": "Modulo di Supporto MXC",
+    "mxc_support": "Supporto MXC",
+    "mxc_design_documents": "Documenti di progettazione MXC zkEVM in Italiano",
+    "browse_documents": "Sfoglia Documenti",
+    "knowledge_hub": "Centro di Conoscenza",
+    "learn_more": "Scopri di più",
+    "why_enable_notifications": "Perché Abilitare le Notifiche?",
+    "why_enable_notifications_notice": "Attivando le notifiche per MXC zkEVM, rimani informato sulle ultime attività di mining, ricompense in token e aggiornamenti importanti. Queste informazioni in tempo reale ti permettono di rispondere prontamente ai cambiamenti e ottimizzare la tua strategia di mining.\nRimani avanti abilitando le notifiche!"
 }

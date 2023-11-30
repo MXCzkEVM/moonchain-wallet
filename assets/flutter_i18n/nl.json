@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Wees u ervan bewust dat deze actie onomkeerbaar is. Zodra uw wallet is gereset, worden alle opgeslagen gegevens, inclusief uw betaalmethoden, transactiegeschiedenis en eventuele digitale valuta's (indien van toepassing) permanent verwijderd.\n\nAls u uw wallet nog niet heeft geback-upt, raden we u ten zeerste aan dit nu te doen om ervoor te zorgen dat u geen essentiële informatie of activa verliest.",
     "understand_delete": "Ik begrijp het, reset",
     "delete_wallet_warning": "Typ \"ja\" om je huidige wallet te resetten.",
-    "type_yes": "Typ \"ja\"",
+    "type_yes": "Typ \"yes\"",
     "clear_browser_successfully": "Geschiedenis en cookies succesvol gewist",
     "exported_logs_successfully": "Logs succesvol geëxporteerd",
     "account": "Account",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Koop wat {0} om de gasprijs voor de transactie te betalen, normaal gesproken minder dan 2 USD wanneer het netwerk niet druk is.",
     "insufficient_funds_notice": "Onvoldoende saldo voor deze transactie. Voeg alsjeblieft fondsen toe.",
     "contractCall": "Contractoproep",
-    "contract_call_transactions": "Contractoproep transacties"
+    "contract_call_transactions": "Contractoproep transacties",
+    "notifications": "Meldingen",
+    "mxc_support_form": "MXC Ondersteuningsformulier",
+    "mxc_support": "MXC Ondersteuning",
+    "mxc_design_documents": "MXC zkEVM ontwerpdocumenten",
+    "browse_documents": "Blader door Documenten",
+    "knowledge_hub": "Kenniscentrum",
+    "learn_more": "Leer Meer",
+    "why_enable_notifications": "Waarom meldingen inschakelen?",
+    "why_enable_notifications_notice": "Door meldingen voor MXC zkEVM in te schakelen, blijf je op de hoogte van de nieuwste mijnactiviteiten, tokenbeloningen en belangrijke updates. Deze realtime informatie stelt je in staat om snel te reageren op veranderingen en je mijnstrategie te optimaliseren.\nBlijf voorop door meldingen ingeschakeld te houden!"
 }

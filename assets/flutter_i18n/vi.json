@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Xin hãy lưu ý rằng hành động này không thể đảo ngược. Một khi ví của bạn được đặt lại, tất cả dữ liệu đã lưu, bao gồm phương thức thanh toán, lịch sử giao dịch và bất kỳ loại tiền điện tử nào (nếu có) sẽ bị xóa vĩnh viễn.\n\nNếu bạn chưa sao lưu ví của mình, chúng tôi khuyên bạn nên làm ngay bây giờ để đảm bảo bạn không mất bất kỳ thông tin hay tài sản quan trọng nào.",
     "understand_delete": "Tôi hiểu, đặt lại",
     "delete_wallet_warning": "Nhập \"yes\" để đặt lại ví hiện tại của bạn",
-    "type_yes": "Nhập \"có\"",
+    "type_yes": "Nhập \"yes\"",
     "clear_browser_successfully": "Đã xóa thành công lịch sử và cookie",
     "exported_logs_successfully": "Xuất nhật ký thành công",
     "account": "Tài khoản",
@@ -307,5 +307,14 @@
     "buy_some_x_for_fee_notice": "Mua một số {0} để trả phí gas cho giao dịch, thường ít hơn 2 USD khi mạng không bận rộn",
     "insufficient_funds_notice": "Số dư không đủ cho giao dịch này. Vui lòng nạp thêm tiền.",
     "contractCall": "Gọi hợp đồng",
-    "contract_call_transactions": "Giao dịch gọi hợp đồng"
+    "contract_call_transactions": "Giao dịch gọi hợp đồng",
+    "notifications": "Thông báo",
+    "mxc_support_form": "Biểu mẫu Hỗ trợ MXC",
+    "mxc_support": "Hỗ Trợ MXC",
+    "mxc_design_documents": "Tài liệu thiết kế MXC zkEVM",
+    "browse_documents": "Duyệt Tài liệu",
+    "knowledge_hub": "Trung Tâm Kiến Thức",
+    "learn_more": "Tìm hiểu thêm",
+    "why_enable_notifications": "Tại sao cần kích hoạt thông báo?",
+    "why_enable_notifications_notice": "Bằng cách bật thông báo cho MXC zkEVM, bạn sẽ được cập nhật về các hoạt động khai thác mới nhất, phần thưởng token và các cập nhật quan trọng. Thông tin theo thời gian thực này cho phép bạn phản ứng nhanh chóng với các thay đổi và tối ưu hóa chiến lược khai thác của mình.\nHãy luôn dẫn đầu bằng cách giữ thông báo được kích hoạt!"
 }
