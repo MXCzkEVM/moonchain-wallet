@@ -16,18 +16,9 @@ class AXSFireBase {
   static String? firebaseToken;
   static int buildTap = 0;
 
-  @pragma('vm:entry-point')
-  static Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-    await Firebase.initializeApp(
-        name: Config.appName, options: DefaultFirebaseOptions.currentPlatform);
-    print(message.data);
-    await axsNotification.setupFlutterNotifications();
-    // Firebase triggers notifications Itself
-    // axsNotification.showFlutterNotification(message);
-    print('Handling a background message ${message.messageId}');
+  static Future<FirebaseApp> initializeFirebase() async {
+    return await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
   }
 
   // Listening to the foreground messages
@@ -65,7 +56,7 @@ class AXSFireBase {
     print("message data: ${message.data}");
   }
 
-  Future<void> setForegroundNotificationPresentationOptions() async {
+  static Future<void> setForegroundNotificationPresentationOptions() async {
     return await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
@@ -80,12 +71,8 @@ class AXSFireBase {
 
     if (isPermissionGranted) {
       _setupFirebaseMessagingForegroundHandler();
-      _setupBackgroundMessageListener();
+      setupFirebaseMessageInteraction();
     }
-  }
-
-  static void _setupBackgroundMessageListener() {
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
   /// Initializes local notifications if permission is granted, Otherwise the local notification is not going to be set.

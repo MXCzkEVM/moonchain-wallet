@@ -50,7 +50,7 @@ class AXSNotification {
 
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
-    await AXSFireBase.setupFirebaseMessageInteraction();
+    await AXSFireBase.setForegroundNotificationPresentationOptions();
 
     isFlutterLocalNotificationsInitialized = true;
   }

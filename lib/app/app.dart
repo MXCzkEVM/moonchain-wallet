@@ -1,3 +1,4 @@
+import 'package:datadashwallet/app/app_presenter.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
@@ -25,6 +26,7 @@ class AxsWallet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final languageState = ref.watch(languageContainer.state);
+    final appPresenter = ref.watch(appContainer.actions);
 
     return AppThemeWrapper(
       child: Builder(
