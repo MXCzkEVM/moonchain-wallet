@@ -197,9 +197,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       }
     }
 
-    String finalFee = estimatedGasFee.gasFee.toString();
+    String finalFee = (estimatedGasFee.gasFee / Config.dappSectionFeeDivision).toString();
     final maxFeeDouble = estimatedGasFee.gasFee * Config.priority;
-    final maxFeeString = maxFeeDouble.toString();
+    final maxFeeString = (maxFeeDouble / Config.dappSectionFeeDivision).toString();
     final maxFee =
         Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
 
