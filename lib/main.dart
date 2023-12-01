@@ -4,12 +4,26 @@ import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'app/app.dart';
+
+  @pragma('vm:entry-point')
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    // If you're going to use other Firebase services in the background, such as Firestore,
+    // make sure you call `initializeApp` before using other Firebase services.
+    print(message.data);
+    await Firebase.initializeApp( options: DefaultFirebaseOptions.currentPlatform);
+    await AXSNotification().setupFlutterNotifications();
+    // Firebase triggers notifications Itself
+    // axsNotification.showFlutterNotification(message);
+    print('Handling a background message ${message.messageId}');
+  }
 
 void main() {
   var onError = FlutterError.onError;
@@ -23,9 +37,10 @@ void main() {
       WidgetsFlutterBinding.ensureInitialized();
 
       await Firebase.initializeApp(
-        name: Config.appName,
         options: DefaultFirebaseOptions.currentPlatform,
       );
+
+      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
       await dotenv.load(fileName: 'assets/.env');
       await initLogs();
@@ -42,8 +57,6 @@ void main() {
 
       final initializationUseCase = container.read(chainsUseCaseProvider);
       initializationUseCase.updateChains();
-
-      AXSFireBase.initLocalNotificationsAndListeners();
 
       runApp(
         UncontrolledProviderScope(

@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Por favor, esteja ciente de que esta ação é irreversível. Uma vez que sua carteira seja redefinida, todos os dados armazenados, incluindo seus métodos de pagamento, histórico de transações e quaisquer moedas digitais (se aplicável) serão removidos permanentemente.\n\nSe você não fez backup da sua carteira, recomendamos fortemente que faça agora para garantir que não perca nenhuma informação ou ativo vital.",
     "understand_delete": "Eu entendo, redefinir",
     "delete_wallet_warning": "Digite \"sim\" para redefinir sua carteira atual",
-    "type_yes": "Digite \"sim\"",
+    "type_yes": "Digite \"yes\"",
     "clear_browser_successfully": "Histórico e cookies apagados com sucesso",
     "exported_logs_successfully": "Logs exportados com sucesso",
     "account": "Conta",

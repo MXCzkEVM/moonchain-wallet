@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Tenga en cuenta que esta acción es irreversible. Una vez que su billetera se reinicie, todos los datos almacenados, incluyendo sus métodos de pago, historial de transacciones y cualquier moneda digital (si corresponde) serán eliminados permanentemente.\n\nSi no ha respaldado su billetera, le recomendamos encarecidamente que lo haga ahora para asegurarse de no perder ninguna información o activos vitales.",
     "understand_delete": "Entiendo, reiniciar",
     "delete_wallet_warning": "Escribe \"sí\" para restablecer tu billetera actual",
-    "type_yes": "Escribe \"sí\"",
+    "type_yes": "Escribe \"yes\"",
     "clear_browser_successfully": "Historial y cookies borrados con éxito",
     "exported_logs_successfully": "Registros exportados con éxito",
     "account": "Cuenta",

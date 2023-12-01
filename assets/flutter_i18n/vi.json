@@ -243,7 +243,7 @@
     "confirm_delete_wallet_note": "Xin hãy lưu ý rằng hành động này không thể đảo ngược. Một khi ví của bạn được đặt lại, tất cả dữ liệu đã lưu, bao gồm phương thức thanh toán, lịch sử giao dịch và bất kỳ loại tiền điện tử nào (nếu có) sẽ bị xóa vĩnh viễn.\n\nNếu bạn chưa sao lưu ví của mình, chúng tôi khuyên bạn nên làm ngay bây giờ để đảm bảo bạn không mất bất kỳ thông tin hay tài sản quan trọng nào.",
     "understand_delete": "Tôi hiểu, đặt lại",
     "delete_wallet_warning": "Nhập \"yes\" để đặt lại ví hiện tại của bạn",
-    "type_yes": "Nhập \"có\"",
+    "type_yes": "Nhập \"yes\"",
     "clear_browser_successfully": "Đã xóa thành công lịch sử và cookie",
     "exported_logs_successfully": "Xuất nhật ký thành công",
     "account": "Tài khoản",

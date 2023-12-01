@@ -18,7 +18,6 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   @override
   void initState() {
     super.initState();
-
     checkNotificationsStatus();
   }
 
@@ -70,6 +69,10 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
   void checkNotificationsStatus() async {
     final isGranted = await PermissionUtils.checkNotificationPermission();
+    if (state.isNotificationsEnabled == false && isGranted == true) {
+      await AXSFireBase.initializeFirebase();
+      AXSFireBase.initLocalNotificationsAndListeners();
+    } 
     notify(() => state.isNotificationsEnabled = isGranted);
   }
 
