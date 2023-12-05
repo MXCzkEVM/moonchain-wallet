@@ -4,7 +4,6 @@ import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'wallet_page_state.dart';
 
@@ -25,7 +24,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       ref.read(transactionHistoryUseCaseProvider);
   late final _mxcTransactionsUseCase = ref.read(mxcTransactionsUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
-
 
   @override
   void initState() {
@@ -163,57 +161,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         break;
       // coin transfer done
       case 'transaction':
-        final newTx = WannseeTransactionModel.fromJson(
-            json.encode(event.payload['transactions'][0]));
-        if (newTx.value != null) {
-          // We will filter token_transfer tx because It is also received from token_transfer event
-          if (newTx.txTypes != null &&
-              !(newTx.txTypes!.contains('token_transfer'))) {
-            final itemIndex =
-                state.txList!.indexWhere((txItem) => txItem.hash == newTx.hash);
-            // checking for if the transaction is found.
-            if (itemIndex != -1) {
-              notify(() => state.txList!.replaceRange(
-                      itemIndex, itemIndex + 1, [
-                    TransactionModel.fromMXCTransaction(
-                        newTx, state.account!.address)
-                  ]));
-            } else {
-              // we must have missed the pending tx
-              notify(() => state.txList!.insert(
-                  0,
-                  TransactionModel.fromMXCTransaction(
-                      newTx, state.account!.address)));
-            }
-          }
-        }
-        break;
-      // token transfer pending
-      case 'token_transfer':
-        final newTx = TokenTransfer.fromJson(
-            json.encode(event.payload['token_transfers'][0]));
-        if (newTx.txHash != null) {
-          // Sender will get pending tx
-          // Receiver won't get pending tx
-          final itemIndex =
-              state.txList!.indexWhere((txItem) => txItem.hash == newTx.txHash);
-          // checking for if the transaction is found.
-          if (itemIndex != -1) {
-            notify(() => state.txList!.replaceRange(itemIndex, itemIndex + 1, [
-                  TransactionModel.fromMXCTransaction(
-                      WannseeTransactionModel(tokenTransfers: [newTx]),
-                      state.account!.address)
-                ]));
-          } else {
-            // we must have missed the token transfer pending tx
-            notify(() => state.txList!.insert(
-                  0,
-                  TransactionModel.fromMXCTransaction(
-                      WannseeTransactionModel(tokenTransfers: [newTx]),
-                      state.account!.address),
-                ));
-          }
-        }
+        getMXCTransactions();
         break;
       // new balance
       case 'balance':
@@ -306,7 +254,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void getViewOtherTransactionsLink() async {
-  _launcherUseCase.viewTransactions();
+    _launcherUseCase.viewTransactions();
   }
 
   void generateChartData(List<BalanceData> balanceData) {
