@@ -104,7 +104,48 @@ class RecentTransactionsUtils {
         txHash: e.hash,
         transactionType: e.type,
         transactionStatus: e.status,
+        transactionAction: e.action,
       );
     }).toList();
+  }
+
+  static Widget getActionButton(TransactionActions? action) {
+    switch (action) {
+      case null:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MxcChipButton(
+              key: const Key('cancelButton'),
+              onTap: () => {},
+              title: 'Cancel',
+              buttonState: ChipButtonStates.inactiveState,
+            ),
+            const SizedBox(
+              width: Sizes.space2XSmall,
+            ),
+            MxcChipButton(
+              key: const Key('speedUpButton'),
+              onTap: () => {},
+              title: 'Speed up',
+              buttonState: ChipButtonStates.activeState,
+            ),
+          ],
+        );
+      case TransactionActions.cancel:
+        return MxcChipButton(
+          key: const Key('speedUpCancellationButton'),
+          onTap: () => {},
+          title: 'Speed up this cancellation',
+          buttonState: ChipButtonStates.activeState,
+        );
+      case TransactionActions.speedUp:
+        return MxcChipButton(
+          key: const Key('cancelButton'),
+          onTap: () => {},
+          title: 'Cancel',
+          buttonState: ChipButtonStates.inactiveState,
+        );
+    }
   }
 }
