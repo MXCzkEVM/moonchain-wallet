@@ -1,4 +1,5 @@
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/common/components/recent_transactions/widgets/widgets.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -382,6 +383,96 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         state.balancesUpdateSubscription != null) {
       state.balancesUpdateSubscription!.cancel();
       state.balancesUpdateSubscription = null;
+    }
+  }
+
+  // TODO: Dismiss bottom sheet when tx is done or maybe not since we check for It's receipt
+
+  void cancelTransaction(TransactionModel transaction) async {
+    double totalFeeDouble =
+        MXCGas.calculateTotalFee(transaction.feePerGas!, transaction.gasLimit!);
+    String totalFee = totalFeeDouble.toString();
+    totalFee = Formatter.checkExpoNumber(totalFee);
+
+    double newGasPriceDouble = MXCGas.addExtraFeeForTxReplacement(
+      transaction.feePerGas!,
+    );
+
+    final totalMaxFeeDouble =
+        MXCGas.calculateTotalMaxFee(newGasPriceDouble, transaction.gasLimit!);
+    String totalMaxFee = totalMaxFeeDouble.toString();
+    totalMaxFee = Formatter.checkExpoNumber(totalMaxFee);
+
+    final result = await showCancelDialog(context!,
+        estimatedFee: totalFee,
+        maxFee: totalMaxFee,
+        symbol: state.network!.symbol);
+
+    if (result ?? false) {
+      final result = await _tokenContractUseCase.cancelTransaction(
+          transaction, state.account!);
+
+      // Find the index of transaction in list & change It's action
+      final transactionIndex = state.txList!
+          .indexWhere((element) => element.hash == transaction.hash);
+
+      if (transactionIndex != -1) {
+        switch (transaction.action) {
+          case null:
+            notify(() => state.txList![transactionIndex] =
+                transaction.copyWith(action: TransactionActions.cancel));
+            break;
+          case TransactionActions.speedUp:
+            notify(() => state.txList![transactionIndex] =
+                transaction.copyWith(action: TransactionActions.cancelSpeedUp));
+            break;
+          default:
+            throw 'Unsupported transaction action';
+        }
+      }
+    }
+  }
+
+  void speedUpTransaction(TransactionModel transaction) async {
+    final totalFeeDouble =
+        MXCGas.calculateTotalFee(transaction.feePerGas!, transaction.gasLimit!);
+    String totalFee = totalFeeDouble.toString();
+    totalFee = Formatter.checkExpoNumber(totalFee);
+
+    final totalMaxFeeDouble = MXCGas.calculateTotalMaxFee(
+        transaction.feePerGas!, transaction.gasLimit!);
+    String totalMaxFee = totalMaxFeeDouble.toString();
+    totalMaxFee = Formatter.checkExpoNumber(totalMaxFee);
+
+    final result = await showSpeedUpDialog(context!,
+        estimatedFee: totalFee,
+        maxFee: totalMaxFee,
+        symbol: state.network!.symbol);
+
+    if (result ?? false) {
+      final result = await _tokenContractUseCase.speedUpTransaction(
+          transaction, state.account!);
+
+      // Find the index of transaction in list & change It's action
+      final transactionIndex = state.txList!
+          .indexWhere((element) => element.hash == transaction.hash);
+
+      if (transactionIndex != -1) {
+        switch (transaction.action) {
+          case null:
+            notify(() => state.txList![transactionIndex] =
+                transaction.copyWith(action: TransactionActions.speedUp));
+            break;
+          case TransactionActions.cancel:
+            notify(() => state.txList![transactionIndex] =
+                transaction.copyWith(action: TransactionActions.speedUpCancel));
+            break;
+          default:
+            throw 'Unsupported transaction action';
+        }
+        state.txList![transactionIndex] =
+            transaction.copyWith(action: TransactionActions.speedUp);
+      }
     }
   }
 }
