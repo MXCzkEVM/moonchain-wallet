@@ -19,6 +19,7 @@ class RecentTrxListItem extends HookConsumerWidget {
   final TransactionStatus transactionStatus;
   final TransactionActions? transactionAction;
   final String logoUrl;
+  final TransactionModel transaction;
   const RecentTrxListItem(
       {Key? key,
       required this.logoUrl,
@@ -28,7 +29,8 @@ class RecentTrxListItem extends HookConsumerWidget {
       required this.timestamp,
       required this.transactionType,
       required this.transactionStatus,
-      required this.transactionAction})
+      required this.transactionAction,
+      required this.transaction})
       : super(key: key);
 
   @override
@@ -187,7 +189,10 @@ class RecentTrxListItem extends HookConsumerWidget {
             const SizedBox(
               height: Sizes.spaceNormal,
             ),
-            RecentTransactionsUtils.getActionButton(transactionAction)
+            RecentTransactionsUtils.getActionButton(
+                transactionAction,
+                () => presenter.cancelTransaction(transaction),
+                () => presenter.speedUpTransaction(transaction))
           ]
         ],
       ),
