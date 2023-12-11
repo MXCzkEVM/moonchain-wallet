@@ -34,14 +34,6 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
     }
   }
 
-  List<WannseeTransactionModel> keepOnlySixTransactions(
-    List<WannseeTransactionModel> txList,
-  ) {
-    if (txList.length > 6) {
-      return txList.sublist(0, 6);
-    }
-    return txList;
-  }
 
   void sortByDate(List<WannseeTransactionModel> txList) {
     if (txList.isNotEmpty) {
@@ -81,4 +73,5 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
       return element.tokenTransfers![0].timestamp!.isAfter(sevenDays);
     }).toList();
   }
+  
 }
