@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import '../../utils/formatter.dart';
-import 'recent_transactions.dart';
 
 class RecentTransactionsUtils {
   static TransactionType checkForTransactionType(
@@ -81,7 +80,10 @@ class RecentTransactionsUtils {
   }
 
   static List<RecentTrxListItem> generateTx(String walletAddressHash,
-      List<TransactionModel> items, List<Token> tokensList) {
+      List<TransactionModel> items, List<Token> tokensList, bool? onlySix) {
+    if ((onlySix ?? false) && items.length > 6) {
+      items = items.sublist(0, 6);
+    }
     return items.map((e) {
       final foundToken = tokensList.firstWhere(
           (element) => element.address == e.token.address,
@@ -104,7 +106,59 @@ class RecentTransactionsUtils {
         txHash: e.hash,
         transactionType: e.type,
         transactionStatus: e.status,
+        transactionAction: e.action,
+        transaction: e,
       );
     }).toList();
+  }
+
+  static Widget getActionButton(TransactionActions? action,
+      VoidCallback cancelFunction, VoidCallback speedUpFunction) {
+    switch (action) {
+      case null:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MxcChipButton(
+              key: const Key('cancelButton'),
+              onTap: () => cancelFunction(),
+              title: 'Cancel',
+              buttonState: ChipButtonStates.inactiveState,
+            ),
+            const SizedBox(
+              width: Sizes.space2XSmall,
+            ),
+            MxcChipButton(
+              key: const Key('speedUpButton'),
+              onTap: () => speedUpFunction(),
+              title: 'Speed up',
+              buttonState: ChipButtonStates.activeState,
+            ),
+          ],
+        );
+      case TransactionActions.cancel:
+        return MxcChipButton(
+          key: const Key('speedUpCancellationButton'),
+          onTap: () => speedUpFunction(),
+          title: 'Speed up this cancellation',
+          buttonState: ChipButtonStates.activeState,
+        );
+      case TransactionActions.speedUp:
+        return MxcChipButton(
+          key: const Key('cancelButton'),
+          onTap: () => cancelFunction(),
+          title: 'Cancel',
+          buttonState: ChipButtonStates.inactiveState,
+        );
+      case TransactionActions.cancelSpeedUp:
+        return Container();
+      case TransactionActions.speedUpCancel:
+        return MxcChipButton(
+          key: const Key('speedUpCancellationButton'),
+          onTap: () => speedUpFunction(),
+          title: 'Speed up this cancellation',
+          buttonState: ChipButtonStates.activeState,
+        );
+    }
   }
 }

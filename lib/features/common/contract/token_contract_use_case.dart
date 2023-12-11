@@ -209,11 +209,13 @@ class TokenContractUseCase extends ReactiveUseCase {
     required Uint8List data,
     EtherAmount? gasPrice,
     BigInt? amountOfGas,
+    EtherAmount? value,
   }) async =>
       await _repository.tokenContract.estimateGasFeeForContractCall(
         from: from,
         to: to,
         data: data,
+        value: value
       );
 
   Future<String> sendTransaction({
@@ -260,5 +262,33 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   StreamSubscription<TransactionReceipt?> spyOnTransaction(String hash) {
     return _repository.tokenContract.spyTransaction(hash);
+  }
+
+  Future<String> cancelTransaction(
+    TransactionModel toCancelTransaction,
+    Account account,
+    EtherAmount maxFeePerGas,
+    EtherAmount priorityFee,
+  ) async {
+    return await _repository.tokenContract.cancelTransaction(
+      toCancelTransaction,
+      account,
+      maxFeePerGas,
+      priorityFee,
+    );
+  }
+
+  Future<String> speedUpTransaction(
+    TransactionModel toSpeedUpTransaction,
+    Account account,
+    EtherAmount maxFeePerGas,
+    EtherAmount priorityFee,
+  ) async {
+    return await _repository.tokenContract.speedUpTransaction(
+      toSpeedUpTransaction,
+      account,
+      maxFeePerGas,
+      priorityFee,
+    );
   }
 }

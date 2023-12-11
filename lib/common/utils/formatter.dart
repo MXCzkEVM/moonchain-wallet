@@ -133,4 +133,10 @@ class Formatter {
   static String escapeDoubleQuotes(String value) {
     return value.replaceAll('"', '\\"');
   }
+
+  static String checkExpoNumber(String value) {
+    return Validation.isExpoNumber(value)
+        ? '0.000'
+        : value;
+  }
 }

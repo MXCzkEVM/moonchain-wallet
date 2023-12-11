@@ -182,7 +182,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
               ? '0.000'
               : estimatedGasFee.gasFee.toString();
 
-      final maxFeeDouble = estimatedGasFee.gasFee * Config.priority;
+      final maxFeeDouble =
+          MXCGas.calculateMaxFeePerGasDouble(estimatedGasFee.gasFee);
       final maxFeeString = maxFeeDouble.toString();
       final maxFee =
           Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
@@ -301,7 +302,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
             type: TransactionType.sent,
             value: amount.getValueInUnitBI(EtherUnit.wei).toString(),
             token: token,
-            timeStamp: DateTime.now());
+            timeStamp: DateTime.now(),
+            action: null);
 
         _transactionHistoryUseCase.updateItem(
           tx,

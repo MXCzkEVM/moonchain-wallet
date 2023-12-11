@@ -138,11 +138,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final currentNetwork = state.network!;
     final chainId = currentNetwork.chainId;
     final token = Token(
-        chainId: currentNetwork.chainId,
-        logoUri: currentNetwork.logo,
-        name: currentNetwork.label ?? currentNetwork.web3RpcHttpUrl,
-        symbol: currentNetwork.symbol,
-        address: null);
+      chainId: currentNetwork.chainId,
+      logoUri: currentNetwork.logo,
+      name: currentNetwork.label ?? currentNetwork.web3RpcHttpUrl,
+      symbol: currentNetwork.symbol,
+      address: null,
+    );
     final tx = TransactionModel(
       hash: hash,
       timeStamp: timeStamp,
@@ -150,6 +151,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       type: txType,
       value: null,
       token: token,
+      action: null,
     );
 
     _transactionHistoryUseCase.spyOnTransaction(
