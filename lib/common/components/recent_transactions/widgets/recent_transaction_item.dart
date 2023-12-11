@@ -185,7 +185,8 @@ class RecentTrxListItem extends HookConsumerWidget {
               ),
             ],
           ),
-          if (transactionStatus == TransactionStatus.pending) ...[
+          if (transactionStatus == TransactionStatus.pending &&
+              transaction.from?.toLowerCase() == state.account?.address) ...[
             const SizedBox(
               height: Sizes.spaceNormal,
             ),
