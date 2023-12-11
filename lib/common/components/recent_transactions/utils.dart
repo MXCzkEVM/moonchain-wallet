@@ -80,7 +80,10 @@ class RecentTransactionsUtils {
   }
 
   static List<RecentTrxListItem> generateTx(String walletAddressHash,
-      List<TransactionModel> items, List<Token> tokensList) {
+      List<TransactionModel> items, List<Token> tokensList, bool? onlySix) {
+    if ((onlySix ?? false) && items.length > 6) {
+      items = items.sublist(0, 6);
+    }
     return items.map((e) {
       final foundToken = tokensList.firstWhere(
           (element) => element.address == e.token.address,
