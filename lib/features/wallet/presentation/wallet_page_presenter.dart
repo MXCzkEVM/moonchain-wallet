@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/widgets/widgets.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -159,6 +160,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               TransactionModel.fromMXCTransaction(
                   newTx, state.account!.address)));
         }
+
         break;
       // coin transfer done
       case 'transaction':
@@ -216,10 +218,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               newTransactionsList.items!, newTokenTransfersList.items!);
 
           _mxcTransactionsUseCase.sortByDate(newTransactionsList.items!);
-
-          newTransactionsList = newTransactionsList.copyWith(
-              items: _mxcTransactionsUseCase
-                  .keepOnlySixTransactions(newTransactionsList.items!));
 
           final finalTxList = _mxcTransactionsUseCase.axsTxListFromMxcTxList(
               newTransactionsList.items!, state.account!.address);
@@ -386,22 +384,34 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
-  // TODO: Dismiss bottom sheet when tx is done or maybe not since we check for It's receipt
-
   void cancelTransaction(TransactionModel transaction) async {
-    double totalFeeDouble =
-        MXCGas.calculateTotalFee(transaction.feePerGas!, transaction.gasLimit!);
-    String totalFee = totalFeeDouble.toString();
-    totalFee = Formatter.checkExpoNumber(totalFee);
+    final from = state.account!.address;
+    final to = from;
+    TransactionGasEstimation estimation =
+        await _tokenContractUseCase.estimateGasFeeForCoinTransfer(
+            from: from, to: to, value: EtherAmount.zero());
 
-    double newGasPriceDouble = MXCGas.addExtraFeeForTxReplacement(
-      transaction.feePerGas!,
-    );
+    final estimatedPriorityFees = MXCGas.addExtraFeeToPriorityFees(
+        feePerGas: transaction.feePerGas!,
+        priorityFeePerGas: transaction.maxPriorityFee!.toDouble());
 
-    final totalMaxFeeDouble =
-        MXCGas.calculateTotalMaxFee(newGasPriceDouble, transaction.gasLimit!);
-    String totalMaxFee = totalMaxFeeDouble.toString();
-    totalMaxFee = Formatter.checkExpoNumber(totalMaxFee);
+    final estimatedGasPriceDouble = estimation.gasPrice.getInWei.toDouble();
+
+    final totalFee = MXCGas.getTotalFeeInString(
+        estimatedGasPriceDouble, transaction.gasLimit!);
+
+    // Increasing max fee per gas
+    final maxPriorityFeePerGas =
+        MxcAmount.fromDoubleByWei(estimatedPriorityFees.maxPriorityFeePerGas);
+    final estimatedMaxFeePerGas = estimatedPriorityFees.maxFeePerGas;
+
+    double finalMaxFeePerGas = MXCGas.getReplacementMaxFeePerGas(
+        estimatedGasPriceDouble, estimatedMaxFeePerGas);
+
+    final maxFeePerGas = MxcAmount.fromDoubleByWei(finalMaxFeePerGas);
+
+    final totalMaxFee =
+        MXCGas.getTotalFeeInString(finalMaxFeePerGas, transaction.gasLimit!);
 
     final result = await showCancelDialog(context!,
         estimatedFee: totalFee,
@@ -410,39 +420,59 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     if (result ?? false) {
       final result = await _tokenContractUseCase.cancelTransaction(
-          transaction, state.account!);
-
-      // Find the index of transaction in list & change It's action
-      final transactionIndex = state.txList!
-          .indexWhere((element) => element.hash == transaction.hash);
-
-      if (transactionIndex != -1) {
-        switch (transaction.action) {
-          case null:
-            notify(() => state.txList![transactionIndex] =
-                transaction.copyWith(action: TransactionActions.cancel));
-            break;
-          case TransactionActions.speedUp:
-            notify(() => state.txList![transactionIndex] =
-                transaction.copyWith(action: TransactionActions.cancelSpeedUp));
-            break;
-          default:
-            throw 'Unsupported transaction action';
-        }
-      }
+          transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
     }
   }
 
   void speedUpTransaction(TransactionModel transaction) async {
-    final totalFeeDouble =
-        MXCGas.calculateTotalFee(transaction.feePerGas!, transaction.gasLimit!);
-    String totalFee = totalFeeDouble.toString();
-    totalFee = Formatter.checkExpoNumber(totalFee);
+    final from = transaction.from!;
+    final to = transaction.to!;
 
-    final totalMaxFeeDouble = MXCGas.calculateTotalMaxFee(
-        transaction.feePerGas!, transaction.gasLimit!);
-    String totalMaxFee = totalMaxFeeDouble.toString();
-    totalMaxFee = Formatter.checkExpoNumber(totalMaxFee);
+    EtherAmount? value;
+    if (transaction.type == TransactionType.sent &&
+        transaction.value != null &&
+        transaction.transferType != TransferType.erc20) {
+      value = MxcAmount.fromStringByWei(transaction.value!);
+    }
+
+    BigInt? gasLimit = transaction.gasLimit != null
+        ? BigInt.from(transaction.gasLimit!)
+        : null;
+    Uint8List? data = transaction.data != null && transaction.data != '0x'
+        ? MXCType.hexToUint8List(transaction.data!)
+        : null;
+
+    late TransactionGasEstimation estimation;
+
+    if (data == null) {
+      estimation = await _tokenContractUseCase.estimateGasFeeForCoinTransfer(
+          from: from, to: to, value: value!);
+    } else {
+      estimation = await _tokenContractUseCase.estimateGasFeeForContractCall(
+          from: from, to: to, data: data, amountOfGas: gasLimit, value: value);
+    }
+
+    // updating these fields with extraGasPercentage
+    final estimatedPriorityFees = MXCGas.addExtraFeeToPriorityFees(
+        feePerGas: transaction.feePerGas!,
+        priorityFeePerGas: transaction.maxPriorityFee!.toDouble());
+
+    final estimatedGasPriceDouble = estimation.gasPrice.getInWei.toDouble();
+
+    final totalFee = MXCGas.getTotalFeeInString(
+        estimatedGasPriceDouble, transaction.gasLimit!);
+
+    final maxPriorityFeePerGas =
+        MxcAmount.fromDoubleByWei(estimatedPriorityFees.maxPriorityFeePerGas);
+    final estimatedMaxFeePerGas = estimatedPriorityFees.maxFeePerGas;
+
+    double finalMaxFeePerGas = MXCGas.getReplacementMaxFeePerGas(
+        estimatedGasPriceDouble, estimatedMaxFeePerGas);
+
+    final maxFeePerGas = MxcAmount.fromDoubleByWei(finalMaxFeePerGas);
+
+    final totalMaxFee =
+        MXCGas.getTotalFeeInString(finalMaxFeePerGas, transaction.gasLimit!);
 
     final result = await showSpeedUpDialog(context!,
         estimatedFee: totalFee,
@@ -451,28 +481,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     if (result ?? false) {
       final result = await _tokenContractUseCase.speedUpTransaction(
-          transaction, state.account!);
-
-      // Find the index of transaction in list & change It's action
-      final transactionIndex = state.txList!
-          .indexWhere((element) => element.hash == transaction.hash);
-
-      if (transactionIndex != -1) {
-        switch (transaction.action) {
-          case null:
-            notify(() => state.txList![transactionIndex] =
-                transaction.copyWith(action: TransactionActions.speedUp));
-            break;
-          case TransactionActions.cancel:
-            notify(() => state.txList![transactionIndex] =
-                transaction.copyWith(action: TransactionActions.speedUpCancel));
-            break;
-          default:
-            throw 'Unsupported transaction action';
-        }
-        state.txList![transactionIndex] =
-            transaction.copyWith(action: TransactionActions.speedUp);
-      }
+          transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
     }
   }
+
+
 }
