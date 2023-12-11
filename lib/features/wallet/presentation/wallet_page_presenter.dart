@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:collection/collection.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/widgets/widgets.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -160,11 +161,14 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               TransactionModel.fromMXCTransaction(
                   newTx, state.account!.address)));
         }
-
+        checkPendingTx();
         break;
       // coin transfer done
       case 'transaction':
-        getMXCTransactions();
+        // Sometimes getting the tx list from remote right away, results in having the pending tx in the list too (Which shouldn't be)
+        Future.delayed(const Duration(seconds: 3), () {
+          getMXCTransactions();
+        });
         break;
       // new balance
       case 'balance':
@@ -225,6 +229,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
           _mxcTransactionsUseCase.removeInvalidTx(finalTxList);
 
           notify(() => state.txList = finalTxList);
+
+          checkPendingTx();
         }
       } else {
         // looks like error
@@ -485,5 +491,45 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     }
   }
 
+  void checkPendingTx() {
+    // If txs with same nonce
+    // keep only the last one
+    // Show buttons
+    // If from to this account cancel operation otherwise It's speed up
+    final pendingTransactions = state.txList!
+        .where((element) => element.status == TransactionStatus.pending)
+        .toList();
 
+    final pendingTxMap =
+        pendingTransactions.groupListsBy((element) => element.nonce);
+
+    for (List<TransactionModel> group in pendingTxMap.values.toList()) {
+      if (group.isNotEmpty) {
+        final latestTransaction = group.first;
+        if (group.length > 1) {
+          final isCancel = isCancelOperation(latestTransaction);
+          if (isCancel) {
+            notify(() => state.txList![0] =
+                latestTransaction.copyWith(action: TransactionActions.cancel));
+          } else {
+            notify(() => state.txList![0] =
+                latestTransaction.copyWith(action: TransactionActions.speedUp));
+          }
+          // Remove all transaction except the latest one
+          for (TransactionModel transaction in group) {
+            notify(() => state.txList!.removeWhere((element) =>
+                element.hash == transaction.hash &&
+                element.hash != latestTransaction.hash));
+          }
+        }
+      }
+    }
+  }
+
+  bool isCancelOperation(TransactionModel transaction) {
+    if (transaction.from == transaction.to && transaction.value == '0') {
+      return true;
+    }
+    return false;
+  }
 }
