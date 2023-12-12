@@ -126,7 +126,7 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
         .getTransactionByHashCustomChain(hash);
 
     if (receipt != null) {
-      final tx = TransactionModel.fromTransaction(receipt, address, token);
+      final tx = TransactionModel.fromTransactionInformation(receipt, address, token);
       spyOnTransaction(tx);
       updateItem(
         tx,
