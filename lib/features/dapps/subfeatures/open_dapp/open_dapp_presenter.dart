@@ -100,7 +100,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       recordTransaction(res);
     }
 
-    return res;
+    return res.hash;
   }
 
   String? _signTypedMessage(
@@ -131,10 +131,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
-  void recordTransaction(String hash) {
-    final timeStamp = DateTime.now();
-    const txStatus = TransactionStatus.pending;
-    const txType = TransactionType.contractCall;
+  void recordTransaction(TransactionModel tx) {
+    // final timeStamp = DateTime.now();
+    // const txStatus = TransactionStatus.pending;
+    // const txType = TransactionType.contractCall;
     final currentNetwork = state.network!;
     final chainId = currentNetwork.chainId;
     final token = Token(
@@ -144,15 +144,17 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       symbol: currentNetwork.symbol,
       address: null,
     );
-    final tx = TransactionModel(
-      hash: hash,
-      timeStamp: timeStamp,
-      status: txStatus,
-      type: txType,
-      value: null,
-      token: token,
-      action: null,
-    );
+
+    tx = tx.copyWith(token: token);
+    // final tx = TransactionModel(
+    //   hash: hash,
+    //   timeStamp: timeStamp,
+    //   status: txStatus,
+    //   type: txType,
+    //   value: null,
+    //   token: token,
+    //   action: null,
+    // );
 
     _transactionHistoryUseCase.spyOnTransaction(
       tx,
