@@ -183,7 +183,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
               : estimatedGasFee.gasFee.toString();
 
       final maxFeeDouble =
-          MXCGas.calculateMaxFeePerGasDouble(estimatedGasFee.gasFee);
+          MXCGas.maxFeePerGasByEth(estimatedGasFee.gasFee);
       final maxFeeString = maxFeeDouble.toString();
       final maxFee =
           Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
