@@ -264,32 +264,4 @@ class TokenContractUseCase extends ReactiveUseCase {
   StreamSubscription<TransactionReceipt?> spyOnTransaction(String hash) {
     return _repository.tokenContract.spyTransaction(hash);
   }
-
-  Future<TransactionModel> cancelTransaction(
-    TransactionModel toCancelTransaction,
-    Account account,
-    EtherAmount maxFeePerGas,
-    EtherAmount priorityFee,
-  ) async {
-    return await _repository.tokenContract.cancelTransaction(
-      toCancelTransaction,
-      account,
-      maxFeePerGas,
-      priorityFee,
-    );
-  }
-
-  Future<TransactionModel> speedUpTransaction(
-    TransactionModel toSpeedUpTransaction,
-    Account account,
-    EtherAmount maxFeePerGas,
-    EtherAmount priorityFee,
-  ) async {
-    return await _repository.tokenContract.speedUpTransaction(
-      toSpeedUpTransaction,
-      account,
-      maxFeePerGas,
-      priorityFee,
-    );
-  }
 }

@@ -20,6 +20,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       ref.read(chainConfigurationUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _transactionControllerUseCase =
+      ref.read(transactionControllerUseCaseProvider);
   late final _tweetsUseCase = ref.read(tweetsUseCaseProvider);
   late final _customTokenUseCase = ref.read(customTokensUseCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
@@ -426,7 +428,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     if (result ?? false) {
       TransactionModel newPendingTransaction =
-          await _tokenContractUseCase.cancelTransaction(
+          await _transactionControllerUseCase.cancelTransaction(
               transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
 
       _transactionHistoryUseCase.replaceCancelTransaction(
@@ -491,7 +493,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     if (result ?? false) {
       TransactionModel newPendingTransaction =
-          await _tokenContractUseCase.speedUpTransaction(
+          await _transactionControllerUseCase.speedUpTransaction(
               transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
 
       _transactionHistoryUseCase.replaceSpeedUpTransaction(
