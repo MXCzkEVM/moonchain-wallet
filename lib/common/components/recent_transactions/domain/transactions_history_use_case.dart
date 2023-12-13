@@ -141,7 +141,8 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
 
   void checkChainChange(int chainId) async {
     if (currentChainId != chainId) {
-      for (String txHash in updatingTransactions.keys) {
+      final keys = updatingTransactions.keys.toList();
+      for (String txHash in keys) {
         await updatingTransactions[txHash]?.cancel();
       }
       updatingTransactions.clear();
@@ -151,8 +152,13 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
 
   void replaceSpeedUpTransaction(TransactionModel oldTransaction,
       TransactionModel newPendingTransaction, int chainId) {
-    replaceTransaction(oldTransaction, newPendingTransaction, chainId,
-        TransactionActions.speedUp);
+    replaceTransaction(
+        oldTransaction,
+        newPendingTransaction,
+        chainId,
+        oldTransaction.action == TransactionActions.cancel
+            ? TransactionActions.cancel
+            : TransactionActions.speedUp);
   }
 
   void replaceCancelTransaction(TransactionModel oldTransaction,
