@@ -425,8 +425,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         symbol: state.network!.symbol);
 
     if (result ?? false) {
-      final result = await _tokenContractUseCase.cancelTransaction(
-          transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
+      TransactionModel newPendingTransaction =
+          await _tokenContractUseCase.cancelTransaction(
+              transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
+
+      _transactionHistoryUseCase.replaceCancelTransaction(
+          transaction, newPendingTransaction, state.network!.chainId);
     }
   }
 
@@ -486,8 +490,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         symbol: state.network!.symbol);
 
     if (result ?? false) {
-      final result = await _tokenContractUseCase.speedUpTransaction(
-          transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
+      TransactionModel newPendingTransaction =
+          await _tokenContractUseCase.speedUpTransaction(
+              transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
+
+      _transactionHistoryUseCase.replaceSpeedUpTransaction(
+          transaction, newPendingTransaction, state.network!.chainId);
     }
   }
 
