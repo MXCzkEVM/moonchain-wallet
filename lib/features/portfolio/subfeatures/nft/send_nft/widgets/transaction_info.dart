@@ -102,7 +102,7 @@ class TransactionInfo extends StatelessWidget {
         children: [
           Text(
             price != null
-                ? Formatter.formatNumberForUI(
+                ? MXCFormatter.formatNumberForUI(
                     price,
                   )
                 : '--',

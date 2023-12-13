@@ -260,7 +260,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void switchEthereumChain(dynamic id, Map<dynamic, dynamic> params) async {
     final rawChainId = params["object"]["chainId"] as String;
-    final chainId = Formatter.hexToDecimal(rawChainId);
+    final chainId = MXCFormatter.hexToDecimal(rawChainId);
     final networks = _chainConfigurationUseCase.networks.value;
     final foundChainIdIndex =
         networks.indexWhere((element) => element.chainId == chainId);
@@ -281,7 +281,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final e =
           DAppErrors.switchEthereumChainErrors.unRecognizedChain(rawChainId);
       sendProviderError(
-          id, e['code'], Formatter.escapeDoubleQuotes(e['message']));
+          id, e['code'], MXCFormatter.escapeDoubleQuotes(e['message']));
     }
   }
 
@@ -298,7 +298,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void sendError(String error, int id) {
-    state.webviewController?.sendError(Formatter.escapeDoubleQuotes(error), id);
+    state.webviewController
+        ?.sendError(MXCFormatter.escapeDoubleQuotes(error), id);
   }
 
   void cancelRequest(int id) {
@@ -313,7 +314,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final networkDetails = AddEthereumChain.fromMap(params["object"]);
 
     final rawChainId = networkDetails.chainId;
-    final chainId = Formatter.hexToDecimal(rawChainId);
+    final chainId = MXCFormatter.hexToDecimal(rawChainId);
     final networks = _chainConfigurationUseCase.networks.value;
     final foundChainIdIndex =
         networks.indexWhere((element) => element.chainId == chainId);

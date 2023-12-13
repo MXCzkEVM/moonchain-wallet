@@ -6,6 +6,7 @@ import 'package:datadashwallet/features/settings/subfeatures/accounts/subfeature
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'copyable_item.dart';
@@ -18,8 +19,9 @@ class AccountManagementPanel extends HookConsumerWidget {
     final presenter = ref.read(settingsContainer.actions);
     final state = ref.watch(settingsContainer.state);
     final account = state.account;
-    final walletAddress =
-        Formatter.formatWalletAddress(account?.address ?? '', nCharacters: 10);
+    final walletAddress = MXCFormatter.formatWalletAddress(
+        account?.address ?? '',
+        nCharacters: 10);
 
     return GreyContainer(
         padding: const EdgeInsetsDirectional.only(

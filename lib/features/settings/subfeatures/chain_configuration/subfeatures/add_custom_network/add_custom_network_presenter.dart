@@ -4,6 +4,7 @@ import 'package:datadashwallet/app/app.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_logic/src/domain/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -44,7 +45,7 @@ class AddCustomNetworkPresenter
     final web3RpcHttpUrl = rpcUrlController.text;
     final web3RpcWebsocketUrl =
         rpcUrlController.text.replaceAll('https', 'wss');
-    final chainId = Formatter.hexToDecimal(chainIdController.text);
+    final chainId = MXCFormatter.hexToDecimal(chainIdController.text);
     final symbol = symbolController.text;
     final explorerUrl =
         explorerController.text.isNotEmpty ? explorerController.text : null;
@@ -109,7 +110,7 @@ class AddCustomNetworkPresenter
   String? compareChainId(BuildContext context, String value,
       {bool isNumeric = true}) {
     int enteredChainId;
-    if (!isNumeric) enteredChainId = Formatter.hexToDecimal(value);
+    if (!isNumeric) enteredChainId = MXCFormatter.hexToDecimal(value);
     enteredChainId = int.parse(value);
     if (state.chainId == null) {
       return FlutterI18n.translate(context, 'could_not_fetch_chain_id_notice');

@@ -34,7 +34,7 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<String> getWalletNativeTokenBalance(String address) async {
     final balance = await _repository.tokenContract.getEthBalance(address);
-    return Formatter.convertWeiToEth(
+    return MXCFormatter.convertWeiToEth(
         balance.getInWei.toString(), Config.ethDecimals);
   }
 

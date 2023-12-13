@@ -43,7 +43,7 @@ class AccountItem extends StatelessWidget {
                 const SizedBox(height: Sizes.space2XSmall),
                 Text(
                   account.mns ??
-                      Formatter.formatWalletAddress(account.address,
+                      MXCFormatter.formatWalletAddress(account.address,
                           nCharacters: 10),
                   style: FontTheme.of(context).body1.primary(),
                 ),

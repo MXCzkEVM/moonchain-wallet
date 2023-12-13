@@ -82,14 +82,14 @@ class _TransactionInfoState extends State<TransactionInfo> {
               if (TransactionProcessType.confirm != processType) ...[
                 SingleLineInfoItem(
                   title: 'estimated_fee',
-                  value: Formatter.formatNumberForUI(
+                  value: MXCFormatter.formatNumberForUI(
                     widget.estimatedFee,
                   ),
                   hint: widget.networkSymbol,
                 ),
                 SingleLineInfoItem(
                   title: 'max_fee',
-                  value: Formatter.formatNumberForUI(
+                  value: MXCFormatter.formatNumberForUI(
                     widget.maxFee,
                   ),
                   hint: widget.networkSymbol,
@@ -173,7 +173,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              Formatter.formatNumberForUI(
+              MXCFormatter.formatNumberForUI(
                 widget.amount,
               ),
               style: FontTheme.of(context).h5(),

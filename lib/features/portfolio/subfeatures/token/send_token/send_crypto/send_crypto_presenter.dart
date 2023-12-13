@@ -103,7 +103,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     final isInvalid = Validation.isDecimalsStandard(stringAmount);
 
     if (!isInvalid) {
-      amountController.text = Formatter.formatToStandardDecimals(stringAmount);
+      amountController.text =
+          MXCFormatter.formatToStandardDecimals(stringAmount);
     } else {
       amountController.text = stringAmount;
     }

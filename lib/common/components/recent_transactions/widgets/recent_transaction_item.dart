@@ -37,7 +37,7 @@ class RecentTrxListItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(walletContainer.actions);
     final state = ref.watch(walletContainer.state);
-    final formattedTXHash = Formatter.formatWalletAddress(txHash);
+    final formattedTXHash = MXCFormatter.formatWalletAddress(txHash);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Column(

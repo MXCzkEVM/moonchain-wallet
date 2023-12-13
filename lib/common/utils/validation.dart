@@ -139,7 +139,7 @@ class Validation {
 
   static bool isPrivateKey(String privateKey) {
     try {
-      EthPrivateKey.fromHex(Formatter.removeZeroX(privateKey));
+      EthPrivateKey.fromHex(MXCFormatter.removeZeroX(privateKey));
       return true;
     } catch (e) {
       return false;
