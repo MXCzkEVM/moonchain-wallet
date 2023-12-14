@@ -180,9 +180,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     if (estimatedGasFee != null) {
       sumBalance -= estimatedGasFee.gasFee;
       final estimatedFee =
-          Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
-              ? '0.000'
-              : estimatedGasFee.gasFee.toString();
+          MXCFormatter.checkExpoNumber(estimatedGasFee.gasFee.toString());
 
       final maxFeeDouble = MXCGas.maxFeePerGasByEth(estimatedGasFee.gasFee);
       final maxFeeString = maxFeeDouble.toString();
@@ -326,16 +324,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void callErrorHandler(dynamic e, StackTrace s) {
-    final isHandled = _errorUseCase.handleError(context!, e, onL3Tap: () {
-      final chainId = state.network!.chainId;
-      final l3BridgeUri = Urls.networkL3Bridge(chainId);
-      Navigator.of(context!).push(route.featureDialog(
-        maintainState: false,
-        OpenAppPage(
-          url: l3BridgeUri,
-        ),
-      ));
-    });
+    final isHandled =
+        _errorUseCase.handleError(context!, e, addError, translate);
     if (!isHandled) {
       addError(e, s);
     }

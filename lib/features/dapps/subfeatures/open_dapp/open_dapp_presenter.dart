@@ -245,13 +245,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final isHandled = _errorUseCase.handleError(
       context!,
       e,
-      onL3Tap: () {
-        navigator!.pop();
-        final chainId = state.network!.chainId;
-        final l3BridgeUri = Uri.parse(Urls.networkL3Bridge(chainId));
-        state.webviewController!
-            .loadUrl(urlRequest: URLRequest(url: l3BridgeUri));
-      },
+      addError,
+      translate,
     );
     if (!isHandled) {
       addError(e, s);

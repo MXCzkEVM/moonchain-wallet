@@ -5,14 +5,6 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class RecentTransactionsUtils {
-  static TransactionType checkForTransactionType(
-      String userAddress, String currentTxFromHash) {
-    if (currentTxFromHash == userAddress) {
-      return TransactionType.sent;
-    } else {
-      return TransactionType.received;
-    }
-  }
 
   static TransactionStatus checkForTransactionStatus(
       String result, String status) {

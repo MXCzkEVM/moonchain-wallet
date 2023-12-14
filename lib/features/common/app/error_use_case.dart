@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -19,34 +20,45 @@ class ErrorUseCase extends ReactiveUseCase {
   final LauncherUseCase _launcherUseCase;
 
   /// If error is known & handled will return true, otherwise return false.
-  handleError(BuildContext context, dynamic e, {VoidCallback? onL3Tap}) {
+  bool handleError(
+    BuildContext context,
+    dynamic e,
+    void Function(dynamic error, [StackTrace? stackTrace]) addError,
+    String? Function(String key) translate,
+  ) {
     if (e is RPCError) {
-      return handlerRPCError(context, e.message, onL3Tap!);
+      return handlerRPCError(context, e.message, addError, translate);
     } else {
       return false;
     }
   }
 
   bool handlerRPCError(
-      BuildContext context, String message, VoidCallback onL3Tap) {
-    final isInsufficientFundError = isFundError(message);
-    if (isInsufficientFundError) {
+    BuildContext context,
+    String message,
+    void Function(dynamic error, [StackTrace? stackTrace]) addError,
+    String? Function(String key) translate,
+  ) {
+    final isFund = isFundError(message);
+
+    if (isFund) {
       final network = _chainConfigurationUseCase.selectedNetwork.value!;
       final walletAddress = _accountUseCase.account.value!.address;
       showReceiveBottomSheet(
-          context,
-          walletAddress,
-          network.chainId,
-          network.symbol,
-          onL3Tap,
-          _launcherUseCase.launchUrlInPlatformDefaultWithString,
-          true);
+          context, walletAddress, network.chainId, network.symbol, () {
+        l3Tap(context);
+      }, _launcherUseCase.launchUrlInPlatformDefaultWithString, true);
+      return isFund;
     }
 
-    return isInsufficientFundError;
-    // String errorMessage = message;
-    // errorMessage = changeErrorMessage(errorMessage);
-    // addError(errorMessage);
+    final errorMessage = checkErrorMessage(message);
+
+    if (errorMessage != null) {
+      addError(translate(errorMessage));
+      return true;
+    }
+
+    return false;
   }
 
   bool isFundError(String message) {
@@ -58,6 +70,30 @@ class ErrorUseCase extends ReactiveUseCase {
       }
     }
     return isError;
+  }
+
+  String? checkErrorMessage(String message) {
+    List<String> errorList = Config.errorList;
+
+    for (String errorMessage in errorList) {
+      if (message.contains(errorMessage)) {
+        return Config.errorMessageMapper[errorMessage];
+      }
+    }
+
+    return null;
+  }
+
+  void l3Tap(BuildContext context) {
+    final network = _chainConfigurationUseCase.selectedNetwork.value!;
+    final chainId = network.chainId;
+    final l3BridgeUri = Urls.networkL3Bridge(chainId);
+    Navigator.of(context).push(route.featureDialog(
+      maintainState: false,
+      OpenAppPage(
+        url: l3BridgeUri,
+      ),
+    ));
   }
 
   // String _changeErrorMessage(String message) {
