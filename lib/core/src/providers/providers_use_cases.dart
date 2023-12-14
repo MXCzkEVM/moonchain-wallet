@@ -45,7 +45,8 @@ final Provider<TokenContractUseCase> tokenContractUseCaseProvider = Provider(
   ),
 );
 
-final Provider<TransactionControllerUseCase> transactionControllerUseCaseProvider = Provider(
+final Provider<TransactionControllerUseCase>
+    transactionControllerUseCaseProvider = Provider(
   (ref) => TransactionControllerUseCase(
     ref.watch(web3RepositoryProvider),
   ),
@@ -122,13 +123,6 @@ final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
   ),
 );
 
-final Provider<MXCTransactionsUseCase> mxcTransactionsUseCaseProvider =
-    Provider(
-  (ref) => MXCTransactionsUseCase(
-    ref.watch(web3RepositoryProvider),
-  ),
-);
-
 final Provider<TransactionsHistoryUseCase> transactionHistoryUseCaseProvider =
     Provider(
   (ref) => TransactionsHistoryUseCase(
@@ -186,5 +180,13 @@ final Provider<LauncherUseCase> launcherUseCaseProvider = Provider(
     ref.watch(web3RepositoryProvider),
     ref.watch(accountUseCaseProvider),
     ref.watch(chainConfigurationUseCaseProvider),
+  ),
+);
+
+final Provider<MXCTransactionsUseCase> mxcTransactionsUseCaseProvider =
+    Provider(
+  (ref) => MXCTransactionsUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(tokenContractUseCaseProvider),
   ),
 );

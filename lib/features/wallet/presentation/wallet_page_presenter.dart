@@ -29,6 +29,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       ref.read(transactionHistoryUseCaseProvider);
   late final _mxcTransactionsUseCase = ref.read(mxcTransactionsUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+  late final _errorUseCase = ref.read(errorUseCaseProvider);
 
   @override
   void initState() {
@@ -163,7 +164,9 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               TransactionModel.fromMXCTransaction(
                   newTx, state.account!.address)));
         }
-        checkPendingTx();
+        final newTxList =
+            _mxcTransactionsUseCase.checkPendingTx(state.txList ?? []);
+        notify(() => state.txList = newTxList);
         break;
       // coin transfer done
       case 'transaction':
@@ -198,47 +201,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void getMXCTransactions() async {
-    // transactions list contains all the kind of transactions
-    // It's going to be filtered to only have native coin transfer
-    await _tokenContractUseCase
-        .getTransactionsByAddress(state.account!.address)
-        .then((newTransactionsList) async {
-      // token transfer list contains only one kind transaction which is token transfer
-      final newTokenTransfersList = await _tokenContractUseCase
-          .getTokenTransfersByAddress(state.account!.address);
+    final txList = await _mxcTransactionsUseCase
+        .getMXCTransactions(state.account!.address);
 
-      if (newTokenTransfersList != null && newTransactionsList != null) {
-        // loading over and we have the data
-        state.isTxListLoading = false;
-        // merge
-        if (newTransactionsList.items != null &&
-            newTokenTransfersList.items != null) {
-          // Separating token transfer from all transaction since they have different structure
-          newTransactionsList = newTransactionsList.copyWith(
-              items: _mxcTransactionsUseCase.removeTokenTransfersFromTxList(
-                  newTransactionsList.items!, newTokenTransfersList.items!));
-        }
-
-        if (newTokenTransfersList.items != null) {
-          _mxcTransactionsUseCase.addTokenTransfersToTxList(
-              newTransactionsList.items!, newTokenTransfersList.items!);
-
-          _mxcTransactionsUseCase.sortByDate(newTransactionsList.items!);
-
-          final finalTxList = _mxcTransactionsUseCase.axsTxListFromMxcTxList(
-              newTransactionsList.items!, state.account!.address);
-
-          _mxcTransactionsUseCase.removeInvalidTx(finalTxList);
-
-          notify(() => state.txList = finalTxList);
-
-          checkPendingTx();
-        }
-      } else {
-        // looks like error
-        state.isTxListLoading = false;
-      }
-    });
+    // looks like error
+    state.isTxListLoading = false;
+    notify(() => state.txList = txList);
   }
 
   initializeBalancePanelAndTokens() {
@@ -358,7 +326,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   void getMXCTweets() async {
     try {
       final defaultTweets = await _tweetsUseCase.getDefaultTweets();
-
       notify(() => state.embeddedTweets = defaultTweets.tweets!);
     } catch (e) {
       addError(e.toString());
@@ -437,109 +404,83 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void speedUpTransaction(TransactionModel transaction) async {
-    final from = transaction.from!;
-    final to = transaction.to!;
+    try {
+      final from = transaction.from!;
+      final to = transaction.to!;
 
-    EtherAmount? value;
-    if (transaction.type == TransactionType.sent &&
-        transaction.value != null &&
-        transaction.transferType != TransferType.erc20) {
-      value = MxcAmount.fromStringByWei(transaction.value!);
-    }
-
-    BigInt? gasLimit = transaction.gasLimit != null
-        ? BigInt.from(transaction.gasLimit!)
-        : null;
-    Uint8List? data = transaction.data != null && transaction.data != '0x'
-        ? MXCType.hexToUint8List(transaction.data!)
-        : null;
-
-    late TransactionGasEstimation estimation;
-
-    if (data == null) {
-      estimation = await _tokenContractUseCase.estimateGasFeeForCoinTransfer(
-          from: from, to: to, value: value!);
-    } else {
-      estimation = await _tokenContractUseCase.estimateGasFeeForContractCall(
-          from: from, to: to, data: data, amountOfGas: gasLimit, value: value);
-    }
-
-    // updating these fields with extraGasPercentage
-    final estimatedPriorityFees = MXCGas.addExtraFeeToPriorityFees(
-        feePerGas: transaction.feePerGas!,
-        priorityFeePerGas: transaction.maxPriorityFee!.toDouble());
-
-    final estimatedGasPriceDouble = estimation.gasPrice.getInWei.toDouble();
-
-    final totalFee = MXCGas.getTotalFeeInString(
-        estimatedGasPriceDouble, transaction.gasLimit!);
-
-    final maxPriorityFeePerGas =
-        MxcAmount.fromDoubleByWei(estimatedPriorityFees.maxPriorityFeePerGas);
-    final estimatedMaxFeePerGas = estimatedPriorityFees.maxFeePerGas;
-
-    double finalMaxFeePerGas = MXCGas.getReplacementMaxFeePerGas(
-        estimatedGasPriceDouble, estimatedMaxFeePerGas);
-
-    final maxFeePerGas = MxcAmount.fromDoubleByWei(finalMaxFeePerGas);
-
-    final totalMaxFee =
-        MXCGas.getTotalFeeInString(finalMaxFeePerGas, transaction.gasLimit!);
-
-    final result = await showSpeedUpDialog(context!,
-        estimatedFee: totalFee,
-        maxFee: totalMaxFee,
-        symbol: state.network!.symbol);
-
-    if (result ?? false) {
-      TransactionModel newPendingTransaction =
-          await _transactionControllerUseCase.speedUpTransaction(
-              transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
-
-      _transactionHistoryUseCase.replaceSpeedUpTransaction(
-          transaction, newPendingTransaction, state.network!.chainId);
-    }
-  }
-
-  void checkPendingTx() {
-    // If txs with same nonce
-    // keep only the last one
-    // Show buttons
-    // If from to this account cancel operation otherwise It's speed up
-    final pendingTransactions = state.txList!
-        .where((element) => element.status == TransactionStatus.pending)
-        .toList();
-
-    final pendingTxMap =
-        pendingTransactions.groupListsBy((element) => element.nonce);
-
-    for (List<TransactionModel> group in pendingTxMap.values.toList()) {
-      if (group.isNotEmpty) {
-        final latestTransaction = group.first;
-        if (group.length > 1) {
-          final isCancel = isCancelOperation(latestTransaction);
-          if (isCancel) {
-            notify(() => state.txList![0] =
-                latestTransaction.copyWith(action: TransactionActions.cancel));
-          } else {
-            notify(() => state.txList![0] =
-                latestTransaction.copyWith(action: TransactionActions.speedUp));
-          }
-          // Remove all transaction except the latest one
-          for (TransactionModel transaction in group) {
-            notify(() => state.txList!.removeWhere((element) =>
-                element.hash == transaction.hash &&
-                element.hash != latestTransaction.hash));
-          }
-        }
+      EtherAmount? value;
+      if (transaction.type == TransactionType.sent &&
+          transaction.value != null &&
+          transaction.transferType != TransferType.erc20) {
+        value = MxcAmount.fromStringByWei(transaction.value!);
       }
+
+      BigInt? gasLimit = transaction.gasLimit != null
+          ? BigInt.from(transaction.gasLimit!)
+          : null;
+      Uint8List? data = transaction.data != null && transaction.data != '0x'
+          ? MXCType.hexToUint8List(transaction.data!)
+          : null;
+
+      late TransactionGasEstimation estimation;
+
+      if (data == null) {
+        estimation = await _tokenContractUseCase.estimateGasFeeForCoinTransfer(
+            from: from, to: to, value: value!);
+      } else {
+        estimation = await _tokenContractUseCase.estimateGasFeeForContractCall(
+            from: from,
+            to: to,
+            data: data,
+            amountOfGas: gasLimit,
+            value: value);
+      }
+
+      // updating these fields with extraGasPercentage
+      final estimatedPriorityFees = MXCGas.addExtraFeeToPriorityFees(
+          feePerGas: transaction.feePerGas!,
+          priorityFeePerGas: transaction.maxPriorityFee!.toDouble());
+
+      final estimatedGasPriceDouble = estimation.gasPrice.getInWei.toDouble();
+
+      final totalFee = MXCGas.getTotalFeeInString(
+          estimatedGasPriceDouble, transaction.gasLimit!);
+
+      final maxPriorityFeePerGas =
+          MxcAmount.fromDoubleByWei(estimatedPriorityFees.maxPriorityFeePerGas);
+      final estimatedMaxFeePerGas = estimatedPriorityFees.maxFeePerGas;
+
+      double finalMaxFeePerGas = MXCGas.getReplacementMaxFeePerGas(
+          estimatedGasPriceDouble, estimatedMaxFeePerGas);
+
+      final maxFeePerGas = MxcAmount.fromDoubleByWei(finalMaxFeePerGas);
+
+      final totalMaxFee =
+          MXCGas.getTotalFeeInString(finalMaxFeePerGas, transaction.gasLimit!);
+
+      final result = await showSpeedUpDialog(context!,
+          estimatedFee: totalFee,
+          maxFee: totalMaxFee,
+          symbol: state.network!.symbol);
+
+      if (result ?? false) {
+        TransactionModel newPendingTransaction =
+            await _transactionControllerUseCase.speedUpTransaction(transaction,
+                state.account!, maxFeePerGas, maxPriorityFeePerGas);
+
+        _transactionHistoryUseCase.replaceSpeedUpTransaction(
+            transaction, newPendingTransaction, state.network!.chainId);
+      }
+    } catch (e, s) {
+      callErrorHandler(e, s);
     }
   }
 
-  bool isCancelOperation(TransactionModel transaction) {
-    if (transaction.from == transaction.to && transaction.value == '0') {
-      return true;
+  void callErrorHandler(dynamic e, StackTrace s) {
+    final isHandled =
+        _errorUseCase.handleError(context!, e, addError, translate);
+    if (!isHandled) {
+      addError(e, s);
     }
-    return false;
   }
 }
