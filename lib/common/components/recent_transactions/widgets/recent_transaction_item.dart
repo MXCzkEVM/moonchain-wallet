@@ -20,18 +20,20 @@ class RecentTrxListItem extends HookConsumerWidget {
   final TransactionActions? transactionAction;
   final String logoUrl;
   final TransactionModel transaction;
-  const RecentTrxListItem(
-      {Key? key,
-      required this.logoUrl,
-      required this.amount,
-      required this.symbol,
-      required this.txHash,
-      required this.timestamp,
-      required this.transactionType,
-      required this.transactionStatus,
-      required this.transactionAction,
-      required this.transaction})
-      : super(key: key);
+  final bool shouldShowActionButtons;
+  const RecentTrxListItem({
+    Key? key,
+    required this.logoUrl,
+    required this.amount,
+    required this.symbol,
+    required this.txHash,
+    required this.timestamp,
+    required this.transactionType,
+    required this.transactionStatus,
+    required this.transactionAction,
+    required this.transaction,
+    required this.shouldShowActionButtons,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -186,7 +188,8 @@ class RecentTrxListItem extends HookConsumerWidget {
             ],
           ),
           if (transactionStatus == TransactionStatus.pending &&
-              transaction.from?.toLowerCase() == state.account?.address) ...[
+              transaction.from?.toLowerCase() == state.account?.address &&
+              shouldShowActionButtons) ...[
             const SizedBox(
               height: Sizes.spaceNormal,
             ),

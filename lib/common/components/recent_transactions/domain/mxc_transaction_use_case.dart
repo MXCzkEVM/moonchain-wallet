@@ -105,15 +105,13 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
     );
   }
 
-  List<WannseeTransactionModel> applyTxDateLimit(
-      List<WannseeTransactionModel> txList) {
+  List<TransactionModel> applyTxDateLimit(List<TransactionModel> txList) {
     final sevenDays = DateTime.now()
         .subtract(Duration(days: Config.transactionsHistoryLimit));
     return txList.where((element) {
-      if (element.timestamp != null) {
-        return element.timestamp!.isAfter(sevenDays);
-      }
-      return element.tokenTransfers![0].timestamp!.isAfter(sevenDays);
+      return element.timeStamp != null
+          ? element.timeStamp!.isAfter(sevenDays)
+          : false;
     }).toList();
   }
 
