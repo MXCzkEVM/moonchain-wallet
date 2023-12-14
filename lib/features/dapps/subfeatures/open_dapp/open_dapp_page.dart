@@ -21,7 +21,7 @@ class OpenAppPage extends HookConsumerWidget {
     final presenter = ref.read(openDAppPageContainer.actions);
     final state = ref.watch(openDAppPageContainer.state);
     const rightToLeftPrimaryVelocity = 2000;
-    const leftToRightPrimaryVelocity = 4000;
+    const leftToRightPrimaryVelocity = 3000;
     return Scaffold(
       backgroundColor: ColorsTheme.of(context).screenBackground,
       body: SafeArea(
