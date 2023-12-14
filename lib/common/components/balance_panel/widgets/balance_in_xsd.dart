@@ -2,9 +2,8 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-
-import '../../../common.dart';
 
 class BalanceInXSD extends HookConsumerWidget {
   const BalanceInXSD({super.key});
@@ -17,7 +16,7 @@ class BalanceInXSD extends HookConsumerWidget {
     double balanceConverter = state.xsdConversionRate == 1.0
         ? walletBalance
         : state.xsdConversionRate * walletBalance;
-    final balance = Formatter.formatNumberForUI(balanceConverter.toString());
+    final balance = MXCFormatter.formatNumberForUI(balanceConverter.toString());
     return Row(children: [
       Text(balance,
           style: FontTheme.of(context).body2().copyWith(

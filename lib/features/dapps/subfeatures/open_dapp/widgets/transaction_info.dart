@@ -2,8 +2,8 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-
 
 class TransactionInfo extends ConsumerWidget {
   const TransactionInfo(
@@ -44,14 +44,14 @@ class TransactionInfo extends ConsumerWidget {
               ),
               SingleLineInfoItem(
                 title: 'estimated_fee',
-                value: Formatter.formatNumberForUI(
+                value: MXCFormatter.formatNumberForUI(
                   estimatedFee,
                 ),
                 hint: symbol,
               ),
               SingleLineInfoItem(
                 title: 'max_fee',
-                value: Formatter.formatNumberForUI(
+                value: MXCFormatter.formatNumberForUI(
                   maxFee,
                 ),
                 hint: symbol,
@@ -77,7 +77,7 @@ class TransactionInfo extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              Formatter.formatNumberForUI(
+              MXCFormatter.formatNumberForUI(
                 amount,
               ),
               style: FontTheme.of(context).h5(),

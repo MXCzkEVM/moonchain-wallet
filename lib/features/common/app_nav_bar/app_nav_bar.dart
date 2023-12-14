@@ -2,6 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'app_nav_bar_presenter.dart';
@@ -56,7 +57,7 @@ class AppNavBar extends HookConsumerWidget {
                       const SizedBox(width: Sizes.space2XSmall),
                       Text(
                         state.account?.mns ??
-                            Formatter.formatWalletAddress(
+                            MXCFormatter.formatWalletAddress(
                                 state.account?.address ?? ''),
                         style: FontTheme.of(context).subtitle1(),
                       )

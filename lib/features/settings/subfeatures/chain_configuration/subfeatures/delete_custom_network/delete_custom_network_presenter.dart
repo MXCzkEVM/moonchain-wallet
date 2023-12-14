@@ -92,7 +92,7 @@ class DeleteCustomNetworkPresenter
   String? compareChainId(BuildContext context, String value,
       {bool isNumeric = true}) {
     int enteredChainId;
-    if (!isNumeric) enteredChainId = Formatter.hexToDecimal(value);
+    if (!isNumeric) enteredChainId = MXCFormatter.hexToDecimal(value);
     enteredChainId = int.parse(value);
     if (state.chainId == null) {
       return FlutterI18n.translate(context, 'could_not_fetch_chain_id_notice');
@@ -116,7 +116,7 @@ class DeleteCustomNetworkPresenter
     final web3RpcHttpUrl = rpcUrlController.text;
     final web3RpcWebsocketUrl =
         rpcUrlController.text.replaceAll('https', 'wss');
-    final chainId = Formatter.hexToDecimal(chainIdController.text);
+    final chainId = MXCFormatter.hexToDecimal(chainIdController.text);
     final symbol = symbolController.text;
     final explorerUrl =
         explorerController.text.isNotEmpty ? explorerController.text : null;

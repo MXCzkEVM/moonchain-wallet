@@ -5,6 +5,7 @@ import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/chains_use_case.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
+import 'package:datadashwallet/features/common/contract/transaction_controller.dart';
 import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/dapp_store_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
@@ -40,6 +41,12 @@ final Provider<GesturesInstructionUseCase> gesturesInstructionUseCaseProvider =
 
 final Provider<TokenContractUseCase> tokenContractUseCaseProvider = Provider(
   (ref) => TokenContractUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
+final Provider<TransactionControllerUseCase> transactionControllerUseCaseProvider = Provider(
+  (ref) => TransactionControllerUseCase(
     ref.watch(web3RepositoryProvider),
   ),
 );

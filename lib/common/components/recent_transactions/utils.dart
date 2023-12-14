@@ -3,7 +3,6 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import '../../utils/formatter.dart';
 
 class RecentTransactionsUtils {
   static TransactionType checkForTransactionType(
@@ -99,10 +98,11 @@ class RecentTransactionsUtils {
         logoUrl: logoUrl,
         amount: e.value == null
             ? null
-            : Formatter.convertWeiToEth(e.value!, decimal),
+            : MXCFormatter.convertWeiToEth(e.value!, decimal),
         symbol: symbol,
-        timestamp:
-            e.timeStamp == null ? "Unknown" : Formatter.localTime(e.timeStamp!),
+        timestamp: e.timeStamp == null
+            ? "Unknown"
+            : MXCFormatter.localTime(e.timeStamp!),
         txHash: e.hash,
         transactionType: e.type,
         transactionStatus: e.status,

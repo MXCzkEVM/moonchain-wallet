@@ -20,6 +20,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       ref.read(chainConfigurationUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
+  late final _transactionControllerUseCase =
+      ref.read(transactionControllerUseCaseProvider);
   late final _tweetsUseCase = ref.read(tweetsUseCaseProvider);
   late final _customTokenUseCase = ref.read(customTokensUseCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
@@ -425,8 +427,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         symbol: state.network!.symbol);
 
     if (result ?? false) {
-      final result = await _tokenContractUseCase.cancelTransaction(
-          transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
+      TransactionModel newPendingTransaction =
+          await _transactionControllerUseCase.cancelTransaction(
+              transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
+
+      _transactionHistoryUseCase.replaceCancelTransaction(
+          transaction, newPendingTransaction, state.network!.chainId);
     }
   }
 
@@ -486,8 +492,12 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         symbol: state.network!.symbol);
 
     if (result ?? false) {
-      final result = await _tokenContractUseCase.speedUpTransaction(
-          transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
+      TransactionModel newPendingTransaction =
+          await _transactionControllerUseCase.speedUpTransaction(
+              transaction, state.account!, maxFeePerGas, maxPriorityFeePerGas);
+
+      _transactionHistoryUseCase.replaceSpeedUpTransaction(
+          transaction, newPendingTransaction, state.network!.chainId);
     }
   }
 
