@@ -20,7 +20,8 @@ class OpenAppPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(openDAppPageContainer.actions);
     final state = ref.watch(openDAppPageContainer.state);
-    const primaryVelocity = 2000;
+    const rightToLeftPrimaryVelocity = 2000;
+    const leftToRightPrimaryVelocity = 4000;
     return Scaffold(
       backgroundColor: ColorsTheme.of(context).screenBackground,
       body: SafeArea(
@@ -38,19 +39,19 @@ class OpenAppPage extends HookConsumerWidget {
                     (AllowMultipleHorizontalDrag instance) {
                       instance.onEnd = (details) async {
                         final webViewController = state.webviewController!;
-                        if (details.primaryVelocity! < 0 - primaryVelocity &&
+                        if (details.primaryVelocity! < 0 - rightToLeftPrimaryVelocity &&
                             (await webViewController.canGoForward())) {
                           webViewController.goForward();
                           return;
                         }
 
-                        if (details.primaryVelocity! > primaryVelocity &&
+                        if (details.primaryVelocity! > leftToRightPrimaryVelocity &&
                             (await webViewController.canGoBack())) {
                           webViewController.goBack();
                           return;
                         }
 
-                        if (details.primaryVelocity! > primaryVelocity &&
+                        if (details.primaryVelocity! > leftToRightPrimaryVelocity &&
                             !(await webViewController.canGoBack())) {
                           if (BottomFlowDialog.maybeOf(context) != null) {
                             BottomFlowDialog.of(context).close();
