@@ -58,23 +58,32 @@ class DragDownPanel extends HookConsumerWidget {
                           border: Border.all(
                             color: ColorsTheme.of(context).screenBackground,
                           )),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Stack(
                         children: [
-                          IconButton(
-                              key: const Key('closedAppButton'),
-                              onPressed: () {
-                                presenter.closedApp();
-                              },
-                              icon: const Icon(
-                                Icons.close_rounded,
-                                size: 24,
-                              )),
-                          Expanded(
+                          Row(
+                            children: [
+                              IconButton(
+                                  key: const Key('closedAppButton'),
+                                  onPressed: () {
+                                    presenter.closedApp();
+                                  },
+                                  icon: const Icon(
+                                    Icons.close_rounded,
+                                    size: 24,
+                                  )),
+                              InkWell(
+                                  onTap:
+                                      presenter.showNetworkDetailsBottomSheet,
+                                  child: ChainLogoWidget(logo: logo)),
+                            ],
+                          ),
+                          Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                const SizedBox(
+                                  width: Sizes.space2XSmall,
+                                ),
                                 isSecure
                                     ? Icon(
                                         Icons.lock_rounded,
@@ -106,30 +115,6 @@ class DragDownPanel extends HookConsumerWidget {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.space3XSmall),
-                    width: 100,
-                    height: double.infinity,
-                    child: Column(
-                      children: [
-                        Expanded(
-                            flex: 3,
-                            child: InkWell(
-                                onTap: presenter.showNetworkDetailsBottomSheet,
-                                child: ChainLogoWidget(logo: logo))),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            name,
-                            style: FontTheme.of(context).caption2.primary(),
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                          ),
-                        )
-                      ],
                     ),
                   ),
                 ],
