@@ -22,7 +22,7 @@ class DragDownPanel extends HookConsumerWidget {
     final state = ref.watch(openDAppPageContainer.state);
 
     final logo = state.network!.logo;
-    final name = state.network!.label ?? state.network!.explorerUrl;
+    final name = state.network!.label ?? state.network!.web3RpcHttpUrl;
     final url = state.currentUrl;
     final isSecure = state.isSecure;
 
@@ -39,55 +39,88 @@ class DragDownPanel extends HookConsumerWidget {
               height: maxPanelHeight * state.animationController!.value / 1.5,
               width: double.infinity,
               padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.spaceSmall, vertical: 10),
+                  horizontal: Sizes.spaceSmall, vertical: Sizes.spaceSmall),
               color: ColorsTheme.of(context).primaryBackground,
-              child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                decoration: BoxDecoration(
-                    color: ColorsTheme.of(context).screenBackground,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    border: Border.all(
-                      color: ColorsTheme.of(context).screenBackground,
-                    )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ChainLogoWidget(logo: logo),
-                    Row(
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 64,
+                    height: double.infinity,
+                    child: Column(
                       children: [
-                        isSecure
-                            ? Icon(
-                                Icons.lock_rounded,
-                                color: ColorsTheme.of(context).textPrimary,
-                                size: 24,
-                              )
-                            : Icon(
-                                Icons.lock_open,
-                                color: ColorsTheme.of(context).mainRed,
-                                size: 24,
-                              ),
-                        const SizedBox(
-                          width: Sizes.spaceXSmall,
-                        ),
-                        Text(
-                          url?.host ?? '',
-                          style: FontTheme.of(context).body1.primary(),
+                        ChainLogoWidget(logo: logo),
+                        Expanded(
+                          child: Text(
+                            name,
+                            style: FontTheme.of(context).caption2.primary(),
+                            // overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                          ),
                         )
                       ],
                     ),
-                    IconButton(
-                        key: const Key('closedAppButton'),
-                        onPressed: () {
-                          presenter.closedApp();
-                        },
-                        icon: const Icon(Icons.close_rounded))
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.space2XSmall,
+                          vertical: Sizes.space3XSmall),
+                      decoration: BoxDecoration(
+                          color: ColorsTheme.of(context).screenBackground,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          border: Border.all(
+                            color: ColorsTheme.of(context).screenBackground,
+                          )),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                isSecure
+                                    ? Icon(
+                                        Icons.lock_rounded,
+                                        color:
+                                            ColorsTheme.of(context).textPrimary,
+                                        size: 16,
+                                      )
+                                    : Icon(
+                                        Icons.lock_open,
+                                        color: ColorsTheme.of(context).mainRed,
+                                        size: 16,
+                                      ),
+                                const SizedBox(
+                                  width: Sizes.spaceXSmall,
+                                ),
+                                Text(
+                                  url?.host ?? '',
+                                  style: FontTheme.of(context)
+                                      .body1
+                                      .primary()
+                                      .copyWith(fontWeight: FontWeight.w800),
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                              key: const Key('closedAppButton'),
+                              onPressed: () {
+                                presenter.closedApp();
+                              },
+                              icon: const Icon(
+                                Icons.close_rounded,
+                                size: 24,
+                              ))
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Transform.translate(
