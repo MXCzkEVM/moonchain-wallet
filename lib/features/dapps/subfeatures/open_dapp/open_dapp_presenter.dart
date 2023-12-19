@@ -553,6 +553,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void showPanel() async {
+    state.pullToRefreshController!.endRefreshing();
     final status = state.animationController!.status;
     if (state.animationController!.value != 1 &&
             status == AnimationStatus.completed ||
@@ -561,7 +562,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         1.0,
         duration: settleDuration,
       );
-
       // await Future.delayed(
       //   const Duration(seconds: 5),
       //   () => hidePanel(),
