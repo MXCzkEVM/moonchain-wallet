@@ -104,6 +104,9 @@ class OpenAppPage extends HookConsumerWidget {
                       presenter.changeProgress(progress);
                       presenter.setChain(null);
                     },
+                    onUpdateVisitedHistory: (controller, url, androidIsReload) {
+                      presenter.updateCurrentUrl(url);
+                    },
                     shouldOverrideUrlLoading: presenter.checkDeepLink,
                     signCallback: (params, eip1193, controller) async {
                       final id = params['id'];

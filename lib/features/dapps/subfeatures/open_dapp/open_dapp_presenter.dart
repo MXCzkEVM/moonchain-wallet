@@ -65,8 +65,17 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return super.dispose();
   }
 
-  void onWebViewCreated(InAppWebViewController controller) {
+  void onWebViewCreated(InAppWebViewController controller) async {
     notify(() => state.webviewController = controller);
+
+    updateCurrentUrl(null);
+  }
+
+  updateCurrentUrl(Uri? value) async {
+    value ?? await state.webviewController!.getUrl();
+    notify(
+      () => state.currentUrl = value,
+    );
   }
 
   Future<TransactionGasEstimation?> _estimatedFee(

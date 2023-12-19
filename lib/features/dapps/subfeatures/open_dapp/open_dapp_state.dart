@@ -11,6 +11,7 @@ class OpenDAppState with EquatableMixin {
   int progress = 0;
   Network? network;
   int panelHideTimer = 5;
+  Uri? currentUrl;
 
   @override
   List<Object?> get props => [
@@ -19,6 +20,7 @@ class OpenDAppState with EquatableMixin {
         progress,
         network,
         animationController,
-        pullToRefreshController
+        pullToRefreshController,
+        currentUrl
       ];
 }
