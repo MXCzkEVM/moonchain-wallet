@@ -12,6 +12,7 @@ class OpenDAppState with EquatableMixin {
   Network? network;
   int panelHideTimer = 5;
   Uri? currentUrl;
+  bool isSecure = false;
 
   @override
   List<Object?> get props => [
@@ -21,6 +22,7 @@ class OpenDAppState with EquatableMixin {
         network,
         animationController,
         pullToRefreshController,
-        currentUrl
+        currentUrl,
+        isSecure
       ];
 }

@@ -71,10 +71,19 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     updateCurrentUrl(null);
   }
 
-  updateCurrentUrl(Uri? value) async {
-    value ?? await state.webviewController!.getUrl();
+  void updateCurrentUrl(Uri? value) async {
+    value = value ?? await state.webviewController!.getUrl();
     notify(
       () => state.currentUrl = value,
+    );
+    checkForUrlSecurity(value);
+  }
+
+  void checkForUrlSecurity(Uri? value) {
+    if (value == null) return;
+    final isSecure = value.scheme == 'https';
+    notify(
+      () => state.isSecure = isSecure,
     );
   }
 
@@ -553,10 +562,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         duration: settleDuration,
       );
 
-      await Future.delayed(
-        const Duration(seconds: 5),
-        () => hidePanel(),
-      );
+      // await Future.delayed(
+      //   const Duration(seconds: 5),
+      //   () => hidePanel(),
+      // );
     }
   }
 
@@ -570,5 +579,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         curve: Curves.ease,
       );
     }
+  }
+
+  void closedApp() {
+    navigator!.pop();
   }
 }
