@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:datadashwallet/common/common.dart';
-
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
@@ -37,6 +37,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   @override
   void initState() {
     super.initState();
+
+    state.pullToRefreshController = PullToRefreshController(
+      options: PullToRefreshOptions(
+          backgroundColor: Colors.transparent,
+          color: Colors.transparent,
+          enabled: true),
+      onRefresh: showPanel,
+    );
 
     listen(
       _accountUseCase.account,
@@ -201,9 +209,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       }
     }
 
-    String finalFee = (estimatedGasFee.gasFee / Config.dappSectionFeeDivision).toString();
+    String finalFee =
+        (estimatedGasFee.gasFee / Config.dappSectionFeeDivision).toString();
     final maxFeeDouble = estimatedGasFee.gasFee * Config.priority;
-    final maxFeeString = (maxFeeDouble / Config.dappSectionFeeDivision).toString();
+    final maxFeeString =
+        (maxFeeDouble / Config.dappSectionFeeDivision).toString();
     final maxFee =
         Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
 
@@ -507,5 +517,49 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
 
     return NavigationActionPolicy.ALLOW;
+  }
+
+  final double maxPanelHeight = 100.0;
+
+  final cancelDuration = const Duration(milliseconds: 300);
+  final settleDuration = const Duration(milliseconds: 400);
+
+  void handleScroll(double scroll) {
+    // If opposite direction then get back
+    final isScrollDownward = scroll > 0;
+    if (isScrollDownward) {
+      hidePanel();
+    } else {
+      showPanel();
+    }
+  }
+
+  void showPanel() async {
+    final status = state.animationController!.status;
+    if (state.animationController!.value != 1 &&
+            status == AnimationStatus.completed ||
+        status == AnimationStatus.dismissed) {
+      await state.animationController!.animateTo(
+        1.0,
+        duration: settleDuration,
+      );
+
+      await Future.delayed(
+        const Duration(seconds: 5),
+        () => hidePanel(),
+      );
+    }
+  }
+
+  void hidePanel() async {
+    final status = state.animationController!.status;
+    if (state.animationController!.value != 0 &&
+        status == AnimationStatus.completed) {
+      await state.animationController!.animateTo(
+        0.0,
+        duration: cancelDuration,
+        curve: Curves.ease,
+      );
+    }
   }
 }
