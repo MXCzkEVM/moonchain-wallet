@@ -598,18 +598,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     doubleTapTime = DateTime.now();
   }
 
-  void detectDoubleTap() {
-    final now = DateTime.now();
-    final difference = now.difference(doubleTapTime);
-    print(difference.inMilliseconds);
 
-    if (difference.inMilliseconds > Config.dAppDoubleTapLowerBound && difference.inMilliseconds < Config.dAppDoubleTapUpperBound) {
-      state.webviewController!.reload();
-      resetDoubleTapTime();
-      print('done');
-    } else {
-      resetDoubleTapTime();
-      print('set');
-    }
+  void showNetworkDetailsBottomSheet() {
+    showNetworkDetailsDialog(context!, network: state.network!);
   }
 }
