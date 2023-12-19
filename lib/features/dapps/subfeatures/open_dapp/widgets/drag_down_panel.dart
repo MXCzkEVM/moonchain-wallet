@@ -62,6 +62,15 @@ class DragDownPanel extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          IconButton(
+                              key: const Key('closedAppButton'),
+                              onPressed: () {
+                                presenter.closedApp();
+                              },
+                              icon: const Icon(
+                                Icons.close_rounded,
+                                size: 24,
+                              )),
                           Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +83,7 @@ class DragDownPanel extends HookConsumerWidget {
                                         size: 16,
                                       )
                                     : Icon(
-                                        Icons.lock_open,
+                                        Icons.warning,
                                         color: ColorsTheme.of(context).mainRed,
                                         size: 16,
                                       ),
@@ -88,22 +97,13 @@ class DragDownPanel extends HookConsumerWidget {
                                     style: FontTheme.of(context)
                                         .body1
                                         .primary()
-                                        .copyWith(fontWeight: FontWeight.w800),
+                                        .copyWith(fontWeight: FontWeight.w500),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          IconButton(
-                              key: const Key('closedAppButton'),
-                              onPressed: () {
-                                presenter.closedApp();
-                              },
-                              icon: const Icon(
-                                Icons.close_rounded,
-                                size: 24,
-                              ))
                         ],
                       ),
                     ),
@@ -111,12 +111,17 @@ class DragDownPanel extends HookConsumerWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: Sizes.space3XSmall),
-                    width: 90,
+                    width: 100,
                     height: double.infinity,
                     child: Column(
                       children: [
-                        Flexible(child: ChainLogoWidget(logo: logo)),
                         Expanded(
+                            flex: 3,
+                            child: InkWell(
+                                onTap: presenter.showNetworkDetailsBottomSheet,
+                                child: ChainLogoWidget(logo: logo))),
+                        Expanded(
+                          flex: 1,
                           child: Text(
                             name,
                             style: FontTheme.of(context).caption2.primary(),
