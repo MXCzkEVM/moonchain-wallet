@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
@@ -77,6 +78,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       () => state.currentUrl = value,
     );
     checkForUrlSecurity(value);
+  }
+
+  void copyUrl() {
+    FlutterClipboard.copy(state.currentUrl.toString()).then((value) => null);
+
+    showSnackBar(context: context!, content: translate('copied') ?? '');
   }
 
   void checkForUrlSecurity(Uri? value) {
@@ -583,5 +590,26 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void closedApp() {
     navigator!.pop();
+  }
+
+  DateTime doubleTapTime = DateTime.now();
+
+  void resetDoubleTapTime() {
+    doubleTapTime = DateTime.now();
+  }
+
+  void detectDoubleTap() {
+    final now = DateTime.now();
+    final difference = now.difference(doubleTapTime);
+    print(difference.inMilliseconds);
+
+    if (difference.inMilliseconds > Config.dAppDoubleTapLowerBound && difference.inMilliseconds < Config.dAppDoubleTapUpperBound) {
+      state.webviewController!.reload();
+      resetDoubleTapTime();
+      print('done');
+    } else {
+      resetDoubleTapTime();
+      print('set');
+    }
   }
 }

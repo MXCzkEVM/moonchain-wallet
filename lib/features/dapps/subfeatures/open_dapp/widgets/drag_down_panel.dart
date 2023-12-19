@@ -38,33 +38,18 @@ class DragDownPanel extends HookConsumerWidget {
             Container(
               height: maxPanelHeight * state.animationController!.value / 1.5,
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.spaceSmall, vertical: Sizes.spaceSmall),
-              color: ColorsTheme.of(context).primaryBackground,
+              padding: const EdgeInsetsDirectional.only(
+                  start: Sizes.spaceSmall,
+                  end: Sizes.space2XSmall,
+                  top: Sizes.spaceSmall,
+                  bottom: Sizes.spaceSmall),
+              decoration: BoxDecoration(
+                color: ColorsTheme.of(context).primaryBackground,
+              ),
               child: Row(
                 children: [
-                  SizedBox(
-                    width: 64,
-                    height: double.infinity,
-                    child: Column(
-                      children: [
-                        ChainLogoWidget(logo: logo),
-                        Expanded(
-                          child: Text(
-                            name,
-                            style: FontTheme.of(context).caption2.primary(),
-                            // overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Sizes.space2XSmall,
-                          vertical: Sizes.space3XSmall),
                       decoration: BoxDecoration(
                           color: ColorsTheme.of(context).screenBackground,
                           borderRadius: const BorderRadius.all(
@@ -94,15 +79,18 @@ class DragDownPanel extends HookConsumerWidget {
                                         size: 16,
                                       ),
                                 const SizedBox(
-                                  width: Sizes.spaceXSmall,
+                                  width: Sizes.space2XSmall,
                                 ),
-                                Text(
-                                  url?.host ?? '',
-                                  style: FontTheme.of(context)
-                                      .body1
-                                      .primary()
-                                      .copyWith(fontWeight: FontWeight.w800),
-                                  overflow: TextOverflow.ellipsis,
+                                InkWell(
+                                  onTap: () => presenter.copyUrl(),
+                                  child: Text(
+                                    url?.host ?? '',
+                                    style: FontTheme.of(context)
+                                        .body1
+                                        .primary()
+                                        .copyWith(fontWeight: FontWeight.w800),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 )
                               ],
                             ),
@@ -118,6 +106,25 @@ class DragDownPanel extends HookConsumerWidget {
                               ))
                         ],
                       ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Sizes.space3XSmall),
+                    width: 90,
+                    height: double.infinity,
+                    child: Column(
+                      children: [
+                        Flexible(child: ChainLogoWidget(logo: logo)),
+                        Expanded(
+                          child: Text(
+                            name,
+                            style: FontTheme.of(context).caption2.primary(),
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ],
