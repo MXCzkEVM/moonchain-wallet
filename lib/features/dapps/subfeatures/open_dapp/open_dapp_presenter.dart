@@ -546,7 +546,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   final double maxPanelHeight = 100.0;
 
-  final cancelDuration = const Duration(milliseconds: 300);
+  final cancelDuration = const Duration(milliseconds: 400);
   final settleDuration = const Duration(milliseconds: 400);
 
   void handleScroll(double scroll) {
@@ -569,10 +569,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         1.0,
         duration: settleDuration,
       );
-      // await Future.delayed(
-      //   const Duration(seconds: 5),
-      //   () => hidePanel(),
-      // );
     }
   }
 
@@ -583,7 +579,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       await state.animationController!.animateTo(
         0.0,
         duration: cancelDuration,
-        curve: Curves.ease,
+        curve: Curves.easeInExpo,
       );
     }
   }
@@ -601,5 +597,18 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void showNetworkDetailsBottomSheet() {
     showNetworkDetailsDialog(context!, network: state.network!);
+  }
+
+  void detectDoubleTap() {
+    final now = DateTime.now();
+    final difference = now.difference(doubleTapTime);
+
+    if (difference.inMilliseconds > Config.dAppDoubleTapLowerBound &&
+        difference.inMilliseconds < Config.dAppDoubleTapUpperBound) {
+      state.webviewController!.reload();
+      resetDoubleTapTime();
+    } else {
+      resetDoubleTapTime();
+    }
   }
 }

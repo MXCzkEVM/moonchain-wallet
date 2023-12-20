@@ -38,6 +38,8 @@ class OpenAppPage extends HookConsumerWidget {
                           AllowMultipleHorizontalDrag>(
                     () => AllowMultipleHorizontalDrag(),
                     (AllowMultipleHorizontalDrag instance) {
+                      instance.onDown =
+                          (details) => presenter.detectDoubleTap();
                       instance.onEnd = (details) async {
                         final webViewController = state.webviewController!;
                         if (details.primaryVelocity! <
@@ -64,14 +66,6 @@ class OpenAppPage extends HookConsumerWidget {
                       };
                     },
                   ),
-                  AllowMultipleDoubleTap: GestureRecognizerFactoryWithHandlers<
-                      AllowMultipleDoubleTap>(
-                    () => AllowMultipleDoubleTap(),
-                    (AllowMultipleDoubleTap instance) {
-                      instance.onDoubleTap =
-                          () => state.webviewController!.reload();
-                    },
-                  )
                 },
                 child: DragDownPanel(
                   child: InAppWebViewEIP1193(
@@ -169,12 +163,15 @@ class OpenAppPage extends HookConsumerWidget {
                     },
                     initialOptions: InAppWebViewGroupOptions(
                       crossPlatform: InAppWebViewOptions(
-                          useShouldOverrideUrlLoading: true,
-                          mediaPlaybackRequiresUserGesture: false),
+                        useShouldOverrideUrlLoading: true,
+                        mediaPlaybackRequiresUserGesture: false,
+                      ),
                       android: AndroidInAppWebViewOptions(
                         useWideViewPort: true,
                         geolocationEnabled: true,
                         useHybridComposition: true,
+                        overScrollMode: AndroidOverScrollMode
+                            .OVER_SCROLL_IF_CONTENT_SCROLLS,
                       ),
                       ios: IOSInAppWebViewOptions(
                         allowsInlineMediaPlayback: true,
