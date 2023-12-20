@@ -54,11 +54,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     });
   }
 
-  @override
-  Future<void> dispose() {
-    return super.dispose();
-  }
-
   void onWebViewCreated(InAppWebViewController controller) async {
     notify(() => state.webviewController = controller);
     updateCurrentUrl(null);
@@ -641,10 +636,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         duration: settleDuration,
         curve: Curves.ease,
       );
-      Future.delayed(
-        const Duration(seconds: 3),
-        hidePanel,
-      );
+      panelTimer = Timer(const Duration(seconds: 3), hidePanel);
     }
   }
 
@@ -657,6 +649,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         duration: cancelDuration,
         curve: Curves.easeInExpo,
       );
+      if (panelTimer != null) {
+        panelTimer!.cancel();
+      }
     }
   }
 
