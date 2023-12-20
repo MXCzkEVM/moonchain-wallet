@@ -72,17 +72,13 @@ class OpenAppPage extends HookConsumerWidget {
                     chainId: state.network?.chainId,
                     rpcUrl: state.network?.web3RpcHttpUrl,
                     walletAddress: state.account!.address,
-                    pullToRefreshController: state.pullToRefreshController,
-                    // onOverScrolled: (controller, x, y, clampedX, clampedY) =>
-                    //     presenter.handleOverScroll(y.toDouble()),
-                    onScrollChanged: (controller, x, y) =>
-                        presenter.handleScroll(y.toDouble()),
                     isDebug: false,
                     initialUrlRequest: URLRequest(
                       url: Uri.parse(url),
                     ),
                     onLoadStop: (controller, url) {
                       presenter.injectCopyHandling();
+                      presenter.injectScrollDetector();
                     },
                     onLoadError: (controller, url, code, message) =>
                         collectLog('onLoadError: $code: $message'),
@@ -213,13 +209,4 @@ class OpenAppPage extends HookConsumerWidget {
       ),
     );
   }
-}
-
-Widget getContainer() {
-  return Container(
-    margin: EdgeInsets.symmetric(vertical: 10),
-    height: 100,
-    width: double.infinity,
-    color: Colors.black,
-  );
 }

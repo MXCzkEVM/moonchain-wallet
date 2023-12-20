@@ -16,4 +16,14 @@ class AllowMultipleDoubleTap extends DoubleTapGestureRecognizer {
   void rejectGesture(int pointer) {
     acceptGesture(pointer);
   }
+
+
+}
+
+
+class AllowMultipleVerticalDrag extends VerticalDragGestureRecognizer {
+  @override
+  void rejectGesture(int pointer) {
+    acceptGesture(pointer);
+  }
 }
