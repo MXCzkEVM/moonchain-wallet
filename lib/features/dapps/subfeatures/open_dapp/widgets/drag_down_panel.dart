@@ -35,91 +35,97 @@ class DragDownPanel extends HookConsumerWidget {
         return Stack(
           clipBehavior: Clip.hardEdge,
           children: [
-            Container(
-              height: maxPanelHeight * state.animationController!.value / 1.5,
-              width: double.infinity,
-              padding: const EdgeInsetsDirectional.only(
-                  start: Sizes.spaceSmall,
-                  end: Sizes.space2XSmall,
-                  top: Sizes.spaceSmall,
-                  bottom: Sizes.spaceSmall),
-              decoration: BoxDecoration(
-                color: ColorsTheme.of(context).primaryBackground,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: ColorsTheme.of(context).screenBackground,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                          border: Border.all(
-                            color: ColorsTheme.of(context).screenBackground,
-                          )),
-                      child: Stack(
-                        children: [
-                          Row(
-                            children: [
-                              IconButton(
-                                  key: const Key('closedAppButton'),
-                                  onPressed: () {
-                                    presenter.closedApp();
-                                  },
-                                  icon: const Icon(
-                                    Icons.close_rounded,
-                                    size: 24,
-                                  )),
-                              InkWell(
-                                  onTap:
-                                      presenter.showNetworkDetailsBottomSheet,
-                                  child: ChainLogoWidget(logo: logo)),
-                            ],
-                          ),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+            state.animationController!.value == 0
+                ? Container()
+                : Container(
+                    height:
+                        maxPanelHeight * state.animationController!.value / 1.5,
+                    width: double.infinity,
+                    padding: const EdgeInsetsDirectional.only(
+                        start: Sizes.spaceSmall,
+                        end: Sizes.space2XSmall,
+                        top: Sizes.spaceSmall,
+                        bottom: Sizes.spaceSmall),
+                    decoration: BoxDecoration(
+                      color: ColorsTheme.of(context).primaryBackground,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: ColorsTheme.of(context).screenBackground,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                border: Border.all(
+                                  color:
+                                      ColorsTheme.of(context).screenBackground,
+                                )),
+                            child: Stack(
                               children: [
-                                const SizedBox(
-                                  width: Sizes.space2XSmall,
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        key: const Key('closedAppButton'),
+                                        onPressed: () {
+                                          presenter.closedApp();
+                                        },
+                                        icon: const Icon(
+                                          Icons.close_rounded,
+                                          size: 24,
+                                        )),
+                                    InkWell(
+                                        onTap: presenter
+                                            .showNetworkDetailsBottomSheet,
+                                        child: ChainLogoWidget(logo: logo)),
+                                  ],
                                 ),
-                                isSecure
-                                    ? Icon(
-                                        Icons.lock_rounded,
-                                        color:
-                                            ColorsTheme.of(context).textPrimary,
-                                        size: 16,
-                                      )
-                                    : Icon(
-                                        Icons.warning,
-                                        color: ColorsTheme.of(context).mainRed,
-                                        size: 16,
+                                Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const SizedBox(
+                                        width: Sizes.space2XSmall,
                                       ),
-                                const SizedBox(
-                                  width: Sizes.space2XSmall,
-                                ),
-                                InkWell(
-                                  onTap: () => presenter.copyUrl(),
-                                  child: Text(
-                                    url?.host ?? '',
-                                    style: FontTheme.of(context)
-                                        .body1
-                                        .primary()
-                                        .copyWith(fontWeight: FontWeight.w500),
-                                    overflow: TextOverflow.ellipsis,
+                                      isSecure
+                                          ? Icon(
+                                              Icons.lock_rounded,
+                                              color: ColorsTheme.of(context)
+                                                  .textPrimary,
+                                              size: 16,
+                                            )
+                                          : Icon(
+                                              Icons.warning,
+                                              color: ColorsTheme.of(context)
+                                                  .mainRed,
+                                              size: 16,
+                                            ),
+                                      const SizedBox(
+                                        width: Sizes.space2XSmall,
+                                      ),
+                                      InkWell(
+                                        onTap: () => presenter.copyUrl(),
+                                        child: Text(
+                                          url?.host ?? '',
+                                          style: FontTheme.of(context)
+                                              .body1
+                                              .primary()
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
             Transform.translate(
               offset: Offset(
                   0.0, maxPanelHeight * state.animationController!.value / 1.5),
