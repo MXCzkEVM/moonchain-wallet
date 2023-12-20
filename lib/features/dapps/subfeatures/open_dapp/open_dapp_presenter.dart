@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
@@ -39,14 +40,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void initState() {
     super.initState();
 
-    state.pullToRefreshController = PullToRefreshController(
-      options: PullToRefreshOptions(
-          backgroundColor: Colors.transparent,
-          color: Colors.transparent,
-          enabled: true),
-      onRefresh: showPanel,
-    );
-
     listen(
       _accountUseCase.account,
       (value) {
@@ -68,7 +61,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void onWebViewCreated(InAppWebViewController controller) async {
     notify(() => state.webviewController = controller);
-
     updateCurrentUrl(null);
   }
 
@@ -549,18 +541,97 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   final cancelDuration = const Duration(milliseconds: 400);
   final settleDuration = const Duration(milliseconds: 400);
 
-  void handleScroll(double scroll) {
-    // If opposite direction then get back
-    final isScrollDownward = scroll > 0;
-    if (isScrollDownward) {
-      hidePanel();
-    } else {
-      showPanel();
-    }
+  injectScrollDetector() {
+    String jsCode = """
+      var pStart = { x: 0, y: 0 };
+      var pStop = { x: 0, y: 0 };
+
+      function swipeStart(e) {
+        if (typeof e["targetTouches"] !== "undefined") {
+          var touch = e.targetTouches[0];
+          pStart.x = touch.screenX;
+          pStart.y = touch.screenY;
+        } else {
+          pStart.x = e.screenX;
+          pStart.y = e.screenY;
+        }
+      }
+
+      function swipeEnd(e) {
+        if (typeof e["changedTouches"] !== "undefined") {
+          var touch = e.changedTouches[0];
+          pStop.x = touch.screenX;
+          pStop.y = touch.screenY;
+        } else {
+          pStop.x = e.screenX;
+          pStop.y = e.screenY;
+        }
+
+        swipeCheck();
+      }
+
+      function swipeCheck() {
+        var changeY = pStart.y - pStop.y;
+        var changeX = pStart.x - pStop.x;
+        if (isPullDown(changeY, changeX)) {
+          window.flutter_inappwebview?.callHandler("axs-scroll-detector", true);
+        } else if (isPullUp(changeY, changeX)) {
+          window.flutter_inappwebview?.callHandler("axs-scroll-detector", false);
+        }
+      }
+
+      function isPullDown(dY, dX) {
+        // methods of checking slope, length, direction of line created by swipe action
+        console.log(dY);
+        console.log(dX );
+        return (
+          dY < 0 &&
+          ((Math.abs(dX) <= 100 && Math.abs(dY) >= 100 ) ||
+            (Math.abs(dX) / Math.abs(dY) <= 0.1 && dY >= 60))
+        );
+      }
+
+      function isPullUp(dY, dX) {
+        // Check if the gesture is a pull-up
+        console.log(dY);
+        console.log(dX);
+        return (
+          dY > 0 &&
+          ((Math.abs(dX) <= 100 && Math.abs(dY) >= 100) ||
+            (Math.abs(dX) / Math.abs(dY) <= 0.1 && dY >= 60))
+        );
+      }
+
+      document.addEventListener(
+        "touchstart",
+        function (e) {
+          swipeStart(e);
+        },
+        false
+      );
+      document.addEventListener(
+        "touchend",
+        function (e) {
+          swipeEnd(e);
+        },
+        false
+      );
+      """;
+    state.webviewController!.evaluateJavascript(source: jsCode);
+
+    state.webviewController!.addJavaScriptHandler(
+      handlerName: 'axs-scroll-detector',
+      callback: (args) {
+        if (args[0] is bool) {
+          args[0] == true ? showPanel() : hidePanel();
+        }
+      },
+    );
   }
 
+  Timer? panelTimer;
+
   void showPanel() async {
-    state.pullToRefreshController!.endRefreshing();
     final status = state.animationController!.status;
     if (state.animationController!.value != 1 &&
             status == AnimationStatus.completed ||
@@ -568,6 +639,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       await state.animationController!.animateTo(
         1.0,
         duration: settleDuration,
+        curve: Curves.ease,
+      );
+      Future.delayed(
+        const Duration(seconds: 3),
+        hidePanel,
       );
     }
   }
@@ -593,7 +669,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void resetDoubleTapTime() {
     doubleTapTime = DateTime.now();
   }
-
 
   void showNetworkDetailsBottomSheet() {
     showNetworkDetailsDialog(context!, network: state.network!);

@@ -7,7 +7,6 @@ class OpenDAppState with EquatableMixin {
   Account? account;
   InAppWebViewController? webviewController;
   AnimationController? animationController;
-  PullToRefreshController? pullToRefreshController;
   int progress = 0;
   Network? network;
   int panelHideTimer = 5;
@@ -21,7 +20,6 @@ class OpenDAppState with EquatableMixin {
         progress,
         network,
         animationController,
-        pullToRefreshController,
         currentUrl,
         isSecure
       ];
