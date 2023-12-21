@@ -6,6 +6,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:ens_dart/ens_dart.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +103,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     final isInvalid = Validation.isDecimalsStandard(stringAmount);
 
     if (!isInvalid) {
-      amountController.text = Formatter.formatToStandardDecimals(stringAmount);
+      amountController.text =
+          MXCFormatter.formatToStandardDecimals(stringAmount);
     } else {
       amountController.text = stringAmount;
     }
@@ -178,11 +180,9 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     if (estimatedGasFee != null) {
       sumBalance -= estimatedGasFee.gasFee;
       final estimatedFee =
-          Validation.isExpoNumber(estimatedGasFee.gasFee.toString())
-              ? '0.000'
-              : estimatedGasFee.gasFee.toString();
+          MXCFormatter.checkExpoNumber(estimatedGasFee.gasFee.toString());
 
-      final maxFeeDouble = estimatedGasFee.gasFee * Config.priority;
+      final maxFeeDouble = MXCGas.maxFeePerGasByEth(estimatedGasFee.gasFee);
       final maxFeeString = maxFeeDouble.toString();
       final maxFee =
           Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
@@ -211,8 +211,10 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     return null;
   }
 
-  Future<String?> _nextTransactionStep(TransactionProcessType type,
-      TransactionGasEstimation estimatedGasFee) async {
+  Future<String?> _nextTransactionStep(
+    TransactionProcessType type,
+    TransactionGasEstimation estimatedGasFee,
+  ) async {
     if (TransactionProcessType.sending == type) {
       final res = await _sendTransaction(estimatedGasFee);
       if (res != null) {
@@ -277,7 +279,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   Future<String?> _sendTransaction(
-      TransactionGasEstimation estimatedGasFee) async {
+    TransactionGasEstimation estimatedGasFee,
+  ) async {
     final amountDouble = double.parse(amountController.text);
     final amount = MxcAmount.fromDoubleByEther(amountDouble);
     final recipient = recipientController.text;
@@ -285,23 +288,20 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     loading = true;
     try {
       String recipientAddress = await getAddress(recipient);
+      final from = state.account!.address;
 
       final res = await _tokenContractUseCase.sendTransaction(
-          privateKey: state.account!.privateKey,
-          from: state.account!.address,
-          to: recipientAddress,
-          amount: amount,
-          tokenAddress: token.address,
-          estimatedGasFee: estimatedGasFee);
+        privateKey: state.account!.privateKey,
+        from: from,
+        to: recipientAddress,
+        amount: amount,
+        tokenAddress: token.address,
+        estimatedGasFee: estimatedGasFee,
+        token: token,
+      );
 
       if (!Config.isMxcChains(state.network!.chainId)) {
-        final tx = TransactionModel(
-            hash: res,
-            status: TransactionStatus.pending,
-            type: TransactionType.sent,
-            value: amount.getValueInUnitBI(EtherUnit.wei).toString(),
-            token: token,
-            timeStamp: DateTime.now());
+        final tx = res;
 
         _transactionHistoryUseCase.updateItem(
           tx,
@@ -312,7 +312,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         );
       }
 
-      return res;
+      return res.hash;
     } catch (e, s) {
       if (BottomFlowDialog.maybeOf(context!) != null) {
         BottomFlowDialog.of(context!).close();
@@ -324,16 +324,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void callErrorHandler(dynamic e, StackTrace s) {
-    final isHandled = _errorUseCase.handleError(context!, e, onL3Tap: () {
-      final chainId = state.network!.chainId;
-      final l3BridgeUri = Urls.networkL3Bridge(chainId);
-      Navigator.of(context!).push(route.featureDialog(
-        maintainState: false,
-        OpenAppPage(
-          url: l3BridgeUri,
-        ),
-      ));
-    });
+    final isHandled =
+        _errorUseCase.handleError(context!, e, addError, translate);
     if (!isHandled) {
       addError(e, s);
     }

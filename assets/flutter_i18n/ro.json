@@ -316,5 +316,10 @@
     "knowledge_hub": "Centru de Cunoștințe",
     "learn_more": "Aflați Mai Multe",
     "why_enable_notifications": "De ce să activați notificările?",
-    "why_enable_notifications_notice": "Prin activarea notificărilor pentru MXC zkEVM, rămâneți informat despre cele mai recente activități de minare, recompensele token și actualizările importante. Aceste informații în timp real vă permit să răspundeți prompt la schimbări și să vă optimizați strategia de minare.\nRămâneți în avans prin menținerea notificărilor activate!"
+    "why_enable_notifications_notice": "Prin activarea notificărilor pentru MXC zkEVM, rămâneți informat despre cele mai recente activități de minare, recompensele token și actualizările importante. Aceste informații în timp real vă permit să răspundeți prompt la schimbări și să vă optimizați strategia de minare.\nRămâneți în avans prin menținerea notificărilor activate!",
+    "submit": "Trimite",
+    "speed_up": "Accelerare",
+    "gas_fee_replacement_notice": "Acest comision pentru gaz va înlocui originalul.",
+    "unknown": "Necunoscut",
+    "transaction_finalized": "Tranzacție Finalizată"
 }

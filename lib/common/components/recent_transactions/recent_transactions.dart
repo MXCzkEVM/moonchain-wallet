@@ -11,18 +11,19 @@ export 'domain/transactions_history_use_case.dart';
 export 'domain/transactions_history_repository.dart';
 
 class RecentTransactions extends HookConsumerWidget {
-  const RecentTransactions({
-    super.key,
-    this.walletAddress,
-    this.transactions,
-    required this.tokens,
-    this.networkType,
-  });
+  const RecentTransactions(
+      {super.key,
+      this.walletAddress,
+      this.transactions,
+      required this.tokens,
+      this.networkType,
+      this.nlySix});
 
   final String? walletAddress;
   final List<TransactionModel>? transactions;
   final List<Token> tokens;
   final NetworkType? networkType;
+  final bool? nlySix;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,10 +49,7 @@ class RecentTransactions extends HookConsumerWidget {
                     : Column(
                         children: [
                           ...RecentTransactionsUtils.generateTx(
-                            walletAddress!,
-                            transactions!,
-                            tokens,
-                          )
+                              walletAddress!, transactions!, tokens, nlySix)
                         ],
                       )),
         const SizedBox(

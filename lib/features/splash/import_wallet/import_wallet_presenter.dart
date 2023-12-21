@@ -1,5 +1,5 @@
 import 'package:clipboard/clipboard.dart';
-import 'package:datadashwallet/common/utils/formatter.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
   late final TextEditingController mnemonicController = TextEditingController();
 
   String? validate(String? value) {
-    final formattedMnemonic = Formatter.trimAndRemoveExtraSpaces(value ?? "");
+    final formattedMnemonic = MXCFormatter.trimAndRemoveExtraSpaces(value ?? "");
 
     if (!_authUseCase.validateMnemonic(formattedMnemonic)) {
       return translate('recovery_phrase_limit')!;
@@ -30,7 +30,7 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
     loading = true;
 
     try {
-      final formattedMnemonic = Formatter.trimAndRemoveExtraSpaces(value);
+      final formattedMnemonic = MXCFormatter.trimAndRemoveExtraSpaces(value);
       final account = await _authUseCase.addAccount(formattedMnemonic);
       _accountUseCase.addAccount(account);
       pushSetupEnableBiometricPage(context!);

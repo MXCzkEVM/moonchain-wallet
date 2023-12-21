@@ -44,18 +44,16 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
     }
   }
 
-  void updateItem(
-    TransactionModel item,
-  ) {
+  void updateItem(TransactionModel item, {TransactionModel? newReplacement}) {
     final index = transactionsHistory.value.indexWhere(
       (element) => element.hash == item.hash,
     );
 
     if (index == -1) {
-      _repository.addItem(item, index);
+      _repository.addItem(newReplacement ?? item, index);
     } else {
       _repository.updateItem(
-        item,
+        newReplacement ?? item,
         index,
       );
     }
@@ -86,6 +84,7 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
           // success
           updatingTransactions[item.hash]?.cancel();
 
+          // If there is no value, Put gas as value in tx History
           final itemValue = item.value ??
               (receipt!.gasUsed! * receipt.effectiveGasPrice!.getInWei)
                   .toString();
@@ -100,6 +99,11 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
         }
       });
     }
+  }
+
+  void cancelSpyOnTransaction(String hash) {
+    updatingTransactions[hash]?.cancel();
+    updatingTransactions.remove(hash);
   }
 
   /// This function will run through all the transactions and will start spying on
@@ -126,7 +130,8 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
         .getTransactionByHashCustomChain(hash);
 
     if (receipt != null) {
-      final tx = TransactionModel.fromTransaction(receipt, address, token);
+      final tx =
+          TransactionModel.fromTransactionInformation(receipt, address, token);
       spyOnTransaction(tx);
       updateItem(
         tx,
@@ -136,11 +141,51 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
 
   void checkChainChange(int chainId) async {
     if (currentChainId != chainId) {
-      for (String txHash in updatingTransactions.keys) {
+      final keys = updatingTransactions.keys.toList();
+      for (String txHash in keys) {
         await updatingTransactions[txHash]?.cancel();
       }
       updatingTransactions.clear();
     }
     currentChainId = chainId;
+  }
+
+  void replaceSpeedUpTransaction(TransactionModel oldTransaction,
+      TransactionModel newPendingTransaction, int chainId) {
+    replaceTransaction(
+        oldTransaction,
+        newPendingTransaction,
+        chainId,
+        oldTransaction.action == TransactionActions.cancel
+            ? TransactionActions.cancel
+            : TransactionActions.speedUp);
+  }
+
+  void replaceCancelTransaction(TransactionModel oldTransaction,
+      TransactionModel newPendingTransaction, int chainId) {
+    replaceTransaction(oldTransaction, newPendingTransaction, chainId,
+        TransactionActions.cancel);
+  }
+
+  void replaceTransaction(
+      TransactionModel oldTransaction,
+      TransactionModel newPendingTransaction,
+      int chainId,
+      TransactionActions transactionActions) {
+    if (!Config.isMxcChains(chainId)) {
+      newPendingTransaction =
+          newPendingTransaction.copyWith(action: transactionActions);
+
+      // Update transaction in DB
+      updateItem(oldTransaction, newReplacement: newPendingTransaction);
+
+      // Cancel spy on old pending transaction
+      cancelSpyOnTransaction(oldTransaction.hash);
+
+      // Start on spying on new pending transaction
+      spyOnTransaction(
+        newPendingTransaction,
+      );
+    }
   }
 }

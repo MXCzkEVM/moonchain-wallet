@@ -316,5 +316,10 @@
     "knowledge_hub": "Trung Tâm Kiến Thức",
     "learn_more": "Tìm hiểu thêm",
     "why_enable_notifications": "Tại sao cần kích hoạt thông báo?",
-    "why_enable_notifications_notice": "Bằng cách bật thông báo cho MXC zkEVM, bạn sẽ được cập nhật về các hoạt động khai thác mới nhất, phần thưởng token và các cập nhật quan trọng. Thông tin theo thời gian thực này cho phép bạn phản ứng nhanh chóng với các thay đổi và tối ưu hóa chiến lược khai thác của mình.\nHãy luôn dẫn đầu bằng cách giữ thông báo được kích hoạt!"
+    "why_enable_notifications_notice": "Bằng cách bật thông báo cho MXC zkEVM, bạn sẽ được cập nhật về các hoạt động khai thác mới nhất, phần thưởng token và các cập nhật quan trọng. Thông tin theo thời gian thực này cho phép bạn phản ứng nhanh chóng với các thay đổi và tối ưu hóa chiến lược khai thác của mình.\nHãy luôn dẫn đầu bằng cách giữ thông báo được kích hoạt!",
+    "submit": "Gửi",
+    "speed_up": "Tăng tốc",
+    "gas_fee_replacement_notice": "Phí gas này sẽ thay thế cho cái gốc",
+    "unknown": "Không rõ",
+    "transaction_finalized": "Giao dịch đã hoàn tất"
 }

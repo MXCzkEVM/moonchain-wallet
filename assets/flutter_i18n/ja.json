@@ -316,5 +316,10 @@
     "knowledge_hub": "ナレッジハブ",
     "learn_more": "もっと詳しく学ぶ",
     "why_enable_notifications": "なぜ通知を有効にするのか？",
-    "why_enable_notifications_notice": "MXC zkEVMの通知をオンにすることで、最新のマイニング活動、トークン報酬、重要な更新情報について常に情報を得ることができます。このリアルタイム情報により、変化に迅速に対応し、マイニング戦略を最適化することが可能です。\n通知を有効にして一歩先を行きましょう！"
+    "why_enable_notifications_notice": "MXC zkEVMの通知をオンにすることで、最新のマイニング活動、トークン報酬、重要な更新情報について常に情報を得ることができます。このリアルタイム情報により、変化に迅速に対応し、マイニング戦略を最適化することが可能です。\n通知を有効にして一歩先を行きましょう！",
+    "submit": "提出する",
+    "speed_up": "スピードアップ",
+    "gas_fee_replacement_notice": "このガス料金は元のものを置き換えます。",
+    "unknown": "未知の",
+    "transaction_finalized": "取引が完了しました"
 }

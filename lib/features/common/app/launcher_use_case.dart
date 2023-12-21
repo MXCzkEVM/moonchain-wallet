@@ -24,7 +24,7 @@ class LauncherUseCase extends ReactiveUseCase {
         _chainConfigurationUseCase.selectedNetwork.value!.explorerUrl!;
     final address = _accountUseCase.account.value!.address;
     final addressExplorer = Urls.addressExplorer(address);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
+    final launchUri = MXCFormatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
     openUrl(launchUri, LaunchMode.platformDefault);
   }
@@ -34,7 +34,7 @@ class LauncherUseCase extends ReactiveUseCase {
     final chainExplorerUrl =
         _chainConfigurationUseCase.selectedNetwork.value!.explorerUrl!;
     final txExplorer = Urls.txExplorer(txHash);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, txExplorer);
+    final launchUri = MXCFormatter.mergeUrl(chainExplorerUrl, txExplorer);
 
     openUrl(launchUri, LaunchMode.platformDefault);
   }
@@ -43,7 +43,7 @@ class LauncherUseCase extends ReactiveUseCase {
     final chainExplorerUrl =
         _chainConfigurationUseCase.selectedNetwork.value!.explorerUrl!;
     final addressExplorer = Urls.addressExplorer(address);
-    final launchUri = Formatter.mergeUrl(chainExplorerUrl, addressExplorer);
+    final launchUri = MXCFormatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
     if ((await canLaunchUrl(launchUri))) {
       await launchUrl(launchUri, mode: LaunchMode.platformDefault);

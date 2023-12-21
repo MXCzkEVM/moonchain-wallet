@@ -34,7 +34,7 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<String> getWalletNativeTokenBalance(String address) async {
     final balance = await _repository.tokenContract.getEthBalance(address);
-    return Formatter.convertWeiToEth(
+    return MXCFormatter.convertWeiToEth(
         balance.getInWei.toString(), Config.ethDecimals);
   }
 
@@ -80,7 +80,11 @@ class TokenContractUseCase extends ReactiveUseCase {
         name: '${cNetwork.symbol} Token',
         decimals: Config.ethDecimals);
 
-    tokensList.value.add(chainNativeToken);
+    // Avoiding multiple native token from being added
+    if (tokensList.value.indexWhere((element) => element.address == null) ==
+        -1) {
+      tokensList.value.add(chainNativeToken);
+    }
 
     if (result != null) {
       if (result.tokens != null) {
@@ -91,7 +95,7 @@ class TokenContractUseCase extends ReactiveUseCase {
 
     update(tokensList, tokensList.value);
     result?.tokens?.add(chainNativeToken);
-    return result?.tokens ?? [chainNativeToken];
+    return result?.tokens ?? tokensList.value;
   }
 
   Future<Token?> getToken(String address) async =>
@@ -209,22 +213,20 @@ class TokenContractUseCase extends ReactiveUseCase {
     required Uint8List data,
     EtherAmount? gasPrice,
     BigInt? amountOfGas,
+    EtherAmount? value,
   }) async =>
       await _repository.tokenContract.estimateGasFeeForContractCall(
-        from: from,
-        to: to,
-        data: data,
-      );
+          from: from, to: to, data: data, value: value);
 
-  Future<String> sendTransaction({
-    required String privateKey,
-    required String to,
-    String? from,
-    required EtherAmount amount,
-    TransactionGasEstimation? estimatedGasFee,
-    Uint8List? data,
-    String? tokenAddress,
-  }) async =>
+  Future<TransactionModel> sendTransaction(
+          {required String privateKey,
+          required String to,
+          String? from,
+          required EtherAmount amount,
+          TransactionGasEstimation? estimatedGasFee,
+          Uint8List? data,
+          String? tokenAddress,
+          Token? token}) async =>
       await _repository.tokenContract.sendTransaction(
           privateKey: privateKey,
           to: to,
@@ -232,7 +234,8 @@ class TokenContractUseCase extends ReactiveUseCase {
           amount: amount,
           estimatedGasFee: estimatedGasFee,
           data: data,
-          tokenAddress: tokenAddress);
+          tokenAddress: tokenAddress,
+          token: token);
 
   Uint8List getTokenTransferData(
       String tokenHash, EthereumAddress toAddress, BigInt amount) {

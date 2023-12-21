@@ -316,5 +316,10 @@
     "knowledge_hub": "Pusat Pengetahuan",
     "learn_more": "Pelajari Lebih Lanjut",
     "why_enable_notifications": "Mengapa Mengaktifkan Notifikasi?",
-    "why_enable_notifications_notice": "Dengan mengaktifkan notifikasi untuk MXC zkEVM, Anda tetap mendapatkan informasi terbaru tentang aktivitas penambangan, hadiah token, dan pembaruan penting. Informasi real-time ini memungkinkan Anda untuk merespon segera terhadap perubahan dan mengoptimalkan strategi penambangan Anda.\nTetap unggul dengan menjaga notifikasi tetap aktif!"
+    "why_enable_notifications_notice": "Dengan mengaktifkan notifikasi untuk MXC zkEVM, Anda tetap mendapatkan informasi terbaru tentang aktivitas penambangan, hadiah token, dan pembaruan penting. Informasi real-time ini memungkinkan Anda untuk merespon segera terhadap perubahan dan mengoptimalkan strategi penambangan Anda.\nTetap unggul dengan menjaga notifikasi tetap aktif!",
+    "submit": "Kirim",
+    "speed_up": "Percepat",
+    "gas_fee_replacement_notice": "Biaya gas ini akan menggantikan yang asli.",
+    "unknown": "Tidak Dikenal",
+    "transaction_finalized": "Transaksi Selesai"
 }

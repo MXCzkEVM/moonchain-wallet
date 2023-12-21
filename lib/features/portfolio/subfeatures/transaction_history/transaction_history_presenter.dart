@@ -104,12 +104,12 @@ class TransactionHistoryPresenter
 
           final sevenDays = DateTime.now()
               .subtract(Duration(days: Config.transactionsHistoryLimit));
-          newTransactionsList = newTransactionsList.copyWith(
-              items: _mxcTransactionsUseCase
-                  .applyTxDateLimit(newTransactionsList.items!));
 
-          final finalTxList = _mxcTransactionsUseCase.axsTxListFromMxcTxList(
-              newTransactionsList.items!, state.account!.address);
+          List<TransactionModel> finalTxList =
+              _mxcTransactionsUseCase.axsTxListFromMxcTxList(
+                  newTransactionsList.items!, state.account!.address);
+
+          finalTxList = _mxcTransactionsUseCase.applyTxDateLimit(finalTxList);
 
           _mxcTransactionsUseCase.removeInvalidTx(finalTxList);
 

@@ -1,11 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
-
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
@@ -52,13 +54,31 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     });
   }
 
-  @override
-  Future<void> dispose() {
-    return super.dispose();
+  void onWebViewCreated(InAppWebViewController controller) async {
+    notify(() => state.webviewController = controller);
+    updateCurrentUrl(null);
   }
 
-  void onWebViewCreated(InAppWebViewController controller) {
-    notify(() => state.webviewController = controller);
+  void updateCurrentUrl(Uri? value) async {
+    value = value ?? await state.webviewController!.getUrl();
+    notify(
+      () => state.currentUrl = value,
+    );
+    checkForUrlSecurity(value);
+  }
+
+  void copyUrl() {
+    FlutterClipboard.copy(state.currentUrl.toString()).then((value) => null);
+
+    showSnackBar(context: context!, content: translate('copied') ?? '');
+  }
+
+  void checkForUrlSecurity(Uri? value) {
+    if (value == null) return;
+    final isSecure = value.scheme == 'https';
+    notify(
+      () => state.isSecure = isSecure,
+    );
   }
 
   Future<TransactionGasEstimation?> _estimatedFee(
@@ -100,7 +120,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       recordTransaction(res);
     }
 
-    return res;
+    return res.hash;
   }
 
   String? _signTypedMessage(
@@ -131,26 +151,30 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
-  void recordTransaction(String hash) {
-    final timeStamp = DateTime.now();
-    const txStatus = TransactionStatus.pending;
-    const txType = TransactionType.contractCall;
+  void recordTransaction(TransactionModel tx) {
+    // final timeStamp = DateTime.now();
+    // const txStatus = TransactionStatus.pending;
+    // const txType = TransactionType.contractCall;
     final currentNetwork = state.network!;
     final chainId = currentNetwork.chainId;
     final token = Token(
-        chainId: currentNetwork.chainId,
-        logoUri: currentNetwork.logo,
-        name: currentNetwork.label ?? currentNetwork.web3RpcHttpUrl,
-        symbol: currentNetwork.symbol,
-        address: null);
-    final tx = TransactionModel(
-      hash: hash,
-      timeStamp: timeStamp,
-      status: txStatus,
-      type: txType,
-      value: null,
-      token: token,
+      chainId: currentNetwork.chainId,
+      logoUri: currentNetwork.logo,
+      name: currentNetwork.label ?? currentNetwork.web3RpcHttpUrl,
+      symbol: currentNetwork.symbol,
+      address: null,
     );
+
+    tx = tx.copyWith(token: token);
+    // final tx = TransactionModel(
+    //   hash: hash,
+    //   timeStamp: timeStamp,
+    //   status: txStatus,
+    //   type: txType,
+    //   value: null,
+    //   token: token,
+    //   action: null,
+    // );
 
     _transactionHistoryUseCase.spyOnTransaction(
       tx,
@@ -197,9 +221,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       }
     }
 
-    String finalFee = (estimatedGasFee.gasFee / Config.dappSectionFeeDivision).toString();
+    String finalFee =
+        (estimatedGasFee.gasFee / Config.dappSectionFeeDivision).toString();
     final maxFeeDouble = estimatedGasFee.gasFee * Config.priority;
-    final maxFeeString = (maxFeeDouble / Config.dappSectionFeeDivision).toString();
+    final maxFeeString =
+        (maxFeeDouble / Config.dappSectionFeeDivision).toString();
     final maxFee =
         Validation.isExpoNumber(maxFeeString) ? '0.000' : maxFeeString;
 
@@ -241,13 +267,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final isHandled = _errorUseCase.handleError(
       context!,
       e,
-      onL3Tap: () {
-        navigator!.pop();
-        final chainId = state.network!.chainId;
-        final l3BridgeUri = Uri.parse(Urls.networkL3Bridge(chainId));
-        state.webviewController!
-            .loadUrl(urlRequest: URLRequest(url: l3BridgeUri));
-      },
+      addError,
+      translate,
     );
     if (!isHandled) {
       addError(e, s);
@@ -256,7 +277,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   void switchEthereumChain(dynamic id, Map<dynamic, dynamic> params) async {
     final rawChainId = params["object"]["chainId"] as String;
-    final chainId = Formatter.hexToDecimal(rawChainId);
+    final chainId = MXCFormatter.hexToDecimal(rawChainId);
     final networks = _chainConfigurationUseCase.networks.value;
     final foundChainIdIndex =
         networks.indexWhere((element) => element.chainId == chainId);
@@ -277,7 +298,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final e =
           DAppErrors.switchEthereumChainErrors.unRecognizedChain(rawChainId);
       sendProviderError(
-          id, e['code'], Formatter.escapeDoubleQuotes(e['message']));
+          id, e['code'], MXCFormatter.escapeDoubleQuotes(e['message']));
     }
   }
 
@@ -294,7 +315,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void sendError(String error, int id) {
-    state.webviewController?.sendError(Formatter.escapeDoubleQuotes(error), id);
+    state.webviewController
+        ?.sendError(MXCFormatter.escapeDoubleQuotes(error), id);
   }
 
   void cancelRequest(int id) {
@@ -309,7 +331,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final networkDetails = AddEthereumChain.fromMap(params["object"]);
 
     final rawChainId = networkDetails.chainId;
-    final chainId = Formatter.hexToDecimal(rawChainId);
+    final chainId = MXCFormatter.hexToDecimal(rawChainId);
     final networks = _chainConfigurationUseCase.networks.value;
     final foundChainIdIndex =
         networks.indexWhere((element) => element.chainId == chainId);
@@ -507,5 +529,156 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
 
     return NavigationActionPolicy.ALLOW;
+  }
+
+  final double maxPanelHeight = 100.0;
+
+  final cancelDuration = const Duration(milliseconds: 400);
+  final settleDuration = const Duration(milliseconds: 400);
+
+  injectScrollDetector() {
+    String jsCode = """
+      var pStart = { x: 0, y: 0 };
+      var pStop = { x: 0, y: 0 };
+
+      function swipeStart(e) {
+        if (typeof e["targetTouches"] !== "undefined") {
+          var touch = e.targetTouches[0];
+          pStart.x = touch.screenX;
+          pStart.y = touch.screenY;
+        } else {
+          pStart.x = e.screenX;
+          pStart.y = e.screenY;
+        }
+      }
+
+      function swipeEnd(e) {
+        if (typeof e["changedTouches"] !== "undefined") {
+          var touch = e.changedTouches[0];
+          pStop.x = touch.screenX;
+          pStop.y = touch.screenY;
+        } else {
+          pStop.x = e.screenX;
+          pStop.y = e.screenY;
+        }
+
+        swipeCheck();
+      }
+
+      function swipeCheck() {
+        var changeY = pStart.y - pStop.y;
+        var changeX = pStart.x - pStop.x;
+        if (isPullDown(changeY, changeX)) {
+          window.flutter_inappwebview?.callHandler("axs-scroll-detector", true);
+        } else if (isPullUp(changeY, changeX)) {
+          window.flutter_inappwebview?.callHandler("axs-scroll-detector", false);
+        }
+      }
+
+      function isPullDown(dY, dX) {
+        // methods of checking slope, length, direction of line created by swipe action
+        console.log(dY);
+        console.log(dX );
+        return (
+          dY < 0 &&
+          ((Math.abs(dX) <= 100 && Math.abs(dY) >= 100 ) ||
+            (Math.abs(dX) / Math.abs(dY) <= 0.1 && dY >= 60))
+        );
+      }
+
+      function isPullUp(dY, dX) {
+        // Check if the gesture is a pull-up
+        console.log(dY);
+        console.log(dX);
+        return (
+          dY > 0 &&
+          ((Math.abs(dX) <= 100 && Math.abs(dY) >= 100) ||
+            (Math.abs(dX) / Math.abs(dY) <= 0.1 && dY >= 60))
+        );
+      }
+
+      document.addEventListener(
+        "touchstart",
+        function (e) {
+          swipeStart(e);
+        },
+        false
+      );
+      document.addEventListener(
+        "touchend",
+        function (e) {
+          swipeEnd(e);
+        },
+        false
+      );
+      """;
+    state.webviewController!.evaluateJavascript(source: jsCode);
+
+    state.webviewController!.addJavaScriptHandler(
+      handlerName: 'axs-scroll-detector',
+      callback: (args) {
+        if (args[0] is bool) {
+          args[0] == true ? showPanel() : hidePanel();
+        }
+      },
+    );
+  }
+
+  Timer? panelTimer;
+
+  void showPanel() async {
+    final status = state.animationController!.status;
+    if (state.animationController!.value != 1 &&
+            status == AnimationStatus.completed ||
+        status == AnimationStatus.dismissed) {
+      await state.animationController!.animateTo(
+        1.0,
+        duration: settleDuration,
+        curve: Curves.ease,
+      );
+      panelTimer = Timer(const Duration(seconds: 3), hidePanel);
+    }
+  }
+
+  void hidePanel() async {
+    final status = state.animationController!.status;
+    if (state.animationController!.value != 0 &&
+        status == AnimationStatus.completed) {
+      await state.animationController!.animateTo(
+        0.0,
+        duration: cancelDuration,
+        curve: Curves.easeInExpo,
+      );
+      if (panelTimer != null) {
+        panelTimer!.cancel();
+      }
+    }
+  }
+
+  void closedApp() {
+    navigator!.pop();
+  }
+
+  DateTime doubleTapTime = DateTime.now();
+
+  void resetDoubleTapTime() {
+    doubleTapTime = DateTime.now();
+  }
+
+  void showNetworkDetailsBottomSheet() {
+    showNetworkDetailsDialog(context!, network: state.network!);
+  }
+
+  void detectDoubleTap() {
+    final now = DateTime.now();
+    final difference = now.difference(doubleTapTime);
+
+    if (difference.inMilliseconds > Config.dAppDoubleTapLowerBound &&
+        difference.inMilliseconds < Config.dAppDoubleTapUpperBound) {
+      state.webviewController!.reload();
+      resetDoubleTapTime();
+    } else {
+      resetDoubleTapTime();
+    }
   }
 }

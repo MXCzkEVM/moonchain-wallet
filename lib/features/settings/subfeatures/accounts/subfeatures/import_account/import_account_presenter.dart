@@ -1,7 +1,7 @@
-import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/domain/webview_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'import_account_state.dart';
@@ -35,7 +35,7 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
       final privateKey = privateKeyController.text;
 
       final newAccount = await _authUseCase.addCustomAccount(
-          '${index + 1}', Formatter.removeZeroX(privateKey));
+          '${index + 1}', MXCFormatter.removeZeroX(privateKey));
       _accountUserCase.addAccount(newAccount);
       loadCache();
 
@@ -54,8 +54,8 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
   String? checkDuplicate(String privateKey) {
     if (privateKey.isEmpty) return translate('invalid_format');
 
-    final foundIndex = state.accounts.indexWhere(
-        (element) => element.privateKey == Formatter.removeZeroX(privateKey));
+    final foundIndex = state.accounts.indexWhere((element) =>
+        element.privateKey == MXCFormatter.removeZeroX(privateKey));
 
     if (foundIndex != -1) {
       return translate('duplicate_account_import_notice')!;
