@@ -316,5 +316,10 @@
     "knowledge_hub": "Centre de Connaissance",
     "learn_more": "En savoir plus",
     "why_enable_notifications": "Pourquoi Activer les Notifications?",
-    "why_enable_notifications_notice": "En activant les notifications pour MXC zkEVM, vous restez informé des dernières activités de minage, des récompenses en tokens et des mises à jour importantes. Ces informations en temps réel vous permettent de réagir rapidement aux changements et d'optimiser votre stratégie de minage.\nRestez en avance en gardant les notifications activées !"
+    "why_enable_notifications_notice": "En activant les notifications pour MXC zkEVM, vous restez informé des dernières activités de minage, des récompenses en tokens et des mises à jour importantes. Ces informations en temps réel vous permettent de réagir rapidement aux changements et d'optimiser votre stratégie de minage.\nRestez en avance en gardant les notifications activées !",
+    "submit": "Soumettre",
+    "speed_up": "Accélérer",
+    "gas_fee_replacement_notice": "Cette frais de gaz remplacera l'original.",
+    "unknown": "Inconnu",
+    "transaction_finalized": "Transaction Finalisée"
 }

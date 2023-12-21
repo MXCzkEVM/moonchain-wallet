@@ -316,5 +316,10 @@
     "knowledge_hub": "Kenniscentrum",
     "learn_more": "Leer Meer",
     "why_enable_notifications": "Waarom meldingen inschakelen?",
-    "why_enable_notifications_notice": "Door meldingen voor MXC zkEVM in te schakelen, blijf je op de hoogte van de nieuwste mijnactiviteiten, tokenbeloningen en belangrijke updates. Deze realtime informatie stelt je in staat om snel te reageren op veranderingen en je mijnstrategie te optimaliseren.\nBlijf voorop door meldingen ingeschakeld te houden!"
+    "why_enable_notifications_notice": "Door meldingen voor MXC zkEVM in te schakelen, blijf je op de hoogte van de nieuwste mijnactiviteiten, tokenbeloningen en belangrijke updates. Deze realtime informatie stelt je in staat om snel te reageren op veranderingen en je mijnstrategie te optimaliseren.\nBlijf voorop door meldingen ingeschakeld te houden!",
+    "submit": "Indienen",
+    "speed_up": "Versnellen",
+    "gas_fee_replacement_notice": "Deze gasvergoeding zal de originele vervangen.",
+    "unknown": "Onbekend",
+    "transaction_finalized": "Transactie Afgerond"
 }

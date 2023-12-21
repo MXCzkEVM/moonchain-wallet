@@ -316,5 +316,10 @@
     "knowledge_hub": "Bilgi Merkezi",
     "learn_more": "Daha Fazla Öğrenin",
     "why_enable_notifications": "Neden Bildirimleri Etkinleştirmeliyiz?",
-    "why_enable_notifications_notice": "MXC zkEVM için bildirimleri açarak, en son madencilik aktiviteleri, token ödülleri ve önemli güncellemeler hakkında bilgi sahibi olursunuz. Bu gerçek zamanlı bilgi, değişikliklere hızla yanıt vermenizi ve madencilik stratejinizi optimize etmenizi sağlar.\nBildirimleri etkin tutarak bir adım önde kalın!"
+    "why_enable_notifications_notice": "MXC zkEVM için bildirimleri açarak, en son madencilik aktiviteleri, token ödülleri ve önemli güncellemeler hakkında bilgi sahibi olursunuz. Bu gerçek zamanlı bilgi, değişikliklere hızla yanıt vermenizi ve madencilik stratejinizi optimize etmenizi sağlar.\nBildirimleri etkin tutarak bir adım önde kalın!",
+    "submit": "Gönder",
+    "speed_up": "Hızlandır",
+    "gas_fee_replacement_notice": "Bu gaz ücreti, orijinalin yerini alacak.",
+    "unknown": "Bilinmeyen",
+    "transaction_finalized": "İşlem Tamamlandı"
 }

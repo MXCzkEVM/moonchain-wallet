@@ -316,5 +316,10 @@
     "knowledge_hub": "知识中心",
     "learn_more": "了解更多",
     "why_enable_notifications": "为什么要启用通知？",
-    "why_enable_notifications_notice": "通过打开MXC zkEVM的通知，您可以及时了解最新的挖矿活动、代币奖励和重要更新。这些实时信息使您能够迅速响应变化并优化您的挖矿策略。\n保持通知启用，领先一步！"
+    "why_enable_notifications_notice": "通过打开MXC zkEVM的通知，您可以及时了解最新的挖矿活动、代币奖励和重要更新。这些实时信息使您能够迅速响应变化并优化您的挖矿策略。\n保持通知启用，领先一步！",
+    "submit": "提交",
+    "speed_up": "加速",
+    "gas_fee_replacement_notice": "这个燃气费将替代原来的。",
+    "unknown": "未知的",
+    "transaction_finalized": "交易已完成"
 }
