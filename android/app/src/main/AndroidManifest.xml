@@ -28,7 +28,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
-    <application android:label="AXS" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
+    <application tools:replace="android:label" android:label="AXS" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
 
 
         <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="axs_wallet_channel" />
