@@ -28,6 +28,8 @@ class NotificationsPage extends HookConsumerWidget {
 
     final expectedEpochOccur =
         notificationsState.periodicalCallData!.expectedEpochOccurrence;
+    final frequency = getPeriodicalCallDurationFromInt(
+        notificationsState.periodicalCallData!.duration);
 
     String translate(String text) => FlutterI18n.translate(context, text);
 
@@ -73,13 +75,8 @@ class NotificationsPage extends HookConsumerWidget {
           const SizedBox(height: Sizes.spaceNormal),
           MXCDropDown(
             key: const Key('bgNotificationsFrequencyDropDown'),
-            onTap: () {
-              showEpochOccurDialog(context,
-                  onTap: notificationsPresenter.selectEpochOccur,
-                  selectedOccur: notificationsState
-                      .periodicalCallData!.expectedEpochOccurrence);
-            },
-            selectedItem: '$expectedEpochOccur  Epoch occurrence',
+            onTap: notificationsPresenter.showBGFetchFrequencyDialog,
+            selectedItem: frequency.toStringFormatted(),
           ),
           const SizedBox(height: Sizes.spaceNormal),
           SwitchRowItem(
@@ -90,12 +87,13 @@ class NotificationsPage extends HookConsumerWidget {
           ),
           MxcTextField(
             key: const ValueKey('lowBalanceTextField'),
-            hint: 'e.g 300',
+            hint: 'e.g 1000',
             controller: ref.read(presenter).lowBalanceController,
             keyboardType: TextInputType.number,
             action: TextInputAction.next,
             suffixText: ref.watch(state).network!.symbol,
-            // readOnly: !notificationsState.periodicalCallData!.lowBalanceLimitEnabled
+            readOnly:
+                !notificationsState.periodicalCallData!.lowBalanceLimitEnabled,
             validator: (value) {
               value = ref.read(presenter).lowBalanceController.text;
               final res = Validation.notEmpty(
@@ -121,9 +119,6 @@ class NotificationsPage extends HookConsumerWidget {
                 return translate('invalid_format');
               }
             },
-            // onChanged: (value) {
-            //   if (!notificationsState.formKey.currentState!.validate()) return;
-            // },
             onFocused: (focused) => focused
                 ? null
                 : notificationsState.formKey.currentState!.validate(),
@@ -135,30 +130,44 @@ class NotificationsPage extends HookConsumerWidget {
                 notificationsState.periodicalCallData!.expectedGasPriceEnabled,
             onChanged: notificationsPresenter.enableExpectedGasPrice,
           ),
-          // MxcTextField(
-          //   key: const ValueKey('addressTextField'),
-          //   label: '${translate('token_contract_addresss')} *',
-          //   hint: translate('enter_x').replaceFirst(
-          //       '{0}', translate('token_contract_addresss').toLowerCase()),
-          //   controller: ref.read(presenter).addressController,
-          //   action: TextInputAction.done,
-          //   validator: (value) {
-          //     final res = Validation.notEmpty(
-          //         context,
-          //         value,
-          //         translate('x_not_empty')
-          //             .replaceFirst('{0}', translate('token_contract_addresss')));
-          //     if (res != null) return res;
+          MxcTextField(
+            key: const ValueKey('expectedTransactionFeeTextField'),
+            hint: 'e.g 300',
+            controller: ref.read(presenter).transactionFeeController,
+            keyboardType: TextInputType.number,
+            action: TextInputAction.next,
+            suffixText: ref.watch(state).network!.symbol,
+            readOnly:
+                !notificationsState.periodicalCallData!.expectedGasPriceEnabled,
+            validator: (value) {
+              value = ref.read(presenter).transactionFeeController.text;
+              final res = Validation.notEmpty(
+                  context,
+                  value,
+                  translate('x_not_empty')
+                      .replaceFirst('{0}', translate('amount')));
+              if (res != null) {
+                return res;
+              }
+              try {
+                final doubleValue = double.parse(value);
+                String stringValue = doubleValue.toString();
 
-          //     return Validation.checkEthereumAddress(context, value!);
-          //   },
-          //   onChanged: (value) {
-          //     if (!formKey.currentState!.validate()) return;
-          //     ref.read(presenter).onChanged(value);
-          //   },
-          //   onFocused: (focused) =>
-          //       focused ? null : formKey.currentState!.validate(),
-          // ),
+                int decimalPlaces = stringValue.split('.')[1].length;
+
+                if (doubleValue.isNegative ||
+                    decimalPlaces > Config.decimalWriteFixed) {
+                  return translate('invalid_format');
+                }
+                return null;
+              } catch (e) {
+                return translate('invalid_format');
+              }
+            },
+            onFocused: (focused) => focused
+                ? null
+                : notificationsState.formKey.currentState!.validate(),
+          ),
           const SizedBox(height: Sizes.spaceNormal),
           SwitchRowItem(
             title: translate('expected_epoch_occur'),
@@ -177,23 +186,6 @@ class NotificationsPage extends HookConsumerWidget {
             },
             selectedItem: '$expectedEpochOccur  Epoch occurrence',
           ),
-          // Row(
-          //   children: [
-          //     Text(
-          //       translate('notifications'),
-          //       style: FontTheme.of(context).body2.primary(),
-          //     ),
-          //     const Spacer(),
-          //     const SizedBox(
-          //       width: 16,
-          //     ),
-          //     CupertinoSwitch(
-          //       value: notificationsState.isNotificationsEnabled,
-          //       onChanged: (value) =>
-          //           notificationsPresenter.changeNotificationsState(value),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
