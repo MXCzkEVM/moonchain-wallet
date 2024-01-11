@@ -125,9 +125,9 @@ class NotificationsPage extends HookConsumerWidget {
           ),
           const SizedBox(height: Sizes.spaceNormal),
           SwitchRowItem(
-            title: translate('expected_gas_price'),
-            value:
-                notificationsState.periodicalCallData!.expectedGasPriceEnabled,
+            title: translate('expected_transaction_fee'),
+            value: notificationsState
+                .periodicalCallData!.expectedTransactionFeeEnabled,
             onChanged: notificationsPresenter.enableExpectedGasPrice,
           ),
           MxcTextField(
@@ -137,8 +137,8 @@ class NotificationsPage extends HookConsumerWidget {
             keyboardType: TextInputType.number,
             action: TextInputAction.next,
             suffixText: ref.watch(state).network!.symbol,
-            readOnly:
-                !notificationsState.periodicalCallData!.expectedGasPriceEnabled,
+            readOnly: !notificationsState
+                .periodicalCallData!.expectedTransactionFeeEnabled,
             validator: (value) {
               value = ref.read(presenter).transactionFeeController.text;
               final res = Validation.notEmpty(

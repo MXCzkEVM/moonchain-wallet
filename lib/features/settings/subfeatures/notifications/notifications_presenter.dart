@@ -50,11 +50,15 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   }
 
   void onLowBalanceChange() {
-    state.formKey.currentState!.validate();
+    if (state.formKey.currentState!.validate()) {
+      handleLowBalanceChange();
+    }
   }
 
   void onTransactionFeeChange() {
-    state.formKey.currentState!.validate();
+    if (state.formKey.currentState!.validate()) {
+      handleExpectedTransactionFeeChange();
+    }
   }
 
   @override
@@ -113,19 +117,21 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   }
 
   void enableLowBalanceLimit(bool value) {
-    // showBackgroundFetchAlertDialog(context: context!);
+    final newPeriodicalCallData =
+        state.periodicalCallData!.copyWith(lowBalanceLimitEnabled: value);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void showBGFetchFrequencyDialog() {
     showBGNotificationsFrequencyDialog(context!,
         onTap: handleFrequencyChange,
         selectedFrequency: getPeriodicalCallDurationFromInt(
             state.periodicalCallData!.duration));
-    // final newPeriodicalCallData =
-    //     state.periodicalCallData!.copyWith(lowBalanceLimitEnabled: value);
-    // backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
   }
 
   void enableExpectedGasPrice(bool value) {
-    final newPeriodicalCallData =
-        state.periodicalCallData!.copyWith(expectedGasPriceEnabled: value);
+    final newPeriodicalCallData = state.periodicalCallData!
+        .copyWith(expectedTransactionFeeEnabled: value);
     backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
   }
 
@@ -147,11 +153,27 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
   }
 
+  void handleLowBalanceChange() {
+    final lowBalanceString = lowBalanceController.text;
+    final lowBalance = double.parse(lowBalanceString);
+    final newPeriodicalCallData =
+        state.periodicalCallData!.copyWith(lowBalanceLimit: lowBalance);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void handleExpectedTransactionFeeChange() {
+    final expectedTransactionFeeString = transactionFeeController.text;
+    final expectedTransactionFee = double.parse(expectedTransactionFeeString);
+    final newPeriodicalCallData = state.periodicalCallData!
+        .copyWith(expectedTransactionFee: expectedTransactionFee);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
   void checkPeriodicalCallDataChange(
       PeriodicalCallData newPeriodicalCallData) async {
     bool newNoneEnabled =
         !(newPeriodicalCallData.expectedEpochOccurrenceEnabled ||
-            newPeriodicalCallData.expectedGasPriceEnabled ||
+            newPeriodicalCallData.expectedTransactionFeeEnabled ||
             newPeriodicalCallData.lowBalanceLimitEnabled);
 
     if (state.periodicalCallData != null) {
@@ -169,6 +191,7 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
       // If none was enabled & now one is enabled => Start BG service
       // Other wise It was enabled so start BG service in case It's not running
       else if (noneEnabled == true && newNoneEnabled == false) {
+        await showBackgroundFetchAlertDialog(context: context!);
         startBGFetch(newPeriodicalCallData.duration);
       }
     }
@@ -179,8 +202,8 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   // Detect If change was about service enable status not amount change because amount changes won't effect the service & will be loaded from DB.
   bool isServicesEnabledStatusChanged(PeriodicalCallData newPeriodicalCallData,
       PeriodicalCallData periodicalCallData) {
-    return newPeriodicalCallData.expectedGasPriceEnabled !=
-            periodicalCallData.expectedGasPriceEnabled ||
+    return newPeriodicalCallData.expectedTransactionFeeEnabled !=
+            periodicalCallData.expectedTransactionFeeEnabled ||
         newPeriodicalCallData.lowBalanceLimitEnabled !=
             periodicalCallData.lowBalanceLimitEnabled ||
         newPeriodicalCallData.expectedEpochOccurrenceEnabled !=
@@ -190,8 +213,8 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   // There is a chance where user disables any service so in this case we don't want to run BG fetch service init again.
   bool hasAnyServiceBeenEnabled(PeriodicalCallData newPeriodicalCallData,
       PeriodicalCallData periodicalCallData) {
-    return (newPeriodicalCallData.expectedGasPriceEnabled == true &&
-            periodicalCallData.expectedGasPriceEnabled == false) &&
+    return (newPeriodicalCallData.expectedTransactionFeeEnabled == true &&
+            periodicalCallData.expectedTransactionFeeEnabled == false) &&
         (newPeriodicalCallData.lowBalanceLimitEnabled == true &&
             periodicalCallData.lowBalanceLimitEnabled == false) &&
         (newPeriodicalCallData.expectedEpochOccurrenceEnabled == true &&
