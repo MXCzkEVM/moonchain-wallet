@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:background_fetch/background_fetch.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 import 'app/app.dart';
 
@@ -35,19 +37,62 @@ void callbackDispatcher(HeadlessTask task) async {
     BackgroundFetch.finish(taskId);
     return;
   }
-  AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
-  AXSNotification().showNotification(
-      'Background task ${DateTime.now().toIso8601String()}', '');
-  print('[BackgroundFetch] Headless event received.');
-  BackgroundFetch.finish(taskId);
+  callbackDispatcherForeGround(taskId);
 }
 
 // Foreground
-void callbackDispatcherForeGround(String task) async {
-  AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
-  AXSNotification().showNotification(
-      'Background task ${DateTime.now().toIso8601String()}', '');
-  print('[BackgroundFetch] Headless event received.');
+void callbackDispatcherForeGround(String taskId) async {
+  await loadProviders();
+
+  final container = ProviderContainer();
+  final authUseCase = container.read(authUseCaseProvider);
+  final chainConfigurationUseCase =
+      container.read(chainConfigurationUseCaseProvider);
+  final accountUseCase = container.read(accountUseCaseProvider);
+  final backgroundFetchConfigUseCase =
+      container.read(backgroundFetchConfigUseCaseProvider);
+
+  final selectedNetwork =
+      chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
+  PeriodicalCallData periodicalCallData =
+      backgroundFetchConfigUseCase.periodicalCallData.value;
+  final chainId = selectedNetwork.chainId;
+
+  final isLoggedIn = authUseCase.loggedIn;
+  final account = accountUseCase.account.value;
+  final lowBalanceLimit = periodicalCallData.lowBalanceLimit;
+  final expectedTransactionFee = periodicalCallData.expectedTransactionFee;
+  final lowBalanceLimitEnabled = periodicalCallData.lowBalanceLimitEnabled;
+  final expectedTransactionFeeEnabled =
+      periodicalCallData.expectedTransactionFeeEnabled;
+  final lastEpoch = periodicalCallData.lasEpoch;
+  final expectedEpochOccurrence = periodicalCallData.expectedEpochOccurrence;
+  final expectedEpochOccurrenceEnabled =
+      periodicalCallData.expectedEpochOccurrenceEnabled;
+
+  // Make sure user is logged in
+  if (isLoggedIn && Config.isMxcChains(chainId)) {
+    AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
+
+    if (lowBalanceLimitEnabled) {
+      backgroundFetchConfigUseCase.checkLowBalance(account!, lowBalanceLimit);
+    }
+
+    if (expectedTransactionFeeEnabled) {
+      backgroundFetchConfigUseCase.checkTransactionFee(expectedTransactionFee);
+    }
+
+    if (expectedEpochOccurrenceEnabled) {
+      periodicalCallData = await backgroundFetchConfigUseCase.checkEpochOccur(
+          periodicalCallData, lastEpoch, expectedEpochOccurrence);
+    }
+
+    backgroundFetchConfigUseCase.updateItem(periodicalCallData);
+  } else {
+    // terminate background fetch
+    BackgroundFetch.stop(taskId);
+  }
+  BackgroundFetch.finish(taskId);
 }
 
 void main() {
@@ -92,8 +137,6 @@ void main() {
           ),
         ),
       );
-
-      BackgroundFetch.registerHeadlessTask(callbackDispatcher);
     },
     zoneSpecification: ZoneSpecification(
       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {

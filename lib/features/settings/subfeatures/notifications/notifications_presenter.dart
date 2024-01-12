@@ -1,8 +1,13 @@
 import 'dart:io';
 import 'package:app_settings/app_settings.dart';
 import 'package:datadashwallet/common/common.dart';
+import 'package:datadashwallet/features/settings/subfeatures/notifications/widgets/background_fetch_dialog.dart';
+import 'package:datadashwallet/features/settings/subfeatures/notifications/widgets/bg_notifications_frequency_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:background_fetch/background_fetch.dart' as bgFetch;
+import 'package:mxc_logic/mxc_logic.dart';
+import '../../../../main.dart';
 import 'notifications_state.dart';
 
 final notificationsContainer =
@@ -15,10 +20,50 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     WidgetsBinding.instance.addObserver(this);
   }
 
+  late final backgroundFetchConfigUseCase =
+      ref.read(backgroundFetchConfigUseCaseProvider);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
+
+  // this is used to show the bg fetch dialog
+  bool noneEnabled = true;
+
+  final TextEditingController lowBalanceController = TextEditingController();
+  final TextEditingController transactionFeeController =
+      TextEditingController();
+
   @override
   void initState() {
     super.initState();
     checkNotificationsStatus();
+
+    listen(backgroundFetchConfigUseCase.periodicalCallData, (value) {
+      checkPeriodicalCallDataChange(value);
+    });
+
+    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
+      notify(() => state.network = value);
+    });
+
+    lowBalanceController.text =
+        state.periodicalCallData!.lowBalanceLimit.toString();
+    transactionFeeController.text =
+        state.periodicalCallData!.expectedTransactionFee.toString();
+
+    lowBalanceController.addListener(onLowBalanceChange);
+    transactionFeeController.addListener(onTransactionFeeChange);
+  }
+
+  void onLowBalanceChange() {
+    if (state.formKey.currentState!.validate()) {
+      handleLowBalanceChange();
+    }
+  }
+
+  void onTransactionFeeChange() {
+    if (state.formKey.currentState!.validate()) {
+      handleExpectedTransactionFeeChange();
+    }
   }
 
   @override
@@ -72,8 +117,156 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     if (state.isNotificationsEnabled == false && isGranted == true) {
       await AXSFireBase.initializeFirebase();
       AXSFireBase.initLocalNotificationsAndListeners();
-    } 
+    }
     notify(() => state.isNotificationsEnabled = isGranted);
+  }
+
+  void enableLowBalanceLimit(bool value) {
+    final newPeriodicalCallData =
+        state.periodicalCallData!.copyWith(lowBalanceLimitEnabled: value);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void showBGFetchFrequencyDialog() {
+    showBGNotificationsFrequencyDialog(context!,
+        onTap: handleFrequencyChange,
+        selectedFrequency: getPeriodicalCallDurationFromInt(
+            state.periodicalCallData!.duration));
+  }
+
+  void enableExpectedGasPrice(bool value) {
+    final newPeriodicalCallData = state.periodicalCallData!
+        .copyWith(expectedTransactionFeeEnabled: value);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void enableExpectedEpochQuantity(bool value) {
+    final newPeriodicalCallData = state.periodicalCallData!
+        .copyWith(expectedEpochOccurrenceEnabled: value);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void selectEpochOccur(int value) {
+    final newPeriodicalCallData =
+        state.periodicalCallData!.copyWith(expectedEpochOccurrence: value);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void handleFrequencyChange(PeriodicalCallDuration duration) {
+    final newPeriodicalCallData =
+        state.periodicalCallData!.copyWith(duration: duration.toMinutes());
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void handleLowBalanceChange() {
+    final lowBalanceString = lowBalanceController.text;
+    final lowBalance = double.parse(lowBalanceString);
+    final newPeriodicalCallData =
+        state.periodicalCallData!.copyWith(lowBalanceLimit: lowBalance);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void handleExpectedTransactionFeeChange() {
+    final expectedTransactionFeeString = transactionFeeController.text;
+    final expectedTransactionFee = double.parse(expectedTransactionFeeString);
+    final newPeriodicalCallData = state.periodicalCallData!
+        .copyWith(expectedTransactionFee: expectedTransactionFee);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
+  void checkPeriodicalCallDataChange(
+      PeriodicalCallData newPeriodicalCallData) async {
+    bool newNoneEnabled =
+        !(newPeriodicalCallData.expectedEpochOccurrenceEnabled ||
+            newPeriodicalCallData.expectedTransactionFeeEnabled ||
+            newPeriodicalCallData.lowBalanceLimitEnabled);
+
+    if (state.periodicalCallData != null) {
+      if (backgroundFetchConfigUseCase.isServicesEnabledStatusChanged(
+                  newPeriodicalCallData, state.periodicalCallData!) &&
+              backgroundFetchConfigUseCase.hasAnyServiceBeenEnabled(
+                  newPeriodicalCallData, state.periodicalCallData!) ||
+          backgroundFetchConfigUseCase.hasDurationChanged(
+              newPeriodicalCallData, state.periodicalCallData!)) {}
+
+      // none enabled means stopped || was stopped
+      if (newNoneEnabled == true) {
+        await stopBGFetch();
+      }
+      // If none was enabled & now one is enabled => Start BG service
+      // Other wise It was enabled so start BG service in case It's not running
+      else if (noneEnabled == true && newNoneEnabled == false) {
+        await showBackgroundFetchAlertDialog(context: context!);
+        startBGFetch(newPeriodicalCallData.duration);
+      }
+    }
+    noneEnabled = newNoneEnabled;
+    notify(() => state.periodicalCallData = newPeriodicalCallData);
+  }
+
+  // delay is in minutes
+  void startBGFetch(int delay) async {
+    try {
+      // Stop If any is running
+      await stopBGFetch();
+
+      final configurationState = await bgFetch.BackgroundFetch.configure(
+          bgFetch.BackgroundFetchConfig(
+              minimumFetchInterval: 15,
+              stopOnTerminate: false,
+              enableHeadless: true,
+              startOnBoot: true,
+              requiresBatteryNotLow: false,
+              requiresCharging: false,
+              requiresStorageNotLow: false,
+              requiresDeviceIdle: false,
+              requiredNetworkType: bgFetch.NetworkType.ANY),
+          callbackDispatcherForeGround);
+      // Android Only
+      final backgroundFetchState =
+          await bgFetch.BackgroundFetch.registerHeadlessTask(
+              callbackDispatcher);
+
+      final scheduleState =
+          await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
+        taskId: Config.axsPeriodicalTask,
+        delay: delay * 60 * 1000,
+        periodic: true,
+        requiresNetworkConnectivity: true,
+        startOnBoot: true,
+        stopOnTerminate: false,
+        requiredNetworkType: bgFetch.NetworkType.ANY,
+      ));
+
+      if (scheduleState &&
+              configurationState == bgFetch.BackgroundFetch.STATUS_AVAILABLE ||
+          configurationState == bgFetch.BackgroundFetch.STATUS_RESTRICTED &&
+              (Platform.isAndroid ? backgroundFetchState : true)) {
+        showBGFetchSuccessSnackBar();
+      } else {
+        showBGFetchFailureSnackBar();
+      }
+    } catch (e) {
+      showBGFetchFailureSnackBar();
+    }
+  }
+
+  Future<int> stopBGFetch() async {
+    return await bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
+  }
+
+  void showBGFetchFailureSnackBar() {
+    showSnackBar(
+        context: context!,
+        content: translate('unable_to_launch_background_notification_service')!,
+        type: SnackBarType.fail);
+  }
+
+  void showBGFetchSuccessSnackBar() {
+    showSnackBar(
+        context: context!,
+        content: translate(
+            'Background_notifications_service_launched_successfully')!);
   }
 
   @override

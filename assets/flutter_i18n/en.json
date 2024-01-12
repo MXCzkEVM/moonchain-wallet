@@ -321,5 +321,16 @@
 	"speed_up": "Speed up",
 	"gas_fee_replacement_notice": "This gas fee will replace the original",
 	"unknown": "Unknown",
-	"transaction_finalized": "Transaction Finalized"
+	"transaction_finalized": "Transaction Finalized",
+	"background_fetch_notice_title": "Optimize Your AXS Wallet Experience",
+	"background_fetch_notice_text": "To ensure peak performance of the AXS Wallet, we recommend keeping the app active in the background and excluding it from battery optimization settings. This helps maintain seamless functionality and uninterrupted access to your wallet.",
+	"acknowledge": "Acknowledge",
+	"Background_notifications_service_launched_successfully": "Background notifications service launched successfully.",
+	"unable_to_launch_background_notification_service": "Unable to launch background notification service.",
+	"low_balance": "Low balance",
+	"expected_transaction_fee": "Expected transaction fee",
+	"expected_epoch_occur": "Expected epoch occurrence",
+	"background_notifications_frequency" : "Background notifications frequency",
+	"occurrence": "Occurrence",
+	"frequency": "Frequency"
 }
