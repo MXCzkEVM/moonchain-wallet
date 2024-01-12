@@ -108,7 +108,9 @@ final Provider<CustomTokensUseCase> customTokensUseCaseProvider = Provider(
 final Provider<BackgroundFetchConfigUseCase>
     backgroundFetchConfigUseCaseProvider = Provider(
   (ref) => BackgroundFetchConfigUseCase(
-      ref.watch(datadashCacheProvider).backgroundFetchConfigRepository),
+      ref.watch(datadashCacheProvider).backgroundFetchConfigRepository,
+      ref.watch(chainConfigurationUseCaseProvider),
+      ref.watch(tokenContractUseCaseProvider)),
 );
 
 final Provider<BalanceUseCase> balanceHistoryUseCaseProvider = Provider(

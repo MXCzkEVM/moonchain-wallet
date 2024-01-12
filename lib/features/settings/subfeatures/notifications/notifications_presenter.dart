@@ -45,6 +45,11 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
       notify(() => state.network = value);
     });
 
+    lowBalanceController.text =
+        state.periodicalCallData!.lowBalanceLimit.toString();
+    transactionFeeController.text =
+        state.periodicalCallData!.expectedTransactionFee.toString();
+
     lowBalanceController.addListener(onLowBalanceChange);
     transactionFeeController.addListener(onTransactionFeeChange);
   }
@@ -177,11 +182,11 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
             newPeriodicalCallData.lowBalanceLimitEnabled);
 
     if (state.periodicalCallData != null) {
-      if (isServicesEnabledStatusChanged(
+      if (backgroundFetchConfigUseCase.isServicesEnabledStatusChanged(
                   newPeriodicalCallData, state.periodicalCallData!) &&
-              hasAnyServiceBeenEnabled(
+              backgroundFetchConfigUseCase.hasAnyServiceBeenEnabled(
                   newPeriodicalCallData, state.periodicalCallData!) ||
-          hasDurationChanged(
+          backgroundFetchConfigUseCase.hasDurationChanged(
               newPeriodicalCallData, state.periodicalCallData!)) {}
 
       // none enabled means stopped || was stopped
@@ -197,33 +202,6 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     }
     noneEnabled = newNoneEnabled;
     notify(() => state.periodicalCallData = newPeriodicalCallData);
-  }
-
-  // Detect If change was about service enable status not amount change because amount changes won't effect the service & will be loaded from DB.
-  bool isServicesEnabledStatusChanged(PeriodicalCallData newPeriodicalCallData,
-      PeriodicalCallData periodicalCallData) {
-    return newPeriodicalCallData.expectedTransactionFeeEnabled !=
-            periodicalCallData.expectedTransactionFeeEnabled ||
-        newPeriodicalCallData.lowBalanceLimitEnabled !=
-            periodicalCallData.lowBalanceLimitEnabled ||
-        newPeriodicalCallData.expectedEpochOccurrenceEnabled !=
-            periodicalCallData.expectedEpochOccurrenceEnabled;
-  }
-
-  // There is a chance where user disables any service so in this case we don't want to run BG fetch service init again.
-  bool hasAnyServiceBeenEnabled(PeriodicalCallData newPeriodicalCallData,
-      PeriodicalCallData periodicalCallData) {
-    return (newPeriodicalCallData.expectedTransactionFeeEnabled == true &&
-            periodicalCallData.expectedTransactionFeeEnabled == false) &&
-        (newPeriodicalCallData.lowBalanceLimitEnabled == true &&
-            periodicalCallData.lowBalanceLimitEnabled == false) &&
-        (newPeriodicalCallData.expectedEpochOccurrenceEnabled == true &&
-            periodicalCallData.expectedEpochOccurrenceEnabled == false);
-  }
-
-  bool hasDurationChanged(PeriodicalCallData newPeriodicalCallData,
-      PeriodicalCallData periodicalCallData) {
-    return newPeriodicalCallData.duration != periodicalCallData.duration;
   }
 
   // delay is in minutes
