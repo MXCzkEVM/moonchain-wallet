@@ -97,7 +97,7 @@ class NotificationsPage extends HookConsumerWidget {
             keyboardType: TextInputType.number,
             action: TextInputAction.next,
             suffixText: ref.watch(state).network!.symbol,
-            readOnly: !isMXCChains &&
+            readOnly: !isMXCChains ||
                 !notificationsState.periodicalCallData!.lowBalanceLimitEnabled,
             hasClearButton: false,
             validator: (value) {
@@ -144,7 +144,7 @@ class NotificationsPage extends HookConsumerWidget {
             keyboardType: TextInputType.number,
             action: TextInputAction.next,
             suffixText: ref.watch(state).network!.symbol,
-            readOnly: !isMXCChains &&
+            readOnly: !isMXCChains ||
                 !notificationsState
                     .periodicalCallData!.expectedTransactionFeeEnabled,
             hasClearButton: false,
@@ -195,7 +195,9 @@ class NotificationsPage extends HookConsumerWidget {
                       .periodicalCallData!.expectedEpochOccurrence);
             },
             selectedItem: '$expectedEpochOccur  Epoch occurrence',
-            enabled: isMXCChains,
+            enabled: isMXCChains &&
+                notificationsState
+                    .periodicalCallData!.expectedEpochOccurrenceEnabled,
           ),
         ],
       ),
