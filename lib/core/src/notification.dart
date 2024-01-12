@@ -74,16 +74,19 @@ class AXSNotification {
         notification.title,
         notification.body,
         NotificationDetails(
-          android: AndroidNotificationDetails(channel.id, channel.name,
-              groupKey: 'axs_wallet',
-              channelDescription: channel.description,
-              importance: Importance.high,
-              priority: Priority.high,
-              playSound: true,
-              visibility: NotificationVisibility.public,
-              icon: 'axs_logo',
-              color: ColorsTheme.primary300,
-              largeIcon: largeImage),
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            groupKey: 'axs_wallet',
+            channelDescription: channel.description,
+            importance: Importance.high,
+            priority: Priority.high,
+            playSound: true,
+            visibility: NotificationVisibility.public,
+            icon: 'axs_logo',
+            color: ColorsTheme.primary300,
+            largeIcon: largeImage,
+          ),
         ),
       );
     }
@@ -91,6 +94,7 @@ class AXSNotification {
 
   void showNotification(String title, String text) {
     if (!kIsWeb) {
+      var bigTextStyleInformation = BigTextStyleInformation(text);
       flutterLocalNotificationsPlugin.show(
         title.hashCode,
         title,
@@ -105,7 +109,8 @@ class AXSNotification {
                 visibility: NotificationVisibility.public,
                 icon: 'axs_logo',
                 color: ColorsTheme.primary300,
-                largeIcon: null),
+                largeIcon: null,
+                styleInformation: bigTextStyleInformation),
             iOS: DarwinNotificationDetails(
               subtitle: text,
             )),
