@@ -38,58 +38,7 @@ void callbackDispatcher(HeadlessTask task) async {
     BackgroundFetch.finish(taskId);
     return;
   }
-  await loadProviders();
-
-  final container = ProviderContainer();
-  final authUseCase = container.read(authUseCaseProvider);
-  final chainConfigurationUseCase =
-      container.read(chainConfigurationUseCaseProvider);
-  final accountUseCase = container.read(accountUseCaseProvider);
-  final backgroundFetchConfigUseCase =
-      container.read(backgroundFetchConfigUseCaseProvider);
-
-  final selectedNetwork =
-      chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
-  PeriodicalCallData periodicalCallData =
-      backgroundFetchConfigUseCase.periodicalCallData.value;
-  final chainId = selectedNetwork.chainId;
-
-  final isLoggedIn = authUseCase.loggedIn;
-  final account = accountUseCase.account.value;
-  final lowBalanceLimit = periodicalCallData.lowBalanceLimit;
-  final expectedTransactionFee = periodicalCallData.expectedTransactionFee;
-  final lowBalanceLimitEnabled = periodicalCallData.lowBalanceLimitEnabled;
-  final expectedTransactionFeeEnabled =
-      periodicalCallData.expectedTransactionFeeEnabled;
-  final lastEpoch = periodicalCallData.lasEpoch;
-  final expectedEpochOccurrence = periodicalCallData.expectedEpochOccurrence;
-  final expectedEpochOccurrenceEnabled =
-      periodicalCallData.expectedEpochOccurrenceEnabled;
-
-  // Make sure user is logged in
-  if (isLoggedIn && Config.isMxcChains(chainId)) {
-    AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
-
-    if (lowBalanceLimitEnabled) {
-      backgroundFetchConfigUseCase.checkLowBalance(account!, lowBalanceLimit);
-    }
-
-    if (expectedTransactionFeeEnabled) {
-      backgroundFetchConfigUseCase.checkTransactionFee(expectedTransactionFee);
-    }
-
-    if (expectedEpochOccurrenceEnabled) {
-      periodicalCallData = await backgroundFetchConfigUseCase.checkEpochOccur(
-          periodicalCallData, lastEpoch, expectedEpochOccurrence);
-    }
-
-    print('updated');
-    backgroundFetchConfigUseCase.updateItem(periodicalCallData);
-  } else {
-    // terminate background fetch
-    BackgroundFetch.stop(taskId);
-  }
-  BackgroundFetch.finish(taskId);
+  callbackDispatcherForeGround(taskId);
 }
 
 // Foreground
@@ -139,7 +88,6 @@ void callbackDispatcherForeGround(String taskId) async {
           periodicalCallData, lastEpoch, expectedEpochOccurrence);
     }
 
-    print('updated');
     backgroundFetchConfigUseCase.updateItem(periodicalCallData);
   } else {
     // terminate background fetch
