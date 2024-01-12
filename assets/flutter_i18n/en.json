@@ -316,7 +316,7 @@
 	"knowledge_hub": "Knowledge Hub",
 	"learn_more": "Learn More",
 	"why_enable_notifications": "Why Enable Notifications?",
-	"why_enable_notifications_notice": "By turning on notifications for MXC zkEVM, you stay informed about the latest mining activities, token rewards and important updates. This real-time information allows you to respond promptly to changes and optimize your mining strategy.\nStay ahead by keeping notifications enabled!",
+	"why_enable_notifications_notice": "By turning on notifications for MXC chains, you stay informed about the latest mining activities, token rewards and important updates. This real-time information allows you to respond promptly to changes and optimize your mining strategy.\nStay ahead by keeping notifications enabled!",
 	"submit": "Submit",
 	"speed_up": "Speed up",
 	"gas_fee_replacement_notice": "This gas fee will replace the original",
@@ -330,7 +330,7 @@
 	"low_balance": "Low balance",
 	"expected_transaction_fee": "Expected transaction fee",
 	"expected_epoch_occur": "Expected epoch occurrence",
-	"background_notifications_frequency" : "Background notifications frequency",
+	"background_notifications_frequency": "Background notifications frequency",
 	"occurrence": "Occurrence",
 	"frequency": "Frequency"
 }

@@ -83,12 +83,14 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
   }
 
   Future<PeriodicalCallData> checkEpochOccur(
-      PeriodicalCallData periodicalCallData,
-      int lastEpoch,
-      int expectedEpochOccurrence) async {
+    PeriodicalCallData periodicalCallData,
+    int lastEpoch,
+    int expectedEpochOccurrence,
+    int chainId,
+  ) async {
     print('expectedEpochOccurrenceEnabled');
 
-    final epochNumber = await _tokenContractUseCase.getEpochDetails();
+    final epochNumber = await _tokenContractUseCase.getEpochDetails(chainId);
     print(
         "expectedEpochOccurrenceEnabled $lastEpoch $epochNumber $expectedEpochOccurrence");
     if (lastEpoch == 0) {

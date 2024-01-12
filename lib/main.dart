@@ -84,7 +84,7 @@ void callbackDispatcherForeGround(String taskId) async {
 
     if (expectedEpochOccurrenceEnabled) {
       periodicalCallData = await backgroundFetchConfigUseCase.checkEpochOccur(
-          periodicalCallData, lastEpoch, expectedEpochOccurrence);
+          periodicalCallData, lastEpoch, expectedEpochOccurrence, chainId);
     }
 
     backgroundFetchConfigUseCase.updateItem(periodicalCallData);
