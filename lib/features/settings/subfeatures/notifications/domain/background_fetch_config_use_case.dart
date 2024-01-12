@@ -52,8 +52,12 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     final balanceDouble = balance.getInEther.toDouble();
     print("lowBalanceLimitEnabled $balanceDouble $lowBalanceLimit");
     if (balanceDouble < lowBalanceLimit) {
-      AXSNotification().showNotification('Time to top up!',
-          'Your balance is currently $balanceDouble MXC, Below expected $lowBalanceLimit. MXC');
+      AXSNotification().showNotification(
+        "Time to Top-up!",
+        "Heads up! Your balance is now at {0} MXC, which is below the minimum threshold of {1} MXC. A top-up might be a good idea to maintain seamless transactions."
+            .replaceFirst('{0}', balanceDouble.toString())
+            .replaceFirst('{1}', lowBalanceLimit.toString()),
+      );
     }
   }
 
@@ -70,8 +74,11 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
         "expectedTransactionFeeEnabled $transactionFee $expectedTransactionFee");
     if (transactionFee < expectedTransactionFee) {
       AXSNotification().showNotification(
-          'Transaction fee below expected price!',
-          'Transaction fee is currently $transactionFee MXC, Lower than $expectedTransactionFee MXC.');
+        "Time to do the transaction!",
+        "Great news! The current transaction fee is just {0} MXC, which is lower than the usual {1} MXC. It's an opportune moment to make your transactions more cost-effective."
+            .replaceFirst('{0}', transactionFee.toString())
+            .replaceFirst('{1}', expectedTransactionFee.toString()),
+      );
     }
   }
 
@@ -93,8 +100,8 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
 
     if (expectedEpochOccurrence == epochQuantity) {
       periodicalCallData = periodicalCallData.copyWith(lasEpoch: epochNumber);
-      AXSNotification().showNotification('Expected epoch just happened!',
-          'The epoch that you were waiting for is now reached.');
+      AXSNotification().showNotification("Epoch Achievement Alert!",
+          "Congratulations! The anticipated epoch you've been waiting for has just occurred. It's a significant milestone. Let's take the next steps forward.,");
     }
 
     return periodicalCallData;

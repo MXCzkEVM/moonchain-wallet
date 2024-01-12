@@ -10,7 +10,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:http/http.dart';
 
 import 'app/app.dart';
 
