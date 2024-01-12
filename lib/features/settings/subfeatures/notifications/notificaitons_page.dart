@@ -31,6 +31,8 @@ class NotificationsPage extends HookConsumerWidget {
     final frequency = getPeriodicalCallDurationFromInt(
         notificationsState.periodicalCallData!.duration);
 
+    final isMXCChains = Config.isMxcChains(notificationsState.network!.chainId);
+
     String translate(String text) => FlutterI18n.translate(context, text);
 
     return Form(
@@ -49,6 +51,7 @@ class NotificationsPage extends HookConsumerWidget {
             title: translate('notifications'),
             value: notificationsState.isNotificationsEnabled,
             onChanged: notificationsPresenter.changeNotificationsState,
+            enabled: true,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,6 +80,7 @@ class NotificationsPage extends HookConsumerWidget {
             key: const Key('bgNotificationsFrequencyDropDown'),
             onTap: notificationsPresenter.showBGFetchFrequencyDialog,
             selectedItem: frequency.toStringFormatted(),
+            enabled: isMXCChains,
           ),
           const SizedBox(height: Sizes.spaceNormal),
           SwitchRowItem(
@@ -84,6 +88,7 @@ class NotificationsPage extends HookConsumerWidget {
             value:
                 notificationsState.periodicalCallData!.lowBalanceLimitEnabled,
             onChanged: notificationsPresenter.enableLowBalanceLimit,
+            enabled: isMXCChains,
           ),
           MxcTextField(
             key: const ValueKey('lowBalanceTextField'),
@@ -92,8 +97,9 @@ class NotificationsPage extends HookConsumerWidget {
             keyboardType: TextInputType.number,
             action: TextInputAction.next,
             suffixText: ref.watch(state).network!.symbol,
-            readOnly:
+            readOnly: !isMXCChains &&
                 !notificationsState.periodicalCallData!.lowBalanceLimitEnabled,
+            hasClearButton: false,
             validator: (value) {
               value = ref.read(presenter).lowBalanceController.text;
               final res = Validation.notEmpty(
@@ -129,6 +135,7 @@ class NotificationsPage extends HookConsumerWidget {
             value: notificationsState
                 .periodicalCallData!.expectedTransactionFeeEnabled,
             onChanged: notificationsPresenter.enableExpectedGasPrice,
+            enabled: isMXCChains,
           ),
           MxcTextField(
             key: const ValueKey('expectedTransactionFeeTextField'),
@@ -137,8 +144,10 @@ class NotificationsPage extends HookConsumerWidget {
             keyboardType: TextInputType.number,
             action: TextInputAction.next,
             suffixText: ref.watch(state).network!.symbol,
-            readOnly: !notificationsState
-                .periodicalCallData!.expectedTransactionFeeEnabled,
+            readOnly: !isMXCChains &&
+                !notificationsState
+                    .periodicalCallData!.expectedTransactionFeeEnabled,
+            hasClearButton: false,
             validator: (value) {
               value = ref.read(presenter).transactionFeeController.text;
               final res = Validation.notEmpty(
@@ -174,6 +183,7 @@ class NotificationsPage extends HookConsumerWidget {
             value: notificationsState
                 .periodicalCallData!.expectedEpochOccurrenceEnabled,
             onChanged: notificationsPresenter.enableExpectedEpochQuantity,
+            enabled: isMXCChains,
           ),
           const SizedBox(height: Sizes.spaceNormal),
           MXCDropDown(
@@ -185,6 +195,7 @@ class NotificationsPage extends HookConsumerWidget {
                       .periodicalCallData!.expectedEpochOccurrence);
             },
             selectedItem: '$expectedEpochOccur  Epoch occurrence',
+            enabled: isMXCChains,
           ),
         ],
       ),
