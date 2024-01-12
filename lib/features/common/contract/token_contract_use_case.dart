@@ -268,7 +268,7 @@ class TokenContractUseCase extends ReactiveUseCase {
     return _repository.tokenContract.spyTransaction(hash);
   }
 
-  Future<int> getEpochDetails() async {
-    return await _repository.tokenContract.getEpochDetails();
+  Future<int> getEpochDetails(int chainId) async {
+    return await _repository.tokenContract.getEpochDetails(chainId);
   }
 }
