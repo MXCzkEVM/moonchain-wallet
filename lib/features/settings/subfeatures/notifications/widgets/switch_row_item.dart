@@ -6,8 +6,13 @@ class SwitchRowItem extends StatelessWidget {
   final String title;
   final bool value;
   final void Function(bool)? onChanged;
+  final bool enabled;
   const SwitchRowItem(
-      {super.key, required this.title, required this.value, this.onChanged});
+      {super.key,
+      required this.title,
+      required this.value,
+      this.onChanged,
+      required this.enabled});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,7 @@ class SwitchRowItem extends StatelessWidget {
         ),
         CupertinoSwitch(
           value: value,
-          onChanged: onChanged,
+          onChanged: enabled ? onChanged : null,
         ),
       ],
     );
