@@ -32,6 +32,10 @@ class NotificationsPage extends HookConsumerWidget {
         notificationsState.periodicalCallData!.duration);
 
     final isMXCChains = Config.isMxcChains(notificationsState.network!.chainId);
+    final bgServiceEnabled =
+        notificationsState.periodicalCallData!.serviceEnabled;
+
+    final isSettingsChangeEnabled = isMXCChains && bgServiceEnabled;
 
     String translate(String text) => FlutterI18n.translate(context, text);
 
@@ -71,16 +75,19 @@ class NotificationsPage extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: Sizes.spaceNormal),
-          Text(
-            translate('background_notifications_frequency'),
-            style: FontTheme.of(context).body2.primary(),
+          SwitchRowItem(
+            title: translate('background_notifications'),
+            value: notificationsState.periodicalCallData!.serviceEnabled,
+            onChanged: notificationsPresenter.changeEnableService,
+            enabled: isMXCChains,
           ),
           const SizedBox(height: Sizes.spaceNormal),
           MXCDropDown(
             key: const Key('bgNotificationsFrequencyDropDown'),
             onTap: notificationsPresenter.showBGFetchFrequencyDialog,
             selectedItem: frequency.toStringFormatted(),
-            enabled: isMXCChains,
+            enabled: isSettingsChangeEnabled &&
+                notificationsState.periodicalCallData!.serviceEnabled,
           ),
           const SizedBox(height: Sizes.spaceNormal),
           SwitchRowItem(
@@ -88,7 +95,7 @@ class NotificationsPage extends HookConsumerWidget {
             value:
                 notificationsState.periodicalCallData!.lowBalanceLimitEnabled,
             onChanged: notificationsPresenter.enableLowBalanceLimit,
-            enabled: isMXCChains,
+            enabled: isSettingsChangeEnabled,
           ),
           MxcTextField(
             key: const ValueKey('lowBalanceTextField'),
@@ -97,7 +104,7 @@ class NotificationsPage extends HookConsumerWidget {
             keyboardType: TextInputType.number,
             action: TextInputAction.next,
             suffixText: ref.watch(state).network!.symbol,
-            readOnly: !isMXCChains ||
+            readOnly: !isSettingsChangeEnabled ||
                 !notificationsState.periodicalCallData!.lowBalanceLimitEnabled,
             hasClearButton: false,
             validator: (value) {
@@ -135,7 +142,7 @@ class NotificationsPage extends HookConsumerWidget {
             value: notificationsState
                 .periodicalCallData!.expectedTransactionFeeEnabled,
             onChanged: notificationsPresenter.enableExpectedGasPrice,
-            enabled: isMXCChains,
+            enabled: isSettingsChangeEnabled,
           ),
           MxcTextField(
             key: const ValueKey('expectedTransactionFeeTextField'),
@@ -144,7 +151,7 @@ class NotificationsPage extends HookConsumerWidget {
             keyboardType: TextInputType.number,
             action: TextInputAction.next,
             suffixText: ref.watch(state).network!.symbol,
-            readOnly: !isMXCChains ||
+            readOnly: !isSettingsChangeEnabled ||
                 !notificationsState
                     .periodicalCallData!.expectedTransactionFeeEnabled,
             hasClearButton: false,
@@ -183,7 +190,7 @@ class NotificationsPage extends HookConsumerWidget {
             value: notificationsState
                 .periodicalCallData!.expectedEpochOccurrenceEnabled,
             onChanged: notificationsPresenter.enableExpectedEpochQuantity,
-            enabled: isMXCChains,
+            enabled: isSettingsChangeEnabled,
           ),
           const SizedBox(height: Sizes.spaceNormal),
           MXCDropDown(
@@ -195,7 +202,7 @@ class NotificationsPage extends HookConsumerWidget {
                       .periodicalCallData!.expectedEpochOccurrence);
             },
             selectedItem: '$expectedEpochOccur  Epoch occurrence',
-            enabled: isMXCChains &&
+            enabled: isSettingsChangeEnabled &&
                 notificationsState
                     .periodicalCallData!.expectedEpochOccurrenceEnabled,
           ),

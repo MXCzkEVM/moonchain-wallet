@@ -134,6 +134,12 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
             state.periodicalCallData!.duration));
   }
 
+  void changeEnableService(bool value) {
+    final newPeriodicalCallData =
+        state.periodicalCallData!.copyWith(serviceEnabled: value);
+    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
+  }
+
   void enableExpectedGasPrice(bool value) {
     final newPeriodicalCallData = state.periodicalCallData!
         .copyWith(expectedTransactionFeeEnabled: value);
@@ -176,31 +182,24 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
   void checkPeriodicalCallDataChange(
       PeriodicalCallData newPeriodicalCallData) async {
-    bool newNoneEnabled =
-        !(newPeriodicalCallData.expectedEpochOccurrenceEnabled ||
-            newPeriodicalCallData.expectedTransactionFeeEnabled ||
-            newPeriodicalCallData.lowBalanceLimitEnabled);
 
     if (state.periodicalCallData != null) {
-      if (backgroundFetchConfigUseCase.isServicesEnabledStatusChanged(
-                  newPeriodicalCallData, state.periodicalCallData!) &&
-              backgroundFetchConfigUseCase.hasAnyServiceBeenEnabled(
-                  newPeriodicalCallData, state.periodicalCallData!) ||
-          backgroundFetchConfigUseCase.hasDurationChanged(
-              newPeriodicalCallData, state.periodicalCallData!)) {}
+      final isBGServiceChanged = state.periodicalCallData!.serviceEnabled !=
+          newPeriodicalCallData.serviceEnabled;
+      final bgServiceDurationChanged =
+          state.periodicalCallData!.duration != newPeriodicalCallData.duration;
 
-      // none enabled means stopped || was stopped
-      if (newNoneEnabled == true) {
-        await stopBGFetch();
-      }
-      // If none was enabled & now one is enabled => Start BG service
-      // Other wise It was enabled so start BG service in case It's not running
-      else if (noneEnabled == true && newNoneEnabled == false) {
-        await showBackgroundFetchAlertDialog(context: context!);
+      if (isBGServiceChanged && newPeriodicalCallData.serviceEnabled == true) {
+        showBackgroundFetchAlertDialog(context: context!);
+        startBGFetch(newPeriodicalCallData.duration);
+      } else if (isBGServiceChanged &&
+          newPeriodicalCallData.serviceEnabled == false) {
+        stopBGFetch(showSnackbar: true);
+      } else if (bgServiceDurationChanged) {
         startBGFetch(newPeriodicalCallData.duration);
       }
     }
-    noneEnabled = newNoneEnabled;
+
     notify(() => state.periodicalCallData = newPeriodicalCallData);
   }
 
@@ -208,11 +207,11 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   void startBGFetch(int delay) async {
     try {
       // Stop If any is running
-      await stopBGFetch();
+      await stopBGFetch(showSnackbar: false);
 
       final configurationState = await bgFetch.BackgroundFetch.configure(
           bgFetch.BackgroundFetchConfig(
-              minimumFetchInterval: 15,
+              minimumFetchInterval: delay,
               stopOnTerminate: false,
               enableHeadless: true,
               startOnBoot: true,
@@ -251,8 +250,12 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     }
   }
 
-  Future<int> stopBGFetch() async {
-    return await bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
+  Future<int> stopBGFetch({required bool showSnackbar}) async {
+    final res = await bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
+    if (showSnackbar) {
+      showBGFetchDisableSuccessSnackBar();
+    }
+    return res;
   }
 
   void showBGFetchFailureSnackBar() {
@@ -266,7 +269,14 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     showSnackBar(
         context: context!,
         content: translate(
-            'Background_notifications_service_launched_successfully')!);
+            'background_notifications_service_launched_successfully')!);
+  }
+
+  void showBGFetchDisableSuccessSnackBar() {
+    showSnackBar(
+        context: context!,
+        content: translate(
+            'background_notifications_service_disabled_successfully')!);
   }
 
   @override
