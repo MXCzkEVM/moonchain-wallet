@@ -42,57 +42,63 @@ void callbackDispatcher(HeadlessTask task) async {
 
 // Foreground
 void callbackDispatcherForeGround(String taskId) async {
-  await loadProviders();
+  try {
+    await loadProviders();
 
-  final container = ProviderContainer();
-  final authUseCase = container.read(authUseCaseProvider);
-  final chainConfigurationUseCase =
-      container.read(chainConfigurationUseCaseProvider);
-  final accountUseCase = container.read(accountUseCaseProvider);
-  final backgroundFetchConfigUseCase =
-      container.read(backgroundFetchConfigUseCaseProvider);
+    final container = ProviderContainer();
+    final authUseCase = container.read(authUseCaseProvider);
+    final chainConfigurationUseCase =
+        container.read(chainConfigurationUseCaseProvider);
+    final accountUseCase = container.read(accountUseCaseProvider);
+    final backgroundFetchConfigUseCase =
+        container.read(backgroundFetchConfigUseCaseProvider);
 
-  final selectedNetwork =
-      chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
-  PeriodicalCallData periodicalCallData =
-      backgroundFetchConfigUseCase.periodicalCallData.value;
-  final chainId = selectedNetwork.chainId;
+    final selectedNetwork =
+        chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
+    PeriodicalCallData periodicalCallData =
+        backgroundFetchConfigUseCase.periodicalCallData.value;
+    final chainId = selectedNetwork.chainId;
 
-  final isLoggedIn = authUseCase.loggedIn;
-  final account = accountUseCase.account.value;
-  final lowBalanceLimit = periodicalCallData.lowBalanceLimit;
-  final expectedTransactionFee = periodicalCallData.expectedTransactionFee;
-  final lowBalanceLimitEnabled = periodicalCallData.lowBalanceLimitEnabled;
-  final expectedTransactionFeeEnabled =
-      periodicalCallData.expectedTransactionFeeEnabled;
-  final lastEpoch = periodicalCallData.lasEpoch;
-  final expectedEpochOccurrence = periodicalCallData.expectedEpochOccurrence;
-  final expectedEpochOccurrenceEnabled =
-      periodicalCallData.expectedEpochOccurrenceEnabled;
+    final isLoggedIn = authUseCase.loggedIn;
+    final account = accountUseCase.account.value;
+    final lowBalanceLimit = periodicalCallData.lowBalanceLimit;
+    final expectedTransactionFee = periodicalCallData.expectedTransactionFee;
+    final lowBalanceLimitEnabled = periodicalCallData.lowBalanceLimitEnabled;
+    final expectedTransactionFeeEnabled =
+        periodicalCallData.expectedTransactionFeeEnabled;
+    final lastEpoch = periodicalCallData.lasEpoch;
+    final expectedEpochOccurrence = periodicalCallData.expectedEpochOccurrence;
+    final expectedEpochOccurrenceEnabled =
+        periodicalCallData.expectedEpochOccurrenceEnabled;
 
-  // Make sure user is logged in
-  if (isLoggedIn && Config.isMxcChains(chainId)) {
-    AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
+    // Make sure user is logged in
+    if (isLoggedIn && Config.isMxcChains(chainId)) {
+      AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
 
-    if (lowBalanceLimitEnabled) {
-      backgroundFetchConfigUseCase.checkLowBalance(account!, lowBalanceLimit);
+      if (lowBalanceLimitEnabled) {
+        await backgroundFetchConfigUseCase.checkLowBalance(
+            account!, lowBalanceLimit);
+      }
+
+      if (expectedTransactionFeeEnabled) {
+        await backgroundFetchConfigUseCase
+            .checkTransactionFee(expectedTransactionFee);
+      }
+
+      if (expectedEpochOccurrenceEnabled) {
+        periodicalCallData = await backgroundFetchConfigUseCase.checkEpochOccur(
+            periodicalCallData, lastEpoch, expectedEpochOccurrence, chainId);
+      }
+
+      backgroundFetchConfigUseCase.updateItem(periodicalCallData);
+      BackgroundFetch.finish(taskId);
+    } else {
+      // terminate background fetch
+      BackgroundFetch.stop(taskId);
     }
-
-    if (expectedTransactionFeeEnabled) {
-      backgroundFetchConfigUseCase.checkTransactionFee(expectedTransactionFee);
-    }
-
-    if (expectedEpochOccurrenceEnabled) {
-      periodicalCallData = await backgroundFetchConfigUseCase.checkEpochOccur(
-          periodicalCallData, lastEpoch, expectedEpochOccurrence, chainId);
-    }
-
-    backgroundFetchConfigUseCase.updateItem(periodicalCallData);
-  } else {
-    // terminate background fetch
-    BackgroundFetch.stop(taskId);
+  } catch (e) {
+    BackgroundFetch.finish(taskId);
   }
-  BackgroundFetch.finish(taskId);
 }
 
 void main() {
