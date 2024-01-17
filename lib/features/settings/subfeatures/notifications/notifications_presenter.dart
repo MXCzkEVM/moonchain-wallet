@@ -182,7 +182,6 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
   void checkPeriodicalCallDataChange(
       PeriodicalCallData newPeriodicalCallData) async {
-
     if (state.periodicalCallData != null) {
       final isBGServiceChanged = state.periodicalCallData!.serviceEnabled !=
           newPeriodicalCallData.serviceEnabled;
@@ -190,13 +189,14 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
           state.periodicalCallData!.duration != newPeriodicalCallData.duration;
 
       if (isBGServiceChanged && newPeriodicalCallData.serviceEnabled == true) {
-        showBackgroundFetchAlertDialog(context: context!);
-        startBGFetch(newPeriodicalCallData.duration);
+        startBGFetch(
+            delay: newPeriodicalCallData.duration, showBGFetchAlert: true);
       } else if (isBGServiceChanged &&
           newPeriodicalCallData.serviceEnabled == false) {
         stopBGFetch(showSnackbar: true);
       } else if (bgServiceDurationChanged) {
-        startBGFetch(newPeriodicalCallData.duration);
+        startBGFetch(
+            delay: newPeriodicalCallData.duration, showBGFetchAlert: false);
       }
     }
 
@@ -204,48 +204,15 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   }
 
   // delay is in minutes
-  void startBGFetch(int delay) async {
-    try {
-      // Stop If any is running
-      await stopBGFetch(showSnackbar: false);
-
-      final configurationState = await bgFetch.BackgroundFetch.configure(
-          bgFetch.BackgroundFetchConfig(
-              minimumFetchInterval: delay,
-              stopOnTerminate: false,
-              enableHeadless: true,
-              startOnBoot: true,
-              requiresBatteryNotLow: false,
-              requiresCharging: false,
-              requiresStorageNotLow: false,
-              requiresDeviceIdle: false,
-              requiredNetworkType: bgFetch.NetworkType.ANY),
-          callbackDispatcherForeGround);
-      // Android Only
-      final backgroundFetchState =
-          await bgFetch.BackgroundFetch.registerHeadlessTask(
-              callbackDispatcher);
-
-      final scheduleState =
-          await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: Config.axsPeriodicalTask,
-        delay: delay * 60 * 1000,
-        periodic: true,
-        requiresNetworkConnectivity: true,
-        startOnBoot: true,
-        stopOnTerminate: false,
-        requiredNetworkType: bgFetch.NetworkType.ANY,
-      ));
-
-      if (scheduleState &&
-              configurationState == bgFetch.BackgroundFetch.STATUS_AVAILABLE ||
-          configurationState == bgFetch.BackgroundFetch.STATUS_RESTRICTED &&
-              (Platform.isAndroid ? backgroundFetchState : true)) {
-        showBGFetchSuccessSnackBar();
-      } else {
-        showBGFetchFailureSnackBar();
-      }
-    } catch (e) {
+  void startBGFetch(
+      {required int delay, required bool showBGFetchAlert}) async {
+    if (showBGFetchAlert) {
+      await showBackgroundFetchAlertDialog(context: context!);
+    }
+    final success = await backgroundFetchConfigUseCase.startBGFetch(delay);
+    if (success) {
+      showBGFetchSuccessSnackBar();
+    } else {
       showBGFetchFailureSnackBar();
     }
   }
