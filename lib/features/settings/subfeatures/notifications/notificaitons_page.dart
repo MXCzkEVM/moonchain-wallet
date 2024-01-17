@@ -9,6 +9,7 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'notifications_presenter.dart';
 import 'notifications_state.dart';
+import 'widgets/bg_service_information_widget.dart';
 import 'widgets/switch_row_item.dart';
 
 class NotificationsPage extends HookConsumerWidget {
@@ -80,6 +81,7 @@ class NotificationsPage extends HookConsumerWidget {
             value: notificationsState.periodicalCallData!.serviceEnabled,
             onChanged: notificationsPresenter.changeEnableService,
             enabled: isMXCChains,
+            textTrailingWidget: const BGServiceInformation(),
           ),
           const SizedBox(height: Sizes.spaceNormal),
           MXCDropDown(

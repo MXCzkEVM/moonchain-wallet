@@ -333,5 +333,7 @@
 	"expected_epoch_occur": "Expected epoch occurrence",
 	"background_notifications": "Background notifications",
 	"occurrence": "Occurrence",
-	"frequency": "Frequency"
+	"frequency": "Frequency",
+	"experiencing_issues": "Experiencing issues?",
+	"background_service_solution": "Try re-enabling the app or check the battery optimization settings."
 }
