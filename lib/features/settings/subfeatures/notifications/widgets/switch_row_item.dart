@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class SwitchRowItem extends StatelessWidget {
@@ -7,12 +8,14 @@ class SwitchRowItem extends StatelessWidget {
   final bool value;
   final void Function(bool)? onChanged;
   final bool enabled;
+  final Widget? textTrailingWidget;
   const SwitchRowItem(
       {super.key,
       required this.title,
       required this.value,
       this.onChanged,
-      required this.enabled});
+      required this.enabled,
+      this.textTrailingWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +25,15 @@ class SwitchRowItem extends StatelessWidget {
           title,
           style: FontTheme.of(context).body2.primary(),
         ),
+        if (textTrailingWidget != null) ...[
+          const SizedBox(
+            width: Sizes.spaceXSmall,
+          ),
+          textTrailingWidget!
+        ],
         const Spacer(),
         const SizedBox(
-          width: 16,
+          width: Sizes.spaceNormal,
         ),
         CupertinoSwitch(
           value: value,
