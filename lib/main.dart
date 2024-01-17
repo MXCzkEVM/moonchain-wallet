@@ -70,9 +70,10 @@ void callbackDispatcherForeGround(String taskId) async {
     final expectedEpochOccurrence = periodicalCallData.expectedEpochOccurrence;
     final expectedEpochOccurrenceEnabled =
         periodicalCallData.expectedEpochOccurrenceEnabled;
+    final serviceEnabled = periodicalCallData.serviceEnabled;
 
     // Make sure user is logged in
-    if (isLoggedIn && Config.isMxcChains(chainId)) {
+    if (isLoggedIn && Config.isMxcChains(chainId) && serviceEnabled) {
       AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
 
       if (lowBalanceLimitEnabled) {
