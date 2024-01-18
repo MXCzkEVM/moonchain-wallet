@@ -321,5 +321,19 @@
     "speed_up": "Accélérer",
     "gas_fee_replacement_notice": "Cette frais de gaz remplacera l'original.",
     "unknown": "Inconnu",
-    "transaction_finalized": "Transaction Finalisée"
+    "transaction_finalized": "Transaction Finalisée",
+    "background_fetch_notice_title": "Optimisez Votre Expérience de Portefeuille AXS",
+    "background_fetch_notice_text": "Pour garantir une performance optimale du portefeuille AXS, nous recommandons de garder l'application active en arrière-plan et de l'exclure des paramètres d'optimisation de la batterie. Cela aide à maintenir une fonctionnalité sans faille et un accès ininterrompu à votre portefeuille.",
+    "acknowledge": "Reconnaître",
+    "background_notifications_service_launched_successfully": "Le service de notifications en arrière-plan a été lancé avec succès.",
+    "unable_to_launch_background_notification_service": "Impossible de lancer le service de notification en arrière-plan.",
+    "background_notifications_service_disabled_successfully": "Le service de notifications en arrière-plan a été désactivé avec succès.",
+    "low_balance": "Solde faible",
+    "expected_transaction_fee": "Frais de transaction prévus",
+    "expected_epoch_occur": "Occurrence d'époque prévue",
+    "background_notifications": "Notifications en arrière-plan",
+    "occurrence": "Occurrence en français est \"Occurrence\".",
+    "frequency": "Fréquence",
+    "experiencing_issues": "Rencontrez-vous des problèmes ?",
+    "background_service_solution": "Essayez de réactiver l'application ou vérifiez les paramètres d'optimisation de la batterie."
 }

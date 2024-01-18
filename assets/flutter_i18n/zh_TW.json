@@ -321,5 +321,19 @@
     "speed_up": "加速",
     "gas_fee_replacement_notice": "這個燃氣費將會取代原本的",
     "unknown": "未知的",
-    "transaction_finalized": "交易已完成"
+    "transaction_finalized": "交易已完成",
+    "background_fetch_notice_title": "優化您的AXS錢包體驗",
+    "background_fetch_notice_text": "為了確保 AXS 錢包的最佳性能，我們建議您將應用程式保持在背景運行並將其從電池優化設置中排除。這有助於維持無縫功能和對您錢包的不間斷訪問。",
+    "acknowledge": "確認",
+    "background_notifications_service_launched_successfully": "背景通知服務成功啟動。",
+    "unable_to_launch_background_notification_service": "無法啟動背景通知服務。",
+    "background_notifications_service_disabled_successfully": "成功禁用背景通知服務。",
+    "low_balance": "餘額不足",
+    "expected_transaction_fee": "預期交易費用",
+    "expected_epoch_occur": "預期的時代發生",
+    "background_notifications": "背景通知",
+    "occurrence": "發生",
+    "frequency": "頻率",
+    "experiencing_issues": "遇到問題嗎？",
+    "background_service_solution": "嘗試重新啟用應用程式或檢查電池優化設定。"
 }

@@ -321,5 +321,19 @@
     "speed_up": "Percepat",
     "gas_fee_replacement_notice": "Biaya gas ini akan menggantikan yang asli.",
     "unknown": "Tidak Dikenal",
-    "transaction_finalized": "Transaksi Selesai"
+    "transaction_finalized": "Transaksi Selesai",
+    "background_fetch_notice_title": "Optimalkan Pengalaman Dompet AXS Anda",
+    "background_fetch_notice_text": "Untuk memastikan kinerja puncak dari Dompet AXS, kami menyarankan untuk menjaga aplikasi tetap aktif di latar belakang dan mengeluarkannya dari pengaturan optimasi baterai. Ini membantu menjaga fungsi yang lancar dan akses yang tidak terputus ke dompet Anda.",
+    "acknowledge": "Mengakui",
+    "background_notifications_service_launched_successfully": "Layanan notifikasi latar belakang berhasil diluncurkan.",
+    "unable_to_launch_background_notification_service": "Tidak dapat menjalankan layanan notifikasi latar belakang.",
+    "background_notifications_service_disabled_successfully": "Layanan notifikasi latar belakang berhasil dinonaktifkan.",
+    "low_balance": "Saldo rendah",
+    "expected_transaction_fee": "Biaya transaksi yang diharapkan",
+    "expected_epoch_occur": "Kejadian era yang diharapkan",
+    "background_notifications": "Notifikasi latar belakang",
+    "occurrence": "Kejadian",
+    "frequency": "Frekuensi",
+    "experiencing_issues": "Mengalami masalah?",
+    "background_service_solution": "Coba aktifkan kembali aplikasi atau periksa pengaturan optimalisasi baterai."
 }
