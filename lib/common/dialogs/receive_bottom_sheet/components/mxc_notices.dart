@@ -9,9 +9,17 @@ List<TextSpan> depositFromExchangesNotice(
   final text = FlutterI18n.translate(context, 'deposit_from_exchanges_notice');
   final firstSplit = text.split('{0}');
   final firstPart = firstSplit[0];
+
   final secondSplit = firstSplit[1].split('{1}');
   final secondPart = secondSplit[0];
-  final thirdPart = secondSplit[1];
+
+  final thirdSplit = secondSplit[1].split('{2}');
+  final thirdPart = secondSplit[0];
+
+  final fourthSplit = thirdSplit[1].split('{3}');
+  final fourthPart = fourthSplit[0];
+
+  final fifthPart = fourthSplit[1];
   return [
     TextSpan(
       text: firstPart,
@@ -40,6 +48,30 @@ List<TextSpan> depositFromExchangesNotice(
         },
     ),
     TextSpan(text: thirdPart),
+    TextSpan(
+      text: 'KuCoin',
+      style: TextStyle(
+        color: ColorsTheme.of(context, listen: false).textSecondary,
+        decoration: TextDecoration.underline,
+      ),
+      recognizer: TapGestureRecognizer()
+        ..onTap = () {
+          launchUrl(Urls.kucoin);
+        },
+    ),
+    TextSpan(text: fourthPart),
+    TextSpan(
+      text: 'Crypto.com',
+      style: TextStyle(
+        color: ColorsTheme.of(context, listen: false).textSecondary,
+        decoration: TextDecoration.underline,
+      ),
+      recognizer: TapGestureRecognizer()
+        ..onTap = () {
+          launchUrl(Urls.cryptocom);
+        },
+    ),
+    TextSpan(text: fifthPart),
   ];
 }
 
