@@ -21,17 +21,26 @@ class SwitchRowItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          title,
-          style: FontTheme.of(context).body2.primary(),
-        ),
-        if (textTrailingWidget != null) ...[
-          const SizedBox(
-            width: Sizes.spaceXSmall,
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Flexible(
+                child: Text(
+                  title,
+                  style: FontTheme.of(context).body2.primary(),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (textTrailingWidget != null) ...[
+                const SizedBox(
+                  width: Sizes.spaceXSmall,
+                ),
+                textTrailingWidget!
+              ],
+            ],
           ),
-          textTrailingWidget!
-        ],
-        const Spacer(),
+        ),
         const SizedBox(
           width: Sizes.spaceNormal,
         ),
