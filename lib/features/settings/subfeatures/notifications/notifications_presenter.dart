@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
 import 'package:mxc_logic/mxc_logic.dart';
-import '../../../../main.dart';
 import 'notifications_state.dart';
 
 final notificationsContainer =
