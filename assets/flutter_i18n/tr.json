@@ -321,5 +321,19 @@
     "speed_up": "Hızlandır",
     "gas_fee_replacement_notice": "Bu gaz ücreti, orijinalin yerini alacak.",
     "unknown": "Bilinmeyen",
-    "transaction_finalized": "İşlem Tamamlandı"
+    "transaction_finalized": "İşlem Tamamlandı",
+    "background_fetch_notice_title": "AXS Cüzdan Deneyiminizi Optimize Edin",
+    "background_fetch_notice_text": "AXS Cüzdan'ın en üst düzey performansını sağlamak için, uygulamanın arka planda aktif kalmasını ve pil optimizasyonu ayarlarından çıkarılmasını öneririz. Bu, kesintisiz işlevsellik ve cüzdanınıza kesintisiz erişim sağlar.",
+    "acknowledge": "Onayla",
+    "background_notifications_service_launched_successfully": "Arka plan bildirimleri hizmeti başarıyla başlatıldı.",
+    "unable_to_launch_background_notification_service": "Arka plan bildirim hizmeti başlatılamıyor.",
+    "background_notifications_service_disabled_successfully": "Arka plan bildirimleri hizmeti başarıyla devre dışı bırakıldı.",
+    "low_balance": "Düşük bakiye",
+    "expected_transaction_fee": "Beklenen işlem ücreti",
+    "expected_epoch_occur": "Beklenen dönem olayı",
+    "background_notifications": "Arka plan bildirimleri",
+    "occurrence": "Meydana Gelme",
+    "frequency": "Frekans",
+    "experiencing_issues": "Sorunlar mı yaşıyorsunuz?",
+    "background_service_solution": "Uygulamayı yeniden etkinleştirmeyi deneyin veya pil optimizasyon ayarlarını kontrol edin."
 }

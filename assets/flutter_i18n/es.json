@@ -321,5 +321,19 @@
     "speed_up": "Acelerar",
     "gas_fee_replacement_notice": "Esta tarifa de gas reemplazará la original.",
     "unknown": "Desconocido",
-    "transaction_finalized": "Transacción Finalizada"
+    "transaction_finalized": "Transacción Finalizada",
+    "background_fetch_notice_title": "Optimiza Tu Experiencia con la Cartera AXS",
+    "background_fetch_notice_text": "Para garantizar el rendimiento óptimo de la Cartera AXS, recomendamos mantener la aplicación activa en segundo plano y excluirlo de los ajustes de optimización de batería. Esto ayuda a mantener una funcionalidad sin interrupciones y un acceso ininterrumpido a su cartera.",
+    "acknowledge": "Reconocer",
+    "background_notifications_service_launched_successfully": "El servicio de notificaciones en segundo plano se lanzó con éxito.",
+    "unable_to_launch_background_notification_service": "No se puede iniciar el servicio de notificación en segundo plano.",
+    "background_notifications_service_disabled_successfully": "El servicio de notificaciones en segundo plano se ha desactivado con éxito.",
+    "low_balance": "Saldo bajo",
+    "expected_transaction_fee": "Tarifa de transacción esperada",
+    "expected_epoch_occur": "Ocurrencia de época esperada",
+    "background_notifications": "Notificaciones de fondo",
+    "occurrence": "Ocurrencia",
+    "frequency": "Frecuencia",
+    "experiencing_issues": "¿Experimentando problemas?",
+    "background_service_solution": "Intenta volver a habilitar la aplicación o revisa la configuración de optimización de la batería."
 }

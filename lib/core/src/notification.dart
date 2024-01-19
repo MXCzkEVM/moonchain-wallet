@@ -26,7 +26,8 @@ class AXSNotification {
   /// Initialize the [FlutterLocalNotificationsPlugin] package.
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  Future<void> setupFlutterNotifications() async {
+  Future<void> setupFlutterNotifications(
+      {bool shouldInitFirebase = true}) async {
     if (isFlutterLocalNotificationsInitialized) {
       return;
     }
@@ -50,7 +51,9 @@ class AXSNotification {
 
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
-    await AXSFireBase.setForegroundNotificationPresentationOptions();
+    if (shouldInitFirebase) {
+      await AXSFireBase.setForegroundNotificationPresentationOptions();
+    }
 
     isFlutterLocalNotificationsInitialized = true;
   }
@@ -71,17 +74,46 @@ class AXSNotification {
         notification.title,
         notification.body,
         NotificationDetails(
-          android: AndroidNotificationDetails(channel.id, channel.name,
-              groupKey: 'axs_wallet',
-              channelDescription: channel.description,
-              importance: Importance.high,
-              priority: Priority.high,
-              playSound: true,
-              visibility: NotificationVisibility.public,
-              icon: 'axs_logo',
-              color: ColorsTheme.primary300,
-              largeIcon: largeImage),
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            groupKey: 'axs_wallet',
+            channelDescription: channel.description,
+            importance: Importance.high,
+            priority: Priority.high,
+            playSound: true,
+            visibility: NotificationVisibility.public,
+            icon: 'axs_logo',
+            color: ColorsTheme.primary300,
+            largeIcon: largeImage,
+          ),
         ),
+      );
+    }
+  }
+
+  void showNotification(String title, String text) {
+    if (!kIsWeb) {
+      var bigTextStyleInformation = BigTextStyleInformation(text);
+      flutterLocalNotificationsPlugin.show(
+        title.hashCode,
+        title,
+        text,
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                groupKey: 'axs_wallet',
+                channelDescription: channel.description,
+                importance: Importance.high,
+                priority: Priority.high,
+                playSound: true,
+                visibility: NotificationVisibility.public,
+                icon: 'axs_logo',
+                color: ColorsTheme.primary300,
+                largeIcon: null,
+                styleInformation: bigTextStyleInformation),
+            iOS: DarwinNotificationDetails(
+              subtitle: text,
+            )),
       );
     }
   }

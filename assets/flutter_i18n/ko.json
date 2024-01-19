@@ -321,5 +321,19 @@
     "speed_up": "속도를 높이다",
     "gas_fee_replacement_notice": "이 가스 비용은 원래의 것을 대체할 것입니다.",
     "unknown": "미확인",
-    "transaction_finalized": "거래 완료"
+    "transaction_finalized": "거래 완료",
+    "background_fetch_notice_title": "당신의 AXS 지갑 경험을 최적화하세요",
+    "background_fetch_notice_text": "AXS 지갑의 최적 성능을 보장하기 위해, 앱을 백그라운드에서 활성 상태로 유지하고 배터리 최적화 설정에서 제외하는 것을 권장합니다. 이는 원활한 기능성을 유지하고 지갑에 대한 끊임없는 접근을 돕습니다.",
+    "acknowledge": "인정하다",
+    "background_notifications_service_launched_successfully": "백그라운드 알림 서비스가 성공적으로 시작되었습니다.",
+    "unable_to_launch_background_notification_service": "백그라운드 알림 서비스를 시작할 수 없습니다.",
+    "background_notifications_service_disabled_successfully": "백그라운드 알림 서비스가 성공적으로 비활성화되었습니다.",
+    "low_balance": "잔액이 부족합니다",
+    "expected_transaction_fee": "예상 거래 수수료",
+    "expected_epoch_occur": "예상 에포크 발생",
+    "background_notifications": "백그라운드 알림",
+    "occurrence": "발생",
+    "frequency": "빈도수",
+    "experiencing_issues": "문제가 발생하셨나요?",
+    "background_service_solution": "앱을 다시 활성화해보거나 배터리 최적화 설정을 확인해보세요."
 }

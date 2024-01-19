@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -36,6 +35,10 @@ class TokenContractUseCase extends ReactiveUseCase {
     final balance = await _repository.tokenContract.getEthBalance(address);
     return MXCFormatter.convertWeiToEth(
         balance.getInWei.toString(), Config.ethDecimals);
+  }
+
+  Future<EtherAmount> getEthBalance(String from) async {
+    return await _repository.tokenContract.getEthBalance(from);
   }
 
   Future<Stream<dynamic>?> subscribeEvent(String event) async {
@@ -263,5 +266,9 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   StreamSubscription<TransactionReceipt?> spyOnTransaction(String hash) {
     return _repository.tokenContract.spyTransaction(hash);
+  }
+
+  Future<int> getEpochDetails(int chainId) async {
+    return await _repository.tokenContract.getEpochDetails(chainId);
   }
 }

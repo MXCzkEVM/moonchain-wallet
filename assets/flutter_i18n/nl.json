@@ -321,5 +321,19 @@
     "speed_up": "Versnellen",
     "gas_fee_replacement_notice": "Deze gasvergoeding zal de originele vervangen.",
     "unknown": "Onbekend",
-    "transaction_finalized": "Transactie Afgerond"
+    "transaction_finalized": "Transactie Afgerond",
+    "background_fetch_notice_title": "Optimaliseer uw AXS Wallet Ervaring",
+    "background_fetch_notice_text": "Om de topprestaties van de AXS Wallet te garanderen, raden we aan om de app actief op de achtergrond te houden en deze uit te sluiten van batterijoptimalisatie-instellingen. Dit helpt om een naadloze functionaliteit en ononderbroken toegang tot uw portemonnee te behouden.",
+    "acknowledge": "Erken",
+    "background_notifications_service_launched_successfully": "Achtergrondmeldingen service succesvol gelanceerd.",
+    "unable_to_launch_background_notification_service": "Kan achtergrondmeldingsservice niet starten.",
+    "background_notifications_service_disabled_successfully": "Achtergrondmeldingen service succesvol uitgeschakeld.",
+    "low_balance": "Lage saldo",
+    "expected_transaction_fee": "Verwachte transactiekosten",
+    "expected_epoch_occur": "Verwachte epoch-gebeurtenis",
+    "background_notifications": "Achtergrondmeldingen",
+    "occurrence": "Voorkomen",
+    "frequency": "Frequentie",
+    "experiencing_issues": "Ervaart u problemen?",
+    "background_service_solution": "Probeer de app opnieuw in te schakelen of controleer de instellingen voor batterijoptimalisatie."
 }

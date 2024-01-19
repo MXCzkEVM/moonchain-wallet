@@ -321,5 +321,19 @@
     "speed_up": "Beschleunigen",
     "gas_fee_replacement_notice": "Diese Gasgebühr wird das Original ersetzen.",
     "unknown": "Unbekannt",
-    "transaction_finalized": "Transaktion abgeschlossen"
+    "transaction_finalized": "Transaktion abgeschlossen",
+    "background_fetch_notice_title": "Optimieren Sie Ihr AXS Wallet Erlebnis",
+    "background_fetch_notice_text": "Um die Spitzenleistung der AXS Wallet zu gewährleisten, empfehlen wir, die App im Hintergrund aktiv zu halten und sie von den Einstellungen zur Batterieoptimierung auszuschließen. Dies hilft, eine nahtlose Funktionalität und einen unterbrechungsfreien Zugang zu Ihrer Wallet aufrechtzuerhalten.",
+    "acknowledge": "Bestätigen",
+    "background_notifications_service_launched_successfully": "Hintergrundbenachrichtigungsdienst erfolgreich gestartet.",
+    "unable_to_launch_background_notification_service": "Start des Hintergrundbenachrichtigungsdienstes nicht möglich.",
+    "background_notifications_service_disabled_successfully": "Hintergrundbenachrichtigungsdienst erfolgreich deaktiviert.",
+    "low_balance": "Geringes Guthaben",
+    "expected_transaction_fee": "Erwartete Transaktionsgebühr",
+    "expected_epoch_occur": "Erwartetes Zeitalter-Ereignis",
+    "background_notifications": "Hintergrundbenachrichtigungen",
+    "occurrence": "Vorkommen",
+    "frequency": "Frequenz",
+    "experiencing_issues": "Probleme erleben?",
+    "background_service_solution": "Versuchen Sie, die App erneut zu aktivieren oder überprüfen Sie die Einstellungen für die Akku-Optimierung."
 }
