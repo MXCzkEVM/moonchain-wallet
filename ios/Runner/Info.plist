@@ -145,6 +145,7 @@
 	<array>
 		<string>com.transistorsoft.fetch</string>
 		<string>com.mxc.axswallet.periodicalTasks</string>
+		<string>com.mxc.axswallet.dappHooksTasks</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
