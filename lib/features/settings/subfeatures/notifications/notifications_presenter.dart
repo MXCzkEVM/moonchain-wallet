@@ -23,10 +23,7 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
       ref.read(backgroundFetchConfigUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-
-  // this is used to show the bg fetch dialog
-  bool noneEnabled = true;
-
+      
   final TextEditingController lowBalanceController = TextEditingController();
   final TextEditingController transactionFeeController =
       TextEditingController();
