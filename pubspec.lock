@@ -602,6 +602,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.4.0"
+  geojson2h3:
+    dependency: transitive
+    description:
+      name: geojson2h3
+      sha256: "9786d9fa144f1a64063b63cfaf8e7b3ddec40d64f873f3ae9773500593080cd9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
   gql:
     dependency: transitive
     description:
@@ -666,6 +674,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0-beta.4"
+  h3_common:
+    dependency: transitive
+    description:
+      name: h3_common
+      sha256: "1d92424c97c0db1a2f4bd1ccd51f865934d01f211be9d33edaf12a2c68f8427f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
+  h3_ffi:
+    dependency: transitive
+    description:
+      name: h3_ffi
+      sha256: "9b13cf77ad867d3ef3362d86771f4930398cd88b657d9e154aba4ca0bda93540"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.2"
+  h3_flutter:
+    dependency: "direct main"
+    description:
+      name: h3_flutter
+      sha256: ccc62394641c43fccf87fec063a639a851ba0f30ec0caa0afeb455aebe581297
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.6"
+  h3_web:
+    dependency: transitive
+    description:
+      name: h3_web
+      sha256: "0997e3bcebefd2dcecbb3396b9e0a9dc6d9619c5eb2dfe6809b4046e05c7b0ac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
   hex:
     dependency: transitive
     description:
