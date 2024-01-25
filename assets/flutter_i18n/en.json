@@ -325,9 +325,6 @@
 	"background_fetch_notice_title": "Optimize Your AXS Wallet Experience",
 	"background_fetch_notice_text": "To ensure peak performance of the AXS Wallet, we recommend keeping the app active in the background and excluding it from battery optimization settings. This helps maintain seamless functionality and uninterrupted access to your wallet.",
 	"acknowledge": "Acknowledge",
-	"background_notifications_service_launched_successfully": "Background notifications service launched successfully.",
-	"unable_to_launch_background_notification_service": "Unable to launch background notification service.",
-	"background_notifications_service_disabled_successfully": "Background notifications service disabled successfully.",
 	"low_balance": "Low balance",
 	"expected_transaction_fee": "Expected transaction fee",
 	"expected_epoch_occur": "Expected epoch occurrence",
@@ -335,5 +332,14 @@
 	"occurrence": "Occurrence",
 	"frequency": "Frequency",
 	"experiencing_issues": "Experiencing issues?",
-	"background_service_solution": "Try re-enabling the app or check the battery optimization settings."
+	"background_service_solution": "Try re-enabling the app or check the battery optimization settings.",
+	"dapp_hooks": "DApp hooks",
+	"wifi_hooks": "Wifi hooks",
+	"miner_hooks": "Miner hooks",
+	"location_permission_required_title": "Location permission required.",
+	"location_permission_required_text": "Oops, location permission is denied, It's essential for us to have location permission in order for wifi hooks to perform actively, Please grant location by going to settings.",
+	"open_settings": "Open settings",
+	"service_launched_successfully": "{0} service launched successfully.",
+	"unable_to_launch_service": "Unable to launch {0} service.",
+	"service_disabled_successfully": "{0} service disabled successfully."
 }
