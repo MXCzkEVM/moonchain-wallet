@@ -90,41 +90,8 @@ class AXSFireBase {
   static void incrementBuildTap() async {
     buildTap++;
     if (buildTap == 10) {
-      FlutterClipboard.copy(await checkWifiName());
+      // FlutterClipboard.copy('');  
       buildTap = 0;
     }
-  }
-
-  static Future<String> checkWifiName() async {
-    String? wifiName, wifiBSSID;
-    // request permissions to get more info
-    final _networkInfo = NetworkInfo();
-
-    try {
-      // ignore: deprecated_member_use
-      var status = await _networkInfo.getLocationServiceAuthorization();
-      if (status == LocationAuthorizationStatus.notDetermined) {
-        // ignore: deprecated_member_use
-        status = await _networkInfo.requestLocationServiceAuthorization();
-      }
-      wifiName = await _networkInfo.getWifiName();
-    } on PlatformException catch (e) {
-      wifiName = 'Failed to get Wifi Name';
-    }
-
-    try {
-      // ignore: deprecated_member_use
-      var status = await _networkInfo.getLocationServiceAuthorization();
-      if (status == LocationAuthorizationStatus.notDetermined) {
-        // ignore: deprecated_member_use
-        status = await _networkInfo.requestLocationServiceAuthorization();
-      }
-
-      wifiBSSID = await _networkInfo.getWifiBSSID();
-    } on PlatformException catch (e) {
-      wifiBSSID = 'Failed to get Wifi BSSID';
-    }
-
-    return "Wifi name: $wifiName  Wifi BSSID : $wifiBSSID";
   }
 }
