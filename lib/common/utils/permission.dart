@@ -51,6 +51,11 @@ class PermissionUtils {
     ].request();
   }
 
+  static Future<void> requestLocationPermission() async {
+    await Permission.locationWhenInUse.request();
+    await Permission.locationAlways.request();
+  }
+
   /// Request the notification permission and return the detailed status.
   static Future<AuthorizationStatus> requestNotificationPermission() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -69,6 +74,12 @@ class PermissionUtils {
   }
 
   /// Return true if the permission is granted (The permission might have some limitation also, In this case It's true also).
+  static Future<bool> checkLocationPermission() async {
+    PermissionStatus status = await getLocationPermission();
+
+    return status == PermissionStatus.granted;
+  }
+
   static Future<bool> checkNotificationPermission() async {
     AuthorizationStatus authorizationStatus = await getNotificationPermission();
 
@@ -82,11 +93,28 @@ class PermissionUtils {
         authorizationStatus == AuthorizationStatus.provisional;
   }
 
+  static Future<PermissionStatus> getLocationPermission() async {
+    PermissionStatus locationStatus = await Permission.location.status;
+
+    return locationStatus;
+  }
+
   static Future<AuthorizationStatus> getNotificationPermission() async {
     NotificationSettings settings =
         await FirebaseMessaging.instance.getNotificationSettings();
 
     return settings.authorizationStatus;
+  }
+
+  static Future<bool> initLocationPermission() async {
+    bool isGranted = await checkLocationPermission();
+    if (isGranted) {
+      return isGranted;
+    }
+    // permission not granted or the status is not determined
+    await requestLocationPermission();
+    isGranted = await checkLocationPermission();
+    return isGranted;
   }
 
   static Future<bool> initNotificationPermission() async {
