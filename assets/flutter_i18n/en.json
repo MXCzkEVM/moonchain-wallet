@@ -337,7 +337,7 @@
 	"wifi_hooks": "Wifi hooks",
 	"miner_hooks": "Miner hooks",
 	"location_permission_required_title": "Location permission required.",
-	"location_permission_required_text": "Oops, location permission is denied, It's essential for us to have location permission in order for wifi hooks to perform actively, Please grant location by going to settings.",
+	"location_permission_required_text": "Oops, location permission is denied, It's essential for us to have location permission in order for wifi hooks to perform actively, Please grant location permission by going to settings.",
 	"open_settings": "Open settings",
 	"service_launched_successfully": "{0} service launched successfully.",
 	"unable_to_launch_service": "Unable to launch {0} service.",

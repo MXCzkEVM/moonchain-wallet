@@ -1,14 +1,9 @@
 import 'dart:io';
 
-import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/src/notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:mxc_logic/mxc_logic.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 
 import 'firebase_options.dart';
 export 'firebase_options.dart';
