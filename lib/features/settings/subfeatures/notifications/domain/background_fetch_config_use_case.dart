@@ -161,11 +161,11 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
               requiresStorageNotLow: false,
               requiresDeviceIdle: false,
               requiredNetworkType: bgFetch.NetworkType.ANY),
-          callbackDispatcherForeGround);
+          NotificationsService.callbackDispatcherForeGround);
       // Android Only
       final backgroundFetchState =
           await bgFetch.BackgroundFetch.registerHeadlessTask(
-              callbackDispatcher);
+              NotificationsService.callbackDispatcher);
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
