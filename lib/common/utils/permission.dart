@@ -107,13 +107,17 @@ class PermissionUtils {
   }
 
   static Future<bool> initLocationPermission() async {
-    bool isGranted = await checkLocationPermission();
-    if (isGranted) {
-      return isGranted;
+    PermissionStatus status = await getLocationPermission();
+    if (status == PermissionStatus.granted) {
+      return true;
+    }
+
+    if (status == PermissionStatus.permanentlyDenied) {
+      return false;
     }
     // permission not granted or the status is not determined
     await requestLocationPermission();
-    isGranted = await checkLocationPermission();
+    final isGranted = await checkLocationPermission();
     return isGranted;
   }
 
