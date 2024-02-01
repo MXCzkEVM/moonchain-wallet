@@ -7,8 +7,9 @@ import 'package:datadashwallet/features/settings/subfeatures/chain_configuration
 import 'package:h3_flutter/h3_flutter.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
-import 'package:location/location.dart' as loc;
+import 'package:geolocator/geolocator.dart' as geo;
 import 'package:network_info_plus/network_info_plus.dart';
+import 'package:wifi_scan/wifi_scan.dart';
 import 'dapp_hooks_repository.dart';
 
 class DAppHooksUseCase extends ReactiveUseCase {
@@ -57,21 +58,22 @@ class DAppHooksUseCase extends ReactiveUseCase {
   ) async {
     print("sendWifiInfo");
 
-    loc.Location location = loc.Location();
-
     final isGranted = await PermissionUtils.checkLocationPermission();
     print("isGranted: ${isGranted}");
 
     if (isGranted) {
       try {
-//               setLocationSettings(
-//         rationaleMessageForGPSRequest:
-//             '....',
-//         rationaleMessageForPermissionRequest:
-//             '....',
-//         askForPermission: true);
-// final currentLocation = await getLocation(); //catch exception
-        final currentLocation = await location.getLocation();
+        final geo.GeolocatorPlatform geoLocatorPlatform =
+            geo.GeolocatorPlatform.instance;
+        final currentLocation = await geoLocatorPlatform.getCurrentPosition();
+        // setLocationSettings(
+        //     rationaleMessageForGPSRequest:
+        //         'AXS wallet needs your permission for GPS access.',
+        //     rationaleMessageForPermissionRequest:
+        //         'AXS wallet needs your permission for location access.',
+        //     askForPermission: true);
+        // final currentLocation = await getLocation(); //catch exception
+        // final currentLocation = await location.getLocation();
 
         print(
             "Location: ${currentLocation.latitude}, ${currentLocation.longitude}");
@@ -80,36 +82,63 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
         final hexagonBigInt = h3.geoToH3(
             GeoCoord(
-                lon: currentLocation.longitude!,
-                lat: currentLocation.latitude!),
+                lon: currentLocation.longitude, lat: currentLocation.latitude),
             Config.h3Resolution);
 
         print("hexagonBigInt: ${currentLocation.longitude}");
 
-        final hexagon = MXCType.bigIntToHex(hexagonBigInt);
+        final hexagonId = MXCType.bigIntToHex(hexagonBigInt);
 
-        print("hexagon: ${hexagon}");
+        print("hexagon: ${hexagonId}");
 
-        final wifiName = await getWifiName();
-        final wifiBSSID = await getWifiBSSID();
+        List<WifiModel> finalWifiList = [];
 
-        print("wifiInfo: ${wifiName + wifiBSSID} ");
+        if (Platform.isAndroid) {
+          final wifiScan = WiFiScan.instance;
+          final canGetResults = await wifiScan.canGetScannedResults();
 
-        final finalJson = Map<String, String>();
-        finalJson['version'] = 'v1';
-        // finalJson['wifiList']= ;
-        finalJson['wifiName'] = wifiName;
-        finalJson['wifiBSSID'] = wifiBSSID;
-        finalJson['hexagonId'] = hexagon;
+          if (canGetResults == CanGetScannedResults.yes) {
+            final wifiAccessPoints = await wifiScan.getScannedResults();
 
-        print("memo: ${finalJson.toString()}");
+            finalWifiList = getWifiModels(wifiAccessPoints);
+          } else if (canGetResults ==
+                  CanGetScannedResults.noLocationPermissionDenied ||
+              canGetResults ==
+                  CanGetScannedResults.noLocationPermissionRequired ||
+              canGetResults ==
+                  CanGetScannedResults.noLocationPermissionUpgradeAccuracy ||
+              canGetResults == CanGetScannedResults.noLocationServiceDisabled) {
+            throw 'Permission required for getting wifi list';
+          } else if (canGetResults == CanGetScannedResults.notSupported) {
+            throw 'Not supported for getting wifi list';
+          }
+        } else {
+          final wifiName = await getWifiName();
+          final wifiBSSID = await getWifiBSSID();
+
+          print("wifiInfo: ${wifiName + wifiBSSID} ");
+          final wifiInfo = WifiModel(wifiName: wifiName, wifiBSSID: wifiBSSID);
+
+          finalWifiList = [wifiInfo];
+        }
+
+        if (finalWifiList.isEmpty) {
+          throw 'Preventing transaction because final wifi list is empty';
+        }
+
+        final finalData = WifiHooksDataModel(
+            version: Config.wifiHooksDataV,
+            hexagonId: hexagonId,
+            wifiList: finalWifiList);
+
+        print("memo: ${finalData.toString()}");
 
         print("tx");
         final tx = await _tokenContractUseCase.sendTransaction(
             from: account.address,
             to: account.address,
             privateKey: account.privateKey,
-            data: MXCType.stringToUint8List(jsonEncode(finalJson)),
+            data: MXCType.stringToUint8List(jsonEncode(finalData.toMap())),
             amount: MxcAmount.zero());
 
         print("tx : ${tx.hash}");
@@ -196,5 +225,11 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
   Future<int> stopDAppHooksService() async {
     return await bgFetch.BackgroundFetch.stop(Config.dappHookTasks);
+  }
+
+  List<WifiModel> getWifiModels(List<WiFiAccessPoint> wifiList) {
+    return wifiList
+        .map((e) => WifiModel(wifiName: e.ssid, wifiBSSID: e.bssid))
+        .toList();
   }
 }
