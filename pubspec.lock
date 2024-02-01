@@ -881,54 +881,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.4.0"
-  location2:
-    dependency: "direct main"
-    description:
-      name: location2
-      sha256: ccfc286ddb66a8f4e11ebd454d4f8d5c2412df533c8e09c71842304a9b9e5bcc
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.4"
-  location2_android:
-    dependency: transitive
-    description:
-      name: location2_android
-      sha256: b1c2945ece9b9de877e48095b4d74419a92230a59d0c8f4943117cbcc929e083
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.4"
-  location2_ios:
-    dependency: transitive
-    description:
-      name: location2_ios
-      sha256: c7a5c082e92d52c468ea505c60fbfab5724d8b08b9ed681e959904f3799b5dc9
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.4"
-  location2_macos:
-    dependency: transitive
-    description:
-      name: location2_macos
-      sha256: "73aeae307f81e9052c3b78e769b71ab9eb5df3322903677a59788e1689a7c05c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.1"
-  location2_platform_interface:
-    dependency: transitive
-    description:
-      name: location2_platform_interface
-      sha256: "3a160d03a3915dd3ebded64c58a13386e93fcf581bf50aa899ecd35b1950050d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.4"
-  location2_web:
-    dependency: transitive
-    description:
-      name: location2_web
-      sha256: e2566df1abd853e64a0b903499f87cbdb278a9c1851ec34f7251b57e736c457c
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.4"
   location_platform_interface:
     dependency: transitive
     description:
@@ -1651,6 +1603,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
+  wifi_scan:
+    dependency: "direct main"
+    description:
+      name: wifi_scan
+      sha256: cd0b98a611a3206c1bd9e600b9dff3aca27dcc924aa025548b00713e93a27299
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.1"
   win32:
     dependency: transitive
     description:
