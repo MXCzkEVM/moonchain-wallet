@@ -23,15 +23,15 @@ class DAppHooksPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notificationsState = ref.watch(state);
-    final notificationsPresenter = ref.read(presenter);
+    final dappHooksState = ref.watch(state);
+    final dappHooksPresenter = ref.read(presenter);
 
     final frequency = getPeriodicalCallDurationFromInt(
-        notificationsState.dAppHooksData!.duration);
+        dappHooksState.dAppHooksData!.duration);
 
-    final isMXCChains = Config.isMxcChains(notificationsState.network!.chainId);
+    final isMXCChains = Config.isMxcChains(dappHooksState.network!.chainId);
     final dappHooksServiceServiceEnabled =
-        notificationsState.dAppHooksData!.enabled;
+        dappHooksState.dAppHooksData!.enabled;
 
     final isSettingsChangeEnabled =
         isMXCChains && dappHooksServiceServiceEnabled;
@@ -50,33 +50,52 @@ class DAppHooksPage extends HookConsumerWidget {
       children: [
         SwitchRowItem(
           title: translate('dapp_hooks'),
-          value: notificationsState.dAppHooksData!.enabled,
-          onChanged: notificationsPresenter.enableDAppHooks,
+          value: dappHooksState.dAppHooksData!.enabled,
+          onChanged: dappHooksPresenter.enableDAppHooks,
           enabled: true,
           textTrailingWidget: const DAppHooksInformation(),
         ),
         const SizedBox(height: Sizes.spaceNormal),
         MXCDropDown(
           key: const Key('dappHooksFrequencyDropDown'),
-          onTap: notificationsPresenter.showDAppHooksFrequency,
+          onTap: dappHooksPresenter.showDAppHooksFrequency,
           selectedItem: frequency.toStringFormatted(),
-          enabled: isSettingsChangeEnabled &&
-              notificationsState.dAppHooksData!.enabled,
+          enabled:
+              isSettingsChangeEnabled && dappHooksState.dAppHooksData!.enabled,
         ),
         const SizedBox(height: Sizes.spaceNormal),
         SwitchRowItem(
+          key: const Key('wifiHookSwitch'),
           title: translate('wifi_hooks'),
-          value: notificationsState.dAppHooksData!.wifiHooks.enabled,
-          onChanged: notificationsPresenter.enableWifiHooks,
+          value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
+          onChanged: dappHooksPresenter.enableWifiHooks,
           enabled: isSettingsChangeEnabled,
         ),
         const SizedBox(height: Sizes.spaceNormal),
+        SwitchRowItem(
+          key: const Key('locationServiceSwitch'),
+          title: translate('location_service'),
+          value: dappHooksState.locationServiceEnabled,
+          onChanged: dappHooksPresenter.changeLocationServiceState,
+          enabled: isSettingsChangeEnabled,
+          paddings: const EdgeInsets.symmetric(horizontal: Sizes.spaceXSmall),
+          switchActiveColor: ColorsTheme.of(context).btnBgBlue,
+        ),
+        const SizedBox(height: Sizes.spaceNormal),
         // SwitchRowItem(
+        //   key: const Key('minerHookSwitch'),
         //   title: translate('miner_hooks'),
-        //   value:
-        //       notificationsState.dAppHooksData!.lowBalanceLimitEnabled,
-        //   onChanged: notificationsPresenter.enableLowBalanceLimit,
+        //   value: dappHooksState.dAppHooksData!.minerHooks.enabled,
+        //   onChanged: dappHooksPresenter.enableMinerHooks,
         //   enabled: isSettingsChangeEnabled,
+        // ),
+        // const SizedBox(height: Sizes.spaceNormal),
+        // MXCDropDown(
+        //   key: const Key('minerHooksTimingDropDown'),
+        //   onTap: dappHooksPresenter.showTimePickerDialog,
+        //   selectedItem:
+        //       dappHooksState.dAppHooksData!.minerHooks.time.format(context),
+        //   enabled: true,
         // ),
       ],
     );
