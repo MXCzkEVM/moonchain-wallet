@@ -7,6 +7,7 @@ import 'package:datadashwallet/features/settings/subfeatures/chain_configuration
 import 'package:h3_flutter/h3_flutter.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
+// import 'package:location2/location2.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:wifi_scan/wifi_scan.dart';
@@ -73,7 +74,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
         //         'AXS wallet needs your permission for location access.',
         //     askForPermission: true);
         // final currentLocation = await getLocation(); //catch exception
-        // final currentLocation = await location.getLocation();
+
+        if (currentLocation.longitude == null || currentLocation.latitude == null) {
+          throw 'longitude or latitude is null';
+        }
 
         print(
             "Location: ${currentLocation.latitude}, ${currentLocation.longitude}");
@@ -82,7 +86,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
         final hexagonBigInt = h3.geoToH3(
             GeoCoord(
-                lon: currentLocation.longitude, lat: currentLocation.latitude),
+                lon: currentLocation.longitude!, lat: currentLocation.latitude!),
             Config.h3Resolution);
 
         print("hexagonBigInt: ${currentLocation.longitude}");
@@ -140,7 +144,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
             privateKey: account.privateKey,
             data: MXCType.stringToUint8List(jsonEncode(finalData.toMap())),
             amount: MxcAmount.zero());
-
+        AXSNotification().showNotification(
+          "Successful Wi-Fi Transaction Update",
+          "You have successfully updated the list of Wi-Fi networks by submitting a transaction to the MXC zkEVM.",
+        );
         print("tx : ${tx.hash}");
       } catch (e) {
         print(e);
