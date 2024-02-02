@@ -6,8 +6,9 @@ class DAppHooksState with EquatableMixin {
   DAppHooksModel? dAppHooksData;
   Network? network;
 
-  bool locationServiceEnabled = false;
-
   @override
-  List<Object?> get props => [network, dAppHooksData, locationServiceEnabled];
+  List<Object?> get props => [
+        network,
+        dAppHooksData,
+      ];
 }

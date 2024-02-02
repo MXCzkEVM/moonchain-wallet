@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:app_settings/app_settings.dart';
 import 'package:datadashwallet/common/common.dart';
@@ -22,11 +23,13 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
     WidgetsBinding.instance.addObserver(this);
   }
 
-  final geo.GeolocatorPlatform _geoLocatorPlatform =
-      geo.GeolocatorPlatform.instance;
   late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+
+  final geo.GeolocatorPlatform _geoLocatorPlatform =
+      geo.GeolocatorPlatform.instance;
+  late StreamSubscription<geo.ServiceStatus> streamSubscription;
 
   @override
   void initState() {
@@ -40,37 +43,34 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
       notify(() => state.network = value);
     });
 
-    checkLocationServiceEnabled();
+    initLocationServiceStateStream();
   }
 
-  void checkLocationServiceEnabled() async {
-    final locationServiceEnabled = await Permission.location.serviceStatus;
-    notify(
-        () => state.locationServiceEnabled = locationServiceEnabled.isEnabled);
+  void initLocationServiceStateStream() async {
+    Stream<geo.ServiceStatus> locationStateStream =
+        _geoLocatorPlatform.getServiceStatusStream();
+
+    streamSubscription = locationStateStream.listen((status) {
+      checkWifiHookEnabled();
+    });
+
+    checkWifiHookEnabled();
   }
 
-  Future<void> enableLocationService() async {
+  Future<bool> enableLocationService() async {
     ServiceStatus locationServiceStatus =
         await Permission.location.serviceStatus;
     bool locationServiceEnabled = locationServiceStatus.isEnabled;
     if (!locationServiceEnabled) {
       try {
         await _geoLocatorPlatform.getCurrentPosition();
+        return true;
       } catch (e) {
         showLocationServiceServiceFailureSnackBar();
+        return false;
       }
     }
-    locationServiceStatus = await Permission.location.serviceStatus;
-    locationServiceEnabled = locationServiceStatus.isEnabled;
-    notify(() => state.locationServiceEnabled = locationServiceEnabled);
-  }
-
-  void changeLocationServiceState(bool value) {
-    if (value) {
-      enableLocationService();
-    } else {
-      _geoLocatorPlatform.openLocationSettings();
-    }
+    return true;
   }
 
   void enableDAppHooks(bool value) {
@@ -86,6 +86,14 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   }
 
   void enableWifiHooks(bool value) {
+    if (value) {
+      checkWifiHooksRequirements();
+    } else {
+      updateWifiHooksEnabled(value);
+    }
+  }
+
+  void updateWifiHooksEnabled(bool value) {
     final newDAppHooksData = state.dAppHooksData!.copyWith(
         wifiHooks: state.dAppHooksData!.wifiHooks.copyWith(enabled: value));
     _dAppHooksUseCase.updateItem(newDAppHooksData);
@@ -144,31 +152,38 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   // delay is in minutes, returns true if success
   Future<bool> startDAppHooksService(
       {required int delay, required bool showBGFetchAlert}) async {
+    if (showBGFetchAlert) {
+      await showBackgroundFetchAlertDialog(context: context!);
+    }
+    final success = await _dAppHooksUseCase.startDAppHooksService(delay);
+    if (success) {
+      showDAppHooksServiceSuccessSnackBar();
+      return true;
+    } else {
+      showDAppHooksServiceFailureSnackBar();
+      return false;
+    }
+  }
+
+  // Checks if wifi hooks enabled, If enabled starts location service
+  void checkWifiHookEnabled() {
+    if (state.dAppHooksData!.wifiHooks.enabled) {
+      checkWifiHooksRequirements();
+    }
+  }
+
+  Future<void> checkWifiHooksRequirements() async {
     final isGranted = await PermissionUtils.initLocationPermission();
 
     if (isGranted) {
-      await enableLocationService();
+      final isServiceEnabled = await enableLocationService();
 
-      if (state.locationServiceEnabled) {
-        if (showBGFetchAlert) {
-          await showBackgroundFetchAlertDialog(context: context!);
-        }
-        final success = await _dAppHooksUseCase.startDAppHooksService(delay);
-        if (success) {
-          showDAppHooksServiceSuccessSnackBar();
-          return true;
-        } else {
-          showDAppHooksServiceFailureSnackBar();
-          return false;
-        }
-      } else {
-        return false;
-      }
+      updateWifiHooksEnabled(isServiceEnabled);
     } else {
+      updateWifiHooksEnabled(false);
       // Looks like the notification is blocked permanently
       showLocationPermissionBottomSheet(
           context: context!, openLocationSettings: openLocationSettings);
-      return false;
     }
   }
 
@@ -237,6 +252,7 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   @override
   Future<void> dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    streamSubscription.cancel();
     return super.dispose();
   }
 }
