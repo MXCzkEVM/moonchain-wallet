@@ -18,6 +18,7 @@ import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookma
 import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/domain/dapp_hooks_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -109,6 +110,13 @@ final Provider<BackgroundFetchConfigUseCase>
     backgroundFetchConfigUseCaseProvider = Provider(
   (ref) => BackgroundFetchConfigUseCase(
       ref.watch(datadashCacheProvider).backgroundFetchConfigRepository,
+      ref.watch(chainConfigurationUseCaseProvider),
+      ref.watch(tokenContractUseCaseProvider)),
+);
+
+final Provider<DAppHooksUseCase> dAppHooksUseCaseProvider = Provider(
+  (ref) => DAppHooksUseCase(
+      ref.watch(datadashCacheProvider).dAppHooksRepository,
       ref.watch(chainConfigurationUseCaseProvider),
       ref.watch(tokenContractUseCaseProvider)),
 );

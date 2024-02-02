@@ -24,9 +24,6 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
 
-  // this is used to show the bg fetch dialog
-  bool noneEnabled = true;
-
   final TextEditingController lowBalanceController = TextEditingController();
   final TextEditingController transactionFeeController =
       TextEditingController();
@@ -227,22 +224,24 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   void showBGFetchFailureSnackBar() {
     showSnackBar(
         context: context!,
-        content: translate('unable_to_launch_background_notification_service')!,
+        content: translate('unable_to_launch_service')!
+            .replaceAll('{0}', translate('background_notifications')!)
+            .toLowerCase(),
         type: SnackBarType.fail);
   }
 
   void showBGFetchSuccessSnackBar() {
     showSnackBar(
         context: context!,
-        content: translate(
-            'background_notifications_service_launched_successfully')!);
+        content: translate('service_launched_successfully')!
+            .replaceAll('{0}', translate('background_notifications')!));
   }
 
   void showBGFetchDisableSuccessSnackBar() {
     showSnackBar(
         context: context!,
-        content: translate(
-            'background_notifications_service_disabled_successfully')!);
+        content: translate('service_disabled_successfully')!
+            .replaceAll('{0}', translate('background_notifications')!));
   }
 
   @override

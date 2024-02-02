@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.transistorsoft.fetch</string>
+		<string>com.mxc.axswallet.periodicalTasks</string>
+		<string>com.mxc.axswallet.dappHooksTasks</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -91,7 +97,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Calendar?</string>
 	<key>NSCameraUsageDescription</key>
-	<string>AXS Wallet needs camera access to scan QR codes for transactions. Scanned data is stored locally and isn&apos;t shared.</string>
+	<string>AXS Wallet needs camera access to scan QR codes for transactions. Scanned data is stored locally and isn't shared.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Contacts?</string>
 	<key>NSFaceIDUsageDescription</key>
@@ -105,7 +111,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Location?</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>AXS Wallet needs microphone access to scan QR codes for transactions. Scanned data is stored locally and isn&apos;t shared.</string>
+	<string>AXS Wallet needs microphone access to scan QR codes for transactions. Scanned data is stored locally and isn't shared.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Motion?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -121,6 +127,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
@@ -140,11 +147,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>com.transistorsoft.fetch</string>
-		<string>com.mxc.axswallet.periodicalTasks</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

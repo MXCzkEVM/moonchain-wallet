@@ -15,3 +15,4 @@ export 'src/disposable.dart';
 export 'src/cache/base_cache.dart';
 export 'src/notification.dart';
 export 'src/firebase/firebase.dart';
+export 'src/background_process/background_process.dart';

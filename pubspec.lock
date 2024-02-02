@@ -602,6 +602,62 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.4.0"
+  geojson2h3:
+    dependency: transitive
+    description:
+      name: geojson2h3
+      sha256: "9786d9fa144f1a64063b63cfaf8e7b3ddec40d64f873f3ae9773500593080cd9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
+  geolocator:
+    dependency: "direct main"
+    description:
+      name: geolocator
+      sha256: e946395fc608842bb2f6c914807e9183f86f3cb787f6b8f832753e5251036f02
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.1.0"
+  geolocator_android:
+    dependency: transitive
+    description:
+      name: geolocator_android
+      sha256: "93906636752ea4d4e778afa981fdfe7409f545b3147046300df194330044d349"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.1"
+  geolocator_apple:
+    dependency: transitive
+    description:
+      name: geolocator_apple
+      sha256: "79babf44b692ec5e789d322dc736ef71586056e8e6828f747c9e005456b248bf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.5"
+  geolocator_platform_interface:
+    dependency: transitive
+    description:
+      name: geolocator_platform_interface
+      sha256: b8cc1d3be0ca039a3f2174b0b026feab8af3610e220b8532e42cff8ec6658535
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
+  geolocator_web:
+    dependency: transitive
+    description:
+      name: geolocator_web
+      sha256: "102e7da05b48ca6bf0a5bda0010f886b171d1a08059f01bfe02addd0175ebece"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
+  geolocator_windows:
+    dependency: transitive
+    description:
+      name: geolocator_windows
+      sha256: a92fae29779d5c6dc60e8411302f5221ade464968fe80a36d330e80a71f087af
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   gql:
     dependency: transitive
     description:
@@ -666,6 +722,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0-beta.4"
+  h3_common:
+    dependency: transitive
+    description:
+      name: h3_common
+      sha256: "1d92424c97c0db1a2f4bd1ccd51f865934d01f211be9d33edaf12a2c68f8427f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
+  h3_ffi:
+    dependency: transitive
+    description:
+      name: h3_ffi
+      sha256: "9b13cf77ad867d3ef3362d86771f4930398cd88b657d9e154aba4ca0bda93540"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.2"
+  h3_flutter:
+    dependency: "direct main"
+    description:
+      name: h3_flutter
+      sha256: ccc62394641c43fccf87fec063a639a851ba0f30ec0caa0afeb455aebe581297
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.6"
+  h3_web:
+    dependency: transitive
+    description:
+      name: h3_web
+      sha256: "0997e3bcebefd2dcecbb3396b9e0a9dc6d9619c5eb2dfe6809b4046e05c7b0ac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
   hex:
     dependency: transitive
     description:
@@ -785,30 +873,6 @@ packages:
       relative: true
     source: path
     version: "1.1.11"
-  location:
-    dependency: "direct main"
-    description:
-      name: location
-      sha256: "9051959f6f2ccadd887b28b66e9cbbcc25b6838e37cf9e894c421ccc0ebf80b5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.4.0"
-  location_platform_interface:
-    dependency: transitive
-    description:
-      name: location_platform_interface
-      sha256: "62eeaf1658e92e4459b727f55a3c328eccbac8ba043fa6d262ac5286ad48384c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  location_web:
-    dependency: transitive
-    description:
-      name: location_web
-      sha256: "6c08c408a040534c0269c4ff9fe17eebb5a36dea16512fbaf116b9c8bc21545b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
   logging:
     dependency: transitive
     description:
@@ -1515,6 +1579,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
+  wifi_scan:
+    dependency: "direct main"
+    description:
+      name: wifi_scan
+      sha256: cd0b98a611a3206c1bd9e600b9dff3aca27dcc924aa025548b00713e93a27299
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.1"
   win32:
     dependency: transitive
     description:

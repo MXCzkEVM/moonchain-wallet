@@ -9,46 +9,45 @@ class SwitchRowItem extends StatelessWidget {
   final void Function(bool)? onChanged;
   final bool enabled;
   final Widget? textTrailingWidget;
+  final EdgeInsets? paddings;
+  final Color? switchActiveColor;
   const SwitchRowItem(
       {super.key,
       required this.title,
       required this.value,
       this.onChanged,
       required this.enabled,
-      this.textTrailingWidget});
+      this.textTrailingWidget,
+      this.paddings,
+      this.switchActiveColor});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Flexible(
-                child: Text(
-                  title,
-                  style: FontTheme.of(context).body2.primary(),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (textTrailingWidget != null) ...[
-                const SizedBox(
-                  width: Sizes.spaceXSmall,
-                ),
-                textTrailingWidget!
-              ],
-            ],
+    return Padding(
+      padding: paddings ?? EdgeInsets.zero,
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: FontTheme.of(context).body2.primary(),
           ),
-        ),
-        const SizedBox(
-          width: Sizes.spaceNormal,
-        ),
-        CupertinoSwitch(
-          value: value,
-          onChanged: enabled ? onChanged : null,
-        ),
-      ],
+          if (textTrailingWidget != null) ...[
+            const SizedBox(
+              width: Sizes.spaceXSmall,
+            ),
+            textTrailingWidget!
+          ],
+          const Spacer(),
+          const SizedBox(
+            width: Sizes.spaceNormal,
+          ),
+          CupertinoSwitch(
+            value: value,
+            onChanged: enabled ? onChanged : null,
+            activeColor: switchActiveColor,
+          ),
+        ],
+      ),
     );
   }
 }
