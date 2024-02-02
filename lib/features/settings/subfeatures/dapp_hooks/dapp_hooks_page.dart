@@ -53,7 +53,22 @@ class DAppHooksPage extends HookConsumerWidget {
           value: dappHooksState.dAppHooksData!.enabled,
           onChanged: dappHooksPresenter.enableDAppHooks,
           enabled: true,
-          textTrailingWidget: const DAppHooksInformation(),
+          textTrailingWidget: DAppHooksInformation(texts: [
+            TextSpan(
+              text: FlutterI18n.translate(context, 'experiencing_issues'),
+              style: FontTheme.of(context)
+                  .subtitle2()
+                  .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+            ),
+            const TextSpan(text: ' '),
+            TextSpan(
+              text:
+                  FlutterI18n.translate(context, 'background_service_solution'),
+              style: FontTheme.of(context)
+                  .subtitle1()
+                  .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+            ),
+          ]),
         ),
         const SizedBox(height: Sizes.spaceNormal),
         MXCDropDown(
@@ -70,18 +85,33 @@ class DAppHooksPage extends HookConsumerWidget {
           value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
           onChanged: dappHooksPresenter.enableWifiHooks,
           enabled: isSettingsChangeEnabled,
+          textTrailingWidget: DAppHooksInformation(texts: [
+            TextSpan(
+              text: FlutterI18n.translate(context, 'experiencing_issues'),
+              style: FontTheme.of(context)
+                  .subtitle2()
+                  .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+            ),
+            const TextSpan(text: ' '),
+            TextSpan(
+              text: FlutterI18n.translate(context, 'wifi_hooks_solutions'),
+              style: FontTheme.of(context)
+                  .subtitle1()
+                  .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+            ),
+          ]),
         ),
-        const SizedBox(height: Sizes.spaceNormal),
-        SwitchRowItem(
-          key: const Key('locationServiceSwitch'),
-          title: translate('location_service'),
-          value: dappHooksState.locationServiceEnabled,
-          onChanged: dappHooksPresenter.changeLocationServiceState,
-          enabled: isSettingsChangeEnabled,
-          paddings: const EdgeInsets.symmetric(horizontal: Sizes.spaceXSmall),
-          switchActiveColor: ColorsTheme.of(context).btnBgBlue,
-        ),
-        const SizedBox(height: Sizes.spaceNormal),
+        // const SizedBox(height: Sizes.spaceNormal),
+        // SwitchRowItem(
+        //   key: const Key('locationServiceSwitch'),
+        //   title: translate('location_service'),
+        //   value: dappHooksState.locationServiceEnabled,
+        //   onChanged: dappHooksPresenter.changeLocationServiceState,
+        //   enabled: isSettingsChangeEnabled,
+        //   paddings: const EdgeInsets.symmetric(horizontal: Sizes.spaceXSmall),
+        //   switchActiveColor: ColorsTheme.of(context).btnBgBlue,
+        // ),
+        // const SizedBox(height: Sizes.spaceNormal),
         // SwitchRowItem(
         //   key: const Key('minerHookSwitch'),
         //   title: translate('miner_hooks'),
