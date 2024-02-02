@@ -321,5 +321,19 @@
     "speed_up": "Ускорить",
     "gas_fee_replacement_notice": "Эта комиссия за газ заменит оригинал.",
     "unknown": "Неизвестно",
-    "transaction_finalized": "Транзакция Завершена"
+    "transaction_finalized": "Транзакция Завершена",
+    "background_fetch_notice_title": "Оптимизируйте свой опыт использования кошелька AXS",
+    "background_fetch_notice_text": "Для обеспечения пиковой производительности кошелька AXS мы рекомендуем оставлять приложение активным в фоновом режиме и исключать его из настроек оптимизации батареи. Это помогает поддерживать бесперебойную работу и непрерывный доступ к вашему кошельку.",
+    "acknowledge": "Признать",
+    "background_notifications_service_launched_successfully": "Сервис фоновых уведомлений успешно запущен.",
+    "unable_to_launch_background_notification_service": "Не удалось запустить сервис уведомлений в фоновом режиме.",
+    "background_notifications_service_disabled_successfully": "Услуга фоновых уведомлений успешно отключена.",
+    "low_balance": "Низкий баланс",
+    "expected_transaction_fee": "Ожидаемая комиссия за транзакцию",
+    "expected_epoch_occur": "Ожидаемое появление эпохи",
+    "background_notifications": "Уведомления в фоновом режиме",
+    "occurrence": "Происшествие",
+    "frequency": "Частота",
+    "experiencing_issues": "Столкнулись с проблемами?",
+    "background_service_solution": "Попробуйте снова включить приложение или проверьте настройки оптимизации батареи."
 }

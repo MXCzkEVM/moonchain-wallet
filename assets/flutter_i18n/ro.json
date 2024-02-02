@@ -321,5 +321,19 @@
     "speed_up": "Accelerare",
     "gas_fee_replacement_notice": "Acest comision pentru gaz va înlocui originalul.",
     "unknown": "Necunoscut",
-    "transaction_finalized": "Tranzacție Finalizată"
+    "transaction_finalized": "Tranzacție Finalizată",
+    "background_fetch_notice_title": "Optimizează-ți Experiența cu Portofelul AXS",
+    "background_fetch_notice_text": "Pentru a asigura performanța maximă a portofelului AXS, recomandăm să mențineți aplicația activă în fundal și să o excludeți din setările de optimizare a bateriei. Acest lucru ajută la menținerea unei funcționalități fără întreruperi și a unui acces neîntrerupt la portofelul dvs.",
+    "acknowledge": "Recunoaște",
+    "background_notifications_service_launched_successfully": "Serviciul de notificări în fundal a fost lansat cu succes.",
+    "unable_to_launch_background_notification_service": "Imposibil de lansat serviciul de notificare în fundal.",
+    "background_notifications_service_disabled_successfully": "Serviciul de notificări în fundal a fost dezactivat cu succes.",
+    "low_balance": "Sold mic",
+    "expected_transaction_fee": "Taxa de tranzacție așteptată",
+    "expected_epoch_occur": "Așteptată apariția epocii",
+    "background_notifications": "Notificări în fundal",
+    "occurrence": "Apariție",
+    "frequency": "Frecvență",
+    "experiencing_issues": "Întâmpini probleme?",
+    "background_service_solution": "Încearcă să reactivezi aplicația sau verifică setările de optimizare a bateriei."
 }

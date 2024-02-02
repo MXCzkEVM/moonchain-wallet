@@ -321,5 +321,19 @@
     "speed_up": "加速",
     "gas_fee_replacement_notice": "这个燃气费将替代原来的。",
     "unknown": "未知的",
-    "transaction_finalized": "交易已完成"
+    "transaction_finalized": "交易已完成",
+    "background_fetch_notice_title": "优化您的AXS钱包体验",
+    "background_fetch_notice_text": "为确保AXS钱包的最佳性能，我们建议您在后台保持应用程序活动，并将其从电池优化设置中排除。这有助于维持无缝功能和对您钱包的不间断访问。",
+    "acknowledge": "确认",
+    "background_notifications_service_launched_successfully": "后台通知服务成功启动。",
+    "unable_to_launch_background_notification_service": "无法启动后台通知服务。",
+    "background_notifications_service_disabled_successfully": "成功禁用了后台通知服务。",
+    "low_balance": "余额不足",
+    "expected_transaction_fee": "预期交易费用",
+    "expected_epoch_occur": "预期时代发生",
+    "background_notifications": "后台通知",
+    "occurrence": "发生",
+    "frequency": "频率",
+    "experiencing_issues": "遇到问题了吗？",
+    "background_service_solution": "尝试重新启用应用程序或检查电池优化设置。"
 }

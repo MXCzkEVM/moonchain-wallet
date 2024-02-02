@@ -321,5 +321,19 @@
     "speed_up": "スピードアップ",
     "gas_fee_replacement_notice": "このガス料金は元のものを置き換えます。",
     "unknown": "未知の",
-    "transaction_finalized": "取引が完了しました"
+    "transaction_finalized": "取引が完了しました",
+    "background_fetch_notice_title": "あなたのAXSウォレット体験を最適化する",
+    "background_fetch_notice_text": "AXSウォレットの最高性能を確保するために、アプリをバックグラウンドでアクティブに保ち、バッテリー最適化設定から除外することをお勧めします。これにより、ウォレットへのアクセスが途切れることなく、機能がスムーズに維持されます。",
+    "acknowledge": "認める",
+    "background_notifications_service_launched_successfully": "バックグラウンド通知サービスが正常に開始されました。",
+    "unable_to_launch_background_notification_service": "バックグラウンド通知サービースを起動できません。",
+    "background_notifications_service_disabled_successfully": "バックグラウンド通知サービスが正常に無効化されました。",
+    "low_balance": "残高が少ない",
+    "expected_transaction_fee": "予想される取引手数料",
+    "expected_epoch_occur": "予想されるエポックの発生",
+    "background_notifications": "バックグラウンド通知",
+    "occurrence": "発生",
+    "frequency": "頻度",
+    "experiencing_issues": "問題が発生していますか？",
+    "background_service_solution": "アプリを再度有効にするか、バッテリー最適化設定を確認してみてください。"
 }

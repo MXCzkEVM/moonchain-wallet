@@ -321,5 +321,19 @@
     "speed_up": "Accelerare",
     "gas_fee_replacement_notice": "Questa commissione gas sostituirà l'originale.",
     "unknown": "Sconosciuto",
-    "transaction_finalized": "Transazione Finalizzata"
+    "transaction_finalized": "Transazione Finalizzata",
+    "background_fetch_notice_title": "Ottimizza la tua esperienza con il portafoglio AXS",
+    "background_fetch_notice_text": "Per garantire le massime prestazioni del portafoglio AXS, consigliamo di mantenere l'app attiva in background ed escluderla dalle impostazioni di ottimizzazione della batteria. Questo aiuta a mantenere una funzionalità senza interruzioni e un accesso ininterrotto al tuo portafoglio.",
+    "acknowledge": "Riconosci",
+    "background_notifications_service_launched_successfully": "Il servizio di notifiche in background è stato avviato con successo.",
+    "unable_to_launch_background_notification_service": "Impossibile avviare il servizio di notifica in background.",
+    "background_notifications_service_disabled_successfully": "Il servizio di notifiche in background è stato disattivato con successo.",
+    "low_balance": "Saldo basso",
+    "expected_transaction_fee": "Commissione di transazione prevista",
+    "expected_epoch_occur": "Previsto occorrenza dell'epoca",
+    "background_notifications": "Notifiche in background",
+    "occurrence": "Occorrenza",
+    "frequency": "Frequenza",
+    "experiencing_issues": "Hai problemi?",
+    "background_service_solution": "Prova a riattivare l'app o controlla le impostazioni di ottimizzazione della batteria."
 }

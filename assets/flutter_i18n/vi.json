@@ -321,5 +321,19 @@
     "speed_up": "Tăng tốc",
     "gas_fee_replacement_notice": "Phí gas này sẽ thay thế cho cái gốc",
     "unknown": "Không rõ",
-    "transaction_finalized": "Giao dịch đã hoàn tất"
+    "transaction_finalized": "Giao dịch đã hoàn tất",
+    "background_fetch_notice_title": "Tối Ưu Hóa Trải Nghiệm Ví AXS Của Bạn",
+    "background_fetch_notice_text": "Để đảm bảo hiệu suất tối đa của Ví AXS, chúng tôi khuyến nghị giữ ứng dụng hoạt động ở chế độ nền và loại bỏ nó khỏi cài đặt tối ưu hóa pin. Điều này giúp duy trì chức năng liền mạch và truy cập không gián đoạn vào ví của bạn.",
+    "acknowledge": "Công nhận",
+    "background_notifications_service_launched_successfully": "Dịch vụ thông báo nền đã được khởi chạy thành công.",
+    "unable_to_launch_background_notification_service": "Không thể khởi chạy dịch vụ thông báo nền.",
+    "background_notifications_service_disabled_successfully": "Dịch vụ thông báo nền đã được tắt thành công.",
+    "low_balance": "Số dư thấp",
+    "expected_transaction_fee": "Phí giao dịch dự kiến",
+    "expected_epoch_occur": "Sự xuất hiện kỳ vọng của epoch",
+    "background_notifications": "Thông báo nền",
+    "occurrence": "Sự xuất hiện",
+    "frequency": "Tần số",
+    "experiencing_issues": "Gặp vấn đề?",
+    "background_service_solution": "Hãy thử kích hoạt lại ứng dụng hoặc kiểm tra cài đặt tối ưu hóa pin."
 }
