@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:datadashwallet/common/common.dart';
@@ -25,6 +26,8 @@ class DAppHooksUseCase extends ReactiveUseCase {
   final DAppHooksRepository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
   final TokenContractUseCase _tokenContractUseCase;
+
+  StreamSubscription<geo.Position>? positionStream;
 
   late final ValueStream<DAppHooksModel> dappHooksData =
       reactiveField(_repository.dappHooksData);
@@ -67,17 +70,6 @@ class DAppHooksUseCase extends ReactiveUseCase {
         final geo.GeolocatorPlatform geoLocatorPlatform =
             geo.GeolocatorPlatform.instance;
         final currentLocation = await geoLocatorPlatform.getCurrentPosition();
-        // setLocationSettings(
-        //     rationaleMessageForGPSRequest:
-        //         'AXS wallet needs your permission for GPS access.',
-        //     rationaleMessageForPermissionRequest:
-        //         'AXS wallet needs your permission for location access.',
-        //     askForPermission: true);
-        // final currentLocation = await getLocation(); //catch exception
-
-        if (currentLocation.longitude == null || currentLocation.latitude == null) {
-          throw 'longitude or latitude is null';
-        }
 
         print(
             "Location: ${currentLocation.latitude}, ${currentLocation.longitude}");
@@ -86,7 +78,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
         final hexagonBigInt = h3.geoToH3(
             GeoCoord(
-                lon: currentLocation.longitude!, lat: currentLocation.latitude!),
+                lon: currentLocation.longitude, lat: currentLocation.latitude),
             Config.h3Resolution);
 
         print("hexagonBigInt: ${currentLocation.longitude}");
@@ -130,10 +122,14 @@ class DAppHooksUseCase extends ReactiveUseCase {
           throw 'Preventing transaction because final wifi list is empty';
         }
 
+        final os = MXCFormatter.capitalizeFirstLetter(Platform.operatingSystem);
+
         final finalData = WifiHooksDataModel(
-            version: Config.wifiHooksDataV,
-            hexagonId: hexagonId,
-            wifiList: finalWifiList);
+          version: Config.wifiHooksDataV,
+          hexagonId: hexagonId,
+          wifiList: finalWifiList,
+          os: os,
+        );
 
         print("memo: ${finalData.toString()}");
 
@@ -151,8 +147,53 @@ class DAppHooksUseCase extends ReactiveUseCase {
         print("tx : ${tx.hash}");
       } catch (e) {
         print(e);
+        AXSNotification().showNotification(
+          "Wi-Fi Transaction Update failed ",
+          e.toString(),
+        );
       }
     }
+  }
+
+  void setLocationSettings() {
+    late geo.LocationSettings locationSettings;
+
+    if (Platform.isAndroid) {
+      locationSettings = geo.AndroidSettings(
+        accuracy: geo.LocationAccuracy.high,
+        distanceFilter: 100,
+        forceLocationManager: true,
+        intervalDuration: const Duration(minutes: 15),
+        //(Optional) Set foreground notification config to keep the app alive
+        //when going to the background
+        foregroundNotificationConfig: const geo.ForegroundNotificationConfig(
+            notificationText:
+                "AXS wallet background location service for Wi-Fi hooks is running, Please do not dismiss this notification.",
+            notificationTitle: "AXS wallet location service",
+            enableWakeLock: true,
+            notificationIcon: geo.AndroidResource(
+              name: 'axs_logo',
+            )),
+      );
+    } else if (Platform.isIOS) {
+      locationSettings = geo.AppleSettings(
+        accuracy: geo.LocationAccuracy.high,
+        activityType: geo.ActivityType.fitness,
+        distanceFilter: 100,
+        pauseLocationUpdatesAutomatically: false,
+        // Only set to true if our app will be started up in the background.
+        showBackgroundLocationIndicator: false,
+        allowBackgroundLocationUpdates: true,
+      );
+    }
+
+    positionStream =
+        geo.Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((geo.Position? position) {
+      print(position == null
+          ? 'Unknown'
+          : '${position.latitude.toString()}, ${position.longitude.toString()}');
+    });
   }
 
   static Future<String> getWifiName() async {
@@ -238,5 +279,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
     return wifiList
         .map((e) => WifiModel(wifiName: e.ssid, wifiBSSID: e.bssid))
         .toList();
+  }
+
+  @override
+  Future<void> dispose() async {
+    if (positionStream != null) positionStream!.cancel();
   }
 }

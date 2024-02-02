@@ -167,7 +167,8 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
 
   // Checks if wifi hooks enabled, If enabled starts location service
   void checkWifiHookEnabled() {
-    if (state.dAppHooksData!.wifiHooks.enabled) {
+    if (state.dAppHooksData!.wifiHooks.enabled &&
+        state.dAppHooksData!.enabled) {
       checkWifiHooksRequirements();
     }
   }
@@ -177,7 +178,9 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
 
     if (isGranted) {
       final isServiceEnabled = await enableLocationService();
-
+      if (isServiceEnabled) {
+        _dAppHooksUseCase.setLocationSettings();
+      }
       updateWifiHooksEnabled(isServiceEnabled);
     } else {
       updateWifiHooksEnabled(false);
