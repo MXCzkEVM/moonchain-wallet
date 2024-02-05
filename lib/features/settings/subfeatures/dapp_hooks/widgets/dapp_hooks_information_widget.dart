@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class DAppHooksInformation extends StatelessWidget {
-  final List<InlineSpan> texts; 
+  final List<InlineSpan> texts;
   const DAppHooksInformation({
     Key? key,
     required this.texts,

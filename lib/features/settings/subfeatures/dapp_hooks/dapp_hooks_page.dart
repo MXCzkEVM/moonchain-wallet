@@ -103,16 +103,6 @@ class DAppHooksPage extends HookConsumerWidget {
         ),
         // const SizedBox(height: Sizes.spaceNormal),
         // SwitchRowItem(
-        //   key: const Key('locationServiceSwitch'),
-        //   title: translate('location_service'),
-        //   value: dappHooksState.locationServiceEnabled,
-        //   onChanged: dappHooksPresenter.changeLocationServiceState,
-        //   enabled: isSettingsChangeEnabled,
-        //   paddings: const EdgeInsets.symmetric(horizontal: Sizes.spaceXSmall),
-        //   switchActiveColor: ColorsTheme.of(context).btnBgBlue,
-        // ),
-        // const SizedBox(height: Sizes.spaceNormal),
-        // SwitchRowItem(
         //   key: const Key('minerHookSwitch'),
         //   title: translate('miner_hooks'),
         //   value: dappHooksState.dAppHooksData!.minerHooks.enabled,

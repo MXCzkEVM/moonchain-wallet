@@ -9,3 +9,5 @@ export 'ens_registry_fallback.g.dart'
     hide ApprovalForAll, NewTTL, Transfer, NewResolver, NewOwner;
 export 'ens_nft.g.dart' hide Approval, Transfer, ApprovalForAll;
 export 'router_contract.g.dart';
+export 'erc_6551_account_impl.g.dart';
+export 'mep_2542.g.dart';
