@@ -121,7 +121,7 @@ class Erc6551AccountImpl extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<Token> token({_i1.BlockNum? atBlock}) async {
+  Future<ERC6551AccountToken> token({_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[5];
     assert(checkSignature(function, 'fc0c546a'));
     final params = [];
@@ -130,7 +130,7 @@ class Erc6551AccountImpl extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return Token(response);
+    return ERC6551AccountToken(response);
   }
 
   /// Returns a live stream of all TransactionExecuted events emitted by this contract.
@@ -158,8 +158,8 @@ class Erc6551AccountImpl extends _i1.GeneratedContract {
   }
 }
 
-class Token {
-  Token(List<dynamic> response)
+class ERC6551AccountToken {
+  ERC6551AccountToken(List<dynamic> response)
       : chainId = (response[0] as BigInt),
         tokenContract = (response[1] as _i1.EthereumAddress),
         tokenId = (response[2] as BigInt);
