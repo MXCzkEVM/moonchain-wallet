@@ -4,8 +4,6 @@
 import 'package:web3dart/web3dart.dart' as _i1;
 import 'dart:typed_data' as _i2;
 
-import 'mep_2542.g.dart';
-
 final _contractAbi = _i1.ContractAbi.fromJson(
   '[{"inputs":[{"internalType":"uint256","name":"_size","type":"uint256"},{"internalType":"uint256","name":"_start","type":"uint256"},{"internalType":"uint256","name":"_end","type":"uint256"}],"name":"InvalidCodeAtRange","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"target","type":"address"},{"indexed":true,"internalType":"uint256","name":"value","type":"uint256"},{"indexed":false,"internalType":"bytes","name":"data","type":"bytes"}],"name":"TransactionExecuted","type":"event"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"executeCall","outputs":[{"internalType":"bytes","name":"result","type":"bytes"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"hash","type":"bytes32"},{"internalType":"bytes","name":"signature","type":"bytes"}],"name":"isValidSignature","outputs":[{"internalType":"bytes4","name":"magicValue","type":"bytes4"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nonce","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"token","outputs":[{"internalType":"uint256","name":"chainId","type":"uint256"},{"internalType":"address","name":"tokenContract","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}]',
   'Erc6551AccountImpl',
@@ -158,4 +156,34 @@ class Erc6551AccountImpl extends _i1.GeneratedContract {
       );
     });
   }
+}
+
+class Token {
+  Token(List<dynamic> response)
+      : chainId = (response[0] as BigInt),
+        tokenContract = (response[1] as _i1.EthereumAddress),
+        tokenId = (response[2] as BigInt);
+
+  final BigInt chainId;
+
+  final _i1.EthereumAddress tokenContract;
+
+  final BigInt tokenId;
+}
+
+class TransactionExecuted {
+  TransactionExecuted(
+    List<dynamic> response,
+    this.event,
+  )   : target = (response[0] as _i1.EthereumAddress),
+        value = (response[1] as BigInt),
+        data = (response[2] as _i2.Uint8List);
+
+  final _i1.EthereumAddress target;
+
+  final BigInt value;
+
+  final _i2.Uint8List data;
+
+  final _i1.FilterEvent event;
 }
