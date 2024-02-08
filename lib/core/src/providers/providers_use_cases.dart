@@ -3,6 +3,7 @@ import 'package:datadashwallet/common/components/recent_transactions/domain/mxc_
 import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/chains_use_case.dart';
+import 'package:datadashwallet/features/common/contract/miner_use_case.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
 import 'package:datadashwallet/features/common/contract/transaction_controller.dart';
@@ -66,6 +67,12 @@ final Provider<TweetsUseCase> tweetsUseCaseProvider = Provider(
   ),
 );
 
+final Provider<MinerUseCase> minerUseCaseProvider = Provider(
+  (ref) => MinerUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
 final Provider<PricingUseCase> pricingUseCaseProvider = Provider(
   (ref) => PricingUseCase(
     ref.watch(web3RepositoryProvider),
@@ -116,9 +123,12 @@ final Provider<BackgroundFetchConfigUseCase>
 
 final Provider<DAppHooksUseCase> dAppHooksUseCaseProvider = Provider(
   (ref) => DAppHooksUseCase(
-      ref.watch(datadashCacheProvider).dAppHooksRepository,
-      ref.watch(chainConfigurationUseCaseProvider),
-      ref.watch(tokenContractUseCaseProvider)),
+    ref.watch(datadashCacheProvider).dAppHooksRepository,
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(tokenContractUseCaseProvider),
+    ref.watch(minerUseCaseProvider),
+    ref.watch(accountUseCaseProvider),
+  ),
 );
 
 final Provider<BalanceUseCase> balanceHistoryUseCaseProvider = Provider(
