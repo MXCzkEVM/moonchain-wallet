@@ -36,6 +36,11 @@ class DAppHooksPage extends HookConsumerWidget {
     final isSettingsChangeEnabled =
         isMXCChains && dappHooksServiceServiceEnabled;
 
+    final minerAutoClaimDateTime =
+        dappHooksState.dAppHooksData!.minerHooks.time;
+    final autoClaimTime =
+        '${minerAutoClaimDateTime.hour.toString().padLeft(2, '0')} : ${minerAutoClaimDateTime.minute.toString().padLeft(2, '0')}';
+
     String translate(String text) => FlutterI18n.translate(context, text);
 
     return MxcPage(
@@ -101,22 +106,22 @@ class DAppHooksPage extends HookConsumerWidget {
             ),
           ]),
         ),
-        // const SizedBox(height: Sizes.spaceNormal),
-        // SwitchRowItem(
-        //   key: const Key('minerHookSwitch'),
-        //   title: translate('miner_hooks'),
-        //   value: dappHooksState.dAppHooksData!.minerHooks.enabled,
-        //   onChanged: dappHooksPresenter.enableMinerHooks,
-        //   enabled: isSettingsChangeEnabled,
-        // ),
-        // const SizedBox(height: Sizes.spaceNormal),
-        // MXCDropDown(
-        //   key: const Key('minerHooksTimingDropDown'),
-        //   onTap: dappHooksPresenter.showTimePickerDialog,
-        //   selectedItem:
-        //       dappHooksState.dAppHooksData!.minerHooks.time.format(context),
-        //   enabled: true,
-        // ),
+        const SizedBox(height: Sizes.spaceNormal),
+        SwitchRowItem(
+          key: const Key('minerHookSwitch'),
+          title: translate('miner_hooks'),
+          value: dappHooksState.dAppHooksData!.minerHooks.enabled,
+          onChanged: dappHooksPresenter.enableMinerHooks,
+          enabled: isSettingsChangeEnabled,
+        ),
+        const SizedBox(height: Sizes.spaceNormal),
+        MXCDropDown(
+          key: const Key('minerHooksTimingDropDown'),
+          onTap: dappHooksPresenter.showTimePickerDialog,
+          selectedItem: autoClaimTime,
+          enabled: isSettingsChangeEnabled &&
+              dappHooksState.dAppHooksData!.minerHooks.enabled,
+        ),
       ],
     );
   }

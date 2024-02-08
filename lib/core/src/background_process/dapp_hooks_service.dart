@@ -1,5 +1,6 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
@@ -42,6 +43,9 @@ class DAppHooksService {
       final account = accountUseCase.account.value;
       final serviceEnabled = dappHooksData.enabled;
       final wifiHooksEnabled = dappHooksData.wifiHooks.enabled;
+      final minerHooksEnabled = dappHooksData.minerHooks.enabled;
+      final minerHooksTime = dappHooksData.minerHooks.time;
+      final selectedMiners = dappHooksData.minerHooks.selectedMiners;
 
       // Make sure user is logged in
       if (isLoggedIn && Config.isMxcChains(chainId) && serviceEnabled) {
@@ -51,6 +55,19 @@ class DAppHooksService {
           await dAppHooksUseCase.sendWifiInfo(
             account!,
           );
+        }
+
+        final now = DateTime.now();
+        final isPast = !(now.difference(minerHooksTime).isNegative);
+
+        if (minerHooksEnabled && isPast) {
+          final updatedAutoClaimTime = await dAppHooksUseCase.claimMiners(
+              account: account!,
+              selectedMinerListId: selectedMiners,
+              minerAutoClaimTime: minerHooksTime);
+          dappHooksData = dappHooksData.copyWith(
+              minerHooks: dappHooksData.minerHooks
+                  .copyWith(time: updatedAutoClaimTime));
         }
 
         dAppHooksUseCase.updateItem(dappHooksData);

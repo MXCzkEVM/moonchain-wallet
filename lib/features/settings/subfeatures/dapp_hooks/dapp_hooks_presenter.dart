@@ -110,7 +110,8 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   void changeMinerHookTiming(TimeOfDay value) {
     final newDAppHooksData = state.dAppHooksData!.copyWith(
         minerHooks: state.dAppHooksData!.minerHooks.copyWith(
-      time: value,
+      time: state.dAppHooksData!.minerHooks.time
+          .copyWith(hour: value.hour, minute: value.minute, second: 0),
     ));
     _dAppHooksUseCase.updateItem(newDAppHooksData);
   }
@@ -241,9 +242,11 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   }
 
   void showTimePickerDialog() async {
+    final currentTimeOfDay = state.dAppHooksData!.minerHooks.time;
     final newTimeOfDay = await showTimePicker(
       context: context!,
-      initialTime: state.dAppHooksData!.minerHooks.time,
+      initialTime: TimeOfDay(
+          hour: currentTimeOfDay.hour, minute: currentTimeOfDay.minute),
       initialEntryMode: TimePickerEntryMode.inputOnly,
     );
 
