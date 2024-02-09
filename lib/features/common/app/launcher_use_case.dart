@@ -99,10 +99,6 @@ class LauncherUseCase extends ReactiveUseCase {
     return await canLaunchUrl(url);
   }
 
-  Future<void> launchMXCChatGPT() async {
-    await launchUrlInExternalAppWithString(Urls.mxcChatGPT);
-  }
-
   Future<void> launchMXCZendesk() async {
     await launchUrlInExternalAppWithString(Urls.mxcZendesk);
   }
