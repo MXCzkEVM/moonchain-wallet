@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/contract/token_contract_use_case.dart';
+import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/common/contract/miner_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:h3_flutter/h3_flutter.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
-// import 'package:location2/location2.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:wifi_scan/wifi_scan.dart';
@@ -19,13 +19,17 @@ class DAppHooksUseCase extends ReactiveUseCase {
     this._repository,
     this._chainConfigurationUseCase,
     this._tokenContractUseCase,
+    this._minerUseCase,
+    this._accountUseCase,
   ) {
     initialize();
   }
 
   final DAppHooksRepository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
+  final AccountUseCase _accountUseCase;
   final TokenContractUseCase _tokenContractUseCase;
+  final MinerUseCase _minerUseCase;
 
   StreamSubscription<geo.Position>? positionStream;
 
@@ -279,6 +283,44 @@ class DAppHooksUseCase extends ReactiveUseCase {
     return wifiList
         .map((e) => WifiModel(wifiName: e.ssid, wifiBSSID: e.bssid))
         .toList();
+  }
+
+  // List of miners
+  Future<DateTime> claimMiners(
+      {required List<String> selectedMinerListId,
+      required Account account,
+      required DateTime minerAutoClaimTime}) async {
+    try {
+      final ableToClaim = await _minerUseCase.claimMinersReward(
+          selectedMinerListId: selectedMinerListId, account: account);
+
+      if (ableToClaim) {
+        AXSNotification().showNotification(
+          'Miner aut-claim successful',
+          'AXS wallet has been successfully claimed you mined tokens',
+        );
+      } else {
+        AXSNotification().showNotification(
+          "Oops, Nothing to claim",
+          'AXS wallet tried to claim your mined tokens, But didn\'t find any tokens to claim.',
+        );
+      }
+      // Updating now date time + 1 day to set the timer for tomorrow
+      final now = DateTime.now();
+      DateTime updatedAutoClaimTime = now.copyWith(
+          hour: minerAutoClaimTime.hour,
+          minute: minerAutoClaimTime.minute,
+          second: 0);
+      updatedAutoClaimTime = updatedAutoClaimTime.add(const Duration(days: 1));
+      return updatedAutoClaimTime;
+    } catch (e) {
+      print(e);
+      AXSNotification().showNotification(
+        "Miner auto-claim failed!",
+        e.toString(),
+      );
+      return minerAutoClaimTime;
+    }
   }
 
   @override

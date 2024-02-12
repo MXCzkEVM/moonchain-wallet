@@ -343,6 +343,5 @@
 	"unable_to_launch_service": "Unable to launch {0} service.",
 	"service_disabled_successfully": "{0} service disabled successfully.",
 	"location": "Location",
-	"location_service": "Location service",
 	"wifi_hooks_solutions": "Try re-enabling. \nRequirements :\n1. Location permission for always should be permitted \n2. Locations service should be running \n3. You should be connected to a Wi-Fi"
 }

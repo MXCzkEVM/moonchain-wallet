@@ -20,7 +20,6 @@ class SplashSetupWalletPresenter
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
 
-
   @override
   void initState() {
     listen(_chainConfigurationUseCase.networks, (value) {

@@ -62,14 +62,6 @@ class CustomerSupportPage extends HookConsumerWidget {
         ],
         const SizedBox(height: Sizes.space4XLarge),
         CustomerSupportButton(
-            key: const ValueKey('jumpToTelegramButton'),
-            title: translate('contact_chatgpt_support'),
-            buttonLabel: translate('jump_to_telegram'),
-            buttonFunction: ref.watch(state).applist['telegram'] == true ||
-                    ref.watch(state).applist['telegram_web'] == true
-                ? () => ref.read(presenter).launchMXCChatGPT()
-                : null),
-        CustomerSupportButton(
             key: const ValueKey('mxcSupport'),
             title: translate('mxc_support_form'),
             buttonLabel: translate('mxc_support'),

@@ -85,7 +85,7 @@ class AXSFireBase {
   static void incrementBuildTap() async {
     buildTap++;
     if (buildTap == 10) {
-      // FlutterClipboard.copy('');  
+      // FlutterClipboard.copy('');
       buildTap = 0;
     }
   }

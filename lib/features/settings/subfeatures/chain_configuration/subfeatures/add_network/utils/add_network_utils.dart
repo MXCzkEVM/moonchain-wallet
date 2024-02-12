@@ -3,7 +3,6 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 import '../../../../../../../common/common.dart';
 
-
 class AddNetworkUtils {
   static List<Widget> generateMainnetList(List<Network> networkList) {
     return networkList

@@ -10,9 +10,8 @@ import 'settings_page_state.dart';
 final settingsContainer = PresenterContainer<SettingsPresenter, SettingsState>(
     () => SettingsPresenter());
 
-class SettingsPresenter extends CompletePresenter<SettingsState>
-   {
-  SettingsPresenter() : super(SettingsState()); 
+class SettingsPresenter extends CompletePresenter<SettingsState> {
+  SettingsPresenter() : super(SettingsState());
   late final _webviewUseCase = WebviewUseCase();
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
@@ -21,7 +20,6 @@ class SettingsPresenter extends CompletePresenter<SettingsState>
   void initState() {
     super.initState();
     getAppVersion();
-
 
     listen(_accountUserCase.account, (value) {
       if (value != null) {
@@ -104,5 +102,4 @@ class SettingsPresenter extends CompletePresenter<SettingsState>
   void loadCache() {
     _webviewUseCase.clearCache();
   }
-
 }
