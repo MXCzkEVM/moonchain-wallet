@@ -9,8 +9,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'notifications_presenter.dart';
 import 'notifications_state.dart';
-import 'widgets/bg_service_information_widget.dart';
-import 'widgets/switch_row_item.dart';
 
 class NotificationsPage extends HookConsumerWidget {
   const NotificationsPage({Key? key}) : super(key: key);
@@ -52,7 +50,7 @@ class NotificationsPage extends HookConsumerWidget {
           ),
         ),
         children: [
-          SwitchRowItem(
+          MXCSwitchRowItem(
             title: translate('notifications'),
             value: notificationsState.isNotificationsEnabled,
             onChanged: notificationsPresenter.changeNotificationsState,
@@ -76,12 +74,32 @@ class NotificationsPage extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: Sizes.spaceNormal),
-          SwitchRowItem(
+          MXCSwitchRowItem(
             title: translate('background_notifications'),
             value: notificationsState.periodicalCallData!.serviceEnabled,
             onChanged: notificationsPresenter.changeEnableService,
             enabled: isMXCChains,
-            textTrailingWidget: const BGServiceInformation(),
+            textTrailingWidget: MXCInformationButton(texts: [
+              TextSpan(
+                  style: FontTheme.of(context)
+                      .subtitle1()
+                      .copyWith(color: ColorsTheme.of(context).textBlackInvert),
+                  children: [
+                    TextSpan(
+                      text:
+                          FlutterI18n.translate(context, 'experiencing_issues'),
+                      style: FontTheme.of(context).subtitle2().copyWith(
+                          color: ColorsTheme.of(context).textBlackInvert),
+                    ),
+                    const TextSpan(text: ' '),
+                    TextSpan(
+                      text: FlutterI18n.translate(
+                          context, 'background_service_solution'),
+                      style: FontTheme.of(context).subtitle1().copyWith(
+                          color: ColorsTheme.of(context).textBlackInvert),
+                    ),
+                  ])
+            ]),
           ),
           const SizedBox(height: Sizes.spaceNormal),
           MXCDropDown(
@@ -92,7 +110,7 @@ class NotificationsPage extends HookConsumerWidget {
                 notificationsState.periodicalCallData!.serviceEnabled,
           ),
           const SizedBox(height: Sizes.spaceNormal),
-          SwitchRowItem(
+          MXCSwitchRowItem(
             title: translate('low_balance'),
             value:
                 notificationsState.periodicalCallData!.lowBalanceLimitEnabled,
@@ -139,7 +157,7 @@ class NotificationsPage extends HookConsumerWidget {
                 : notificationsState.formKey.currentState!.validate(),
           ),
           const SizedBox(height: Sizes.spaceNormal),
-          SwitchRowItem(
+          MXCSwitchRowItem(
             title: translate('expected_transaction_fee'),
             value: notificationsState
                 .periodicalCallData!.expectedTransactionFeeEnabled,
@@ -187,7 +205,7 @@ class NotificationsPage extends HookConsumerWidget {
                 : notificationsState.formKey.currentState!.validate(),
           ),
           const SizedBox(height: Sizes.spaceNormal),
-          SwitchRowItem(
+          MXCSwitchRowItem(
             title: translate('expected_epoch_occur'),
             value: notificationsState
                 .periodicalCallData!.expectedEpochOccurrenceEnabled,
