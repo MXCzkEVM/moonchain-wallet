@@ -221,15 +221,17 @@ class TokenContractUseCase extends ReactiveUseCase {
       await _repository.tokenContract.estimateGasFeeForContractCall(
           from: from, to: to, data: data, value: value);
 
-  Future<TransactionModel> sendTransaction(
-          {required String privateKey,
-          required String to,
-          String? from,
-          required EtherAmount amount,
-          TransactionGasEstimation? estimatedGasFee,
-          Uint8List? data,
-          String? tokenAddress,
-          Token? token}) async =>
+  Future<TransactionModel> sendTransaction({
+    required String privateKey,
+    required String to,
+    String? from,
+    required EtherAmount amount,
+    TransactionGasEstimation? estimatedGasFee,
+    Uint8List? data,
+    String? tokenAddress,
+    Token? token,
+    int? nonce,
+  }) async =>
       await _repository.tokenContract.sendTransaction(
           privateKey: privateKey,
           to: to,
@@ -238,7 +240,8 @@ class TokenContractUseCase extends ReactiveUseCase {
           estimatedGasFee: estimatedGasFee,
           data: data,
           tokenAddress: tokenAddress,
-          token: token);
+          token: token,
+          nonce: nonce);
 
   Uint8List getTokenTransferData(
       String tokenHash, EthereumAddress toAddress, BigInt amount) {
@@ -270,5 +273,11 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<int> getEpochDetails(int chainId) async {
     return await _repository.tokenContract.getEpochDetails(chainId);
+  }
+
+  Future<int> getAddressNonce(EthereumAddress address,
+      {BlockNum? atBlock}) async {
+    return await _repository.tokenContract
+        .getAddressNonce(address, atBlock: atBlock);
   }
 }

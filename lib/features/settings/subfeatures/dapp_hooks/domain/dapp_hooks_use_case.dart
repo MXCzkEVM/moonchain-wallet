@@ -138,12 +138,18 @@ class DAppHooksUseCase extends ReactiveUseCase {
         print("memo: ${finalData.toString()}");
 
         print("tx");
+        final address = EthereumAddress.fromHex(account.address);
+        final nonce = await _tokenContractUseCase.getAddressNonce(address,
+            atBlock: const BlockNum.pending());
+
         final tx = await _tokenContractUseCase.sendTransaction(
-            from: account.address,
-            to: account.address,
-            privateKey: account.privateKey,
-            data: MXCType.stringToUint8List(jsonEncode(finalData.toMap())),
-            amount: MxcAmount.zero());
+          from: account.address,
+          to: account.address,
+          privateKey: account.privateKey,
+          data: MXCType.stringToUint8List(jsonEncode(finalData.toMap())),
+          amount: MxcAmount.zero(),
+          nonce: nonce,
+        );
         AXSNotification().showNotification(
           "Successful Wi-Fi Transaction Update",
           "You have successfully updated the list of Wi-Fi networks by submitting a transaction to the MXC zkEVM.",
@@ -172,7 +178,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
         //when going to the background
         foregroundNotificationConfig: const geo.ForegroundNotificationConfig(
             notificationText:
-                "AXS wallet background location service for Wi-Fi hooks is running, Please do not dismiss this notification.",
+                "AXS wallet background location service for Wi-Fi hooks is running... .",
             notificationTitle: "AXS wallet location service",
             enableWakeLock: true,
             notificationIcon: geo.AndroidResource(
