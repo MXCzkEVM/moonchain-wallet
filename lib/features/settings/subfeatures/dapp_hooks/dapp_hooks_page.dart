@@ -82,9 +82,9 @@ class DAppHooksPage extends HookConsumerWidget {
           enabled:
               isSettingsChangeEnabled && dappHooksState.dAppHooksData!.enabled,
         ),
-        const SizedBox(height: Sizes.spaceNormal),
+        const SizedBox(height: Sizes.spaceXLarge),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceXSmall),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceXLarge),
           child: Column(
             children: [
               MXCSwitchRowItem(
