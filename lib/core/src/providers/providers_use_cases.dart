@@ -123,12 +123,14 @@ final Provider<BackgroundFetchConfigUseCase>
 
 final Provider<DAppHooksUseCase> dAppHooksUseCaseProvider = Provider(
   (ref) => DAppHooksUseCase(
-    ref.watch(datadashCacheProvider).dAppHooksRepository,
-    ref.watch(chainConfigurationUseCaseProvider),
-    ref.watch(tokenContractUseCaseProvider),
-    ref.watch(minerUseCaseProvider),
-    ref.watch(accountUseCaseProvider),
-  ),
+      ref.watch(datadashCacheProvider).dAppHooksRepository,
+      ref.watch(chainConfigurationUseCaseProvider),
+      ref.watch(tokenContractUseCaseProvider),
+      ref.watch(minerUseCaseProvider),
+      ref.watch(
+        accountUseCaseProvider,
+      ),
+      ref.watch(errorUseCaseProvider)),
 );
 
 final Provider<BalanceUseCase> balanceHistoryUseCaseProvider = Provider(
