@@ -21,6 +21,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
     this._tokenContractUseCase,
     this._minerUseCase,
     this._accountUseCase,
+    this._errorUseCase
   ) {
     initialize();
   }
@@ -29,6 +30,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
   final ChainConfigurationUseCase _chainConfigurationUseCase;
   final AccountUseCase _accountUseCase;
   final TokenContractUseCase _tokenContractUseCase;
+  final ErrorUseCase _errorUseCase;
   final MinerUseCase _minerUseCase;
 
   StreamSubscription<geo.Position>? positionStream;
@@ -156,11 +158,8 @@ class DAppHooksUseCase extends ReactiveUseCase {
         );
         print("tx : ${tx.hash}");
       } catch (e) {
-        print(e);
-        AXSNotification().showNotification(
-          "Wi-Fi Transaction Update failed ",
-          e.toString(),
-        );
+        _errorUseCase.handleBackgroundServiceError(
+            "Wi-Fi Transaction Update failed ", e);
       }
     }
   }
@@ -320,11 +319,8 @@ class DAppHooksUseCase extends ReactiveUseCase {
       updatedAutoClaimTime = updatedAutoClaimTime.add(const Duration(days: 1));
       return updatedAutoClaimTime;
     } catch (e) {
-      print(e);
-      AXSNotification().showNotification(
-        "Miner auto-claim failed!",
-        e.toString(),
-      );
+      _errorUseCase.handleBackgroundServiceError(
+          "Wi-Fi Transaction Update failed ", e);
       return minerAutoClaimTime;
     }
   }

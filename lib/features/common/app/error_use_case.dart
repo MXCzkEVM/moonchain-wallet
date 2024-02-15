@@ -33,6 +33,33 @@ class ErrorUseCase extends ReactiveUseCase {
     }
   }
 
+  bool handleBackgroundServiceError(
+    String notificationTitle,
+    dynamic e,
+  ) {
+    if (e is RPCError && isRPCIgnoredError(e.message)) {
+      return true;
+    }
+
+    AXSNotification().showNotification(
+      notificationTitle,
+      e.toString(),
+    );
+    return true;
+  }
+  // already known
+
+  bool isRPCIgnoredError(String message) {
+    bool isIgnored = false;
+    for (String error in Config.ignoredErrors) {
+      if (message.contains(error)) {
+        isIgnored = true;
+        break;
+      }
+    }
+    return isIgnored;
+  }
+
   bool handlerRPCError(
     BuildContext context,
     String message,
