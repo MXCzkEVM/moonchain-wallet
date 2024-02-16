@@ -87,30 +87,30 @@ class DAppHooksPage extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceXLarge),
           child: Column(
             children: [
-              MXCSwitchRowItem(
-                key: const Key('wifiHookSwitch'),
-                title: translate('wifi_hooks'),
-                value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
-                onChanged: dappHooksPresenter.enableWifiHooks,
-                enabled: isSettingsChangeEnabled,
-                textTrailingWidget: MXCInformationButton(texts: [
-                  TextSpan(
-                    text: FlutterI18n.translate(context, 'experiencing_issues'),
-                    style: FontTheme.of(context)
-                        .subtitle2()
-                        .copyWith(color: ColorsTheme.of(context).chipTextBlack),
-                  ),
-                  const TextSpan(text: ' '),
-                  TextSpan(
-                    text:
-                        FlutterI18n.translate(context, 'wifi_hooks_solutions'),
-                    style: FontTheme.of(context)
-                        .subtitle1()
-                        .copyWith(color: ColorsTheme.of(context).chipTextBlack),
-                  ),
-                ]),
-              ),
-              const SizedBox(height: Sizes.spaceNormal),
+              // MXCSwitchRowItem(
+              //   key: const Key('wifiHookSwitch'),
+              //   title: translate('wifi_hooks'),
+              //   value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
+              //   onChanged: dappHooksPresenter.enableWifiHooks,
+              //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(texts: [
+              //     TextSpan(
+              //       text: FlutterI18n.translate(context, 'experiencing_issues'),
+              //       style: FontTheme.of(context)
+              //           .subtitle2()
+              //           .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+              //     ),
+              //     const TextSpan(text: ' '),
+              //     TextSpan(
+              //       text:
+              //           FlutterI18n.translate(context, 'wifi_hooks_solutions'),
+              //       style: FontTheme.of(context)
+              //           .subtitle1()
+              //           .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+              //     ),
+              //   ]),
+              // ),
+              // const SizedBox(height: Sizes.spaceNormal),
               MXCSwitchRowItem(
                 key: const Key('minerHookSwitch'),
                 title: translate('miner_hooks'),
