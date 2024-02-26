@@ -10,6 +10,6 @@ export 'ens_registry_fallback.g.dart'
 export 'ens_nft.g.dart' hide Approval, Transfer, ApprovalForAll;
 export 'router_contract.g.dart';
 export 'erc_6551_account_impl.g.dart';
-export 'mep_2542.g.dart'
+export 'mep2542.g.dart'
     hide Initialized, OwnershipTransferred, ControllerChanged;
 export 'erc_6551_registry.g.dart';
