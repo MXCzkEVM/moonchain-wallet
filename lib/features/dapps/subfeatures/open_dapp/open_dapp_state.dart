@@ -12,6 +12,7 @@ class OpenDAppState with EquatableMixin {
   int panelHideTimer = 5;
   Uri? currentUrl;
   bool isSecure = false;
+  late DAppHooksModel dappHooksData;
 
   @override
   List<Object?> get props => [
@@ -21,6 +22,7 @@ class OpenDAppState with EquatableMixin {
         network,
         animationController,
         currentUrl,
-        isSecure
+        isSecure,
+        dappHooksData
       ];
 }
