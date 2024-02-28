@@ -60,7 +60,7 @@ class DAppHooksService {
         final now = DateTime.now();
         final isPast = !(now.difference(minerHooksTime).isNegative);
 
-        if (minerHooksEnabled && isPast) {
+        if (minerHooksEnabled) {
           final updatedAutoClaimTime = await dAppHooksUseCase.claimMiners(
               account: account!,
               selectedMinerListId: selectedMiners,
