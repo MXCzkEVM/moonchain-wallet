@@ -31,6 +31,14 @@ class AXSBackgroundFetch {
     }
   }
 
+  static void stopBackgroundFetch(DAppHooksModel dappHooksData,
+      PeriodicalCallData periodicalCallData) async {
+    // Stop only if both services are not running
+    if (!dappHooksData.enabled && !periodicalCallData.serviceEnabled) {
+      bgFetch.BackgroundFetch.stop('flutter_background_fetch');
+    }
+  }
+
   static void bgFetchStatus() async {
     final status = await bgFetch.BackgroundFetch.status;
     print(status);
