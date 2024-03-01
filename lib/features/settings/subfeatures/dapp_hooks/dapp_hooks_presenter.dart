@@ -28,6 +28,7 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
       ref.read(chainConfigurationUseCaseProvider);
   late final _backgroundFetchConfigUseCase =
       ref.read(backgroundFetchConfigUseCaseProvider);
+  late final _accountUseCase = ref.read(accountUseCaseProvider);
 
   final geo.GeolocatorPlatform _geoLocatorPlatform =
       geo.GeolocatorPlatform.instance;
@@ -43,6 +44,10 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       notify(() => state.network = value);
+    });
+
+    listen(_accountUseCase.account, (value) {
+      if (value != null) notify(() => state.account = value);
     });
 
     initLocationServiceStateStream();
@@ -132,6 +137,12 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
           state.dAppHooksData!.enabled != newDAppHooksData.enabled;
       final dappHooksServiceDurationChanged =
           state.dAppHooksData!.duration != newDAppHooksData.duration;
+      final isMinerHooksServiceChanged =
+          state.dAppHooksData!.minerHooks.enabled !=
+              newDAppHooksData.minerHooks.enabled;
+      final minerHooksServiceTimingChanged =
+          state.dAppHooksData!.minerHooks.time !=
+              newDAppHooksData.minerHooks.time;
 
       if (isDAppHooksServiceChanged && newDAppHooksData.enabled == true) {
         shouldUpdate = await startDAppHooksService(
@@ -142,6 +153,16 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
       } else if (dappHooksServiceDurationChanged) {
         shouldUpdate = await startDAppHooksService(
             delay: newDAppHooksData.duration, showBGFetchAlert: false);
+      } else if (isMinerHooksServiceChanged &&
+          newDAppHooksData.minerHooks.enabled == true) {
+        shouldUpdate = await startMinerHooksService(
+            time: newDAppHooksData.minerHooks.time, showBGFetchAlert: true);
+      } else if (isMinerHooksServiceChanged &&
+          newDAppHooksData.minerHooks.enabled == false) {
+        shouldUpdate = await stopAutoClaimService(showSnackbar: true);
+      } else if (minerHooksServiceTimingChanged) {
+        shouldUpdate = await startMinerHooksService(
+            time: newDAppHooksData.minerHooks.time, showBGFetchAlert: true);
       }
     }
 
@@ -161,9 +182,34 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
     final success = await _dAppHooksUseCase.startDAppHooksService(delay);
     if (success) {
       showDAppHooksServiceSuccessSnackBar();
-      return true;
     } else {
       showDAppHooksServiceFailureSnackBar();
+    }
+    return success;
+  }
+
+  // delay is in minutes, returns true if success
+  Future<bool> startMinerHooksService(
+      {required DateTime time, required bool showBGFetchAlert}) async {
+    if (showBGFetchAlert) {
+      await showBackgroundFetchAlertDialog(context: context!);
+    }
+
+    late bool success;
+    final reached = _dAppHooksUseCase.isTimeReached(time);
+    // Time past, need to run the auto claim
+    if (reached) {
+      success =
+          await _dAppHooksUseCase.executeMinerAutoClaim(state.account!, time);
+    } else {
+      // Time not pas need to schedule
+      success = await _dAppHooksUseCase.scheduleAutoClaimTransaction(time);
+    }
+    if (success) {
+      showMinerHooksServiceSuccessSnackBar();
+      return true;
+    } else {
+      showMinerHooksServiceFailureSnackBar();
       return false;
     }
   }
@@ -194,15 +240,28 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   }
 
   Future<bool> stopDAppHooksService({required bool showSnackbar}) async {
-    bool turnOffAll = false;
+    final dappHooksData = _dAppHooksUseCase.dappHooksData.value;
     final periodicalCallData =
         _backgroundFetchConfigUseCase.periodicalCallData.value;
-    if (!state.dAppHooksData!.enabled && !periodicalCallData.serviceEnabled) {
-      turnOffAll = true;
-    }
+    final turnOffAll =
+        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
     await _dAppHooksUseCase.stopDAppHooksService(turnOffAll: turnOffAll);
     if (showSnackbar) {
       showDAppHooksServiceDisableSuccessSnackBar();
+    }
+    return true;
+  }
+
+  Future<bool> stopAutoClaimService({required bool showSnackbar}) async {
+    final dappHooksData = _dAppHooksUseCase.dappHooksData.value;
+    final periodicalCallData =
+        _backgroundFetchConfigUseCase.periodicalCallData.value;
+    final turnOffAll =
+        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
+
+    await _dAppHooksUseCase.stopMinerAutoClaimService(turnOffAll: turnOffAll);
+    if (showSnackbar) {
+      showMinerHooksServiceDisableSuccessSnackBar();
     }
     return true;
   }
@@ -235,6 +294,28 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
         context: context!,
         content: translate('service_disabled_successfully')!
             .replaceAll('{0}', translate('dapp_hooks')!));
+  }
+
+  void showMinerHooksServiceFailureSnackBar() {
+    showSnackBar(
+        context: context!,
+        content: translate('unable_to_launch_service')!
+            .replaceAll('{0}', translate('miner_hooks')!),
+        type: SnackBarType.fail);
+  }
+
+  void showMinerHooksServiceSuccessSnackBar() {
+    showSnackBar(
+        context: context!,
+        content: translate('service_launched_successfully')!
+            .replaceAll('{0}', translate('miner_hooks')!));
+  }
+
+  void showMinerHooksServiceDisableSuccessSnackBar() {
+    showSnackBar(
+        context: context!,
+        content: translate('service_disabled_successfully')!
+            .replaceAll('{0}', translate('miner_hooks')!));
   }
 
   void openLocationSettings() {
