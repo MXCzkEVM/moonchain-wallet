@@ -31,12 +31,18 @@ class AXSBackgroundFetch {
     }
   }
 
-  static void stopBackgroundFetch(DAppHooksModel dappHooksData,
-      PeriodicalCallData periodicalCallData) async {
-    // Stop only if both services are not running
-    if (!dappHooksData.enabled && !periodicalCallData.serviceEnabled) {
-      bgFetch.BackgroundFetch.stop('flutter_background_fetch');
+  // This function is
+  static Future<void> stopBackgroundFetch() async {
+    await bgFetch.BackgroundFetch.stop('flutter_background_fetch');
+  }
+
+  static Future<int> stopServices(
+      {required String taskId, required bool turnOffAll}) async {
+    // It means turn off all, No services are alive
+    if (turnOffAll) {
+      return await bgFetch.BackgroundFetch.stop();
     }
+    return await bgFetch.BackgroundFetch.stop(taskId);
   }
 
   static void bgFetchStatus() async {
@@ -44,8 +50,12 @@ class AXSBackgroundFetch {
     print(status);
   }
 
-  static Future<bool> configureBackgroundProcess() async {
-    bgFetchStatus();
+  static Future<bool> startBackgroundProcess({required String taskId}) async {
+    await stopServices(taskId: taskId, turnOffAll: false);
+    return await _configureBackgroundProcess();
+  }
+
+  static Future<bool> _configureBackgroundProcess() async {
     final configurationState = await bgFetch.BackgroundFetch.configure(
         bgFetch.BackgroundFetchConfig(
             minimumFetchInterval: Config.axsBackgroundServiceInterval,
@@ -67,7 +77,6 @@ class AXSBackgroundFetch {
     if (configurationState == bgFetch.BackgroundFetch.STATUS_AVAILABLE ||
         configurationState == bgFetch.BackgroundFetch.STATUS_RESTRICTED &&
             (Platform.isAndroid ? backgroundFetchState : true)) {
-      bgFetchStatus();
       return true;
     } else {
       return false;

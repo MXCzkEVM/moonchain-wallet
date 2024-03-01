@@ -26,6 +26,8 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _backgroundFetchConfigUseCase =
+      ref.read(backgroundFetchConfigUseCaseProvider);
 
   final geo.GeolocatorPlatform _geoLocatorPlatform =
       geo.GeolocatorPlatform.instance;
@@ -192,7 +194,13 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   }
 
   Future<bool> stopDAppHooksService({required bool showSnackbar}) async {
-    await bgFetch.BackgroundFetch.stop(Config.dappHookTasks);
+    bool turnOffAll = false;
+    final periodicalCallData =
+        _backgroundFetchConfigUseCase.periodicalCallData.value;
+    if (!state.dAppHooksData!.enabled && !periodicalCallData.serviceEnabled) {
+      turnOffAll = true;
+    }
+    await _dAppHooksUseCase.stopDAppHooksService(turnOffAll: turnOffAll);
     if (showSnackbar) {
       showDAppHooksServiceDisableSuccessSnackBar();
     }
@@ -243,10 +251,10 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
 
   void showTimePickerDialog() async {
     final currentTimeOfDay = state.dAppHooksData!.minerHooks.time;
+    final initialTime = TimeOfDay.fromDateTime(currentTimeOfDay);
     final newTimeOfDay = await showTimePicker(
       context: context!,
-      initialTime: TimeOfDay(
-          hour: currentTimeOfDay.hour, minute: currentTimeOfDay.minute),
+      initialTime: initialTime,
       initialEntryMode: TimePickerEntryMode.inputOnly,
     );
 

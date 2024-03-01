@@ -23,6 +23,7 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
       ref.read(backgroundFetchConfigUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
 
   final TextEditingController lowBalanceController = TextEditingController();
   final TextEditingController transactionFeeController =
@@ -185,13 +186,13 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
           state.periodicalCallData!.duration != newPeriodicalCallData.duration;
 
       if (isBGServiceChanged && newPeriodicalCallData.serviceEnabled == true) {
-        startBGFetch(
+        startNotificationsService(
             delay: newPeriodicalCallData.duration, showBGFetchAlert: true);
       } else if (isBGServiceChanged &&
           newPeriodicalCallData.serviceEnabled == false) {
-        stopBGFetch(showSnackbar: true);
+        stopNotificationsService(showSnackbar: true);
       } else if (bgServiceDurationChanged) {
-        startBGFetch(
+        startNotificationsService(
             delay: newPeriodicalCallData.duration, showBGFetchAlert: false);
       }
     }
@@ -200,12 +201,13 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   }
 
   // delay is in minutes
-  void startBGFetch(
+  void startNotificationsService(
       {required int delay, required bool showBGFetchAlert}) async {
     if (showBGFetchAlert) {
       await showBackgroundFetchAlertDialog(context: context!);
     }
-    final success = await backgroundFetchConfigUseCase.startBGFetch(delay);
+    final success =
+        await backgroundFetchConfigUseCase.startNotificationsService(delay);
     if (success) {
       showBGFetchSuccessSnackBar();
     } else {
@@ -213,8 +215,14 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     }
   }
 
-  Future<int> stopBGFetch({required bool showSnackbar}) async {
-    final res = await bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
+  Future<int> stopNotificationsService({required bool showSnackbar}) async {
+    bool turnOffAll = false;
+    final dappHooksData = _dAppHooksUseCase.dappHooksData.value;
+    if (!state.periodicalCallData!.serviceEnabled && !dappHooksData.enabled) {
+      turnOffAll = true;
+    }
+    final res = await backgroundFetchConfigUseCase.stopNotificationsService(
+        turnOffAll: turnOffAll);
     if (showSnackbar) {
       showBGFetchDisableSuccessSnackBar();
     }

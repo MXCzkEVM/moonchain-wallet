@@ -16,13 +16,12 @@ import 'dapp_hooks_repository.dart';
 
 class DAppHooksUseCase extends ReactiveUseCase {
   DAppHooksUseCase(
-    this._repository,
-    this._chainConfigurationUseCase,
-    this._tokenContractUseCase,
-    this._minerUseCase,
-    this._accountUseCase,
-    this._errorUseCase
-  ) {
+      this._repository,
+      this._chainConfigurationUseCase,
+      this._tokenContractUseCase,
+      this._minerUseCase,
+      this._accountUseCase,
+      this._errorUseCase) {
     initialize();
   }
 
@@ -47,6 +46,9 @@ class DAppHooksUseCase extends ReactiveUseCase {
     _repository.removeItem(item);
     update(dappHooksData, _repository.item);
   }
+
+  String get dappHookTasksTaskId => Config.dappHookTasks;
+  String get minerAutoClaimTaskTaskId => Config.minerAutoClaimTask;
 
   void initialize() {
     _chainConfigurationUseCase.selectedNetwork.listen((network) {
@@ -236,25 +238,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
   // delay is in minutes
   Future<bool> startDAppHooksService(int delay) async {
     try {
-      // Stop If any is running
-      await stopDAppHooksService();
+      final result = await AXSBackgroundFetch.startBackgroundProcess(
+          taskId: dappHookTasksTaskId);
 
-      final configurationState = await bgFetch.BackgroundFetch.configure(
-          bgFetch.BackgroundFetchConfig(
-              minimumFetchInterval: delay,
-              stopOnTerminate: false,
-              enableHeadless: true,
-              startOnBoot: true,
-              requiresBatteryNotLow: false,
-              requiresCharging: false,
-              requiresStorageNotLow: false,
-              requiresDeviceIdle: false,
-              requiredNetworkType: bgFetch.NetworkType.ANY),
-          DAppHooksService.dappHooksServiceCallBackDispatcherForeground);
-      // Android Only
-      final backgroundFetchState =
-          await bgFetch.BackgroundFetch.registerHeadlessTask(
-              DAppHooksService.dappHooksServiceCallBackDispatcher);
+      if (!result) return result;
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
@@ -264,24 +251,62 @@ class DAppHooksUseCase extends ReactiveUseCase {
         requiresNetworkConnectivity: true,
         startOnBoot: true,
         stopOnTerminate: false,
+        enableHeadless: true,
+        forceAlarmManager: false,
         requiredNetworkType: bgFetch.NetworkType.ANY,
       ));
 
-      if (scheduleState &&
-              configurationState == bgFetch.BackgroundFetch.STATUS_AVAILABLE ||
-          configurationState == bgFetch.BackgroundFetch.STATUS_RESTRICTED &&
-              (Platform.isAndroid ? backgroundFetchState : true)) {
-        return true;
-      } else {
-        return false;
-      }
+      return scheduleState;
     } catch (e) {
       return false;
     }
   }
 
-  Future<int> stopDAppHooksService() async {
-    return await bgFetch.BackgroundFetch.stop(Config.dappHookTasks);
+  // delay is in minutes
+  Future<bool> scheduleAutoClaimService(int delay) async {
+    try {
+      final result = await AXSBackgroundFetch.startBackgroundProcess(
+          taskId: minerAutoClaimTaskTaskId);
+
+      if (!result) return result;
+
+      final scheduleState =
+          await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
+        taskId: Config.minerAutoClaimTask,
+        delay: 5 * 60 * 1000,
+        periodic: false,
+        requiresNetworkConnectivity: true,
+        startOnBoot: true,
+        stopOnTerminate: false,
+        enableHeadless: true,
+        forceAlarmManager: true,
+        requiredNetworkType: bgFetch.NetworkType.ANY,
+      ));
+
+      return scheduleState;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> getTimeDelay() async {}
+  Future<void> isTimeAchieved() async {}
+  // enabled If time passed run other wise find the delay time no day checks
+  // on Ran find delay time and reschedule
+  // if ran or didn't ran
+  // if time past today
+  // if time past tomorrow
+  // if time before today
+  // if time before tomorrow
+
+  Future<int> stopMinerAutoClaimService({required bool turnOffAll}) async {
+    return await AXSBackgroundFetch.stopServices(
+        taskId: minerAutoClaimTaskTaskId, turnOffAll: turnOffAll);
+  }
+
+  Future<int> stopDAppHooksService({required bool turnOffAll}) async {
+    return await AXSBackgroundFetch.stopServices(
+        taskId: dappHookTasksTaskId, turnOffAll: turnOffAll);
   }
 
   List<WifiModel> getWifiModels(List<WiFiAccessPoint> wifiList) {
@@ -320,7 +345,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
       return updatedAutoClaimTime;
     } catch (e) {
       _errorUseCase.handleBackgroundServiceError(
-          "Wi-Fi Transaction Update failed ", e);
+          "Claim transaction failed ", e);
       return minerAutoClaimTime;
     }
   }
