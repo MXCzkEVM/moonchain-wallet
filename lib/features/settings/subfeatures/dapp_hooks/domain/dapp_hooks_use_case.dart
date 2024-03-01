@@ -262,8 +262,39 @@ class DAppHooksUseCase extends ReactiveUseCase {
     }
   }
 
+  bool isTimeReached(DateTime dateTime) {
+    final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+    return difference <= 15;
+  }
+
+  // This function is called after execusion & for scheduling
+  Future<bool> scheduleAutoClaimTransaction(DateTime dateTime,
+      {bool isAfterTx = false}) async {
+    // It should't be negative
+    // 0 - -5 is OK
+    if (isAfterTx) {
+      final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+      final delay = 24 * 60 + difference;
+      return await startAutoClaimService(delay);
+    } else if (isTimeReached(dateTime)) {
+      return await executeMinerAutoClaim(
+          _accountUseCase.account.value!, dateTime);
+    } else {
+      final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+      return await startAutoClaimService(difference);
+    }
+  }
+
+  Future<bool> executeMinerAutoClaim(Account account, DateTime dateTime) async {
+    await claimMiners(
+        selectedMinerListId: dappHooksData.value.minerHooks.selectedMiners,
+        account: account,
+        minerAutoClaimTime: dateTime);
+    return await scheduleAutoClaimTransaction(dateTime, isAfterTx: true);
+  }
+
   // delay is in minutes
-  Future<bool> scheduleAutoClaimService(int delay) async {
+  Future<bool> startAutoClaimService(int delay) async {
     try {
       final result = await AXSBackgroundFetch.startBackgroundProcess(
           taskId: minerAutoClaimTaskTaskId);
@@ -273,7 +304,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
         taskId: Config.minerAutoClaimTask,
-        delay: 5 * 60 * 1000,
+        delay: delay * 60 * 1000,
         periodic: false,
         requiresNetworkConnectivity: true,
         startOnBoot: true,
@@ -288,16 +319,6 @@ class DAppHooksUseCase extends ReactiveUseCase {
       return false;
     }
   }
-
-  Future<void> getTimeDelay() async {}
-  Future<void> isTimeAchieved() async {}
-  // enabled If time passed run other wise find the delay time no day checks
-  // on Ran find delay time and reschedule
-  // if ran or didn't ran
-  // if time past today
-  // if time past tomorrow
-  // if time before today
-  // if time before tomorrow
 
   Future<int> stopMinerAutoClaimService({required bool turnOffAll}) async {
     return await AXSBackgroundFetch.stopServices(
@@ -316,7 +337,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
   }
 
   // List of miners
-  Future<DateTime> claimMiners(
+  Future<void> claimMiners(
       {required List<String> selectedMinerListId,
       required Account account,
       required DateTime minerAutoClaimTime}) async {
@@ -336,18 +357,24 @@ class DAppHooksUseCase extends ReactiveUseCase {
         );
       }
       // Updating now date time + 1 day to set the timer for tomorrow
-      final now = DateTime.now();
-      DateTime updatedAutoClaimTime = now.copyWith(
-          hour: minerAutoClaimTime.hour,
-          minute: minerAutoClaimTime.minute,
-          second: 0);
-      updatedAutoClaimTime = updatedAutoClaimTime.add(const Duration(days: 1));
-      return updatedAutoClaimTime;
+      updateAutoClaimTime(minerAutoClaimTime);
     } catch (e) {
       _errorUseCase.handleBackgroundServiceError(
           "Claim transaction failed ", e);
-      return minerAutoClaimTime;
     }
+  }
+
+  Future<void> updateAutoClaimTime(DateTime minerAutoClaimTime) async {
+    final now = DateTime.now();
+    DateTime updatedAutoClaimTime = now.copyWith(
+        hour: minerAutoClaimTime.hour,
+        minute: minerAutoClaimTime.minute,
+        second: 0);
+    updatedAutoClaimTime = updatedAutoClaimTime.add(const Duration(days: 1));
+    final updatedDappHooksData = dappHooksData.value.copyWith(
+        minerHooks: dappHooksData.value.minerHooks
+            .copyWith(time: updatedAutoClaimTime));
+    updateItem(updatedDappHooksData);
   }
 
   @override

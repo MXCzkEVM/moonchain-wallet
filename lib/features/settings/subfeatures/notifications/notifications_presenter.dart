@@ -179,6 +179,8 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
   void checkPeriodicalCallDataChange(
       PeriodicalCallData newPeriodicalCallData) async {
+    bool shouldUpdate = true;
+
     if (state.periodicalCallData != null) {
       final isBGServiceChanged = state.periodicalCallData!.serviceEnabled !=
           newPeriodicalCallData.serviceEnabled;
@@ -186,22 +188,25 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
           state.periodicalCallData!.duration != newPeriodicalCallData.duration;
 
       if (isBGServiceChanged && newPeriodicalCallData.serviceEnabled == true) {
-        startNotificationsService(
+        shouldUpdate = await startNotificationsService(
             delay: newPeriodicalCallData.duration, showBGFetchAlert: true);
       } else if (isBGServiceChanged &&
           newPeriodicalCallData.serviceEnabled == false) {
-        stopNotificationsService(showSnackbar: true);
+        shouldUpdate = await stopNotificationsService(showSnackbar: true);
       } else if (bgServiceDurationChanged) {
-        startNotificationsService(
+        shouldUpdate = await startNotificationsService(
             delay: newPeriodicalCallData.duration, showBGFetchAlert: false);
       }
     }
-
-    notify(() => state.periodicalCallData = newPeriodicalCallData);
+    if (shouldUpdate) {
+      notify(() => state.periodicalCallData = newPeriodicalCallData);
+    } else {
+      backgroundFetchConfigUseCase.updateItem(state.periodicalCallData!);
+    }
   }
 
   // delay is in minutes
-  void startNotificationsService(
+  Future<bool> startNotificationsService(
       {required int delay, required bool showBGFetchAlert}) async {
     if (showBGFetchAlert) {
       await showBackgroundFetchAlertDialog(context: context!);
@@ -213,20 +218,21 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     } else {
       showBGFetchFailureSnackBar();
     }
+    return success;
   }
 
-  Future<int> stopNotificationsService({required bool showSnackbar}) async {
-    bool turnOffAll = false;
+  Future<bool> stopNotificationsService({required bool showSnackbar}) async {
     final dappHooksData = _dAppHooksUseCase.dappHooksData.value;
-    if (!state.periodicalCallData!.serviceEnabled && !dappHooksData.enabled) {
-      turnOffAll = true;
-    }
-    final res = await backgroundFetchConfigUseCase.stopNotificationsService(
+    final periodicalCallData =
+        backgroundFetchConfigUseCase.periodicalCallData.value;
+    final turnOffAll =
+        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
+    await backgroundFetchConfigUseCase.stopNotificationsService(
         turnOffAll: turnOffAll);
     if (showSnackbar) {
-      showBGFetchDisableSuccessSnackBar();
+      showBGNotificationsDisableSuccessSnackBar();
     }
-    return res;
+    return true;
   }
 
   void showBGFetchFailureSnackBar() {
@@ -245,7 +251,7 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
             .replaceAll('{0}', translate('background_notifications')!));
   }
 
-  void showBGFetchDisableSuccessSnackBar() {
+  void showBGNotificationsDisableSuccessSnackBar() {
     showSnackBar(
         context: context!,
         content: translate('service_disabled_successfully')!
