@@ -16,8 +16,6 @@ class DAppHooksService {
       final chainConfigurationUseCase =
           container.read(chainConfigurationUseCaseProvider);
       final accountUseCase = container.read(accountUseCaseProvider);
-      // final backgroundFetchConfigUseCase =
-      //     container.read(backgroundFetchConfigUseCaseProvider);
       final dAppHooksUseCase = container.read(dAppHooksUseCaseProvider);
 
       final selectedNetwork =
@@ -42,21 +40,6 @@ class DAppHooksService {
             account!,
           );
         }
-
-        final now = DateTime.now();
-        final isPast = !(now.difference(minerHooksTime).isNegative);
-
-        // if (minerHooksEnabled && !isPast) {
-        //   final updatedAutoClaimTime = await dAppHooksUseCase.claimMiners(
-        //       account: account!,
-        //       selectedMinerListId: selectedMiners,
-        //       minerAutoClaimTime: minerHooksTime);
-        //   dappHooksData = dappHooksData.copyWith(
-        //       minerHooks: dappHooksData.minerHooks
-        //           .copyWith(time: updatedAutoClaimTime));
-        // }
-
-        dAppHooksUseCase.updateItem(dappHooksData);
         BackgroundFetch.finish(taskId);
       } else {
         // terminate background fetch
@@ -70,8 +53,6 @@ class DAppHooksService {
   static void autoClaimServiceCallBackDispatcherForeground(
       String taskId) async {
     try {
-      print('Hello');
-      print(taskId);
       await loadProviders();
 
       final container = ProviderContainer();
@@ -79,8 +60,6 @@ class DAppHooksService {
       final chainConfigurationUseCase =
           container.read(chainConfigurationUseCaseProvider);
       final accountUseCase = container.read(accountUseCaseProvider);
-      // final backgroundFetchConfigUseCase =
-      //     container.read(backgroundFetchConfigUseCaseProvider);
       final dAppHooksUseCase = container.read(dAppHooksUseCaseProvider);
 
       final selectedNetwork =
@@ -94,36 +73,13 @@ class DAppHooksService {
       final minerHooksEnabled = dappHooksData.minerHooks.enabled;
       final minerHooksTime = dappHooksData.minerHooks.time;
       final selectedMiners = dappHooksData.minerHooks.selectedMiners;
-      final now = DateTime.now();
-      print(now);
-      print(isLoggedIn && Config.isMxcChains(chainId) && minerHooksEnabled);
-      print(now.difference(minerHooksTime).isNegative);
       // Make sure user is logged in
       if (isLoggedIn && Config.isMxcChains(chainId) && minerHooksEnabled) {
         AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
-
-        final now = DateTime.now();
-        final nowTime = TimeOfDay.fromDateTime(now);
-        final claimTime = TimeOfDay.fromDateTime(minerHooksTime);
-
-        final nowTimeInt = MXCType.timeOfDayInMinutes(nowTime);
-        final claimTimeInt = MXCType.timeOfDayInMinutes(claimTime);
-
-        print(now);
-        print(now.difference(minerHooksTime).isNegative);
-        final isPast = !(now.difference(minerHooksTime).isNegative);
-
-        if (isPast) {
-          // final updatedAutoClaimTime = await dAppHooksUseCase.claimMiners(
-          //     account: account!,
-          //     selectedMinerListId: selectedMiners,
-          //     minerAutoClaimTime: minerHooksTime);
-          // dappHooksData = dappHooksData.copyWith(
-          //     minerHooks: dappHooksData.minerHooks
-          //         .copyWith(time: updatedAutoClaimTime));
-        }
-
-        dAppHooksUseCase.updateItem(dappHooksData);
+          await dAppHooksUseCase.claimMiners(
+              account: account!,
+              selectedMinerListId: selectedMiners,
+              minerAutoClaimTime: minerHooksTime);
         BackgroundFetch.finish(taskId);
       } else {
         // terminate background fetch
@@ -133,4 +89,5 @@ class DAppHooksService {
       BackgroundFetch.finish(taskId);
     }
   }
+
 }

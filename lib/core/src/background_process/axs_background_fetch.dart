@@ -36,6 +36,10 @@ class AXSBackgroundFetch {
     await bgFetch.BackgroundFetch.stop('flutter_background_fetch');
   }
 
+  static bool turnOffAll(DAppHooksModel dAppHooksData, PeriodicalCallData periodicalCallData) {
+    return !dAppHooksData.enabled && !periodicalCallData.serviceEnabled && !dAppHooksData.minerHooks.enabled;
+  }
+
   static Future<int> stopServices(
       {required String taskId, required bool turnOffAll}) async {
     // It means turn off all, No services are alive
