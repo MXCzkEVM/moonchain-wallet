@@ -39,7 +39,7 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
     super.initState();
 
     listen(_dAppHooksUseCase.dappHooksData, (value) {
-      checkDAppHooksDataChange(value);
+      notify(() => state.dAppHooksData = value);
     });
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
@@ -64,6 +64,15 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
     checkWifiHookEnabled();
   }
 
+  shouldUpdateWrapper(Future<bool> Function() execution,
+      DAppHooksModel Function() update) async {
+    final executionResult = await execution();
+    if (executionResult) {
+      final newDAppHooksData = update();
+      _dAppHooksUseCase.updateItem(newDAppHooksData);
+    }
+  }
+
   Future<bool> enableLocationService() async {
     ServiceStatus locationServiceStatus =
         await Permission.location.serviceStatus;
@@ -80,9 +89,19 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
     return true;
   }
 
-  void enableDAppHooks(bool value) {
-    final newDAppHooksData = state.dAppHooksData!.copyWith(enabled: value);
-    _dAppHooksUseCase.updateItem(newDAppHooksData);
+  void enableDAppHooks(bool value) async {
+    shouldUpdateWrapper(() async {
+      late bool update;
+      if (value) {
+        update = await startDAppHooksService(
+            delay: state.dAppHooksData!.duration, showBGFetchAlert: true);
+      } else {
+        update = await stopDAppHooksService(showSnackbar: true);
+      }
+      return update;
+    }, () {
+      return state.dAppHooksData!.copyWith(enabled: value);
+    });
   }
 
   void showDAppHooksFrequency() {
@@ -107,26 +126,49 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   }
 
   void enableMinerHooks(bool value) {
-    final newDAppHooksData = state.dAppHooksData!.copyWith(
-        minerHooks: state.dAppHooksData!.minerHooks.copyWith(
-      enabled: value,
-    ));
-    _dAppHooksUseCase.updateItem(newDAppHooksData);
+    shouldUpdateWrapper(() async {
+      late bool update;
+      if (value) {
+        update = await startMinerHooksService(
+            time: state.dAppHooksData!.minerHooks.time, showBGFetchAlert: true);
+      } else {
+        update = await stopAutoClaimService(showSnackbar: true);
+      }
+      return update;
+    }, () {
+      return state.dAppHooksData!.copyWith(
+          minerHooks: state.dAppHooksData!.minerHooks.copyWith(
+        enabled: value,
+      ));
+    });
   }
 
-  void changeMinerHookTiming(TimeOfDay value) {
-    final newDAppHooksData = state.dAppHooksData!.copyWith(
-        minerHooks: state.dAppHooksData!.minerHooks.copyWith(
-      time: state.dAppHooksData!.minerHooks.time
-          .copyWith(hour: value.hour, minute: value.minute, second: 0),
-    ));
-    _dAppHooksUseCase.updateItem(newDAppHooksData);
+  void changeMinerHookTiming(TimeOfDay value) async {
+    shouldUpdateWrapper(() async {
+      late bool update;
+      final currentDateTime = state.dAppHooksData!.minerHooks.time;
+      final time = currentDateTime.copyWith(
+          hour: value.hour, minute: value.minute, second: 0);
+      update = await startMinerHooksService(time: time, showBGFetchAlert: true);
+      return update;
+    }, () {
+      return state.dAppHooksData!.copyWith(
+          minerHooks: state.dAppHooksData!.minerHooks.copyWith(
+        time: state.dAppHooksData!.minerHooks.time
+            .copyWith(hour: value.hour, minute: value.minute, second: 0),
+      ));
+    });
   }
 
   void handleFrequencyChange(PeriodicalCallDuration duration) {
-    final newDAppHooksData =
-        state.dAppHooksData!.copyWith(duration: duration.toMinutes());
-    _dAppHooksUseCase.updateItem(newDAppHooksData);
+    shouldUpdateWrapper(() async {
+      late bool update;
+      update = await startDAppHooksService(
+          delay: duration.toMinutes(), showBGFetchAlert: true);
+      return update;
+    }, () {
+      return state.dAppHooksData!.copyWith(duration: duration.toMinutes());
+    });
   }
 
   void checkDAppHooksDataChange(DAppHooksModel newDAppHooksData) async {
