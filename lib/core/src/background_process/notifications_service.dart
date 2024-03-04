@@ -4,23 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class NotificationsService {
-  @pragma(
-      'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
-  static void callbackDispatcher(HeadlessTask task) async {
-    String taskId = task.taskId;
-    bool isTimeout = task.timeout;
-    if (isTimeout) {
-      // This task has exceeded its allowed running-time.
-      // You must stop what you're doing and immediately .finish(taskId)
-      print("[BackgroundFetch] Headless task timed-out: $taskId");
-      BackgroundFetch.finish(taskId);
-      return;
-    }
-    callbackDispatcherForeGround(taskId);
-  }
-
 // Foreground
-  static void callbackDispatcherForeGround(String taskId) async {
+  static void notificationsCallbackDispatcher(String taskId) async {
     try {
       await loadProviders();
 

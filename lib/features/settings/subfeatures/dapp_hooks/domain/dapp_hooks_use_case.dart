@@ -6,6 +6,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/miner_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:flutter/material.dart';
 import 'package:h3_flutter/h3_flutter.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
@@ -16,13 +17,12 @@ import 'dapp_hooks_repository.dart';
 
 class DAppHooksUseCase extends ReactiveUseCase {
   DAppHooksUseCase(
-    this._repository,
-    this._chainConfigurationUseCase,
-    this._tokenContractUseCase,
-    this._minerUseCase,
-    this._accountUseCase,
-    this._errorUseCase
-  ) {
+      this._repository,
+      this._chainConfigurationUseCase,
+      this._tokenContractUseCase,
+      this._minerUseCase,
+      this._accountUseCase,
+      this._errorUseCase) {
     initialize();
   }
 
@@ -48,6 +48,9 @@ class DAppHooksUseCase extends ReactiveUseCase {
     update(dappHooksData, _repository.item);
   }
 
+  String get dappHookTasksTaskId => Config.dappHookTasks;
+  String get minerAutoClaimTaskTaskId => Config.minerAutoClaimTask;
+
   void initialize() {
     _chainConfigurationUseCase.selectedNetwork.listen((network) {
       final isMXCChains =
@@ -59,6 +62,40 @@ class DAppHooksUseCase extends ReactiveUseCase {
         startDAppHooksService(dappHooksData.duration);
       }
     });
+  }
+
+  void updateDAppHooksEnabled(bool value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(enabled: value);
+    updateItem(newDAppHooksData);
+  }
+
+  void updateDAppHooksDuration(PeriodicalCallDuration duration) {
+    final newDAppHooksData =
+        dappHooksData.value.copyWith(duration: duration.toMinutes());
+    updateItem(newDAppHooksData);
+  }
+
+  void updateMinerHookTiming(TimeOfDay value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+        minerHooks: dappHooksData.value.minerHooks.copyWith(
+      time: dappHooksData.value.minerHooks.time
+          .copyWith(hour: value.hour, minute: value.minute, second: 0),
+    ));
+    updateItem(newDAppHooksData);
+  }
+
+  void updateMinerHooksEnabled(bool value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+        minerHooks: dappHooksData.value.minerHooks.copyWith(
+      enabled: value,
+    ));
+    updateItem(newDAppHooksData);
+  }
+
+  void updatedWifiHooksEnabled(bool value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+        wifiHooks: dappHooksData.value.wifiHooks.copyWith(enabled: value));
+    updateItem(newDAppHooksData);
   }
 
   // location access + at least one time connectection to wifi after opening app
@@ -236,25 +273,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
   // delay is in minutes
   Future<bool> startDAppHooksService(int delay) async {
     try {
-      // Stop If any is running
-      await stopDAppHooksService();
+      final result = await AXSBackgroundFetch.startBackgroundProcess(
+          taskId: dappHookTasksTaskId);
 
-      final configurationState = await bgFetch.BackgroundFetch.configure(
-          bgFetch.BackgroundFetchConfig(
-              minimumFetchInterval: delay,
-              stopOnTerminate: false,
-              enableHeadless: true,
-              startOnBoot: true,
-              requiresBatteryNotLow: false,
-              requiresCharging: false,
-              requiresStorageNotLow: false,
-              requiresDeviceIdle: false,
-              requiredNetworkType: bgFetch.NetworkType.ANY),
-          DAppHooksService.dappHooksServiceCallBackDispatcherForeground);
-      // Android Only
-      final backgroundFetchState =
-          await bgFetch.BackgroundFetch.registerHeadlessTask(
-              DAppHooksService.dappHooksServiceCallBackDispatcher);
+      if (!result) return result;
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
@@ -264,24 +286,83 @@ class DAppHooksUseCase extends ReactiveUseCase {
         requiresNetworkConnectivity: true,
         startOnBoot: true,
         stopOnTerminate: false,
+        enableHeadless: true,
+        forceAlarmManager: false,
         requiredNetworkType: bgFetch.NetworkType.ANY,
       ));
 
-      if (scheduleState &&
-              configurationState == bgFetch.BackgroundFetch.STATUS_AVAILABLE ||
-          configurationState == bgFetch.BackgroundFetch.STATUS_RESTRICTED &&
-              (Platform.isAndroid ? backgroundFetchState : true)) {
-        return true;
-      } else {
-        return false;
-      }
+      return scheduleState;
     } catch (e) {
       return false;
     }
   }
 
-  Future<int> stopDAppHooksService() async {
-    return await bgFetch.BackgroundFetch.stop(Config.dappHookTasks);
+  bool isTimeReached(DateTime dateTime) {
+    final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+    return difference <= 15;
+  }
+
+  // This function is called after execusion & for scheduling
+  Future<bool> scheduleAutoClaimTransaction(DateTime dateTime,
+      {bool isAfterTx = false}) async {
+    // It should't be negative
+    // 0 - -5 is OK
+    if (isAfterTx) {
+      final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+      final delay = 24 * 60 + difference;
+      return await startAutoClaimService(delay);
+    } else if (isTimeReached(dateTime)) {
+      return await executeMinerAutoClaim(
+          _accountUseCase.account.value!, dateTime);
+    } else {
+      final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+      return await startAutoClaimService(difference);
+    }
+  }
+
+  Future<bool> executeMinerAutoClaim(Account account, DateTime dateTime) async {
+    await claimMiners(
+        selectedMinerListId: dappHooksData.value.minerHooks.selectedMiners,
+        account: account,
+        minerAutoClaimTime: dateTime);
+    return await scheduleAutoClaimTransaction(dateTime, isAfterTx: true);
+  }
+
+  // delay is in minutes
+  Future<bool> startAutoClaimService(int delay) async {
+    try {
+      final result = await AXSBackgroundFetch.startBackgroundProcess(
+          taskId: minerAutoClaimTaskTaskId);
+
+      if (!result) return result;
+
+      final scheduleState =
+          await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
+        taskId: Config.minerAutoClaimTask,
+        delay: delay * 60 * 1000,
+        periodic: false,
+        requiresNetworkConnectivity: true,
+        startOnBoot: true,
+        stopOnTerminate: false,
+        enableHeadless: true,
+        forceAlarmManager: true,
+        requiredNetworkType: bgFetch.NetworkType.ANY,
+      ));
+
+      return scheduleState;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<int> stopMinerAutoClaimService({required bool turnOffAll}) async {
+    return await AXSBackgroundFetch.stopServices(
+        taskId: minerAutoClaimTaskTaskId, turnOffAll: turnOffAll);
+  }
+
+  Future<int> stopDAppHooksService({required bool turnOffAll}) async {
+    return await AXSBackgroundFetch.stopServices(
+        taskId: dappHookTasksTaskId, turnOffAll: turnOffAll);
   }
 
   List<WifiModel> getWifiModels(List<WiFiAccessPoint> wifiList) {
@@ -291,7 +372,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
   }
 
   // List of miners
-  Future<DateTime> claimMiners(
+  Future<void> claimMiners(
       {required List<String> selectedMinerListId,
       required Account account,
       required DateTime minerAutoClaimTime}) async {
@@ -311,18 +392,24 @@ class DAppHooksUseCase extends ReactiveUseCase {
         );
       }
       // Updating now date time + 1 day to set the timer for tomorrow
-      final now = DateTime.now();
-      DateTime updatedAutoClaimTime = now.copyWith(
-          hour: minerAutoClaimTime.hour,
-          minute: minerAutoClaimTime.minute,
-          second: 0);
-      updatedAutoClaimTime = updatedAutoClaimTime.add(const Duration(days: 1));
-      return updatedAutoClaimTime;
+      updateAutoClaimTime(minerAutoClaimTime);
     } catch (e) {
       _errorUseCase.handleBackgroundServiceError(
-          "Wi-Fi Transaction Update failed ", e);
-      return minerAutoClaimTime;
+          "Claim transaction failed ", e);
     }
+  }
+
+  Future<void> updateAutoClaimTime(DateTime minerAutoClaimTime) async {
+    final now = DateTime.now();
+    DateTime updatedAutoClaimTime = now.copyWith(
+        hour: minerAutoClaimTime.hour,
+        minute: minerAutoClaimTime.minute,
+        second: 0);
+    updatedAutoClaimTime = updatedAutoClaimTime.add(const Duration(days: 1));
+    final updatedDappHooksData = dappHooksData.value.copyWith(
+        minerHooks: dappHooksData.value.minerHooks
+            .copyWith(time: updatedAutoClaimTime));
+    updateItem(updatedDappHooksData);
   }
 
   @override

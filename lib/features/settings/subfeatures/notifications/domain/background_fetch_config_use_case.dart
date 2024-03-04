@@ -6,7 +6,6 @@ import 'package:datadashwallet/features/settings/subfeatures/chain_configuration
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
 
-import '../../../../../main.dart';
 import 'background_fetch_config_repository.dart';
 
 class BackgroundFetchConfigUseCase extends ReactiveUseCase {
@@ -17,6 +16,8 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
   ) {
     initialize();
   }
+
+  String get taskId => Config.axsPeriodicalTask;
 
   final BackgroundFetchConfigRepository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
@@ -43,7 +44,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
       if (!isMXCChains) {
         bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
       } else if (isMXCChains && periodicalCallData.serviceEnabled) {
-        startBGFetch(periodicalCallData.duration);
+        startNotificationsService(periodicalCallData.duration);
       }
     });
   }
@@ -145,53 +146,36 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
       periodicalCallData.lowBalanceLimitEnabled;
 
   // delay is in minutes
-  Future<bool> startBGFetch(int delay) async {
+  Future<bool> startNotificationsService(
+    int delay,
+  ) async {
     try {
-      // Stop If any is running
-      await stopBGFetch();
+      final result =
+          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
-      final configurationState = await bgFetch.BackgroundFetch.configure(
-          bgFetch.BackgroundFetchConfig(
-              minimumFetchInterval: delay,
-              stopOnTerminate: false,
-              enableHeadless: true,
-              startOnBoot: true,
-              requiresBatteryNotLow: false,
-              requiresCharging: false,
-              requiresStorageNotLow: false,
-              requiresDeviceIdle: false,
-              requiredNetworkType: bgFetch.NetworkType.ANY),
-          NotificationsService.callbackDispatcherForeGround);
-      // Android Only
-      final backgroundFetchState =
-          await bgFetch.BackgroundFetch.registerHeadlessTask(
-              NotificationsService.callbackDispatcher);
+      if (!result) return result;
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: Config.axsPeriodicalTask,
+        taskId: taskId,
         delay: delay * 60 * 1000,
         periodic: true,
         requiresNetworkConnectivity: true,
         startOnBoot: true,
         stopOnTerminate: false,
+        enableHeadless: true,
+        forceAlarmManager: false,
         requiredNetworkType: bgFetch.NetworkType.ANY,
       ));
 
-      if (scheduleState &&
-              configurationState == bgFetch.BackgroundFetch.STATUS_AVAILABLE ||
-          configurationState == bgFetch.BackgroundFetch.STATUS_RESTRICTED &&
-              (Platform.isAndroid ? backgroundFetchState : true)) {
-        return true;
-      } else {
-        return false;
-      }
+      return scheduleState;
     } catch (e) {
       return false;
     }
   }
 
-  Future<int> stopBGFetch() async {
-    return await bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
+  Future<int> stopNotificationsService({required bool turnOffAll}) async {
+    return await AXSBackgroundFetch.stopServices(
+        taskId: taskId, turnOffAll: turnOffAll);
   }
 }

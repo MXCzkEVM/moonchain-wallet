@@ -23,6 +23,7 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
       ref.read(backgroundFetchConfigUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
+  late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
 
   final TextEditingController lowBalanceController = TextEditingController();
   final TextEditingController transactionFeeController =
@@ -178,6 +179,8 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
   void checkPeriodicalCallDataChange(
       PeriodicalCallData newPeriodicalCallData) async {
+    bool shouldUpdate = true;
+
     if (state.periodicalCallData != null) {
       final isBGServiceChanged = state.periodicalCallData!.serviceEnabled !=
           newPeriodicalCallData.serviceEnabled;
@@ -185,40 +188,51 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
           state.periodicalCallData!.duration != newPeriodicalCallData.duration;
 
       if (isBGServiceChanged && newPeriodicalCallData.serviceEnabled == true) {
-        startBGFetch(
+        shouldUpdate = await startNotificationsService(
             delay: newPeriodicalCallData.duration, showBGFetchAlert: true);
       } else if (isBGServiceChanged &&
           newPeriodicalCallData.serviceEnabled == false) {
-        stopBGFetch(showSnackbar: true);
+        shouldUpdate = await stopNotificationsService(showSnackbar: true);
       } else if (bgServiceDurationChanged) {
-        startBGFetch(
+        shouldUpdate = await startNotificationsService(
             delay: newPeriodicalCallData.duration, showBGFetchAlert: false);
       }
     }
-
-    notify(() => state.periodicalCallData = newPeriodicalCallData);
+    if (shouldUpdate) {
+      notify(() => state.periodicalCallData = newPeriodicalCallData);
+    } else {
+      backgroundFetchConfigUseCase.updateItem(state.periodicalCallData!);
+    }
   }
 
   // delay is in minutes
-  void startBGFetch(
+  Future<bool> startNotificationsService(
       {required int delay, required bool showBGFetchAlert}) async {
     if (showBGFetchAlert) {
       await showBackgroundFetchAlertDialog(context: context!);
     }
-    final success = await backgroundFetchConfigUseCase.startBGFetch(delay);
+    final success =
+        await backgroundFetchConfigUseCase.startNotificationsService(delay);
     if (success) {
       showBGFetchSuccessSnackBar();
     } else {
       showBGFetchFailureSnackBar();
     }
+    return success;
   }
 
-  Future<int> stopBGFetch({required bool showSnackbar}) async {
-    final res = await bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
+  Future<bool> stopNotificationsService({required bool showSnackbar}) async {
+    final dappHooksData = _dAppHooksUseCase.dappHooksData.value;
+    final periodicalCallData =
+        backgroundFetchConfigUseCase.periodicalCallData.value;
+    final turnOffAll =
+        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
+    await backgroundFetchConfigUseCase.stopNotificationsService(
+        turnOffAll: turnOffAll);
     if (showSnackbar) {
-      showBGFetchDisableSuccessSnackBar();
+      showBGNotificationsDisableSuccessSnackBar();
     }
-    return res;
+    return true;
   }
 
   void showBGFetchFailureSnackBar() {
@@ -237,7 +251,7 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
             .replaceAll('{0}', translate('background_notifications')!));
   }
 
-  void showBGFetchDisableSuccessSnackBar() {
+  void showBGNotificationsDisableSuccessSnackBar() {
     showSnackBar(
         context: context!,
         content: translate('service_disabled_successfully')!
