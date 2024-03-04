@@ -6,6 +6,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/miner_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:flutter/material.dart';
 import 'package:h3_flutter/h3_flutter.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
@@ -61,6 +62,40 @@ class DAppHooksUseCase extends ReactiveUseCase {
         startDAppHooksService(dappHooksData.duration);
       }
     });
+  }
+
+  void updateDAppHooksEnabled(bool value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(enabled: value);
+    updateItem(newDAppHooksData);
+  }
+
+  void updateDAppHooksDuration(PeriodicalCallDuration duration) {
+    final newDAppHooksData =
+        dappHooksData.value.copyWith(duration: duration.toMinutes());
+    updateItem(newDAppHooksData);
+  }
+
+  void updateMinerHookTiming(TimeOfDay value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+        minerHooks: dappHooksData.value.minerHooks.copyWith(
+      time: dappHooksData.value.minerHooks.time
+          .copyWith(hour: value.hour, minute: value.minute, second: 0),
+    ));
+    updateItem(newDAppHooksData);
+  }
+
+  void updateMinerHooksEnabled(bool value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+        minerHooks: dappHooksData.value.minerHooks.copyWith(
+      enabled: value,
+    ));
+    updateItem(newDAppHooksData);
+  }
+
+  void updatedWifiHooksEnabled(bool value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+        wifiHooks: dappHooksData.value.wifiHooks.copyWith(enabled: value));
+    updateItem(newDAppHooksData);
   }
 
   // location access + at least one time connectection to wifi after opening app

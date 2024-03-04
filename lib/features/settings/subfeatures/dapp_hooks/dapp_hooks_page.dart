@@ -54,7 +54,7 @@ class DAppHooksPage extends HookConsumerWidget {
         // MXCSwitchRowItem(
         //   title: translate('dapp_hooks'),
         //   value: dappHooksState.dAppHooksData!.enabled,
-        //   onChanged: dappHooksPresenter.enableDAppHooks,
+        //   onChanged: dappHooksPresenter.changeDAppHooksEnabled,
         //   enabled: true,
         //   textTrailingWidget: MXCInformationButton(texts: [
         //     TextSpan(
@@ -91,7 +91,7 @@ class DAppHooksPage extends HookConsumerWidget {
               //   key: const Key('wifiHookSwitch'),
               //   title: translate('wifi_hooks'),
               //   value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
-              //   onChanged: dappHooksPresenter.enableWifiHooks,
+              //   onChanged: dappHooksPresenter.changeWifiHooksEnabled,
               //   enabled: isSettingsChangeEnabled,
               //   textTrailingWidget: MXCInformationButton(texts: [
               //     TextSpan(
@@ -115,7 +115,7 @@ class DAppHooksPage extends HookConsumerWidget {
                 key: const Key('minerHookSwitch'),
                 title: translate('miner_hooks'),
                 value: dappHooksState.dAppHooksData!.minerHooks.enabled,
-                onChanged: dappHooksPresenter.enableMinerHooks,
+                onChanged: dappHooksPresenter.changeMinerHooksEnabled,
                 enabled: isMXCChains,
               ),
               const SizedBox(height: Sizes.spaceNormal),
