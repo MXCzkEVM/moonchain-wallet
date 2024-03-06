@@ -20,6 +20,7 @@ class AXSNotification {
 
   /// Create a [AndroidNotificationChannel] for heads up notifications
   late AndroidNotificationChannel channel;
+  late AndroidNotificationChannel lowPriorityChannel;
 
   bool isFlutterLocalNotificationsInitialized = false;
 
@@ -36,6 +37,13 @@ class AXSNotification {
       'AXS Notifications Cannel',
       description: 'This channel is related to AXS wallet app notifications.',
       importance: Importance.high,
+    );
+
+    lowPriorityChannel = const AndroidNotificationChannel(
+      'axs_wallet_low_priority_channel',
+      'AXS low priority notifications channel',
+      description: 'This channel is related to AXS wallet app notifications.',
+      importance: Importance.low,
     );
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -92,9 +100,13 @@ class AXSNotification {
     }
   }
 
-  void showNotification(String title, String text) {
+  void showNotification(String title, String? text) {
     if (!kIsWeb) {
-      var bigTextStyleInformation = BigTextStyleInformation(text);
+      BigTextStyleInformation? bigTextStyleInformation;
+      if (text != null && text.isNotEmpty) {
+        bigTextStyleInformation = BigTextStyleInformation(text);
+      }
+
       flutterLocalNotificationsPlugin.show(
         title.hashCode,
         title,
@@ -105,6 +117,36 @@ class AXSNotification {
                 channelDescription: channel.description,
                 importance: Importance.high,
                 priority: Priority.high,
+                playSound: true,
+                visibility: NotificationVisibility.public,
+                icon: 'axs_logo',
+                color: ColorsTheme.primary300,
+                largeIcon: null,
+                styleInformation: bigTextStyleInformation),
+            iOS: DarwinNotificationDetails(
+              subtitle: text,
+            )),
+      );
+    }
+  }
+
+  void showLowPriorityNotification(String title, String? text) {
+    if (!kIsWeb) {
+      BigTextStyleInformation? bigTextStyleInformation;
+      if (text != null && text.isNotEmpty) {
+        bigTextStyleInformation = BigTextStyleInformation(text);
+      }
+      flutterLocalNotificationsPlugin.show(
+        title.hashCode,
+        title,
+        text,
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+                lowPriorityChannel.id, lowPriorityChannel.name,
+                groupKey: 'axs_wallet_low_priority',
+                channelDescription: channel.description,
+                importance: Importance.low,
+                priority: Priority.low,
                 playSound: true,
                 visibility: NotificationVisibility.public,
                 icon: 'axs_logo',
