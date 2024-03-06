@@ -77,7 +77,7 @@ class NotificationsPage extends HookConsumerWidget {
           MXCSwitchRowItem(
             title: translate('background_notifications'),
             value: notificationsState.periodicalCallData!.serviceEnabled,
-            onChanged: notificationsPresenter.changeEnableService,
+            onChanged: notificationsPresenter.changeNotificationsServiceEnabled,
             enabled: isMXCChains,
             textTrailingWidget: MXCInformationButton(texts: [
               TextSpan(
@@ -117,7 +117,7 @@ class NotificationsPage extends HookConsumerWidget {
                 title: translate('low_balance'),
                 value: notificationsState
                     .periodicalCallData!.lowBalanceLimitEnabled,
-                onChanged: notificationsPresenter.enableLowBalanceLimit,
+                onChanged: notificationsPresenter.changeLowBalanceLimitEnabled,
                 enabled: isSettingsChangeEnabled,
               ),
               MxcTextField(
@@ -165,7 +165,8 @@ class NotificationsPage extends HookConsumerWidget {
                 title: translate('expected_transaction_fee'),
                 value: notificationsState
                     .periodicalCallData!.expectedTransactionFeeEnabled,
-                onChanged: notificationsPresenter.enableExpectedGasPrice,
+                onChanged:
+                    notificationsPresenter.changeExpectedTransactionFeeEnabled,
                 enabled: isSettingsChangeEnabled,
               ),
               MxcTextField(
@@ -213,7 +214,8 @@ class NotificationsPage extends HookConsumerWidget {
                 title: translate('expected_epoch_occur'),
                 value: notificationsState
                     .periodicalCallData!.expectedEpochOccurrenceEnabled,
-                onChanged: notificationsPresenter.enableExpectedEpochQuantity,
+                onChanged:
+                    notificationsPresenter.changeExpectedEpochQuantityEnabled,
                 enabled: isSettingsChangeEnabled,
               ),
               const SizedBox(height: Sizes.spaceNormal),
@@ -221,7 +223,7 @@ class NotificationsPage extends HookConsumerWidget {
                 key: const Key('epochOccurrenceDropDown'),
                 onTap: () {
                   showEpochOccurDialog(context,
-                      onTap: notificationsPresenter.selectEpochOccur,
+                      onTap: notificationsPresenter.updateEpochOccur,
                       selectedOccur: notificationsState
                           .periodicalCallData!.expectedEpochOccurrence);
                 },

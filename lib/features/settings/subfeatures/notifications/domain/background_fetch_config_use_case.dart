@@ -49,6 +49,56 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     });
   }
 
+  void updateNotificationsServiceEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(serviceEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateLowBalanceLimitEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(lowBalanceLimitEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateExpectedTransactionFeeEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(expectedTransactionFeeEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateExpectedEpochQuantityEnabled(bool value) {
+    final updatedPeriodicalCallData = periodicalCallData.value
+        .copyWith(expectedEpochOccurrenceEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateEpochOccur(int value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(expectedEpochOccurrence: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateNotificationsServiceFrequency(PeriodicalCallDuration duration) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(duration: duration.toMinutes());
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateLowBalance(String lowBalanceString) {
+    final lowBalance = double.parse(lowBalanceString);
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(lowBalanceLimit: lowBalance);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateExpectedTransactionFee(String expectedTransactionFeeString) {
+    final expectedTransactionFee = double.parse(expectedTransactionFeeString);
+    final updatedPeriodicalCallData = periodicalCallData.value
+        .copyWith(expectedTransactionFee: expectedTransactionFee);
+    updateItem(updatedPeriodicalCallData);
+  }
+
   Future<void> checkLowBalance(Account account, double lowBalanceLimit) async {
     print("lowBalanceLimitEnabled");
     final balance = await _tokenContractUseCase.getEthBalance(account.address);
