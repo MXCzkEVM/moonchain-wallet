@@ -48,11 +48,12 @@ class Validation {
   }
 
   static String? checkEthereumAddress(BuildContext context, String value) {
-    if (!RegExp(r'^(0x)?[0-9a-f]{40}', caseSensitive: false).hasMatch(value)) {
+    try {
+      EthereumAddress.fromHex(value);
+      return null;
+    } catch (e) {
       return FlutterI18n.translate(context, 'invalid_format');
     }
-
-    return null;
   }
 
   static String? checkEthereumPrivateKey(BuildContext context, String value) {
