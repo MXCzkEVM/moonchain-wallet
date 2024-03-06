@@ -10,11 +10,14 @@ class MinerUseCase extends ReactiveUseCase {
 
   final Web3Repository _repository;
 
-  Future<bool> claimMinersReward({
-    required List<String> selectedMinerListId,
-    required Account account,
-  }) async {
+  Future<bool> claimMinersReward(
+      {required List<String> selectedMinerListId,
+      required Account account,
+      required void Function(String title, String? text)
+          showNotification}) async {
     return await _repository.minerRepository.claimMinersReward(
-        selectedMinerListId: selectedMinerListId, account: account);
+        selectedMinerListId: selectedMinerListId,
+        account: account,
+        showNotification: showNotification);
   }
 }
