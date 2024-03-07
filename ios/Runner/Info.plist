@@ -7,6 +7,7 @@
 		<string>com.transistorsoft.fetch</string>
 		<string>com.mxc.axswallet.periodicalTasks</string>
 		<string>com.mxc.axswallet.dappHooksTasks</string>
+		<string>com.mxc.axswallet.minerAutoClaimTask</string>
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
@@ -97,7 +98,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Calendar?</string>
 	<key>NSCameraUsageDescription</key>
-	<string>AXS Wallet needs camera access to scan QR codes for transactions. Scanned data is stored locally and isn't shared.</string>
+	<string>AXS Wallet needs camera access to scan QR codes for transactions. Scanned data is stored locally and isn&apos;t shared.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Contacts?</string>
 	<key>NSFaceIDUsageDescription</key>
@@ -111,7 +112,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Location?</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>AXS Wallet needs microphone access to scan QR codes for transactions. Scanned data is stored locally and isn't shared.</string>
+	<string>AXS Wallet needs microphone access to scan QR codes for transactions. Scanned data is stored locally and isn&apos;t shared.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Motion?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
