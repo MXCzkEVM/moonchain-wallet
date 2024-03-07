@@ -76,7 +76,7 @@ class DAppHooksService {
       // Make sure user is logged in
       if (isLoggedIn && Config.isMxcChains(chainId) && minerHooksEnabled) {
         AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
-          await dAppHooksUseCase.claimMiners(
+          await dAppHooksUseCase.executeMinerAutoClaim(
               account: account!,
               selectedMinerListId: selectedMiners,
               minerAutoClaimTime: minerHooksTime);

@@ -303,29 +303,32 @@ class DAppHooksUseCase extends ReactiveUseCase {
   }
 
   // This function is called after execusion & for scheduling
-  Future<bool> scheduleAutoClaimTransaction(DateTime dateTime,
-      {bool isAfterTx = false}) async {
+  Future<bool> scheduleAutoClaimTransaction(
+    DateTime dateTime,
+  ) async {
     // It should't be negative
     // 0 - -5 is OK
-    if (isAfterTx) {
-      final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
-      final delay = 24 * 60 + difference;
-      return await startAutoClaimService(delay);
-    } else if (isTimeReached(dateTime)) {
-      return await executeMinerAutoClaim(
-          _accountUseCase.account.value!, dateTime);
-    } else {
-      final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
-      return await startAutoClaimService(difference);
-    }
+    // if (isAfterTx) {
+    final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+    final delay = difference.isNegative ? (24 * 60 + difference) : difference;
+    return await startAutoClaimService(delay);
+    // } else {
+    //   final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+    //   return await startAutoClaimService(difference);
+    // }
   }
 
-  Future<bool> executeMinerAutoClaim(Account account, DateTime dateTime) async {
+  Future<bool> executeMinerAutoClaim(
+      {required Account account,
+      required List<String> selectedMinerListId,
+      required DateTime minerAutoClaimTime}) async {
     await claimMiners(
         selectedMinerListId: dappHooksData.value.minerHooks.selectedMiners,
         account: account,
-        minerAutoClaimTime: dateTime);
-    return await scheduleAutoClaimTransaction(dateTime, isAfterTx: true);
+        minerAutoClaimTime: minerAutoClaimTime);
+    return await scheduleAutoClaimTransaction(
+      minerAutoClaimTime,
+    );
   }
 
   // delay is in minutes
@@ -377,25 +380,27 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime minerAutoClaimTime}) async {
     try {
+      AXSNotification().showNotification('Auto Claim Started 🏁', null);
       final ableToClaim = await _minerUseCase.claimMinersReward(
-          selectedMinerListId: selectedMinerListId, account: account);
+          selectedMinerListId: selectedMinerListId,
+          account: account,
+          showNotification: AXSNotification().showLowPriorityNotification);
 
       if (ableToClaim) {
         AXSNotification().showNotification(
-          'Miner aut-claim successful',
+          'Miner aut-claim successful ✅',
           'AXS wallet has been successfully claimed you mined tokens',
         );
       } else {
         AXSNotification().showNotification(
-          "Oops, Nothing to claim",
+          "Oops, Nothing to claim ℹ️",
           'AXS wallet tried to claim your mined tokens, But didn\'t find any tokens to claim.',
         );
       }
       // Updating now date time + 1 day to set the timer for tomorrow
       updateAutoClaimTime(minerAutoClaimTime);
     } catch (e) {
-      _errorUseCase.handleBackgroundServiceError(
-          "Claim transaction failed ", e);
+      _errorUseCase.handleBackgroundServiceError("Miner aut-claim failed ❌", e);
     }
   }
 

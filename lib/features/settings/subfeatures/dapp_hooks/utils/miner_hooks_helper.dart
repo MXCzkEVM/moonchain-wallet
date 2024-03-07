@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../dapp_hooks_state.dart';
 import '../domain/dapp_hooks_use_case.dart';
+import '../widgets/auto_claim_dialog.dart';
 import '../widgets/background_fetch_dialog.dart';
 
 class MinerHooksHelper {
@@ -30,17 +31,22 @@ class MinerHooksHelper {
       await showBackgroundFetchAlertDialog(context: context!);
     }
 
-    late bool success;
+    final success = await dAppHooksUseCase.scheduleAutoClaimTransaction(time);
     final reached = dAppHooksUseCase.isTimeReached(time);
-    // Time past, need to run the auto claim
-    if (reached) {
-      success =
-          await dAppHooksUseCase.executeMinerAutoClaim(state.account!, time);
-    } else {
-      // Time not pas need to schedule
-      success = await dAppHooksUseCase.scheduleAutoClaimTransaction(time);
-    }
+
     if (success) {
+      // Time past, need to run the auto claim
+      if (reached) {
+        await showAutoClaimExecutionAlertDialog(
+            context: context!,
+            executeAutoClaim: () {
+              dAppHooksUseCase.claimMiners(
+                  account: state.account!,
+                  minerAutoClaimTime: time,
+                  selectedMinerListId:
+                      state.dAppHooksData!.minerHooks.selectedMiners);
+            });
+      }
       dappHooksSnackBarUtils.showMinerHooksServiceSuccessSnackBar();
       return true;
     } else {
