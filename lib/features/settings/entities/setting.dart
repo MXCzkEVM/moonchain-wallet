@@ -75,7 +75,7 @@ class Setting {
           onTap: null),
       Setting(
           title: FlutterI18n.translate(context, 'dapp_hooks'),
-          icon: Icons.miscellaneous_services_rounded,
+          icon: Icons.auto_mode_rounded,
           page: const DAppHooksPage(),
           trailingIcon: null,
           onTap: null),
