@@ -3,8 +3,7 @@ import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
 import 'package:flutter/material.dart';
-
-import '../dapp_hooks_state.dart';
+import 'package:intl/intl.dart';
 import '../domain/dapp_hooks_use_case.dart';
 import '../widgets/auto_claim_dialog.dart';
 import '../widgets/background_fetch_dialog.dart';
@@ -35,20 +34,28 @@ class MinerHooksHelper {
     final success = await dAppHooksUseCase.scheduleAutoClaimTransaction(time);
     final reached = dAppHooksUseCase.isTimeReached(time);
 
+    bool shouldShowScheduleSnackBar = false;
+
     if (success) {
       // Time past, need to run the auto claim
       if (reached) {
-        await showAutoClaimExecutionAlertDialog(
-            context: context!,
-            executeAutoClaim: () {
-              dAppHooksUseCase.claimMiners(
-                  account: accountUseCase.account.value!,
-                  minerAutoClaimTime: time,
-                  selectedMinerListId: dAppHooksUseCase
-                      .dappHooksData.value.minerHooks.selectedMiners);
-            });
+        shouldShowScheduleSnackBar = !(await showAutoClaimExecutionAlertDialog(
+                context: context!,
+                executeAutoClaim: () {
+                  dAppHooksUseCase.claimMiners(
+                      account: accountUseCase.account.value!,
+                      minerAutoClaimTime: time,
+                      selectedMinerListId: dAppHooksUseCase
+                          .dappHooksData.value.minerHooks.selectedMiners);
+                }) ??
+            false);
       }
-      dappHooksSnackBarUtils.showMinerHooksServiceSuccessSnackBar();
+      if (shouldShowScheduleSnackBar) {
+        dappHooksSnackBarUtils
+            .showScheduleSnackBar(DateFormat('HH:mm').format(time));
+      } else {
+        dappHooksSnackBarUtils.showMinerHooksServiceSuccessSnackBar();
+      }
       return true;
     } else {
       dappHooksSnackBarUtils.showMinerHooksServiceFailureSnackBar();
@@ -70,7 +77,9 @@ class MinerHooksHelper {
     return true;
   }
 
-  Future<void> changeMinerHooksEnabled(bool value) {
+  Future<void> changeMinerHooksEnabled(
+    bool value,
+  ) {
     return DAppHooksHelper.shouldUpdateWrapper(() async {
       late bool update;
       if (value) {

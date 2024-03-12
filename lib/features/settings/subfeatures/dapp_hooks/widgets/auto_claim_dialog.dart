@@ -51,9 +51,7 @@ Future<bool?> showAutoClaimExecutionAlertDialog(
                 MxcButton.secondary(
                   key: const ValueKey('cancelButton'),
                   title: translate('cancel'),
-                  onTap: () {
-                    Navigator.of(context).pop(true);
-                  },
+                  onTap: () => Navigator.of(context).pop(false),
                   size: AxsButtonSize.xl,
                 ),
                 const SizedBox(
