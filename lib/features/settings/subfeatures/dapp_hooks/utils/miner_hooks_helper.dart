@@ -1,4 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import '../widgets/background_fetch_dialog.dart';
 
 class MinerHooksHelper {
   MinerHooksHelper(
-      {required this.state,
+      {required this.accountUseCase,
       required this.dAppHooksUseCase,
       required this.backgroundFetchConfigUseCase,
       required this.context,
@@ -18,7 +19,7 @@ class MinerHooksHelper {
 
   DAppHooksUseCase dAppHooksUseCase;
   BackgroundFetchConfigUseCase backgroundFetchConfigUseCase;
-  DAppHooksState state;
+  AccountUseCase accountUseCase;
   DappHooksSnackBarUtils get dappHooksSnackBarUtils =>
       DappHooksSnackBarUtils(translate: translate, context: context);
   BuildContext? context;
@@ -41,10 +42,10 @@ class MinerHooksHelper {
             context: context!,
             executeAutoClaim: () {
               dAppHooksUseCase.claimMiners(
-                  account: state.account!,
+                  account: accountUseCase.account.value!,
                   minerAutoClaimTime: time,
-                  selectedMinerListId:
-                      state.dAppHooksData!.minerHooks.selectedMiners);
+                  selectedMinerListId: dAppHooksUseCase
+                      .dappHooksData.value.minerHooks.selectedMiners);
             });
       }
       dappHooksSnackBarUtils.showMinerHooksServiceSuccessSnackBar();
@@ -69,12 +70,13 @@ class MinerHooksHelper {
     return true;
   }
 
-  void changeMinerHooksEnabled(bool value) {
-    DAppHooksHelper.shouldUpdateWrapper(() async {
+  Future<void> changeMinerHooksEnabled(bool value) {
+    return DAppHooksHelper.shouldUpdateWrapper(() async {
       late bool update;
       if (value) {
         update = await startMinerHooksService(
-            time: state.dAppHooksData!.minerHooks.time, showBGFetchAlert: true);
+            time: dAppHooksUseCase.dappHooksData.value.minerHooks.time,
+            showBGFetchAlert: true);
       } else {
         update = await stopAutoClaimService(showSnackbar: true);
       }
@@ -84,10 +86,11 @@ class MinerHooksHelper {
     });
   }
 
-  void changeMinerHookTiming(TimeOfDay value) async {
-    DAppHooksHelper.shouldUpdateWrapper(() async {
+  Future<void> changeMinerHookTiming(TimeOfDay value) async {
+    return DAppHooksHelper.shouldUpdateWrapper(() async {
       late bool update;
-      final currentDateTime = state.dAppHooksData!.minerHooks.time;
+      final currentDateTime =
+          dAppHooksUseCase.dappHooksData.value.minerHooks.time;
       final time = currentDateTime.copyWith(
           hour: value.hour, minute: value.minute, second: 0);
       update =
