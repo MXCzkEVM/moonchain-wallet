@@ -24,7 +24,7 @@ class DAppHooksHelper {
   BuildContext? context;
   String? Function(String) translate;
 
-  static shouldUpdateWrapper(
+  static Future<void> shouldUpdateWrapper(
       Future<bool> Function() execution, void Function() update) async {
     final executionResult = await execution();
     if (executionResult) {
