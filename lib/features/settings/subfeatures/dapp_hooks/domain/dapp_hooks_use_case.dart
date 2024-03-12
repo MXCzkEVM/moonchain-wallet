@@ -75,6 +75,14 @@ class DAppHooksUseCase extends ReactiveUseCase {
     updateItem(newDAppHooksData);
   }
 
+  void updateMinersList(List<String> miners) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+        minerHooks: dappHooksData.value.minerHooks.copyWith(
+      selectedMiners: miners,
+    ));
+    updateItem(newDAppHooksData);
+  }
+
   void updateMinerHookTiming(TimeOfDay value) {
     final newDAppHooksData = dappHooksData.value.copyWith(
         minerHooks: dappHooksData.value.minerHooks.copyWith(
@@ -306,16 +314,9 @@ class DAppHooksUseCase extends ReactiveUseCase {
   Future<bool> scheduleAutoClaimTransaction(
     DateTime dateTime,
   ) async {
-    // It should't be negative
-    // 0 - -5 is OK
-    // if (isAfterTx) {
     final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
     final delay = difference.isNegative ? (24 * 60 + difference) : difference;
     return await startAutoClaimService(delay);
-    // } else {
-    //   final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
-    //   return await startAutoClaimService(difference);
-    // }
   }
 
   Future<bool> executeMinerAutoClaim(

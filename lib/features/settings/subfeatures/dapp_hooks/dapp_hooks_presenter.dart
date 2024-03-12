@@ -37,8 +37,9 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
       translate: translate,
       context: context,
       dAppHooksUseCase: _dAppHooksUseCase,
-      state: state,
+      accountUseCase: _accountUseCase,
       backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase);
+
   WiFiHooksHelper get wifiHooksHelper => WiFiHooksHelper(
       translate: translate,
       context: context,

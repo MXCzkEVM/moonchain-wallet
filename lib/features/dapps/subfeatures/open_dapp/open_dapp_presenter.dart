@@ -8,6 +8,7 @@ import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/dapp_hooks_page.dart';
+import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -37,6 +38,15 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _errorUseCase = ref.read(errorUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
   late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
+  late final _backgroundFetchConfigUseCase =
+      ref.read(backgroundFetchConfigUseCaseProvider);
+
+  MinerHooksHelper get minerHooksHelper => MinerHooksHelper(
+      translate: translate,
+      context: context,
+      dAppHooksUseCase: _dAppHooksUseCase,
+      accountUseCase: _accountUseCase,
+      backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase);
 
   @override
   void initState() {
@@ -63,6 +73,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void onWebViewCreated(InAppWebViewController controller) async {
     notify(() => state.webviewController = controller);
     updateCurrentUrl(null);
+    injectMinerDappListeners();
   }
 
   void updateCurrentUrl(Uri? value) async {
@@ -594,19 +605,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
+  void changeOnLoadStopCalled() {
+    state.isLoadStopCalled = !state.isLoadStopCalled;
+  }
+
   // call this on webview created
-  void injectMinerDappListeners() {
-    // Making It easy for accessing axs wallet
-    // use this way window.axs.callHandler
-    state.webviewController!.evaluateJavascript(
-        source: JSChannelScripts.axsWalletObjectInjectScript(
-            JSChannelConfig.axsWalletJSObjectName));
-
-    state.webviewController!.evaluateJavascript(
-        source: JSChannelScripts.axsWalletJSHandler(
-            JSChannelConfig.axsWalletJSObjectName,
-            JSChannelEvents.axsReadyEvent, {}));
-
+  void injectMinerDappListeners() async {
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.changeCronTransitionEvent,
         callback: (args) =>
@@ -617,133 +621,151 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
             jsChannelErrorHandler(args, handleChangeCronTransitionStatusEvent));
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.getSystemInfoEvent,
-        callback: (args) => jsChannelErrorHandler(args, handleGetSystemInfo));
+        callback: (args) =>
+            jsChannelErrorHandler(args, handleGetSystemInfoEvent));
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.goToAdvancedSettingsEvent,
         callback: (args) =>
-            jsChannelErrorHandler(args, handleGoToAdvancedSettings));
+            jsChannelErrorHandler(args, handleGoToAdvancedSettingsEvent));
   }
 
-  AXSJSChannelResponseModel jsChannelErrorHandler(List<dynamic> args,
-      Function(Map<String, dynamic>, AXSCronServices) callback) {
+  void injectAXSWalletJSChannel() async {
+    // Making It easy for accessing axs wallet
+    // use this way window.axs.callHandler
+    await state.webviewController!.evaluateJavascript(
+        source: JSChannelScripts.axsWalletObjectInjectScript(
+            JSChannelConfig.axsWalletJSObjectName));
+
+    await state.webviewController!.evaluateJavascript(
+        source: JSChannelScripts.axsWalletJSHandler(
+            JSChannelConfig.axsWalletJSObjectName,
+            JSChannelEvents.axsReadyEvent, {}));
+  }
+
+  Future<Map<String, dynamic>> jsChannelErrorHandler(
+      List<dynamic> args,
+      Future<Map<String, dynamic>> Function(
+              Map<String, dynamic>, AXSCronServices)
+          callback) async {
     try {
+      Map<String, dynamic> channelDataMap;
+
       final channelData = args[0];
-      final channelDataMap = json.decode(channelData) as Map<String, dynamic>;
+      channelDataMap = channelData as Map<String, dynamic>;
+
       final axsCronService =
           AXSCronServicesExtension.getCronServiceFromJson(channelDataMap);
-      return callback(channelDataMap, axsCronService);
+      final callbackRes = await callback(channelDataMap, axsCronService);
+      return callbackRes;
     } catch (e) {
       final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
           status: AXSJSChannelResponseStatus.failed,
           data: null,
           message: e.toString());
-      return response;
+      return response.toMap((data) => {'message': e.toString()});
     }
   }
 
   // Update via functions & get data via steam & send the data via event eaach time
   // ready => updateSystemInfo (service statues, mining service status, time, selected miners, camera permission location permission)
 
-  AXSJSChannelResponseModel handleChangeCronTransition(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) {
+  Future<Map<String, dynamic>> handleChangeCronTransition(
+      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
     final axsCronService =
         AXSCronServicesExtension.getCronServiceFromJson(channelData);
     if (axsCronService == AXSCronServices.miningAutoClaimCron) {
       ChangeCronTransitionRequestModel;
       final changeCronTransitionRequestModel =
           ChangeCronTransitionRequestModel<MiningCronServiceDataModel>.fromMap(
-              channelData, MiningCronServiceDataModel.fromMap);
+              channelData['cron'], MiningCronServiceDataModel.fromMap);
 
-      // Here i change the data thaqt won't effect the
+      // Here i change the data that won't effect the
       final currentDappHooksData = state.dappHooksData;
-      final minersList = changeCronTransitionRequestModel.data?.minersList ??
-          currentDappHooksData.minerHooks.selectedMiners;
-      final time = changeCronTransitionRequestModel.data?.time ??
-          currentDappHooksData.minerHooks.time;
-      final updatedDappHooksData = currentDappHooksData.copyWith(
-          minerHooks: currentDappHooksData.minerHooks
-              .copyWith(selectedMiners: minersList, time: time));
-      _dAppHooksUseCase.updateItem(updatedDappHooksData);
+      final newData = changeCronTransitionRequestModel.data;
+
+      if (newData != null) {
+        final minersList = newData.minersList ??
+            currentDappHooksData.minerHooks.selectedMiners;
+        _dAppHooksUseCase.updateMinersList(minersList);
+
+        final newTimeOfDay = TimeOfDay.fromDateTime(newData.time!);
+        final currentTimeOfDay =
+            TimeOfDay.fromDateTime(currentDappHooksData.minerHooks.time);
+
+        if (newData.time != null && newTimeOfDay != currentTimeOfDay) {
+          await minerHooksHelper.changeMinerHookTiming(newTimeOfDay);
+        }
+      }
+
+      final miningCronServiceData =
+          MiningCronServiceDataModel.fromDAppHooksData(
+              _dAppHooksUseCase.dappHooksData.value);
 
       final responseData = CronServiceDataModel.fromDAppHooksData(
           axsCronService,
-          updatedDappHooksData,
-          MiningCronServiceDataModel.fromDAppHooksData(updatedDappHooksData));
+          _dAppHooksUseCase.dappHooksData.value,
+          miningCronServiceData);
 
       final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
           status: AXSJSChannelResponseStatus.success,
           data: responseData,
           message: null);
-      return response;
+      return response.toMap(miningCronServiceData.toMapWrapper);
     } else {
       throw 'Unknown service';
     }
   }
 
-  AXSJSChannelResponseModel handleChangeCronTransitionStatusEvent(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) {
+  Future<Map<String, dynamic>> handleChangeCronTransitionStatusEvent(
+      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
     if (axsCronService == AXSCronServices.miningAutoClaimCron) {
-      final status = channelData['status'];
-      final dappHooksData = state.dappHooksData;
-      final delay = dappHooksData.duration;
+      final status = channelData['cron']['status'];
 
-      DAppHooksModel updatedDappHooksData;
-      if (status) {
-        updatedDappHooksData = dappHooksData.copyWith(enabled: status);
-        _dAppHooksUseCase.startDAppHooksService(delay);
-      }
-
-      updatedDappHooksData = dappHooksData.copyWith(
-          minerHooks: dappHooksData.minerHooks.copyWith(enabled: status));
-      _dAppHooksUseCase.updateItem(updatedDappHooksData);
+      await minerHooksHelper.changeMinerHooksEnabled(status);
+      final miningCronServiceData =
+          MiningCronServiceDataModel.fromDAppHooksData(
+              _dAppHooksUseCase.dappHooksData.value);
 
       final responseData = CronServiceDataModel.fromDAppHooksData(
           axsCronService,
-          updatedDappHooksData,
-          MiningCronServiceDataModel.fromDAppHooksData(updatedDappHooksData));
+          _dAppHooksUseCase.dappHooksData.value,
+          miningCronServiceData);
       final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
           status: AXSJSChannelResponseStatus.success,
           message: null,
           data: responseData);
-      return response;
+      return response.toMap(miningCronServiceData.toMapWrapper);
     } else {
       throw 'Unknown cron service';
     }
   }
 
-  void addMiningAutoClaim() {
-    // if cron_claim
-  }
-  void removeMiningAutoClaim() {
-    // if cron_claim
-  }
-
-  void handleGoToAdvancedSettingsEvent() {}
-  AXSJSChannelResponseModel handleGetSystemInfo(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) {
+  Future<Map<String, dynamic>> handleGetSystemInfoEvent(
+      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
     if (axsCronService == AXSCronServices.miningAutoClaimCron) {
       final dappHooksData = state.dappHooksData;
 
+      final miningCronServiceData =
+          MiningCronServiceDataModel.fromDAppHooksData(dappHooksData);
+
       final responseData = CronServiceDataModel.fromDAppHooksData(
-          axsCronService,
-          dappHooksData,
-          MiningCronServiceDataModel.fromDAppHooksData(dappHooksData));
+          axsCronService, dappHooksData, miningCronServiceData);
       final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
           status: AXSJSChannelResponseStatus.success,
           message: null,
           data: responseData);
-      return response;
+      return response.toMap(miningCronServiceData.toMapWrapper);
     } else {
       throw 'Unknown cron service';
     }
   }
 
-  AXSJSChannelResponseModel handleGoToAdvancedSettings(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) {
+  Future<Map<String, dynamic>> handleGoToAdvancedSettingsEvent(
+      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
     goToAdvancedSettings();
     final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
         status: AXSJSChannelResponseStatus.success, message: null, data: null);
-    return response;
+    return response.toMap((data) => {});
   }
 
   void goToAdvancedSettings() {

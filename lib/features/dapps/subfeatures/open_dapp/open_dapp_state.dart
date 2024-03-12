@@ -13,6 +13,8 @@ class OpenDAppState with EquatableMixin {
   Uri? currentUrl;
   bool isSecure = false;
   late DAppHooksModel dappHooksData;
+  // this is used for controlling the onLoadStop not being called twice
+  bool isLoadStopCalled = true;
 
   @override
   List<Object?> get props => [
@@ -23,6 +25,7 @@ class OpenDAppState with EquatableMixin {
         animationController,
         currentUrl,
         isSecure,
-        dappHooksData
+        dappHooksData,
+        isLoadStopCalled
       ];
 }
