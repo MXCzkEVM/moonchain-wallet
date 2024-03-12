@@ -637,9 +637,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
             JSChannelConfig.axsWalletJSObjectName));
 
     await state.webviewController!.evaluateJavascript(
-        source: JSChannelScripts.axsWalletJSHandler(
-            JSChannelConfig.axsWalletJSObjectName,
-            JSChannelEvents.axsReadyEvent, {}));
+        source: JSChannelScripts.axsWalletReadyInjectScript(
+      JSChannelEvents.axsReadyEvent,
+    ));
   }
 
   Future<Map<String, dynamic>> jsChannelErrorHandler(
