@@ -335,5 +335,20 @@
     "occurrence": "Ocorrência",
     "frequency": "Frequência",
     "experiencing_issues": "Enfrentando problemas?",
-    "background_service_solution": "Tente reativar o aplicativo ou verifique as configurações de otimização da bateria."
+    "background_service_solution": "Tente reativar o aplicativo ou verifique as configurações de otimização da bateria.",
+    "dapp_hooks": "Ganchos DApp",
+    "wifi_hooks": "Ganchos Wi-Fi",
+    "miner_hooks": "Ganchos de minerador",
+    "location_permission_required_title": "Permissão de localização necessária.",
+    "location_permission_required_text": "Ops, a permissão de localização foi negada. É essencial para nós ter a permissão de localização para que os ganchos Wi-Fi funcionem ativamente. Por favor, conceda a permissão de localização indo às configurações.",
+    "open_settings": "Abra as configurações",
+    "service_launched_successfully": "O serviço {0} foi lançado com sucesso.",
+    "unable_to_launch_service": "Incapaz de iniciar o serviço {0}.",
+    "service_disabled_successfully": "Serviço {0} desativado com sucesso.",
+    "location": "Localização",
+    "wifi_hooks_solutions": "Tente reativar.\nRequisitos:\n1. A permissão de localização para sempre deve ser permitida\n2. O serviço de localizações deve estar em funcionamento\n3. Você deve estar conectado a uma rede Wi-Fi",
+    "auto_claim_execution_dialog_title": "O Tempo Já Passou!",
+    "auto_claim_execution_dialog_text": "O tempo para a reivindicação automática expirou. Gostaria de executar a reivindicação automática agora?",
+    "execute": "Execute - Execute",
+    "auto_claim_scheduling_text": "A auto-reivindicação será executada às {0} amanhã"
 }

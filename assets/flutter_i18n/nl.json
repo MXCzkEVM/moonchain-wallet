@@ -335,5 +335,20 @@
     "occurrence": "Voorkomen",
     "frequency": "Frequentie",
     "experiencing_issues": "Ervaart u problemen?",
-    "background_service_solution": "Probeer de app opnieuw in te schakelen of controleer de instellingen voor batterijoptimalisatie."
+    "background_service_solution": "Probeer de app opnieuw in te schakelen of controleer de instellingen voor batterijoptimalisatie.",
+    "dapp_hooks": "DApp-haken",
+    "wifi_hooks": "Wi-Fi haken",
+    "miner_hooks": "Mijnwerker haken",
+    "location_permission_required_title": "Locatie toestemming vereist.",
+    "location_permission_required_text": "Oeps, locatietoestemming is geweigerd. Het is essentieel voor ons om locatietoestemming te hebben zodat Wi-Fi hooks actief kunnen presteren. Geef alstublieft locatietoestemming door naar instellingen te gaan.",
+    "open_settings": "Open instellingen",
+    "service_launched_successfully": "{0} service succesvol gelanceerd.",
+    "unable_to_launch_service": "Kan {0} service niet starten.",
+    "service_disabled_successfully": "{0} service succesvol uitgeschakeld.",
+    "location": "Locatie",
+    "wifi_hooks_solutions": "Probeer opnieuw in te schakelen.\nVereisten:\n1. Locatietoestemming voor altijd moet worden toegestaan\n2. Locatieservice moet actief zijn\n3. U moet verbonden zijn met een Wi-Fi",
+    "auto_claim_execution_dialog_title": "De Tijd is Al Verstreken!",
+    "auto_claim_execution_dialog_text": "De tijd voor automatische claim is verstreken. Wilt u nu een automatische claim uitvoeren?",
+    "execute": "Uitvoeren",
+    "auto_claim_scheduling_text": "Auto-claim wordt morgen om {0} uitgevoerd"
 }

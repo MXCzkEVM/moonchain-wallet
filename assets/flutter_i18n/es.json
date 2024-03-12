@@ -335,5 +335,20 @@
     "occurrence": "Ocurrencia",
     "frequency": "Frecuencia",
     "experiencing_issues": "¿Experimentando problemas?",
-    "background_service_solution": "Intenta volver a habilitar la aplicación o revisa la configuración de optimización de la batería."
+    "background_service_solution": "Intenta volver a habilitar la aplicación o revisa la configuración de optimización de la batería.",
+    "dapp_hooks": "Ganchos de DApp",
+    "wifi_hooks": "Ganchos de Wi-Fi",
+    "miner_hooks": "Ganchos de minero",
+    "location_permission_required_title": "Se requiere permiso de ubicación.",
+    "location_permission_required_text": "Vaya, se ha denegado el permiso de ubicación. Es esencial para nosotros tener el permiso de ubicación para que los ganchos de Wi-Fi funcionen activamente. Por favor, otorgue el permiso de ubicación yendo a la configuración.",
+    "open_settings": "Abrir configuraciones",
+    "service_launched_successfully": "El servicio {0} se lanzó con éxito.",
+    "unable_to_launch_service": "No se puede iniciar el servicio {0}.",
+    "service_disabled_successfully": "Servicio {0} desactivado con éxito.",
+    "location": "Ubicación",
+    "wifi_hooks_solutions": "Intenta habilitarlo de nuevo.\nRequisitos:\n1. Se debe permitir el permiso de ubicación siempre\n2. El servicio de ubicaciones debería estar funcionando\n3. Deberías estar conectado a una red Wi-Fi",
+    "auto_claim_execution_dialog_title": "¡Tiempo Ya Pasado!",
+    "auto_claim_execution_dialog_text": "El tiempo para la reclamación automática ha transcurrido. ¿Le gustaría ejecutar la reclamación automática ahora?",
+    "execute": "Ejecutar",
+    "auto_claim_scheduling_text": "La auto-reclamación se ejecutará a las {0} mañana"
 }

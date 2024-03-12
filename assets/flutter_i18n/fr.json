@@ -335,5 +335,20 @@
     "occurrence": "Occurrence en français est \"Occurrence\".",
     "frequency": "Fréquence",
     "experiencing_issues": "Rencontrez-vous des problèmes ?",
-    "background_service_solution": "Essayez de réactiver l'application ou vérifiez les paramètres d'optimisation de la batterie."
+    "background_service_solution": "Essayez de réactiver l'application ou vérifiez les paramètres d'optimisation de la batterie.",
+    "dapp_hooks": "Crochets DApp",
+    "wifi_hooks": "Crochets Wi-Fi",
+    "miner_hooks": "Crochets de mineur",
+    "location_permission_required_title": "Autorisation de localisation requise.",
+    "location_permission_required_text": "Oups, la permission de localisation est refusée. Il est essentiel pour nous d'avoir la permission de localisation afin que les crochets Wi-Fi fonctionnent activement. Veuillez accorder la permission de localisation en allant dans les paramètres.",
+    "open_settings": "Ouvrir les paramètres",
+    "service_launched_successfully": "Le service {0} a été lancé avec succès.",
+    "unable_to_launch_service": "Impossible de lancer le service {0}.",
+    "service_disabled_successfully": "Service {0} désactivé avec succès.",
+    "location": "Emplacement",
+    "wifi_hooks_solutions": "Essayez de réactiver.\nExigences :\n1. La permission de localisation en permanence doit être autorisée\n2. Le service de localisation doit être en fonctionnement\n3. Vous devez être connecté à un Wi-Fi",
+    "auto_claim_execution_dialog_title": "Le Temps Est Déjà Passé!",
+    "auto_claim_execution_dialog_text": "Le temps pour la réclamation automatique a expiré. Souhaitez-vous exécuter la réclamation automatique maintenant?",
+    "execute": "Exécutez",
+    "auto_claim_scheduling_text": "L'auto-réclamation s'exécutera à {0} demain"
 }

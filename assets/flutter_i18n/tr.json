@@ -335,5 +335,20 @@
     "occurrence": "Meydana Gelme",
     "frequency": "Frekans",
     "experiencing_issues": "Sorunlar mı yaşıyorsunuz?",
-    "background_service_solution": "Uygulamayı yeniden etkinleştirmeyi deneyin veya pil optimizasyon ayarlarını kontrol edin."
+    "background_service_solution": "Uygulamayı yeniden etkinleştirmeyi deneyin veya pil optimizasyon ayarlarını kontrol edin.",
+    "dapp_hooks": "DApp kancaları",
+    "wifi_hooks": "Wi-Fi kancaları",
+    "miner_hooks": "Madenci kancaları",
+    "location_permission_required_title": "Konum izni gereklidir.",
+    "location_permission_required_text": "Hata, konum izni reddedildi. Wi-Fi kancalarının aktif olarak çalışabilmesi için konum iznine sahip olmamız gereklidir. Lütfen ayarlara giderek konum izni verin.",
+    "open_settings": "Ayarları açın",
+    "service_launched_successfully": "{0} hizmeti başarıyla başlatıldı.",
+    "unable_to_launch_service": "{0} hizmeti başlatılamıyor.",
+    "service_disabled_successfully": "{0} hizmeti başarıyla devre dışı bırakıldı.",
+    "location": "Konum",
+    "wifi_hooks_solutions": "Tekrar etkinleştirmeyi deneyin.\nGereksinimler:\n1. Her zaman için konum izni verilmiş olmalı\n2. Konum servisi çalışıyor olmalı\n3. Wi-Fi'ye bağlı olmalısınız",
+    "auto_claim_execution_dialog_title": "Zaman Zaten Geçti!",
+    "auto_claim_execution_dialog_text": "Otomatik talep için zaman doldu. Şimdi otomatik talebi gerçekleştirmek ister misiniz?",
+    "execute": "Yürüt",
+    "auto_claim_scheduling_text": "Otomatik talep, yarın {0} 'da gerçekleştirilecek."
 }

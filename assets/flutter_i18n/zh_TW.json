@@ -335,5 +335,20 @@
     "occurrence": "發生",
     "frequency": "頻率",
     "experiencing_issues": "遇到問題嗎？",
-    "background_service_solution": "嘗試重新啟用應用程式或檢查電池優化設定。"
+    "background_service_solution": "嘗試重新啟用應用程式或檢查電池優化設定。",
+    "dapp_hooks": "DApp 鉤子",
+    "wifi_hooks": "Wi-Fi 鉤子",
+    "miner_hooks": "礦工鉤子",
+    "location_permission_required_title": "需要位置權限。",
+    "location_permission_required_text": "哎呀，地點權限被拒絕了。對我們來說，要讓Wi-Fi鉤子積極運作，擁有地點權限是必要的。請透過前往設定來授予地點權限。",
+    "open_settings": "打開設定",
+    "service_launched_successfully": "{0} 服務成功啟動。",
+    "unable_to_launch_service": "無法啟動 {0} 服務。",
+    "service_disabled_successfully": "{0} 服務已成功停用。",
+    "location": "位置",
+    "wifi_hooks_solutions": "嘗試重新啟用。\n要求：\n1. 應始終允許位置權限\n2. 位置服務應該在運行\n3. 您應連接到Wi-Fi",
+    "auto_claim_execution_dialog_title": "時間已經過去了！",
+    "auto_claim_execution_dialog_text": "自動索取的時間已經過去。您現在想要執行自動索取嗎？",
+    "execute": "執行",
+    "auto_claim_scheduling_text": "自動索取將在明天的{0}執行"
 }

@@ -335,5 +335,20 @@
     "occurrence": "Vorkommen",
     "frequency": "Frequenz",
     "experiencing_issues": "Probleme erleben?",
-    "background_service_solution": "Versuchen Sie, die App erneut zu aktivieren oder überprüfen Sie die Einstellungen für die Akku-Optimierung."
+    "background_service_solution": "Versuchen Sie, die App erneut zu aktivieren oder überprüfen Sie die Einstellungen für die Akku-Optimierung.",
+    "dapp_hooks": "DApp Haken",
+    "wifi_hooks": "Wi-Fi Haken",
+    "miner_hooks": "Miner Haken",
+    "location_permission_required_title": "Erforderliche Standortberechtigung.",
+    "location_permission_required_text": "Hoppla, die Standortberechtigung wurde verweigert. Es ist für uns unerlässlich, die Standortberechtigung zu haben, damit Wi-Fi-Hooks aktiv arbeiten können. Bitte erteilen Sie die Standortberechtigung, indem Sie zu den Einstellungen gehen.",
+    "open_settings": "Öffne die Einstellungen",
+    "service_launched_successfully": "{0} Dienst erfolgreich gestartet.",
+    "unable_to_launch_service": "Start des {0} Dienstes nicht möglich.",
+    "service_disabled_successfully": "{0} Dienst erfolgreich deaktiviert.",
+    "location": "Standort",
+    "wifi_hooks_solutions": "Versuchen Sie, es erneut zu aktivieren.\nAnforderungen:\n1. Die Standortberechtigung sollte immer erlaubt sein\n2. Der Standortdienst sollte in Betrieb sein\n3. Sie sollten mit einem Wi-Fi verbunden sein",
+    "auto_claim_execution_dialog_title": "Bereits vergangene Zeit!",
+    "auto_claim_execution_dialog_text": "Die Zeit für die automatische Forderung ist abgelaufen. Möchten Sie die automatische Forderung jetzt ausführen?",
+    "execute": "Ausführen",
+    "auto_claim_scheduling_text": "Die Auto-Anspruchsfunktion wird morgen um {0} ausgeführt."
 }
