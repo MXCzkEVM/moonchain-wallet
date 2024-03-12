@@ -52,6 +52,13 @@ class DappHooksSnackBarUtils {
             .replaceAll('{0}', translate('miner_hooks')!));
   }
 
+  void showScheduleSnackBar(String time) {
+    showSnackBar(
+        context: context!,
+        content:
+            translate('auto_claim_scheduling_text')!.replaceAll('{0}', time));
+  }
+
   void showMinerHooksServiceDisableSuccessSnackBar() {
     showSnackBar(
         context: context!,

@@ -346,5 +346,6 @@
 	"wifi_hooks_solutions": "Try re-enabling. \nRequirements :\n1. Location permission for always should be permitted \n2. Locations service should be running \n3. You should be connected to a Wi-Fi",
 	"auto_claim_execution_dialog_title": "Time Already Passed!",
 	"auto_claim_execution_dialog_text": "The time for auto claim has elapsed. Would you like to execute auto claim now?",
-	"execute": "Execute"
+	"execute": "Execute",
+	"auto_claim_scheduling_text": "Auto-claim will execute at {0} tomorrow"
 }
