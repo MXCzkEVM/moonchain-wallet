@@ -65,7 +65,7 @@ class DragDownPanel extends HookConsumerWidget {
                             child: Stack(
                               fit: StackFit.passthrough,
                               children: [
-                                Expanded(
+                                Positioned.fill(
                                   child: Row(
                                     children: [
                                       Row(
