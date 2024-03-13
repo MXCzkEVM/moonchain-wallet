@@ -27,9 +27,6 @@ class DAppHooksService {
       final account = accountUseCase.account.value;
       final serviceEnabled = dappHooksData.enabled;
       final wifiHooksEnabled = dappHooksData.wifiHooks.enabled;
-      final minerHooksEnabled = dappHooksData.minerHooks.enabled;
-      final minerHooksTime = dappHooksData.minerHooks.time;
-      final selectedMiners = dappHooksData.minerHooks.selectedMiners;
 
       // Make sure user is logged in
       if (isLoggedIn && Config.isMxcChains(chainId) && serviceEnabled) {

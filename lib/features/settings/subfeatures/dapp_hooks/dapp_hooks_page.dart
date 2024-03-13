@@ -51,83 +51,83 @@ class DAppHooksPage extends HookConsumerWidget {
         ),
       ),
       children: [
-        // MXCSwitchRowItem(
-        //   title: translate('dapp_hooks'),
-        //   value: dappHooksState.dAppHooksData!.enabled,
-        //   onChanged: dappHooksPresenter.changeDAppHooksEnabled,
-        //   enabled: true,
-        //   textTrailingWidget: MXCInformationButton(texts: [
-        //     TextSpan(
-        //       text: FlutterI18n.translate(context, 'experiencing_issues'),
-        //       style: FontTheme.of(context)
-        //           .subtitle2()
-        //           .copyWith(color: ColorsTheme.of(context).chipTextBlack),
-        //     ),
-        //     const TextSpan(text: ' '),
-        //     TextSpan(
-        //       text:
-        //           FlutterI18n.translate(context, 'background_service_solution'),
-        //       style: FontTheme.of(context)
-        //           .subtitle1()
-        //           .copyWith(color: ColorsTheme.of(context).chipTextBlack),
-        //     ),
-        //   ]),
-        //   titleStyle: FontTheme.of(context).h6(),
-        // ),
-        // const SizedBox(height: Sizes.spaceNormal),
-        // MXCDropDown(
-        //   key: const Key('dappHooksFrequencyDropDown'),
-        //   onTap: dappHooksPresenter.showDAppHooksFrequency,
-        //   selectedItem: frequency.toStringFormatted(),
-        //   enabled:
-        //       isSettingsChangeEnabled && dappHooksState.dAppHooksData!.enabled,
-        // ),
-        // const SizedBox(height: Sizes.spaceXLarge),
+        MXCSwitchRowItem(
+          title: translate('dapp_hooks'),
+          value: dappHooksState.dAppHooksData!.enabled,
+          onChanged: dappHooksPresenter.changeDAppHooksEnabled,
+          enabled: true,
+          textTrailingWidget: MXCInformationButton(texts: [
+            TextSpan(
+              text: FlutterI18n.translate(context, 'experiencing_issues'),
+              style: FontTheme.of(context)
+                  .subtitle2()
+                  .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+            ),
+            const TextSpan(text: ' '),
+            TextSpan(
+              text:
+                  FlutterI18n.translate(context, 'background_service_solution'),
+              style: FontTheme.of(context)
+                  .subtitle1()
+                  .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+            ),
+          ]),
+          titleStyle: FontTheme.of(context).h6(),
+        ),
+        const SizedBox(height: Sizes.spaceNormal),
+        MXCDropDown(
+          key: const Key('dappHooksFrequencyDropDown'),
+          onTap: dappHooksPresenter.showDAppHooksFrequency,
+          selectedItem: frequency.toStringFormatted(),
+          enabled:
+              isSettingsChangeEnabled && dappHooksState.dAppHooksData!.enabled,
+        ),
+        const SizedBox(height: Sizes.spaceXLarge),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceXLarge),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceLarge),
           child: Column(
             children: [
-              // MXCSwitchRowItem(
-              //   key: const Key('wifiHookSwitch'),
-              //   title: translate('wifi_hooks'),
-              //   value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
-              //   onChanged: dappHooksPresenter.changeWifiHooksEnabled,
-              //   enabled: isSettingsChangeEnabled,
-              //   textTrailingWidget: MXCInformationButton(texts: [
-              //     TextSpan(
-              //       text: FlutterI18n.translate(context, 'experiencing_issues'),
-              //       style: FontTheme.of(context)
-              //           .subtitle2()
-              //           .copyWith(color: ColorsTheme.of(context).chipTextBlack),
-              //     ),
-              //     const TextSpan(text: ' '),
-              //     TextSpan(
-              //       text:
-              //           FlutterI18n.translate(context, 'wifi_hooks_solutions'),
-              //       style: FontTheme.of(context)
-              //           .subtitle1()
-              //           .copyWith(color: ColorsTheme.of(context).chipTextBlack),
-              //     ),
-              //   ]),
-              // ),
-              // const SizedBox(height: Sizes.spaceNormal),
               MXCSwitchRowItem(
-                key: const Key('minerHookSwitch'),
-                title: translate('miner_hooks'),
-                value: dappHooksState.dAppHooksData!.minerHooks.enabled,
-                onChanged: dappHooksPresenter.changeMinerHooksEnabled,
-                enabled: isMXCChains,
-              ),
-              const SizedBox(height: Sizes.spaceNormal),
-              MXCDropDown(
-                key: const Key('minerHooksTimingDropDown'),
-                onTap: dappHooksPresenter.showTimePickerDialog,
-                selectedItem: autoClaimTime,
-                enabled: isMXCChains &&
-                    dappHooksState.dAppHooksData!.minerHooks.enabled,
+                key: const Key('wifiHookSwitch'),
+                title: translate('wifi_hooks'),
+                value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
+                onChanged: dappHooksPresenter.changeWifiHooksEnabled,
+                enabled: isSettingsChangeEnabled,
+                textTrailingWidget: MXCInformationButton(texts: [
+                  TextSpan(
+                    text: FlutterI18n.translate(context, 'experiencing_issues'),
+                    style: FontTheme.of(context)
+                        .subtitle2()
+                        .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+                  ),
+                  const TextSpan(text: ' '),
+                  TextSpan(
+                    text:
+                        FlutterI18n.translate(context, 'wifi_hooks_solutions'),
+                    style: FontTheme.of(context)
+                        .subtitle1()
+                        .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+                  ),
+                ]),
               ),
             ],
           ),
+        ),
+        const SizedBox(height: Sizes.spaceLarge),
+        MXCSwitchRowItem(
+          key: const Key('minerHookSwitch'),
+          title: translate('miner_hooks'),
+          value: dappHooksState.dAppHooksData!.minerHooks.enabled,
+          onChanged: dappHooksPresenter.changeMinerHooksEnabled,
+          enabled: isMXCChains,
+        ),
+        const SizedBox(height: Sizes.spaceNormal),
+        MXCDropDown(
+          key: const Key('minerHooksTimingDropDown'),
+          onTap: dappHooksPresenter.showTimePickerDialog,
+          selectedItem: autoClaimTime,
+          enabled:
+              isMXCChains && dappHooksState.dAppHooksData!.minerHooks.enabled,
         ),
       ],
     );
