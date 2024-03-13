@@ -382,24 +382,32 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required DateTime minerAutoClaimTime}) async {
     try {
       AXSNotification().showNotification('Auto Claim Started 🏁', null);
-      final ableToClaim = await _minerUseCase.claimMinersReward(
-          selectedMinerListId: selectedMinerListId,
-          account: account,
-          showNotification: AXSNotification().showLowPriorityNotification);
 
-      if (ableToClaim) {
+      if (selectedMinerListId.isEmpty) {
         AXSNotification().showNotification(
-          'Miner aut-claim successful ✅',
-          'AXS wallet has been successfully claimed you mined tokens',
+          'Looks like you haven\'t selected any miners. ℹ️',
+          'Please head over to miner DApp for selecting miners.',
         );
       } else {
-        AXSNotification().showNotification(
-          "Oops, Nothing to claim ℹ️",
-          'AXS wallet tried to claim your mined tokens, But didn\'t find any tokens to claim.',
-        );
+        final ableToClaim = await _minerUseCase.claimMinersReward(
+            selectedMinerListId: selectedMinerListId,
+            account: account,
+            showNotification: AXSNotification().showLowPriorityNotification);
+
+        if (ableToClaim) {
+          AXSNotification().showNotification(
+            'Miner aut-claim successful ✅',
+            'AXS wallet has been successfully claimed you mined tokens',
+          );
+        } else {
+          AXSNotification().showNotification(
+            "Oops, Nothing to claim ℹ️",
+            'AXS wallet tried to claim your mined tokens, But didn\'t find any tokens to claim.',
+          );
+        }
+        // Updating now date time + 1 day to set the timer for tomorrow
+        updateAutoClaimTime(minerAutoClaimTime);
       }
-      // Updating now date time + 1 day to set the timer for tomorrow
-      updateAutoClaimTime(minerAutoClaimTime);
     } catch (e) {
       _errorUseCase.handleBackgroundServiceError("Miner aut-claim failed ❌", e);
     }
