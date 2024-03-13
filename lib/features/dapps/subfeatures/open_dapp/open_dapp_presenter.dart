@@ -751,9 +751,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final responseData = CronServiceDataModel.fromDAppHooksData(
           axsCronService, dappHooksData, miningCronServiceData);
       final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
-          status: AXSJSChannelResponseStatus.success,
-          message: null,
-          data: responseData);
+        status: AXSJSChannelResponseStatus.success,
+        message: null,
+        data: responseData,
+      );
       return response.toMap(miningCronServiceData.toMapWrapper);
     } else {
       throw 'Unknown cron service';
