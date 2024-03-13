@@ -16,7 +16,8 @@ class SplashImportWalletPresenter extends CompletePresenter<void> {
   late final TextEditingController mnemonicController = TextEditingController();
 
   String? validate(String? value) {
-    final formattedMnemonic = MXCFormatter.trimAndRemoveExtraSpaces(value ?? "");
+    final formattedMnemonic =
+        MXCFormatter.trimAndRemoveExtraSpaces(value ?? "");
 
     if (!_authUseCase.validateMnemonic(formattedMnemonic)) {
       return translate('recovery_phrase_limit')!;

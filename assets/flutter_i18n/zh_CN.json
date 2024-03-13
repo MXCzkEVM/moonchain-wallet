@@ -335,5 +335,20 @@
     "occurrence": "发生",
     "frequency": "频率",
     "experiencing_issues": "遇到问题了吗？",
-    "background_service_solution": "尝试重新启用应用程序或检查电池优化设置。"
+    "background_service_solution": "尝试重新启用应用程序或检查电池优化设置。",
+    "dapp_hooks": "DApp 钩子",
+    "wifi_hooks": "Wi-Fi 钩子",
+    "miner_hooks": "矿工钩子",
+    "location_permission_required_title": "需要位置权限。",
+    "location_permission_required_text": "糟糕，位置权限被拒绝了。对于Wi-Fi钩子的积极执行，我们必须获得位置权限。请通过进入设置来授予位置权限。",
+    "open_settings": "打开设置",
+    "service_launched_successfully": "{0} 服务成功启动。",
+    "unable_to_launch_service": "无法启动 {0} 服务。",
+    "service_disabled_successfully": "{0} 服务成功禁用。",
+    "location": "位置",
+    "wifi_hooks_solutions": "尝试重新启用。\n要求：\n1. 应始终允许位置权限\n2. 位置服务应处于运行状态\n3. 您应连接到Wi-Fi",
+    "auto_claim_execution_dialog_title": "时间已经过去了！",
+    "auto_claim_execution_dialog_text": "自动索赔的时间已过。您现在想执行自动索赔吗？",
+    "execute": "执行",
+    "auto_claim_scheduling_text": "自动领取将在明天的{0}执行"
 }

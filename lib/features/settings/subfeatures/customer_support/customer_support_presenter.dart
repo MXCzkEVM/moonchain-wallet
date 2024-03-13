@@ -65,10 +65,6 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
     notify(() => state.applist = applist);
   }
 
-  Future<void> launchMXCChatGPT() {
-    return _launcherUseCase.launchMXCChatGPT();
-  }
-
   Future<void> launchMXCZendesk() async {
     return _launcherUseCase.launchMXCZendesk();
   }

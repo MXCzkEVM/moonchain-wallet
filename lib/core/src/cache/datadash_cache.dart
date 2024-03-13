@@ -3,6 +3,7 @@ import 'package:datadashwallet/features/portfolio/subfeatures/nft/domain/nfts_re
 import 'package:datadashwallet/features/settings/subfeatures/address_book/domain/recipients_repository.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_repository.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_repository.dart';
+import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/domain/dapp_hooks_repository.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_repository.dart';
 import 'package:mxc_logic/internal.dart';
 
@@ -30,6 +31,7 @@ class DatadashCache extends CacheContainer {
   final CustomTokensRepository custonTokens = CustomTokensRepository();
   final BackgroundFetchConfigRepository backgroundFetchConfigRepository =
       BackgroundFetchConfigRepository();
+  final DAppHooksRepository dAppHooksRepository = DAppHooksRepository();
   final BalanceRepository balanceHistory = BalanceRepository();
   final RecipientsRepository recipients = RecipientsRepository();
   final NftsRepository nfts = NftsRepository();
@@ -44,6 +46,7 @@ class DatadashCache extends CacheContainer {
         recipients,
         nfts,
         transactionsHistoryRepository,
-        backgroundFetchConfigRepository
+        backgroundFetchConfigRepository,
+        dAppHooksRepository
       ];
 }

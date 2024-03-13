@@ -3,6 +3,7 @@ import 'package:datadashwallet/common/components/recent_transactions/domain/mxc_
 import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/chains_use_case.dart';
+import 'package:datadashwallet/features/common/contract/miner_use_case.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
 import 'package:datadashwallet/features/common/contract/transaction_controller.dart';
@@ -18,6 +19,7 @@ import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookma
 import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';
 import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/domain/dapp_hooks_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datadashwallet/core/core.dart';
@@ -61,6 +63,12 @@ final Provider<NftContractUseCase> nftContractUseCaseProvider = Provider(
 
 final Provider<TweetsUseCase> tweetsUseCaseProvider = Provider(
   (ref) => TweetsUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
+final Provider<MinerUseCase> minerUseCaseProvider = Provider(
+  (ref) => MinerUseCase(
     ref.watch(web3RepositoryProvider),
   ),
 );
@@ -111,6 +119,18 @@ final Provider<BackgroundFetchConfigUseCase>
       ref.watch(datadashCacheProvider).backgroundFetchConfigRepository,
       ref.watch(chainConfigurationUseCaseProvider),
       ref.watch(tokenContractUseCaseProvider)),
+);
+
+final Provider<DAppHooksUseCase> dAppHooksUseCaseProvider = Provider(
+  (ref) => DAppHooksUseCase(
+      ref.watch(datadashCacheProvider).dAppHooksRepository,
+      ref.watch(chainConfigurationUseCaseProvider),
+      ref.watch(tokenContractUseCaseProvider),
+      ref.watch(minerUseCaseProvider),
+      ref.watch(
+        accountUseCaseProvider,
+      ),
+      ref.watch(errorUseCaseProvider)),
 );
 
 final Provider<BalanceUseCase> balanceHistoryUseCaseProvider = Provider(

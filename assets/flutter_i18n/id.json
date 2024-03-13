@@ -335,5 +335,20 @@
     "occurrence": "Kejadian",
     "frequency": "Frekuensi",
     "experiencing_issues": "Mengalami masalah?",
-    "background_service_solution": "Coba aktifkan kembali aplikasi atau periksa pengaturan optimalisasi baterai."
+    "background_service_solution": "Coba aktifkan kembali aplikasi atau periksa pengaturan optimalisasi baterai.",
+    "dapp_hooks": "Kaitan DApp",
+    "wifi_hooks": "Kaitan Wi-Fi",
+    "miner_hooks": "Tambang kait",
+    "location_permission_required_title": "Izin lokasi diperlukan.",
+    "location_permission_required_text": "Ups, izin lokasi ditolak, sangat penting bagi kami untuk memiliki izin lokasi agar kait Wi-Fi dapat berfungsi secara aktif, Harap berikan izin lokasi dengan pergi ke pengaturan.",
+    "open_settings": "Buka pengaturan",
+    "service_launched_successfully": "Layanan {0} berhasil diluncurkan.",
+    "unable_to_launch_service": "Tidak dapat meluncurkan layanan {0}.",
+    "service_disabled_successfully": "Layanan {0} berhasil dinonaktifkan.",
+    "location": "Lokasi",
+    "wifi_hooks_solutions": "Coba aktifkan kembali.\nPersyaratan:\n1. Izin lokasi untuk selalu harus diizinkan\n2. Layanan lokasi harus berjalan\n3. Anda harus terhubung ke Wi-Fi",
+    "auto_claim_execution_dialog_title": "Waktu Sudah Berlalu!",
+    "auto_claim_execution_dialog_text": "Waktu untuk klaim otomatis telah berlalu. Apakah Anda ingin melakukan klaim otomatis sekarang?",
+    "execute": "Eksekusi",
+    "auto_claim_scheduling_text": "Auto-klaim akan dijalankan pada {0} besok"
 }

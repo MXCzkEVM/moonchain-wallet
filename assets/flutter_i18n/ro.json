@@ -335,5 +335,20 @@
     "occurrence": "Apariție",
     "frequency": "Frecvență",
     "experiencing_issues": "Întâmpini probleme?",
-    "background_service_solution": "Încearcă să reactivezi aplicația sau verifică setările de optimizare a bateriei."
+    "background_service_solution": "Încearcă să reactivezi aplicația sau verifică setările de optimizare a bateriei.",
+    "dapp_hooks": "Ancore DApp",
+    "wifi_hooks": "Conexiuni Wi-Fi",
+    "miner_hooks": "Minerul se conectează",
+    "location_permission_required_title": "Este necesară permisiunea pentru localizare.",
+    "location_permission_required_text": "Hopa, permisiunea de localizare este refuzată. Este esențial pentru noi să avem permisiunea de localizare pentru ca conexiunile Wi-Fi să funcționeze activ. Vă rugăm să acordați permisiunea de localizare accesând setările.",
+    "open_settings": "Deschideți setările",
+    "service_launched_successfully": "Serviciul {0} a fost lansat cu succes.",
+    "unable_to_launch_service": "Imposibil de lansat serviciul {0}.",
+    "service_disabled_successfully": "Serviciul {0} a fost dezactivat cu succes.",
+    "location": "Locație",
+    "wifi_hooks_solutions": "Încercați să reactivați.\nCerințe:\n1. Permisiunea de localizare permanentă ar trebui să fie permisă\n2. Serviciul de localizare ar trebui să fie în funcțiune\n3. Ar trebui să fiți conectat la o rețea Wi-Fi",
+    "auto_claim_execution_dialog_title": "Timpul a trecut deja!",
+    "auto_claim_execution_dialog_text": "Timpul pentru revendicare automată a expirat. Doriți să executați acum revendicarea automată?",
+    "execute": "Executați",
+    "auto_claim_scheduling_text": "Auto-claim se va executa la {0} mâine"
 }

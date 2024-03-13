@@ -335,5 +335,20 @@
     "occurrence": "発生",
     "frequency": "頻度",
     "experiencing_issues": "問題が発生していますか？",
-    "background_service_solution": "アプリを再度有効にするか、バッテリー最適化設定を確認してみてください。"
+    "background_service_solution": "アプリを再度有効にするか、バッテリー最適化設定を確認してみてください。",
+    "dapp_hooks": "DAppフック",
+    "wifi_hooks": "Wi-Fiはフックします",
+    "miner_hooks": "マイナーのフック",
+    "location_permission_required_title": "位置情報の許可が必要です。",
+    "location_permission_required_text": "おっと、位置情報の許可が拒否されています。Wi-Fiフックが活発に動作するためには、位置情報の許可が必要です。設定に移動して位置情報の許可を与えてください。",
+    "open_settings": "設定を開く",
+    "service_launched_successfully": "{0} サービスが成功裏に立ち上げられました。",
+    "unable_to_launch_service": "{0} サービスを起動できません。",
+    "service_disabled_successfully": "{0} サービスは正常に無効化されました。",
+    "location": "場所",
+    "wifi_hooks_solutions": "再有効化してみてください。\n要件：\n1. 常時の位置情報許可が必要です\n2. 位置情報サービスが稼働しているべきです\n3. Wi-Fiに接続されているべきです",
+    "auto_claim_execution_dialog_title": "すでに時間が経過しました！",
+    "auto_claim_execution_dialog_text": "オートクレームの時間が経過しました。今すぐオートクレームを実行しますか？",
+    "execute": "実行する",
+    "auto_claim_scheduling_text": "オートクレームは明日の{0}に実行されます。"
 }

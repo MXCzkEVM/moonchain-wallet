@@ -76,9 +76,15 @@ class OpenAppPage extends HookConsumerWidget {
                     initialUrlRequest: URLRequest(
                       url: Uri.parse(url),
                     ),
+                    onLoadStart: (controller, url) =>
+                        presenter.changeOnLoadStopCalled(),
                     onLoadStop: (controller, url) {
                       presenter.injectCopyHandling();
                       presenter.injectScrollDetector();
+                      if (!state.isLoadStopCalled) {
+                        presenter.injectAXSWalletJSChannel();
+                        presenter.changeOnLoadStopCalled();
+                      }
                     },
                     onLoadError: (controller, url, code, message) =>
                         collectLog('onLoadError: $code: $message'),

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:collection/collection.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/widgets/widgets.dart';
 import 'package:datadashwallet/core/core.dart';

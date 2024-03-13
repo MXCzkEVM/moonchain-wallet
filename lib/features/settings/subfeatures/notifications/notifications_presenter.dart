@@ -1,14 +1,9 @@
-import 'dart:io';
-import 'package:app_settings/app_settings.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/notifications/widgets/background_fetch_dialog.dart';
-import 'package:datadashwallet/features/settings/subfeatures/notifications/widgets/bg_notifications_frequency_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:background_fetch/background_fetch.dart' as bgFetch;
 import 'package:mxc_logic/mxc_logic.dart';
-import '../../../../main.dart';
+import 'helpers/notifications_helper.dart';
 import 'notifications_state.dart';
+import 'widgets/widgets.dart';
 
 final notificationsContainer =
     PresenterContainer<NotificationsPresenter, NotificationsState>(
@@ -24,21 +19,30 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
       ref.read(backgroundFetchConfigUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-
-  // this is used to show the bg fetch dialog
-  bool noneEnabled = true;
+  late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
 
   final TextEditingController lowBalanceController = TextEditingController();
   final TextEditingController transactionFeeController =
       TextEditingController();
 
+  NotificationsHelper get notificationsHelper => NotificationsHelper(
+      translate: translate,
+      context: context,
+      dAppHooksUseCase: _dAppHooksUseCase,
+      state: state,
+      backgroundFetchConfigUseCase: backgroundFetchConfigUseCase,
+      notify: notify);
+
   @override
   void initState() {
     super.initState();
-    checkNotificationsStatus();
+    Future.delayed(const Duration(seconds: 1),
+        () => notificationsHelper.checkNotificationsStatus());
 
     listen(backgroundFetchConfigUseCase.periodicalCallData, (value) {
-      checkPeriodicalCallDataChange(value);
+      notify(
+        () => state.periodicalCallData = value,
+      );
     });
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
@@ -56,13 +60,14 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
   void onLowBalanceChange() {
     if (state.formKey.currentState!.validate()) {
-      handleLowBalanceChange();
+      backgroundFetchConfigUseCase.updateLowBalance(lowBalanceController.text);
     }
   }
 
   void onTransactionFeeChange() {
     if (state.formKey.currentState!.validate()) {
-      handleExpectedTransactionFeeChange();
+      backgroundFetchConfigUseCase
+          .updateExpectedTransactionFee(transactionFeeController.text);
     }
   }
 
@@ -72,179 +77,34 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
     // If user went to settings to change notifications state
     if (state == AppLifecycleState.resumed) {
-      checkNotificationsStatus();
+      notificationsHelper.checkNotificationsStatus();
     }
   }
 
-  void changeNotificationsState(bool shouldEnable) {
-    if (shouldEnable) {
-      turnNotificationsOn();
-    } else {
-      turnNotificationsOff();
-    }
-  }
+  void changeNotificationsServiceEnabled(bool value) =>
+      notificationsHelper.changeNotificationsServiceEnabled(value);
 
-  void turnNotificationsOn() async {
-    final isGranted = await PermissionUtils.initNotificationPermission();
-    if (isGranted) {
-      // change state
-      notify(() => state.isNotificationsEnabled = isGranted);
-    } else {
-      // Looks like the notification is blocked permanently
-      // send to settings
-      openNotificationSettings();
-    }
-  }
+  void changeLowBalanceLimitEnabled(bool value) =>
+      notificationsHelper.changeLowBalanceLimitEnabled(value);
 
-  void turnNotificationsOff() {
-    openNotificationSettings();
-  }
+  void changeExpectedTransactionFeeEnabled(bool value) =>
+      notificationsHelper.changeExpectedTransactionFeeEnabled(value);
 
-  void openNotificationSettings() {
-    if (Platform.isAndroid) {
-      AppSettings.openAppSettings(
-          type: AppSettingsType.notification, asAnotherTask: false);
-    } else {
-      // IOS
-      AppSettings.openAppSettings(
-        type: AppSettingsType.settings,
-      );
-    }
-  }
+  void changeExpectedEpochQuantityEnabled(bool value) =>
+      notificationsHelper.changeExpectedEpochQuantityEnabled(value);
 
-  void checkNotificationsStatus() async {
-    final isGranted = await PermissionUtils.checkNotificationPermission();
-    if (state.isNotificationsEnabled == false && isGranted == true) {
-      await AXSFireBase.initializeFirebase();
-      AXSFireBase.initLocalNotificationsAndListeners();
-    }
-    notify(() => state.isNotificationsEnabled = isGranted);
-  }
-
-  void enableLowBalanceLimit(bool value) {
-    final newPeriodicalCallData =
-        state.periodicalCallData!.copyWith(lowBalanceLimitEnabled: value);
-    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
-  }
+  void updateEpochOccur(int value) =>
+      notificationsHelper.updateEpochOccur(value);
 
   void showBGFetchFrequencyDialog() {
     showBGNotificationsFrequencyDialog(context!,
-        onTap: handleFrequencyChange,
+        onTap: notificationsHelper.handleFrequencyChange,
         selectedFrequency: getPeriodicalCallDurationFromInt(
             state.periodicalCallData!.duration));
   }
 
-  void changeEnableService(bool value) {
-    final newPeriodicalCallData =
-        state.periodicalCallData!.copyWith(serviceEnabled: value);
-    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
-  }
-
-  void enableExpectedGasPrice(bool value) {
-    final newPeriodicalCallData = state.periodicalCallData!
-        .copyWith(expectedTransactionFeeEnabled: value);
-    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
-  }
-
-  void enableExpectedEpochQuantity(bool value) {
-    final newPeriodicalCallData = state.periodicalCallData!
-        .copyWith(expectedEpochOccurrenceEnabled: value);
-    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
-  }
-
-  void selectEpochOccur(int value) {
-    final newPeriodicalCallData =
-        state.periodicalCallData!.copyWith(expectedEpochOccurrence: value);
-    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
-  }
-
-  void handleFrequencyChange(PeriodicalCallDuration duration) {
-    final newPeriodicalCallData =
-        state.periodicalCallData!.copyWith(duration: duration.toMinutes());
-    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
-  }
-
-  void handleLowBalanceChange() {
-    final lowBalanceString = lowBalanceController.text;
-    final lowBalance = double.parse(lowBalanceString);
-    final newPeriodicalCallData =
-        state.periodicalCallData!.copyWith(lowBalanceLimit: lowBalance);
-    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
-  }
-
-  void handleExpectedTransactionFeeChange() {
-    final expectedTransactionFeeString = transactionFeeController.text;
-    final expectedTransactionFee = double.parse(expectedTransactionFeeString);
-    final newPeriodicalCallData = state.periodicalCallData!
-        .copyWith(expectedTransactionFee: expectedTransactionFee);
-    backgroundFetchConfigUseCase.updateItem(newPeriodicalCallData);
-  }
-
-  void checkPeriodicalCallDataChange(
-      PeriodicalCallData newPeriodicalCallData) async {
-    if (state.periodicalCallData != null) {
-      final isBGServiceChanged = state.periodicalCallData!.serviceEnabled !=
-          newPeriodicalCallData.serviceEnabled;
-      final bgServiceDurationChanged =
-          state.periodicalCallData!.duration != newPeriodicalCallData.duration;
-
-      if (isBGServiceChanged && newPeriodicalCallData.serviceEnabled == true) {
-        startBGFetch(
-            delay: newPeriodicalCallData.duration, showBGFetchAlert: true);
-      } else if (isBGServiceChanged &&
-          newPeriodicalCallData.serviceEnabled == false) {
-        stopBGFetch(showSnackbar: true);
-      } else if (bgServiceDurationChanged) {
-        startBGFetch(
-            delay: newPeriodicalCallData.duration, showBGFetchAlert: false);
-      }
-    }
-
-    notify(() => state.periodicalCallData = newPeriodicalCallData);
-  }
-
-  // delay is in minutes
-  void startBGFetch(
-      {required int delay, required bool showBGFetchAlert}) async {
-    if (showBGFetchAlert) {
-      await showBackgroundFetchAlertDialog(context: context!);
-    }
-    final success = await backgroundFetchConfigUseCase.startBGFetch(delay);
-    if (success) {
-      showBGFetchSuccessSnackBar();
-    } else {
-      showBGFetchFailureSnackBar();
-    }
-  }
-
-  Future<int> stopBGFetch({required bool showSnackbar}) async {
-    final res = await bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
-    if (showSnackbar) {
-      showBGFetchDisableSuccessSnackBar();
-    }
-    return res;
-  }
-
-  void showBGFetchFailureSnackBar() {
-    showSnackBar(
-        context: context!,
-        content: translate('unable_to_launch_background_notification_service')!,
-        type: SnackBarType.fail);
-  }
-
-  void showBGFetchSuccessSnackBar() {
-    showSnackBar(
-        context: context!,
-        content: translate(
-            'background_notifications_service_launched_successfully')!);
-  }
-
-  void showBGFetchDisableSuccessSnackBar() {
-    showSnackBar(
-        context: context!,
-        content: translate(
-            'background_notifications_service_disabled_successfully')!);
-  }
+  void changeNotificationsState(bool value) =>
+      notificationsHelper.changeNotificationsState(value);
 
   @override
   Future<void> dispose() {

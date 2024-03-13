@@ -1,3 +1,4 @@
+import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/dapp_hooks_page.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/notificaitons_page.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -70,6 +71,12 @@ class Setting {
           title: FlutterI18n.translate(context, 'notifications'),
           icon: Icons.notifications,
           page: const NotificationsPage(),
+          trailingIcon: null,
+          onTap: null),
+      Setting(
+          title: FlutterI18n.translate(context, 'dapp_hooks'),
+          icon: Icons.auto_mode_rounded,
+          page: const DAppHooksPage(),
           trailingIcon: null,
           onTap: null),
       Setting(

@@ -37,9 +37,7 @@ Future<bool?> showNetworkDetailsDialog(
           children: [
             Padding(
               padding: const EdgeInsetsDirectional.only(
-                  start: Sizes.spaceNormal,
-                  end: Sizes.spaceNormal,
-                  bottom: 0),
+                  start: Sizes.spaceNormal, end: Sizes.spaceNormal, bottom: 0),
               child: MxcAppBarEvenly.title(
                 titleText: network.label ?? network.web3RpcHttpUrl,
               ),

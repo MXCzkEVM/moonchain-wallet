@@ -335,5 +335,20 @@
     "occurrence": "Sự xuất hiện",
     "frequency": "Tần số",
     "experiencing_issues": "Gặp vấn đề?",
-    "background_service_solution": "Hãy thử kích hoạt lại ứng dụng hoặc kiểm tra cài đặt tối ưu hóa pin."
+    "background_service_solution": "Hãy thử kích hoạt lại ứng dụng hoặc kiểm tra cài đặt tối ưu hóa pin.",
+    "dapp_hooks": "Móc DApp",
+    "wifi_hooks": "Wi-Fi kết nối",
+    "miner_hooks": "Móc của người đào",
+    "location_permission_required_title": "Yêu cầu quyền truy cập vị trí.",
+    "location_permission_required_text": "Rất tiếc, quyền truy cập vị trí đã bị từ chối, Việc cho phép truy cập vị trí là rất cần thiết để cho Wi-Fi hooks hoạt động tích cực, Vui lòng cấp quyền truy cập vị trí bằng cách đi đến cài đặt.",
+    "open_settings": "Mở cài đặt",
+    "service_launched_successfully": "Dịch vụ {0} đã được khởi chạy thành công.",
+    "unable_to_launch_service": "Không thể khởi chạy dịch vụ {0}.",
+    "service_disabled_successfully": "Dịch vụ {0} đã được vô hiệu hóa thành công.",
+    "location": "Vị trí",
+    "wifi_hooks_solutions": "Hãy thử bật lại.\nYêu cầu:\n1. Quyền vị trí luôn luôn nên được cho phép\n2. Dịch vụ vị trí nên đang hoạt động\n3. Bạn nên được kết nối với Wi-Fi",
+    "auto_claim_execution_dialog_title": "Thời Gian Đã Trôi Qua!",
+    "auto_claim_execution_dialog_text": "Thời gian cho việc tự động yêu cầu đã hết. Bạn có muốn thực hiện yêu cầu tự động ngay bây giờ không?",
+    "execute": "Thực hiện",
+    "auto_claim_scheduling_text": "Tự động yêu cầu sẽ được thực hiện vào {0} ngày mai"
 }

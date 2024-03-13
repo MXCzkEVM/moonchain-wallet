@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/src/notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:mxc_logic/mxc_logic.dart';
 
 import 'firebase_options.dart';
 export 'firebase_options.dart';
@@ -84,10 +82,10 @@ class AXSFireBase {
     return isGranted;
   }
 
-  static void incrementBuildTap() {
+  static void incrementBuildTap() async {
     buildTap++;
     if (buildTap == 10) {
-      FlutterClipboard.copy(firebaseToken ?? '');
+      // FlutterClipboard.copy('');
       buildTap = 0;
     }
   }

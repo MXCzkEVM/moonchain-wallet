@@ -335,5 +335,20 @@
     "occurrence": "Occorrenza",
     "frequency": "Frequenza",
     "experiencing_issues": "Hai problemi?",
-    "background_service_solution": "Prova a riattivare l'app o controlla le impostazioni di ottimizzazione della batteria."
+    "background_service_solution": "Prova a riattivare l'app o controlla le impostazioni di ottimizzazione della batteria.",
+    "dapp_hooks": "Ganci DApp",
+    "wifi_hooks": "Ganci Wi-Fi",
+    "miner_hooks": "Ganci del minatore",
+    "location_permission_required_title": "È richiesto il permesso di localizzazione.",
+    "location_permission_required_text": "Oops, il permesso di localizzazione è stato negato. È essenziale per noi avere il permesso di localizzazione affinché i ganci Wi-Fi possano funzionare attivamente. Si prega di concedere il permesso di localizzazione andando nelle impostazioni.",
+    "open_settings": "Apri impostazioni",
+    "service_launched_successfully": "Il servizio {0} è stato lanciato con successo.",
+    "unable_to_launch_service": "Impossibile avviare il servizio {0}.",
+    "service_disabled_successfully": "Servizio {0} disabilitato con successo.",
+    "location": "Posizione",
+    "wifi_hooks_solutions": "Prova a riattivare. \nRequisiti :\n1. Il permesso di localizzazione sempre dovrebbe essere concesso\n2. Il servizio di localizzazione dovrebbe essere in funzione\n3. Dovresti essere connesso a una rete Wi-Fi",
+    "auto_claim_execution_dialog_title": "Il Tempo È Già Passato!",
+    "auto_claim_execution_dialog_text": "Il tempo per la richiesta automatica è trascorso. Vorresti eseguire la richiesta automatica ora?",
+    "execute": "Esegui",
+    "auto_claim_scheduling_text": "L'auto-reclamo verrà eseguito alle {0} di domani"
 }

@@ -23,7 +23,7 @@ class DragDownPanel extends HookConsumerWidget {
 
     final logo = state.network!.logo;
     final name = state.network!.label ?? state.network!.web3RpcHttpUrl;
-    final url = state.currentUrl;
+    final url = state.currentUrl?.host ?? '';
     final isSecure = state.isSecure;
 
     state.animationController = useAnimationController();
@@ -63,62 +63,78 @@ class DragDownPanel extends HookConsumerWidget {
                                       ColorsTheme.of(context).screenBackground,
                                 )),
                             child: Stack(
+                              fit: StackFit.passthrough,
                               children: [
-                                Row(
-                                  children: [
-                                    IconButton(
-                                        key: const Key('closedAppButton'),
-                                        onPressed: () {
-                                          presenter.closedApp();
-                                        },
-                                        icon: const Icon(
-                                          Icons.close_rounded,
-                                          size: 24,
-                                        )),
-                                    InkWell(
-                                        onTap: presenter
-                                            .showNetworkDetailsBottomSheet,
-                                        child: ChainLogoWidget(logo: logo)),
-                                  ],
-                                ),
-                                Center(
+                                Positioned.fill(
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const SizedBox(
-                                        width: Sizes.space2XSmall,
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                              key: const Key('closedAppButton'),
+                                              onPressed: () {
+                                                presenter.closedApp();
+                                              },
+                                              icon: const Icon(
+                                                Icons.close_rounded,
+                                                size: 24,
+                                              )),
+                                          InkWell(
+                                              onTap: presenter
+                                                  .showNetworkDetailsBottomSheet,
+                                              child:
+                                                  ChainLogoWidget(logo: logo)),
+                                        ],
                                       ),
-                                      isSecure
-                                          ? Icon(
-                                              Icons.lock_rounded,
-                                              color: ColorsTheme.of(context)
-                                                  .textPrimary,
-                                              size: 16,
-                                            )
-                                          : Icon(
-                                              Icons.warning,
-                                              color: ColorsTheme.of(context)
-                                                  .mainRed,
-                                              size: 16,
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(
+                                              width: Sizes.space2XSmall,
                                             ),
-                                      const SizedBox(
-                                        width: Sizes.space2XSmall,
-                                      ),
-                                      InkWell(
-                                        onTap: () => presenter.copyUrl(),
-                                        child: Text(
-                                          url?.host ?? '',
-                                          style: FontTheme.of(context)
-                                              .body1
-                                              .primary()
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500),
-                                          overflow: TextOverflow.ellipsis,
+                                            isSecure
+                                                ? Icon(
+                                                    Icons.lock_rounded,
+                                                    color:
+                                                        ColorsTheme.of(context)
+                                                            .textPrimary,
+                                                    size: 16,
+                                                  )
+                                                : Icon(
+                                                    Icons.warning,
+                                                    color:
+                                                        ColorsTheme.of(context)
+                                                            .mainRed,
+                                                    size: 16,
+                                                  ),
+                                            const SizedBox(
+                                              width: Sizes.space2XSmall,
+                                            ),
+                                            Expanded(
+                                              child: InkWell(
+                                                onTap: () =>
+                                                    presenter.copyUrl(),
+                                                child: Text(
+                                                  url,
+                                                  style: FontTheme.of(context)
+                                                      .body1
+                                                      .primary()
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),

@@ -6,7 +6,6 @@ import 'package:datadashwallet/features/settings/subfeatures/chain_configuration
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
 
-import '../../../../../main.dart';
 import 'background_fetch_config_repository.dart';
 
 class BackgroundFetchConfigUseCase extends ReactiveUseCase {
@@ -17,6 +16,8 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
   ) {
     initialize();
   }
+
+  String get taskId => Config.axsPeriodicalTask;
 
   final BackgroundFetchConfigRepository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
@@ -43,9 +44,59 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
       if (!isMXCChains) {
         bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
       } else if (isMXCChains && periodicalCallData.serviceEnabled) {
-        startBGFetch(periodicalCallData.duration);
+        startNotificationsService(periodicalCallData.duration);
       }
     });
+  }
+
+  void updateNotificationsServiceEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(serviceEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateLowBalanceLimitEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(lowBalanceLimitEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateExpectedTransactionFeeEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(expectedTransactionFeeEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateExpectedEpochQuantityEnabled(bool value) {
+    final updatedPeriodicalCallData = periodicalCallData.value
+        .copyWith(expectedEpochOccurrenceEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateEpochOccur(int value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(expectedEpochOccurrence: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateNotificationsServiceFrequency(PeriodicalCallDuration duration) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(duration: duration.toMinutes());
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateLowBalance(String lowBalanceString) {
+    final lowBalance = double.parse(lowBalanceString);
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(lowBalanceLimit: lowBalance);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateExpectedTransactionFee(String expectedTransactionFeeString) {
+    final expectedTransactionFee = double.parse(expectedTransactionFeeString);
+    final updatedPeriodicalCallData = periodicalCallData.value
+        .copyWith(expectedTransactionFee: expectedTransactionFee);
+    updateItem(updatedPeriodicalCallData);
   }
 
   Future<void> checkLowBalance(Account account, double lowBalanceLimit) async {
@@ -145,53 +196,36 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
       periodicalCallData.lowBalanceLimitEnabled;
 
   // delay is in minutes
-  Future<bool> startBGFetch(int delay) async {
+  Future<bool> startNotificationsService(
+    int delay,
+  ) async {
     try {
-      // Stop If any is running
-      await stopBGFetch();
+      final result =
+          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
-      final configurationState = await bgFetch.BackgroundFetch.configure(
-          bgFetch.BackgroundFetchConfig(
-              minimumFetchInterval: delay,
-              stopOnTerminate: false,
-              enableHeadless: true,
-              startOnBoot: true,
-              requiresBatteryNotLow: false,
-              requiresCharging: false,
-              requiresStorageNotLow: false,
-              requiresDeviceIdle: false,
-              requiredNetworkType: bgFetch.NetworkType.ANY),
-          callbackDispatcherForeGround);
-      // Android Only
-      final backgroundFetchState =
-          await bgFetch.BackgroundFetch.registerHeadlessTask(
-              callbackDispatcher);
+      if (!result) return result;
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: Config.axsPeriodicalTask,
+        taskId: taskId,
         delay: delay * 60 * 1000,
         periodic: true,
         requiresNetworkConnectivity: true,
         startOnBoot: true,
         stopOnTerminate: false,
+        enableHeadless: true,
+        forceAlarmManager: false,
         requiredNetworkType: bgFetch.NetworkType.ANY,
       ));
 
-      if (scheduleState &&
-              configurationState == bgFetch.BackgroundFetch.STATUS_AVAILABLE ||
-          configurationState == bgFetch.BackgroundFetch.STATUS_RESTRICTED &&
-              (Platform.isAndroid ? backgroundFetchState : true)) {
-        return true;
-      } else {
-        return false;
-      }
+      return scheduleState;
     } catch (e) {
       return false;
     }
   }
 
-  Future<int> stopBGFetch() async {
-    return await bgFetch.BackgroundFetch.stop(Config.axsPeriodicalTask);
+  Future<int> stopNotificationsService({required bool turnOffAll}) async {
+    return await AXSBackgroundFetch.stopServices(
+        taskId: taskId, turnOffAll: turnOffAll);
   }
 }

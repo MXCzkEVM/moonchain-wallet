@@ -7,6 +7,8 @@ import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
+import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/dapp_hooks_page.dart';
+import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -35,6 +37,16 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _customTokensUseCase = ref.read(customTokensUseCaseProvider);
   late final _errorUseCase = ref.read(errorUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+  late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
+  late final _backgroundFetchConfigUseCase =
+      ref.read(backgroundFetchConfigUseCaseProvider);
+
+  MinerHooksHelper get minerHooksHelper => MinerHooksHelper(
+      translate: translate,
+      context: context,
+      dAppHooksUseCase: _dAppHooksUseCase,
+      accountUseCase: _accountUseCase,
+      backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase);
 
   @override
   void initState() {
@@ -52,11 +64,16 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         notify(() => state.network = value);
       }
     });
+
+    listen(_dAppHooksUseCase.dappHooksData, (value) {
+      notify(() => state.dappHooksData = value);
+    });
   }
 
   void onWebViewCreated(InAppWebViewController controller) async {
     notify(() => state.webviewController = controller);
     updateCurrentUrl(null);
+    injectMinerDappListeners();
   }
 
   void updateCurrentUrl(Uri? value) async {
@@ -152,9 +169,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void recordTransaction(TransactionModel tx) {
-    // final timeStamp = DateTime.now();
-    // const txStatus = TransactionStatus.pending;
-    // const txType = TransactionType.contractCall;
     final currentNetwork = state.network!;
     final chainId = currentNetwork.chainId;
     final token = Token(
@@ -166,15 +180,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     );
 
     tx = tx.copyWith(token: token);
-    // final tx = TransactionModel(
-    //   hash: hash,
-    //   timeStamp: timeStamp,
-    //   status: txStatus,
-    //   type: txType,
-    //   value: null,
-    //   token: token,
-    //   action: null,
-    // );
 
     _transactionHistoryUseCase.spyOnTransaction(
       tx,
@@ -434,20 +439,13 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void setChain(int? id) {
-    state.webviewController?.setChain(getConfig(), state.network!.chainId, id);
+    state.webviewController
+        ?.setChain(getProviderConfig(), state.network!.chainId, id);
   }
 
-  String getConfig() {
-    return """{
-              ethereum: {
-                chainId: ${state.network!.chainId},
-                rpcUrl: "${state.network!.web3RpcHttpUrl}",
-                address: "${state.account!.address}",
-                isDebug: true,
-                networkVersion: "${state.network!.chainId}",
-                isMetaMask: true
-              }
-            }""";
+  String getProviderConfig() {
+    return JSChannelScripts.walletProviderInfoScript(state.network!.chainId,
+        state.network!.web3RpcHttpUrl, state.account!.address);
   }
 
   void copy(List<dynamic> params) {
@@ -459,11 +457,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void injectCopyHandling() {
-    state.webviewController!.evaluateJavascript(
-        source:
-            'javascript:navigator.clipboard.writeText = (msg) => { return window.flutter_inappwebview?.callHandler("axs-wallet-copy-clipboard", msg); }');
+    state.webviewController!
+        .evaluateJavascript(source: JSChannelScripts.clipboardHandlerScript);
     state.webviewController!.addJavaScriptHandler(
-      handlerName: 'axs-wallet-copy-clipboard',
+      handlerName: JSChannelEvents.axsWalletCopyClipboard,
       callback: (args) {
         copy(args);
       },
@@ -537,85 +534,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   final settleDuration = const Duration(milliseconds: 400);
 
   injectScrollDetector() {
-    String jsCode = """
-      var pStart = { x: 0, y: 0 };
-      var pStop = { x: 0, y: 0 };
-
-      function swipeStart(e) {
-        if (typeof e["targetTouches"] !== "undefined") {
-          var touch = e.targetTouches[0];
-          pStart.x = touch.screenX;
-          pStart.y = touch.screenY;
-        } else {
-          pStart.x = e.screenX;
-          pStart.y = e.screenY;
-        }
-      }
-
-      function swipeEnd(e) {
-        if (typeof e["changedTouches"] !== "undefined") {
-          var touch = e.changedTouches[0];
-          pStop.x = touch.screenX;
-          pStop.y = touch.screenY;
-        } else {
-          pStop.x = e.screenX;
-          pStop.y = e.screenY;
-        }
-
-        swipeCheck();
-      }
-
-      function swipeCheck() {
-        var changeY = pStart.y - pStop.y;
-        var changeX = pStart.x - pStop.x;
-        if (isPullDown(changeY, changeX)) {
-          window.flutter_inappwebview?.callHandler("axs-scroll-detector", true);
-        } else if (isPullUp(changeY, changeX)) {
-          window.flutter_inappwebview?.callHandler("axs-scroll-detector", false);
-        }
-      }
-
-      function isPullDown(dY, dX) {
-        // methods of checking slope, length, direction of line created by swipe action
-        console.log(dY);
-        console.log(dX );
-        return (
-          dY < 0 &&
-          ((Math.abs(dX) <= 100 && Math.abs(dY) >= 100 ) ||
-            (Math.abs(dX) / Math.abs(dY) <= 0.1 && dY >= 60))
-        );
-      }
-
-      function isPullUp(dY, dX) {
-        // Check if the gesture is a pull-up
-        console.log(dY);
-        console.log(dX);
-        return (
-          dY > 0 &&
-          ((Math.abs(dX) <= 100 && Math.abs(dY) >= 100) ||
-            (Math.abs(dX) / Math.abs(dY) <= 0.1 && dY >= 60))
-        );
-      }
-
-      document.addEventListener(
-        "touchstart",
-        function (e) {
-          swipeStart(e);
-        },
-        false
-      );
-      document.addEventListener(
-        "touchend",
-        function (e) {
-          swipeEnd(e);
-        },
-        false
-      );
-      """;
-    state.webviewController!.evaluateJavascript(source: jsCode);
+    state.webviewController!
+        .evaluateJavascript(source: JSChannelScripts.overScrollScript);
 
     state.webviewController!.addJavaScriptHandler(
-      handlerName: 'axs-scroll-detector',
+      handlerName: JSChannelEvents.axsWalletScrollDetector,
       callback: (args) {
         if (args[0] is bool) {
           args[0] == true ? showPanel() : hidePanel();
@@ -680,5 +603,175 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     } else {
       resetDoubleTapTime();
     }
+  }
+
+  void changeOnLoadStopCalled() {
+    state.isLoadStopCalled = !state.isLoadStopCalled;
+  }
+
+  // call this on webview created
+  void injectMinerDappListeners() async {
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents.changeCronTransitionEvent,
+        callback: (args) =>
+            jsChannelErrorHandler(args, handleChangeCronTransition));
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents.changeCronTransitionStatusEvent,
+        callback: (args) =>
+            jsChannelErrorHandler(args, handleChangeCronTransitionStatusEvent));
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents.getSystemInfoEvent,
+        callback: (args) =>
+            jsChannelErrorHandler(args, handleGetSystemInfoEvent));
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents.goToAdvancedSettingsEvent,
+        callback: (args) =>
+            jsChannelErrorHandler(args, handleGoToAdvancedSettingsEvent));
+  }
+
+  void injectAXSWalletJSChannel() async {
+    // Making It easy for accessing axs wallet
+    // use this way window.axs.callHandler
+    await state.webviewController!.evaluateJavascript(
+        source: JSChannelScripts.axsWalletObjectInjectScript(
+            JSChannelConfig.axsWalletJSObjectName));
+
+    await state.webviewController!.evaluateJavascript(
+        source: JSChannelScripts.axsWalletReadyInjectScript(
+      JSChannelEvents.axsReadyEvent,
+    ));
+  }
+
+  Future<Map<String, dynamic>> jsChannelErrorHandler(
+      List<dynamic> args,
+      Future<Map<String, dynamic>> Function(
+              Map<String, dynamic>, AXSCronServices)
+          callback) async {
+    try {
+      Map<String, dynamic> channelDataMap;
+
+      final channelData = args[0];
+      channelDataMap = channelData as Map<String, dynamic>;
+
+      final axsCronService =
+          AXSCronServicesExtension.getCronServiceFromJson(channelDataMap);
+      final callbackRes = await callback(channelDataMap, axsCronService);
+      return callbackRes;
+    } catch (e) {
+      final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
+          status: AXSJSChannelResponseStatus.failed,
+          data: null,
+          message: e.toString());
+      return response.toMap((data) => {'message': e.toString()});
+    }
+  }
+
+  // Update via functions & get data via steam & send the data via event eaach time
+  // ready => updateSystemInfo (service statues, mining service status, time, selected miners, camera permission location permission)
+
+  Future<Map<String, dynamic>> handleChangeCronTransition(
+      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    final axsCronService =
+        AXSCronServicesExtension.getCronServiceFromJson(channelData);
+    if (axsCronService == AXSCronServices.miningAutoClaimCron) {
+      ChangeCronTransitionRequestModel;
+      final changeCronTransitionRequestModel =
+          ChangeCronTransitionRequestModel<MiningCronServiceDataModel>.fromMap(
+              channelData['cron'], MiningCronServiceDataModel.fromMap);
+
+      // Here i change the data that won't effect the
+      final currentDappHooksData = state.dappHooksData;
+      final newData = changeCronTransitionRequestModel.data;
+
+      if (newData != null) {
+        final minersList = newData.minersList ??
+            currentDappHooksData.minerHooks.selectedMiners;
+        _dAppHooksUseCase.updateMinersList(minersList);
+
+        final newTimeOfDay = TimeOfDay.fromDateTime(newData.time!);
+        final currentTimeOfDay =
+            TimeOfDay.fromDateTime(currentDappHooksData.minerHooks.time);
+
+        if (newData.time != null && newTimeOfDay != currentTimeOfDay) {
+          await minerHooksHelper.changeMinerHookTiming(newTimeOfDay);
+        }
+      }
+
+      final miningCronServiceData =
+          MiningCronServiceDataModel.fromDAppHooksData(
+              _dAppHooksUseCase.dappHooksData.value);
+
+      final responseData = CronServiceDataModel.fromDAppHooksData(
+          axsCronService,
+          _dAppHooksUseCase.dappHooksData.value,
+          miningCronServiceData);
+
+      final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
+          status: AXSJSChannelResponseStatus.success,
+          data: responseData,
+          message: null);
+      return response.toMap(miningCronServiceData.toMapWrapper);
+    } else {
+      throw 'Unknown service';
+    }
+  }
+
+  Future<Map<String, dynamic>> handleChangeCronTransitionStatusEvent(
+      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    if (axsCronService == AXSCronServices.miningAutoClaimCron) {
+      final status = channelData['cron']['status'];
+
+      await minerHooksHelper.changeMinerHooksEnabled(status);
+      final miningCronServiceData =
+          MiningCronServiceDataModel.fromDAppHooksData(
+              _dAppHooksUseCase.dappHooksData.value);
+
+      final responseData = CronServiceDataModel.fromDAppHooksData(
+          axsCronService,
+          _dAppHooksUseCase.dappHooksData.value,
+          miningCronServiceData);
+      final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
+          status: AXSJSChannelResponseStatus.success,
+          message: null,
+          data: responseData);
+      return response.toMap(miningCronServiceData.toMapWrapper);
+    } else {
+      throw 'Unknown cron service';
+    }
+  }
+
+  Future<Map<String, dynamic>> handleGetSystemInfoEvent(
+      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    if (axsCronService == AXSCronServices.miningAutoClaimCron) {
+      final dappHooksData = state.dappHooksData;
+
+      final miningCronServiceData =
+          MiningCronServiceDataModel.fromDAppHooksData(dappHooksData);
+
+      final responseData = CronServiceDataModel.fromDAppHooksData(
+          axsCronService, dappHooksData, miningCronServiceData);
+      final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
+        status: AXSJSChannelResponseStatus.success,
+        message: null,
+        data: responseData,
+      );
+      return response.toMap(miningCronServiceData.toMapWrapper);
+    } else {
+      throw 'Unknown cron service';
+    }
+  }
+
+  Future<Map<String, dynamic>> handleGoToAdvancedSettingsEvent(
+      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    goToAdvancedSettings();
+    final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
+        status: AXSJSChannelResponseStatus.success, message: null, data: null);
+    return response.toMap((data) => {});
+  }
+
+  void goToAdvancedSettings() {
+    navigator!.push(route(
+      const DAppHooksPage(),
+    ));
   }
 }
