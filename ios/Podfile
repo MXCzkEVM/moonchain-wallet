@@ -61,13 +61,13 @@ post_install do |installer|
         # 'PERMISSION_REMINDERS=1',
 
         ## dart: PermissionGroup.contacts
-        'PERMISSION_CONTACTS=1',
+        # 'PERMISSION_CONTACTS=1',
 
         ## dart: PermissionGroup.camera
         'PERMISSION_CAMERA=1',
 
         ## dart: PermissionGroup.microphone
-        'PERMISSION_MICROPHONE=1',
+        # 'PERMISSION_MICROPHONE=1',
 
         ## dart: PermissionGroup.speech
         # 'PERMISSION_SPEECH_RECOGNIZER=1',
