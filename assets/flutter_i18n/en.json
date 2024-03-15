@@ -347,5 +347,7 @@
 	"auto_claim_execution_dialog_title": "Time Already Passed!",
 	"auto_claim_execution_dialog_text": "The time for auto claim has elapsed. Would you like to execute auto claim now?",
 	"execute": "Execute",
-	"auto_claim_scheduling_text": "Auto-claim will execute at {0} tomorrow"
+	"auto_claim_scheduling_text": "Auto-claim will execute at {0} tomorrow",
+	"mxc_top_up_notification_text": "Hey {0}! You added {1} MXC to your wallet today. Keep it growing!",
+	"mxc_top_up_notification_title": "Congrats on new Top-Up"
 }
