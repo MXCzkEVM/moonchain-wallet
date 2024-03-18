@@ -89,7 +89,7 @@ class DAppHooksPage extends HookConsumerWidget {
             children: [
               MXCSwitchRowItem(
                 key: const Key('wifiHookSwitch'),
-                title: translate('wifi_hooks'),
+                title: translate('wifi_hexagon_location_hooks'),
                 value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
                 onChanged: dappHooksPresenter.changeWifiHooksEnabled,
                 enabled: isSettingsChangeEnabled,
@@ -120,6 +120,7 @@ class DAppHooksPage extends HookConsumerWidget {
           value: dappHooksState.dAppHooksData!.minerHooks.enabled,
           onChanged: dappHooksPresenter.changeMinerHooksEnabled,
           enabled: isMXCChains,
+          titleStyle: FontTheme.of(context).h6(),
         ),
         const SizedBox(height: Sizes.spaceNormal),
         MXCDropDown(

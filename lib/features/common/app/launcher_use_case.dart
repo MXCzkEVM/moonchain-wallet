@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart' show ByteData, rootBundle;
 import 'package:web3dart/web3dart.dart';
 
 class LauncherUseCase extends ReactiveUseCase {
@@ -118,4 +122,16 @@ class LauncherUseCase extends ReactiveUseCase {
   void openTelegram() => launchUrlInPlatformDefaultWithString(Urls.telegram);
 
   void openWeChat() => launchUrlInPlatformDefaultWithString(Urls.weChat);
+
+  void openAXSPrivacy(String path) async {
+    ByteData data = await rootBundle.load(path);
+    List<int> bytes = data.buffer.asUint8List();
+    String tempDir = (await getTemporaryDirectory()).path;
+    String tempFilePath = '$tempDir/${path.split('/').last}';
+    File tempFile = File(tempFilePath);
+    await tempFile.writeAsBytes(bytes, flush: true);
+    openFile(tempFilePath);
+  }
+
+  void openFile(String path) => OpenFile.open(path);
 }
