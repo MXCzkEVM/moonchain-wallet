@@ -156,7 +156,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     if (expectedEpochOccurrence <= epochQuantity) {
       periodicalCallData = periodicalCallData.copyWith(lasEpoch: epochNumber);
       AXSNotification().showNotification("Epoch Achievement Alert!",
-          "Congratulations! The anticipated epoch you've been waiting for has just occurred. It's a significant milestone. Let's take the next steps forward.,");
+          "Congratulations! The anticipated epoch you've been waiting for has just occurred. It's a significant milestone. Let's take the next steps forward.");
     }
 
     return periodicalCallData;

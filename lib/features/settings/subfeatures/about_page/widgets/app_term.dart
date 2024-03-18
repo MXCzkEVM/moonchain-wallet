@@ -6,22 +6,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class AppTerm extends HookConsumerWidget {
-  const AppTerm({
-    super.key,
-    required this.name,
-    required this.externalLink,
-  });
+  const AppTerm(
+      {super.key,
+      required this.name,
+      required this.externalLink,
+      this.isFile = false});
 
   final String name;
   final String externalLink;
+  final bool isFile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     late final launcherUseCase = ref.read(launcherUseCaseProvider);
 
     return InkWell(
-      onTap: () =>
-          launcherUseCase.launchUrlInExternalAppWithString(externalLink),
+      onTap: () => isFile
+          ? launcherUseCase.openAXSPrivacy(externalLink)
+          : launcherUseCase.launchUrlInExternalAppWithString(externalLink),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: Sizes.spaceSmall),
         child: Row(

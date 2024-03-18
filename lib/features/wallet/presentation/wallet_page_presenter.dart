@@ -169,6 +169,28 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         break;
       // coin transfer done
       case 'transaction':
+        // final newMXCTx = WannseeTransactionModel.fromJson(
+        //     json.encode(event.payload['transactions'][0]));
+
+        // final newTx = TransactionModel.fromMXCTransaction(
+        //     newMXCTx, state.account!.address);
+
+        // if (newTx.token.symbol == Config.mxcName &&
+        //     newTx.type == TransactionType.received) {
+        //   final decimal = newTx.token.decimals ?? Config.ethDecimals;
+        //   final formattedValue =
+        //       MXCFormatter.convertWeiToEth(newTx.value ?? '0', decimal);
+        //   showNotification(
+        //       translate('mxc_top_up_notification_title')!,
+        //       translate('mxc_top_up_notification_text')!
+        //           .replaceFirst(
+        //             '{0}',
+        //             state.account!.mns ??
+        //                 MXCFormatter.formatWalletAddress(
+        //                     state.account!.address),
+        //           )
+        //           .replaceFirst('{1}', formattedValue));
+        // }
         // Sometimes getting the tx list from remote right away, results in having the pending tx in the list too (Which shouldn't be)
         Future.delayed(const Duration(seconds: 3), () {
           getMXCTransactions();

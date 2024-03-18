@@ -45,6 +45,7 @@ class AboutPage extends HookConsumerWidget {
         const AppTerm(
           name: 'privacy_policy',
           externalLink: Urls.axsPrivacy,
+          isFile: true,
         ),
       ],
     );
