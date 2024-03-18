@@ -73,6 +73,7 @@ dependencies:
   mxc_ui:
     path: packages/shared/ui
   network_info_plus: ^4.1.0
+  open_file: ^3.3.2
   open_mail_app: ^0.4.5
   package_info_plus: ^4.2.0
   path_provider: ^2.0.12
@@ -120,6 +121,7 @@ flutter:
     - assets/svg/settings/
     - assets/lottie/
     - assets/lottie/gestures/
+    - assets/pdf/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
