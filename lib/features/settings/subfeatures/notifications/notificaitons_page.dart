@@ -4,6 +4,7 @@ import 'package:datadashwallet/features/settings/subfeatures/notifications/widge
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:super_tooltip/super_tooltip.dart' show TooltipDirection;
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -55,6 +56,28 @@ class NotificationsPage extends HookConsumerWidget {
             value: notificationsState.isNotificationsEnabled,
             onChanged: notificationsPresenter.changeNotificationsState,
             enabled: true,
+            textTrailingWidget: MXCInformationButton(
+                popupDirection: TooltipDirection.down,
+                texts: [
+                  TextSpan(
+                      style: FontTheme.of(context).subtitle1().copyWith(
+                          color: ColorsTheme.of(context).textBlackInvert),
+                      children: [
+                        TextSpan(
+                          text: FlutterI18n.translate(
+                              context, 'notifications_info_notice_title'),
+                          style: FontTheme.of(context).subtitle2().copyWith(
+                              color: ColorsTheme.of(context).textBlackInvert),
+                        ),
+                        const TextSpan(text: ' '),
+                        TextSpan(
+                          text: FlutterI18n.translate(
+                              context, 'notifications_info_notice_text'),
+                          style: FontTheme.of(context).subtitle1().copyWith(
+                              color: ColorsTheme.of(context).textBlackInvert),
+                        ),
+                      ])
+                ]),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
