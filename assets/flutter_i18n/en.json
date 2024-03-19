@@ -349,5 +349,9 @@
 	"execute": "Execute",
 	"auto_claim_scheduling_text": "Auto-claim will execute at {0} tomorrow",
 	"mxc_top_up_notification_text": "Hey {0}! You added {1} MXC to your wallet today. Keep it growing!",
-	"mxc_top_up_notification_title": "Congrats on new Top-Up"
+	"mxc_top_up_notification_title": "Congrats on new Top-Up",
+	"notifications_info_notice_title": "Customize your notification experience!",
+	"notifications_info_notice_text": "\nSnooze notifications for 1 hour or set personalized notification schedules in the iOS or Android settings page to receive updates at your preferred times.",
+	"weve_updated_our_notification_settings_based_on_your_feedback_let_us_know_what_you_think": "We've updated our notification settings based on your feedback. Let us know what you think!",
+	"let_us_personalize_your_notifications_choose_which_ones_you_want_to_see": "Let us personalize your notifications! Choose which ones you want to see."
 }
