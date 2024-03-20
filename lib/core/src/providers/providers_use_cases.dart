@@ -4,6 +4,7 @@ import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/contract/chains_use_case.dart';
 import 'package:datadashwallet/features/common/contract/miner_use_case.dart';
+import 'package:datadashwallet/features/common/contract/mxc_websocket_use_case.dart';
 import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
 import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
 import 'package:datadashwallet/features/common/contract/transaction_controller.dart';
@@ -204,6 +205,13 @@ final Provider<ErrorUseCase> errorUseCaseProvider = Provider(
   ),
 );
 
+final Provider<FunctionUseCase> functionUseCaseProvider = Provider(
+  (ref) => FunctionUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+  ),
+);
+
 final Provider<LauncherUseCase> launcherUseCaseProvider = Provider(
   (ref) => LauncherUseCase(
     ref.watch(web3RepositoryProvider),
@@ -217,5 +225,15 @@ final Provider<MXCTransactionsUseCase> mxcTransactionsUseCaseProvider =
   (ref) => MXCTransactionsUseCase(
     ref.watch(web3RepositoryProvider),
     ref.watch(tokenContractUseCaseProvider),
+  ),
+);
+
+final Provider<MXCWebsocketUseCase> mxcWebsocketUseCaseProvider =
+    Provider(
+  (ref) => MXCWebsocketUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(accountUseCaseProvider),
+    ref.watch(functionUseCaseProvider),
   ),
 );
