@@ -146,4 +146,8 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   void selectNetworkForDetails(Network network) {
     update(selectedNetworkForDetails, network);
   }
+
+  bool isMXCChains() {
+    return Config.isMxcChains(selectedNetwork.value!.chainId);
+  }
 }
