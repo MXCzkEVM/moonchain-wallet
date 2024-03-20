@@ -2,6 +2,7 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
+import 'package:datadashwallet/features/settings/subfeatures/notifications/widgets/background_fetch_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../domain/dapp_hooks_use_case.dart';
@@ -28,7 +29,10 @@ class MinerHooksHelper {
   Future<bool> startMinerHooksService(
       {required DateTime time, required bool showBGFetchAlert}) async {
     if (showBGFetchAlert) {
-      await showBackgroundFetchAlertDialog(context: context!);
+      final res = await showBackgroundFetchAlertDialog(context: context!);
+      if (res == null || !res) {
+        return false;
+      }
     }
 
     final success = await dAppHooksUseCase.scheduleAutoClaimTransaction(time);

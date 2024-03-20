@@ -70,7 +70,10 @@ class NotificationsHelper {
   Future<bool> startNotificationsService(
       {required int delay, required bool showBGFetchAlert}) async {
     if (showBGFetchAlert) {
-      await showBackgroundFetchAlertDialog(context: context!);
+      final res = await showBackgroundFetchAlertDialog(context: context!);
+      if (res == null || !res) {
+        return false;
+      }
     }
     final success =
         await backgroundFetchConfigUseCase.startNotificationsService(delay);
