@@ -324,6 +324,7 @@
 	"transaction_finalized": "Transaction Finalized",
 	"background_fetch_notice_title": "Optimize Your AXS Wallet Experience",
 	"background_fetch_notice_text": "To ensure peak performance of the AXS Wallet, we recommend keeping the app active in the background and excluding it from battery optimization settings. This helps maintain seamless functionality and uninterrupted access to your wallet.",
+	"wifi_location_background_fetch_notice_text": "To ensure peak performance of the AXS Wallet, we recommend keeping the app active in the background and excluding it from battery optimization settings. This helps maintain seamless functionality and uninterrupted access to your wallet. Please note that only WiFi hexagon location hooks will use location services in the background; other services within the app will not access your location while the app is running in the background.",
 	"acknowledge": "Acknowledge",
 	"low_balance": "Low balance",
 	"expected_transaction_fee": "Expected transaction fee",
