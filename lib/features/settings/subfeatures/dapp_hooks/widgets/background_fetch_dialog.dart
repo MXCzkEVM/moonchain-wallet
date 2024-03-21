@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<bool?> showBackgroundFetchAlertDialog({
+Future<bool?> showDAppHooksBackgroundFetchAlertDialog({
   required BuildContext context,
 }) async {
   String translate(String text) => FlutterI18n.translate(context, text);
@@ -40,7 +40,7 @@ Future<bool?> showBackgroundFetchAlertDialog({
               children: [
                 Text(
                   translate(
-                    'background_fetch_notice_text',
+                    'wifi_location_background_fetch_notice_text',
                   ),
                   style: FontTheme.of(context).body1.primary().copyWith(),
                   softWrap: true,

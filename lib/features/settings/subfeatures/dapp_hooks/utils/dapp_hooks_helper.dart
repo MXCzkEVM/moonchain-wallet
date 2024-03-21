@@ -51,7 +51,11 @@ class DAppHooksHelper {
   Future<bool> startDAppHooksService(
       {required int delay, required bool showBGFetchAlert}) async {
     if (showBGFetchAlert) {
-      await showBackgroundFetchAlertDialog(context: context!);
+      final res =
+          await showDAppHooksBackgroundFetchAlertDialog(context: context!);
+      if (res == null || !res) {
+        return false;
+      }
     }
     final success = await dAppHooksUseCase.startDAppHooksService(delay);
     if (success) {
