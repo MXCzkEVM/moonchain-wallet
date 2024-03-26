@@ -37,8 +37,6 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1),
-        () => notificationsHelper.checkNotificationsStatus());
 
     listen(backgroundFetchConfigUseCase.periodicalCallData, (value) {
       notify(
@@ -60,13 +58,19 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
     Future.delayed(
       const Duration(
-        milliseconds: 100,
+        milliseconds: 1,
       ),
       () => showSnackBar(
           context: context!,
           content: translate(
               'let_us_personalize_your_notifications_choose_which_ones_you_want_to_see')!),
     );
+
+    Future.delayed(
+        const Duration(
+          milliseconds: 1,
+        ),
+        () => notificationsHelper.checkNotificationsStatus());
   }
 
   void onLowBalanceChange() {
