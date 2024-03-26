@@ -20,4 +20,26 @@ class MinerUseCase extends ReactiveUseCase {
         account: account,
         showNotification: showNotification);
   }
+
+  Future<MinerListModel> getAddressMiners(String address) async =>
+      await _repository.minerRepository.getAddressMiners(address);
+
+  Future<List<ClaimEarn>> helperGetClaimRewards(
+    GetClaimRewardsQuery query,
+  ) async {
+    return await _repository.minerRepository.helperGetClaimRewards(query);
+  }
+
+  Future<GetTotalClaimResponse> helperGetClaimTotal(
+    GetClaimTotalQuery query,
+    String address,
+    List<String> miners,
+  ) async {
+    return await _repository.minerRepository
+        .helperGetClaimTotal(query, address, miners);
+  }
+
+  void getExpirationDateForEpoch() async {
+    return _repository.minerRepository.getExpirationDurationForEpoch();
+  }
 }

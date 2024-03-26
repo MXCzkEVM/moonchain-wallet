@@ -354,5 +354,13 @@
 	"notifications_info_notice_title": "Customize your notification experience!",
 	"notifications_info_notice_text": "\nSnooze notifications for 1 hour or set personalized notification schedules in the iOS or Android settings page to receive updates at your preferred times.",
 	"weve_updated_our_notification_settings_based_on_your_feedback_let_us_know_what_you_think": "We've updated our notification settings based on your feedback. Let us know what you think!",
-	"let_us_personalize_your_notifications_choose_which_ones_you_want_to_see": "Let us personalize your notifications! Choose which ones you want to see."
+	"let_us_personalize_your_notifications_choose_which_ones_you_want_to_see": "Let us personalize your notifications! Choose which ones you want to see.",
+	"congratulations_you_mined_x_today": "Congratulations! You mined {0} today.",
+	"celebrate_by_treating_yourself": "Celebrate by treating yourself!",
+	"double_lp_rewards_alert": "Double LP rewards alert!",
+	"claim_your_boosted_rewards_now_before_they_expire": "Claim your boosted rewards now before they expire.",
+	"milestone_alert_you've_crossed_the_0_earned_mark_keep_up_the_good_work": "[Milestone alert!] You've crossed the {0} earned mark! Keep up the good work.",
+	"daily_earnings": "Daily earnings",
+	"mining_expiration_alert": "Mining expiration alert",
+	"total_earnings": "Total earnings"
 }

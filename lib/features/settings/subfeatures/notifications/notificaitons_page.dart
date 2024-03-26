@@ -255,6 +255,24 @@ class NotificationsPage extends HookConsumerWidget {
                     notificationsState
                         .periodicalCallData!.expectedEpochOccurrenceEnabled,
               ),
+              // const SizedBox(height: Sizes.spaceNormal),
+              // MXCSwitchRowItem(
+              //   title: translate('daily_earnings'),
+              //   value: notificationsState
+              //       .periodicalCallData!.expectedEpochOccurrenceEnabled,
+              //   onChanged:
+              //       notificationsPresenter.changeExpectedEpochQuantityEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              // ),
+              // const SizedBox(height: Sizes.spaceNormal),
+              // MXCSwitchRowItem(
+              //   title: translate('total_earnings'),
+              //   value: notificationsState
+              //       .periodicalCallData!.expectedEpochOccurrenceEnabled,
+              //   onChanged:
+              //       notificationsPresenter.changeExpectedEpochQuantityEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              // ),
             ]),
           ),
         ],
