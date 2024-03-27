@@ -2,13 +2,6 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/domain/mxc_transaction_use_case.dart';
 import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/common/contract/chains_use_case.dart';
-import 'package:datadashwallet/features/common/contract/miner_use_case.dart';
-import 'package:datadashwallet/features/common/contract/mxc_websocket_use_case.dart';
-import 'package:datadashwallet/features/common/contract/nft_contract_use_case.dart';
-import 'package:datadashwallet/features/common/contract/pricing_use_case.dart';
-import 'package:datadashwallet/features/common/contract/transaction_controller.dart';
-import 'package:datadashwallet/features/common/contract/tweets_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/dapp_store_use_case.dart';
 import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
 import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
@@ -35,6 +28,13 @@ final Provider<ThemeUseCase> themeUseCaseProvider = Provider(
 
 final Provider<LanguageUseCase> languageUseCaseProvider = Provider(
   (ref) => LanguageUseCase(ref.watch(globalCacheProvider).language),
+);
+
+final Provider<ContextLessTranslationUseCase>
+    contextLessTranslationUseCaseProvider = Provider(
+  (ref) => ContextLessTranslationUseCase(
+    ref.watch(languageUseCaseProvider),
+  ),
 );
 
 final Provider<GesturesInstructionUseCase> gesturesInstructionUseCaseProvider =
@@ -71,6 +71,7 @@ final Provider<TweetsUseCase> tweetsUseCaseProvider = Provider(
 final Provider<MinerUseCase> minerUseCaseProvider = Provider(
   (ref) => MinerUseCase(
     ref.watch(web3RepositoryProvider),
+    ref.watch(contextLessTranslationUseCaseProvider),
   ),
 );
 
@@ -117,21 +118,25 @@ final Provider<CustomTokensUseCase> customTokensUseCaseProvider = Provider(
 final Provider<BackgroundFetchConfigUseCase>
     backgroundFetchConfigUseCaseProvider = Provider(
   (ref) => BackgroundFetchConfigUseCase(
-      ref.watch(datadashCacheProvider).backgroundFetchConfigRepository,
-      ref.watch(chainConfigurationUseCaseProvider),
-      ref.watch(tokenContractUseCaseProvider)),
+    ref.watch(datadashCacheProvider).backgroundFetchConfigRepository,
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(tokenContractUseCaseProvider),
+    ref.watch(contextLessTranslationUseCaseProvider),
+  ),
 );
 
 final Provider<DAppHooksUseCase> dAppHooksUseCaseProvider = Provider(
   (ref) => DAppHooksUseCase(
-      ref.watch(datadashCacheProvider).dAppHooksRepository,
-      ref.watch(chainConfigurationUseCaseProvider),
-      ref.watch(tokenContractUseCaseProvider),
-      ref.watch(minerUseCaseProvider),
-      ref.watch(
-        accountUseCaseProvider,
-      ),
-      ref.watch(errorUseCaseProvider)),
+    ref.watch(datadashCacheProvider).dAppHooksRepository,
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(tokenContractUseCaseProvider),
+    ref.watch(minerUseCaseProvider),
+    ref.watch(
+      accountUseCaseProvider,
+    ),
+    ref.watch(errorUseCaseProvider),
+    ref.watch(contextLessTranslationUseCaseProvider),
+  ),
 );
 
 final Provider<BalanceUseCase> balanceHistoryUseCaseProvider = Provider(
@@ -228,8 +233,7 @@ final Provider<MXCTransactionsUseCase> mxcTransactionsUseCaseProvider =
   ),
 );
 
-final Provider<MXCWebsocketUseCase> mxcWebsocketUseCaseProvider =
-    Provider(
+final Provider<MXCWebsocketUseCase> mxcWebsocketUseCaseProvider = Provider(
   (ref) => MXCWebsocketUseCase(
     ref.watch(web3RepositoryProvider),
     ref.watch(chainConfigurationUseCaseProvider),
