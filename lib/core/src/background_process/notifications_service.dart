@@ -16,6 +16,8 @@ class NotificationsService {
       final accountUseCase = container.read(accountUseCaseProvider);
       final backgroundFetchConfigUseCase =
           container.read(backgroundFetchConfigUseCaseProvider);
+      final contextLessTranslationUseCase =
+          container.read(contextLessTranslationUseCaseProvider);
 
       final selectedNetwork =
           chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
@@ -39,7 +41,9 @@ class NotificationsService {
 
       // Make sure user is logged in
       if (isLoggedIn && Config.isMxcChains(chainId) && serviceEnabled) {
-        AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
+        await AXSNotification()
+            .setupFlutterNotifications(shouldInitFirebase: false);
+        await contextLessTranslationUseCase.setupTranslator();
 
         if (lowBalanceLimitEnabled) {
           await backgroundFetchConfigUseCase.checkLowBalance(

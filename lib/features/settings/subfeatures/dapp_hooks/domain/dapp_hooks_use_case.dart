@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/common/contract/miner_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:h3_flutter/h3_flutter.dart';
@@ -22,7 +21,8 @@ class DAppHooksUseCase extends ReactiveUseCase {
       this._tokenContractUseCase,
       this._minerUseCase,
       this._accountUseCase,
-      this._errorUseCase) {
+      this._errorUseCase,
+      this._contextLessTranslationUseCase) {
     initialize();
   }
 
@@ -32,6 +32,11 @@ class DAppHooksUseCase extends ReactiveUseCase {
   final TokenContractUseCase _tokenContractUseCase;
   final ErrorUseCase _errorUseCase;
   final MinerUseCase _minerUseCase;
+  final ContextLessTranslationUseCase _contextLessTranslationUseCase;
+
+  // Context less translation, This should be only used for BG functions
+  String cTranslate(String key) =>
+      _contextLessTranslationUseCase.translate(key);
 
   StreamSubscription<geo.Position>? positionStream;
 
@@ -155,9 +160,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
               canGetResults ==
                   CanGetScannedResults.noLocationPermissionUpgradeAccuracy ||
               canGetResults == CanGetScannedResults.noLocationServiceDisabled) {
-            throw 'Permission required for getting wifi list';
+            throw cTranslate(
+                'unable_to_get_wifi_list_please_check_requirements_for_wifi_hexagon_location_hooks_services');
           } else if (canGetResults == CanGetScannedResults.notSupported) {
-            throw 'Not supported for getting wifi list';
+            throw cTranslate('getting_wifi_list_is_not_supported  ');
           }
         } else {
           final wifiName = await getWifiName();
@@ -170,7 +176,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
         }
 
         if (finalWifiList.isEmpty) {
-          throw 'Preventing transaction because final wifi list is empty';
+          throw cTranslate('wifi_list_is_empty');
         }
 
         final os = MXCFormatter.capitalizeFirstLetter(Platform.operatingSystem);
@@ -198,13 +204,13 @@ class DAppHooksUseCase extends ReactiveUseCase {
           nonce: nonce,
         );
         AXSNotification().showNotification(
-          "Successful Wi-Fi Transaction Update",
-          "You have successfully updated the list of Wi-Fi networks by submitting a transaction to the MXC zkEVM.",
+          cTranslate('wifi_info_notifications_title'),
+          cTranslate('wifi_info_notifications_text'),
         );
         print("tx : ${tx.hash}");
       } catch (e) {
         _errorUseCase.handleBackgroundServiceError(
-            "Wi-Fi Transaction Update failed ", e);
+            cTranslate('wifi_info_tx_failed'), e);
       }
     }
   }
@@ -220,12 +226,13 @@ class DAppHooksUseCase extends ReactiveUseCase {
         intervalDuration: const Duration(minutes: 15),
         //(Optional) Set foreground notification config to keep the app alive
         //when going to the background
-        foregroundNotificationConfig: const geo.ForegroundNotificationConfig(
+        foregroundNotificationConfig: geo.ForegroundNotificationConfig(
             notificationText:
-                "AXS wallet background location service for Wi-Fi hooks is running... .",
-            notificationTitle: "AXS wallet location service",
+                cTranslate('axs_background_location_service_text'),
+            notificationTitle:
+                cTranslate('axs_background_location_service_title'),
             enableWakeLock: true,
-            notificationIcon: geo.AndroidResource(
+            notificationIcon: const geo.AndroidResource(
               name: 'axs_logo',
             )),
       );
@@ -250,7 +257,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
     });
   }
 
-  static Future<String> getWifiName() async {
+  Future<String> getWifiName() async {
     String? wifiName;
     // request permissions to get more info
     final networkInfo = NetworkInfo();
@@ -258,13 +265,13 @@ class DAppHooksUseCase extends ReactiveUseCase {
     wifiName = await networkInfo.getWifiName();
 
     if (wifiName == null) {
-      throw 'Unable to retrieve wifi info successfully, Current info : Wifi name  $wifiName';
+      throw cTranslate('unable_to_retrieve_wifi_info_successfully');
     }
 
     return wifiName.replaceAll('"', '');
   }
 
-  static Future<String> getWifiBSSID() async {
+  Future<String> getWifiBSSID() async {
     String? wifiBSSID;
     // request permissions to get more info
     final networkInfo = NetworkInfo();
@@ -272,7 +279,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
     wifiBSSID = await networkInfo.getWifiBSSID();
 
     if (wifiBSSID == null) {
-      throw 'Unable to retrieve wifi info successfully, Current info : Wifi BSSID $wifiBSSID';
+      throw cTranslate('unable_to_retrieve_wifi_info_successfully');
     }
 
     return wifiBSSID;
@@ -381,35 +388,38 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime minerAutoClaimTime}) async {
     try {
-      AXSNotification().showNotification('Auto Claim Started 🏁', null);
+      AXSNotification()
+          .showNotification(cTranslate('auto_claim_started'), null);
 
       if (selectedMinerListId.isEmpty) {
         AXSNotification().showNotification(
-          'Looks like you haven\'t selected any miners. ℹ️',
-          'Please head over to miner DApp for selecting miners.',
+          cTranslate('no_miners_selected_notification_title'),
+          cTranslate('no_miners_selected_notification_text'),
         );
       } else {
         final ableToClaim = await _minerUseCase.claimMinersReward(
             selectedMinerListId: selectedMinerListId,
             account: account,
-            showNotification: AXSNotification().showLowPriorityNotification);
+            showNotification: AXSNotification().showLowPriorityNotification,
+            translate: cTranslate);
 
         if (ableToClaim) {
           AXSNotification().showNotification(
-            'Miner aut-claim successful ✅',
-            'AXS wallet has been successfully claimed you mined tokens',
+            cTranslate('auto_claim_successful_notification_title'),
+            cTranslate('auto_claim_successful_notification_text'),
           );
         } else {
           AXSNotification().showNotification(
-            "Oops, Nothing to claim ℹ️",
-            'AXS wallet tried to claim your mined tokens, But didn\'t find any tokens to claim.',
+            cTranslate('nothing_to_claim_notification_title'),
+            cTranslate('nothing_to_claim_notification_text'),
           );
         }
         // Updating now date time + 1 day to set the timer for tomorrow
         updateAutoClaimTime(minerAutoClaimTime);
       }
     } catch (e) {
-      _errorUseCase.handleBackgroundServiceError("Miner aut-claim failed ❌", e);
+      _errorUseCase.handleBackgroundServiceError(
+          cTranslate('auto_claim_failed'), e);
     }
   }
 

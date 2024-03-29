@@ -1,7 +1,5 @@
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'chain_configuration_repository.dart';
 
@@ -145,5 +143,9 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   /// only for details of custom network delete network page
   void selectNetworkForDetails(Network network) {
     update(selectedNetworkForDetails, network);
+  }
+
+  bool isMXCChains() {
+    return Config.isMxcChains(selectedNetwork.value!.chainId);
   }
 }

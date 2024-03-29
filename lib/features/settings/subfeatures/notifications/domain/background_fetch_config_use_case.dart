@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/contract/token_contract_use_case.dart';
+import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
@@ -10,10 +10,10 @@ import 'background_fetch_config_repository.dart';
 
 class BackgroundFetchConfigUseCase extends ReactiveUseCase {
   BackgroundFetchConfigUseCase(
-    this._repository,
-    this._chainConfigurationUseCase,
-    this._tokenContractUseCase,
-  ) {
+      this._repository,
+      this._chainConfigurationUseCase,
+      this._tokenContractUseCase,
+      this._contextLessTranslationUseCase) {
     initialize();
   }
 
@@ -22,6 +22,11 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
   final BackgroundFetchConfigRepository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
   final TokenContractUseCase _tokenContractUseCase;
+  final ContextLessTranslationUseCase _contextLessTranslationUseCase;
+
+  // Context less translation, This should be only used for BG functions
+  String cTranslate(String key) =>
+      _contextLessTranslationUseCase.translate(key);
 
   late final ValueStream<PeriodicalCallData> periodicalCallData =
       reactiveField(_repository.periodicalCallData);
@@ -106,8 +111,8 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     print("lowBalanceLimitEnabled $balanceDouble $lowBalanceLimit");
     if (balanceDouble < lowBalanceLimit) {
       AXSNotification().showNotification(
-        "Time to Top-up!",
-        "Heads up! Your balance is now at {0} MXC, which is below the minimum threshold of {1} MXC. A top-up might be a good idea to maintain seamless transactions."
+        cTranslate('low_balance_notification_title'),
+        cTranslate('low_balance_notification_text')
             .replaceFirst('{0}', balanceDouble.toString())
             .replaceFirst('{1}', lowBalanceLimit.toString()),
       );
@@ -127,8 +132,8 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
         "expectedTransactionFeeEnabled $transactionFee $expectedTransactionFee");
     if (transactionFee < expectedTransactionFee) {
       AXSNotification().showNotification(
-        "Time to do the transaction!",
-        "Great news! The current transaction fee is just {0} MXC, which is lower than the usual {1} MXC. It's an opportune moment to make your transactions more cost-effective."
+        cTranslate('tx_fee_reached_expectation_notification_title'),
+        cTranslate('tx_fee_reached_expectation_notification_text')
             .replaceFirst('{0}', transactionFee.toString())
             .replaceFirst('{1}', expectedTransactionFee.toString()),
       );
@@ -155,8 +160,9 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
 
     if (expectedEpochOccurrence <= epochQuantity) {
       periodicalCallData = periodicalCallData.copyWith(lasEpoch: epochNumber);
-      AXSNotification().showNotification("Epoch Achievement Alert!",
-          "Congratulations! The anticipated epoch you've been waiting for has just occurred. It's a significant milestone. Let's take the next steps forward.");
+      AXSNotification().showNotification(
+          cTranslate('epoch_occur_notification_title'),
+          cTranslate('epoch_occur_notification_text'));
     }
 
     return periodicalCallData;

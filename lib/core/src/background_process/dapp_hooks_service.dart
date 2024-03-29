@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class DAppHooksService {
-
   static void dappHooksServiceCallBackDispatcherForeground(
       String taskId) async {
     try {
@@ -17,6 +16,8 @@ class DAppHooksService {
           container.read(chainConfigurationUseCaseProvider);
       final accountUseCase = container.read(accountUseCaseProvider);
       final dAppHooksUseCase = container.read(dAppHooksUseCaseProvider);
+      final contextLessTranslationUseCase =
+          container.read(contextLessTranslationUseCaseProvider);
 
       final selectedNetwork =
           chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
@@ -30,7 +31,9 @@ class DAppHooksService {
 
       // Make sure user is logged in
       if (isLoggedIn && Config.isMxcChains(chainId) && serviceEnabled) {
-        AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
+        await AXSNotification()
+            .setupFlutterNotifications(shouldInitFirebase: false);
+        await contextLessTranslationUseCase.setupTranslator();
 
         if (wifiHooksEnabled) {
           await dAppHooksUseCase.sendWifiInfo(
@@ -58,6 +61,8 @@ class DAppHooksService {
           container.read(chainConfigurationUseCaseProvider);
       final accountUseCase = container.read(accountUseCaseProvider);
       final dAppHooksUseCase = container.read(dAppHooksUseCaseProvider);
+      final contextLessTranslationUseCase =
+          container.read(contextLessTranslationUseCaseProvider);
 
       final selectedNetwork =
           chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
@@ -72,11 +77,14 @@ class DAppHooksService {
       final selectedMiners = dappHooksData.minerHooks.selectedMiners;
       // Make sure user is logged in
       if (isLoggedIn && Config.isMxcChains(chainId) && minerHooksEnabled) {
-        AXSNotification().setupFlutterNotifications(shouldInitFirebase: false);
-          await dAppHooksUseCase.executeMinerAutoClaim(
-              account: account!,
-              selectedMinerListId: selectedMiners,
-              minerAutoClaimTime: minerHooksTime);
+        await AXSNotification()
+            .setupFlutterNotifications(shouldInitFirebase: false);
+        await contextLessTranslationUseCase.setupTranslator();
+
+        await dAppHooksUseCase.executeMinerAutoClaim(
+            account: account!,
+            selectedMinerListId: selectedMiners,
+            minerAutoClaimTime: minerHooksTime);
         BackgroundFetch.finish(taskId);
       } else {
         // terminate background fetch
@@ -86,5 +94,4 @@ class DAppHooksService {
       BackgroundFetch.finish(taskId);
     }
   }
-
 }
