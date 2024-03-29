@@ -36,7 +36,7 @@ class ContextLessTranslationUseCase extends ReactiveUseCase {
       jsonString = await rootBundle.loadString(filePath);
     }
 
-    _currentTranslations = json.decode(jsonString);
+    _currentTranslations = jsonDecode(jsonString);
   }
 
   String translate(String key) {
