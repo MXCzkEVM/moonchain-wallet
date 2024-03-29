@@ -32,8 +32,7 @@ class DragDownPanel extends HookConsumerWidget {
       animation: state.animationController!,
       child: child,
       builder: (context, child) {
-        return Stack(
-          clipBehavior: Clip.hardEdge,
+        return Column(
           children: [
             state.animationController!.value == 0
                 ? Container()
@@ -142,11 +141,9 @@ class DragDownPanel extends HookConsumerWidget {
                       ],
                     ),
                   ),
-            Transform.translate(
-              offset: Offset(
-                  0.0, maxPanelHeight * state.animationController!.value / 1.5),
-              child: child,
-            ),
+            Expanded(
+              child: child!,
+            )
           ],
         );
       },
