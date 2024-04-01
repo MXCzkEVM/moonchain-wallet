@@ -8,10 +8,13 @@ class ChainLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      logo,
-      height: 24,
-      width: 24,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(25),
+      child: SvgPicture.asset(
+        logo,
+        height: 24,
+        width: 24,
+      ),
     );
   }
 }
