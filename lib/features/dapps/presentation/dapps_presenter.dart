@@ -29,6 +29,9 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void initState() {
     super.initState();
 
+
+    ref.read(mxcWebsocketUseCaseProvider);
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

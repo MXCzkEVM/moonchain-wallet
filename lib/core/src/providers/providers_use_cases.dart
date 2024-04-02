@@ -155,6 +155,7 @@ final Provider<ChainConfigurationUseCase> chainConfigurationUseCaseProvider =
     Provider(
   (ref) => ChainConfigurationUseCase(
     ref.watch(globalCacheProvider).chainConfigurationRepository,
+    ref.watch(authUseCaseProvider),
   ),
 );
 
