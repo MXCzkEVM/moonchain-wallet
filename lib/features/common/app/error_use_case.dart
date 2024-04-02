@@ -51,7 +51,7 @@ class ErrorUseCase extends ReactiveUseCase {
 
   bool isRPCIgnoredError(String message) {
     bool isIgnored = false;
-    for (String error in Config.ignoredErrors) {
+    for (String error in ErrorMessages.ignoredErrors) {
       if (message.contains(error)) {
         isIgnored = true;
         break;
@@ -90,7 +90,7 @@ class ErrorUseCase extends ReactiveUseCase {
 
   bool isFundError(String message) {
     bool isError = false;
-    for (String error in Config.fundErrors) {
+    for (String error in ErrorMessages.fundErrors) {
       if (message.contains(error)) {
         isError = true;
         break;
@@ -100,11 +100,11 @@ class ErrorUseCase extends ReactiveUseCase {
   }
 
   String? checkErrorMessage(String message) {
-    List<String> errorList = Config.errorList;
+    List<String> errorList = ErrorMessages.errorList;
 
     for (String errorMessage in errorList) {
       if (message.contains(errorMessage)) {
-        return Config.errorMessageMapper[errorMessage];
+        return ErrorMessages.errorMessageMapper[errorMessage];
       }
     }
 
@@ -122,11 +122,4 @@ class ErrorUseCase extends ReactiveUseCase {
       ),
     ));
   }
-
-  // String _changeErrorMessage(String message) {
-  //   if (message.contains('gas required exceeds allowance')) {
-  //     return translate('insufficient_balance_for_fee') ?? message;
-  //   }
-  //   return message;
-  // }
 }
