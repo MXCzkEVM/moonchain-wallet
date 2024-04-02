@@ -55,8 +55,9 @@ class DAppHooksUseCase extends ReactiveUseCase {
     update(dappHooksData, _repository.item);
   }
 
-  String get dappHookTasksTaskId => Config.dappHookTasks;
-  String get minerAutoClaimTaskTaskId => Config.minerAutoClaimTask;
+  String get dappHookTasksTaskId => BackgroundExecutionConfig.dappHookTasks;
+  String get minerAutoClaimTaskTaskId =>
+      BackgroundExecutionConfig.minerAutoClaimTask;
 
   void initialize() {
     _chainConfigurationUseCase.selectedNetwork.listen((network) {
@@ -64,7 +65,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
           network != null && !Config.isMxcChains(network.chainId);
       final dappHooksData = _repository.item;
       if (!isMXCChains) {
-        bgFetch.BackgroundFetch.stop(Config.dappHookTasks);
+        bgFetch.BackgroundFetch.stop(BackgroundExecutionConfig.dappHookTasks);
       } else if (isMXCChains && dappHooksData.enabled) {
         startDAppHooksService(dappHooksData.duration);
       }
@@ -113,7 +114,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
     updateItem(newDAppHooksData);
   }
 
-  // location access + at least one time connectection to wifi after opening app
+  // location access + at least one time connection to wifi after opening app
 
   Future<void> sendWifiInfo(
     Account account,
@@ -184,7 +185,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
         final os = MXCFormatter.capitalizeFirstLetter(Platform.operatingSystem);
 
         final finalData = WifiHooksDataModel(
-          version: Config.wifiHooksDataV,
+          version: BackgroundExecutionConfig.wifiHooksDataV,
           hexagonId: hexagonId,
           wifiList: finalWifiList,
           os: os,
@@ -299,7 +300,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: Config.dappHookTasks,
+        taskId: BackgroundExecutionConfig.dappHookTasks,
         delay: delay * 60 * 1000,
         periodic: true,
         requiresNetworkConnectivity: true,
@@ -353,7 +354,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: Config.minerAutoClaimTask,
+        taskId: BackgroundExecutionConfig.minerAutoClaimTask,
         delay: delay * 60 * 1000,
         periodic: false,
         requiresNetworkConnectivity: true,
