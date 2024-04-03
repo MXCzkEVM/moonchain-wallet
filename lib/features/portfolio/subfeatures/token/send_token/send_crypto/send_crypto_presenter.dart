@@ -156,7 +156,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     TransactionGasEstimation? estimatedGasFee;
 
-    if (recipientAddress == Config.zeroAddress) {
+    if (recipientAddress == ContractAddresses.zeroAddress) {
       addError(translate('unregistered_mns_notice'));
       return;
     }
