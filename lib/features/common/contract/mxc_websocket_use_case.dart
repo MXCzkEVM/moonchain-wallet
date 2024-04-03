@@ -24,7 +24,8 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
   final AccountUseCase _accountUseCase;
   final FunctionUseCase _functionUseCase;
 
-  StreamSubscription<dynamic>? websocketStreamSubscription;
+  late final ValueStream<Stream<dynamic>?> websocketStreamSubscription =
+      reactive(null);
   StreamSubscription<dynamic>? websocketCloseStreamSubscription;
   late final ValueStream<Stream<dynamic>> addressStream =
       reactive(const Stream.empty());
@@ -42,10 +43,10 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
 
     _accountUseCase.account.listen(
       (value) {
-        if (value != null) {
+        account = value;
+        if (value != null && websocketStreamSubscription.hasValue) {
           _functionUseCase.onlyMXCChainsFuncWrapper(() async {
-            account = value;
-            final address = value.address;
+            final address = account!.address;
             Utils.retryFunction(() async {
               final subscription = await subscribeToAddressEvents(address);
               update(addressStream, subscription);
@@ -63,34 +64,40 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
         addressStreamSubscription = value.listen(listenToTopUpEvents);
       });
     });
+
+    websocketStreamSubscription.listen((value) {
+      if (value != null) {
+        final address = account!.address;
+        Utils.retryFunction(() async {
+          final subscription = await subscribeToAddressEvents(address);
+          update(addressStream, subscription);
+        });
+      }
+    });
   }
 
   void clearStreamsSubscriptionAndDisconnect() {
-    if (websocketStreamSubscription != null) {
-      websocketStreamSubscription!.cancel();
-    }
     disconnectWebsSocket();
   }
 
   void initializeWebSocketConnection() async {
     final selectedNetwork = _chainConfigurationUseCase.selectedNetwork.value;
     if (selectedNetwork!.web3WebSocketUrl?.isNotEmpty ?? false) {
-      final isConnected = await connectToWebsSocket();
-      if (isConnected) {
-        initializeCloseStream();
-      } else {
-        throw 'Couldn\'t connect';
-      }
+      final subscription = await connectToWebsSocket();
+      update(websocketStreamSubscription, subscription);
     }
   }
 
-  Future<Stream<dynamic>?> subscribeEvent(String event) async {
-    return await _repository.tokenContract.subscribeEvent(
-      event,
-    );
+  Future<Stream<dynamic>> subscribeEvent(String event) async {
+    if (_repository.tokenContract.isWebsocketConnected()) {
+      return await _repository.tokenContract.subscribeEvent(
+        event,
+      );
+    }
+    throw "Websocket not connected!";
   }
 
-  Future<bool> connectToWebsSocket() async {
+  Future<Stream<dynamic>> connectToWebsSocket() async {
     return await _repository.tokenContract.connectToWebSocket();
   }
 
@@ -114,11 +121,7 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
     final res = await subscribeEvent(
       "addresses:$address".toLowerCase(),
     );
-    if (res != null) {
-      return res;
-    } else {
-      throw "Unable to subscribe to address events";
-    }
+    return res;
   }
 
   void listenToTopUpEvents(dynamic event) {
