@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:datadashwallet/app/app.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:h3_flutter/h3_flutter.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
@@ -53,8 +55,9 @@ class DAppHooksUseCase extends ReactiveUseCase {
     update(dappHooksData, _repository.item);
   }
 
-  String get dappHookTasksTaskId => Config.dappHookTasks;
-  String get minerAutoClaimTaskTaskId => Config.minerAutoClaimTask;
+  String get dappHookTasksTaskId => BackgroundExecutionConfig.dappHookTasks;
+  String get minerAutoClaimTaskTaskId =>
+      BackgroundExecutionConfig.minerAutoClaimTask;
 
   void initialize() {
     _chainConfigurationUseCase.selectedNetwork.listen((network) {
@@ -62,7 +65,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
           network != null && !Config.isMxcChains(network.chainId);
       final dappHooksData = _repository.item;
       if (!isMXCChains) {
-        bgFetch.BackgroundFetch.stop(Config.dappHookTasks);
+        bgFetch.BackgroundFetch.stop(BackgroundExecutionConfig.dappHookTasks);
       } else if (isMXCChains && dappHooksData.enabled) {
         startDAppHooksService(dappHooksData.duration);
       }
@@ -111,7 +114,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
     updateItem(newDAppHooksData);
   }
 
-  // location access + at least one time connectection to wifi after opening app
+  // location access + at least one time connection to wifi after opening app
 
   Future<void> sendWifiInfo(
     Account account,
@@ -182,7 +185,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
         final os = MXCFormatter.capitalizeFirstLetter(Platform.operatingSystem);
 
         final finalData = WifiHooksDataModel(
-          version: Config.wifiHooksDataV,
+          version: BackgroundExecutionConfig.wifiHooksDataV,
           hexagonId: hexagonId,
           wifiList: finalWifiList,
           os: os,
@@ -227,10 +230,12 @@ class DAppHooksUseCase extends ReactiveUseCase {
         //(Optional) Set foreground notification config to keep the app alive
         //when going to the background
         foregroundNotificationConfig: geo.ForegroundNotificationConfig(
-            notificationText:
-                cTranslate('axs_background_location_service_text'),
-            notificationTitle:
-                cTranslate('axs_background_location_service_title'),
+            notificationText: FlutterI18n.translate(
+                appNavigatorKey.currentContext!,
+                'axs_background_location_service_text'),
+            notificationTitle: FlutterI18n.translate(
+                appNavigatorKey.currentContext!,
+                'axs_background_location_service_title'),
             enableWakeLock: true,
             notificationIcon: const geo.AndroidResource(
               name: 'axs_logo',
@@ -295,7 +300,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: Config.dappHookTasks,
+        taskId: BackgroundExecutionConfig.dappHookTasks,
         delay: delay * 60 * 1000,
         periodic: true,
         requiresNetworkConnectivity: true,
@@ -349,7 +354,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: Config.minerAutoClaimTask,
+        taskId: BackgroundExecutionConfig.minerAutoClaimTask,
         delay: delay * 60 * 1000,
         periodic: false,
         requiresNetworkConnectivity: true,

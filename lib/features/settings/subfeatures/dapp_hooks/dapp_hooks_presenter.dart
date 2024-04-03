@@ -29,7 +29,6 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
 
   final geo.GeolocatorPlatform _geoLocatorPlatform =
       geo.GeolocatorPlatform.instance;
-  late StreamSubscription<geo.ServiceStatus> streamSubscription;
 
   DappHooksSnackBarUtils get dappHooksSnackBarUtils =>
       DappHooksSnackBarUtils(translate: translate, context: context);
@@ -110,7 +109,6 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   @override
   Future<void> dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    streamSubscription.cancel();
     return super.dispose();
   }
 }

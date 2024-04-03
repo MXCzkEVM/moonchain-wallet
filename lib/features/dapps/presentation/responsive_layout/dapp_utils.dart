@@ -8,7 +8,7 @@ class DappUtils {
   static bool loadingOnce = true;
 
   static int getChainId(Network? network) {
-    if (network!.chainId == 5167003) {
+    if (network!.chainId == Config.mxcTestnetChainId) {
       return network.chainId;
     }
 

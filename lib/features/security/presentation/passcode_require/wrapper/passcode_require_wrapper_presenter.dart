@@ -23,8 +23,6 @@ class PasscodeRequireWrapperPresenter
   Future<void> initState() async {
     super.initState();
 
-    ref.read(mxcWebsocketUseCaseProvider);
-
     if (!_passcodeUseCase.biometricEnabled.value &&
         _passcodeUseCase.passcode.value == null) {
       await Future.delayed(const Duration(milliseconds: 1));

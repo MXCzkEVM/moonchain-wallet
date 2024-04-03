@@ -25,17 +25,18 @@ class WiFiHooksHelper {
       DappHooksSnackBarUtils(translate: translate, context: context);
   BuildContext? context;
   String? Function(String) translate;
+  StreamSubscription<geo.ServiceStatus>? locationServiceStateStreamSubscription;
 
-  StreamSubscription<geo.ServiceStatus> initLocationServiceStateStream() {
+  initLocationServiceStateStream() {
     Stream<geo.ServiceStatus> locationStateStream =
         geoLocatorPlatform.getServiceStatusStream();
 
-    final streamSubscription = locationStateStream.listen((status) {
+    locationServiceStateStreamSubscription =
+        locationStateStream.listen((status) {
       checkWifiHookEnabled();
     });
 
     checkWifiHookEnabled();
-    return streamSubscription;
   }
 
   void changeWifiHooksEnabled(bool value) {
