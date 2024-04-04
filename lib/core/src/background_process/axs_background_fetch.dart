@@ -22,12 +22,14 @@ class AXSBackgroundFetch {
   }
 
   static void handleCallBackDispatcher(String taskId) async {
-    if (taskId == Config.axsPeriodicalTask) {
+    if (taskId == BackgroundExecutionConfig.axsPeriodicalTask) {
       NotificationsService.notificationsCallbackDispatcher(taskId);
-    } else if (taskId == Config.dappHookTasks) {
+    } else if (taskId == BackgroundExecutionConfig.dappHookTasks) {
       DAppHooksService.dappHooksServiceCallBackDispatcherForeground(taskId);
-    } else if (taskId == Config.minerAutoClaimTask) {
+    } else if (taskId == BackgroundExecutionConfig.minerAutoClaimTask) {
       DAppHooksService.autoClaimServiceCallBackDispatcherForeground(taskId);
+    } else {
+      bgFetch.BackgroundFetch.finish(taskId);
     }
   }
 
@@ -36,8 +38,11 @@ class AXSBackgroundFetch {
     await bgFetch.BackgroundFetch.stop('flutter_background_fetch');
   }
 
-  static bool turnOffAll(DAppHooksModel dAppHooksData, PeriodicalCallData periodicalCallData) {
-    return !dAppHooksData.enabled && !periodicalCallData.serviceEnabled && !dAppHooksData.minerHooks.enabled;
+  static bool turnOffAll(
+      DAppHooksModel dAppHooksData, PeriodicalCallData periodicalCallData) {
+    return !dAppHooksData.enabled &&
+        !periodicalCallData.serviceEnabled &&
+        !dAppHooksData.minerHooks.enabled;
   }
 
   static Future<int> stopServices(
@@ -62,7 +67,8 @@ class AXSBackgroundFetch {
   static Future<bool> _configureBackgroundProcess() async {
     final configurationState = await bgFetch.BackgroundFetch.configure(
         bgFetch.BackgroundFetchConfig(
-            minimumFetchInterval: Config.axsBackgroundServiceInterval,
+            minimumFetchInterval:
+                BackgroundExecutionConfig.axsBackgroundServiceInterval,
             forceAlarmManager: true,
             stopOnTerminate: false,
             enableHeadless: true,

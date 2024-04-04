@@ -92,7 +92,7 @@ class EditRecipientPresenter extends CompletePresenter<EditRecipientState> {
     final mnsToCheck = addressController.text;
     if (!mnsToCheck.startsWith('0x')) {
       final result = await _tokenContractUseCase.getAddress(mnsToCheck);
-      if (result == Config.zeroAddress) {
+      if (result == ContractAddresses.zeroAddress) {
         return false;
       } else {
         return true;

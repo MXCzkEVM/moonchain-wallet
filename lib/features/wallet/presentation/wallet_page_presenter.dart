@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/widgets/widgets.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
@@ -27,8 +26,10 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
   late final _mxcTransactionsUseCase = ref.read(mxcTransactionsUseCaseProvider);
+  late final _mxcWebsocketUseCase = ref.read(mxcWebsocketUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
   late final _errorUseCase = ref.read(errorUseCaseProvider);
+  late final _functionUseCase = ref.read(functionUseCaseProvider);
 
   @override
   void initState() {
@@ -40,10 +41,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       if (value != null) {
         final cAccount = state.account;
         notify(() => state.account = value);
-        if (cAccount != null && cAccount.address != value.address) {
-          /// Not first time & there is a change
-          Utils.retryFunction(connectAndSubscribe);
-        }
         if (state.network != null) {
           getTransactions();
         }
@@ -53,7 +50,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
         state.network = value;
-        Utils.retryFunction(connectAndSubscribe);
         getTransactions();
         resetBalanceUpdateStream();
       }
@@ -96,6 +92,16 @@ class WalletPresenter extends CompletePresenter<WalletState> {
               Config.isEthereumMainnet(state.network!.chainId));
       initializeBalancePanelAndTokens();
     });
+
+    listen(_mxcWebsocketUseCase.addressStream, (value) {
+      _functionUseCase.onlyMXCChainsFuncWrapper(() {
+        if (state.subscription != null) {
+          state.subscription!.cancel();
+        }
+
+        state.subscription = value.listen(handleWebSocketEvents);
+      });
+    });
   }
 
   @override
@@ -106,48 +112,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
   changeIndex(newIndex) {
     notify(() => state.currentIndex = newIndex);
-  }
-
-  void connectAndSubscribe() async {
-    if (!Config.isMxcChains(state.network!.chainId)) {
-      if (state.subscription != null) state.subscription!.cancel();
-      disconnectWebsocket();
-      return;
-    }
-
-    if (state.network?.web3WebSocketUrl?.isNotEmpty ?? false) {
-      final isConnected = await connectToWebsocket();
-      if (isConnected) {
-        createSubscriptions();
-      } else {
-        throw 'Couldn\'t connect';
-      }
-    }
-  }
-
-  Future<bool> connectToWebsocket() async {
-    return await _tokenContractUseCase.connectToWebsSocket();
-  }
-
-  void disconnectWebsocket() async {
-    return _tokenContractUseCase.disconnectWebsSocket();
-  }
-
-  Future<Stream<dynamic>?> subscribeToBalance() async {
-    return await _tokenContractUseCase.subscribeEvent(
-      "addresses:${state.account!.address}".toLowerCase(),
-    );
-  }
-
-  void createSubscriptions() async {
-    final subscription = await subscribeToBalance();
-
-    if (subscription == null) {
-      createSubscriptions();
-    }
-
-    if (state.subscription != null) state.subscription!.cancel();
-    state.subscription = subscription!.listen(handleWebSocketEvents);
   }
 
   handleWebSocketEvents(dynamic event) {
@@ -169,28 +133,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         break;
       // coin transfer done
       case 'transaction':
-        // final newMXCTx = WannseeTransactionModel.fromJson(
-        //     json.encode(event.payload['transactions'][0]));
-
-        // final newTx = TransactionModel.fromMXCTransaction(
-        //     newMXCTx, state.account!.address);
-
-        // if (newTx.token.symbol == Config.mxcName &&
-        //     newTx.type == TransactionType.received) {
-        //   final decimal = newTx.token.decimals ?? Config.ethDecimals;
-        //   final formattedValue =
-        //       MXCFormatter.convertWeiToEth(newTx.value ?? '0', decimal);
-        //   showNotification(
-        //       translate('mxc_top_up_notification_title')!,
-        //       translate('mxc_top_up_notification_text')!
-        //           .replaceFirst(
-        //             '{0}',
-        //             state.account!.mns ??
-        //                 MXCFormatter.formatWalletAddress(
-        //                     state.account!.address),
-        //           )
-        //           .replaceFirst('{1}', formattedValue));
-        // }
         // Sometimes getting the tx list from remote right away, results in having the pending tx in the list too (Which shouldn't be)
         Future.delayed(const Duration(seconds: 3), () {
           getMXCTransactions();

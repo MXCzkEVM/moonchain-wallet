@@ -2,7 +2,6 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:riverpod/riverpod.dart';
 import 'chain_configuration_state.dart';
 
 final chainConfigurationContainer =
@@ -17,9 +16,6 @@ class ChainConfigurationPresenter
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-  late final _accountUserCase = ref.read(accountUseCaseProvider);
-  late final _transactionHistoryUseCase =
-      ref.read(transactionHistoryUseCaseProvider);
 
   final TextEditingController gasLimitController = TextEditingController();
 

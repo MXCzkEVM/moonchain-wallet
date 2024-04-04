@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/components/snack_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -36,8 +37,6 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1),
-        () => notificationsHelper.checkNotificationsStatus());
 
     listen(backgroundFetchConfigUseCase.periodicalCallData, (value) {
       notify(
@@ -56,6 +55,22 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
 
     lowBalanceController.addListener(onLowBalanceChange);
     transactionFeeController.addListener(onTransactionFeeChange);
+
+    Future.delayed(
+      const Duration(
+        milliseconds: 1,
+      ),
+      () => showSnackBar(
+          context: context!,
+          content: translate(
+              'let_us_personalize_your_notifications_choose_which_ones_you_want_to_see')!),
+    );
+
+    Future.delayed(
+        const Duration(
+          milliseconds: 1,
+        ),
+        () => notificationsHelper.checkNotificationsStatus());
   }
 
   void onLowBalanceChange() {
@@ -81,17 +96,27 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     }
   }
 
+  void showChangeSnackBarWrapper(Function func) {
+    func();
+    showSnackBar(
+        context: context!,
+        content: translate(
+            'weve_updated_our_notification_settings_based_on_your_feedback_let_us_know_what_you_think')!);
+  }
+
   void changeNotificationsServiceEnabled(bool value) =>
       notificationsHelper.changeNotificationsServiceEnabled(value);
 
-  void changeLowBalanceLimitEnabled(bool value) =>
-      notificationsHelper.changeLowBalanceLimitEnabled(value);
+  void changeLowBalanceLimitEnabled(bool value) => showChangeSnackBarWrapper(
+      () => notificationsHelper.changeLowBalanceLimitEnabled(value));
 
   void changeExpectedTransactionFeeEnabled(bool value) =>
-      notificationsHelper.changeExpectedTransactionFeeEnabled(value);
+      showChangeSnackBarWrapper(
+          () => notificationsHelper.changeExpectedTransactionFeeEnabled(value));
 
   void changeExpectedEpochQuantityEnabled(bool value) =>
-      notificationsHelper.changeExpectedEpochQuantityEnabled(value);
+      showChangeSnackBarWrapper(
+          () => notificationsHelper.changeExpectedEpochQuantityEnabled(value));
 
   void updateEpochOccur(int value) =>
       notificationsHelper.updateEpochOccur(value);

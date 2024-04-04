@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -39,20 +38,6 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<EtherAmount> getEthBalance(String from) async {
     return await _repository.tokenContract.getEthBalance(from);
-  }
-
-  Future<Stream<dynamic>?> subscribeEvent(String event) async {
-    return await _repository.tokenContract.subscribeEvent(
-      event,
-    );
-  }
-
-  Future<bool> connectToWebsSocket() async {
-    return await _repository.tokenContract.connectToWebSocket();
-  }
-
-  void disconnectWebsSocket() {
-    return _repository.tokenContract.disconnectWebSocket();
   }
 
   Future<WannseeTransactionsModel?> getTransactionsByAddress(

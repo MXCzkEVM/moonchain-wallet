@@ -1,16 +1,16 @@
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'chain_configuration_repository.dart';
 
 class ChainConfigurationUseCase extends ReactiveUseCase {
-  ChainConfigurationUseCase(
-    this._repository,
-  );
+  ChainConfigurationUseCase(this._repository, this._authUseCase);
 
   final ChainConfigurationRepository _repository;
+
+  late final _webviewUseCase = WebviewUseCase();
+  late final AuthUseCase _authUseCase;
 
   late final ValueStream<List<Network>> networks =
       reactiveField(_repository.networks);
@@ -41,6 +41,21 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   void addItems(List<Network> items) {
     _repository.addItems(items);
     update(networks, _repository.items);
+  }
+
+  void checkEnabled(Network network) {
+    if (network.enabled) {
+      final newEnabledNetworkIndex =
+          _repository.networks.value.indexWhere((element) => element.isAdded);
+      final newEnabledNetwork =
+          _repository.networks.value[newEnabledNetworkIndex];
+      updateItem(
+          newEnabledNetwork.copyWith(enabled: true), newEnabledNetworkIndex);
+      update(selectedNetwork, newEnabledNetwork);
+      _authUseCase.resetNetwork(newEnabledNetwork);
+      _webviewUseCase.clearCache();
+      loadDataDashProviders(newEnabledNetwork);
+    }
   }
 
   void removeItem(Network network) {
@@ -75,6 +90,7 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
         // But we check If It's not a custom network
         if (repoItem.networkType != NetworkType.custom) {
           _repository.removeItem(repoItem);
+          checkEnabled(repoItem);
         }
       }
     }
@@ -145,5 +161,9 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   /// only for details of custom network delete network page
   void selectNetworkForDetails(Network network) {
     update(selectedNetworkForDetails, network);
+  }
+
+  bool isMXCChains() {
+    return Config.isMxcChains(selectedNetwork.value!.chainId);
   }
 }

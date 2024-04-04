@@ -112,20 +112,18 @@ class AXSNotification {
         title,
         text,
         NotificationDetails(
-            android: AndroidNotificationDetails(channel.id, channel.name,
-                groupKey: 'axs_wallet',
-                channelDescription: channel.description,
-                importance: Importance.high,
-                priority: Priority.high,
-                playSound: true,
-                visibility: NotificationVisibility.public,
-                icon: 'axs_logo',
-                color: ColorsTheme.primary300,
-                largeIcon: null,
-                styleInformation: bigTextStyleInformation),
-            iOS: DarwinNotificationDetails(
-              subtitle: text,
-            )),
+          android: AndroidNotificationDetails(channel.id, channel.name,
+              groupKey: 'axs_wallet',
+              channelDescription: channel.description,
+              importance: Importance.high,
+              priority: Priority.high,
+              playSound: true,
+              visibility: NotificationVisibility.public,
+              icon: 'axs_logo',
+              color: ColorsTheme.primary300,
+              largeIcon: null,
+              styleInformation: bigTextStyleInformation),
+        ),
       );
     }
   }
@@ -141,21 +139,19 @@ class AXSNotification {
         title,
         text,
         NotificationDetails(
-            android: AndroidNotificationDetails(
-                lowPriorityChannel.id, lowPriorityChannel.name,
-                groupKey: 'axs_wallet_low_priority',
-                channelDescription: channel.description,
-                importance: Importance.low,
-                priority: Priority.low,
-                playSound: true,
-                visibility: NotificationVisibility.public,
-                icon: 'axs_logo',
-                color: ColorsTheme.primary300,
-                largeIcon: null,
-                styleInformation: bigTextStyleInformation),
-            iOS: DarwinNotificationDetails(
-              subtitle: text,
-            )),
+          android: AndroidNotificationDetails(
+              lowPriorityChannel.id, lowPriorityChannel.name,
+              groupKey: 'axs_wallet_low_priority',
+              channelDescription: channel.description,
+              importance: Importance.low,
+              priority: Priority.low,
+              playSound: true,
+              visibility: NotificationVisibility.public,
+              icon: 'axs_logo',
+              color: ColorsTheme.primary300,
+              largeIcon: null,
+              styleInformation: bigTextStyleInformation),
+        ),
       );
     }
   }
