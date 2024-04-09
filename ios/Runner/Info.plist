@@ -98,23 +98,26 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Calendar?</string>
 	<key>NSCameraUsageDescription</key>
-	<string>AXS Wallet needs camera access to scan QR codes for transactions. Scanned data is stored locally and isn&apos;t shared.</string>
+	<string>AXS Wallet needs access to your camera when the app is in use for services such as RWA minting. Image data is not saved or shared with any third parties.</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Biometric?</string>
+	<string>AXS Wallet needs access to your Biometric data when the app is in use for authentication only. Your Biometric data is not saved or shared with any third parties.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Location?</string>
+	<string>AXS Wallet needs access to your location for features such as Wi-Fi hooks while the app is in use or running in the background. Your location data is not saved or shared with any third parties.</string>
+
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Location?</string>
+	<string>AXS Wallet requires access to your location at all times for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
+
 	<key>NSLocationUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Location?</string>
+	<string>AXS Wallet needs access to your location to provide services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Location?</string>
+	<string>AXS Wallet needs access to your location when the app is in use for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Motion?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Photo?</string>
+	<string>AXS Wallet needs access to your photos to save images such as RWA. Your photos are not saved or shared with any third parties.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Album?</string>
+	<string>AXS Wallet needs access to your photos when the app is in use for services such as RWA minting. Your photos are not saved or shared with any third parties.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Speech Recognition?</string>
 	<key>PermissionGroupNotification</key>

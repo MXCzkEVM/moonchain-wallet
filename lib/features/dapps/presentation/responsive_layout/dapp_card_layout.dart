@@ -77,8 +77,8 @@ class DappCardLayout extends HookConsumerWidget {
                                         onTap: state.isEditMode
                                             ? null
                                             : () async {
-                                                await actions
-                                                    .requestPermissions(item);
+                                                // await actions
+                                                //     .requestPermissions(item);
                                                 actions.openDapp(
                                                   item.app!.url!,
                                                 );
@@ -94,8 +94,8 @@ class DappCardLayout extends HookConsumerWidget {
                                         onTap: state.isEditMode
                                             ? null
                                             : () async {
-                                                await actions
-                                                    .requestPermissions(item);
+                                                // await actions
+                                                //     .requestPermissions(item);
                                                 actions.openDapp(
                                                   item.app!.url!,
                                                 );

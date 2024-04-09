@@ -29,7 +29,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void initState() {
     super.initState();
 
-
     ref.read(mxcWebsocketUseCaseProvider);
 
     SystemChrome.setPreferredOrientations([
@@ -147,32 +146,32 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     _gesturesInstructionUseCase.setEducated(true);
   }
 
-  Future<void> requestPermissions(Dapp dapp) async {
-    final permissions = dapp.app!.permissions!.toMap();
-    final keys = permissions.keys.toList();
-    final values = permissions.values.toList();
-    List<Permission> needPermissions = [];
+  // Future<void> requestPermissions(Dapp dapp) async {
+  //   final permissions = dapp.app!.permissions!.toMap();
+  //   final keys = permissions.keys.toList();
+  //   final values = permissions.values.toList();
+  //   List<Permission> needPermissions = [];
 
-    for (int i = 0; i < permissions.length; i++) {
-      final key = keys[i];
-      final value = values[i];
+  //   for (int i = 0; i < permissions.length; i++) {
+  //     final key = keys[i];
+  //     final value = values[i];
 
-      if (value == 'required') {
-        final permission = PermissionUtils.permissions[key];
-        if (permission != null) {
-          needPermissions.add(permission);
-        }
-      }
-    }
+  //     if (value == 'required') {
+  //       final permission = PermissionUtils.permissions[key];
+  //       if (permission != null) {
+  //         needPermissions.add(permission);
+  //       }
+  //     }
+  //   }
 
-    if (keys.contains('location')) {
-      await checkLocationService();
-    }
-    if (needPermissions.isNotEmpty) {
-      await needPermissions.request();
-      await PermissionUtils.permissionsStatus();
-    }
-  }
+  //   if (keys.contains('location')) {
+  //     await checkLocationService();
+  //   }
+  //   if (needPermissions.isNotEmpty) {
+  //     await needPermissions.request();
+  //     await PermissionUtils.permissionsStatus();
+  //   }
+  // }
 
   void refreshApp() {
     _chainConfigurationUseCase.refresh();
@@ -192,17 +191,17 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  Future<bool> checkLocationService() async {
-    final geo.GeolocatorPlatform geoLocatorPlatform =
-        geo.GeolocatorPlatform.instance;
+  // Future<bool> checkLocationService() async {
+  //   final geo.GeolocatorPlatform geoLocatorPlatform =
+  //       geo.GeolocatorPlatform.instance;
 
-    bool _serviceEnabled;
+  //   bool _serviceEnabled;
 
-    _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-    if (!_serviceEnabled) {
-      await geoLocatorPlatform.getCurrentPosition();
-      _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-    }
-    return _serviceEnabled;
-  }
+  //   _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
+  //   if (!_serviceEnabled) {
+  //     await geoLocatorPlatform.getCurrentPosition();
+  //     _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
+  //   }
+  //   return _serviceEnabled;
+  // }
 }
