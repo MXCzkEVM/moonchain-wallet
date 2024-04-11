@@ -224,14 +224,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
-  cryptography:
-    dependency: transitive
-    description:
-      name: cryptography
-      sha256: df156c5109286340817d21fa7b62f9140f17915077127dd70f8bd7a2a0997a35
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -343,6 +335,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1"
+  fast_cached_network_image:
+    dependency: "direct main"
+    description:
+      name: fast_cached_network_image
+      sha256: "0b1acb2c36c7266547ebcba8cbd838c127238ed9081cabe8ab21bea7647e56d6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   ffi:
     dependency: transitive
     description:
@@ -1572,14 +1572,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.12+1"
-  wallet_connect:
-    dependency: "direct main"
-    description:
-      name: wallet_connect
-      sha256: b294400c9aef22379183a3cd3e6c7ca89191bc53e5afb0b521a0ba65cbdc7d78
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   web3_provider:
     dependency: "direct main"
     description:

@@ -89,7 +89,6 @@ dependencies:
   sliver_tools: ^0.2.5
   url_launcher: ^6.1.11
   vibration: ^1.7.7
-  wallet_connect: ^1.0.4
   web3_provider:
     path: packages/web3_provider
   wifi_scan: ^0.4.1
