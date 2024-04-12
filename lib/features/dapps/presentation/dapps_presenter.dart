@@ -29,7 +29,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void initState() {
     super.initState();
 
-
     ref.read(mxcWebsocketUseCaseProvider);
 
     SystemChrome.setPreferredOrientations([
@@ -49,6 +48,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         state.dapps = v;
         state.dappsAndBookmarks.clear();
         state.dappsAndBookmarks = [...v, ...state.bookmarks];
+        if (v.isNotEmpty) {
+          DappUtils.loadingOnce = false;
+          notify(() => state.loading = false);
+        }
         notify();
       },
     );
@@ -89,14 +92,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   }
 
   void initializeDapps() async {
-    notify(() => state.loading = true);
     try {
       await _dappStoreUseCase.getAllDapps();
     } catch (e, s) {
       addError(e, s);
-    } finally {
-      DappUtils.loadingOnce = false;
-      notify(() => state.loading = false);
     }
   }
 
