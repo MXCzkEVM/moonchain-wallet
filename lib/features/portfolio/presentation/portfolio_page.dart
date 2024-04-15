@@ -22,7 +22,7 @@ class PortfolioPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(portfolioContainer.actions);
     final state = ref.watch(portfolioContainer.state);
-
+    
     return MxcPage(
         presenter: presenter,
         resizeToAvoidBottomInset: true,
