@@ -46,6 +46,9 @@ final Provider<GesturesInstructionUseCase> gesturesInstructionUseCaseProvider =
 final Provider<TokenContractUseCase> tokenContractUseCaseProvider = Provider(
   (ref) => TokenContractUseCase(
     ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(accountUseCaseProvider),
+    ref.watch(functionUseCaseProvider),
   ),
 );
 

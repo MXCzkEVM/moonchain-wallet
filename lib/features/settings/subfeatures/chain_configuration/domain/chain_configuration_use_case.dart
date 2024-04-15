@@ -166,4 +166,8 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
   bool isMXCChains() {
     return Config.isMxcChains(selectedNetwork.value!.chainId);
   }
+
+  bool isEthereumMainnet() {
+    return Config.isEthereumMainnet(selectedNetwork.value!.chainId);
+  }
 }

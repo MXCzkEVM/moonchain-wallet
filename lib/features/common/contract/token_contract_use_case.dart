@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/common/common.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
@@ -16,9 +17,39 @@ extension Unique<E, T> on List<E> {
 class TokenContractUseCase extends ReactiveUseCase {
   TokenContractUseCase(
     this._repository,
-  );
+    this._chainConfigurationUseCase,
+    this._accountUseCase,
+    this._functionUseCase,
+  ) {
+    initListeners();
+  }
+
+  void initListeners() {
+    _accountUseCase.account.listen((v) {
+      account = v;
+    });
+
+    _chainConfigurationUseCase.selectedNetwork.listen((v) {
+      if (v != null) {
+        _functionUseCase.mxcChainsAndEthereumFuncWrapper(
+            () => loadLocalTokenList(v.chainId));
+      }
+    });
+  }
+
+  void loadLocalTokenList(int chainId) async {
+    final stringData = await MXCFileHelpers.getTokenList(chainId);
+    DefaultTokens data =
+        DefaultTokens.fromJson(stringData).changeAssetsRemoteToLocal();
+    getDefaultTokens(account!.address, defaultTokens: data);
+  }
 
   final Web3Repository _repository;
+  final ChainConfigurationUseCase _chainConfigurationUseCase;
+  final AccountUseCase _accountUseCase;
+  final FunctionUseCase _functionUseCase;
+
+  Account? account;
 
   late final ValueStream<bool> online = reactive(false);
 
@@ -55,10 +86,12 @@ class TokenContractUseCase extends ReactiveUseCase {
         .getTokenTransfersByAddress(address, TokenType.erc_20);
   }
 
-  Future<List<Token>> getDefaultTokens(String walletAddress) async {
+  Future<List<Token>> getDefaultTokens(String walletAddress,
+      {DefaultTokens? defaultTokens}) async {
     tokensList.value.clear();
     tokensList.value.addAll(customTokenList);
-    final result = await _repository.tokenContract.getDefaultTokens();
+    final result =
+        defaultTokens ?? await _repository.tokenContract.getDefaultTokens();
 
     final cNetwork = _repository.tokenContract.getCurrentNetwork();
 

@@ -19,6 +19,14 @@ class FunctionUseCase extends ReactiveUseCase {
     }
   }
 
+  void mxcChainsAndEthereumFuncWrapper(
+    Function func,
+  ) {
+    if (_chainConfigurationUseCase.isMXCChains() || _chainConfigurationUseCase.isEthereumMainnet()) {
+      func();
+    }
+  }
+
   void chainsFuncWrapper(Function mxcChainsFunc, Function noneMXCChainsFunc) {
     if (_chainConfigurationUseCase.isMXCChains()) {
       mxcChainsFunc();
