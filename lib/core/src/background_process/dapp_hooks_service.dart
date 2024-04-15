@@ -30,7 +30,7 @@ class DAppHooksService {
       final wifiHooksEnabled = dappHooksData.wifiHooks.enabled;
 
       // Make sure user is logged in
-      if (isLoggedIn && Config.isMxcChains(chainId) && serviceEnabled) {
+      if (isLoggedIn && MXCChains.isMXCChains(chainId) && serviceEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
         await contextLessTranslationUseCase.setupTranslator();
@@ -76,7 +76,7 @@ class DAppHooksService {
       final minerHooksTime = dappHooksData.minerHooks.time;
       final selectedMiners = dappHooksData.minerHooks.selectedMiners;
       // Make sure user is logged in
-      if (isLoggedIn && Config.isMxcChains(chainId) && minerHooksEnabled) {
+      if (isLoggedIn && MXCChains.isMXCChains(chainId) && minerHooksEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
         await contextLessTranslationUseCase.setupTranslator();

@@ -31,7 +31,8 @@ class NotificationsPage extends HookConsumerWidget {
     final frequency = getPeriodicalCallDurationFromInt(
         notificationsState.periodicalCallData!.duration);
 
-    final isMXCChains = Config.isMxcChains(notificationsState.network!.chainId);
+    final isMXCChains =
+        MXCChains.isMXCChains(notificationsState.network!.chainId);
     final bgServiceEnabled =
         notificationsState.periodicalCallData!.serviceEnabled;
 

@@ -11,7 +11,7 @@ void showReceiveBottomSheet(
     VoidCallback onL3Tap,
     void Function(String url) launchUrlInPlatformDefault,
     bool showError) {
-  if (Config.isMxcChains(chainId)) {
+  if (MXCChains.isMXCChains(chainId)) {
     showWalletAddressDialogMXCChains(
         context: context,
         walletAddress: walletAddress,

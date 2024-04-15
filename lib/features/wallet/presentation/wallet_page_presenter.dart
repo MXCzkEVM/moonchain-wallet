@@ -57,7 +57,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
 
     listen(_transactionHistoryUseCase.transactionsHistory, (value) {
       if (state.network != null &&
-          !Config.isMxcChains(state.network!.chainId)) {
+          !MXCChains.isMXCChains(state.network!.chainId)) {
         getCustomChainsTransactions(value);
         initBalanceUpdateStream();
       }
@@ -88,8 +88,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
       _tokenContractUseCase.addCustomTokens(
           customTokens,
           state.account?.address ?? _accountUserCase.account.value!.address,
-          Config.isMxcChains(state.network!.chainId) ||
-              Config.isEthereumMainnet(state.network!.chainId));
+          MXCChains.isMXCChains(state.network!.chainId) ||
+              MXCChains.isEthereumMainnet(state.network!.chainId));
       initializeBalancePanelAndTokens();
     });
 
@@ -148,7 +148,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void getTransactions() async {
-    if (Config.isMxcChains(state.network!.chainId)) {
+    if (MXCChains.isMXCChains(state.network!.chainId)) {
       getMXCTransactions();
     } else {
       getCustomChainsTransactions(null);
@@ -175,8 +175,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   initializeBalancePanelAndTokens() {
     getDefaultTokens().then((tokenList) => getWalletTokensBalance(
         tokenList,
-        Config.isMxcChains(state.network!.chainId) ||
-            Config.isEthereumMainnet(state.network!.chainId)));
+        MXCChains.isMXCChains(state.network!.chainId) ||
+            MXCChains.isEthereumMainnet(state.network!.chainId)));
   }
 
   Future<List<Token>> getDefaultTokens() async {
@@ -315,7 +315,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void resetBalanceUpdateStream() {
-    if (Config.isMxcChains(state.network!.chainId) &&
+    if (MXCChains.isMXCChains(state.network!.chainId) &&
         state.balancesUpdateSubscription != null) {
       state.balancesUpdateSubscription!.cancel();
       state.balancesUpdateSubscription = null;

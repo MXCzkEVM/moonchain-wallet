@@ -40,7 +40,7 @@ class NotificationsService {
       final serviceEnabled = periodicalCallData.serviceEnabled;
 
       // Make sure user is logged in
-      if (isLoggedIn && Config.isMxcChains(chainId) && serviceEnabled) {
+      if (isLoggedIn && MXCChains.isMXCChains(chainId) && serviceEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
         await contextLessTranslationUseCase.setupTranslator();

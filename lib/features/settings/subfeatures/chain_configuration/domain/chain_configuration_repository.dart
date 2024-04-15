@@ -47,7 +47,7 @@ class ChainConfigurationRepository extends GlobalCacheRepository {
   String? get selectedIpfsGatewayItem => selectedIpfsGateWay.value;
 
   /// Add
-  void addItem(Network item) => Config.isMxcChains(item.chainId)
+  void addItem(Network item) => MXCChains.isMXCChains(item.chainId)
       ? networks.value = [item, ...networks.value]
       : networks.value = [...networks.value, item];
 

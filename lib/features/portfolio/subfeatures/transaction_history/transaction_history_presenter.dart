@@ -40,7 +40,7 @@ class TransactionHistoryPresenter
 
     listen(_transactionHistoryUseCase.transactionsHistory, (value) {
       if (state.network != null) {
-        if (!Config.isMxcChains(state.network!.chainId)) {
+        if (!MXCChains.isMXCChains(state.network!.chainId)) {
           getCustomChainsTransactions(value);
         }
       }
@@ -57,7 +57,7 @@ class TransactionHistoryPresenter
   }
 
   void getTransactions() async {
-    if (Config.isMxcChains(state.network!.chainId)) {
+    if (MXCChains.isMXCChains(state.network!.chainId)) {
       getMXCTransactions();
     } else {
       getCustomChainsTransactions(null);

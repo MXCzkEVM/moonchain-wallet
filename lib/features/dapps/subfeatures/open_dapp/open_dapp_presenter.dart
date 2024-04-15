@@ -133,7 +133,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         amount: amount,
         data: data,
         estimatedGasFee: estimatedGasFee);
-    if (!Config.isMxcChains(state.network!.chainId)) {
+    if (!MXCChains.isMXCChains(state.network!.chainId)) {
       recordTransaction(res);
     }
 
