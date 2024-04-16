@@ -14,20 +14,27 @@ class IPFSUseCase extends ReactiveUseCase {
   final ChainConfigurationUseCase _chainConfigurationUseCase;
 
   void initializeIpfsGateways() async {
-    Utils.retryFunction(() async {
-      final List<String>? list = await getIpfsGateWays();
-
-      if (list != null) {
-        checkIpfsGateways(list);
-      } else {
-        throw 'Error while retrieving ipfs gateway list!';
-      }
-    });
+    processIpfsGatewayListLocal();
+    Utils.retryFunction(processIpfsGatewayList);
   }
 
-  // Future<List<String>> loadLocalData() {
-    
-  // }
+  Future<void> processIpfsGatewayListLocal() async =>
+      checkIpfsGatewaysWrapper(getIpfsGateWaysLocal);
+
+  Future<void> processIpfsGatewayList() async =>
+      checkIpfsGatewaysWrapper(getIpfsGateWays);
+
+  Future<List<String>> getDefaultIpfsGateWaysLocal() async {
+    final result = await _repository.ipfsRepository.getDefaultIpfsGateways();
+
+    final List<String> list = [];
+
+    if (result != null) {
+      list.addAll(result.gateways ?? []);
+    }
+
+    return list;
+  }
 
   Future<List<String>> getDefaultIpfsGateWays() async {
     final result = await _repository.ipfsRepository.getDefaultIpfsGateways();
@@ -44,11 +51,29 @@ class IPFSUseCase extends ReactiveUseCase {
     return await _repository.ipfsRepository.checkIpfsGateway(url);
   }
 
+  Future<List<String>?> getIpfsGateWaysLocal() async {
+    final newList = await getDefaultIpfsGateWaysLocal();
+    _chainConfigurationUseCase.updateIpfsGateWayList(newList);
+
+    return newList;
+  }
+
   Future<List<String>?> getIpfsGateWays() async {
     final newList = await getDefaultIpfsGateWays();
     _chainConfigurationUseCase.updateIpfsGateWayList(newList);
 
     return newList;
+  }
+
+  void checkIpfsGatewaysWrapper(
+      Future<List<String>?> Function() function) async {
+    final List<String>? list = await function();
+
+    if (list != null) {
+      checkIpfsGateways(list);
+    } else {
+      throw 'Error while retrieving ipfs gateway list!';
+    }
   }
 
   void checkIpfsGateways(List<String> list) async {
