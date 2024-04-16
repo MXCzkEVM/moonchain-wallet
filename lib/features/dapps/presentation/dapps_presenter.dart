@@ -20,7 +20,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   late final _dappStoreUseCase = ref.read(dappStoreUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-  late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _gesturesInstructionUseCase =
       ref.read(gesturesInstructionUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
@@ -29,7 +28,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void initState() {
     super.initState();
 
+    // Initializing providers 
     ref.read(mxcWebsocketUseCaseProvider);
+    ref.read(ipfsUseCaseProvider);
+
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -81,14 +83,8 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     });
   }
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
-
   void loadPage() {
     initializeDapps();
-    initializeIpfsGateways();
   }
 
   void initializeDapps() async {
@@ -99,15 +95,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  void initializeIpfsGateways() async {
-    final List<String>? list = await getIpfsGateWays();
-
-    if (list != null) {
-      checkIpfsGateways(list);
-    } else {
-      initializeIpfsGateways();
-    }
-  }
 
   void removeBookmark(Bookmark item) {
     _bookmarksUseCase.removeItem(item);
@@ -118,29 +105,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
   void resetEditMode() => notify(() => state.isEditMode = false);
 
-  Future<List<String>?> getIpfsGateWays() async {
-    List<String>? newList;
-    try {
-      newList = await _nftContractUseCase.getDefaultIpfsGateWays();
-      _chainConfigurationUseCase.updateIpfsGateWayList(newList);
-    } catch (e) {
-      addError(e.toString());
-    }
-
-    return newList;
-  }
-
-  void checkIpfsGateways(List<String> list) async {
-    for (int i = 0; i < list.length; i++) {
-      final cUrl = list[i];
-      final response = await _nftContractUseCase.checkIpfsGatewayStatus(cUrl);
-
-      if (response != false) {
-        _chainConfigurationUseCase.changeIpfsGateWay(cUrl);
-        break;
-      }
-    }
-  }
 
   void setGesturesInstruction() {
     _gesturesInstructionUseCase.setEducated(true);

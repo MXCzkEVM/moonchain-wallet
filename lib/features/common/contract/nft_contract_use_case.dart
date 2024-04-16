@@ -56,19 +56,4 @@ class NftContractUseCase extends ReactiveUseCase {
   ) async {
     return await _repository.nftContract.getNftsByAddress(address);
   }
-
-  Future<List<String>> getDefaultIpfsGateWays() async {
-    final result = await _repository.nftContract.getDefaultIpfsGateways();
-    final List<String> list = [];
-
-    if (result != null) {
-      list.addAll(result.gateways ?? []);
-    }
-
-    return list;
-  }
-
-  Future<bool> checkIpfsGatewayStatus(String url) async {
-    return await _repository.nftContract.checkIpfsGateway(url);
-  }
 }

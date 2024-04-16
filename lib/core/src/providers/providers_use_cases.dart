@@ -245,3 +245,10 @@ final Provider<MXCWebsocketUseCase> mxcWebsocketUseCaseProvider = Provider(
     ref.watch(functionUseCaseProvider),
   ),
 );
+
+final Provider<IPFSUseCase> ipfsUseCaseProvider = Provider(
+  (ref) => IPFSUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+  ),
+);
