@@ -24,25 +24,20 @@ class IPFSUseCase extends ReactiveUseCase {
   Future<void> processIpfsGatewayList() async =>
       checkIpfsGatewaysWrapper(getIpfsGateWays);
 
-  Future<List<String>> getDefaultIpfsGateWaysLocal() async {
-    final result = await _repository.ipfsRepository.getDefaultIpfsGateways();
+  Future<List<String>> getDefaultIpfsGateWaysLocal() async =>
+      getDefaultIpfsGateWaysWrapper(
+          _repository.ipfsRepository.getDefaultIpfsGatewaysFromLocal);
 
+  Future<List<String>> getDefaultIpfsGateWays() async =>
+      getDefaultIpfsGateWaysWrapper(
+          _repository.ipfsRepository.getDefaultIpfsGateways);
+
+  Future<List<String>> getDefaultIpfsGateWaysWrapper(
+      Future<DefaultIpfsGateways> Function() function) async {
+    final result = await function();
     final List<String> list = [];
 
-    if (result != null) {
-      list.addAll(result.gateways ?? []);
-    }
-
-    return list;
-  }
-
-  Future<List<String>> getDefaultIpfsGateWays() async {
-    final result = await _repository.ipfsRepository.getDefaultIpfsGateways();
-    final List<String> list = [];
-
-    if (result != null) {
-      list.addAll(result.gateways ?? []);
-    }
+    list.addAll(result.gateways ?? []);
 
     return list;
   }

@@ -28,10 +28,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void initState() {
     super.initState();
 
-    // Initializing providers 
+    // Initializing providers
     ref.read(mxcWebsocketUseCaseProvider);
     ref.read(ipfsUseCaseProvider);
-
+    ref.read(tweetsUseCaseProvider);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -95,7 +95,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-
   void removeBookmark(Bookmark item) {
     _bookmarksUseCase.removeItem(item);
   }
@@ -104,7 +103,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
   void resetEditMode() => notify(() => state.isEditMode = false);
-
 
   void setGesturesInstruction() {
     _gesturesInstructionUseCase.setEducated(true);
@@ -161,11 +159,15 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
     bool _serviceEnabled;
 
-    _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-    if (!_serviceEnabled) {
-      await geoLocatorPlatform.getCurrentPosition();
+    try {
       _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
+      if (!_serviceEnabled) {
+        await geoLocatorPlatform.getCurrentPosition();
+        _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
+      }
+      return _serviceEnabled;
+    } catch (e) {
+      return false;
     }
-    return _serviceEnabled;
   }
 }

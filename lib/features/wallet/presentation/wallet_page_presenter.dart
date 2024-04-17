@@ -35,7 +35,11 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   void initState() {
     super.initState();
 
-    getMXCTweets();
+    listen(_tweetsUseCase.defaultTweets, (v) {
+      if (v != null) {
+        notify(() => state.embeddedTweets = v.tweets!);
+      }
+    });
 
     listen(_accountUserCase.account, (value) {
       if (value != null) {
@@ -74,8 +78,10 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     });
 
     listen(_tokenContractUseCase.tokensList, (newTokenList) {
-      state.tokensList.clear();
-      state.tokensList.addAll(newTokenList);
+      if (newTokenList.isNotEmpty) {
+        state.tokensList.clear();
+        state.tokensList.addAll(newTokenList);
+      }
     });
 
     listen(_tokenContractUseCase.totalBalanceInXsd, (newValue) {
@@ -281,15 +287,6 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         notify(() =>
             state.changeIndicator = balanceDifference * 100 / yesterdayBalance);
       }
-    } catch (e) {
-      addError(e.toString());
-    }
-  }
-
-  void getMXCTweets() async {
-    try {
-      final defaultTweets = await _tweetsUseCase.getDefaultTweets();
-      notify(() => state.embeddedTweets = defaultTweets.tweets!);
     } catch (e) {
       addError(e.toString());
     }

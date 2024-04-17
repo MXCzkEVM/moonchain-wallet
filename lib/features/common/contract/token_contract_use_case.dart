@@ -88,10 +88,10 @@ class TokenContractUseCase extends ReactiveUseCase {
 
   Future<List<Token>> getDefaultTokens(String walletAddress,
       {DefaultTokens? defaultTokens}) async {
-    tokensList.value.clear();
-    tokensList.value.addAll(customTokenList);
     final result =
         defaultTokens ?? await _repository.tokenContract.getDefaultTokens();
+    tokensList.value.clear();
+    tokensList.value.addAll(customTokenList);
 
     final cNetwork = _repository.tokenContract.getCurrentNetwork();
 
@@ -209,11 +209,13 @@ class TokenContractUseCase extends ReactiveUseCase {
     customTokenList = customTokens;
     update(tokensList, tokensList.value);
 
-    getTokensBalance(
-      customTokens,
-      walletAddress,
-      shouldGetPrice,
-    );
+    if (customTokenList.isNotEmpty) {
+      getTokensBalance(
+        customTokens,
+        walletAddress,
+        shouldGetPrice,
+      );
+    }
   }
 
   Future<EtherAmount> getGasPrice() async =>
