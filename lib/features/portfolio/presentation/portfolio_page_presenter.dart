@@ -49,7 +49,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     });
 
     listen(_tokenContractUseCase.tokensList, (newTokenList) {
-      if (state.tokensList != null) {
+      if (state.tokensList != null && newTokenList.isNotEmpty) {
         notify(() => state.tokensList = newTokenList);
       } else {
         state.tokensList = newTokenList;

@@ -49,7 +49,7 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
   Future<void> loadPage() async {
     final chainId = state.network!.chainId;
     final shouldGetPrice =
-        Config.isMxcChains(chainId) || Config.isEthereumMainnet(chainId);
+        MXCChains.isMXCChains(chainId) || MXCChains.isEthereumMainnet(chainId);
     await _tokenContractUseCase.getTokensBalance(
         null, state.account!.address, shouldGetPrice);
   }

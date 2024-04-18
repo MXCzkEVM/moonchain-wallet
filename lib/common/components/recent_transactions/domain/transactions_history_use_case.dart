@@ -38,7 +38,7 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
     if (selectedNetwork != null) {
       final chainId = selectedNetwork.chainId;
       checkChainChange(chainId);
-      if (!Config.isMxcChains(chainId)) {
+      if (!MXCChains.isMXCChains(chainId)) {
         checkForPendingTransactions();
       }
     }
@@ -172,7 +172,7 @@ class TransactionsHistoryUseCase extends ReactiveUseCase {
       TransactionModel newPendingTransaction,
       int chainId,
       TransactionActions transactionActions) {
-    if (!Config.isMxcChains(chainId)) {
+    if (!MXCChains.isMXCChains(chainId)) {
       newPendingTransaction =
           newPendingTransaction.copyWith(action: transactionActions);
 
