@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
@@ -109,29 +111,32 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   }
 
   Future<void> requestPermissions(Dapp dapp) async {
-    final permissions = dapp.app!.permissions!.toMap();
-    final keys = permissions.keys.toList();
-    final values = permissions.values.toList();
-    List<Permission> needPermissions = [];
+    // Permission request will be only on Android
+    if (Platform.isAndroid) {
+      final permissions = dapp.app!.permissions!.toMap();
+      final keys = permissions.keys.toList();
+      final values = permissions.values.toList();
+      List<Permission> needPermissions = [];
 
-    for (int i = 0; i < permissions.length; i++) {
-      final key = keys[i];
-      final value = values[i];
+      for (int i = 0; i < permissions.length; i++) {
+        final key = keys[i];
+        final value = values[i];
 
-      if (value == 'required') {
-        final permission = PermissionUtils.permissions[key];
-        if (permission != null) {
-          needPermissions.add(permission);
+        if (value == 'required') {
+          final permission = PermissionUtils.permissions[key];
+          if (permission != null) {
+            needPermissions.add(permission);
+          }
         }
       }
-    }
 
-    if (keys.contains('location')) {
-      await checkLocationService();
-    }
-    if (needPermissions.isNotEmpty) {
-      await needPermissions.request();
-      await PermissionUtils.permissionsStatus();
+      if (keys.contains('location')) {
+        await checkLocationService();
+      }
+      if (needPermissions.isNotEmpty) {
+        await needPermissions.request();
+        await PermissionUtils.permissionsStatus();
+      }
     }
   }
 
