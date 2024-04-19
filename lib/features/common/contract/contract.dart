@@ -6,3 +6,4 @@ export 'pricing_use_case.dart';
 export 'token_contract_use_case.dart';
 export 'transaction_controller.dart';
 export 'tweets_use_case.dart';
+export 'ipfs_gateway_use_case.dart';

@@ -300,7 +300,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         token: token,
       );
 
-      if (!Config.isMxcChains(state.network!.chainId)) {
+      if (!MXCChains.isMXCChains(state.network!.chainId)) {
         final tx = res;
 
         _transactionHistoryUseCase.updateItem(

@@ -46,6 +46,9 @@ final Provider<GesturesInstructionUseCase> gesturesInstructionUseCaseProvider =
 final Provider<TokenContractUseCase> tokenContractUseCaseProvider = Provider(
   (ref) => TokenContractUseCase(
     ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(accountUseCaseProvider),
+    ref.watch(functionUseCaseProvider),
   ),
 );
 
@@ -240,5 +243,12 @@ final Provider<MXCWebsocketUseCase> mxcWebsocketUseCaseProvider = Provider(
     ref.watch(chainConfigurationUseCaseProvider),
     ref.watch(accountUseCaseProvider),
     ref.watch(functionUseCaseProvider),
+  ),
+);
+
+final Provider<IPFSUseCase> ipfsUseCaseProvider = Provider(
+  (ref) => IPFSUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
   ),
 );

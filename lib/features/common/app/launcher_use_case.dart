@@ -83,14 +83,7 @@ class LauncherUseCase extends ReactiveUseCase {
   }
 
   String? getNftMarketPlaceUrl() {
-    final enabledNetwork = _chainConfigurationUseCase.selectedNetwork.value!;
-    if (enabledNetwork.chainId == Config.mxcTestnetChainId) {
-      return Urls.mxcTestnetNftMarketPlace;
-    } else if (enabledNetwork.chainId == Config.mxcMainnetChainId) {
-      return Urls.mxcMainnetNftMarketPlace;
-    } else {
-      return null;
-    }
+    return _repository.launcherRepository.getNftMarketPlaceUrl();
   }
 
   Future<void> launchEmailApp() async {

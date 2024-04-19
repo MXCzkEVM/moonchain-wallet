@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
@@ -20,7 +22,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   late final _dappStoreUseCase = ref.read(dappStoreUseCaseProvider);
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
-  late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _gesturesInstructionUseCase =
       ref.read(gesturesInstructionUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
@@ -29,7 +30,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void initState() {
     super.initState();
 
+    // Initializing providers
     ref.read(mxcWebsocketUseCaseProvider);
+    ref.read(ipfsUseCaseProvider);
+    ref.read(tweetsUseCaseProvider);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -48,6 +52,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         state.dapps = v;
         state.dappsAndBookmarks.clear();
         state.dappsAndBookmarks = [...v, ...state.bookmarks];
+        if (v.isNotEmpty) {
+          DappUtils.loadingOnce = false;
+          notify(() => state.loading = false);
+        }
         notify();
       },
     );
@@ -77,35 +85,15 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     });
   }
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
-
   void loadPage() {
     initializeDapps();
-    initializeIpfsGateways();
   }
 
   void initializeDapps() async {
-    notify(() => state.loading = true);
     try {
       await _dappStoreUseCase.getAllDapps();
     } catch (e, s) {
       addError(e, s);
-    } finally {
-      DappUtils.loadingOnce = false;
-      notify(() => state.loading = false);
-    }
-  }
-
-  void initializeIpfsGateways() async {
-    final List<String>? list = await getIpfsGateWays();
-
-    if (list != null) {
-      checkIpfsGateways(list);
-    } else {
-      initializeIpfsGateways();
     }
   }
 
@@ -118,60 +106,39 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
   void resetEditMode() => notify(() => state.isEditMode = false);
 
-  Future<List<String>?> getIpfsGateWays() async {
-    List<String>? newList;
-    try {
-      newList = await _nftContractUseCase.getDefaultIpfsGateWays();
-      _chainConfigurationUseCase.updateIpfsGateWayList(newList);
-    } catch (e) {
-      addError(e.toString());
-    }
-
-    return newList;
-  }
-
-  void checkIpfsGateways(List<String> list) async {
-    for (int i = 0; i < list.length; i++) {
-      final cUrl = list[i];
-      final response = await _nftContractUseCase.checkIpfsGatewayStatus(cUrl);
-
-      if (response != false) {
-        _chainConfigurationUseCase.changeIpfsGateWay(cUrl);
-        break;
-      }
-    }
-  }
-
   void setGesturesInstruction() {
     _gesturesInstructionUseCase.setEducated(true);
   }
 
-  // Future<void> requestPermissions(Dapp dapp) async {
-  //   final permissions = dapp.app!.permissions!.toMap();
-  //   final keys = permissions.keys.toList();
-  //   final values = permissions.values.toList();
-  //   List<Permission> needPermissions = [];
+  Future<void> requestPermissions(Dapp dapp) async {
+    // Permission request will be only on Android
+    if (Platform.isAndroid) {
+      final permissions = dapp.app!.permissions!.toMap();
+      final keys = permissions.keys.toList();
+      final values = permissions.values.toList();
+      List<Permission> needPermissions = [];
 
-  //   for (int i = 0; i < permissions.length; i++) {
-  //     final key = keys[i];
-  //     final value = values[i];
+      for (int i = 0; i < permissions.length; i++) {
+        final key = keys[i];
+        final value = values[i];
 
-  //     if (value == 'required') {
-  //       final permission = PermissionUtils.permissions[key];
-  //       if (permission != null) {
-  //         needPermissions.add(permission);
-  //       }
-  //     }
-  //   }
+        if (value == 'required') {
+          final permission = PermissionUtils.permissions[key];
+          if (permission != null) {
+            needPermissions.add(permission);
+          }
+        }
+      }
 
-  //   if (keys.contains('location')) {
-  //     await checkLocationService();
-  //   }
-  //   if (needPermissions.isNotEmpty) {
-  //     await needPermissions.request();
-  //     await PermissionUtils.permissionsStatus();
-  //   }
-  // }
+      if (keys.contains('location')) {
+        await checkLocationService();
+      }
+      if (needPermissions.isNotEmpty) {
+        await needPermissions.request();
+        await PermissionUtils.permissionsStatus();
+      }
+    }
+  }
 
   void refreshApp() {
     _chainConfigurationUseCase.refresh();
@@ -191,17 +158,21 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  // Future<bool> checkLocationService() async {
-  //   final geo.GeolocatorPlatform geoLocatorPlatform =
-  //       geo.GeolocatorPlatform.instance;
+  Future<bool> checkLocationService() async {
+    final geo.GeolocatorPlatform geoLocatorPlatform =
+        geo.GeolocatorPlatform.instance;
 
-  //   bool _serviceEnabled;
+    bool _serviceEnabled;
 
-  //   _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-  //   if (!_serviceEnabled) {
-  //     await geoLocatorPlatform.getCurrentPosition();
-  //     _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-  //   }
-  //   return _serviceEnabled;
-  // }
+    try {
+      _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
+      if (!_serviceEnabled) {
+        await geoLocatorPlatform.getCurrentPosition();
+        _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
+      }
+      return _serviceEnabled;
+    } catch (e) {
+      return false;
+    }
+  }
 }

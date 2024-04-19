@@ -9,7 +9,7 @@ class DAppsState with EquatableMixin {
 
   List<Dapp> dapps = [];
   List<Dapp> dappsAndBookmarks = [];
-  bool loading = false;
+  bool loading = true;
 
   Network? network;
 

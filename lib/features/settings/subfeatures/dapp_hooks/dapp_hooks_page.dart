@@ -27,7 +27,7 @@ class DAppHooksPage extends HookConsumerWidget {
     final frequency = getPeriodicalCallDurationFromInt(
         dappHooksState.dAppHooksData!.duration);
 
-    final isMXCChains = Config.isMxcChains(dappHooksState.network!.chainId);
+    final isMXCChains = MXCChains.isMXCChains(dappHooksState.network!.chainId);
     final dappHooksServiceServiceEnabled =
         dappHooksState.dAppHooksData!.enabled;
 

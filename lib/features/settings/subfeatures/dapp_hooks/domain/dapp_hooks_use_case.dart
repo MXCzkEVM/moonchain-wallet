@@ -62,7 +62,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
   void initialize() {
     _chainConfigurationUseCase.selectedNetwork.listen((network) {
       final isMXCChains =
-          network != null && !Config.isMxcChains(network.chainId);
+          network != null && !MXCChains.isMXCChains(network.chainId);
       final dappHooksData = _repository.item;
       if (!isMXCChains) {
         bgFetch.BackgroundFetch.stop(BackgroundExecutionConfig.dappHookTasks);

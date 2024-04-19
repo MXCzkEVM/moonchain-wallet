@@ -49,10 +49,12 @@ class DappCard extends StatelessWidget {
 
       return ClipRRect(
           borderRadius: BorderRadius.circular(22),
-          child: CachedNetworkImage(
-            imageUrl: '${Urls.dappRoot}/$image',
-            fit: BoxFit.cover,
-          ));
+          child: image!.contains('https')
+              ? CachedNetworkImage(
+                  imageUrl: image,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(image));
     }
   }
 

@@ -224,14 +224,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
-  cryptography:
-    dependency: transitive
-    description:
-      name: cryptography
-      sha256: df156c5109286340817d21fa7b62f9140f17915077127dd70f8bd7a2a0997a35
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -1171,10 +1163,10 @@ packages:
     dependency: transitive
     description:
       name: plugin_platform_interface
-      sha256: "43798d895c929056255600343db8f049921cbec94d31ec87f1dc5c16c01935dd"
+      sha256: da3fdfeccc4d4ff2da8f8c556704c08f912542c5fb3cf2233ed75372384a034d
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   pointycastle:
     dependency: transitive
     description:
@@ -1572,14 +1564,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.12+1"
-  wallet_connect:
-    dependency: "direct main"
-    description:
-      name: wallet_connect
-      sha256: b294400c9aef22379183a3cd3e6c7ca89191bc53e5afb0b521a0ba65cbdc7d78
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   web3_provider:
     dependency: "direct main"
     description:
