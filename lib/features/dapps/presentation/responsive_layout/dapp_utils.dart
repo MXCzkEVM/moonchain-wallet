@@ -15,6 +15,42 @@ class DappUtils {
     return 18686;
   }
 
+  static List<Dapp> getDappsByChainId({
+    required List<Dapp> allDapps,
+    required int chainId,
+  }) {
+    transformBookMarkToDapp(allDapps);
+
+    final dapps = allDapps.where((e) {
+      if (e is Bookmark) {
+        return true;
+      } else {
+        return (e.store!.chainid == chainId) &&
+            isSupported(e.app!.supportedPlatforms!);
+      }
+    }).toList();
+
+    return dapps;
+  }
+
+  /// This function will return dapps order according to dappsOrder variable
+  static List<Dapp> reorderDApps(List<Dapp> dapps, List<String> dappsOrder) {
+    // Create a map to store the indices of each DApp URL
+    Map<String, int> urlIndices = {};
+    for (int i = 0; i < dapps.length; i++) {
+      urlIndices[dapps[i].app!.url!] = i;
+    }
+
+    // Sort the DApps list based on the order specified in dappsOrder
+    dapps.sort((a, b) {
+      int indexA = urlIndices[a.app!.url!] ?? dapps.length;
+      int indexB = urlIndices[b.app!.url!] ?? dapps.length;
+      return dappsOrder.indexOf(a.app!.url!) - dappsOrder.indexOf(b.app!.url!);
+    });
+
+    return dapps;
+  }
+
   static List<List<Dapp>> paging({
     required BuildContext context,
     required List<Dapp> allDapps,

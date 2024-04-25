@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class DAppsState with EquatableMixin {
@@ -7,6 +8,8 @@ class DAppsState with EquatableMixin {
   bool isEditMode = false;
   bool gesturesInstructionEducated = false;
 
+  List<Dapp> orderedDapps = [];
+  List<String> dappsOrder = [];
   List<Dapp> dapps = [];
   List<Dapp> dappsAndBookmarks = [];
   bool loading = true;

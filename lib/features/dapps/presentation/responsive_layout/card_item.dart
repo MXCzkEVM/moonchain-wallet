@@ -3,7 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class CardCrossAxisCount {
   static const int mobile = 4;
-  static const int tablet = 8;
+  static const int tablet = 5;
 }
 
 class CardSizes {

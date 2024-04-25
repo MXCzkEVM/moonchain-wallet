@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -25,6 +27,16 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   late final _gesturesInstructionUseCase =
       ref.read(gesturesInstructionUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
+  late final _dappsOrderUseCase = ref.read(dappsOrderUseCaseProvider);
+  final scrollController = ScrollController();
+
+  int currentPage = 1;
+  int attemptCount = 0;
+  Timer? timer;
+  bool onLeftEdge = false;
+  bool onRightEdge = false;
+  double? viewPortWidth;
+  double? scrollingArea;
 
   @override
   void initState() {
@@ -40,36 +52,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       DeviceOrientation.portraitDown,
     ]);
 
-    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
-      if (value != null) {
-        notify(() => state.network = value);
-      }
-    });
-
-    listen<List<Dapp>>(
-      _dappStoreUseCase.dapps,
-      (v) {
-        state.dapps = v;
-        state.dappsAndBookmarks.clear();
-        state.dappsAndBookmarks = [...v, ...state.bookmarks];
-        if (v.isNotEmpty) {
-          DappUtils.loadingOnce = false;
-          notify(() => state.loading = false);
-        }
-        notify();
-      },
-    );
-
-    listen<List<Bookmark>>(
-      _bookmarksUseCase.bookmarks,
-      (v) {
-        state.bookmarks = v;
-        state.dappsAndBookmarks.clear();
-        state.dappsAndBookmarks = [...state.dapps, ...v];
-        notify();
-      },
-    );
-
     listen(_gesturesInstructionUseCase.educated, (value) {
       notify(() => state.gesturesInstructionEducated = value);
     });
@@ -80,9 +62,40 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
+        notify(() => state.network = value);
         loadPage();
       }
     });
+
+    listen<List<Dapp>>(
+      _dappStoreUseCase.dapps,
+      (v) {
+        state.dapps = v;
+        state.dappsAndBookmarks.clear();
+        state.dappsAndBookmarks = [...v, ...state.bookmarks];
+        updateDappsOrder();
+        if (v.isNotEmpty) {
+          DappUtils.loadingOnce = false;
+          notify(() => state.loading = false);
+        }
+        notify();
+      },
+    );
+
+    listen(_dappsOrderUseCase.order, (v) {
+      notify(() => state.dappsOrder = v);
+      updateReorderedDapps();
+    });
+
+    listen<List<Bookmark>>(
+      _bookmarksUseCase.bookmarks,
+      (v) {
+        state.bookmarks = v;
+        state.dappsAndBookmarks.clear();
+        state.dappsAndBookmarks = [...state.dapps, ...v];
+        notify();
+      },
+    );
   }
 
   void loadPage() {
@@ -174,5 +187,105 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     } catch (e) {
       return false;
     }
+  }
+
+  double edgeScrollingSensitivity = 40;
+
+  void initializeViewPreferences(double maxWidth) {
+    viewPortWidth = maxWidth;
+    scrollingArea = maxWidth - edgeScrollingSensitivity;
+  }
+
+  double getItemWidth() {
+    return viewPortWidth! / 3;
+  }
+
+  // index -> dapp repo usecase
+  // Remove reordering pagination
+
+  void handleOnReorder() {
+    // var item = data.removeAt(dragIndex);
+    // data.insert(dropIndex, item);
+  }
+
+  void handleOnDragUpdate(Offset position) {
+    print(position.dx < 0);
+    print(position.dx > scrollingArea!);
+    if (position.dx <= edgeScrollingSensitivity) {
+      startTimer();
+      onLeftEdge = true;
+    } else if (position.dx > scrollingArea!) {
+      startTimer();
+      onRightEdge = true;
+    } else {
+      cancelTimer();
+    }
+
+    print('position: ' + position.toString());
+  }
+
+  void changePageToLeft() {
+    scrollController.animateTo(
+        scrollController.position.pixels - MediaQuery.of(context!).size.width,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOut);
+    currentPage += 1;
+  }
+
+  void changePageToRight() {
+    scrollController.animateTo(
+        scrollController.position.pixels + MediaQuery.of(context!).size.width,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOut);
+    currentPage -= 1;
+  }
+
+  void cancelTimer() {
+    timer?.cancel();
+    timer = null;
+    resetLeftAndRight();
+  }
+
+  void resetLeftAndRight() {
+    onLeftEdge = false;
+    onRightEdge = false;
+  }
+
+  void startTimer() {
+    timer ??= Timer(const Duration(seconds: 1), () {
+      if (onLeftEdge) {
+        changePageToLeft();
+      } else if (onRightEdge) {
+        changePageToRight();
+      }
+      resetLeftAndRight();
+    });
+  }
+
+  void updateReorderedDapps() {
+    final chainDapps = getChainDapps();
+    final newOrderDapps = DappUtils.reorderDApps(chainDapps, state.dappsOrder);
+    notify(
+      () => state.orderedDapps = newOrderDapps,
+    );
+  }
+
+  List<Dapp> getChainDapps() {
+    List<Dapp> chainDapps = DappUtils.getDappsByChainId(
+      allDapps: state.dappsAndBookmarks,
+      chainId: state.network!.chainId,
+    );
+    return chainDapps;
+  }
+
+  void updateDappsOrder() {
+    final chainDapps = getChainDapps();
+    _dappsOrderUseCase.updateOrder(dapps: chainDapps);
+  }
+
+  @override
+  Future<void> dispose() async {
+    timer!.cancel();
+    super.dispose();
   }
 }
