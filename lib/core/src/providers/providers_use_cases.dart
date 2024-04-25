@@ -2,8 +2,7 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/components/recent_transactions/domain/mxc_transaction_use_case.dart';
 import 'package:datadashwallet/features/common/account/log_out_use_case.dart';
 import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/dapps/domain/dapp_store_use_case.dart';
-import 'package:datadashwallet/features/dapps/domain/gestures_instruction_use_case.dart';
+import 'package:datadashwallet/features/dapps/domain/domain.dart';
 import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
 import 'package:datadashwallet/features/settings/domain/app_version_use_case.dart';
@@ -12,7 +11,6 @@ import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/do
 import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:datadashwallet/features/portfolio/domain/portfolio_use_case.dart';
 import 'package:datadashwallet/features/security/security.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/domain/dapp_hooks_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,6 +39,10 @@ final Provider<GesturesInstructionUseCase> gesturesInstructionUseCaseProvider =
     Provider(
   (ref) => GesturesInstructionUseCase(
       ref.watch(globalCacheProvider).gesturesInstruction),
+);
+
+final Provider<DappsOrderUseCase> dappsOrderUseCaseProvider = Provider(
+  (ref) => DappsOrderUseCase(ref.watch(globalCacheProvider).dappsOrder),
 );
 
 final Provider<TokenContractUseCase> tokenContractUseCaseProvider = Provider(
