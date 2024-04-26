@@ -1,5 +1,7 @@
+import 'package:datadashwallet/common/utils/permissions_bottom_sheet.dart';
 import 'package:f_logs/f_logs.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionUtils {
@@ -13,6 +15,23 @@ class PermissionUtils {
   static void log(String feature, [bool isGranted = true]) {
     FLog.info(
         text: '$feature permission is ${isGranted ? 'granted' : 'rejected'}.');
+  }
+
+  static Future<bool> isPermissionGranted(
+    Permission permission,
+  ) async {
+    return await permission.isGranted;
+  }
+
+  static Future<bool> isPermissionPermanentlyDenied(
+    Permission permission,
+  ) async {
+    return await permission.isPermanentlyDenied;
+  }
+
+  static Future<bool?> showUseCaseBottomSheet(
+      Permission permission, BuildContext context) async {
+    return showPermissionUseCasesBottomSheet(context, permission: permission);
   }
 
   static Future<void> permissionsStatus() async {
@@ -39,16 +58,6 @@ class PermissionUtils {
     } else {
       log('Notification', false);
     }
-  }
-
-  static Future<void> requestAllPermissions() async {
-    Map<Permission, PermissionStatus> permissions = await [
-      Permission.camera,
-      Permission.storage,
-      Permission.location,
-      Permission.locationAlways,
-      Permission.notification,
-    ].request();
   }
 
   static Future<void> requestLocationPermission() async {
