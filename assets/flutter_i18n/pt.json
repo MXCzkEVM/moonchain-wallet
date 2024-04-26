@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Minerador #{0}: Sem tokens para reivindicar. ℹ️",
     "tokens_mined_successfully_miner": "Minerador #{0}: Tokens minerados com sucesso. ✅",
     "token_mining_failed": "Minerador #{0}: Processo de mineração de token falhou. ❌",
-    "merkle_proof_error": "Erro ao tentar verificar a prova de Merkle."
+    "merkle_proof_error": "Erro ao tentar verificar a prova de Merkle.",
+    "axs_location_permission_use_case": "A carteira AXS precisa de acesso à sua localização para recursos como conexões Wi-Fi enquanto o aplicativo está em uso ou funcionando em segundo plano. Seus dados de localização não são salvos ou compartilhados com terceiros.",
+    "axs_camera_permission_use_case": "A carteira AXS precisa de acesso à sua câmera quando o aplicativo está em uso para serviços como a cunhagem de RWA. Os dados da imagem não são salvos ou compartilhados com terceiros.",
+    "axs_photos_permission_use_case": "A carteira AXS precisa de acesso às suas fotos para salvar imagens como RWA. Suas fotos não são salvas ou compartilhadas com terceiros.",
+    "permission_use_cases": "Casos de uso de permissão",
+    "ok_allow": "Ok, Permita",
+    "not_now": "Agora não"
 }

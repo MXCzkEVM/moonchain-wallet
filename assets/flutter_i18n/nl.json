@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Mijnwerker #{0}: Geen tokens om te claimen. ℹ️",
     "tokens_mined_successfully_miner": "Mijnwerker #{0}: Tokens succesvol gemijnd. ✅",
     "token_mining_failed": "Mijnwerker #{0}: Token mijnproces mislukt. ❌",
-    "merkle_proof_error": "Fout tijdens het proberen te verifiëren van Merkle-bewijs."
+    "merkle_proof_error": "Fout tijdens het proberen te verifiëren van Merkle-bewijs.",
+    "axs_location_permission_use_case": "De AXS Wallet heeft toegang tot uw locatie nodig voor functies zoals Wi-Fi hooks terwijl de app in gebruik is of op de achtergrond draait. Uw locatiegegevens worden niet opgeslagen of gedeeld met derden.",
+    "axs_camera_permission_use_case": "De AXS Wallet heeft toegang nodig tot uw camera wanneer de app in gebruik is voor diensten zoals RWA minting. Beeldgegevens worden niet opgeslagen of gedeeld met derden.",
+    "axs_photos_permission_use_case": "De AXS Wallet heeft toegang tot uw foto's nodig om afbeeldingen zoals RWA op te slaan. Uw foto's worden niet opgeslagen of gedeeld met derden.",
+    "permission_use_cases": "Gebruikstoestemming use cases",
+    "ok_allow": "OK, Toestaan",
+    "not_now": "Niet nu"
 }

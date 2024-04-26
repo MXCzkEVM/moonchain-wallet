@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Người đào #{0}: Không có token để yêu cầu. ℹ️",
     "tokens_mined_successfully_miner": "Người đào #{0}: Tokens đã được đào thành công. ✅",
     "token_mining_failed": "Người đào mỏ #{0}: Quá trình đào token thất bại. ❌",
-    "merkle_proof_error": "Lỗi khi cố gắng xác minh chứng thực Merkle."
+    "merkle_proof_error": "Lỗi khi cố gắng xác minh chứng thực Merkle.",
+    "axs_location_permission_use_case": "Ví AXS cần truy cập vào vị trí của bạn để sử dụng các tính năng như Wi-Fi hooks trong khi ứng dụng đang được sử dụng hoặc chạy ở chế độ nền. Dữ liệu vị trí của bạn không được lưu trữ hoặc chia sẻ với bất kỳ bên thứ ba nào.",
+    "axs_camera_permission_use_case": "Ví AXS cần quyền truy cập vào camera của bạn khi ứng dụng đang được sử dụng cho các dịch vụ như đúc RWA. Dữ liệu hình ảnh không được lưu trữ hoặc chia sẻ với bất kỳ bên thứ ba nào.",
+    "axs_photos_permission_use_case": "Ví AXS cần quyền truy cập vào ảnh của bạn để lưu các hình ảnh như RWA. Ảnh của bạn không được lưu hoặc chia sẻ với bất kỳ bên thứ ba nào.",
+    "permission_use_cases": "Các trường hợp sử dụng quyền truy cập",
+    "ok_allow": "Được, Cho phép",
+    "not_now": "Không phải bây giờ"
 }

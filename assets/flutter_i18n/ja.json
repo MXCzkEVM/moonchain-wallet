@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "マイナー #{0}：請求するトークンがありません。ℹ️",
     "tokens_mined_successfully_miner": "マイナー #{0}：トークンの採掘に成功しました。✅",
     "token_mining_failed": "マイナー #{0}：トークンのマイニングプロセスに失敗しました。❌",
-    "merkle_proof_error": "Merkle証明を検証しようとする際のエラー。"
+    "merkle_proof_error": "Merkle証明を検証しようとする際のエラー。",
+    "axs_location_permission_use_case": "AXSウォレットは、アプリが使用中またはバックグラウンドで実行されている間にWi-Fiフックなどの機能に対して、あなたの位置情報へのアクセスを必要とします。あなたの位置データは保存されず、また第三者と共有されません。",
+    "axs_camera_permission_use_case": "AXSウォレットは、RWAミンティングなどのサービスでアプリが使用中のときにカメラへのアクセスが必要です。画像データは保存されず、第三者とも共有されません。",
+    "axs_photos_permission_use_case": "AXSウォレットは、RWAのような画像を保存するためにあなたの写真へのアクセスが必要です。あなたの写真は第三者と共有または保存されません。",
+    "permission_use_cases": "許可使用ケース",
+    "ok_allow": "了解しました、許可します",
+    "not_now": "今ではない"
 }

@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Penambang #{0}: Tidak ada token untuk diklaim. ℹ️",
     "tokens_mined_successfully_miner": "Penambang #{0}: Token berhasil ditambang. ✅",
     "token_mining_failed": "Penambang #{0}: Proses penambangan token gagal. ❌",
-    "merkle_proof_error": "Kesalahan saat mencoba memverifikasi bukti Merkle."
+    "merkle_proof_error": "Kesalahan saat mencoba memverifikasi bukti Merkle.",
+    "axs_location_permission_use_case": "Dompet AXS membutuhkan akses ke lokasi Anda untuk fitur seperti Wi-Fi hooks saat aplikasi sedang digunakan atau berjalan di latar belakang. Data lokasi Anda tidak disimpan atau dibagikan dengan pihak ketiga mana pun.",
+    "axs_camera_permission_use_case": "Dompet AXS membutuhkan akses ke kamera Anda saat aplikasi sedang digunakan untuk layanan seperti pencetakan RWA. Data gambar tidak disimpan atau dibagikan dengan pihak ketiga mana pun.",
+    "axs_photos_permission_use_case": "Dompet AXS membutuhkan akses ke foto-foto Anda untuk menyimpan gambar seperti RWA. Foto-foto Anda tidak disimpan atau dibagikan dengan pihak ketiga mana pun.",
+    "permission_use_cases": "Kasus penggunaan izin",
+    "ok_allow": "Oke, Izinkan",
+    "not_now": "Tidak sekarang"
 }

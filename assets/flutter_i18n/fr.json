@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Mineur #{0}: Aucun jeton à réclamer. ℹ️",
     "tokens_mined_successfully_miner": "Mineur #{0} : Tokens minés avec succès. ✅",
     "token_mining_failed": "Mineur #{0} : Le processus de minage de token a échoué. ❌",
-    "merkle_proof_error": "Erreur lors de la tentative de vérification de la preuve de Merkle."
+    "merkle_proof_error": "Erreur lors de la tentative de vérification de la preuve de Merkle.",
+    "axs_location_permission_use_case": "Le portefeuille AXS a besoin d'accéder à votre emplacement pour des fonctionnalités telles que les crochets Wi-Fi pendant que l'application est en cours d'utilisation ou fonctionne en arrière-plan. Vos données de localisation ne sont ni sauvegardées ni partagées avec des tiers.",
+    "axs_camera_permission_use_case": "Le portefeuille AXS a besoin d'accéder à votre caméra lorsque l'application est utilisée pour des services tels que la frappe de RWA. Les données d'image ne sont ni sauvegardées ni partagées avec des tiers.",
+    "axs_photos_permission_use_case": "Le portefeuille AXS a besoin d'accéder à vos photos pour sauvegarder des images telles que RWA. Vos photos ne sont pas sauvegardées ou partagées avec des tiers.",
+    "permission_use_cases": "Cas d'utilisation de permission",
+    "ok_allow": "D'accord, Autoriser",
+    "not_now": "Pas maintenant"
 }

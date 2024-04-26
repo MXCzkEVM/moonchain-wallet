@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "矿工#{0}：没有代币可领取。ℹ️",
     "tokens_mined_successfully_miner": "矿工 #{0}：代币挖掘成功。✅",
     "token_mining_failed": "矿工#{0}：代币挖矿过程失败。❌",
-    "merkle_proof_error": "尝试验证Merkle证明时出错。"
+    "merkle_proof_error": "尝试验证Merkle证明时出错。",
+    "axs_location_permission_use_case": "AXS钱包需要访问您的位置信息，以便在应用程序正在使用或在后台运行时使用诸如Wi-Fi挂钩等功能。您的位置数据不会被保存或与任何第三方共享。",
+    "axs_camera_permission_use_case": "AXS钱包在使用诸如RWA铸币等服务时需要访问您的相机。图像数据不会被保存或与任何第三方共享。",
+    "axs_photos_permission_use_case": "AXS钱包需要访问您的照片以保存如RWA等图片。您的照片不会被保存或与任何第三方共享。",
+    "permission_use_cases": "权限使用案例",
+    "ok_allow": "好的，允许",
+    "not_now": "现在不"
 }
