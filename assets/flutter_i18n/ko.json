@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "채굴자 #{0}: 청구할 토큰이 없습니다. ℹ️",
     "tokens_mined_successfully_miner": "채굴자 #{0}: 토큰이 성공적으로 채굴되었습니다. ✅",
     "token_mining_failed": "채굴자 #{0}: 토큰 채굴 과정이 실패했습니다. ❌",
-    "merkle_proof_error": "Merkle 증명을 검증하려는 도중 오류가 발생했습니다."
+    "merkle_proof_error": "Merkle 증명을 검증하려는 도중 오류가 발생했습니다.",
+    "axs_location_permission_use_case": "AXS Wallet은 앱이 사용 중이거나 백그라운드에서 실행되는 동안 Wi-Fi 후크와 같은 기능을 위해 귀하의 위치에 대한 접근 권한이 필요합니다. 귀하의 위치 데이터는 저장되거나 제3자와 공유되지 않습니다.",
+    "axs_camera_permission_use_case": "AXS 지갑은 RWA 코인 생성과 같은 서비스를 위해 앱이 사용 중일 때 카메라에 대한 접근 권한이 필요합니다. 이미지 데이터는 저장되거나 제3자와 공유되지 않습니다.",
+    "axs_photos_permission_use_case": "AXS 지갑은 RWA와 같은 이미지를 저장하기 위해 귀하의 사진에 접근할 필요가 있습니다. 귀하의 사진은 어떠한 제3자와도 저장되거나 공유되지 않습니다.",
+    "permission_use_cases": "사용 권한 사용 사례",
+    "ok_allow": "좋아요, 허용",
+    "not_now": "지금 아니야"
 }

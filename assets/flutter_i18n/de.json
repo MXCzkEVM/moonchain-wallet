@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Bergmann #{0}: Keine Tokens zum Beanspruchen. ℹ️",
     "tokens_mined_successfully_miner": "Bergmann #{0}: Tokens erfolgreich abgebaut. ✅",
     "token_mining_failed": "Bergarbeiter #{0}: Token-Mining-Prozess fehlgeschlagen. ❌",
-    "merkle_proof_error": "Fehler beim Versuch, den Merkle-Nachweis zu überprüfen."
+    "merkle_proof_error": "Fehler beim Versuch, den Merkle-Nachweis zu überprüfen.",
+    "axs_location_permission_use_case": "Die AXS Wallet benötigt Zugriff auf Ihren Standort für Funktionen wie Wi-Fi-Hooks, während die App in Gebrauch ist oder im Hintergrund läuft. Ihre Standortdaten werden nicht gespeichert oder mit Dritten geteilt.",
+    "axs_camera_permission_use_case": "Die AXS Wallet benötigt Zugriff auf Ihre Kamera, wenn die App für Dienste wie RWA-Minting in Gebrauch ist. Bilddaten werden nicht gespeichert oder mit Dritten geteilt.",
+    "axs_photos_permission_use_case": "Die AXS Wallet benötigt Zugriff auf Ihre Fotos, um Bilder wie RWA zu speichern. Ihre Fotos werden nicht gespeichert oder mit Dritten geteilt.",
+    "permission_use_cases": "Nutzungsfälle für Berechtigungen",
+    "ok_allow": "OK, Erlauben",
+    "not_now": "Nicht jetzt"
 }

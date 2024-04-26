@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Minatore #{0}: Nessun token da reclamare. ℹ️",
     "tokens_mined_successfully_miner": "Minatore #{0}: Token minati con successo. ✅",
     "token_mining_failed": "Minatore #{0}: Il processo di estrazione del token è fallito. ❌",
-    "merkle_proof_error": "Errore durante il tentativo di verificare la prova di Merkle."
+    "merkle_proof_error": "Errore durante il tentativo di verificare la prova di Merkle.",
+    "axs_location_permission_use_case": "Il portafoglio AXS necessita l'accesso alla tua posizione per funzionalità come i collegamenti Wi-Fi mentre l'app è in uso o in esecuzione in background. I tuoi dati di localizzazione non vengono salvati o condivisi con terze parti.",
+    "axs_camera_permission_use_case": "Il portafoglio AXS necessita l'accesso alla tua fotocamera quando l'app è in uso per servizi come la coniazione di RWA. I dati dell'immagine non vengono salvati o condivisi con terze parti.",
+    "axs_photos_permission_use_case": "Il portafoglio AXS necessita l'accesso alle tue foto per salvare immagini come RWA. Le tue foto non vengono salvate o condivise con terze parti.",
+    "permission_use_cases": "Casi d'uso del permesso",
+    "ok_allow": "OK, Permetti",
+    "not_now": "Non ora"
 }
