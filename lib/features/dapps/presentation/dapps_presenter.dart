@@ -143,12 +143,28 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         }
       }
 
+      if (needPermissions.isNotEmpty) {
+        for (Permission permission in needPermissions) {
+          await checkPermissionStatusAndRequest(permission);
+        }
+        await PermissionUtils.permissionsStatus();
+      }
+
       if (keys.contains('location')) {
         await checkLocationService();
       }
-      if (needPermissions.isNotEmpty) {
-        await needPermissions.request();
-        await PermissionUtils.permissionsStatus();
+    }
+  }
+
+  Future<void> checkPermissionStatusAndRequest(
+    Permission permission,
+  ) async {
+    final l =await permission.status;
+    if (!(await PermissionUtils.isPermissionGranted(permission)) && !(await PermissionUtils.isPermissionPermanentlyDenied(permission) )) {
+      final askForPermission =
+          await PermissionUtils.showUseCaseBottomSheet(permission, context!);
+      if (askForPermission ?? false) {
+        await [permission].request();
       }
     }
   }

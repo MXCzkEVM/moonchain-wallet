@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Madenci #{0}: Talep edilecek token yok. ℹ️",
     "tokens_mined_successfully_miner": "Madenci #{0}: Token'lar başarıyla çıkarıldı. ✅",
     "token_mining_failed": "Madenci #{0}: Token madencilik işlemi başarısız oldu. ❌",
-    "merkle_proof_error": "Merkle kanıtını doğrulamaya çalışırken hata oluştu."
+    "merkle_proof_error": "Merkle kanıtını doğrulamaya çalışırken hata oluştu.",
+    "axs_location_permission_use_case": "AXS Cüzdanı, uygulama kullanılırken veya arka planda çalışırken Wi-Fi kancaları gibi özelliklere erişim için konumunuza ihtiyaç duyar. Konum verileriniz kaydedilmez veya üçüncü taraflarla paylaşılmaz.",
+    "axs_camera_permission_use_case": "AXS Cüzdanı, RWA basımı gibi hizmetler için uygulama kullanılırken kameranıza erişim gerektirir. Görüntü verileri kaydedilmez veya üçüncü taraflarla paylaşılmaz.",
+    "axs_photos_permission_use_case": "AXS Cüzdanı, RWA gibi görüntüleri kaydetmek için fotoğraflarınıza erişim hakkına ihtiyaç duyar. Fotoğraflarınız hiçbir üçüncü taraf ile kaydedilmez veya paylaşılmaz.",
+    "permission_use_cases": "İzin kullanım durumları",
+    "ok_allow": "Tamam, İzin Ver",
+    "not_now": "Şimdi değil"
 }

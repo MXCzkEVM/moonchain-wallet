@@ -391,5 +391,11 @@
 	"no_token_to_claim_miner": "Miner #{0}: No tokens to claim. ℹ️",
 	"tokens_mined_successfully_miner": "Miner #{0}: Tokens mined successfully. ✅",
 	"token_mining_failed": "Miner #{0}: Token mining process failed. ❌",
-	"merkle_proof_error": "Error while trying to verify Merkle proof."
+	"merkle_proof_error": "Error while trying to verify Merkle proof.",
+	"axs_location_permission_use_case": "AXS Wallet needs access to your location for features such as Wi-Fi hooks while the app is in use or running in the background. Your location data is not saved or shared with any third parties.",
+	"axs_camera_permission_use_case": "AXS Wallet needs access to your camera when the app is in use for services such as RWA minting. Image data is not saved or shared with any third parties.",
+	"axs_photos_permission_use_case": "AXS Wallet needs access to your photos to save images such as RWA. Your photos are not saved or shared with any third parties.",
+	"permission_use_cases": "Permission use cases",
+	"ok_allow": "OK, Allow",
+	"not_now": "Not now"
 }

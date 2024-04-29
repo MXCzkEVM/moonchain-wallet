@@ -395,5 +395,11 @@
     "no_token_to_claim_miner": "Minerul #{0}: Nu există tokeni de revendicat. ℹ️",
     "tokens_mined_successfully_miner": "Minerul #{0}: Tokeni minați cu succes. ✅",
     "token_mining_failed": "Minerul #{0}: Procesul de minare a token-ului a eșuat. ❌",
-    "merkle_proof_error": "Eroare în timpul încercării de a verifica dovada Merkle."
+    "merkle_proof_error": "Eroare în timpul încercării de a verifica dovada Merkle.",
+    "axs_location_permission_use_case": "Portofelul AXS are nevoie de acces la locația dvs. pentru funcții precum conexiuni Wi-Fi în timp ce aplicația este utilizată sau rulează în fundal. Datele dvs. de localizare nu sunt salvate sau partajate cu terți.",
+    "axs_camera_permission_use_case": "Portofelul AXS are nevoie de acces la camera dvs. când aplicația este în uz pentru servicii precum emiterea RWA. Datele imaginii nu sunt salvate sau partajate cu terți.",
+    "axs_photos_permission_use_case": "Portofelul AXS are nevoie de acces la fotografiile tale pentru a salva imagini precum RWA. Fotografiile tale nu sunt salvate sau partajate cu nicio terță parte.",
+    "permission_use_cases": "Cazuri de utilizare a permisiunilor",
+    "ok_allow": "Bine, Permiteți",
+    "not_now": "Nu acum"
 }

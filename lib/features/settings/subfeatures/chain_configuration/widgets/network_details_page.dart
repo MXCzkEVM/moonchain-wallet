@@ -3,7 +3,6 @@ import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_state.dart';
 import 'package:mxc_logic/src/domain/entities/network.dart';
-import 'package:datadashwallet/common/components/property_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
