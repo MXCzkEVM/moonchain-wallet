@@ -159,8 +159,9 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   Future<void> checkPermissionStatusAndRequest(
     Permission permission,
   ) async {
-    final l =await permission.status;
-    if (!(await PermissionUtils.isPermissionGranted(permission)) && !(await PermissionUtils.isPermissionPermanentlyDenied(permission) )) {
+    final l = await permission.status;
+    if (!(await PermissionUtils.isPermissionGranted(permission)) &&
+        !(await PermissionUtils.isPermissionPermanentlyDenied(permission))) {
       final askForPermission =
           await PermissionUtils.showUseCaseBottomSheet(permission, context!);
       if (askForPermission ?? false) {
@@ -268,7 +269,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   }
 
   void startTimer() {
-    timer ??= Timer(const Duration(seconds: 1), () {
+    timer ??= Timer(const Duration(seconds: 2), () {
       if (onLeftEdge) {
         changePageToLeft();
       } else if (onRightEdge) {
