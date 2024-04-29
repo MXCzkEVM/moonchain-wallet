@@ -110,6 +110,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
+
   void removeBookmark(Bookmark item) {
     _bookmarksUseCase.removeItem(item);
   }
@@ -298,6 +299,12 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   void updateDappsOrder() {
     final chainDapps = getChainDapps();
     _dappsOrderUseCase.updateOrder(dapps: chainDapps);
+  }
+
+  void navigateToAddBookmark() {
+    navigator!.push(
+      route.featureDialog(const addBookmark()),
+    );
   }
 
   @override

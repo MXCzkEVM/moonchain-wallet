@@ -397,5 +397,8 @@
 	"axs_photos_permission_use_case": "AXS Wallet needs access to your photos to save images such as RWA. Your photos are not saved or shared with any third parties.",
 	"permission_use_cases": "Permission use cases",
 	"ok_allow": "OK, Allow",
-	"not_now": "Not now"
+	"not_now": "Not now",
+	"edit_home_screen": "Edit Home Screen",
+	"add_new_dapp": "Add new dApp",
+	"remove_dapp": "Remove dApp"
 }

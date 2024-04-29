@@ -83,7 +83,6 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
             dapp: item,
             isEditMode: state.isEditMode,
             onTap: state.isEditMode ? null : () => actions.openDapp(item.url),
-            onLongPress: () => actions.changeEditMode(),
             onRemoveTap: (item) => actions.removeBookmark(item as Bookmark),
           )
         : NewDAppCard(
@@ -99,7 +98,6 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
                       item.app!.url!,
                     );
                   },
-            onLongPress: () => actions.changeEditMode(),
             onRemoveTap: null,
           );
     dappCards.add(dappCard);
