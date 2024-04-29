@@ -6,6 +6,12 @@ class CardCrossAxisCount {
   static const int tablet = 5;
 }
 
+class CardMainAxisCount {
+  static const int mobile = 3;
+  static const int tablet = 4;
+}
+
+
 class CardSizes {
   static Widget large({required Widget child}) {
     return StaggeredGridTile.count(
