@@ -10,39 +10,58 @@ class DAppLoading extends StatelessWidget {
     super.key,
     this.loading = false,
     this.crossAxisCount = CardCrossAxisCount.mobile,
+    this.mainAxisCount = CardMainAxisCount.mobile,
   });
 
   final bool loading;
   final int crossAxisCount;
+  final int mainAxisCount;
 
   @override
   Widget build(BuildContext context) {
-    Widget content() {
-      return Shimmer.fromColors(
-        baseColor: const Color(0x33333333),
-        highlightColor: const Color(0x00333333),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(8),
-            ),
-            color: ColorsTheme.of(context).cardBackground,
-          ),
-        ),
-      );
-    }
+    final cards = List.generate(crossAxisCount * mainAxisCount,
+        (index) => Center(child: content(context)));
 
-    return StaggeredGrid.count(
-      crossAxisCount: crossAxisCount,
-      mainAxisSpacing: 16,
-      crossAxisSpacing: 16,
-      axisDirection: AxisDirection.down,
+    return GridView(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        mainAxisExtent: MediaQuery.of(context).size.width / mainAxisCount,
+      ),
+      scrollDirection: Axis.horizontal,
+      children: cards,
+    );
+  }
+
+  Widget content(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    return Column(
       children: [
-        for (int i = 0; i < 2; i++) CardSizes.large(child: content()),
-        for (int i = 0; i < 2; i++) CardSizes.medium(child: content()),
-        for (int i = 0; i < 8; i++) CardSizes.small(child: content()),
-        for (int i = 0; i < 2; i++) CardSizes.medium(child: content()),
+        SizedBox(
+          height: width / 5,
+          width: width / 5,
+          child: shimmerAnimation(context),
+        ),
+        const SizedBox(
+          height: Sizes.spaceXSmall,
+        ),
+        SizedBox(
+            height: 12, width: width / 5, child: shimmerAnimation(context)),
       ],
+    );
+  }
+
+  Widget shimmerAnimation(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: const Color(0x33333333),
+      highlightColor: const Color(0x00333333),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8),
+          ),
+          color: ColorsTheme.of(context).cardBackground,
+        ),
+      ),
     );
   }
 }

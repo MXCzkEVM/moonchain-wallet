@@ -7,7 +7,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
-class NewDAppCard extends HookConsumerWidget {
+class NewDAppCard extends StatelessWidget {
   final Dapp dapp;
   final int index;
   final double width;
@@ -16,7 +16,8 @@ class NewDAppCard extends HookConsumerWidget {
   final VoidCallback? onLongPress;
   final Function(Bookmark?)? onRemoveTap;
   const NewDAppCard(
-      {required this.index,
+      {super.key,
+      required this.index,
       required this.width,
       required this.dapp,
       required this.isEditMode,
@@ -24,77 +25,50 @@ class NewDAppCard extends HookConsumerWidget {
       required this.onLongPress,
       required this.onRemoveTap});
 
-  @override
   Widget cardBox(BuildContext context) {
     final icons = dapp.reviewApi!.icons!;
     const image = 'assets/svg/tether_icon.svg';
     final name = dapp.app!.name!;
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(Sizes.spaceLarge),
-          decoration: const BoxDecoration(
-              // color: Colors.amber,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              gradient: LinearGradient(
-                colors: [
-                  Color(
-                      0xFF262626), // Color(red: 0.15, green: 0.15, blue: 0.15)
-                  CupertinoColors.black,
-                ],
-                stops: [
-                  0.00,
-                  1.00,
-                ],
-                // begin: Alignment(0.91, 0.88), // UnitPoint(x: 0.91, y: 0.88)
-                // end: Alignment(0.11, 0.06), // UnitPoint(x: 0.11, y: 0.06)
-              )),
-          child: image.contains('https')
-              ? CachedNetworkImage(
-                  imageUrl: image,
-                  fit: BoxFit.cover,
-                )
-              : SvgPicture.asset(image),
-        ),
-        const SizedBox(
-          height: Sizes.spaceXSmall,
-        ),
-        Text(
-          name,
-          style: FontTheme.of(context)
-              .caption1
-              .primary()
-              .copyWith(fontWeight: FontWeight.w700),
-          softWrap: false,
-          overflow: TextOverflow.ellipsis,
-        )
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // return Container();
-    return ReorderableItemView(
-      key: Key(dapp.app!.url!),
-      index: index,
-      child: GestureDetector(
-        onTap: onTap,
-        onLongPress: onLongPress,
-        child: SizedBox(
-          width: width,
-          child: Stack(
+    return SizedBox.expand(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(4),
-                child: Center(
-                  child: cardBox(context),
+              Container(
+                padding: const EdgeInsets.all(Sizes.spaceXLarge),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF262626),
+                      CupertinoColors.black,
+                    ],
+                    stops: [
+                      0.00,
+                      1.00,
+                    ],
+                    begin: AlignmentDirectional
+                        .topStart, // UnitPoint(x: 0.91, y: 0.88)
+                    end: AlignmentDirectional
+                        .bottomEnd, // UnitPoint(x: 0.11, y: 0.06)
+                  ),
                 ),
+                child: image.contains('https')
+                    ? CachedNetworkImage(
+                        imageUrl: image,
+                        fit: BoxFit.cover,
+                      )
+                    : SvgPicture.asset(
+                        image,
+                        height: 28,
+                      ),
               ),
               if (isEditMode)
                 Positioned(
-                  top: -2,
-                  left: -2,
+                  top: -6,
+                  left: -6,
                   child: InkWell(
                     onTap: onRemoveTap != null
                         ? () => onRemoveTap!(dapp as Bookmark)
@@ -106,7 +80,34 @@ class NewDAppCard extends HookConsumerWidget {
                 ),
             ],
           ),
-        ),
+          const SizedBox(
+            height: Sizes.spaceXSmall,
+          ),
+          Text(
+            name,
+            style: FontTheme.of(context)
+                .caption1
+                .primary()
+                .copyWith(fontWeight: FontWeight.w700),
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+    return ReorderableItemView(
+      key: Key(dapp.app!.url!),
+      index: index,
+      child: GestureDetector(
+        onTap: onTap,
+        // onLongPress: onLongPress,
+        child: cardBox(context),
       ),
     );
   }

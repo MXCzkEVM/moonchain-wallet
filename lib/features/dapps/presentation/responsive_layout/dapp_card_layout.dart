@@ -15,9 +15,11 @@ class DappCardLayout extends HookConsumerWidget {
   const DappCardLayout({
     super.key,
     this.crossAxisCount = CardCrossAxisCount.mobile,
+    this.mainAxisCount = CardMainAxisCount.mobile,
   });
 
   final int crossAxisCount;
+  final int mainAxisCount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,6 +30,7 @@ class DappCardLayout extends HookConsumerWidget {
     if (state.loading && DappUtils.loadingOnce) {
       return DAppLoading(
         crossAxisCount: crossAxisCount,
+        mainAxisCount: mainAxisCount,
       );
     }
 
@@ -37,29 +40,30 @@ class DappCardLayout extends HookConsumerWidget {
       builder: (context, constraint) {
         actions.initializeViewPreferences(constraint.maxWidth);
         final itemWidth = actions.getItemWidth();
-        return Stack(
-          children: [
-            ReorderableWrapperWidget(
-              child: GridView(
-                gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  childAspectRatio: 1,
-                  mainAxisExtent: constraint.maxWidth, 
-                ),
-                scrollDirection: Axis.horizontal,
-                physics: const PageScrollPhysics(),
-                controller: actions.scrollController,
-                children: getList(dapps, actions, state, itemWidth),
-              ),
-              // the drag and drop index is from (index passed to ReorderableItemView)
-              onReorder: (dragIndex, dropIndex) {
-                var item = dapps.removeAt(dragIndex);
-                dapps.insert(dropIndex, item);
-              },
-              onDragUpdate: (dragIndex, position, delta) =>
-                  actions.handleOnDragUpdate(position),
+        return ReorderableWrapperWidget(
+          dragWidgetBuilder: DragWidgetBuilderV2(
+            builder: (index, child, screenshot) {
+              return Container(
+                child: child,
+              );
+            },
+          ),
+          // the drag and drop index is from (index passed to ReorderableItemView)
+          onReorder: (dragIndex, dropIndex) {
+            // actions.handleOnReorder();
+          },
+          onDragUpdate: (dragIndex, position, delta) =>
+              actions.handleOnDragUpdate(position),
+          child: GridView(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              mainAxisExtent: constraint.maxWidth / mainAxisCount,
             ),
-          ],
+            scrollDirection: Axis.horizontal,
+            physics: const PageScrollPhysics(),
+            controller: actions.scrollController,
+            children: getList(dapps, actions, state, itemWidth),
+          ),
         );
       },
     );
