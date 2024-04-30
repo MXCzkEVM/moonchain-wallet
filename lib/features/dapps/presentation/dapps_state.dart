@@ -26,5 +26,7 @@ class DAppsState with EquatableMixin {
         dappsAndBookmarks,
         loading,
         network,
+        dappsOrder,
+        orderedDapps
       ];
 }

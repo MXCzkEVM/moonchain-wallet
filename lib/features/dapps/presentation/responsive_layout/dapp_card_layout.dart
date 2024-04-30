@@ -50,7 +50,7 @@ class DappCardLayout extends HookConsumerWidget {
           ),
           // the drag and drop index is from (index passed to ReorderableItemView)
           onReorder: (dragIndex, dropIndex) {
-            // actions.handleOnReorder();
+            actions.handleOnReorder(dropIndex, dragIndex);
           },
           onDragUpdate: (dragIndex, position, delta) =>
               actions.handleOnDragUpdate(position),

@@ -38,14 +38,17 @@ class DappUtils {
     // Create a map to store the indices of each DApp URL
     Map<String, int> urlIndices = {};
     for (int i = 0; i < dapps.length; i++) {
-      urlIndices[dapps[i].app!.url!] = i;
+      final dapp = dapps[i];
+      urlIndices[dapp is Bookmark ? dapp.url : dapp.app!.url!] = i;
     }
 
     // Sort the DApps list based on the order specified in dappsOrder
     dapps.sort((a, b) {
-      int indexA = urlIndices[a.app!.url!] ?? dapps.length;
-      int indexB = urlIndices[b.app!.url!] ?? dapps.length;
-      return dappsOrder.indexOf(a.app!.url!) - dappsOrder.indexOf(b.app!.url!);
+      final aUrl  = a is Bookmark ? a.url : a.app!.url!;
+      final bUrl  = b is Bookmark ? b.url : b.app!.url!;
+      int indexA = urlIndices[aUrl] ?? dapps.length;
+      int indexB = urlIndices[bUrl] ?? dapps.length;
+      return dappsOrder.indexOf(aUrl) - dappsOrder.indexOf(bUrl);
     });
 
     return dapps;

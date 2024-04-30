@@ -110,7 +110,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-
   void removeBookmark(Bookmark item) {
     _bookmarksUseCase.removeItem(item);
   }
@@ -221,9 +220,8 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   // index -> dapp repo usecase
   // Remove reordering pagination
 
-  void handleOnReorder() {
-    // var item = data.removeAt(dragIndex);
-    // data.insert(dropIndex, item);
+  void handleOnReorder( int newIndex, int oldIndex) {
+    _dappsOrderUseCase.reorderDapp(oldIndex, newIndex, );
   }
 
   void handleOnDragUpdate(Offset position) {
@@ -309,7 +307,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   @override
   Future<void> dispose() async {
-    timer!.cancel();
+    timer?.cancel();
     super.dispose();
   }
 }
