@@ -5,8 +5,12 @@ class DappsOrderRepository extends GlobalCacheRepository {
   @override
   String get zone => 'dapps-order';
 
-  late final Field<List<String>> order =
-      fieldWithDefault<List<String>>('order', []);
+  late final Field<List<String>> order = fieldWithDefault<List<String>>(
+    'order',
+    [],
+    serializer: (v) => v.map((e) => {'url': e}).toList(),
+    deserializer: (v) => (v as List).map((e) => e['url'] as String).toList(),
+  );
 
-  void setOrder(List<String> value) => order.value = value;
+  void setOrder(List<String> value) => order.value = [...value];
 }
