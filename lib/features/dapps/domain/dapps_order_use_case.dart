@@ -14,17 +14,13 @@ class DappsOrderUseCase extends ReactiveUseCase {
     update(order, value);
   }
 
-  void reorderDapp(String url, newIndex) {
-    final urlIndex = order.value.indexWhere((e) => e == url);
+  void reorderDapp(int oldIndex, int newIndex) {
     List<String> newOrder;
 
-    if (urlIndex == -1) {
-      throw 'DApp not found for reordering.';
-    } else {
-      newOrder = order.value;
-      newOrder.removeAt(urlIndex);
-      newOrder.insert(newIndex, url);
-    }
+    newOrder = order.value;
+    final item = newOrder[oldIndex];
+    newOrder.removeAt(oldIndex);
+    newOrder.insert(newIndex, item);
 
     _repository.setOrder(newOrder);
     update(order, newOrder);
@@ -39,25 +35,32 @@ class DappsOrderUseCase extends ReactiveUseCase {
       dappsOrder = dapps.map((e) => e.app!.url!).toList();
     }
 
+    if (dapps.isEmpty) {
+      return;
+    }
+
     for (int i = 0; i < dapps.length; i++) {
       Dapp dapp = dapps[i];
-      final dappsOrderIndex = dappsOrder.indexWhere(
-        (e) => e == dapp.app!.url,
-      );
-      if (dappsOrderIndex != -1) {
-        dappsOrder.removeAt(dappsOrderIndex);
-        dappsOrder.insert(i, dapp.app!.url!);
+      int dappsOrderIndex;
+      if (dapp is Bookmark) {
+        dappsOrderIndex = dappsOrder.indexWhere(
+          (e) => e == dapp.url,
+        );
       } else {
-        dappsOrder.add(dapp.app!.url!);
+        dappsOrderIndex = dappsOrder.indexWhere(
+          (e) => e == dapp.app!.url,
+        );
+      }
+
+      if (dappsOrderIndex == -1) {
+        dappsOrder.insert(i, dapp is Bookmark ? dapp.url : dapp.app!.url!);
       }
     }
 
-    for (String dappOrder in dappsOrder) {
-      final indexOfDapp = dapps.indexWhere((e) => e.app!.url == dappOrder);
-      if (indexOfDapp == -1) {
-        dappsOrder.remove(dappOrder);
-      }
-    }
+    dappsOrder.removeWhere((element) =>
+        dapps.indexWhere(
+            (e) => (e is Bookmark ? e.url : e.app!.url) == element) ==
+        -1);
 
     _repository.setOrder(dappsOrder);
     update(order, dappsOrder);
