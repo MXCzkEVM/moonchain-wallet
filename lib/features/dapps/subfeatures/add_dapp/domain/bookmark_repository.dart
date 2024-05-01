@@ -13,6 +13,8 @@ class BookmarkRepository extends GlobalCacheRepository {
               'id': e.id,
               'title': e.title,
               'url': e.url,
+              'image': e.image,
+              'description': e.description,
             })
         .toList(),
     deserializer: (t) => (t as List)
@@ -20,6 +22,8 @@ class BookmarkRepository extends GlobalCacheRepository {
               id: e['id'],
               title: e['title'],
               url: e['url'],
+              image: e['image'],
+              description: e['description'],
             ))
         .toList(),
   );

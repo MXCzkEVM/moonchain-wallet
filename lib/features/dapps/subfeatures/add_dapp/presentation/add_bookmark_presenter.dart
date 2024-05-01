@@ -1,4 +1,5 @@
 import 'package:datadashwallet/core/core.dart';
+import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mxc_ui/mxc_ui.dart';
@@ -44,10 +45,14 @@ class AddBookmarkPresenter extends CompletePresenter<void> {
         title = 'Unknown';
       }
 
+      var iconUrl = await FaviconFinder.getBest(url);
+
+
       _bookmarksUseCase.addItem(Bookmark(
         id: DateTime.now().microsecondsSinceEpoch,
         title: title,
         url: url,
+        image: iconUrl?.url
       ));
 
       BottomFlowDialog.of(context!).close();
