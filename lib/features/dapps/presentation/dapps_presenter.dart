@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
@@ -124,8 +125,21 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  void removeBookmark(Bookmark item) {
-    _bookmarksUseCase.removeItem(item);
+  void removeBookmark(Bookmark item) async {
+    final result = await showAlertDialog(
+      context: context!,
+      title: '${translate('remove')!} ${item.title}',
+      content: translate('dapp_removal_dialog_text')!,
+      ok: translate('delete')!,
+    );
+
+    if (result != null && result) {
+      _bookmarksUseCase.removeItem(item);
+      // showSnackBar(
+      //   context: context!,
+      //   content: translate('clear_browser_successfully')!,
+      // );
+    }
   }
 
   void onPageChage(int index) => notify(() => state.pageIndex = index);
