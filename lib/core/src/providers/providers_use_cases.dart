@@ -42,7 +42,7 @@ final Provider<GesturesInstructionUseCase> gesturesInstructionUseCaseProvider =
 );
 
 final Provider<DappsOrderUseCase> dappsOrderUseCaseProvider = Provider(
-  (ref) => DappsOrderUseCase(ref.watch(globalCacheProvider).dappsOrder),
+  (ref) => DappsOrderUseCase(ref.watch(datadashCacheProvider).dappsOrderRepository),
 );
 
 final Provider<TokenContractUseCase> tokenContractUseCaseProvider = Provider(

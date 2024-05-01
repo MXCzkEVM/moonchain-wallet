@@ -1,7 +1,7 @@
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 
-class DappsOrderRepository extends GlobalCacheRepository {
+class DappsOrderRepository extends ControlledCacheRepository {
   @override
   String get zone => 'dapps-order';
 

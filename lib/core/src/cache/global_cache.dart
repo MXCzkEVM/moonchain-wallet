@@ -22,7 +22,6 @@ class GlobalCache extends GlobalCacheContainer {
   final PasscodeRepository passcode = PasscodeRepository();
   final GesturesInstructionRepository gesturesInstruction =
       GesturesInstructionRepository();
-  final DappsOrderRepository dappsOrder = DappsOrderRepository();
   final ChainConfigurationRepository chainConfigurationRepository =
       ChainConfigurationRepository();
   final AccountCacheRepository account = AccountCacheRepository();
@@ -33,7 +32,6 @@ class GlobalCache extends GlobalCacheContainer {
         language,
         passcode,
         gesturesInstruction,
-        dappsOrder,
         chainConfigurationRepository,
         account,
       ];

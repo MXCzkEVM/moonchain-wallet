@@ -12,9 +12,13 @@ class DAppsState with EquatableMixin {
   List<String> dappsOrder = [];
   List<Dapp> dapps = [];
   List<Dapp> dappsAndBookmarks = [];
+  bool dappsMerged = false;
+  bool bookMarksMerged = false;
   bool loading = true;
 
   Network? network;
+
+
 
   @override
   List<Object?> get props => [
@@ -27,6 +31,8 @@ class DAppsState with EquatableMixin {
         loading,
         network,
         dappsOrder,
-        orderedDapps
+        orderedDapps,
+        dappsMerged,
+        bookMarksMerged
       ];
 }

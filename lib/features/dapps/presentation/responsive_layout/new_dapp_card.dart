@@ -28,71 +28,93 @@ class NewDAppCard extends HookConsumerWidget {
   });
 
   Widget cardBox(BuildContext context) {
-    final icons = dapp.reviewApi!.icons!;
-    const image = 'assets/svg/tether_icon.svg';
-    final name = dapp.app!.name!;
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(Sizes.spaceXLarge),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF262626),
-                    CupertinoColors.black,
-                  ],
-                  stops: [
-                    0.00,
-                    1.00,
-                  ],
-                  begin: AlignmentDirectional
-                      .topStart, // UnitPoint(x: 0.91, y: 0.88)
-                  end: AlignmentDirectional
-                      .bottomEnd, // UnitPoint(x: 0.11, y: 0.06)
-                ),
-              ),
-              child: image.contains('https')
-                  ? CachedNetworkImage(
-                      imageUrl: image,
-                      fit: BoxFit.cover,
-                    )
-                  : SvgPicture.asset(
-                      image,
-                      height: 28,
-                    ),
-            ),
-            if (isEditMode && onRemoveTap != null)
-              Positioned(
-                top: -6,
-                left: -6,
-                child: GestureDetector(
-                  onTap: () => onRemoveTap!(dapp as Bookmark),
-                  child: const Icon(
-                    Icons.remove_circle_rounded,
+    // final icons = dapp.reviewApi!.icons!;
+    final image = dapp is Bookmark
+        ? (dapp as Bookmark).image ?? '${(dapp as Bookmark).url}/favicon.ico'
+        : 'assets/svg/tether_icon.svg';
+    final name = dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.name!;
+    return GestureDetector(
+      onTap: () {
+        if (onTap != null) onTap!();
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(Sizes.spaceXLarge),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF262626),
+                      CupertinoColors.black,
+                    ],
+                    stops: [
+                      0.00,
+                      1.00,
+                    ],
+                    begin: AlignmentDirectional.topStart,
+                    end: AlignmentDirectional.bottomEnd,
                   ),
                 ),
+                child: SizedBox(
+                  width: width * 0.3,
+                  height: width * 0.3,
+                  child: image.contains('https')
+                      ? CachedNetworkImage(
+                          imageUrl: image,
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) {
+                            return Column(
+                              children: [
+                                Icon(
+                                  Icons.image_not_supported_outlined,
+                                  color: ColorsTheme.of(context).textError,
+                                ),
+                                const SizedBox(
+                                  height: Sizes.spaceXSmall,
+                                ),
+                                // Text('Unable to load website icon', style: FontTheme.of(context).caption1.error(),)
+                              ],
+                            );
+                          },
+                        )
+                      : SvgPicture.asset(
+                          image,
+                        ),
+                ),
               ),
-          ],
-        ),
-        const SizedBox(
-          height: Sizes.spaceXSmall,
-        ),
-        Text(
-          name,
-          style: FontTheme.of(context)
-              .caption1
-              .primary()
-              .copyWith(fontWeight: FontWeight.w700),
-          softWrap: false,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ],
+              if (isEditMode && onRemoveTap != null)
+                Positioned(
+                  top: -6,
+                  left: -6,
+                  child: GestureDetector(
+                    onTap: () => onRemoveTap!(dapp as Bookmark),
+                    child: const Icon(
+                      Icons.remove_circle_rounded,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(
+            height: Sizes.spaceXSmall,
+          ),
+          Text(
+            name,
+            style: FontTheme.of(context)
+                .caption1
+                .primary()
+                .copyWith(fontWeight: FontWeight.w700),
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 
@@ -104,6 +126,9 @@ class NewDAppCard extends HookConsumerWidget {
     final state = ref.watch(appsPagePageContainer.state);
     final actions = ref.read(appsPagePageContainer.actions);
     final dapps = state.orderedDapps;
+    final dappAbout =
+        dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.description!;
+    final dappUrl = dapp is Bookmark ? (dapp as Bookmark).url : dapp.app!.url!;
 
     List<Widget> getDAppMarkContextMenuAction() => [
           CupertinoContextMenuAction(
@@ -149,7 +174,7 @@ class NewDAppCard extends HookConsumerWidget {
                     .copyWith(fontWeight: FontWeight.w700),
               ),
               Text(
-                dapp.app!.description!,
+                dappAbout,
                 style: FontTheme.of(context).caption1.primary(),
               ),
             ],
@@ -181,32 +206,29 @@ class NewDAppCard extends HookConsumerWidget {
         ? getBookMarkContextMenuAction()
         : getDAppMarkContextMenuAction();
 
-    return GestureDetector(
-      onTap: onTap,
-      child: isEditMode
-          ? ReorderableItemView(
-              key: Key(dapp.app!.url!),
-              index: index,
-              child: SizedBox.expand(child: cardBox(context)),
-            )
-          : CupertinoContextMenu.builder(
-              builder: (context, animation) {
-                return SizedBox(
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: MediaQuery.of(context).size.width / 3,
-                    child: cardBox(context));
-                // Container(
-                //   alignment: Alignment.bottomCenter,
-                //   color: Colors.transparent,
-                //   // decoration: BoxDecoration(),
-                //   child: cardBox(context),
-                // );
-              },
-              actions: contextMenuActions
+    return isEditMode
+        ? ReorderableItemView(
+            key: Key(dappUrl),
+            index: index,
+            child: SizedBox.expand(child: cardBox(context)),
+          )
+        : CupertinoContextMenu.builder(
+            builder: (context, animation) {
+              return SizedBox(
+                  width: MediaQuery.of(context).size.width / 3,
+                  height: MediaQuery.of(context).size.width / 3,
+                  child: cardBox(context));
+              // Container(
+              //   alignment: Alignment.bottomCenter,
+              //   color: Colors.transparent,
+              //   // decoration: BoxDecoration(),
+              //   child: cardBox(context),
+              // );
+            },
+            actions: contextMenuActions
 
-              // child: cardBox(context),
-              ),
-    );
+            // child: cardBox(context),
+            );
   }
 
   void popWrapper(void Function()? func, BuildContext context) {
@@ -215,6 +237,6 @@ class NewDAppCard extends HookConsumerWidget {
       Duration(milliseconds: 500),
       () => {if (func != null) func()},
     );
-    
+    ;
   }
 }

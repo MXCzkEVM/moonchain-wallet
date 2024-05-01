@@ -62,8 +62,18 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
+        if (state.network != null && state.network!.chainId != value.chainId) {
+          resetDappsMerge();
+        }
         notify(() => state.network = value);
         loadPage();
+      }
+    });
+
+    listen(_dappsOrderUseCase.order, (v) {
+      notify(() => state.dappsOrder = v);
+      if (state.dappsMerged && state.bookMarksMerged) {
+        updateReorderedDapps();
       }
     });
 
@@ -73,6 +83,9 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         state.dapps = v;
         state.dappsAndBookmarks.clear();
         state.dappsAndBookmarks = [...v, ...state.bookmarks];
+        if (v.isNotEmpty) {
+          state.dappsMerged = true;
+        }
         updateDappsOrder();
         if (v.isNotEmpty) {
           DappUtils.loadingOnce = false;
@@ -82,20 +95,21 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       },
     );
 
-    listen(_dappsOrderUseCase.order, (v) {
-      notify(() => state.dappsOrder = v);
-      updateReorderedDapps();
-    });
-
     listen<List<Bookmark>>(
       _bookmarksUseCase.bookmarks,
       (v) {
         state.bookmarks = v;
         state.dappsAndBookmarks.clear();
         state.dappsAndBookmarks = [...state.dapps, ...v];
+        state.bookMarksMerged = true;
+        updateDappsOrder();
         notify();
       },
     );
+  }
+
+  void resetDappsMerge() {
+    state.dappsMerged = false;
   }
 
   void loadPage() {
@@ -220,8 +234,11 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   // index -> dapp repo usecase
   // Remove reordering pagination
 
-  void handleOnReorder( int newIndex, int oldIndex) {
-    _dappsOrderUseCase.reorderDapp(oldIndex, newIndex, );
+  void handleOnReorder(int newIndex, int oldIndex) {
+    _dappsOrderUseCase.reorderDapp(
+      oldIndex,
+      newIndex,
+    );
   }
 
   void handleOnDragUpdate(Offset position) {
@@ -295,8 +312,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   }
 
   void updateDappsOrder() {
-    final chainDapps = getChainDapps();
-    _dappsOrderUseCase.updateOrder(dapps: chainDapps);
+    if (state.bookMarksMerged & state.dappsMerged) {
+      final chainDapps = getChainDapps();
+      _dappsOrderUseCase.updateOrder(dapps: chainDapps);
+    }
   }
 
   void navigateToAddBookmark() {

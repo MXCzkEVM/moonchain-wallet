@@ -32,7 +32,7 @@ class DappsOrderUseCase extends ReactiveUseCase {
   }) {
     List<String> dappsOrder = order.value;
     if (dappsOrder.isEmpty) {
-      dappsOrder = dapps.map((e) => e.app!.url!).toList();
+      dappsOrder = dapps.map((e) => e is Bookmark ? e.url : e.app!.url!).toList();
     }
 
     if (dapps.isEmpty) {
