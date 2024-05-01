@@ -45,6 +45,7 @@ dependencies:
   equatable: ^2.0.3
   eth_sig_util: ^0.0.9
   f_logs: ^2.0.1
+  favicon: ^1.0.15
   firebase_core: ^2.22.0
   firebase_messaging: ^14.7.4
   fl_chart: ^0.62.0
