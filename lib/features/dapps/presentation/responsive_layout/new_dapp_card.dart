@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,6 +20,7 @@ class NewDAppCard extends HookConsumerWidget {
   final bool isEditMode;
   final VoidCallback? onTap;
   final void Function(Bookmark?)? onRemoveTap;
+  final int mainAxisCount;
   const NewDAppCard({
     super.key,
     required this.index,
@@ -25,6 +29,7 @@ class NewDAppCard extends HookConsumerWidget {
     required this.isEditMode,
     required this.onTap,
     required this.onRemoveTap,
+    required this.mainAxisCount,
   });
 
   Widget cardBox(BuildContext context) {
@@ -53,12 +58,13 @@ class NewDAppCard extends HookConsumerWidget {
                       Color(0xFF262626),
                       CupertinoColors.black,
                     ],
-                    stops: [
-                      0.00,
-                      1.00,
-                    ],
-                    begin: AlignmentDirectional.topStart,
-                    end: AlignmentDirectional.bottomEnd,
+                    // stops: [
+                    //                         0.00,
+                    //   1.00,
+
+                    // ],
+                    begin: AlignmentDirectional.bottomEnd,
+                    end: AlignmentDirectional.topStart,
                   ),
                 ),
                 child: SizedBox(
@@ -129,6 +135,26 @@ class NewDAppCard extends HookConsumerWidget {
     final dappAbout =
         dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.description!;
     final dappUrl = dapp is Bookmark ? (dapp as Bookmark).url : dapp.app!.url!;
+
+    final animationController = useAnimationController(
+      duration: const Duration(milliseconds: 75),
+      lowerBound: -pi / 50,
+      upperBound: pi / 50,
+    );
+
+    if (isEditMode) {
+      animationController.forward();
+    } else {
+      animationController.stop();
+    }
+
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animationController.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        animationController.forward();
+      }
+    });
 
     List<Widget> getDAppMarkContextMenuAction() => [
           CupertinoContextMenuAction(
@@ -210,33 +236,33 @@ class NewDAppCard extends HookConsumerWidget {
         ? ReorderableItemView(
             key: Key(dappUrl),
             index: index,
-            child: SizedBox.expand(child: cardBox(context)),
+            child: AnimatedBuilder(
+              animation: animationController,
+              builder: (context, child) {
+                return Transform.rotate(
+                  angle: animationController.value *
+                      (pi / 8), // Adjust the range of rotation
+                  child: child,
+                );
+              },
+              child: SizedBox.expand(child: cardBox(context)),
+            ),
           )
         : CupertinoContextMenu.builder(
             builder: (context, animation) {
               return SizedBox(
-                  width: MediaQuery.of(context).size.width / 3,
-                  height: MediaQuery.of(context).size.width / 3,
+                  width: MediaQuery.of(context).size.width / mainAxisCount,
+                  height: MediaQuery.of(context).size.width / mainAxisCount,
                   child: cardBox(context));
-              // Container(
-              //   alignment: Alignment.bottomCenter,
-              //   color: Colors.transparent,
-              //   // decoration: BoxDecoration(),
-              //   child: cardBox(context),
-              // );
             },
-            actions: contextMenuActions
-
-            // child: cardBox(context),
-            );
+            actions: contextMenuActions);
   }
+}
 
-  void popWrapper(void Function()? func, BuildContext context) {
-    Navigator.pop(context);
-    Future.delayed(
-      Duration(milliseconds: 500),
-      () => {if (func != null) func()},
-    );
-    ;
-  }
+void popWrapper(void Function()? func, BuildContext context) {
+  Navigator.pop(context);
+  Future.delayed(
+    const Duration(milliseconds: 500),
+    () => {if (func != null) func()},
+  );
 }
