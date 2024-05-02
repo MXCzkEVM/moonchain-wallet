@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -19,6 +21,10 @@ class DAppsState with EquatableMixin {
 
   Network? network;
 
+  Timer? timer;
+  bool onLeftEdge = false;
+  bool onRightEdge = false;
+
   @override
   List<Object?> get props => [
         bookmarks,
@@ -32,6 +38,9 @@ class DAppsState with EquatableMixin {
         dappsOrder,
         orderedDapps,
         dappsMerged,
-        bookMarksMerged
+        bookMarksMerged,
+        timer,
+        onLeftEdge,
+        onRightEdge,
       ];
 }

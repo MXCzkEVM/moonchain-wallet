@@ -1,15 +1,13 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/dapps/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:geolocator/geolocator.dart' as geo;
 import 'dapps_state.dart';
 import 'responsive_layout/dapp_utils.dart';
 import 'widgets/gestures_instruction.dart';
@@ -29,13 +27,41 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       ref.read(gesturesInstructionUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _dappsOrderUseCase = ref.read(dappsOrderUseCaseProvider);
+
+  PaginationHelper get paginationHelper => PaginationHelper(
+        notify: notify,
+        state: state,
+        translate: translate,
+        context: context,
+        scrollController: scrollController,
+        viewPortWidth: viewPortWidth,
+      );
+
+  GestureNavigationHelper get gestureNavigationHelper =>
+      GestureNavigationHelper(
+        state: state,
+        translate: translate,
+        context: context,
+        scrollController: scrollController,
+        scrollingArea: scrollingArea,
+      );
+
+  ReorderHelper get reorderHelper => ReorderHelper(
+        dappsOrderUseCase: _dappsOrderUseCase,
+        state: state,
+        translate: translate,
+        notify: notify,
+      );
+
+  PermissionsHelper get permissionsHelper => PermissionsHelper(
+        translate: translate,
+        notify: notify,
+        context: context,
+      );
+
   final scrollController = ScrollController();
 
-  int currentPage = 1;
   int attemptCount = 0;
-  Timer? timer;
-  bool onLeftEdge = false;
-  bool onRightEdge = false;
   double? viewPortWidth;
   double? scrollingArea;
 
@@ -64,7 +90,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
         if (state.network != null && state.network!.chainId != value.chainId) {
-          resetDappsMerge();
+          reorderHelper.resetDappsMerge();
         }
         notify(() => state.network = value);
         loadPage();
@@ -73,9 +99,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
     listen(_dappsOrderUseCase.order, (v) {
       notify(() => state.dappsOrder = v);
-      if (state.dappsMerged && state.bookMarksMerged) {
-        updateReorderedDapps();
-      }
+      reorderHelper.updateReorderedDappsWrapper();
     });
 
     listen<List<Dapp>>(
@@ -87,7 +111,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         if (v.isNotEmpty) {
           state.dappsMerged = true;
         }
-        updateDappsOrder();
+        reorderHelper.updateDappsOrderWrapper();
         if (v.isNotEmpty) {
           DappUtils.loadingOnce = false;
           notify(() => state.loading = false);
@@ -103,46 +127,22 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         state.dappsAndBookmarks.clear();
         state.dappsAndBookmarks = [...state.dapps, ...v];
         state.bookMarksMerged = true;
-        updateDappsOrder();
+        reorderHelper.updateDappsOrderWrapper();
         notify();
       },
     );
-    scrollController.addListener(scrollListener);
+
+    initScrollListener();
   }
 
-  void scrollListener() {
-    // if (scrollController.hasClients) {
-    final page = viewPortWidth == null
-        ? 0
-        : (scrollController.offset / viewPortWidth!).floor();
-    if (page != state.pageIndex) {
-      notify(() => state.pageIndex = page);
-    }
-    print('maxScrollExtent: ' +
-        scrollController.position.maxScrollExtent.toString());
-    print('page: ' + page.toString());
-    print('scrollController.offset: ' + scrollController.offset.toString());
-    // print('scrollController.offset: ' + scrollController.);
-    // }
-  }
-
-  void calculateMaxItemsCount(
-      int itemsCount, int mainAxisCount, int crossAxisCount) {
-    notify(() => state.maxPageCount =
-        (itemsCount / (mainAxisCount * crossAxisCount)).ceil());
-
-    print('object :' + state.maxPageCount.toString());
-  }
-
-  int getRequiredItems(int itemsCount, int mainAxisCount, int crossAxisCount) {
-    final requiredItemsCount =
-        (state.maxPageCount * (mainAxisCount * crossAxisCount)) - itemsCount;
-    print('requiredItemsCount :' + requiredItemsCount.toString());
-    return requiredItemsCount;
-  }
-
-  void resetDappsMerge() {
-    state.dappsMerged = false;
+  initScrollListener() {
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () => scrollController.addListener(() {
+        // inspect(paginationHelper);
+        paginationHelper.scrollListener();
+      }),
+    );
   }
 
   void loadPage() {
@@ -167,10 +167,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
     if (result != null && result) {
       _bookmarksUseCase.removeItem(item);
-      // showSnackBar(
-      //   context: context!,
-      //   content: translate('clear_browser_successfully')!,
-      // );
     }
   }
 
@@ -183,56 +179,13 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     _gesturesInstructionUseCase.setEducated(true);
   }
 
-  Future<void> requestPermissions(Dapp dapp) async {
-    // Permission request will be only on Android
-    if (Platform.isAndroid) {
-      final permissions = dapp.app!.permissions!.toMap();
-      final keys = permissions.keys.toList();
-      final values = permissions.values.toList();
-      List<Permission> needPermissions = [];
-
-      for (int i = 0; i < permissions.length; i++) {
-        final key = keys[i];
-        final value = values[i];
-
-        if (value == 'required') {
-          final permission = PermissionUtils.permissions[key];
-          if (permission != null) {
-            needPermissions.add(permission);
-          }
-        }
-      }
-
-      if (needPermissions.isNotEmpty) {
-        for (Permission permission in needPermissions) {
-          await checkPermissionStatusAndRequest(permission);
-        }
-        await PermissionUtils.permissionsStatus();
-      }
-
-      if (keys.contains('location')) {
-        await checkLocationService();
-      }
-    }
-  }
-
-  Future<void> checkPermissionStatusAndRequest(
-    Permission permission,
-  ) async {
-    final l = await permission.status;
-    if (!(await PermissionUtils.isPermissionGranted(permission)) &&
-        !(await PermissionUtils.isPermissionPermanentlyDenied(permission))) {
-      final askForPermission =
-          await PermissionUtils.showUseCaseBottomSheet(permission, context!);
-      if (askForPermission ?? false) {
-        await [permission].request();
-      }
-    }
-  }
-
   void refreshApp() {
     _chainConfigurationUseCase.refresh();
     _accountUseCase.refresh();
+  }
+
+  Future<void> requestPermissions(Dapp dapp) async {
+    return await permissionsHelper.requestPermissions(dapp);
   }
 
   void openDapp(String url) async {
@@ -248,120 +201,24 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  Future<bool> checkLocationService() async {
-    final geo.GeolocatorPlatform geoLocatorPlatform =
-        geo.GeolocatorPlatform.instance;
-
-    bool _serviceEnabled;
-
-    try {
-      _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-      if (!_serviceEnabled) {
-        await geoLocatorPlatform.getCurrentPosition();
-        _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-      }
-      return _serviceEnabled;
-    } catch (e) {
-      return false;
-    }
+  int getRequiredItems(int itemsCount, int mainAxisCount, int crossAxisCount) {
+    return paginationHelper.getRequiredItems(
+        itemsCount, mainAxisCount, crossAxisCount);
   }
 
-  double edgeScrollingSensitivity = 40;
+  void calculateMaxItemsCount(
+      int itemsCount, int mainAxisCount, int crossAxisCount) {
+    paginationHelper.calculateMaxItemsCount(
+        itemsCount, mainAxisCount, crossAxisCount);
+  }
 
   void initializeViewPreferences(double maxWidth) {
     viewPortWidth = maxWidth;
-    scrollingArea = maxWidth - edgeScrollingSensitivity;
+    scrollingArea = UIMetricsUtils.calculateScrollingArea(maxWidth);
   }
 
   double getItemWidth() {
-    return viewPortWidth! / 3;
-  }
-
-  // index -> dapp repo usecase
-  // Remove reordering pagination
-
-  void handleOnReorder(int newIndex, int oldIndex) {
-    _dappsOrderUseCase.reorderDapp(
-      oldIndex,
-      newIndex,
-    );
-  }
-
-  void handleOnDragUpdate(Offset position) {
-    print(position.dx < 0);
-    print(position.dx > scrollingArea!);
-    if (position.dx <= edgeScrollingSensitivity) {
-      startTimer();
-      onLeftEdge = true;
-    } else if (position.dx > scrollingArea!) {
-      startTimer();
-      onRightEdge = true;
-    } else {
-      cancelTimer();
-    }
-
-    print('position: ' + position.toString());
-  }
-
-  void changePageToLeft() {
-    scrollController.animateTo(
-        scrollController.position.pixels - MediaQuery.of(context!).size.width,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOut);
-    currentPage += 1;
-  }
-
-  void changePageToRight() {
-    scrollController.animateTo(
-        scrollController.position.pixels + MediaQuery.of(context!).size.width,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOut);
-    currentPage -= 1;
-  }
-
-  void cancelTimer() {
-    timer?.cancel();
-    timer = null;
-    resetLeftAndRight();
-  }
-
-  void resetLeftAndRight() {
-    onLeftEdge = false;
-    onRightEdge = false;
-  }
-
-  void startTimer() {
-    timer ??= Timer(const Duration(seconds: 2), () {
-      if (onLeftEdge) {
-        changePageToLeft();
-      } else if (onRightEdge) {
-        changePageToRight();
-      }
-      resetLeftAndRight();
-    });
-  }
-
-  void updateReorderedDapps() {
-    final chainDapps = getChainDapps();
-    final newOrderDapps = DappUtils.reorderDApps(chainDapps, state.dappsOrder);
-    notify(
-      () => state.orderedDapps = newOrderDapps,
-    );
-  }
-
-  List<Dapp> getChainDapps() {
-    List<Dapp> chainDapps = DappUtils.getDappsByChainId(
-      allDapps: state.dappsAndBookmarks,
-      chainId: state.network!.chainId,
-    );
-    return chainDapps;
-  }
-
-  void updateDappsOrder() {
-    if (state.bookMarksMerged & state.dappsMerged) {
-      final chainDapps = getChainDapps();
-      _dappsOrderUseCase.updateOrder(dapps: chainDapps);
-    }
+    return UIMetricsUtils.getGridViewItemWidth(viewPortWidth!);
   }
 
   void navigateToAddBookmark() {
@@ -370,9 +227,17 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     );
   }
 
+  void handleOnDragUpdate(Offset position) {
+    gestureNavigationHelper.handleOnDragUpdate(position);
+  }
+
+  void handleOnReorder(int newIndex, int oldIndex) {
+    reorderHelper.handleOnReorder(newIndex, oldIndex);
+  }
+
   @override
   Future<void> dispose() async {
-    timer?.cancel();
+    state.timer?.cancel();
     super.dispose();
   }
 }
