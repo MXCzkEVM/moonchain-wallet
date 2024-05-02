@@ -400,5 +400,6 @@
 	"not_now": "Not now",
 	"edit_home_screen": "Edit Home Screen",
 	"add_new_dapp": "Add new dApp",
-	"remove_dapp": "Remove dApp"
+	"remove_dapp": "Remove dApp",
+	"dapp_removal_dialog_text": "Deleting this dApp will remove it from your Home Screen."
 }

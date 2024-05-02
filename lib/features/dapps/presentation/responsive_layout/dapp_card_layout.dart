@@ -6,6 +6,7 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../dapps_state.dart';
+import '../widgets/dapp_indicator.dart';
 import 'card_item.dart';
 import 'dapp_loading.dart';
 import 'dapp_utils.dart';
@@ -26,6 +27,13 @@ class DappCardLayout extends HookConsumerWidget {
     final state = ref.watch(appsPagePageContainer.state);
     final actions = ref.read(appsPagePageContainer.actions);
     final dapps = state.orderedDapps;
+    final pages = state.maxPageCount;
+
+    actions.calculateMaxItemsCount(dapps.length, mainAxisCount, crossAxisCount);
+    final emptyItems =
+        actions.getRequiredItems(dapps.length, mainAxisCount, crossAxisCount);
+    List<Widget> emptyWidgets =
+        List.generate(emptyItems, (index) => Container());
 
     if (state.loading && DappUtils.loadingOnce) {
       return DAppLoading(
@@ -36,42 +44,55 @@ class DappCardLayout extends HookConsumerWidget {
 
     if (dapps.isEmpty) return Container();
 
-    return LayoutBuilder(
-      builder: (context, constraint) {
-        actions.initializeViewPreferences(constraint.maxWidth);
-        final itemWidth = actions.getItemWidth();
-        return ReorderableWrapperWidget(
-          dragWidgetBuilder: DragWidgetBuilderV2(
-            builder: (index, child, screenshot) {
-              return Container(
-                child: child,
+    return Column(
+      children: [
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraint) {
+              actions.initializeViewPreferences(constraint.maxWidth);
+              final itemWidth = actions.getItemWidth();
+              return ReorderableWrapperWidget(
+                dragWidgetBuilder: DragWidgetBuilderV2(
+                  builder: (index, child, screenshot) {
+                    return Container(
+                      child: child,
+                    );
+                  },
+                ),
+                // the drag and drop index is from (index passed to ReorderableItemView)
+                onReorder: (dragIndex, dropIndex) {
+                  actions.handleOnReorder(dropIndex, dragIndex);
+                },
+                onDragUpdate: (dragIndex, position, delta) =>
+                    actions.handleOnDragUpdate(position),
+                child: GridView(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    mainAxisExtent: constraint.maxWidth / mainAxisCount,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  physics: const PageScrollPhysics(),
+                  controller: actions.scrollController,
+                  children: [
+                    ...getList(dapps, actions, state, itemWidth, mainAxisCount),
+                    ...emptyWidgets
+                  ],
+                ),
               );
             },
           ),
-          // the drag and drop index is from (index passed to ReorderableItemView)
-          onReorder: (dragIndex, dropIndex) {
-            actions.handleOnReorder(dropIndex, dragIndex);
-          },
-          onDragUpdate: (dragIndex, position, delta) =>
-              actions.handleOnDragUpdate(position),
-          child: GridView(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              mainAxisExtent: constraint.maxWidth / mainAxisCount,
-            ),
-            scrollDirection: Axis.horizontal,
-            physics: const PageScrollPhysics(),
-            controller: actions.scrollController,
-            children: getList(dapps, actions, state, itemWidth),
-          ),
-        );
-      },
+        ),
+        DAppIndicator(
+          selectedIndex: state.pageIndex,
+          total: pages,
+        ),
+      ],
     );
   }
 }
 
 List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
-    DAppsState state, double itemWidth) {
+    DAppsState state, double itemWidth, int mainAxisCount) {
   List<Widget> dappCards = [];
 
   for (int i = 0; i < dapps.length; i++) {
@@ -84,6 +105,7 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
             isEditMode: state.isEditMode,
             onTap: state.isEditMode ? null : () => actions.openDapp(item.url),
             onRemoveTap: (item) => actions.removeBookmark(item as Bookmark),
+            mainAxisCount: mainAxisCount,
           )
         : NewDAppCard(
             index: i,
@@ -99,6 +121,7 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
                     );
                   },
             onRemoveTap: null,
+            mainAxisCount: mainAxisCount,
           );
     dappCards.add(dappCard);
   }

@@ -4,6 +4,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 class DAppsState with EquatableMixin {
   List<Bookmark> bookmarks = [];
+  int maxPageCount = 0;
   int pageIndex = 0;
   bool isEditMode = false;
   bool gesturesInstructionEducated = false;
@@ -17,8 +18,6 @@ class DAppsState with EquatableMixin {
   bool loading = true;
 
   Network? network;
-
-
 
   @override
   List<Object?> get props => [

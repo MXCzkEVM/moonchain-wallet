@@ -107,6 +107,38 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         notify();
       },
     );
+    scrollController.addListener(scrollListener);
+  }
+
+  void scrollListener() {
+    // if (scrollController.hasClients) {
+    final page = viewPortWidth == null
+        ? 0
+        : (scrollController.offset / viewPortWidth!).floor();
+    if (page != state.pageIndex) {
+      notify(() => state.pageIndex = page);
+    }
+    print('maxScrollExtent: ' +
+        scrollController.position.maxScrollExtent.toString());
+    print('page: ' + page.toString());
+    print('scrollController.offset: ' + scrollController.offset.toString());
+    // print('scrollController.offset: ' + scrollController.);
+    // }
+  }
+
+  void calculateMaxItemsCount(
+      int itemsCount, int mainAxisCount, int crossAxisCount) {
+    notify(() => state.maxPageCount =
+        (itemsCount / (mainAxisCount * crossAxisCount)).ceil());
+
+    print('object :' + state.maxPageCount.toString());
+  }
+
+  int getRequiredItems(int itemsCount, int mainAxisCount, int crossAxisCount) {
+    final requiredItemsCount =
+        (state.maxPageCount * (mainAxisCount * crossAxisCount)) - itemsCount;
+    print('requiredItemsCount :' + requiredItemsCount.toString());
+    return requiredItemsCount;
   }
 
   void resetDappsMerge() {
