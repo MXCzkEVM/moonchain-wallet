@@ -401,5 +401,9 @@
     "axs_photos_permission_use_case": "De AXS Wallet heeft toegang tot uw foto's nodig om afbeeldingen zoals RWA op te slaan. Uw foto's worden niet opgeslagen of gedeeld met derden.",
     "permission_use_cases": "Gebruikstoestemming use cases",
     "ok_allow": "OK, Toestaan",
-    "not_now": "Niet nu"
+    "not_now": "Niet nu",
+    "edit_home_screen": "Bewerk startscherm",
+    "add_new_dapp": "Voeg nieuwe dApp toe",
+    "remove_dapp": "Verwijder dApp",
+    "dapp_removal_dialog_text": "Het verwijderen van deze dApp zal het van je startscherm verwijderen."
 }

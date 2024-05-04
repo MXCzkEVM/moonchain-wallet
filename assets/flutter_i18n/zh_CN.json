@@ -401,5 +401,9 @@
     "axs_photos_permission_use_case": "AXS钱包需要访问您的照片以保存如RWA等图片。您的照片不会被保存或与任何第三方共享。",
     "permission_use_cases": "权限使用案例",
     "ok_allow": "好的，允许",
-    "not_now": "现在不"
+    "not_now": "现在不",
+    "edit_home_screen": "编辑主屏幕",
+    "add_new_dapp": "添加新的dApp",
+    "remove_dapp": "移除dApp",
+    "dapp_removal_dialog_text": "删除此dApp将会从您的主屏幕中移除它。"
 }

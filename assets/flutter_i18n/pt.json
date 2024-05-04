@@ -401,5 +401,9 @@
     "axs_photos_permission_use_case": "A carteira AXS precisa de acesso às suas fotos para salvar imagens como RWA. Suas fotos não são salvas ou compartilhadas com terceiros.",
     "permission_use_cases": "Casos de uso de permissão",
     "ok_allow": "Ok, Permita",
-    "not_now": "Agora não"
+    "not_now": "Agora não",
+    "edit_home_screen": "Editar Tela Inicial",
+    "add_new_dapp": "Adicione novo dApp",
+    "remove_dapp": "Remova dApp",
+    "dapp_removal_dialog_text": "Excluir este dApp irá removê-lo da sua Tela Inicial."
 }

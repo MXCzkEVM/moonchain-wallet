@@ -401,5 +401,9 @@
     "axs_photos_permission_use_case": "Il portafoglio AXS necessita l'accesso alle tue foto per salvare immagini come RWA. Le tue foto non vengono salvate o condivise con terze parti.",
     "permission_use_cases": "Casi d'uso del permesso",
     "ok_allow": "OK, Permetti",
-    "not_now": "Non ora"
+    "not_now": "Non ora",
+    "edit_home_screen": "Modifica Schermata Home",
+    "add_new_dapp": "Aggiungi nuova dApp",
+    "remove_dapp": "Rimuovi dApp",
+    "dapp_removal_dialog_text": "Eliminando questa dApp, la rimuoverai dalla tua schermata Home."
 }

@@ -401,5 +401,9 @@
     "axs_photos_permission_use_case": "AXS Cüzdanı, RWA gibi görüntüleri kaydetmek için fotoğraflarınıza erişim hakkına ihtiyaç duyar. Fotoğraflarınız hiçbir üçüncü taraf ile kaydedilmez veya paylaşılmaz.",
     "permission_use_cases": "İzin kullanım durumları",
     "ok_allow": "Tamam, İzin Ver",
-    "not_now": "Şimdi değil"
+    "not_now": "Şimdi değil",
+    "edit_home_screen": "Ana Ekranı Düzenle",
+    "add_new_dapp": "Yeni dApp ekle",
+    "remove_dapp": "dApp'ı Kaldır",
+    "dapp_removal_dialog_text": "Bu dApp'i silmek, onu Ana Ekranınızdan kaldıracaktır."
 }
