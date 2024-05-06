@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +12,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
-
 import '../dapps_presenter.dart';
 
 class NewDAppCard extends HookConsumerWidget {
@@ -21,7 +22,7 @@ class NewDAppCard extends HookConsumerWidget {
   final VoidCallback? onTap;
   final void Function(Bookmark?)? onRemoveTap;
   final int mainAxisCount;
-  const NewDAppCard({
+  NewDAppCard({
     super.key,
     required this.index,
     required this.width,
@@ -36,7 +37,7 @@ class NewDAppCard extends HookConsumerWidget {
     // final icons = dapp.reviewApi!.icons!;
     final image = dapp is Bookmark
         ? (dapp as Bookmark).image ?? '${(dapp as Bookmark).url}/favicon.ico'
-        : 'assets/svg/tether_icon.svg';
+        : dapp.reviewApi?.icon ?? 'assets/svg/tether_icon.svg';
     final name = dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.name!;
     return GestureDetector(
       onTap: () {
@@ -65,7 +66,7 @@ class NewDAppCard extends HookConsumerWidget {
                 child: SizedBox(
                   width: width * 0.3,
                   height: width * 0.3,
-                  child: image.contains('https')
+                  child: image.contains('https') && dapp is Bookmark
                       ? CachedNetworkImage(
                           imageUrl: image,
                           fit: BoxFit.cover,
@@ -84,7 +85,7 @@ class NewDAppCard extends HookConsumerWidget {
                             );
                           },
                         )
-                      : SvgPicture.asset(
+                      :  image.contains('https')  ? SvgPicture.network(image) : SvgPicture.asset(
                           image,
                         ),
                 ),
