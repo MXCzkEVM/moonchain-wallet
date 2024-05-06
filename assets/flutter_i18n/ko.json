@@ -401,5 +401,9 @@
     "axs_photos_permission_use_case": "AXS 지갑은 RWA와 같은 이미지를 저장하기 위해 귀하의 사진에 접근할 필요가 있습니다. 귀하의 사진은 어떠한 제3자와도 저장되거나 공유되지 않습니다.",
     "permission_use_cases": "사용 권한 사용 사례",
     "ok_allow": "좋아요, 허용",
-    "not_now": "지금 아니야"
+    "not_now": "지금 아니야",
+    "edit_home_screen": "홈 화면 편집",
+    "add_new_dapp": "새로운 dApp 추가",
+    "remove_dapp": "dApp 제거",
+    "dapp_removal_dialog_text": "이 dApp을 삭제하면 홈 화면에서 제거됩니다."
 }

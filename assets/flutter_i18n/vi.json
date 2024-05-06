@@ -401,5 +401,9 @@
     "axs_photos_permission_use_case": "Ví AXS cần quyền truy cập vào ảnh của bạn để lưu các hình ảnh như RWA. Ảnh của bạn không được lưu hoặc chia sẻ với bất kỳ bên thứ ba nào.",
     "permission_use_cases": "Các trường hợp sử dụng quyền truy cập",
     "ok_allow": "Được, Cho phép",
-    "not_now": "Không phải bây giờ"
+    "not_now": "Không phải bây giờ",
+    "edit_home_screen": "Chỉnh sửa Màn hình Chính",
+    "add_new_dapp": "Thêm dApp mới",
+    "remove_dapp": "Gỡ bỏ dApp",
+    "dapp_removal_dialog_text": "Xóa dApp này sẽ loại bỏ nó khỏi Màn hình chính của bạn."
 }
