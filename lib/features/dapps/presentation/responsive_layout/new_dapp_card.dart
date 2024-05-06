@@ -183,8 +183,7 @@ class NewDAppCard extends HookConsumerWidget {
               trailingIcon: Icons.add_circle_outline_rounded,
               child: Text(FlutterI18n.translate(context, 'add_new_dapp'),
                   style: FontTheme.of(context).subtitle1()),
-              onPressed: () =>
-                  popWrapper(actions.navigateToAddBookmark, context)),
+              onPressed: () => popWrapper(actions.addBookmark, context)),
         ];
 
     getBookMarkContextMenuAction() => [
@@ -214,8 +213,7 @@ class NewDAppCard extends HookConsumerWidget {
               trailingIcon: Icons.add_circle_outline_rounded,
               child: Text(FlutterI18n.translate(context, 'add_new_dapp'),
                   style: FontTheme.of(context).subtitle1()),
-              onPressed: () =>
-                  popWrapper(actions.navigateToAddBookmark, context)),
+              onPressed: () => popWrapper(actions.addBookmark, context)),
           CupertinoContextMenuAction(
               isDestructiveAction: true,
               trailingIcon: Icons.remove_circle_outline_rounded,

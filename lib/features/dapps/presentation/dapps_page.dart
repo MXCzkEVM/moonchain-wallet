@@ -36,7 +36,7 @@ class DAppsPage extends HookConsumerWidget {
         children: [
           if (ref.watch(state).isEditMode) ...[
             EditAppsModeStatusBar(
-              onAdd: dappsPresenter.navigateToAddBookmark,
+              onAdd: dappsPresenter.addBookmark,
               onDone: dappsPresenter.changeEditMode,
             ),
           ],

@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/dapps/helpers/book_marks_helper.dart';
 import 'package:datadashwallet/features/dapps/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,6 +56,13 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   PermissionsHelper get permissionsHelper => PermissionsHelper(
         translate: translate,
         notify: notify,
+        context: context,
+      );
+
+  BookMarksHelper get bookmarksHelper => BookMarksHelper(
+        bookmarkUseCase: _bookmarksUseCase,
+        navigator: navigator,
+        translate: translate,
         context: context,
       );
 
@@ -157,18 +164,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  void removeBookmark(Bookmark item) async {
-    final result = await showAlertDialog(
-      context: context!,
-      title: '${translate('remove')!} ${item.title}',
-      content: translate('dapp_removal_dialog_text')!,
-      ok: translate('delete')!,
-    );
+  void removeBookmark(Bookmark item) async =>
+      bookmarksHelper.removeBookmark(item);
 
-    if (result != null && result) {
-      _bookmarksUseCase.removeItem(item);
-    }
-  }
+  void addBookmark() async => bookmarksHelper.addBookmark();
 
   void onPageChage(int index) => notify(() => state.pageIndex = index);
 
@@ -219,12 +218,6 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   double getItemWidth() {
     return UIMetricsUtils.getGridViewItemWidth(viewPortWidth!);
-  }
-
-  void navigateToAddBookmark() {
-    navigator!.push(
-      route.featureDialog(const addBookmark()),
-    );
   }
 
   void handleOnDragUpdate(Offset position) {
