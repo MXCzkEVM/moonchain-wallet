@@ -51,18 +51,13 @@ class NewDAppCard extends HookConsumerWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(Sizes.spaceXLarge),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   gradient: LinearGradient(
                     colors: [
-                      Color(0xFF262626),
-                      CupertinoColors.black,
+                      ColorsTheme.of(context).textBlack100,
+                      ColorsTheme.of(context).iconBlack200,
                     ],
-                    // stops: [
-                    //                         0.00,
-                    //   1.00,
-
-                    // ],
                     begin: AlignmentDirectional.bottomEnd,
                     end: AlignmentDirectional.topStart,
                   ),
