@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:datadashwallet/features/dapps/presentation/responsive_layout/card_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -36,8 +37,11 @@ class NewDAppCard extends HookConsumerWidget {
     // final icons = dapp.reviewApi!.icons!;
     final image = dapp is Bookmark
         ? (dapp as Bookmark).image ?? '${(dapp as Bookmark).url}/favicon.ico'
-        : dapp.reviewApi?.icon ?? 'assets/svg/tether_icon.svg';
+        : dapp.reviewApi!.icon!;
     final name = dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.name!;
+    final imageSize = width *
+        (ratioFactor ??
+            (mainAxisCount == CardMainAxisCount.mobile ? 0.3 : 0.2));
     return GestureDetector(
       onTap: () {
         if (onTap != null) onTap!();
@@ -63,8 +67,8 @@ class NewDAppCard extends HookConsumerWidget {
                   ),
                 ),
                 child: SizedBox(
-                  width: width * (ratioFactor ?? 0.3),
-                  height: width * (ratioFactor ?? 0.3),
+                  width: imageSize,
+                  height: imageSize,
                   child: image.contains('https') && dapp is Bookmark
                       ? CachedNetworkImage(
                           imageUrl: image,
@@ -85,7 +89,9 @@ class NewDAppCard extends HookConsumerWidget {
                           },
                         )
                       : image.contains('https')
-                          ? SvgPicture.network(image)
+                          ? SvgPicture.network(
+                              image,
+                            )
                           : SvgPicture.asset(
                               image,
                             ),
@@ -227,6 +233,10 @@ class NewDAppCard extends HookConsumerWidget {
         ? getBookMarkContextMenuAction()
         : getDAppMarkContextMenuAction();
 
+    final size = (mainAxisCount == CardMainAxisCount.mobile ? 0.5 : 0.3);
+    final sizeLimit =
+        (mainAxisCount == CardMainAxisCount.mobile ? 0.6000 : 0.6666);
+
     return isEditMode
         ? ReorderableItemView(
             key: Key(dappUrl),
@@ -252,8 +262,9 @@ class NewDAppCard extends HookConsumerWidget {
                     (mainAxisCount - animation.value),
                 child: cardBox(
                   context,
-                  ratioFactor:
-                      animation.value < 0.6000 ? null : (0.5 * animation.value),
+                  ratioFactor: animation.value < sizeLimit
+                      ? null
+                      : (size * animation.value),
                 ),
               );
             },
