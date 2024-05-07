@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +21,7 @@ class NewDAppCard extends HookConsumerWidget {
   final VoidCallback? onTap;
   final void Function(Bookmark?)? onRemoveTap;
   final int mainAxisCount;
-  NewDAppCard({
+  const NewDAppCard({
     super.key,
     required this.index,
     required this.width,
@@ -33,7 +32,7 @@ class NewDAppCard extends HookConsumerWidget {
     required this.mainAxisCount,
   });
 
-  Widget cardBox(BuildContext context) {
+  Widget cardBox(BuildContext context, {double? ratioFactor}) {
     // final icons = dapp.reviewApi!.icons!;
     final image = dapp is Bookmark
         ? (dapp as Bookmark).image ?? '${(dapp as Bookmark).url}/favicon.ico'
@@ -64,8 +63,8 @@ class NewDAppCard extends HookConsumerWidget {
                   ),
                 ),
                 child: SizedBox(
-                  width: width * 0.3,
-                  height: width * 0.3,
+                  width: width * (ratioFactor ?? 0.3),
+                  height: width * (ratioFactor ?? 0.3),
                   child: image.contains('https') && dapp is Bookmark
                       ? CachedNetworkImage(
                           imageUrl: image,
@@ -85,9 +84,11 @@ class NewDAppCard extends HookConsumerWidget {
                             );
                           },
                         )
-                      :  image.contains('https')  ? SvgPicture.network(image) : SvgPicture.asset(
-                          image,
-                        ),
+                      : image.contains('https')
+                          ? SvgPicture.network(image)
+                          : SvgPicture.asset(
+                              image,
+                            ),
                 ),
               ),
               if (isEditMode && onRemoveTap != null)
@@ -245,11 +246,19 @@ class NewDAppCard extends HookConsumerWidget {
         : CupertinoContextMenu.builder(
             builder: (context, animation) {
               return SizedBox(
-                  width: MediaQuery.of(context).size.width / mainAxisCount,
-                  height: MediaQuery.of(context).size.width / mainAxisCount,
-                  child: cardBox(context));
+                width: MediaQuery.of(context).size.width /
+                    (mainAxisCount - animation.value),
+                height: MediaQuery.of(context).size.width /
+                    (mainAxisCount - animation.value),
+                child: cardBox(
+                  context,
+                  ratioFactor:
+                      animation.value < 0.6000 ? null : (0.5 * animation.value),
+                ),
+              );
             },
-            actions: contextMenuActions);
+            actions: contextMenuActions,
+          );
   }
 }
 
