@@ -27,11 +27,11 @@ class DappCardLayout extends HookConsumerWidget {
     final state = ref.watch(appsPagePageContainer.state);
     final actions = ref.read(appsPagePageContainer.actions);
     final dapps = state.orderedDapps;
-    final pages = state.maxPageCount;
 
-    actions.calculateMaxItemsCount(dapps.length, mainAxisCount, crossAxisCount);
-    final emptyItems =
-        actions.getRequiredItems(dapps.length, mainAxisCount, crossAxisCount);
+    final pages = actions.calculateMaxItemsCount(
+        dapps.length, mainAxisCount, crossAxisCount);
+    final emptyItems = actions.getRequiredItems(
+        dapps.length, mainAxisCount, crossAxisCount, pages);
     List<Widget> emptyWidgets =
         List.generate(emptyItems, (index) => Container());
 
@@ -83,8 +83,8 @@ class DappCardLayout extends HookConsumerWidget {
           ),
         ),
         DAppIndicator(
-          selectedIndex: state.pageIndex,
           total: pages,
+          selectedIndex: state.pageIndex,
         ),
       ],
     );

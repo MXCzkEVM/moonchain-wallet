@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/dapps/helpers/book_marks_helper.dart';
@@ -200,14 +199,19 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  int getRequiredItems(int itemsCount, int mainAxisCount, int crossAxisCount) {
+  int getRequiredItems(
+    int itemsCount,
+    int mainAxisCount,
+    int crossAxisCount,
+    int maxPageCount,
+  ) {
     return paginationHelper.getRequiredItems(
-        itemsCount, mainAxisCount, crossAxisCount);
+        itemsCount, mainAxisCount, crossAxisCount, maxPageCount);
   }
 
-  void calculateMaxItemsCount(
+  int calculateMaxItemsCount(
       int itemsCount, int mainAxisCount, int crossAxisCount) {
-    paginationHelper.calculateMaxItemsCount(
+    return paginationHelper.calculateMaxItemsCount(
         itemsCount, mainAxisCount, crossAxisCount);
   }
 

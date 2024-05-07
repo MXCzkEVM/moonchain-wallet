@@ -6,7 +6,6 @@ import 'package:mxc_logic/mxc_logic.dart';
 
 class DAppsState with EquatableMixin {
   List<Bookmark> bookmarks = [];
-  int maxPageCount = 0;
   int pageIndex = 0;
   bool isEditMode = false;
   bool gesturesInstructionEducated = false;

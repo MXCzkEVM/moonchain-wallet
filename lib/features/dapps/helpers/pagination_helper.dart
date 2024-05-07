@@ -33,18 +33,23 @@ class PaginationHelper {
     // print('scrollController.offset: ' + scrollController.offset.toString());
   }
 
-  void calculateMaxItemsCount(
-      int itemsCount, int mainAxisCount, int crossAxisCount) {
-    notify(() => state.maxPageCount =
-        (itemsCount / (mainAxisCount * crossAxisCount)).ceil());
-
-    print('object :' + state.maxPageCount.toString());
+  int calculateMaxItemsCount(
+    int itemsCount,
+    int mainAxisCount,
+    int crossAxisCount,
+  ) {
+    final maxPageCount = (itemsCount / (mainAxisCount * crossAxisCount)).ceil();
+    return maxPageCount;
   }
 
-  int getRequiredItems(int itemsCount, int mainAxisCount, int crossAxisCount) {
+  int getRequiredItems(
+    int itemsCount,
+    int mainAxisCount,
+    int crossAxisCount,
+    int maxPageCount,
+  ) {
     final requiredItemsCount =
-        (state.maxPageCount * (mainAxisCount * crossAxisCount)) - itemsCount;
-    print('requiredItemsCount :' + requiredItemsCount.toString());
+        (maxPageCount * (mainAxisCount * crossAxisCount)) - itemsCount;
     return requiredItemsCount;
   }
 }
