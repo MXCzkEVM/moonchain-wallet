@@ -203,12 +203,12 @@ class NewDAppCard extends HookConsumerWidget {
           CupertinoContextMenuAction(
               trailingIcon: Icons.phone_iphone_rounded,
               child: Text(FlutterI18n.translate(context, 'edit_home_screen'),
-                  style: FontTheme.of(context).subtitle1()),
+                  style: FontTheme.of(context).body1()),
               onPressed: () => popWrapper(actions.changeEditMode, context)),
           CupertinoContextMenuAction(
               trailingIcon: Icons.add_circle_outline_rounded,
               child: Text(FlutterI18n.translate(context, 'add_new_dapp'),
-                  style: FontTheme.of(context).subtitle1()),
+                  style: FontTheme.of(context).body1()),
               onPressed: () => popWrapper(actions.addBookmark, context)),
           CupertinoContextMenuAction(
               isDestructiveAction: true,
@@ -219,7 +219,7 @@ class NewDAppCard extends HookConsumerWidget {
                       : null,
                   context),
               child: Text(FlutterI18n.translate(context, 'remove_dapp'),
-                  style: FontTheme.of(context).subtitle1()))
+                  style: FontTheme.of(context).body1Cl()))
         ];
 
     final contextMenuActions = onRemoveTap != null
