@@ -163,6 +163,9 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
+  void removeBookmarkDialog(Bookmark item, void Function() animation) async =>
+      bookmarksHelper.removeBookmarkDialog(item, animation);
+
   void removeBookmark(Bookmark item) async =>
       bookmarksHelper.removeBookmark(item);
 

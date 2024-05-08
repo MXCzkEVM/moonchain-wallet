@@ -97,14 +97,14 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
 
   for (int i = 0; i < dapps.length; i++) {
     final item = dapps[i];
-    final dappCard = item is Bookmark
+    final isBookMark = item is Bookmark;
+    final dappCard = isBookMark
         ? NewDAppCard(
             index: i,
             width: itemWidth,
             dapp: item,
             isEditMode: state.isEditMode,
             onTap: state.isEditMode ? null : () => actions.openDapp(item.url),
-            onRemoveTap: (item) => actions.removeBookmark(item as Bookmark),
             mainAxisCount: mainAxisCount,
           )
         : NewDAppCard(
@@ -120,7 +120,6 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
                       item.app!.url!,
                     );
                   },
-            onRemoveTap: null,
             mainAxisCount: mainAxisCount,
           );
     dappCards.add(dappCard);
