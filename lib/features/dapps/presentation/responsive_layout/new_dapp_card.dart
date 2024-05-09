@@ -32,10 +32,13 @@ class NewDAppCard extends HookConsumerWidget {
     required this.mainAxisCount,
   });
 
-  Widget cardBox(BuildContext context,
-      {double? ratioFactor,
-      DAppsPagePresenter? actions,
-      void Function()? shatter}) {
+  Widget cardBox(
+    BuildContext context, {
+    double? ratioFactor,
+    DAppsPagePresenter? actions,
+    void Function()? shatter,
+    bool animated = false,
+  }) {
     final image = dapp is Bookmark
         ? (dapp as Bookmark).image ?? '${(dapp as Bookmark).url}/favicon.ico'
         : dapp.reviewApi!.icon!;
@@ -45,7 +48,15 @@ class NewDAppCard extends HookConsumerWidget {
             (mainAxisCount == CardMainAxisCount.mobile ? 0.3 : 0.2));
     return GestureDetector(
       onTap: () {
-        if (onTap != null) onTap!();
+        if (animated) {
+          Navigator.pop(context);
+          Future.delayed(
+            const Duration(milliseconds: 500),
+            () => onTap!(),
+          );
+        } else if (onTap != null) {
+          onTap!();
+        }
       },
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -268,7 +279,8 @@ class NewDAppCard extends HookConsumerWidget {
                     ? null
                     : (size * animation.value),
                 shatter: shatter,
-                actions: actions),
+                actions: actions,
+                animated: animation.value != 0.0),
           );
         },
         actions: contextMenuActions,
