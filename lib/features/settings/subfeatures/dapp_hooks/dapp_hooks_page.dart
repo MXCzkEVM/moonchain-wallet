@@ -61,15 +61,44 @@ class DAppHooksPage extends HookConsumerWidget {
               text: FlutterI18n.translate(context, 'experiencing_issues'),
               style: FontTheme.of(context)
                   .subtitle2()
-                  .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+                  .copyWith(color: ColorsTheme.of(context).textPrimary),
             ),
-            const TextSpan(text: ' '),
+            const TextSpan(text: '\n\n'),
             TextSpan(
-              text:
-                  FlutterI18n.translate(context, 'background_service_solution'),
+              text: FlutterI18n.translate(
+                  context, 'background_service_solution_1_title'),
+              style: FontTheme.of(context)
+                  .subtitle2()
+                  .copyWith(color: ColorsTheme.of(context).textPrimary),
+            ),
+            TextSpan(
+              text: FlutterI18n.translate(
+                  context, 'background_service_solution_1_text'),
               style: FontTheme.of(context)
                   .subtitle1()
-                  .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+                  .copyWith(color: ColorsTheme.of(context).textPrimary),
+            ),
+            const TextSpan(text: '\n\n'),
+            TextSpan(
+              text: FlutterI18n.translate(
+                  context, 'background_service_solution_2_title'),
+              style: FontTheme.of(context)
+                  .subtitle2()
+                  .copyWith(color: ColorsTheme.of(context).textPrimary),
+            ),
+            TextSpan(
+              text: FlutterI18n.translate(
+                  context, 'background_service_solution_2_text'),
+              style: FontTheme.of(context)
+                  .subtitle1()
+                  .copyWith(color: ColorsTheme.of(context).textPrimary),
+            ),
+            const TextSpan(text: '\n\n'),
+            TextSpan(
+              text: FlutterI18n.translate(context, 'need_further_assistant'),
+              style: FontTheme.of(context)
+                  .subtitle1()
+                  .copyWith(color: ColorsTheme.of(context).textPrimary),
             ),
           ]),
           titleStyle: FontTheme.of(context).h6(),
@@ -98,15 +127,53 @@ class DAppHooksPage extends HookConsumerWidget {
                     text: FlutterI18n.translate(context, 'experiencing_issues'),
                     style: FontTheme.of(context)
                         .subtitle2()
-                        .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+                        .copyWith(color: ColorsTheme.of(context).textPrimary),
                   ),
-                  const TextSpan(text: ' '),
+                  const TextSpan(text: '\n\n'),
+                  TextSpan(
+                    text: FlutterI18n.translate(
+                        context, 'background_service_solution_1_title'),
+                    style: FontTheme.of(context)
+                        .subtitle2()
+                        .copyWith(color: ColorsTheme.of(context).textPrimary),
+                  ),
+                  TextSpan(
+                    text: FlutterI18n.translate(
+                        context, 'background_service_solution_1_text'),
+                    style: FontTheme.of(context)
+                        .subtitle1()
+                        .copyWith(color: ColorsTheme.of(context).textPrimary),
+                  ),
+                  const TextSpan(text: '\n\n'),
+                  TextSpan(
+                    text: FlutterI18n.translate(
+                        context, 'background_service_solution_2_title'),
+                    style: FontTheme.of(context)
+                        .subtitle2()
+                        .copyWith(color: ColorsTheme.of(context).textPrimary),
+                  ),
+                  TextSpan(
+                    text: FlutterI18n.translate(
+                        context, 'background_service_solution_2_text'),
+                    style: FontTheme.of(context)
+                        .subtitle1()
+                        .copyWith(color: ColorsTheme.of(context).textPrimary),
+                  ),
+                  const TextSpan(text: '\n\n'),
                   TextSpan(
                     text:
                         FlutterI18n.translate(context, 'wifi_hooks_solutions'),
                     style: FontTheme.of(context)
                         .subtitle1()
-                        .copyWith(color: ColorsTheme.of(context).chipTextBlack),
+                        .copyWith(color: ColorsTheme.of(context).textPrimary),
+                  ),
+                  const TextSpan(text: '\n\n'),
+                  TextSpan(
+                    text: FlutterI18n.translate(
+                        context, 'need_further_assistant'),
+                    style: FontTheme.of(context)
+                        .subtitle1()
+                        .copyWith(color: ColorsTheme.of(context).textPrimary),
                   ),
                 ]),
               ),
