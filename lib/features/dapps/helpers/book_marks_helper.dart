@@ -23,7 +23,7 @@ class BookMarksHelper {
     );
   }
 
-  void removeBookmark(Bookmark item) async {
+  void removeBookmarkDialog(Bookmark item, void Function() animation) async {
     final result = await showAlertDialog(
       context: context!,
       title: '${translate('remove')!} ${item.title}',
@@ -32,7 +32,11 @@ class BookMarksHelper {
     );
 
     if (result != null && result) {
-      bookmarkUseCase.removeItem(item);
+      animation();
     }
+  }
+
+  void removeBookmark(Bookmark item) async {
+    bookmarkUseCase.removeItem(item);
   }
 }

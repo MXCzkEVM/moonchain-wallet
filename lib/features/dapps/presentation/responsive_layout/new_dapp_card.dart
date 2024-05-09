@@ -13,6 +13,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import '../dapps_presenter.dart';
+import 'shatter_widget.dart';
 
 class NewDAppCard extends HookConsumerWidget {
   final Dapp dapp;
@@ -20,7 +21,6 @@ class NewDAppCard extends HookConsumerWidget {
   final double width;
   final bool isEditMode;
   final VoidCallback? onTap;
-  final void Function(Bookmark?)? onRemoveTap;
   final int mainAxisCount;
   const NewDAppCard({
     super.key,
@@ -29,12 +29,16 @@ class NewDAppCard extends HookConsumerWidget {
     required this.dapp,
     required this.isEditMode,
     required this.onTap,
-    required this.onRemoveTap,
     required this.mainAxisCount,
   });
 
-  Widget cardBox(BuildContext context, {double? ratioFactor}) {
-    // final icons = dapp.reviewApi!.icons!;
+  Widget cardBox(
+    BuildContext context, {
+    double? ratioFactor,
+    DAppsPagePresenter? actions,
+    void Function()? shatter,
+    bool animated = false,
+  }) {
     final image = dapp is Bookmark
         ? (dapp as Bookmark).image ?? '${(dapp as Bookmark).url}/favicon.ico'
         : dapp.reviewApi!.icon!;
@@ -44,7 +48,15 @@ class NewDAppCard extends HookConsumerWidget {
             (mainAxisCount == CardMainAxisCount.mobile ? 0.3 : 0.2));
     return GestureDetector(
       onTap: () {
-        if (onTap != null) onTap!();
+        if (animated) {
+          Navigator.pop(context);
+          Future.delayed(
+            const Duration(milliseconds: 500),
+            () => onTap!(),
+          );
+        } else if (onTap != null) {
+          onTap!();
+        }
       },
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -97,12 +109,13 @@ class NewDAppCard extends HookConsumerWidget {
                             ),
                 ),
               ),
-              if (isEditMode && onRemoveTap != null)
+              if (isEditMode && dapp is Bookmark)
                 Positioned(
                   top: -6,
                   left: -6,
                   child: GestureDetector(
-                    onTap: () => onRemoveTap!(dapp as Bookmark),
+                    onTap: () => actions!
+                        .removeBookmarkDialog(dapp as Bookmark, shatter!),
                     child: const Icon(
                       Icons.remove_circle_rounded,
                     ),
@@ -138,6 +151,7 @@ class NewDAppCard extends HookConsumerWidget {
     final dappAbout =
         dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.description!;
     final dappUrl = dapp is Bookmark ? (dapp as Bookmark).url : dapp.app!.url!;
+    final isBookMark = dapp is Bookmark;
 
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 75),
@@ -189,7 +203,7 @@ class NewDAppCard extends HookConsumerWidget {
               onPressed: () => popWrapper(actions.addBookmark, context)),
         ];
 
-    getBookMarkContextMenuAction() => [
+    getBookMarkContextMenuAction(void Function() shatter) => [
           CupertinoContextMenuAction(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,56 +234,66 @@ class NewDAppCard extends HookConsumerWidget {
           CupertinoContextMenuAction(
               isDestructiveAction: true,
               trailingIcon: Icons.remove_circle_outline_rounded,
-              onPressed: () => popWrapper(
-                  onRemoveTap != null
-                      ? () => onRemoveTap!(dapp as Bookmark)
-                      : null,
-                  context),
+              onPressed: () => popWrapper(() async {
+                    actions.removeBookmarkDialog(dapp as Bookmark, shatter);
+                  }, context),
               child: Text(FlutterI18n.translate(context, 'remove_dapp'),
                   style: FontTheme.of(context).body1Cl()))
         ];
-
-    final contextMenuActions = onRemoveTap != null
-        ? getBookMarkContextMenuAction()
-        : getDAppMarkContextMenuAction();
 
     final size = (mainAxisCount == CardMainAxisCount.mobile ? 0.5 : 0.3);
     final sizeLimit =
         (mainAxisCount == CardMainAxisCount.mobile ? 0.6000 : 0.6666);
 
-    return isEditMode
-        ? ReorderableItemView(
-            key: Key(dappUrl),
-            index: index,
-            child: AnimatedBuilder(
-              animation: animationController,
-              builder: (context, child) {
-                return Transform.rotate(
-                  angle: animationController.value *
-                      (pi / 8), // Adjust the range of rotation
-                  child: child,
-                );
-              },
-              child: SizedBox.expand(child: cardBox(context)),
-            ),
-          )
-        : CupertinoContextMenu.builder(
-            builder: (context, animation) {
-              return SizedBox(
-                width: MediaQuery.of(context).size.width /
-                    (mainAxisCount - animation.value),
-                height: MediaQuery.of(context).size.width /
-                    (mainAxisCount - animation.value),
-                child: cardBox(
-                  context,
-                  ratioFactor: animation.value < sizeLimit
-                      ? null
-                      : (size * animation.value),
-                ),
+    Widget getCardItem({void Function()? shatter}) {
+      final contextMenuActions = dapp is Bookmark?
+          ? getBookMarkContextMenuAction(shatter!)
+          : getDAppMarkContextMenuAction();
+      if (isEditMode) {
+        return ReorderableItemView(
+          key: Key(dappUrl),
+          index: index,
+          child: AnimatedBuilder(
+            animation: animationController,
+            builder: (context, child) {
+              return Transform.rotate(
+                angle: animationController.value *
+                    (pi / 8), // Adjust the range of rotation
+                child: child,
               );
             },
-            actions: contextMenuActions,
+            child: SizedBox.expand(
+                child: cardBox(context, shatter: shatter, actions: actions)),
+          ),
+        );
+      }
+      return CupertinoContextMenu.builder(
+        builder: (context, animation) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width /
+                (mainAxisCount - animation.value),
+            height: MediaQuery.of(context).size.width /
+                (mainAxisCount - animation.value),
+            child: cardBox(context,
+                ratioFactor: animation.value < sizeLimit
+                    ? null
+                    : (size * animation.value),
+                shatter: shatter,
+                actions: actions,
+                animated: animation.value != 0.0),
           );
+        },
+        actions: contextMenuActions,
+      );
+    }
+
+    return isBookMark
+        ? ShatteringWidget(
+            builder: (shatter) {
+              return getCardItem(shatter: shatter);
+            },
+            onShatterCompleted: () => actions.removeBookmark(dapp as Bookmark))
+        : getCardItem();
   }
 }
 
