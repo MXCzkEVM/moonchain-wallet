@@ -166,7 +166,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     // If It's token transfer, data is required for gas estimation
     if (token.address != null) {
-      final toAddress = EthereumAddress.fromHex(recipientController.text);
+      final toAddress = EthereumAddress.fromHex(recipientAddress);
 
       final data = _tokenContractUseCase.getTokenTransferData(
           token.address!, toAddress, amountEtherAmount.getInWei);
