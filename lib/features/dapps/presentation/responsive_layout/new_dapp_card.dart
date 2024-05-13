@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:datadashwallet/features/dapps/presentation/responsive_layout/card_item.dart';
+import 'package:datadashwallet/common/components/context_menu_extended.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -75,7 +76,7 @@ class NewDAppCard extends HookConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(Sizes.spaceXLarge),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
                   gradient: LinearGradient(
                     colors: [
                       ColorsTheme.of(context).textBlack100,
@@ -278,7 +279,7 @@ class NewDAppCard extends HookConsumerWidget {
           ),
         );
       }
-      return CupertinoContextMenu.builder(
+      return CupertinoContextMenuExtended.builder(
         builder: (context, animation) {
           return SizedBox(
             width: MediaQuery.of(context).size.width /
