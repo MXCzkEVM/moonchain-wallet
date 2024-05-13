@@ -1,6 +1,7 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/src/routing/route.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
+import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import '../subfeatures/add_dapp/presentation/add_bookmark.dart';
@@ -38,5 +39,16 @@ class BookMarksHelper {
 
   void removeBookmark(Bookmark item) async {
     bookmarkUseCase.removeItem(item);
+  }
+
+  void getBookmarkFavicon(Bookmark item) {
+    bookmarkUseCase.addItem(item);
+  }
+
+  void updateBookmarkFavIcon(Bookmark item) async {
+    var iconUrl = await FaviconFinder.getBest(item.url);
+
+    final updatedItem = item.copyWithBookmark(image: iconUrl?.url);
+    bookmarkUseCase.updateItem(updatedItem);
   }
 }

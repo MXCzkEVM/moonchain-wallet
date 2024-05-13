@@ -39,9 +39,16 @@ class NewDAppCard extends HookConsumerWidget {
     void Function()? shatter,
     bool animated = false,
   }) {
-    final image = dapp is Bookmark
-        ? (dapp as Bookmark).image ?? '${(dapp as Bookmark).url}/favicon.ico'
-        : dapp.reviewApi!.icon!;
+    String? image;
+    if (dapp is Bookmark) {
+      if ((dapp as Bookmark).image != null) {
+        image = (dapp as Bookmark).image!;
+      } else {
+        actions!.updateBookmarkFavIcon(dapp as Bookmark);
+      }
+    } else {
+      image = dapp.reviewApi!.icon!;
+    }
     final name = dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.name!;
     final imageSize = width *
         (ratioFactor ??
@@ -81,32 +88,36 @@ class NewDAppCard extends HookConsumerWidget {
                 child: SizedBox(
                   width: imageSize,
                   height: imageSize,
-                  child: image.contains('https') && dapp is Bookmark
-                      ? CachedNetworkImage(
-                          imageUrl: image,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) {
-                            return Column(
-                              children: [
-                                Icon(
-                                  Icons.image_not_supported_outlined,
-                                  color: ColorsTheme.of(context).textError,
-                                ),
-                                const SizedBox(
-                                  height: Sizes.spaceXSmall,
-                                ),
-                                // Text('Unable to load website icon', style: FontTheme.of(context).caption1.error(),)
-                              ],
-                            );
-                          },
+                  child: image == null
+                      ? Icon(
+                          Icons.image_not_supported_rounded,
+                          color: ColorsTheme.of(context).textPrimary,
                         )
-                      : image.contains('https')
-                          ? SvgPicture.network(
-                              image,
+                      : image.contains('https') && dapp is Bookmark
+                          ? CachedNetworkImage(
+                              imageUrl: image,
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) {
+                                return Column(
+                                  children: [
+                                    Icon(
+                                      Icons.image_not_supported_outlined,
+                                      color: ColorsTheme.of(context).textError,
+                                    ),
+                                    const SizedBox(
+                                      height: Sizes.spaceXSmall,
+                                    ),
+                                  ],
+                                );
+                              },
                             )
-                          : SvgPicture.asset(
-                              image,
-                            ),
+                          : image.contains('https')
+                              ? SvgPicture.network(
+                                  image,
+                                )
+                              : SvgPicture.asset(
+                                  image,
+                                ),
                 ),
               ),
               if (isEditMode && dapp is Bookmark)
