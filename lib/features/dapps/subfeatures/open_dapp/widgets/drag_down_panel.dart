@@ -2,6 +2,7 @@ import 'package:datadashwallet/features/settings/subfeatures/chain_configuration
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../open_dapp_presenter.dart';
@@ -116,7 +117,9 @@ class DragDownPanel extends HookConsumerWidget {
                                                 onTap: () =>
                                                     presenter.copyUrl(),
                                                 child: Text(
-                                                  url,
+                                                  url.replaceAll(
+                                                      Config.breakingHyphen,
+                                                      Config.nonBreakingHyphen),
                                                   style: FontTheme.of(context)
                                                       .body1
                                                       .primary()
