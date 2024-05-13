@@ -463,7 +463,6 @@ class CupertinoContextMenuExtended extends StatefulWidget {
   )
   final ContextMenuPreviewBuilder? previewBuilder;
 
-
   @override
   State<CupertinoContextMenuExtended> createState() =>
       _CupertinoContextMenuState();
@@ -1467,7 +1466,7 @@ class _ContextMenuSheet extends StatelessWidget {
                     border: Border(
                         top: BorderSide(
                       color: actions.indexOf(action) == 1
-                          ? CupertinoDynamicColor.resolve(_borderColor, context)
+                          ? ColorsTheme.of(context).textPrimary.withOpacity(0.8)
                           : ColorsTheme.of(context).textPrimary,
                       width: 1,
                     )),
