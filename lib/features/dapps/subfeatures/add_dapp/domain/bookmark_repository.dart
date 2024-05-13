@@ -32,6 +32,14 @@ class BookmarkRepository extends GlobalCacheRepository {
 
   void addItem(Bookmark item) => bookmarks.value = [...bookmarks.value, item];
 
+  void updateItem(Bookmark item) {
+    final newBookMarks = bookmarks.value;
+    final itemIndex = newBookMarks.indexWhere((e) => e.url == item.url);
+
+    newBookMarks[itemIndex] = item;
+    bookmarks.value = newBookMarks;
+  }
+
   void removeItem(Bookmark item) =>
       bookmarks.value = bookmarks.value.where((e) => e.id != item.id).toList();
 }

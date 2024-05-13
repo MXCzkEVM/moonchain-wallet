@@ -171,6 +171,8 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   void addBookmark() async => bookmarksHelper.addBookmark();
 
+  void updateBookmarkFavIcon(Bookmark item) async => bookmarksHelper.updateBookmarkFavIcon(item);
+
   void onPageChage(int index) => notify(() => state.pageIndex = index);
 
   void changeEditMode() => notify(() => state.isEditMode = !state.isEditMode);
