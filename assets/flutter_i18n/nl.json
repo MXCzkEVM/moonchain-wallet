@@ -405,5 +405,12 @@
     "edit_home_screen": "Bewerk startscherm",
     "add_new_dapp": "Voeg nieuwe dApp toe",
     "remove_dapp": "Verwijder dApp",
-    "dapp_removal_dialog_text": "Het verwijderen van deze dApp zal het van je startscherm verwijderen."
+    "dapp_removal_dialog_text": "Het verwijderen van deze dApp zal het van je startscherm verwijderen.",
+    "background_service_solution_1_title": "1. Herstart de App:",
+    "background_service_solution_1_text": "Sluit de app en open deze opnieuw om te zien of dat het probleem oplost.",
+    "background_service_solution_2_title": "2. Controleer de batterij-instellingen:",
+    "background_service_solution_2_text": "Zorg ervoor dat de instellingen voor batterijoptimalisatie de functionaliteit van de app niet beperken. U kunt dit vinden in de instellingen van uw apparaat onder 'Batterij' of 'Apps'.",
+    "need_further_assistant": "Heeft u verdere hulp nodig? Bezoek ons Helpcentrum in Instellingen of neem contact op met de ondersteuning.",
+    "information": "Informatie",
+    "ok": "Oké"
 }

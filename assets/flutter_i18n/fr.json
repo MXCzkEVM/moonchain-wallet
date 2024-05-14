@@ -405,5 +405,12 @@
     "edit_home_screen": "Modifier l'écran d'accueil",
     "add_new_dapp": "Ajouter une nouvelle dApp",
     "remove_dapp": "Supprimer dApp",
-    "dapp_removal_dialog_text": "La suppression de cette dApp la retirera de votre écran d'accueil."
+    "dapp_removal_dialog_text": "La suppression de cette dApp la retirera de votre écran d'accueil.",
+    "background_service_solution_1_title": "1. Redémarrez l'application:",
+    "background_service_solution_1_text": "Fermez et rouvrez l'application pour voir si cela résout le problème.",
+    "background_service_solution_2_title": "2. Vérifiez les paramètres de la batterie:",
+    "background_service_solution_2_text": "Assurez-vous que les paramètres d'optimisation de la batterie ne restreignent pas la fonctionnalité de l'application. Vous pouvez trouver cela dans les paramètres de votre appareil sous 'Batterie' ou 'Applications'.",
+    "need_further_assistant": "Besoin d'assistance supplémentaire? Visitez notre Centre d'Aide dans les Paramètres ou contactez le support.",
+    "information": "Informations",
+    "ok": "D'accord"
 }

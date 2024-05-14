@@ -405,5 +405,12 @@
     "edit_home_screen": "Editează Ecranul Principal",
     "add_new_dapp": "Adaugă un nou dApp",
     "remove_dapp": "Eliminați dApp",
-    "dapp_removal_dialog_text": "Ștergerea acestei dApp o va elimina de pe ecranul tău principal."
+    "dapp_removal_dialog_text": "Ștergerea acestei dApp o va elimina de pe ecranul tău principal.",
+    "background_service_solution_1_title": "1. Repornește aplicația:",
+    "background_service_solution_1_text": "Închideți și redeschideți aplicația pentru a vedea dacă asta rezolvă problema.",
+    "background_service_solution_2_title": "2. Verificați setările bateriei:",
+    "background_service_solution_2_text": "Asigurați-vă că setările de optimizare a bateriei nu restricționează funcționalitatea aplicației. Puteți găsi acest lucru în setările dispozitivului dvs., sub 'Baterie' sau 'Aplicații'.",
+    "need_further_assistant": "Aveți nevoie de asistență suplimentară? Vizitați Centrul nostru de Ajutor în Setări sau contactați suportul.",
+    "information": "Informație",
+    "ok": "Bine"
 }

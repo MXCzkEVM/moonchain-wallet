@@ -405,5 +405,12 @@
     "edit_home_screen": "Startbildschirm bearbeiten",
     "add_new_dapp": "Füge neue dApp hinzu",
     "remove_dapp": "Entfernen Sie dApp",
-    "dapp_removal_dialog_text": "Das Löschen dieser dApp wird sie von Ihrem Startbildschirm entfernen."
+    "dapp_removal_dialog_text": "Das Löschen dieser dApp wird sie von Ihrem Startbildschirm entfernen.",
+    "background_service_solution_1_title": "Starten Sie die App neu:",
+    "background_service_solution_1_text": "Schließen und öffnen Sie die App erneut, um zu sehen, ob das das Problem löst.",
+    "background_service_solution_2_title": "2. Überprüfen Sie die Batterieeinstellungen:",
+    "background_service_solution_2_text": "Stellen Sie sicher, dass die Einstellungen für die Batterieoptimierung die Funktionalität der App nicht einschränken. Sie finden dies in den Einstellungen Ihres Geräts unter 'Batterie' oder 'Apps'.",
+    "need_further_assistant": "Benötigen Sie weitere Unterstützung? Besuchen Sie unser Hilfezentrum in den Einstellungen oder kontaktieren Sie den Support.",
+    "information": "Informationen",
+    "ok": "In Ordnung"
 }

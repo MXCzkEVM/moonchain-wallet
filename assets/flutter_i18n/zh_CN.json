@@ -405,5 +405,12 @@
     "edit_home_screen": "编辑主屏幕",
     "add_new_dapp": "添加新的dApp",
     "remove_dapp": "移除dApp",
-    "dapp_removal_dialog_text": "删除此dApp将会从您的主屏幕中移除它。"
+    "dapp_removal_dialog_text": "删除此dApp将会从您的主屏幕中移除它。",
+    "background_service_solution_1_title": "1. 重启应用程序：",
+    "background_service_solution_1_text": "关闭并重新打开应用程序，看是否可以解决问题。",
+    "background_service_solution_2_title": "2. 检查电池设置：",
+    "background_service_solution_2_text": "确保电池优化设置没有限制应用程序的功能。您可以在设备的“电池”或“应用程序”设置中找到这个选项。",
+    "need_further_assistant": "需要进一步的帮助吗？请在设置中访问我们的帮助中心或联系支持。",
+    "information": "信息",
+    "ok": "好的"
 }

@@ -405,5 +405,12 @@
     "edit_home_screen": "ホーム画面を編集",
     "add_new_dapp": "新しいdAppを追加する",
     "remove_dapp": "dAppを削除します",
-    "dapp_removal_dialog_text": "このdAppを削除すると、ホーム画面から削除されます。"
+    "dapp_removal_dialog_text": "このdAppを削除すると、ホーム画面から削除されます。",
+    "background_service_solution_1_title": "アプリを再起動する：",
+    "background_service_solution_1_text": "問題が解決するかどうかを確認するために、アプリを閉じて再度開いてください。",
+    "background_service_solution_2_title": "2. バッテリー設定を確認してください：",
+    "background_service_solution_2_text": "バッテリー最適化の設定がアプリの機能を制限していないことを確認してください。これはデバイスの設定の「バッテリー」または「アプリ」の下で見つけることができます。",
+    "need_further_assistant": "さらなるアシスタンスが必要ですか？設定内のヘルプセンターを訪れるか、サポートに連絡してください。",
+    "information": "情報",
+    "ok": "はい"
 }

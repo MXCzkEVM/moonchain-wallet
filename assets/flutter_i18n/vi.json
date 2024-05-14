@@ -405,5 +405,12 @@
     "edit_home_screen": "Chỉnh sửa Màn hình Chính",
     "add_new_dapp": "Thêm dApp mới",
     "remove_dapp": "Gỡ bỏ dApp",
-    "dapp_removal_dialog_text": "Xóa dApp này sẽ loại bỏ nó khỏi Màn hình chính của bạn."
+    "dapp_removal_dialog_text": "Xóa dApp này sẽ loại bỏ nó khỏi Màn hình chính của bạn.",
+    "background_service_solution_1_title": "1. Khởi động lại ứng dụng:",
+    "background_service_solution_1_text": "Đóng và mở lại ứng dụng để xem nếu điều đó giải quyết vấn đề.",
+    "background_service_solution_2_title": "2. Kiểm tra Cài đặt Pin:",
+    "background_service_solution_2_text": "Đảm bảo rằng các cài đặt tối ưu hóa pin không hạn chế chức năng của ứng dụng. Bạn có thể tìm thấy điều này trong cài đặt thiết bị của bạn dưới mục 'Pin' hoặc 'Ứng dụng'.",
+    "need_further_assistant": "Cần thêm hỗ trợ? Hãy truy cập Trung tâm Hỗ trợ trong Cài đặt hoặc liên hệ với bộ phận hỗ trợ.",
+    "information": "Thông tin",
+    "ok": "Được"
 }

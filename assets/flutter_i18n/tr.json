@@ -405,5 +405,12 @@
     "edit_home_screen": "Ana Ekranı Düzenle",
     "add_new_dapp": "Yeni dApp ekle",
     "remove_dapp": "dApp'ı Kaldır",
-    "dapp_removal_dialog_text": "Bu dApp'i silmek, onu Ana Ekranınızdan kaldıracaktır."
+    "dapp_removal_dialog_text": "Bu dApp'i silmek, onu Ana Ekranınızdan kaldıracaktır.",
+    "background_service_solution_1_title": "Uygulamayı Yeniden Başlat:",
+    "background_service_solution_1_text": "Sorunu çözüp çözmediğini görmek için uygulamayı kapatıp yeniden açın.",
+    "background_service_solution_2_title": "2. Pil Ayarlarını Kontrol Edin:",
+    "background_service_solution_2_text": "Pil optimizasyon ayarlarının uygulamanın işlevselliğini kısıtlamadığından emin olun. Bunu cihazınızın ayarlarında 'Pil' veya 'Uygulamalar' altında bulabilirsiniz.",
+    "need_further_assistant": "Daha fazla yardıma mı ihtiyacınız var? Ayarlar'daki Yardım Merkezimizi ziyaret edin veya destekle iletişime geçin.",
+    "information": "Bilgi",
+    "ok": "Tamam"
 }

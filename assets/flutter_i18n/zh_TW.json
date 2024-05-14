@@ -405,5 +405,12 @@
     "edit_home_screen": "編輯主畫面",
     "add_new_dapp": "新增dApp",
     "remove_dapp": "移除 dApp",
-    "dapp_removal_dialog_text": "刪除此dApp將會從您的主畫面移除它。"
+    "dapp_removal_dialog_text": "刪除此dApp將會從您的主畫面移除它。",
+    "background_service_solution_1_title": "1. 重新啟動應用程式：",
+    "background_service_solution_1_text": "關閉並重新開啟應用程式，看是否能解決問題。",
+    "background_service_solution_2_title": "2. 檢查電池設定：",
+    "background_service_solution_2_text": "確保電池優化設置不會限制應用程序的功能。您可以在裝置的設置中的'電池'或'應用程序'下找到這個設置。",
+    "need_further_assistant": "需要進一步的協助嗎？請在設定中訪問我們的幫助中心或聯繫支援。",
+    "information": "資訊",
+    "ok": "好的"
 }
