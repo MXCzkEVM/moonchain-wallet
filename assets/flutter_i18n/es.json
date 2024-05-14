@@ -401,5 +401,16 @@
     "axs_photos_permission_use_case": "La billetera AXS necesita acceso a tus fotos para guardar imágenes como RWA. Tus fotos no se guardan ni se comparten con terceros.",
     "permission_use_cases": "Casos de uso de permisos",
     "ok_allow": "De acuerdo, Permitir",
-    "not_now": "No ahora"
+    "not_now": "No ahora",
+    "edit_home_screen": "Editar Pantalla de Inicio",
+    "add_new_dapp": "Añadir nueva dApp",
+    "remove_dapp": "Eliminar dApp",
+    "dapp_removal_dialog_text": "Eliminar esta dApp la removerá de tu pantalla de inicio.",
+    "background_service_solution_1_title": "1. Reinicia la aplicación:",
+    "background_service_solution_1_text": "Cierra y vuelve a abrir la aplicación para ver si eso resuelve el problema.",
+    "background_service_solution_2_title": "2. Verificar Configuraciones de Batería:",
+    "background_service_solution_2_text": "Asegúrate de que la configuración de optimización de batería no esté restringiendo la funcionalidad de la aplicación. Puedes encontrar esto en la configuración de tu dispositivo, bajo 'Batería' o 'Aplicaciones'.",
+    "need_further_assistant": "¿Necesita más asistencia? Visite nuestro Centro de Ayuda en Configuraciones o contacte al soporte.",
+    "information": "Información",
+    "ok": "De acuerdo"
 }

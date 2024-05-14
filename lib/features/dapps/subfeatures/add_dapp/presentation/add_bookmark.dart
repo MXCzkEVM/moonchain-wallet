@@ -7,8 +7,8 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_bookmark_presenter.dart';
 
-class addBookmark extends HookConsumerWidget {
-  const addBookmark({Key? key}) : super(key: key);
+class AddBookmark extends HookConsumerWidget {
+  const AddBookmark({Key? key}) : super(key: key);
 
   @override
   ProviderBase<AddBookmarkPresenter> get presenter =>

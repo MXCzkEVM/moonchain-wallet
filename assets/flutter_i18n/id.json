@@ -401,5 +401,16 @@
     "axs_photos_permission_use_case": "Dompet AXS membutuhkan akses ke foto-foto Anda untuk menyimpan gambar seperti RWA. Foto-foto Anda tidak disimpan atau dibagikan dengan pihak ketiga mana pun.",
     "permission_use_cases": "Kasus penggunaan izin",
     "ok_allow": "Oke, Izinkan",
-    "not_now": "Tidak sekarang"
+    "not_now": "Tidak sekarang",
+    "edit_home_screen": "Sunting Layar Beranda",
+    "add_new_dapp": "Tambahkan dApp baru",
+    "remove_dapp": "Hapus dApp",
+    "dapp_removal_dialog_text": "Menghapus dApp ini akan menghilangkannya dari Layar Beranda Anda.",
+    "background_service_solution_1_title": "1. Mulai ulang Aplikasi:",
+    "background_service_solution_1_text": "Tutup dan buka kembali aplikasi untuk melihat apakah itu dapat menyelesaikan masalah.",
+    "background_service_solution_2_title": "2. Periksa Pengaturan Baterai:",
+    "background_service_solution_2_text": "Pastikan bahwa pengaturan optimasi baterai tidak membatasi fungsionalitas aplikasi. Anda dapat menemukan ini di pengaturan perangkat Anda di bawah 'Baterai' atau 'Aplikasi'.",
+    "need_further_assistant": "Butuh bantuan lebih lanjut? Kunjungi Pusat Bantuan kami di Pengaturan atau hubungi dukungan.",
+    "information": "Informasi",
+    "ok": "Oke"
 }

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class DAppsState with EquatableMixin {
@@ -7,11 +10,19 @@ class DAppsState with EquatableMixin {
   bool isEditMode = false;
   bool gesturesInstructionEducated = false;
 
+  List<Dapp> orderedDapps = [];
+  List<String> dappsOrder = [];
   List<Dapp> dapps = [];
   List<Dapp> dappsAndBookmarks = [];
+  bool dappsMerged = false;
+  bool bookMarksMerged = false;
   bool loading = true;
 
   Network? network;
+
+  Timer? timer;
+  bool onLeftEdge = false;
+  bool onRightEdge = false;
 
   @override
   List<Object?> get props => [
@@ -23,5 +34,12 @@ class DAppsState with EquatableMixin {
         dappsAndBookmarks,
         loading,
         network,
+        dappsOrder,
+        orderedDapps,
+        dappsMerged,
+        bookMarksMerged,
+        timer,
+        onLeftEdge,
+        onRightEdge,
       ];
 }

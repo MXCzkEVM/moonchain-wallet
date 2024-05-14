@@ -13,6 +13,8 @@ class BookmarkRepository extends GlobalCacheRepository {
               'id': e.id,
               'title': e.title,
               'url': e.url,
+              'image': e.image,
+              'description': e.description,
             })
         .toList(),
     deserializer: (t) => (t as List)
@@ -20,6 +22,8 @@ class BookmarkRepository extends GlobalCacheRepository {
               id: e['id'],
               title: e['title'],
               url: e['url'],
+              image: e['image'],
+              description: e['description'],
             ))
         .toList(),
   );
@@ -27,6 +31,14 @@ class BookmarkRepository extends GlobalCacheRepository {
   List<Bookmark> get items => bookmarks.value;
 
   void addItem(Bookmark item) => bookmarks.value = [...bookmarks.value, item];
+
+  void updateItem(Bookmark item) {
+    final newBookMarks = bookmarks.value;
+    final itemIndex = newBookMarks.indexWhere((e) => e.url == item.url);
+
+    newBookMarks[itemIndex] = item;
+    bookmarks.value = newBookMarks;
+  }
 
   void removeItem(Bookmark item) =>
       bookmarks.value = bookmarks.value.where((e) => e.id != item.id).toList();

@@ -13,6 +13,7 @@ class ResponsiveLayout extends StatelessWidget {
       mobile: (BuildContext context) => const DappCardLayout(),
       tablet: (BuildContext context) => const DappCardLayout(
         crossAxisCount: CardCrossAxisCount.tablet,
+        mainAxisCount: CardMainAxisCount.tablet,
       ),
     );
   }

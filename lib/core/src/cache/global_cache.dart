@@ -1,8 +1,6 @@
 import 'package:datadashwallet/features/common/account/account_cache_repository.dart';
-import 'package:datadashwallet/features/dapps/domain/gestures_instruction_repository.dart';
-import 'package:datadashwallet/features/dapps/presentation/widgets/gestures_instruction.dart';
+import 'package:datadashwallet/features/dapps/domain/domain.dart';
 import 'package:datadashwallet/features/security/security.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_repository.dart';
 import 'package:mxc_logic/internal.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/settings.dart';

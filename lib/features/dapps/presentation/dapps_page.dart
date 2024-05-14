@@ -25,6 +25,7 @@ class DAppsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final dappsPresenter = ref.watch(presenter);
     return MxcPage(
       layout: LayoutType.column,
       useContentPadding: false,
@@ -35,10 +36,8 @@ class DAppsPage extends HookConsumerWidget {
         children: [
           if (ref.watch(state).isEditMode) ...[
             EditAppsModeStatusBar(
-              onAdd: () => Navigator.of(context).push(
-                route.featureDialog(const addBookmark()),
-              ),
-              onDone: () => ref.read(presenter).changeEditMode(),
+              onAdd: dappsPresenter.addBookmark,
+              onDone: dappsPresenter.changeEditMode,
             ),
           ],
           AppNavBar(

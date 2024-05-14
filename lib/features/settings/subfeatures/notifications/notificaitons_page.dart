@@ -61,21 +61,22 @@ class NotificationsPage extends HookConsumerWidget {
                 popupDirection: TooltipDirection.down,
                 texts: [
                   TextSpan(
-                      style: FontTheme.of(context).subtitle1().copyWith(
-                          color: ColorsTheme.of(context).textBlackInvert),
+                      style: FontTheme.of(context)
+                          .subtitle1()
+                          .copyWith(color: ColorsTheme.of(context).textPrimary),
                       children: [
                         TextSpan(
                           text: FlutterI18n.translate(
                               context, 'notifications_info_notice_title'),
                           style: FontTheme.of(context).subtitle2().copyWith(
-                              color: ColorsTheme.of(context).textBlackInvert),
+                              color: ColorsTheme.of(context).textPrimary),
                         ),
-                        const TextSpan(text: ' '),
+                        const TextSpan(text: '\n'),
                         TextSpan(
                           text: FlutterI18n.translate(
                               context, 'notifications_info_notice_text'),
                           style: FontTheme.of(context).subtitle1().copyWith(
-                              color: ColorsTheme.of(context).textBlackInvert),
+                              color: ColorsTheme.of(context).textPrimary),
                         ),
                       ])
                 ]),
@@ -107,20 +108,52 @@ class NotificationsPage extends HookConsumerWidget {
               TextSpan(
                   style: FontTheme.of(context)
                       .subtitle1()
-                      .copyWith(color: ColorsTheme.of(context).textBlackInvert),
+                      .copyWith(color: ColorsTheme.of(context).textPrimary),
                   children: [
                     TextSpan(
                       text:
                           FlutterI18n.translate(context, 'experiencing_issues'),
-                      style: FontTheme.of(context).subtitle2().copyWith(
-                          color: ColorsTheme.of(context).textBlackInvert),
+                      style: FontTheme.of(context)
+                          .subtitle2()
+                          .copyWith(color: ColorsTheme.of(context).textPrimary),
                     ),
-                    const TextSpan(text: ' '),
+                    const TextSpan(text: '\n\n'),
                     TextSpan(
                       text: FlutterI18n.translate(
-                          context, 'background_service_solution'),
-                      style: FontTheme.of(context).subtitle1().copyWith(
-                          color: ColorsTheme.of(context).textBlackInvert),
+                          context, 'background_service_solution_1_title'),
+                      style: FontTheme.of(context)
+                          .subtitle2()
+                          .copyWith(color: ColorsTheme.of(context).textPrimary),
+                    ),
+                    TextSpan(
+                      text: FlutterI18n.translate(
+                          context, 'background_service_solution_1_text'),
+                      style: FontTheme.of(context)
+                          .subtitle1()
+                          .copyWith(color: ColorsTheme.of(context).textPrimary),
+                    ),
+                    const TextSpan(text: '\n\n'),
+                    TextSpan(
+                      text: FlutterI18n.translate(
+                          context, 'background_service_solution_2_title'),
+                      style: FontTheme.of(context)
+                          .subtitle2()
+                          .copyWith(color: ColorsTheme.of(context).textPrimary),
+                    ),
+                    TextSpan(
+                      text: FlutterI18n.translate(
+                          context, 'background_service_solution_2_text'),
+                      style: FontTheme.of(context)
+                          .subtitle1()
+                          .copyWith(color: ColorsTheme.of(context).textPrimary),
+                    ),
+                    const TextSpan(text: '\n\n'),
+                    TextSpan(
+                      text: FlutterI18n.translate(
+                          context, 'need_further_assistant'),
+                      style: FontTheme.of(context)
+                          .subtitle1()
+                          .copyWith(color: ColorsTheme.of(context).textPrimary),
                     ),
                   ])
             ]),

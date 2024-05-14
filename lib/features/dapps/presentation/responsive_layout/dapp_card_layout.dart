@@ -1,125 +1,129 @@
 import 'package:datadashwallet/features/dapps/presentation/dapps_presenter.dart';
-import 'package:datadashwallet/features/dapps/presentation/responsive_layout/dapp_card.dart';
-import 'package:datadashwallet/features/dapps/presentation/widgets/dapp_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
+import 'package:mxc_ui/mxc_ui.dart';
+import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
+import '../dapps_state.dart';
+import '../widgets/dapp_indicator.dart';
 import 'card_item.dart';
 import 'dapp_loading.dart';
 import 'dapp_utils.dart';
+import 'new_dapp_card.dart';
 
 class DappCardLayout extends HookConsumerWidget {
   const DappCardLayout({
     super.key,
     this.crossAxisCount = CardCrossAxisCount.mobile,
+    this.mainAxisCount = CardMainAxisCount.mobile,
   });
 
   final int crossAxisCount;
+  final int mainAxisCount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(appsPagePageContainer.state);
     final actions = ref.read(appsPagePageContainer.actions);
-    final dapps = state.dappsAndBookmarks;
+    final dapps = state.orderedDapps;
+
+    final pages = actions.calculateMaxItemsCount(
+        dapps.length, mainAxisCount, crossAxisCount);
+    final emptyItems = actions.getRequiredItems(
+        dapps.length, mainAxisCount, crossAxisCount, pages);
+    List<Widget> emptyWidgets =
+        List.generate(emptyItems, (index) => Container());
 
     if (state.loading && DappUtils.loadingOnce) {
       return DAppLoading(
         crossAxisCount: crossAxisCount,
+        mainAxisCount: mainAxisCount,
       );
     }
 
     if (dapps.isEmpty) return Container();
 
-    final chainId = DappUtils.getChainId(state.network);
-
-    List<List<Dapp>> pages = DappUtils.paging(
-      context: context,
-      allDapps: dapps,
-      chainId: chainId,
-      crossAxisCount: crossAxisCount,
-    );
-
-    return Stack(
+    return Column(
       children: [
-        PageView(
-          onPageChanged: (index) => actions.onPageChage(index),
-          children: pages
-              .map((e) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: StaggeredGrid.count(
-                      crossAxisCount: crossAxisCount,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      axisDirection: AxisDirection.down,
-                      children: e
-                          .map((item) => item is Bookmark
-                              ? CardSizes.small(
-                                  child: DappCard(
-                                    dapp: item,
-                                    isEditMode: state.isEditMode,
-                                    onLongPress: () => actions.changeEditMode(),
-                                    onRemoveTap: (item) => actions
-                                        .removeBookmark(item as Bookmark),
-                                    onTap: state.isEditMode
-                                        ? null
-                                        : () => actions.openDapp(item.url),
-                                  ),
-                                )
-                              : item.reviewApi!.icons!.islarge!
-                                  ? CardSizes.large(
-                                      child: DappCard(
-                                        dapp: item,
-                                        isEditMode: false,
-                                        onLongPress: () =>
-                                            actions.changeEditMode(),
-                                        onTap: state.isEditMode
-                                            ? null
-                                            : () async {
-                                                await actions
-                                                    .requestPermissions(item);
-                                                actions.openDapp(
-                                                  item.app!.url!,
-                                                );
-                                              },
-                                      ),
-                                    )
-                                  : CardSizes.medium(
-                                      child: DappCard(
-                                        dapp: item,
-                                        isEditMode: false,
-                                        onLongPress: () =>
-                                            actions.changeEditMode(),
-                                        onTap: state.isEditMode
-                                            ? null
-                                            : () async {
-                                                await actions
-                                                    .requestPermissions(item);
-                                                actions.openDapp(
-                                                  item.app!.url!,
-                                                );
-                                              },
-                                      ),
-                                    ))
-                          .toList(),
-                    ),
-                  ))
-              .toList(),
-        ),
-        if (pages.length > 1)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Center(
-              child: DAppIndicator(
-                selectedIndex: state.pageIndex,
-                total: pages.length,
-              ),
-            ),
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraint) {
+              actions.initializeViewPreferences(constraint.maxWidth);
+              final itemWidth = actions.getItemWidth();
+              return ReorderableWrapperWidget(
+                dragWidgetBuilder: DragWidgetBuilderV2(
+                  builder: (index, child, screenshot) {
+                    return Container(
+                      child: child,
+                    );
+                  },
+                ),
+                // the drag and drop index is from (index passed to ReorderableItemView)
+                onReorder: (dragIndex, dropIndex) {
+                  actions.handleOnReorder(dropIndex, dragIndex);
+                },
+                onDragUpdate: (dragIndex, position, delta) =>
+                    actions.handleOnDragUpdate(position),
+                child: GridView(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    mainAxisExtent: constraint.maxWidth / mainAxisCount,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  physics: const PageScrollPhysics(),
+                  controller: actions.scrollController,
+                  children: [
+                    ...getList(dapps, actions, state, itemWidth, mainAxisCount),
+                    ...emptyWidgets
+                  ],
+                ),
+              );
+            },
           ),
+        ),
+        DAppIndicator(
+          total: pages,
+          selectedIndex: state.pageIndex,
+        ),
       ],
     );
   }
+}
+
+List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
+    DAppsState state, double itemWidth, int mainAxisCount) {
+  List<Widget> dappCards = [];
+
+  for (int i = 0; i < dapps.length; i++) {
+    final item = dapps[i];
+    final isBookMark = item is Bookmark;
+    final dappCard = isBookMark
+        ? NewDAppCard(
+            index: i,
+            width: itemWidth,
+            dapp: item,
+            isEditMode: state.isEditMode,
+            onTap: state.isEditMode ? null : () => actions.openDapp(item.url),
+            mainAxisCount: mainAxisCount,
+          )
+        : NewDAppCard(
+            index: i,
+            width: itemWidth,
+            dapp: item,
+            isEditMode: state.isEditMode,
+            onTap: state.isEditMode
+                ? null
+                : () async {
+                    await actions.requestPermissions(item);
+                    actions.openDapp(
+                      item.app!.url!,
+                    );
+                  },
+            mainAxisCount: mainAxisCount,
+          );
+    dappCards.add(dappCard);
+  }
+
+  return dappCards;
 }

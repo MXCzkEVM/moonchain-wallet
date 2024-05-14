@@ -1,12 +1,12 @@
-import 'dart:io';
+import 'dart:async';
 
-import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/dapps/helpers/book_marks_helper.dart';
+import 'package:datadashwallet/features/dapps/helpers/helpers.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:geolocator/geolocator.dart' as geo;
 import 'dapps_state.dart';
 import 'responsive_layout/dapp_utils.dart';
 import 'widgets/gestures_instruction.dart';
@@ -25,6 +25,51 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
   late final _gesturesInstructionUseCase =
       ref.read(gesturesInstructionUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
+  late final _dappsOrderUseCase = ref.read(dappsOrderUseCaseProvider);
+
+  PaginationHelper get paginationHelper => PaginationHelper(
+        notify: notify,
+        state: state,
+        translate: translate,
+        context: context,
+        scrollController: scrollController,
+        viewPortWidth: viewPortWidth,
+      );
+
+  GestureNavigationHelper get gestureNavigationHelper =>
+      GestureNavigationHelper(
+        state: state,
+        translate: translate,
+        context: context,
+        scrollController: scrollController,
+        scrollingArea: scrollingArea,
+      );
+
+  ReorderHelper get reorderHelper => ReorderHelper(
+        dappsOrderUseCase: _dappsOrderUseCase,
+        state: state,
+        translate: translate,
+        notify: notify,
+      );
+
+  PermissionsHelper get permissionsHelper => PermissionsHelper(
+        translate: translate,
+        notify: notify,
+        context: context,
+      );
+
+  BookMarksHelper get bookmarksHelper => BookMarksHelper(
+        bookmarkUseCase: _bookmarksUseCase,
+        navigator: navigator,
+        translate: translate,
+        context: context,
+      );
+
+  final scrollController = ScrollController();
+
+  int attemptCount = 0;
+  double? viewPortWidth;
+  double? scrollingArea;
 
   @override
   void initState() {
@@ -40,10 +85,27 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       DeviceOrientation.portraitDown,
     ]);
 
+    listen(_gesturesInstructionUseCase.educated, (value) {
+      notify(() => state.gesturesInstructionEducated = value);
+    });
+
+    listen(_chainConfigurationUseCase.networks, (value) {
+      _chainConfigurationUseCase.getCurrentNetwork();
+    });
+
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
+        if (state.network != null && state.network!.chainId != value.chainId) {
+          reorderHelper.resetDappsMerge();
+        }
         notify(() => state.network = value);
+        loadPage();
       }
+    });
+
+    listen(_dappsOrderUseCase.order, (v) {
+      notify(() => state.dappsOrder = v);
+      reorderHelper.updateReorderedDappsWrapper();
     });
 
     listen<List<Dapp>>(
@@ -52,6 +114,10 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         state.dapps = v;
         state.dappsAndBookmarks.clear();
         state.dappsAndBookmarks = [...v, ...state.bookmarks];
+        if (v.isNotEmpty) {
+          state.dappsMerged = true;
+        }
+        reorderHelper.updateDappsOrderWrapper();
         if (v.isNotEmpty) {
           DappUtils.loadingOnce = false;
           notify(() => state.loading = false);
@@ -66,23 +132,23 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
         state.bookmarks = v;
         state.dappsAndBookmarks.clear();
         state.dappsAndBookmarks = [...state.dapps, ...v];
+        state.bookMarksMerged = true;
+        reorderHelper.updateDappsOrderWrapper();
         notify();
       },
     );
 
-    listen(_gesturesInstructionUseCase.educated, (value) {
-      notify(() => state.gesturesInstructionEducated = value);
-    });
+    initScrollListener();
+  }
 
-    listen(_chainConfigurationUseCase.networks, (value) {
-      _chainConfigurationUseCase.getCurrentNetwork();
-    });
-
-    listen(_chainConfigurationUseCase.selectedNetwork, (value) {
-      if (value != null) {
-        loadPage();
-      }
-    });
+  initScrollListener() {
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () => scrollController.addListener(() {
+        // inspect(paginationHelper);
+        paginationHelper.scrollListener();
+      }),
+    );
   }
 
   void loadPage() {
@@ -97,9 +163,15 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  void removeBookmark(Bookmark item) {
-    _bookmarksUseCase.removeItem(item);
-  }
+  void removeBookmarkDialog(Bookmark item, void Function() animation) async =>
+      bookmarksHelper.removeBookmarkDialog(item, animation);
+
+  void removeBookmark(Bookmark item) async =>
+      bookmarksHelper.removeBookmark(item);
+
+  void addBookmark() async => bookmarksHelper.addBookmark();
+
+  void updateBookmarkFavIcon(Bookmark item) async => bookmarksHelper.updateBookmarkFavIcon(item);
 
   void onPageChage(int index) => notify(() => state.pageIndex = index);
 
@@ -110,55 +182,13 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     _gesturesInstructionUseCase.setEducated(true);
   }
 
-  Future<void> requestPermissions(Dapp dapp) async {
-    // Permission request will be only on Android
-    if (Platform.isAndroid) {
-      final permissions = dapp.app!.permissions!.toMap();
-      final keys = permissions.keys.toList();
-      final values = permissions.values.toList();
-      List<Permission> needPermissions = [];
-
-      for (int i = 0; i < permissions.length; i++) {
-        final key = keys[i];
-        final value = values[i];
-
-        if (value == 'required') {
-          final permission = PermissionUtils.permissions[key];
-          if (permission != null) {
-            needPermissions.add(permission);
-          }
-        }
-      }
-
-      if (needPermissions.isNotEmpty) {
-        for (Permission permission in needPermissions) {
-          await checkPermissionStatusAndRequest(permission);
-        }
-        await PermissionUtils.permissionsStatus();
-      }
-
-      if (keys.contains('location')) {
-        await checkLocationService();
-      }
-    }
-  }
-
-  Future<void> checkPermissionStatusAndRequest(
-    Permission permission,
-  ) async {
-    final l =await permission.status;
-    if (!(await PermissionUtils.isPermissionGranted(permission)) && !(await PermissionUtils.isPermissionPermanentlyDenied(permission) )) {
-      final askForPermission =
-          await PermissionUtils.showUseCaseBottomSheet(permission, context!);
-      if (askForPermission ?? false) {
-        await [permission].request();
-      }
-    }
-  }
-
   void refreshApp() {
     _chainConfigurationUseCase.refresh();
     _accountUseCase.refresh();
+  }
+
+  Future<void> requestPermissions(Dapp dapp) async {
+    return await permissionsHelper.requestPermissions(dapp);
   }
 
   void openDapp(String url) async {
@@ -174,21 +204,42 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     }
   }
 
-  Future<bool> checkLocationService() async {
-    final geo.GeolocatorPlatform geoLocatorPlatform =
-        geo.GeolocatorPlatform.instance;
+  int getRequiredItems(
+    int itemsCount,
+    int mainAxisCount,
+    int crossAxisCount,
+    int maxPageCount,
+  ) {
+    return paginationHelper.getRequiredItems(
+        itemsCount, mainAxisCount, crossAxisCount, maxPageCount);
+  }
 
-    bool _serviceEnabled;
+  int calculateMaxItemsCount(
+      int itemsCount, int mainAxisCount, int crossAxisCount) {
+    return paginationHelper.calculateMaxItemsCount(
+        itemsCount, mainAxisCount, crossAxisCount);
+  }
 
-    try {
-      _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-      if (!_serviceEnabled) {
-        await geoLocatorPlatform.getCurrentPosition();
-        _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-      }
-      return _serviceEnabled;
-    } catch (e) {
-      return false;
-    }
+  void initializeViewPreferences(double maxWidth) {
+    viewPortWidth = maxWidth;
+    scrollingArea = UIMetricsUtils.calculateScrollingArea(maxWidth);
+  }
+
+  double getItemWidth() {
+    return UIMetricsUtils.getGridViewItemWidth(viewPortWidth!);
+  }
+
+  void handleOnDragUpdate(Offset position) {
+    gestureNavigationHelper.handleOnDragUpdate(position);
+  }
+
+  void handleOnReorder(int newIndex, int oldIndex) {
+    reorderHelper.handleOnReorder(newIndex, oldIndex);
+  }
+
+  @override
+  Future<void> dispose() async {
+    state.timer?.cancel();
+    super.dispose();
   }
 }

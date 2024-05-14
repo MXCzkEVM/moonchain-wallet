@@ -401,5 +401,16 @@
     "axs_photos_permission_use_case": "Il portafoglio AXS necessita l'accesso alle tue foto per salvare immagini come RWA. Le tue foto non vengono salvate o condivise con terze parti.",
     "permission_use_cases": "Casi d'uso del permesso",
     "ok_allow": "OK, Permetti",
-    "not_now": "Non ora"
+    "not_now": "Non ora",
+    "edit_home_screen": "Modifica Schermata Home",
+    "add_new_dapp": "Aggiungi nuova dApp",
+    "remove_dapp": "Rimuovi dApp",
+    "dapp_removal_dialog_text": "Eliminando questa dApp, la rimuoverai dalla tua schermata Home.",
+    "background_service_solution_1_title": "1. Riavvia l'App:",
+    "background_service_solution_1_text": "Chiudi e riapri l'app per vedere se ciò risolve il problema.",
+    "background_service_solution_2_title": "2. Controlla le Impostazioni della Batteria:",
+    "background_service_solution_2_text": "Assicurati che le impostazioni di ottimizzazione della batteria non limitino la funzionalità dell'app. Puoi trovare questo nelle impostazioni del tuo dispositivo sotto 'Batteria' o 'App'.",
+    "need_further_assistant": "Hai bisogno di ulteriore assistenza? Visita il nostro Centro Assistenza nelle Impostazioni o contatta il supporto.",
+    "information": "Informazione",
+    "ok": "Va bene"
 }

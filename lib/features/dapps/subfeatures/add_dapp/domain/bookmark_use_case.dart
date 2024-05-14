@@ -17,6 +17,11 @@ class BookmarkUseCase extends ReactiveUseCase {
     update(bookmarks, _repository.items);
   }
 
+  void updateItem(Bookmark item) {
+    _repository.updateItem(item);
+    update(bookmarks, _repository.items);
+  }
+
   void removeItem(Bookmark item) {
     _repository.removeItem(item);
     update(bookmarks, _repository.items);

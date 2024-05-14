@@ -401,5 +401,16 @@
     "axs_photos_permission_use_case": "A carteira AXS precisa de acesso às suas fotos para salvar imagens como RWA. Suas fotos não são salvas ou compartilhadas com terceiros.",
     "permission_use_cases": "Casos de uso de permissão",
     "ok_allow": "Ok, Permita",
-    "not_now": "Agora não"
+    "not_now": "Agora não",
+    "edit_home_screen": "Editar Tela Inicial",
+    "add_new_dapp": "Adicione novo dApp",
+    "remove_dapp": "Remova dApp",
+    "dapp_removal_dialog_text": "Excluir este dApp irá removê-lo da sua Tela Inicial.",
+    "background_service_solution_1_title": "1. Reinicie o aplicativo:",
+    "background_service_solution_1_text": "Feche e reabra o aplicativo para ver se isso resolve o problema.",
+    "background_service_solution_2_title": "2. Verifique as Configurações da Bateria:",
+    "background_service_solution_2_text": "Certifique-se de que as configurações de otimização da bateria não estão restringindo a funcionalidade do aplicativo. Você pode encontrar isso nas configurações do seu dispositivo em 'Bateria' ou 'Aplicativos'.",
+    "need_further_assistant": "Precisa de mais assistência? Visite nosso Centro de Ajuda em Configurações ou entre em contato com o suporte.",
+    "information": "Informação",
+    "ok": "Ok"
 }
