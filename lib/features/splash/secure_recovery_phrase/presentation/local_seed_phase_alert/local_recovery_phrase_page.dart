@@ -4,11 +4,11 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-import 'email_recovery_phrase_presenter.dart';
-import 'email_recovery_phrase_state.dart';
+import 'local_recovery_phrase_presenter.dart';
+import 'local_recovery_phrase_state.dart';
 
-class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
-  const EmailRecoveryPhrasePage({
+class LocalRecoveryPhrasePage extends RecoveryPhraseBasePage {
+  const LocalRecoveryPhrasePage({
     Key? key,
     this.settingsFlow = false,
   }) : super(key: key);
@@ -16,22 +16,22 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
   final bool settingsFlow;
 
   @override
-  ProviderBase<EmailRecoveryPhrasePresenter> get presenter =>
+  ProviderBase<LocalRecoveryPhrasePresenter> get presenter =>
       emailRecoveryPhraseContainer.actions;
 
   @override
-  ProviderBase<EmailRecoveryPhrasetState> get state =>
+  ProviderBase<LocalRecoveryPhraseState> get state =>
       emailRecoveryPhraseContainer.state;
 
   @override
   Widget icon(BuildContext context) => Icon(
-        MxcIcons.email,
+        Icons.file_download_rounded,
         size: 40,
-        color: themeColor(),
+        color: themeColor(context: context),
       );
 
   @override
-  Color themeColor({BuildContext? context}) => const Color(0xFFE64340);
+  Color themeColor({BuildContext? context}) => ColorsTheme.of(context!).primary;
 
   @override
   Widget buildAlert(BuildContext context) {
@@ -51,16 +51,16 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: themeColor(),
+              color: themeColor(context: context),
             ),
             child: const Icon(
-              MxcIcons.email,
+              Icons.file_download_rounded,
               color: Colors.white,
             ),
           ),
           const SizedBox(height: 12),
           Text(
-            FlutterI18n.translate(context, 'email_to_myself_description'),
+            FlutterI18n.translate(context, 'save_locally_description'),
             style: FontTheme.of(context).body1().copyWith(
                   fontWeight: FontWeight.w500,
                   color: ColorsTheme.of(context).textPrimary,
@@ -74,13 +74,12 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
 
   @override
   Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primary(
-        key: const ValueKey('storeButton'),
-        title: FlutterI18n.translate(context, 'email_to_myself'),
+        key: const ValueKey('saveLocallyButton'),
+        title: FlutterI18n.translate(context, 'save_locally'),
         titleColor: ColorsTheme.of(context).textBlack200,
-        color: themeColor(),
-        borderColor: themeColor(),
-        onTap: () => ref.read(presenter).sendEmail(
-              context,
+        color: themeColor(context: context),
+        borderColor: themeColor(context: context),
+        onTap: () => ref.read(presenter).saveLocally(
               settingsFlow,
             ),
       );

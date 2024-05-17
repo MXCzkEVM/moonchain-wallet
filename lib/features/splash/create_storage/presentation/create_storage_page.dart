@@ -29,6 +29,13 @@ class SplashStoragePage extends SplashBasePage {
 
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
+    final isEmailAvailable = ref.watch(state).isEmailAppAvailable == true;
+    final isTelegramAvailable = ref.watch(state).applist['telegram'] == true ||
+        ref.watch(state).applist['telegram_web'] == true;
+    final isWhatsUpAvailable = ref.watch(state).applist['weixin'] == true ||
+        ref.watch(state).applist['wechat'] == true;
+    final isNoneAvailable =
+        !(isEmailAvailable || isTelegramAvailable || isWhatsUpAvailable);
     return [
       MxcButton.secondaryWhite(
         key: const ValueKey('telegramButton'),
@@ -36,8 +43,7 @@ class SplashStoragePage extends SplashBasePage {
         iconSize: 32,
         titleSize: 18,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
-        onTap: ref.watch(state).applist['telegram'] == true ||
-                ref.watch(state).applist['telegram_web'] == true
+        onTap: isTelegramAvailable
             ? () => Navigator.of(context).push(
                   route.featureDialog(
                     TelegramRecoveryPhrasePage(
@@ -53,8 +59,7 @@ class SplashStoragePage extends SplashBasePage {
         iconSize: 32,
         titleSize: 18,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
-        onTap: ref.watch(state).applist['weixin'] == true ||
-                ref.watch(state).applist['wechat'] == true
+        onTap: isWhatsUpAvailable
             ? () => Navigator.of(context).push(
                   route.featureDialog(
                     WechatRecoveryPhrasePage(
@@ -70,7 +75,7 @@ class SplashStoragePage extends SplashBasePage {
         iconSize: 32,
         titleSize: 18,
         title: FlutterI18n.translate(context, 'email_secured_storage'),
-        onTap: ref.watch(state).isEmailAppAvailable == true
+        onTap: isEmailAvailable
             ? () => Navigator.of(context).push(
                   route.featureDialog(
                     EmailRecoveryPhrasePage(
@@ -80,6 +85,23 @@ class SplashStoragePage extends SplashBasePage {
                 )
             : null,
       ),
+      // !isNoneAvailable
+      //     ?
+      MxcButton.secondaryWhite(
+        key: const ValueKey('localButton'),
+        icon: Icons.file_download_rounded,
+        iconSize: 32,
+        titleSize: 18,
+        title: FlutterI18n.translate(context, 'local_secured_storage'),
+        onTap: () => Navigator.of(context).push(
+          route.featureDialog(
+            LocalRecoveryPhrasePage(
+              settingsFlow: settingsFlow,
+            ),
+          ),
+        ),
+      )
+      // : Container(),
     ];
   }
 }

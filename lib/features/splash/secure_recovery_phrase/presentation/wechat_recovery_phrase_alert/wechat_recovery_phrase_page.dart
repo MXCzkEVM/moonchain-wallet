@@ -37,7 +37,7 @@ class WechatRecoveryPhrasePage extends RecoveryPhraseBasePage {
       FlutterI18n.translate(context, 'wechat_favorites');
 
   @override
-  Color themeColor() => const Color(0xFF09BB07);
+  Color themeColor({BuildContext? context}) => const Color(0xFF09BB07);
 
   @override
   Widget buildAlert(BuildContext context) {
