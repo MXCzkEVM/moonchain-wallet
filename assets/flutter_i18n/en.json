@@ -4,6 +4,8 @@
 	"telegram_secured_storage": "Telegram secured storage",
 	"wechat_secured_storage": "WeChat secured storage",
 	"email_secured_storage": "Email secured storage",
+	"local_secured_storage": "Local secured storage",
+	"save_locally": "Save locally",
 	"set_passcode": "Create passcode",
 	"set_passcode_hint": "Enter a 6-digit passcode to unlock your wallet with ease. This passcode can’t be used to recover your wallet.",
 	"passcode_didnt_match": "Passcodes did not match. Try again.",
@@ -68,6 +70,7 @@
 	"share": "Share",
 	"wechat": "WeChat",
 	"email_to_myself_description": "Make sure to email your keys only to yourself.",
+	"save_locally_description": "Make sure to save your keys locally and then you are good to go.",
 	"email_to_myself": "Email to myself",
 	"security_notice": "Important Security Notice",
 	"ensure_saved_platform": "Please ensure that you have securely saved your key on a trusted platform such as email, Telegram, or WeChat.",
@@ -399,6 +402,7 @@
 	"axs_location_permission_use_case": "AXS Wallet needs access to your location for features such as Wi-Fi hooks while the app is in use or running in the background. Your location data is not saved or shared with any third parties.",
 	"axs_camera_permission_use_case": "AXS Wallet needs access to your camera when the app is in use for services such as RWA minting. Image data is not saved or shared with any third parties.",
 	"axs_photos_permission_use_case": "AXS Wallet needs access to your photos to save images such as RWA. Your photos are not saved or shared with any third parties.",
+	"axs_storage_permission_use_case": "AXS Wallet needs access to your storage for features such as RWA. Your storage data is not saved or shared with any third parties.",
 	"permission_use_cases": "Permission use cases",
 	"ok_allow": "OK, Allow",
 	"not_now": "Not now",
@@ -407,5 +411,6 @@
 	"remove_dapp": "Remove dApp",
 	"dapp_removal_dialog_text": "Deleting this dApp will remove it from your Home Screen.",
 	"information": "Information",
-	"ok": "Ok"
+	"ok": "Ok",
+	"local_backup": "Local backup"
 }

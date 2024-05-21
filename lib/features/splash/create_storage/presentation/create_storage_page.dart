@@ -32,10 +32,10 @@ class SplashStoragePage extends SplashBasePage {
     final isEmailAvailable = ref.watch(state).isEmailAppAvailable == true;
     final isTelegramAvailable = ref.watch(state).applist['telegram'] == true ||
         ref.watch(state).applist['telegram_web'] == true;
-    final isWhatsUpAvailable = ref.watch(state).applist['weixin'] == true ||
+    final isWeChatAvailable = ref.watch(state).applist['weixin'] == true ||
         ref.watch(state).applist['wechat'] == true;
     final isNoneAvailable =
-        !(isEmailAvailable || isTelegramAvailable || isWhatsUpAvailable);
+        !(isEmailAvailable || isTelegramAvailable || isWeChatAvailable);
     return [
       MxcButton.secondaryWhite(
         key: const ValueKey('telegramButton'),
@@ -59,7 +59,7 @@ class SplashStoragePage extends SplashBasePage {
         iconSize: 32,
         titleSize: 18,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
-        onTap: isWhatsUpAvailable
+        onTap: isWeChatAvailable
             ? () => Navigator.of(context).push(
                   route.featureDialog(
                     WechatRecoveryPhrasePage(
@@ -85,23 +85,22 @@ class SplashStoragePage extends SplashBasePage {
                 )
             : null,
       ),
-      // !isNoneAvailable
-      //     ?
-      MxcButton.secondaryWhite(
-        key: const ValueKey('localButton'),
-        icon: Icons.file_download_rounded,
-        iconSize: 32,
-        titleSize: 18,
-        title: FlutterI18n.translate(context, 'local_secured_storage'),
-        onTap: () => Navigator.of(context).push(
-          route.featureDialog(
-            LocalRecoveryPhrasePage(
-              settingsFlow: settingsFlow,
-            ),
-          ),
-        ),
-      )
-      // : Container(),
+      isNoneAvailable
+          ? MxcButton.secondaryWhite(
+              key: const ValueKey('localButton'),
+              icon: Icons.file_download_rounded,
+              iconSize: 32,
+              titleSize: 18,
+              title: FlutterI18n.translate(context, 'local_secured_storage'),
+              onTap: () => Navigator.of(context).push(
+                route.featureDialog(
+                  LocalRecoveryPhrasePage(
+                    settingsFlow: settingsFlow,
+                  ),
+                ),
+              ),
+            )
+          : Container(),
     ];
   }
 }
