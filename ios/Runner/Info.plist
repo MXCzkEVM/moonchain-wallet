@@ -1,154 +1,156 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>com.transistorsoft.fetch</string>
-		<string>com.mxc.axswallet.periodicalTasks</string>
-		<string>com.mxc.axswallet.dappHooksTasks</string>
-		<string>com.mxc.axswallet.minerAutoClaimTask</string>
-	</array>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>AXS</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>FlSharedLink</string>
-			<key>LSHandlerRank</key>
-			<string>Default</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.file-url</string>
-				<string>public.image</string>
-				<string>public.text</string>
-				<string>public.url</string>
-				<string>public.data</string>
-			</array>
-		</dict>
-	</array>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>zh_TW</string>
-		<string>zh_CN</string>
-		<string>zh_HK</string>
-		<string>ko</string>
-		<string>ja</string>
-		<string>vi</string>
-		<string>ru</string>
-		<string>tr</string>
-		<string>de</string>
-		<string>es</string>
-		<string>pt</string>
-		<string>tl</string>
-		<string>id</string>
-		<string>it</string>
-		<string>fr</string>
-	</array>
-	<key>CFBundleName</key>
-	<string>axs</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>tg</string>
-		<string>weixin</string>
-		<string>wechat</string>
-		<string>googlegmail</string>
-		<string>x-dispatch</string>
-		<string>readdle-spark</string>
-		<string>airmail</string>
-		<string>ms-outlook</string>
-		<string>ymail</string>
-		<string>fastmail</string>
-		<string>superhuman</string>
-		<string>protonmail</string>
-	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<string>No</string>
-	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
+		<key>BGTaskSchedulerPermittedIdentifiers</key>
+		<array>
+			<string>com.transistorsoft.fetch</string>
+			<string>com.mxc.axswallet.periodicalTasks</string>
+			<string>com.mxc.axswallet.dappHooksTasks</string>
+			<string>com.mxc.axswallet.minerAutoClaimTask</string>
+		</array>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>AXS</string>
+		<key>CFBundleDocumentTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeName</key>
+				<string>FlSharedLink</string>
+				<key>LSHandlerRank</key>
+				<string>Default</string>
+				<key>LSItemContentTypes</key>
+				<array>
+					<string>public.file-url</string>
+					<string>public.image</string>
+					<string>public.text</string>
+					<string>public.url</string>
+					<string>public.data</string>
+				</array>
+			</dict>
+		</array>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>en</string>
+			<string>zh_TW</string>
+			<string>zh_CN</string>
+			<string>zh_HK</string>
+			<string>ko</string>
+			<string>ja</string>
+			<string>vi</string>
+			<string>ru</string>
+			<string>tr</string>
+			<string>de</string>
+			<string>es</string>
+			<string>pt</string>
+			<string>tl</string>
+			<string>id</string>
+			<string>it</string>
+			<string>fr</string>
+		</array>
+		<key>CFBundleName</key>
+		<string>axs</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>tg</string>
+			<string>weixin</string>
+			<string>wechat</string>
+			<string>googlegmail</string>
+			<string>x-dispatch</string>
+			<string>readdle-spark</string>
+			<string>airmail</string>
+			<string>ms-outlook</string>
+			<string>ymail</string>
+			<string>fastmail</string>
+			<string>superhuman</string>
+			<string>protonmail</string>
+		</array>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<string>No</string>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+		</dict>
+		<key>NSAppleMusicUsageDescription</key>
+		<string>Would you allow AXS Wallet to use the Media Library?</string>
+		<key>NSBluetoothPeripheralUsageDescription</key>
+		<string>Would you allow AXS Wallet to use the Bluetooth?</string>
+		<key>NSCalendarsUsageDescription</key>
+		<string>Would you allow AXS Wallet to use the Calendar?</string>
+		<key>NSCameraUsageDescription</key>
+		<string>AXS Wallet needs access to your camera when the app is in use for services such as RWA minting. Image data is not saved or shared with any third parties.</string>
+		<key>NSFaceIDUsageDescription</key>
+		<string>AXS Wallet needs access to your Biometric data when the app is in use for authentication only. Your Biometric data is not saved or shared with any third parties.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>AXS Wallet needs access to your location for features such as Wi-Fi hooks while the app is in use or running in the background. Your location data is not saved or shared with any third parties.</string>
+
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>AXS Wallet requires access to your location at all times for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
+
+		<key>NSLocationUsageDescription</key>
+		<string>AXS Wallet needs access to your location to provide services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
+
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>AXS Wallet needs access to your location when the app is in use for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
+		<key>NSMotionUsageDescription</key>
+		<string>Would you allow AXS Wallet to use the Motion?</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>AXS Wallet needs access to your photos to save images such as RWA. Your photos are not saved or shared with any third parties.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>AXS Wallet needs access to your photos when the app is in use for services such as RWA minting. Your photos are not saved or shared with any third parties.</string>
+		<key>NSSpeechRecognitionUsageDescription</key>
+		<string>Would you allow AXS Wallet to use the Speech Recognition?</string>
+		<key>PermissionGroupNotification</key>
+		<string>Would you allow AXS Wallet to use the Notification?</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>location</string>
+			<string>processing</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>UISupportsDocumentBrowser</key>
 		<true/>
 	</dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Media Library?</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Bluetooth?</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Calendar?</string>
-	<key>NSCameraUsageDescription</key>
-	<string>AXS Wallet needs access to your camera when the app is in use for services such as RWA minting. Image data is not saved or shared with any third parties.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>AXS Wallet needs access to your Biometric data when the app is in use for authentication only. Your Biometric data is not saved or shared with any third parties.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>AXS Wallet needs access to your location for features such as Wi-Fi hooks while the app is in use or running in the background. Your location data is not saved or shared with any third parties.</string>
-
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>AXS Wallet requires access to your location at all times for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
-
-	<key>NSLocationUsageDescription</key>
-	<string>AXS Wallet needs access to your location to provide services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
-
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>AXS Wallet needs access to your location when the app is in use for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Motion?</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>AXS Wallet needs access to your photos to save images such as RWA. Your photos are not saved or shared with any third parties.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>AXS Wallet needs access to your photos when the app is in use for services such as RWA minting. Your photos are not saved or shared with any third parties.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Speech Recognition?</string>
-	<key>PermissionGroupNotification</key>
-	<string>Would you allow AXS Wallet to use the Notification?</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>location</string>
-		<string>processing</string>
-		<string>remote-notification</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-</dict>
 </plist>

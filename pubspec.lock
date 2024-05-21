@@ -1015,6 +1015,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.2"
+  open_file_manager:
+    dependency: "direct main"
+    description:
+      path: "packages/open_file_manager"
+      relative: true
+    source: path
+    version: "1.0.2"
   open_mail_app:
     dependency: "direct main"
     description:
