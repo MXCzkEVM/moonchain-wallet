@@ -33,6 +33,9 @@ class PermissionUtils {
 
   static Future<bool?> showUseCaseBottomSheet(
       Permission permission, BuildContext context) async {
+    if (Platform.isIOS) {
+      return true;
+    }
     return showPermissionUseCasesBottomSheet(context, permission: permission);
   }
 
@@ -89,6 +92,22 @@ class PermissionUtils {
     PermissionStatus status = await getLocationPermission();
 
     return status == PermissionStatus.granted;
+  }
+
+  static void storagePermissionWrapper(Future<void> Function() func,
+      Function addError, BuildContext context) async {
+    final askForPermission = await PermissionUtils.showUseCaseBottomSheet(
+        Permission.storage, context);
+    if (askForPermission ?? false) {
+      final result = await PermissionUtils.askForStoragePermission();
+      if (result) {
+        try {
+          await func();
+        } catch (e, s) {
+          addError(e, s);
+        }
+      }
+    }
   }
 
   static Future<bool> askForStoragePermission() async {
