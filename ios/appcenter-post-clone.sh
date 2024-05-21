@@ -28,7 +28,7 @@ flutter build ios --release --no-codesign
 
 export WALDO_CLI_BIN=/usr/local/bin
 
-bash -c "$(curl -fLs https://github.com/waldoapp/waldo-go-cli/raw/master/install-waldo.sh)"
+bash -c "$(curl -fLs https://github.com/waldoapp/waldo-go-cli/raw/master/install.sh)"
 
 # Remove START-SIM-SEC secion from Podfile
 sed -i ''  "/#-START-SIM-SEC/,/#-END-SIM-SEC/d" 'ios/Podfile'
