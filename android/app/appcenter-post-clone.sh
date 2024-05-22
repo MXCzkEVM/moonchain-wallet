@@ -54,7 +54,7 @@ export PATH="/Users/runner/.waldo/bin:$PATH"
 # To configure appCenter builds with Waldo UI Automation tool
 export WALDO_UPLOAD_TOKEN=$ANDROID_WALDO_UPLOAD_TOKEN
 
-BUILD_PATH=android/app/build/outputs/apk/app-product-release.apk
+_build_path=android/app/build/outputs/apk/app-product-release.apk
 
 waldo upload "$_build_path"
 
