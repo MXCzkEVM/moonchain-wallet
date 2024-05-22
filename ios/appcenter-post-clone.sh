@@ -40,8 +40,8 @@ flutter build ios --simulator
 _build_path="build/ios/iphonesimulator/Runner.app"
 # adjust this as necessary
 
-# export WALDO_UPLOAD_TOKEN=$IOS_WALDO_UPLOAD_TOKEN
+export WALDO_UPLOAD_TOKEN=$IOS_WALDO_UPLOAD_TOKEN
 
-waldo auth $IOS_WALDO_UPLOAD_TOKEN
+# waldo auth $IOS_WALDO_UPLOAD_TOKEN
 
 waldo upload "$_build_path"
