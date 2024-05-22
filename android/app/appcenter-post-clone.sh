@@ -49,6 +49,8 @@ mkdir -p android/app/build/outputs/bundle/; mv build/app/outputs/bundle/googlepl
 # export WALDO_CLI_BIN=/usr/local/bin
 bash -c "$(curl -fLs https://github.com/waldoapp/waldo-go-cli/raw/master/install.sh)"
 
+export PATH="/Users/runner/.waldo/bin:$PATH"
+
 # To configure appCenter builds with Waldo UI Automation tool
 # export WALDO_UPLOAD_TOKEN=$ANDROID_WALDO_UPLOAD_TOKEN
 BUILD_PATH=android/app/build/outputs/apk/app-product-release.apk
