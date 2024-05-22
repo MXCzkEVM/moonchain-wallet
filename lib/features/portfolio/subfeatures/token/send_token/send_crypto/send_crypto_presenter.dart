@@ -5,9 +5,6 @@ import 'package:datadashwallet/common/utils/utils.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:ens_dart/ens_dart.dart';
-import 'package:web3dart/web3dart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -149,6 +146,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void transactionProcess() async {
+    loading = true;
     final amount = amountController.text;
     final recipient = recipientController.text;
     String recipientAddress = await getAddress(recipient);
