@@ -82,6 +82,7 @@ class DappCardLayout extends HookConsumerWidget {
             },
           ),
         ),
+        const SizedBox(height: Sizes.spaceXLarge,),
         DAppIndicator(
           total: pages,
           selectedIndex: state.pageIndex,

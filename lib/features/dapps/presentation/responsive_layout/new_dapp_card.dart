@@ -53,7 +53,7 @@ class NewDAppCard extends HookConsumerWidget {
     final name = dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.name!;
     final imageSize = width *
         (ratioFactor ??
-            (mainAxisCount == CardMainAxisCount.mobile ? 0.3 : 0.2));
+            (mainAxisCount == CardMainAxisCount.mobile ? 0.2 : 0.1));
     return GestureDetector(
       onTap: () {
         if (animated) {
