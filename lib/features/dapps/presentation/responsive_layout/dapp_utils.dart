@@ -25,7 +25,9 @@ class DappUtils {
       if (e is Bookmark) {
         return true;
       } else {
-        return (e.store!.chainid == chainId) &&
+        return (!MXCChains.isMXCChains(chainId)
+                ? MXCChains.isMXCMainnet(e.store!.chainid!)
+                : e.store!.chainid == chainId) &&
             isSupported(e.app!.supportedPlatforms!);
       }
     }).toList();
@@ -44,8 +46,8 @@ class DappUtils {
 
     // Sort the DApps list based on the order specified in dappsOrder
     dapps.sort((a, b) {
-      final aUrl  = a is Bookmark ? a.url : a.app!.url!;
-      final bUrl  = b is Bookmark ? b.url : b.app!.url!;
+      final aUrl = a is Bookmark ? a.url : a.app!.url!;
+      final bUrl = b is Bookmark ? b.url : b.app!.url!;
       int indexA = urlIndices[aUrl] ?? dapps.length;
       int indexB = urlIndices[bUrl] ?? dapps.length;
       return dappsOrder.indexOf(aUrl) - dappsOrder.indexOf(bUrl);

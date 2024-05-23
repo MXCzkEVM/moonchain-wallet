@@ -96,6 +96,8 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     listen(_chainConfigurationUseCase.selectedNetwork, (value) {
       if (value != null) {
         if (state.network != null && state.network!.chainId != value.chainId) {
+          DappUtils.loadingOnce = true;
+          notify(() => state.loading = true);
           reorderHelper.resetDappsMerge();
         }
         notify(() => state.network = value);
@@ -157,7 +159,7 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   void initializeDapps() async {
     try {
-      await _dappStoreUseCase.getAllDapps();
+      await _dappStoreUseCase.loadDapps();
     } catch (e, s) {
       addError(e, s);
     }
@@ -171,7 +173,8 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
 
   void addBookmark() async => bookmarksHelper.addBookmark();
 
-  void updateBookmarkFavIcon(Bookmark item) async => bookmarksHelper.updateBookmarkFavIcon(item);
+  void updateBookmarkFavIcon(Bookmark item) async =>
+      bookmarksHelper.updateBookmarkFavIcon(item);
 
   void onPageChage(int index) => notify(() => state.pageIndex = index);
 
