@@ -40,6 +40,8 @@ class DAppCard extends HookConsumerWidget {
     void Function()? shatter,
     bool animated = false,
   }) {
+    final isMobile = mainAxisCount == CardMainAxisCount.mobile;
+    final imageRatioFactor = (isMobile ? 0.2 : 0.1);
     String? image;
     if (dapp is Bookmark) {
       if ((dapp as Bookmark).image != null) {
@@ -51,9 +53,7 @@ class DAppCard extends HookConsumerWidget {
       image = dapp.reviewApi!.icon!;
     }
     final name = dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.name!;
-    final imageSize = width *
-        (ratioFactor ??
-            (mainAxisCount == CardMainAxisCount.mobile ? 0.2 : 0.1));
+    final imageSize = width * (ratioFactor ?? imageRatioFactor);
     return GestureDetector(
       onTap: () {
         if (animated) {
@@ -157,9 +157,7 @@ class DAppCard extends HookConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final state = ref.watch(appsPagePageContainer.state);
     final actions = ref.read(appsPagePageContainer.actions);
-    final dapps = state.orderedDapps;
     final dappAbout =
         dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.description!;
     final dappUrl = dapp is Bookmark ? (dapp as Bookmark).url : dapp.app!.url!;
@@ -252,10 +250,11 @@ class DAppCard extends HookConsumerWidget {
               child: Text(FlutterI18n.translate(context, 'remove_dapp'),
                   style: FontTheme.of(context).body1Cl()))
         ];
+    final isMobile = mainAxisCount == CardMainAxisCount.mobile;
 
-    final size = (mainAxisCount == CardMainAxisCount.mobile ? 0.5 : 0.3);
-    final sizeLimit =
-        (mainAxisCount == CardMainAxisCount.mobile ? 0.6000 : 0.6666);
+    final imageRatioFactor = (isMobile ? 0.2 : 0.1);
+    final size = (isMobile ? 0.4 : 0.3);
+    final sizeLimit = imageRatioFactor / size;
 
     Widget getCardItem({void Function()? shatter}) {
       final contextMenuActions = dapp is Bookmark?

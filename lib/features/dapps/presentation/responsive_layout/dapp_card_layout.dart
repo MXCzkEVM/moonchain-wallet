@@ -10,7 +10,7 @@ import '../widgets/dapp_indicator.dart';
 import 'card_item.dart';
 import 'dapp_loading.dart';
 import 'dapp_utils.dart';
-import 'new_dapp_card.dart';
+import 'dapp_card.dart';
 
 class DappCardLayout extends HookConsumerWidget {
   const DappCardLayout({
