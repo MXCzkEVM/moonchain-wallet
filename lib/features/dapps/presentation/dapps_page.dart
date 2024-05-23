@@ -1,7 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
 import 'package:datadashwallet/features/settings/settings.dart';
 import 'package:datadashwallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,8 @@ class DAppsPage extends HookConsumerWidget {
     return MxcPage(
       layout: LayoutType.column,
       useContentPadding: false,
-      childrenPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      childrenPadding: const EdgeInsets.symmetric(
+          horizontal: Sizes.spaceSmall, vertical: Sizes.spaceNormal),
       backgroundColor: ColorsTheme.of(context).screenBackground,
       presenter: ref.watch(presenter),
       appBar: Column(
@@ -44,7 +44,7 @@ class DAppsPage extends HookConsumerWidget {
             leading: IconButton(
               key: const ValueKey('settingsButton'),
               icon: const Icon(MxcIcons.settings),
-              iconSize: 32,
+              iconSize: Sizes.space2XLarge,
               onPressed: () {
                 Navigator.of(context).push(
                   route(
@@ -57,7 +57,7 @@ class DAppsPage extends HookConsumerWidget {
             action: IconButton(
               key: const ValueKey('walletButton'),
               icon: const Icon(MxcIcons.wallet),
-              iconSize: 32,
+              iconSize: Sizes.space2XLarge,
               onPressed: () => Navigator.of(context).replaceAll(
                 route(const WalletPage()),
               ),

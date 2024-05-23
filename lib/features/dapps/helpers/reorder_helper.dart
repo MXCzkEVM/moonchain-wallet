@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:datadashwallet/features/dapps/presentation/responsive_layout/dapp_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import '../domain/domain.dart';
