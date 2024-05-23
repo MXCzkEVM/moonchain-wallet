@@ -16,14 +16,14 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import '../dapps_presenter.dart';
 import 'shatter_widget.dart';
 
-class NewDAppCard extends HookConsumerWidget {
+class DAppCard extends HookConsumerWidget {
   final Dapp dapp;
   final int index;
   final double width;
   final bool isEditMode;
   final VoidCallback? onTap;
   final int mainAxisCount;
-  const NewDAppCard({
+  const DAppCard({
     super.key,
     required this.index,
     required this.width,

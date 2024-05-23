@@ -82,7 +82,9 @@ class DappCardLayout extends HookConsumerWidget {
             },
           ),
         ),
-        const SizedBox(height: Sizes.spaceXLarge,),
+        const SizedBox(
+          height: Sizes.spaceXLarge,
+        ),
         DAppIndicator(
           total: pages,
           selectedIndex: state.pageIndex,
@@ -100,7 +102,7 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
     final item = dapps[i];
     final isBookMark = item is Bookmark;
     final dappCard = isBookMark
-        ? NewDAppCard(
+        ? DAppCard(
             index: i,
             width: itemWidth,
             dapp: item,
@@ -108,7 +110,7 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
             onTap: state.isEditMode ? null : () => actions.openDapp(item.url),
             mainAxisCount: mainAxisCount,
           )
-        : NewDAppCard(
+        : DAppCard(
             index: i,
             width: itemWidth,
             dapp: item,
