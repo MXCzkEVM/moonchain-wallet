@@ -15,7 +15,11 @@ class DappStoreUseCase extends ReactiveUseCase {
   late final ValueStream<List<Dapp>> dapps = reactive([]);
 
   Future<void> loadDapps() async {
-    loadLocalDApps();
+    Future.delayed(
+      const Duration(seconds: 1),
+      () => loadLocalDApps(),
+    );
+
     await loadRemoteDApps();
   }
 
