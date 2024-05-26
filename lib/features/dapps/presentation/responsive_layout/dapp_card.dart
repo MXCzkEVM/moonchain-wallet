@@ -253,8 +253,8 @@ class DAppCard extends HookConsumerWidget {
     final isMobile = mainAxisCount == CardMainAxisCount.mobile;
 
     final imageRatioFactor = (isMobile ? 0.2 : 0.1);
-    final size = (isMobile ? 0.4 : 0.3);
-    final sizeLimit = imageRatioFactor / size;
+    final animatedSize = (isMobile ? 0.3 : 0.15);
+    final sizeLimit = (imageRatioFactor / animatedSize);
 
     Widget getCardItem({void Function()? shatter}) {
       final contextMenuActions = dapp is Bookmark?
@@ -281,17 +281,19 @@ class DAppCard extends HookConsumerWidget {
       return CupertinoContextMenuExtended.builder(
         builder: (context, animation) {
           return SizedBox(
-            width: MediaQuery.of(context).size.width /
-                (mainAxisCount - animation.value),
-            height: MediaQuery.of(context).size.width /
-                (mainAxisCount - animation.value),
-            child: cardBox(context,
+            width: MediaQuery.of(context).size.width / (mainAxisCount),
+            height: MediaQuery.of(context).size.width / (mainAxisCount),
+            child: Center(
+              child: cardBox(
+                context,
                 ratioFactor: animation.value < sizeLimit
                     ? null
-                    : (size * animation.value),
+                    : (animatedSize * animation.value),
                 shatter: shatter,
                 actions: actions,
-                animated: animation.value != 0.0),
+                animated: animation.value != 0.0,
+              ),
+            ),
           );
         },
         actions: contextMenuActions,
