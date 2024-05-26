@@ -46,10 +46,10 @@ mkdir -p android/app/build/outputs/apk/; mv build/app/outputs/apk/product/releas
 mkdir -p android/app/build/outputs/bundle/; mv build/app/outputs/bundle/googleplayRelease/app-googleplay-release.aab $_
 
 # To configure appCenter builds with Waldo UI Automation tool
-# export WALDO_CLI_BIN=/usr/local/bin
-bash -c "$(curl -fLs https://github.com/waldoapp/waldo-go-cli/raw/master/install.sh)"
+export WALDO_CLI_BIN=/usr/local/bin
+bash -c "$(curl -fLs https://github.com/waldoapp/waldo-go-cli/raw/master/install-waldo.sh)"
 
-export PATH="/Users/runner/.waldo/bin:$PATH"
+export PATH="$WALDO_CLI_BIN:$PATH"
 
 # To configure appCenter builds with Waldo UI Automation tool
 export WALDO_UPLOAD_TOKEN=$ANDROID_WALDO_UPLOAD_TOKEN
