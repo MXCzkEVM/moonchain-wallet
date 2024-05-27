@@ -1,8 +1,6 @@
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
-import 'package:datadashwallet/features/wallet/wallet.dart';
+import 'package:datadashwallet/features/dapps/presentation/widgets/default_app_bar.dart';
+import 'package:datadashwallet/features/dapps/presentation/widgets/edit_mode_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -10,7 +8,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'dapps_presenter.dart';
 import 'dapps_state.dart';
 import 'responsive_layout/responsive_layout.dart';
-import 'widgets/edit_mode_status_bar.dart';
 
 class DAppsPage extends HookConsumerWidget {
   const DAppsPage({Key? key}) : super(key: key);
@@ -30,40 +27,21 @@ class DAppsPage extends HookConsumerWidget {
       useContentPadding: false,
       childrenPadding: const EdgeInsets.symmetric(
           horizontal: Sizes.spaceSmall, vertical: Sizes.spaceNormal),
-      backgroundColor: ColorsTheme.of(context).screenBackground,
+      // backgroundColor: ColorsTheme.of(context).screenBackground,
+      backgroundGradient: const LinearGradient(
+        colors: [
+          Color(0xFF0E1629),
+          Color(0xFF333333),
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
       presenter: ref.watch(presenter),
       appBar: Column(
         children: [
-          if (ref.watch(state).isEditMode) ...[
-            EditAppsModeStatusBar(
-              onAdd: dappsPresenter.addBookmark,
-              onDone: dappsPresenter.changeEditMode,
-            ),
-          ],
-          AppNavBar(
-            leading: IconButton(
-              key: const ValueKey('settingsButton'),
-              icon: const Icon(MxcIcons.settings),
-              iconSize: Sizes.space2XLarge,
-              onPressed: () {
-                Navigator.of(context).push(
-                  route(
-                    const SettingsPage(),
-                  ),
-                );
-              },
-              color: ColorsTheme.of(context).iconPrimary,
-            ),
-            action: IconButton(
-              key: const ValueKey('walletButton'),
-              icon: const Icon(MxcIcons.wallet),
-              iconSize: Sizes.space2XLarge,
-              onPressed: () => Navigator.of(context).replaceAll(
-                route(const WalletPage()),
-              ),
-              color: ColorsTheme.of(context).iconPrimary,
-            ),
-          ),
+          ref.watch(state).isEditMode
+              ? const EditModeAppBar()
+              : const DefaultAppBar(),
         ],
       ),
       children: const [
