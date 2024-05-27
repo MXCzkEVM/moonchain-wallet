@@ -31,6 +31,7 @@ abstract class MxcPage extends HookConsumerWidget {
     this.fixedFooter = false,
     this.floatingActionButton,
     this.backgroundColor,
+    this.backgroundGradient,
     this.useFooterPadding = true,
     this.resizeToAvoidBottomInset = true,
     this.useSplashBackground = false,
@@ -55,6 +56,7 @@ abstract class MxcPage extends HookConsumerWidget {
     bool fixedFooter,
     Widget? floatingActionButton,
     Color? backgroundColor,
+    Gradient? backgroundGradient,
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
     bool useSplashBackground,
@@ -103,6 +105,7 @@ abstract class MxcPage extends HookConsumerWidget {
   final bool fixedFooter;
   final Widget? floatingActionButton;
   final Color? backgroundColor;
+  final Gradient? backgroundGradient;
   final bool resizeToAvoidBottomInset;
 
   final bool useSplashBackground;
@@ -169,6 +172,9 @@ abstract class MxcPage extends HookConsumerWidget {
   bool get maintainBottomSafeArea => true;
 
   Color resolveBackgroundColor(BuildContext context) {
+    if (backgroundGradient != null) {
+      return Colors.transparent;
+    }
     if (backgroundColor != null) {
       return backgroundColor!;
     }
@@ -221,40 +227,45 @@ abstract class MxcPage extends HookConsumerWidget {
                   ? Brightness.dark
                   : Brightness.light,
         ),
-        child: Scaffold(
-          backgroundColor: resolveBackgroundColor(context),
-          extendBodyBehindAppBar: false,
-          drawer: drawer,
-          key: scaffoldKey,
-          resizeToAvoidBottomInset: false,
-          floatingActionButton: floatingActionButton,
-          bottomNavigationBar: buildBottomNavigation(context, ref),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.miniCenterFloat,
-          body: PresenterHooks(
-            presenter: presenter,
-            child: splashLinearBackground(
-              visiable: useSplashBackground,
-              child: SafeArea(
-                bottom: maintainBottomSafeArea,
-                top: topSafeArea,
-                child: Column(
-                  children: [
-                    buildAppBar(context, ref),
-                    Expanded(
-                        child: Padding(
-                      padding: childrenPadding ?? EdgeInsets.zero,
-                      child: content(context, ref),
-                    )),
-                    if (placeBottomInsetFiller)
-                      AnimatedSize(
-                        curve: Curves.easeOutQuad,
-                        duration: const Duration(milliseconds: 275),
-                        child: SizedBox(
-                          height: MediaQuery.of(context).viewInsets.bottom,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: backgroundGradient,
+          ),
+          child: Scaffold(
+            backgroundColor: resolveBackgroundColor(context),
+            extendBodyBehindAppBar: false,
+            drawer: drawer,
+            key: scaffoldKey,
+            resizeToAvoidBottomInset: false,
+            floatingActionButton: floatingActionButton,
+            bottomNavigationBar: buildBottomNavigation(context, ref),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.miniCenterFloat,
+            body: PresenterHooks(
+              presenter: presenter,
+              child: splashLinearBackground(
+                visiable: useSplashBackground,
+                child: SafeArea(
+                  bottom: maintainBottomSafeArea,
+                  top: topSafeArea,
+                  child: Column(
+                    children: [
+                      buildAppBar(context, ref),
+                      Expanded(
+                          child: Padding(
+                        padding: childrenPadding ?? EdgeInsets.zero,
+                        child: content(context, ref),
+                      )),
+                      if (placeBottomInsetFiller)
+                        AnimatedSize(
+                          curve: Curves.easeOutQuad,
+                          duration: const Duration(milliseconds: 275),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).viewInsets.bottom,
+                          ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

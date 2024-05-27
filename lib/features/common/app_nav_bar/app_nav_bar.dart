@@ -44,7 +44,7 @@ class AppNavBar extends HookConsumerWidget {
                 padding: const EdgeInsets.all(Sizes.space2XSmall),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: ColorsTheme.of(context).backgroundDisabled,
+                  color: ColorsTheme.of(context).iconPrimary,
                 ),
                 child: GestureDetector(
                   onTap: () => presenter.copy(),
@@ -59,7 +59,9 @@ class AppNavBar extends HookConsumerWidget {
                         state.account?.mns ??
                             MXCFormatter.formatWalletAddress(
                                 state.account?.address ?? ''),
-                        style: FontTheme.of(context).subtitle1(),
+                        style: FontTheme.of(context).subtitle1().copyWith(
+                              color: ColorsTheme.of(context).screenBackground,
+                            ),
                       )
                     ],
                   ),

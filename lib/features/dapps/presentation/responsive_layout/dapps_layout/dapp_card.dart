@@ -41,7 +41,7 @@ class DAppCard extends HookConsumerWidget {
 
     final isMobile = mainAxisCount == CardMainAxisCount.mobile;
     final imageRatioFactor = (isMobile ? 0.2 : 0.1);
-    final animatedSize = (isMobile ? 0.3 : 0.15);
+    final animatedSize = (isMobile ? 0.25 : 0.15);
     final sizeLimit = (imageRatioFactor / animatedSize);
 
     final animationController = useAnimationController(
@@ -90,21 +90,19 @@ class DAppCard extends HookConsumerWidget {
           return SizedBox(
             width: MediaQuery.of(context).size.width / (mainAxisCount),
             height: MediaQuery.of(context).size.width / (mainAxisCount),
-            child: Center(
-              child: buildCard(
-                context,
-                dapp,
-                mainAxisCount,
-                onTap,
-                isEditMode,
-                width,
-                ratioFactor: animation.value < sizeLimit
-                    ? null
-                    : (animatedSize * animation.value),
-                shatter: shatter,
-                actions: actions,
-                animated: animation.value != 0.0,
-              ),
+            child: buildCard(
+              context,
+              dapp,
+              mainAxisCount,
+              onTap,
+              isEditMode,
+              width,
+              ratioFactor: animation.value < sizeLimit
+                  ? null
+                  : (animatedSize * animation.value),
+              shatter: shatter,
+              actions: actions,
+              animated: animation.value != 0.0,
             ),
           );
         },
