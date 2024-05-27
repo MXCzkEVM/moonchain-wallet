@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-import 'card_item.dart';
+import 'dapps_layout/card_item.dart';
 
 class DappUtils {
   static bool loadingOnce = true;

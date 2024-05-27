@@ -7,10 +7,10 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../dapps_state.dart';
 import '../widgets/dapp_indicator.dart';
-import 'card_item.dart';
+import 'dapps_layout/card_item.dart';
 import 'dapp_loading.dart';
 import 'dapp_utils.dart';
-import 'dapp_card.dart';
+import 'dapps_layout/dapp_card.dart';
 
 class DappCardLayout extends HookConsumerWidget {
   const DappCardLayout({

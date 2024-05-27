@@ -26,11 +26,10 @@ flutter build ios --release --no-codesign
 ## WALDO SECTION
 ## To configure appCenter builds with Waldo UI Automation tool
 
-# export WALDO_CLI_BIN=/usr/local/bin
+export WALDO_CLI_BIN=/usr/local/bin
+bash -c "$(curl -fLs https://github.com/waldoapp/waldo-go-cli/raw/master/install-waldo.sh)"
 
-bash -c "$(curl -fLs https://github.com/waldoapp/waldo-go-cli/raw/master/install.sh)"
-
-export PATH="/Users/runner/.waldo/bin:$PATH"
+export PATH="$WALDO_CLI_BIN:$PATH"
 
 # Remove START-SIM-SEC secion from Podfile
 sed -i ''  "/#-START-SIM-SEC/,/#-END-SIM-SEC/d" 'ios/Podfile'
