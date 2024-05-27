@@ -49,7 +49,7 @@ dependencies:
   firebase_core: ^2.22.0
   firebase_messaging: ^14.7.4
   fl_chart: ^0.62.0
-  fl_shared_link: ^0.0.3
+  fl_shared_link: ^0.1.0
   flutter:
     sdk: flutter
   flutter_app_update:

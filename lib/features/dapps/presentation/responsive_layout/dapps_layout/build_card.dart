@@ -19,6 +19,7 @@ Widget buildCard(
   void Function()? shatter,
   bool animated = false,
 }) {
+  
   final isMobile = mainAxisCount == CardMainAxisCount.mobile;
   final imageRatioFactor = (isMobile ? 0.2 : 0.1);
   String? image;
@@ -53,7 +54,7 @@ Widget buildCard(
           clipBehavior: Clip.none,
           children: [
             Container(
-              padding: const EdgeInsets.all(Sizes.spaceXLarge),
+              padding: const EdgeInsets.all(Sizes.spaceLarge),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(15)),
                 gradient: LinearGradient(
@@ -115,7 +116,7 @@ Widget buildCard(
           ],
         ),
         const SizedBox(
-          height: Sizes.spaceXSmall,
+          height: Sizes.space2XSmall,
         ),
         Text(
           name,

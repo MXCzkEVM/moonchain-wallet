@@ -4,6 +4,6 @@ class CardCrossAxisCount {
 }
 
 class CardMainAxisCount {
-  static const int mobile = 3;
+  static const int mobile = 4;
   static const int tablet = 5;
 }
