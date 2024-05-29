@@ -62,7 +62,7 @@ class SplashImportStoragePage extends SplashBasePage {
           ),
         ),
       ),
-      !isNoneAvailable
+      isNoneAvailable
           ? MxcButton.secondaryWhite(
               key: const ValueKey('localButton'),
               icon: Icons.file_download_rounded,
