@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Assurez-vous que les paramètres d'optimisation de la batterie ne restreignent pas la fonctionnalité de l'application. Vous pouvez trouver cela dans les paramètres de votre appareil sous 'Batterie' ou 'Applications'.",
     "need_further_assistant": "Besoin d'assistance supplémentaire? Visitez notre Centre d'Aide dans les Paramètres ou contactez le support.",
     "information": "Informations",
-    "ok": "D'accord"
+    "ok": "D'accord",
+    "local_secured_storage": "Stockage sécurisé local",
+    "save_locally": "Enregistrez localement",
+    "save_locally_description": "Assurez-vous de sauvegarder vos clés localement et ensuite vous êtes prêt à partir.",
+    "axs_storage_permission_use_case": "Le portefeuille AXS a besoin d'accéder à votre stockage pour des fonctionnalités telles que RWA. Vos données de stockage ne sont pas sauvegardées ni partagées avec des tiers.",
+    "local_backup": "Sauvegarde locale"
 }

@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Pastikan bahwa pengaturan optimasi baterai tidak membatasi fungsionalitas aplikasi. Anda dapat menemukan ini di pengaturan perangkat Anda di bawah 'Baterai' atau 'Aplikasi'.",
     "need_further_assistant": "Butuh bantuan lebih lanjut? Kunjungi Pusat Bantuan kami di Pengaturan atau hubungi dukungan.",
     "information": "Informasi",
-    "ok": "Oke"
+    "ok": "Oke",
+    "local_secured_storage": "Penyimpanan lokal yang aman",
+    "save_locally": "Simpan secara lokal",
+    "save_locally_description": "Pastikan untuk menyimpan kunci Anda secara lokal dan kemudian Anda siap untuk melanjutkan.",
+    "axs_storage_permission_use_case": "Dompet AXS membutuhkan akses ke penyimpanan Anda untuk fitur seperti RWA. Data penyimpanan Anda tidak disimpan atau dibagikan dengan pihak ketiga mana pun.",
+    "local_backup": "Cadangan lokal"
 }

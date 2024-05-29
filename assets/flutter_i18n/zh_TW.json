@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "確保電池優化設置不會限制應用程序的功能。您可以在裝置的設置中的'電池'或'應用程序'下找到這個設置。",
     "need_further_assistant": "需要進一步的協助嗎？請在設定中訪問我們的幫助中心或聯繫支援。",
     "information": "資訊",
-    "ok": "好的"
+    "ok": "好的",
+    "local_secured_storage": "本地安全儲存",
+    "save_locally": "在本地保存",
+    "save_locally_description": "確保將您的密鑰本地保存，然後就可以開始了。",
+    "axs_storage_permission_use_case": "AXS錢包需要訪問您的存储空間以使用如RWA等功能。您的存儲數據不會被保存或與任何第三方共享。",
+    "local_backup": "本地備份"
 }

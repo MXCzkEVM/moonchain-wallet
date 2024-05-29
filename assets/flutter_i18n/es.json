@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Asegúrate de que la configuración de optimización de batería no esté restringiendo la funcionalidad de la aplicación. Puedes encontrar esto en la configuración de tu dispositivo, bajo 'Batería' o 'Aplicaciones'.",
     "need_further_assistant": "¿Necesita más asistencia? Visite nuestro Centro de Ayuda en Configuraciones o contacte al soporte.",
     "information": "Información",
-    "ok": "De acuerdo"
+    "ok": "De acuerdo",
+    "local_secured_storage": "Almacenamiento seguro local",
+    "save_locally": "Guardar localmente",
+    "save_locally_description": "Asegúrate de guardar tus claves localmente y luego estás listo para continuar.",
+    "axs_storage_permission_use_case": "La billetera AXS necesita acceso a tu almacenamiento para funciones como RWA. Tus datos de almacenamiento no se guardan ni se comparten con terceros.",
+    "local_backup": "Copia de seguridad local"
 }

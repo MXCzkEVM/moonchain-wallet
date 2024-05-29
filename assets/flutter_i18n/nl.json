@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Zorg ervoor dat de instellingen voor batterijoptimalisatie de functionaliteit van de app niet beperken. U kunt dit vinden in de instellingen van uw apparaat onder 'Batterij' of 'Apps'.",
     "need_further_assistant": "Heeft u verdere hulp nodig? Bezoek ons Helpcentrum in Instellingen of neem contact op met de ondersteuning.",
     "information": "Informatie",
-    "ok": "Oké"
+    "ok": "Oké",
+    "local_secured_storage": "Lokaal beveiligde opslag",
+    "save_locally": "Lokaal opslaan",
+    "save_locally_description": "Zorg ervoor dat je je sleutels lokaal opslaat en dan ben je klaar om te gaan.",
+    "axs_storage_permission_use_case": "De AXS Wallet heeft toegang tot uw opslag nodig voor functies zoals RWA. Uw opslaggegevens worden niet opgeslagen of gedeeld met derden.",
+    "local_backup": "Lokale back-up"
 }

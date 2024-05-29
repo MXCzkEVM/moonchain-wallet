@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Stellen Sie sicher, dass die Einstellungen für die Batterieoptimierung die Funktionalität der App nicht einschränken. Sie finden dies in den Einstellungen Ihres Geräts unter 'Batterie' oder 'Apps'.",
     "need_further_assistant": "Benötigen Sie weitere Unterstützung? Besuchen Sie unser Hilfezentrum in den Einstellungen oder kontaktieren Sie den Support.",
     "information": "Informationen",
-    "ok": "In Ordnung"
+    "ok": "In Ordnung",
+    "local_secured_storage": "Lokaler gesicherter Speicher",
+    "save_locally": "Lokal speichern",
+    "save_locally_description": "Stellen Sie sicher, dass Sie Ihre Schlüssel lokal speichern und dann können Sie loslegen.",
+    "axs_storage_permission_use_case": "Die AXS Wallet benötigt Zugriff auf Ihren Speicher für Funktionen wie RWA. Ihre Speicherdaten werden nicht gespeichert oder mit Dritten geteilt.",
+    "local_backup": "Lokale Sicherung"
 }

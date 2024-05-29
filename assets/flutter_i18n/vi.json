@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Đảm bảo rằng các cài đặt tối ưu hóa pin không hạn chế chức năng của ứng dụng. Bạn có thể tìm thấy điều này trong cài đặt thiết bị của bạn dưới mục 'Pin' hoặc 'Ứng dụng'.",
     "need_further_assistant": "Cần thêm hỗ trợ? Hãy truy cập Trung tâm Hỗ trợ trong Cài đặt hoặc liên hệ với bộ phận hỗ trợ.",
     "information": "Thông tin",
-    "ok": "Được"
+    "ok": "Được",
+    "local_secured_storage": "Bộ nhớ lưu trữ an toàn cục bộ",
+    "save_locally": "Lưu trữ cục bộ",
+    "save_locally_description": "Hãy chắc chắn lưu lại khóa của bạn ở cục bộ và sau đó bạn đã sẵn sàng để tiếp tục.",
+    "axs_storage_permission_use_case": "Ví AXS cần quyền truy cập vào bộ nhớ của bạn để sử dụng các tính năng như RWA. Dữ liệu lưu trữ của bạn không được lưu lại hoặc chia sẻ với bất kỳ bên thứ ba nào.",
+    "local_backup": "Sao lưu cục bộ"
 }

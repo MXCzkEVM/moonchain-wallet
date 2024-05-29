@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Asigurați-vă că setările de optimizare a bateriei nu restricționează funcționalitatea aplicației. Puteți găsi acest lucru în setările dispozitivului dvs., sub 'Baterie' sau 'Aplicații'.",
     "need_further_assistant": "Aveți nevoie de asistență suplimentară? Vizitați Centrul nostru de Ajutor în Setări sau contactați suportul.",
     "information": "Informație",
-    "ok": "Bine"
+    "ok": "Bine",
+    "local_secured_storage": "Depozitare securizată locală",
+    "save_locally": "Salvează local",
+    "save_locally_description": "Asigurați-vă că salvați cheile local și apoi sunteți gata de plecare.",
+    "axs_storage_permission_use_case": "Portofelul AXS are nevoie de acces la spațiul tău de stocare pentru funcții precum RWA. Datele tale de stocare nu sunt salvate sau partajate cu terțe părți.",
+    "local_backup": "Copie de rezervă locală"
 }
