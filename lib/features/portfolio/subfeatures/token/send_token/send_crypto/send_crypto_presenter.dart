@@ -156,6 +156,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
 
     if (recipientAddress == ContractAddresses.zeroAddress) {
       addError(translate('unregistered_mns_notice'));
+      loading = false;
       return;
     }
 
