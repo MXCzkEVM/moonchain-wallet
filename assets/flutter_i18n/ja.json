@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "バッテリー最適化の設定がアプリの機能を制限していないことを確認してください。これはデバイスの設定の「バッテリー」または「アプリ」の下で見つけることができます。",
     "need_further_assistant": "さらなるアシスタンスが必要ですか？設定内のヘルプセンターを訪れるか、サポートに連絡してください。",
     "information": "情報",
-    "ok": "はい"
+    "ok": "はい",
+    "local_secured_storage": "ローカルセキュアストレージ",
+    "save_locally": "ローカルに保存する",
+    "save_locally_description": "あなたのキーをローカルに保存してから、準備が整ったら始めてください。",
+    "axs_storage_permission_use_case": "AXSウォレットは、RWAのような機能のためにあなたのストレージへのアクセスが必要です。あなたのストレージデータは保存されず、また第三者と共有されません。",
+    "local_backup": "ローカルバックアップ"
 }

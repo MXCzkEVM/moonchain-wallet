@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'card_item.dart';
+import 'dapps_layout/card_item.dart';
 import 'dapp_card_layout.dart';
 
 class ResponsiveLayout extends StatelessWidget {

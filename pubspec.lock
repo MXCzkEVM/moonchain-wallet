@@ -435,10 +435,10 @@ packages:
     dependency: "direct main"
     description:
       name: fl_shared_link
-      sha256: f9c0da5cdedccad1a51d570a57bc7a7289b345846fe7fab08738f397248f644d
+      sha256: "65ba4e86d2dc8563f626ed681354b980ef4cfb57fd68c4d7c3cb4fc3a27a4ea3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.3"
+    version: "0.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -576,14 +576,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0"
-  flutter_staggered_grid_view:
-    dependency: "direct main"
-    description:
-      name: flutter_staggered_grid_view
-      sha256: "19e7abb550c96fbfeb546b23f3ff356ee7c59a019a651f8f102a4ba9b7349395"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -1015,6 +1007,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.2"
+  open_file_manager:
+    dependency: "direct main"
+    description:
+      path: "packages/open_file_manager"
+      relative: true
+    source: path
+    version: "1.0.2"
   open_mail_app:
     dependency: "direct main"
     description:

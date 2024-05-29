@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datadashwallet/common/utils/permissions_bottom_sheet.dart';
 import 'package:f_logs/f_logs.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -31,6 +33,9 @@ class PermissionUtils {
 
   static Future<bool?> showUseCaseBottomSheet(
       Permission permission, BuildContext context) async {
+    if (Platform.isIOS) {
+      return true;
+    }
     return showPermissionUseCasesBottomSheet(context, permission: permission);
   }
 
@@ -86,6 +91,31 @@ class PermissionUtils {
   static Future<bool> checkLocationPermission() async {
     PermissionStatus status = await getLocationPermission();
 
+    return status == PermissionStatus.granted;
+  }
+
+  static void storagePermissionWrapper(Future<void> Function() func,
+      Function addError, BuildContext context) async {
+    final askForPermission = await PermissionUtils.showUseCaseBottomSheet(
+        Permission.storage, context);
+    if (askForPermission ?? false) {
+      final result = await PermissionUtils.askForStoragePermission();
+      if (result) {
+        try {
+          await func();
+        } catch (e, s) {
+          addError(e, s);
+        }
+      }
+    }
+  }
+
+  static Future<bool> askForStoragePermission() async {
+    final status = await Permission.manageExternalStorage.request();
+    final storageStatus = await Permission.storage.request();
+    if (Platform.isIOS) {
+      return storageStatus == PermissionStatus.granted;
+    }
     return status == PermissionStatus.granted;
   }
 

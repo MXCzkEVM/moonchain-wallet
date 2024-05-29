@@ -1,8 +1,8 @@
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
-import 'package:flutter/material.dart';
+import 'package:mxc_logic/mxc_logic.dart';
+import 'package:open_file_manager/open_file_manager.dart';
 import 'package:open_mail_app/open_mail_app.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final splashImportStorageContainer =
     PresenterContainer<SplashImportStoragePresenter, SplashBaseState>(
@@ -13,6 +13,7 @@ class SplashImportStoragePresenter
   SplashImportStoragePresenter() : super(SplashBaseState());
 
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+  late final _directoryUseCase = ref.read(directoryUseCaseProvider);
 
   @override
   void initState() {
@@ -47,5 +48,20 @@ class SplashImportStoragePresenter
     } finally {
       loading = false;
     }
+  }
+
+  Future<void> openLocalSeedPhrase() async {
+    const selectedFolderType = FolderType.download;
+
+    await _directoryUseCase.checkDownloadsDirectoryDirectory();
+
+    await openFileManager(
+      androidConfig: AndroidConfig(
+        folderType: selectedFolderType,
+      ),
+      iosConfig: IosConfig(
+        subFolderPath: 'Downloads',
+      ),
+    );
   }
 }

@@ -79,7 +79,7 @@ String getPermissionUseCaseText(Permission permission) {
   } else if (Permission.camera == permission) {
     return 'axs_camera_permission_use_case';
   } else if (Permission.storage == permission) {
-    return 'axs_photos_permission_use_case';
+    return 'axs_storage_permission_use_case';
   } else if (Permission.photos == permission) {
     return 'axs_photos_permission_use_case';
   } else {

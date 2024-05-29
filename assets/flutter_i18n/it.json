@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Assicurati che le impostazioni di ottimizzazione della batteria non limitino la funzionalità dell'app. Puoi trovare questo nelle impostazioni del tuo dispositivo sotto 'Batteria' o 'App'.",
     "need_further_assistant": "Hai bisogno di ulteriore assistenza? Visita il nostro Centro Assistenza nelle Impostazioni o contatta il supporto.",
     "information": "Informazione",
-    "ok": "Va bene"
+    "ok": "Va bene",
+    "local_secured_storage": "Archiviazione sicura locale",
+    "save_locally": "Salva localmente",
+    "save_locally_description": "Assicurati di salvare le tue chiavi localmente e poi sei pronto per andare.",
+    "axs_storage_permission_use_case": "Il portafoglio AXS necessita l'accesso al tuo spazio di archiviazione per funzioni come RWA. I tuoi dati di archiviazione non vengono salvati o condivisi con terze parti.",
+    "local_backup": "Backup locale"
 }

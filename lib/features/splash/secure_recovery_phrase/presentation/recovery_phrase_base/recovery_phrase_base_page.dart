@@ -14,7 +14,7 @@ abstract class RecoveryPhraseBasePage extends HookConsumerWidget {
   ProviderBase<RecoveryPhraseBaseState> get state;
 
   Widget icon(BuildContext context);
-  Color themeColor();
+  Color themeColor({BuildContext? context});
 
   Widget buildAppBar(BuildContext context, WidgetRef ref) =>
       MxcAppBar.close(text: '');

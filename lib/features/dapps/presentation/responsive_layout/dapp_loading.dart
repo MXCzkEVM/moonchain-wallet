@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'card_item.dart';
+import 'dapps_layout/card_item.dart';
 
 class DAppLoading extends StatelessWidget {
   const DAppLoading({

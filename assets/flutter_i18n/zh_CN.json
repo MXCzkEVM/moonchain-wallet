@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "确保电池优化设置没有限制应用程序的功能。您可以在设备的“电池”或“应用程序”设置中找到这个选项。",
     "need_further_assistant": "需要进一步的帮助吗？请在设置中访问我们的帮助中心或联系支持。",
     "information": "信息",
-    "ok": "好的"
+    "ok": "好的",
+    "local_secured_storage": "本地安全存储",
+    "save_locally": "在本地保存",
+    "save_locally_description": "确保将您的密钥本地保存，然后就可以开始了。",
+    "axs_storage_permission_use_case": "AXS钱包需要访问您的存储空间以使用如RWA等功能。您的存储数据不会被保存或与任何第三方共享。",
+    "local_backup": "本地备份"
 }

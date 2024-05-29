@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:appinio_social_share/appinio_social_share.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/security/security.dart';
 import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -135,5 +134,13 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
         addError(e, s);
       }
     }
+  }
+
+  void saveLocally(bool settingsFlow) async {
+    final mnemonic = settingsFlow
+        ? _accountUseCase.getMnemonic()!
+        : _authUseCase.generateMnemonic();
+    await _authUseCase.saveMnemonicLocally(mnemonic);
+    nextProcess(settingsFlow, mnemonic);
   }
 }

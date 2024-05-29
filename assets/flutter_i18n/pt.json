@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Certifique-se de que as configurações de otimização da bateria não estão restringindo a funcionalidade do aplicativo. Você pode encontrar isso nas configurações do seu dispositivo em 'Bateria' ou 'Aplicativos'.",
     "need_further_assistant": "Precisa de mais assistência? Visite nosso Centro de Ajuda em Configurações ou entre em contato com o suporte.",
     "information": "Informação",
-    "ok": "Ok"
+    "ok": "Ok",
+    "local_secured_storage": "Armazenamento seguro local",
+    "save_locally": "Guarde localmente",
+    "save_locally_description": "Certifique-se de salvar suas chaves localmente e então você estará pronto para prosseguir.",
+    "axs_storage_permission_use_case": "A carteira AXS precisa de acesso ao seu armazenamento para recursos como RWA. Seus dados de armazenamento não são salvos ou compartilhados com terceiros.",
+    "local_backup": "Backup local"
 }

@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "배터리 최적화 설정이 앱의 기능을 제한하지 않도록 확인하세요. 이는 장치의 설정에서 '배터리' 또는 '앱' 아래에서 찾을 수 있습니다.",
     "need_further_assistant": "더 많은 도움이 필요하신가요? 설정에서 도움말 센터를 방문하거나 지원팀에 연락하세요.",
     "information": "정보",
-    "ok": "\"오케이\""
+    "ok": "\"오케이\"",
+    "local_secured_storage": "지역 보안 저장소",
+    "save_locally": "로컬에 저장",
+    "save_locally_description": "당신의 키를 로컬에 저장하십시오, 그런 다음 시작하면 됩니다.",
+    "axs_storage_permission_use_case": "AXS 지갑은 RWA와 같은 기능을 위해 당신의 저장 공간에 접근할 필요가 있습니다. 당신의 저장 데이터는 어떠한 제3자와도 저장되거나 공유되지 않습니다.",
+    "local_backup": "로컬 백업"
 }

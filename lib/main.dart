@@ -49,6 +49,7 @@ void main() {
       final isLoggedIn = authUseCase.loggedIn;
 
       await Biometric.load();
+      Paint.enableDithering = true;
 
       final appVersionUseCase = container.read(appVersionUseCaseProvider);
       await appVersionUseCase.checkLatestVersion();

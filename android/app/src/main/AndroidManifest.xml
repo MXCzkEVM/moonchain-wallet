@@ -30,7 +30,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <application tools:replace="android:label" android:label="AXS" android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:theme="@style/LaunchTheme">
+    <application tools:replace="android:label" android:label="AXS" android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:theme="@style/LaunchTheme" android:requestLegacyExternalStorage="true">
 
 
         <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="axs_wallet_channel" />

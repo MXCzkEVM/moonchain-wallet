@@ -53,7 +53,6 @@ class PermissionsHelper {
   Future<void> checkPermissionStatusAndRequest(
     Permission permission,
   ) async {
-    final l = await permission.status;
     if (!(await PermissionUtils.isPermissionGranted(permission)) &&
         !(await PermissionUtils.isPermissionPermanentlyDenied(permission))) {
       final askForPermission =

@@ -35,7 +35,7 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
       FlutterI18n.translate(context, 'saved_messages');
 
   @override
-  Color themeColor() => const Color(0xFF37AEE2);
+  Color themeColor({BuildContext? context}) => const Color(0xFF37AEE2);
 
   @override
   Widget buildAlert(BuildContext context) {

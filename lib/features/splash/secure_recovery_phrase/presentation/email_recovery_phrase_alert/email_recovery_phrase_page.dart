@@ -31,7 +31,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
       );
 
   @override
-  Color themeColor() => const Color(0xFFE64340);
+  Color themeColor({BuildContext? context}) => const Color(0xFFE64340);
 
   @override
   Widget buildAlert(BuildContext context) {

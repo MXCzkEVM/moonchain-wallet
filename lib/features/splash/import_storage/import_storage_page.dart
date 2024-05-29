@@ -25,6 +25,11 @@ class SplashImportStoragePage extends SplashBasePage {
 
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
+    final isTelegramAvailable = ref.watch(state).applist['telegram'] == true ||
+        ref.watch(state).applist['telegram_web'] == true;
+    final isWeChatAvailable = ref.watch(state).applist['weixin'] == true ||
+        ref.watch(state).applist['wechat'] == true;
+    final isNoneAvailable = !(isTelegramAvailable || isWeChatAvailable);
     return [
       MxcButton.secondaryWhite(
         key: const ValueKey('telegramButton'),
@@ -32,8 +37,7 @@ class SplashImportStoragePage extends SplashBasePage {
         iconSize: 32,
         titleSize: 18,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
-        onTap: ref.watch(state).applist['telegram'] == true ||
-                ref.watch(state).applist['telegram_web'] == true
+        onTap: isTelegramAvailable
             ? () => ref.read(presenter).openTelegram()
             : null,
       ),
@@ -43,18 +47,9 @@ class SplashImportStoragePage extends SplashBasePage {
         iconSize: 32,
         titleSize: 18,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
-        onTap: ref.watch(state).applist['weixin'] == true ||
-                ref.watch(state).applist['wechat'] == true
-            ? () => ref.read(presenter).openWechat()
-            : null,
+        onTap:
+            isWeChatAvailable ? () => ref.read(presenter).openWechat() : null,
       ),
-      // MxcButton.secondaryWhite(
-      //   key: const ValueKey('emailButton'),
-      //   icon: MxcIcons.email,
-      //   iconSize: 20,
-      //   title: FlutterI18n.translate(context, 'email_secured_storage'),
-      //   onTap: () => ref.read(presenter).openEmail(),
-      // ),
       MxcButton.secondaryWhite(
         key: const ValueKey('mnemonicButton'),
         icon: MxcIcons.cloud,
@@ -67,6 +62,16 @@ class SplashImportStoragePage extends SplashBasePage {
           ),
         ),
       ),
+      isNoneAvailable
+          ? MxcButton.secondaryWhite(
+              key: const ValueKey('localButton'),
+              icon: Icons.file_download_rounded,
+              iconSize: 32,
+              titleSize: 18,
+              title: FlutterI18n.translate(context, 'local_secured_storage'),
+              onTap: () => ref.read(presenter).openLocalSeedPhrase(),
+            )
+          : Container()
     ];
   }
 }

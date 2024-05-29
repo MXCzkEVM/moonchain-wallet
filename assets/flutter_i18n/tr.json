@@ -412,5 +412,10 @@
     "background_service_solution_2_text": "Pil optimizasyon ayarlarının uygulamanın işlevselliğini kısıtlamadığından emin olun. Bunu cihazınızın ayarlarında 'Pil' veya 'Uygulamalar' altında bulabilirsiniz.",
     "need_further_assistant": "Daha fazla yardıma mı ihtiyacınız var? Ayarlar'daki Yardım Merkezimizi ziyaret edin veya destekle iletişime geçin.",
     "information": "Bilgi",
-    "ok": "Tamam"
+    "ok": "Tamam",
+    "local_secured_storage": "Yerel güvenli depolama",
+    "save_locally": "Yerel olarak kaydet",
+    "save_locally_description": "Anahtarlarınızı yerel olarak kaydettiğinizden emin olun ve sonra işlem yapmaya hazırsınız.",
+    "axs_storage_permission_use_case": "AXS Cüzdanı, RWA gibi özellikler için depolama alanınıza erişim gerektirir. Depolama verileriniz hiçbir üçüncü taraf ile kaydedilmez veya paylaşılmaz.",
+    "local_backup": "Yerel yedekleme"
 }

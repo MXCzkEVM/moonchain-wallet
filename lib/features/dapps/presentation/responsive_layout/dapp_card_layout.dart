@@ -7,10 +7,10 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../dapps_state.dart';
 import '../widgets/dapp_indicator.dart';
-import 'card_item.dart';
+import 'dapps_layout/card_item.dart';
 import 'dapp_loading.dart';
 import 'dapp_utils.dart';
-import 'new_dapp_card.dart';
+import 'dapps_layout/dapp_card.dart';
 
 class DappCardLayout extends HookConsumerWidget {
   const DappCardLayout({
@@ -82,6 +82,9 @@ class DappCardLayout extends HookConsumerWidget {
             },
           ),
         ),
+        const SizedBox(
+          height: Sizes.spaceXLarge,
+        ),
         DAppIndicator(
           total: pages,
           selectedIndex: state.pageIndex,
@@ -99,7 +102,7 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
     final item = dapps[i];
     final isBookMark = item is Bookmark;
     final dappCard = isBookMark
-        ? NewDAppCard(
+        ? DAppCard(
             index: i,
             width: itemWidth,
             dapp: item,
@@ -107,7 +110,7 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
             onTap: state.isEditMode ? null : () => actions.openDapp(item.url),
             mainAxisCount: mainAxisCount,
           )
-        : NewDAppCard(
+        : DAppCard(
             index: i,
             width: itemWidth,
             dapp: item,
