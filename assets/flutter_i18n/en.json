@@ -412,5 +412,6 @@
 	"dapp_removal_dialog_text": "Deleting this dApp will remove it from your Home Screen.",
 	"information": "Information",
 	"ok": "Ok",
-	"local_backup": "Local backup"
+	"local_backup": "Local backup",
+	"no_description": "No description"
 }

@@ -19,20 +19,19 @@ Widget buildCard(
   void Function()? shatter,
   bool animated = false,
 }) {
-  
   final isMobile = mainAxisCount == CardMainAxisCount.mobile;
   final imageRatioFactor = (isMobile ? 0.2 : 0.1);
   String? image;
   if (dapp is Bookmark) {
-    if ((dapp as Bookmark).image != null) {
-      image = (dapp as Bookmark).image!;
+    if ((dapp).image != null) {
+      image = (dapp).image!;
     } else {
-      actions!.updateBookmarkFavIcon(dapp as Bookmark);
+      actions!.updateBookmarkFavIcon(dapp);
     }
   } else {
     image = dapp.reviewApi!.icon!;
   }
-  final name = dapp is Bookmark ? (dapp as Bookmark).title : dapp.app!.name!;
+  final name = dapp is Bookmark ? (dapp).title : dapp.app!.name!;
   final imageSize = width * (ratioFactor ?? imageRatioFactor);
   return GestureDetector(
     onTap: () {
@@ -74,31 +73,33 @@ Widget buildCard(
                         Icons.image_not_supported_rounded,
                         color: ColorsTheme.of(context).textPrimary,
                       )
-                    : image.contains('https') && dapp is Bookmark
-                        ? CachedNetworkImage(
-                            imageUrl: image,
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) {
-                              return Column(
-                                children: [
-                                  Icon(
-                                    Icons.image_not_supported_outlined,
-                                    color: ColorsTheme.of(context).textError,
-                                  ),
-                                  const SizedBox(
-                                    height: Sizes.spaceXSmall,
-                                  ),
-                                ],
-                              );
-                            },
+                    : image.contains(
+                        'https',
+                      )
+                        ? image.contains(
+                            'svg',
                           )
-                        : image.contains('https')
                             ? SvgPicture.network(
                                 image,
                               )
-                            : SvgPicture.asset(
-                                image,
-                              ),
+                            : CachedNetworkImage(
+                                imageUrl: image,
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) {
+                                  return Column(
+                                    children: [
+                                      Icon(
+                                        Icons.image_not_supported_outlined,
+                                        color:
+                                            ColorsTheme.of(context).textError,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              )
+                        : SvgPicture.asset(
+                            image,
+                          ),
               ),
             ),
             if (isEditMode && dapp is Bookmark)
@@ -106,8 +107,7 @@ Widget buildCard(
                 top: -6,
                 left: -6,
                 child: GestureDetector(
-                  onTap: () =>
-                      actions!.removeBookmarkDialog(dapp as Bookmark, shatter!),
+                  onTap: () => actions!.removeBookmarkDialog(dapp, shatter!),
                   child: const Icon(
                     Icons.remove_circle_rounded,
                   ),
