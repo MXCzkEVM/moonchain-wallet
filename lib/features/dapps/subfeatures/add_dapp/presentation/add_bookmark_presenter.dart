@@ -47,7 +47,6 @@ class AddBookmarkPresenter extends CompletePresenter<void> {
 
       var iconUrl = await FaviconFinder.getBest(url);
 
-
       _bookmarksUseCase.addItem(Bookmark(
         id: DateTime.now().microsecondsSinceEpoch,
         title: title,
