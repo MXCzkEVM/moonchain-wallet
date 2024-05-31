@@ -29,9 +29,9 @@ Widget buildCard(
       actions!.updateBookmarkFavIcon(dapp);
     }
   } else {
-    image = dapp.reviewApi!.icon!;
+    image = dapp.reviewApi?.icon;
   }
-  final name = dapp is Bookmark ? (dapp).title : dapp.app!.name!;
+  final name = dapp is Bookmark ? (dapp).title : dapp.app?.name;
   final imageSize = width * (ratioFactor ?? imageRatioFactor);
   return GestureDetector(
     onTap: () {
@@ -119,7 +119,7 @@ Widget buildCard(
           height: Sizes.space2XSmall,
         ),
         Text(
-          name,
+          name ?? '',
           style: FontTheme.of(context)
               .caption1
               .primary()
