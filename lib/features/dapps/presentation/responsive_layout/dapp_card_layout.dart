@@ -100,31 +100,12 @@ List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
 
   for (int i = 0; i < dapps.length; i++) {
     final item = dapps[i];
-    final isBookMark = item is Bookmark;
-    final dappCard = isBookMark
-        ? DAppCard(
-            index: i,
-            width: itemWidth,
-            dapp: item,
-            isEditMode: state.isEditMode,
-            onTap: state.isEditMode ? null : () => actions.openDapp(item.url),
-            mainAxisCount: mainAxisCount,
-          )
-        : DAppCard(
-            index: i,
-            width: itemWidth,
-            dapp: item,
-            isEditMode: state.isEditMode,
-            onTap: state.isEditMode
-                ? null
-                : () async {
-                    await actions.requestPermissions(item);
-                    actions.openDapp(
-                      item.app!.url!,
-                    );
-                  },
-            mainAxisCount: mainAxisCount,
-          );
+    final dappCard = DAppCard(
+      index: i,
+      width: itemWidth,
+      dapp: item,
+      mainAxisCount: mainAxisCount,
+    );
     dappCards.add(dappCard);
   }
 

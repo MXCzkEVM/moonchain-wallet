@@ -1,7 +1,9 @@
 import 'package:mxc_logic/mxc_logic.dart';
 
 class UIMetricsUtils {
-  static getGridViewItemWidth(double viewPortWidth) {
+  static getGridViewItemWidth(
+    double viewPortWidth,
+  ) {
     return viewPortWidth / 3;
   }
 

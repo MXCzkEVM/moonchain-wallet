@@ -17,16 +17,12 @@ class DAppCard extends HookConsumerWidget {
   final Dapp dapp;
   final int index;
   final double width;
-  final bool isEditMode;
-  final VoidCallback? onTap;
   final int mainAxisCount;
   const DAppCard({
     super.key,
     required this.index,
     required this.width,
     required this.dapp,
-    required this.isEditMode,
-    required this.onTap,
     required this.mainAxisCount,
   });
 
@@ -36,8 +32,29 @@ class DAppCard extends HookConsumerWidget {
     WidgetRef ref,
   ) {
     final actions = ref.read(appsPagePageContainer.actions);
-    final dappUrl = dapp is Bookmark ? (dapp as Bookmark).url : dapp.app!.url!;
+    final state = ref.read(appsPagePageContainer.state);
+
+    final isEditMode = state.isEditMode;
     final isBookMark = dapp is Bookmark;
+    late String dappUrl;
+    void Function()? onTap;
+
+    if (isBookMark) {
+      dappUrl = (dapp as Bookmark).url;
+      onTap = state.isEditMode
+          ? null
+          : () => actions.openDapp((dapp as Bookmark).url);
+    } else {
+      dappUrl = dapp.app!.url!;
+      onTap = state.isEditMode
+          ? null
+          : () async {
+              await actions.requestPermissions(dapp);
+              actions.openDapp(
+                dapp.app!.url!,
+              );
+            };
+    }
 
     final isMobile = mainAxisCount == CardMainAxisCount.mobile;
     final imageRatioFactor = (isMobile ? 0.2 : 0.1);
