@@ -65,6 +65,8 @@ class BookMarksHelper {
     var uri = Uri.parse(url);
     var request = await client.getUrl(uri);
     var response = await request.close();
-    return response.redirects.last.location.toString();
+    return response.redirects.isEmpty
+        ? url
+        : response.redirects.last.location.toString();
   }
 }

@@ -16,18 +16,6 @@ class AddBookmarkPresenter extends CompletePresenter<void> {
       ref.read(bookmarksUseCaseProvider);
   late final TextEditingController urlController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Future<void> dispose() async {
-    // urlController.dispose();
-
-    super.dispose();
-  }
-
   Future<void> onSave() async {
     String url = urlController.text;
     url = url.contains('https') ? url : 'https://$url';
@@ -51,7 +39,7 @@ class AddBookmarkPresenter extends CompletePresenter<void> {
         id: DateTime.now().microsecondsSinceEpoch,
         title: title,
         url: url,
-        image: iconUrl?.url
+        image: iconUrl?.url,
       ));
 
       BottomFlowDialog.of(context!).close();
