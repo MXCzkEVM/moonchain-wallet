@@ -87,8 +87,8 @@ post_install do |installer|
         ## dart: PermissionGroup.sensors
         # 'PERMISSION_SENSORS=1',
 
-        ## dart: PermissionGroup.bluetooth
-        # 'PERMISSION_BLUETOOTH=1',
+        # dart: PermissionGroup.bluetooth
+        'PERMISSION_BLUETOOTH=1',
 
         ## dart: PermissionGroup.appTrackingTransparency
         # 'PERMISSION_APP_TRACKING_TRANSPARENCY=1',
