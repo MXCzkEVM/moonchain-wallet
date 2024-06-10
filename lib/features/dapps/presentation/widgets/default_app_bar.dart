@@ -17,6 +17,7 @@ class DefaultAppBar extends StatelessWidget {
         icon: const Icon(MxcIcons.settings),
         iconSize: Sizes.space2XLarge,
         onPressed: () {
+          
           Navigator.of(context).push(
             route(
               const SettingsPage(),

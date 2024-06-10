@@ -259,3 +259,11 @@ final Provider<IPFSUseCase> ipfsUseCaseProvider = Provider(
     ref.watch(chainConfigurationUseCaseProvider),
   ),
 );
+
+final Provider<BluetoothUseCase> bluetoothUseCaseProvider = Provider(
+  (ref) => BluetoothUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(authUseCaseProvider),
+  ),
+);
