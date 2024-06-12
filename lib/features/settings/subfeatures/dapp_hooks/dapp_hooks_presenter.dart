@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/wifi_hooks_helper.dart';
 import 'package:datadashwallet/core/core.dart';

@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
+import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+
 class BluetoothUseCase extends ReactiveUseCase {
   BluetoothUseCase(
-      this._repository, this._chainConfigurationUseCase, this._authUseCase) {
-    initBluetoothUseCase();
-  }
+      this._repository, this._chainConfigurationUseCase, this._authUseCase);
 
   final Web3Repository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
@@ -31,6 +31,7 @@ class BluetoothUseCase extends ReactiveUseCase {
     bluetoothStatus.listen((state) {
       if (state == BluetoothAdapterState.on) {
         // usually start scanning, connecting, etc
+        isScanningListener();
         initScannerListener();
         startScanning();
       } else {
@@ -99,31 +100,43 @@ class BluetoothUseCase extends ReactiveUseCase {
     // for iOS, the user controls bluetooth enable/disable
     if (Platform.isAndroid) {
       await FlutterBluePlus.turnOn();
+    } else {
+      // IOS
+      AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
     }
   }
 
   void startScanning({
-    List<Guid> withServices = const [],
-    List<String> withRemoteIds = const [],
-    List<String> withNames = const [],
-    List<String> withKeywords = const [],
-    List<MsdFilter> withMsd = const [],
-    List<ServiceDataFilter> withServiceData = const [],
+    List<Guid>? withServices,
+    List<String>? withRemoteIds,
+    List<String>? withNames,
+    List<String>? withKeywords,
+    List<MsdFilter>? withMsd,
+    List<ServiceDataFilter>? withServiceData,
     Duration? timeout,
     Duration? removeIfGone,
-    bool continuousUpdates = false,
-    int continuousDivisor = 1,
-    bool oneByOne = false,
-    AndroidScanMode androidScanMode = AndroidScanMode.lowLatency,
-    bool androidUsesFineLocation = false,
+    bool? continuousUpdates,
+    int? continuousDivisor,
+    bool? oneByOne,
+    AndroidScanMode? androidScanMode,
+    bool? androidUsesFineLocation,
   }) async {
     // Start scanning w/ timeout
     // Optional: use `stopScan()` as an alternative to timeout
     await FlutterBluePlus.startScan(
-      // withServices: [Guid("180D")], // match any of the specified services
-      // withNames: ["Bluno"], // *or* any of the specified names
-      continuousUpdates: true,
-      timeout: const Duration(seconds: 15),
+      withServices: withServices ?? [],
+      withNames: withNames ?? [],
+      withMsd: withMsd ?? [],
+      withRemoteIds: withRemoteIds ?? [],
+      withServiceData: withServiceData ?? [],
+      withKeywords: withKeywords ?? [],
+      timeout: timeout,
+      removeIfGone: removeIfGone,
+      continuousUpdates: continuousUpdates ?? false,
+      continuousDivisor: continuousDivisor ?? 1,
+      oneByOne: oneByOne ?? false,
+      androidScanMode: androidScanMode ?? AndroidScanMode.lowLatency,
+      androidUsesFineLocation: androidUsesFineLocation ?? false,
     );
   }
 
