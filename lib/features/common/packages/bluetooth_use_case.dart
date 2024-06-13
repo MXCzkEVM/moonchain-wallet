@@ -11,7 +11,9 @@ import 'package:datadashwallet/features/settings/subfeatures/chain_configuration
 
 class BluetoothUseCase extends ReactiveUseCase {
   BluetoothUseCase(
-      this._repository, this._chainConfigurationUseCase, this._authUseCase);
+      this._repository, this._chainConfigurationUseCase, this._authUseCase){
+        initBluetoothUseCase();
+      }
 
   final Web3Repository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
@@ -24,6 +26,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   late final ValueStream<bool> isScanning = reactive(false);
   late final ValueStream<BluetoothAdapterState> bluetoothStatus =
       reactive(BluetoothAdapterState.off);
+  late final ValueStream<List<ScanResult>> scanResults = reactive([]);
 
   void initBluetoothUseCase() {
     initStateListener();
@@ -33,7 +36,6 @@ class BluetoothUseCase extends ReactiveUseCase {
         // usually start scanning, connecting, etc
         isScanningListener();
         initScannerListener();
-        startScanning();
       } else {
         // show an error to the user, etc
       }
@@ -76,17 +78,11 @@ class BluetoothUseCase extends ReactiveUseCase {
       (results) {
         inspect(results);
         if (results.isNotEmpty) {
-          // for (ScanResult r in results) {
-
-          //   print(
-          //       '${r.device.remoteId}: "${r.advertisementData.advName}" "${r.advertisementData.manufacturerData.toString()}" "${r.advertisementData.manufacturerData}" found!');
-          // }
+          update(scanResults, results);
         }
       },
       onError: (e) => print(e),
     );
-
-    _cancelScannerListen();
   }
 
   void isScanningListener() async {
@@ -95,14 +91,14 @@ class BluetoothUseCase extends ReactiveUseCase {
     });
   }
 
-  void turnOnBluetooth() async {
+  Future<void> turnOnBluetooth() async {
     // turn on bluetooth ourself if we can
     // for iOS, the user controls bluetooth enable/disable
     if (Platform.isAndroid) {
       await FlutterBluePlus.turnOn();
     } else {
       // IOS
-      AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
+      await AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
     }
   }
 
@@ -123,6 +119,9 @@ class BluetoothUseCase extends ReactiveUseCase {
   }) async {
     // Start scanning w/ timeout
     // Optional: use `stopScan()` as an alternative to timeout
+    if (isScanning.value == true) {      
+      return;
+    }
     await FlutterBluePlus.startScan(
       withServices: withServices ?? [],
       withNames: withNames ?? [],
