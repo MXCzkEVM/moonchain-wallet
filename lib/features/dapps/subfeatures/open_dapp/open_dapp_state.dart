@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 
@@ -16,6 +17,8 @@ class OpenDAppState with EquatableMixin {
   // this is used for controlling the onLoadStop not being called twice
   bool isLoadStopCalled = true;
 
+  List<ScanResult> scanResults = [];
+
   @override
   List<Object?> get props => [
         account,
@@ -26,6 +29,7 @@ class OpenDAppState with EquatableMixin {
         currentUrl,
         isSecure,
         dappHooksData,
-        isLoadStopCalled
+        isLoadStopCalled,
+        scanResults
       ];
 }

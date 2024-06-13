@@ -1,24 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:clipboard/clipboard.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/add_asset_dialog.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/swtich_network_dialog.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/typed_message_dialog.dart';
+
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/widgets.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/dapp_hooks_page.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
 
+import './domain/entities/entities.dart';
 import 'open_dapp_state.dart';
-import 'widgets/bridge_params.dart';
-import 'widgets/transaction_dialog.dart';
 
 final openDAppPageContainer =
     PresenterContainer<OpenDAppPresenter, OpenDAppState>(
@@ -40,6 +41,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
   late final _backgroundFetchConfigUseCase =
       ref.read(backgroundFetchConfigUseCaseProvider);
+  late final _bluetoothUseCase = ref.read(bluetoothUseCaseProvider);
 
   MinerHooksHelper get minerHooksHelper => MinerHooksHelper(
       translate: translate,
@@ -63,6 +65,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       if (value != null) {
         notify(() => state.network = value);
       }
+    });
+
+    listen(_bluetoothUseCase.scanResults, (value) {
+      notify(() => state.scanResults = value);
     });
 
     listen(_dAppHooksUseCase.dappHooksData, (value) {
@@ -627,6 +633,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         handlerName: JSChannelEvents.goToAdvancedSettingsEvent,
         callback: (args) =>
             jsChannelErrorHandler(args, handleGoToAdvancedSettingsEvent));
+
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents.requestDevice,
+        callback: (args) =>
+            jsChannelErrorHandler(args, handleBluetoothRequestDevice));
   }
 
   void injectAXSWalletJSChannel() async {
@@ -635,6 +646,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     await state.webviewController!.evaluateJavascript(
         source: JSChannelScripts.axsWalletObjectInjectScript(
             JSChannelConfig.axsWalletJSObjectName));
+
+    await state.webviewController!.evaluateJavascript(
+        source: JSChannelScripts.axsBluetoothObjectInjectScript());
 
     await state.webviewController!.evaluateJavascript(
         source: JSChannelScripts.axsWalletReadyInjectScript(
@@ -714,6 +728,99 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     } else {
       throw 'Unknown service';
     }
+  }
+
+  Future<Map<String, dynamic>> handleBluetoothRequestDevice(
+    Map<String, dynamic> channelData,
+    AXSCronServices axsCronService,
+  ) async {
+    final axsCronService =
+        AXSCronServicesExtension.getCronServiceFromJson(channelData);
+    if (axsCronService == AXSCronServices.blueberryRingCron) {
+      final options =
+          RequestDeviceOptions.fromJson(channelData['cron']['data']);
+
+      late BluetoothDevice responseDevice;
+
+      await _bluetoothUseCase.turnOnBluetooth();
+      final bluetoothStatus = await _bluetoothUseCase.bluetoothStatus.first;
+
+      // if (bluetoothStatus == BluetoothAdapterState.on) {
+      //  Get the options data
+      _bluetoothUseCase.startScanning(
+        withServices: options.filters != null
+            ? options.filters!
+                .expand((filter) => filter.services ?? [])
+                .toList()[0]
+            : [],
+        withRemoteIds:
+            null, // No direct mapping in RequestDeviceOptions, adjust as necessary
+        withNames: options.filters != null
+            ? options.filters!
+                .where((filter) => filter.name != null)
+                .map((filter) => filter.name!)
+                .toList()
+            : [],
+        withKeywords: options.filters != null
+            ? options.filters!
+                .where((filter) => filter.namePrefix != null)
+                .map((filter) => filter.namePrefix!)
+                .toList()
+            : [],
+        withMsd: options.filters != null
+            ? options.filters!
+                .expand((filter) => filter.manufacturerData ?? [])
+                .toList()[0]
+            : [],
+        withServiceData: options.filters != null
+            ? options.filters!
+                .expand((filter) => filter.serviceData ?? [])
+                .toList()[0]
+            : [],
+        removeIfGone: const Duration(seconds: 20),
+        continuousUpdates: true,
+        continuousDivisor: 2,
+        oneByOne: true,
+        androidUsesFineLocation: true,
+      );
+
+      responseDevice = await getBlueberryRing();
+      // } else {
+      //   addError(translate('unable_to_continue_bluetooth_is_turned_off')!);
+      // }
+
+      return responseDevice.toMap();
+    } else {
+      throw 'Unknown service';
+    }
+  }
+
+  Future<BluetoothDevice> getBlueberryRing() async {
+    return Future.delayed(
+      const Duration(seconds: 5),
+      () async {
+        late BluetoothDevice responseDevice;
+        final scanResults = await _bluetoothUseCase.scanResults.first;
+        if (scanResults.length > 1 || scanResults.isEmpty) {
+          // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
+          final scanResult = await showBlueberryDevicesBottomSheet(
+            context!,
+          );
+          if (scanResult != null) {
+            responseDevice =
+                BluetoothDevice.getBluetoothDeviceFromScanResult(scanResult);
+          } else {
+            // TODO: throw error
+          }
+        } else {
+          // only one scan results
+          final scanResult = scanResults.first;
+          responseDevice =
+              BluetoothDevice.getBluetoothDeviceFromScanResult(scanResult);
+        }
+        return responseDevice;
+      },
+    );
   }
 
   Future<Map<String, dynamic>> handleChangeCronTransitionStatusEvent(
