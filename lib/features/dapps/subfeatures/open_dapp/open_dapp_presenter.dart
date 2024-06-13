@@ -80,6 +80,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     notify(() => state.webviewController = controller);
     updateCurrentUrl(null);
     injectMinerDappListeners();
+    injectBluetoothListeners();
   }
 
   void updateCurrentUrl(Uri? value) async {
@@ -620,25 +621,35 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.changeCronTransitionEvent,
         callback: (args) =>
-            jsChannelErrorHandler(args, handleChangeCronTransition));
+            jsChannelCronErrorHandler(args, handleChangeCronTransition));
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.changeCronTransitionStatusEvent,
-        callback: (args) =>
-            jsChannelErrorHandler(args, handleChangeCronTransitionStatusEvent));
+        callback: (args) => jsChannelCronErrorHandler(
+            args, handleChangeCronTransitionStatusEvent));
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.getSystemInfoEvent,
         callback: (args) =>
-            jsChannelErrorHandler(args, handleGetSystemInfoEvent));
+            jsChannelCronErrorHandler(args, handleGetSystemInfoEvent));
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.goToAdvancedSettingsEvent,
         callback: (args) =>
-            jsChannelErrorHandler(args, handleGoToAdvancedSettingsEvent));
+            jsChannelCronErrorHandler(args, handleGoToAdvancedSettingsEvent));
+  }
 
+  void injectBluetoothListeners() {
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.requestDevice,
         callback: (args) =>
             jsChannelErrorHandler(args, handleBluetoothRequestDevice));
+
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents.bluetoothRemoteGATTServerConnect,
+        callback: (args) => jsChannelErrorHandler(
+            args, handleBluetoothRequestDevice));
   }
+
+  // Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerConnect(
+  //     Map<String, dynamic> data) async {}
 
   void injectAXSWalletJSChannel() async {
     // Making It easy for accessing axs wallet
@@ -656,11 +667,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     ));
   }
 
-  Future<Map<String, dynamic>> jsChannelErrorHandler(
-      List<dynamic> args,
-      Future<Map<String, dynamic>> Function(
-              Map<String, dynamic>, AXSCronServices)
-          callback) async {
+  Future<Map<String, dynamic>> jsChannelCronErrorHandler(
+    List<dynamic> args,
+    Future<Map<String, dynamic>> Function(
+      Map<String, dynamic>,
+      AXSCronServices,
+    )
+        callback,
+  ) async {
     try {
       Map<String, dynamic> channelDataMap;
 
@@ -673,6 +687,30 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       return callbackRes;
     } catch (e) {
       final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
+          status: AXSJSChannelResponseStatus.failed,
+          data: null,
+          message: e.toString());
+      return response.toMap((data) => {'message': e.toString()});
+    }
+  }
+
+  Future<Map<String, dynamic>> jsChannelErrorHandler(
+    List<dynamic> args,
+    Future<Map<String, dynamic>> Function(
+      Map<String, dynamic>,
+    )
+        callback,
+  ) async {
+    try {
+      Map<String, dynamic> channelDataMap;
+
+      final channelData = args[0];
+      channelDataMap = channelData as Map<String, dynamic>;
+
+      final callbackRes = await callback(channelDataMap);
+      return callbackRes;
+    } catch (e) {
+      final response = AXSJSChannelResponseModel<String>(
           status: AXSJSChannelResponseStatus.failed,
           data: null,
           message: e.toString());
@@ -732,67 +770,60 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   Future<Map<String, dynamic>> handleBluetoothRequestDevice(
     Map<String, dynamic> channelData,
-    AXSCronServices axsCronService,
   ) async {
-    final axsCronService =
-        AXSCronServicesExtension.getCronServiceFromJson(channelData);
-    if (axsCronService == AXSCronServices.blueberryRingCron) {
-      final options =
-          RequestDeviceOptions.fromJson(channelData['cron']['data']);
+    // final options = RequestDeviceOptions.fromJson(channelData['data']);
+    final options = RequestDeviceOptions.fromMap(channelData);
+    late BluetoothDevice responseDevice;
 
-      late BluetoothDevice responseDevice;
+    await _bluetoothUseCase.turnOnBluetooth();
+    final bluetoothStatus = await _bluetoothUseCase.bluetoothStatus.first;
 
-      await _bluetoothUseCase.turnOnBluetooth();
-      final bluetoothStatus = await _bluetoothUseCase.bluetoothStatus.first;
+    // if (bluetoothStatus == BluetoothAdapterState.on) {
+    //  Get the options data
+    _bluetoothUseCase.startScanning(
+      withServices: options.filters != null
+          ? options.filters!
+              .expand((filter) => filter.services ?? [])
+              .toList()[0]
+          : [],
+      withRemoteIds:
+          null, // No direct mapping in RequestDeviceOptions, adjust as necessary
+      withNames: options.filters != null
+          ? options.filters!
+              .where((filter) => filter.name != null)
+              .map((filter) => filter.name!)
+              .toList()
+          : [],
+      withKeywords: options.filters != null
+          ? options.filters!
+              .where((filter) => filter.namePrefix != null)
+              .map((filter) => filter.namePrefix!)
+              .toList()
+          : [],
+      withMsd: options.filters != null
+          ? options.filters!
+              .expand((filter) => filter.manufacturerData ?? [])
+              .toList()[0]
+          : [],
+      withServiceData: options.filters != null
+          ? options.filters!
+              .expand((filter) => filter.serviceData ?? [])
+              .toList()[0]
+          : [],
+      removeIfGone: const Duration(seconds: 20),
+      continuousUpdates: true,
+      continuousDivisor: 2,
+      oneByOne: true,
+      androidUsesFineLocation: true,
+    );
 
-      // if (bluetoothStatus == BluetoothAdapterState.on) {
-      //  Get the options data
-      _bluetoothUseCase.startScanning(
-        withServices: options.filters != null
-            ? options.filters!
-                .expand((filter) => filter.services ?? [])
-                .toList()[0]
-            : [],
-        withRemoteIds:
-            null, // No direct mapping in RequestDeviceOptions, adjust as necessary
-        withNames: options.filters != null
-            ? options.filters!
-                .where((filter) => filter.name != null)
-                .map((filter) => filter.name!)
-                .toList()
-            : [],
-        withKeywords: options.filters != null
-            ? options.filters!
-                .where((filter) => filter.namePrefix != null)
-                .map((filter) => filter.namePrefix!)
-                .toList()
-            : [],
-        withMsd: options.filters != null
-            ? options.filters!
-                .expand((filter) => filter.manufacturerData ?? [])
-                .toList()[0]
-            : [],
-        withServiceData: options.filters != null
-            ? options.filters!
-                .expand((filter) => filter.serviceData ?? [])
-                .toList()[0]
-            : [],
-        removeIfGone: const Duration(seconds: 20),
-        continuousUpdates: true,
-        continuousDivisor: 2,
-        oneByOne: true,
-        androidUsesFineLocation: true,
-      );
+    responseDevice = await getBlueberryRing();
+    // } else {
+    //   addError(translate('unable_to_continue_bluetooth_is_turned_off')!);
+    // }
 
-      responseDevice = await getBlueberryRing();
-      // } else {
-      //   addError(translate('unable_to_continue_bluetooth_is_turned_off')!);
-      // }
-
-      return responseDevice.toMap();
-    } else {
-      throw 'Unknown service';
-    }
+    state.selectedBluetoothDevice = responseDevice;
+    return responseDevice.toMap();
   }
 
   Future<BluetoothDevice> getBlueberryRing() async {
