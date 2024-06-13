@@ -10,13 +10,16 @@ class BluetoothRemoteGATTService extends Equatable {
   final String uuid;
   final bool isPrimary;
 
-  BluetoothRemoteGATTService({
+  const BluetoothRemoteGATTService({
     required this.device,
     required this.uuid,
     required this.isPrimary,
   });
 
-  factory BluetoothRemoteGATTService.fromJson(Map<String, dynamic> json) {
+  factory BluetoothRemoteGATTService.fromJson(String source) =>
+      BluetoothRemoteGATTService.fromMap(json.decode(source));
+
+  factory BluetoothRemoteGATTService.fromMap(Map<String, dynamic> json) {
     return BluetoothRemoteGATTService(
       device: BluetoothDevice.fromJson(json['device']),
       uuid: json['uuid'],

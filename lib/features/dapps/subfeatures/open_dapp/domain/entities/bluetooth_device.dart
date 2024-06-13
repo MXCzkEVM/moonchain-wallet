@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import 'bluetooth_remove_gatt_server.dart';
 
@@ -19,11 +20,33 @@ class BluetoothDevice extends Equatable {
   @override
   List<Object?> get props => [id, name, gatt, watchingAdvertisements];
 
+  factory BluetoothDevice.getBluetoothDeviceFromScanResult(
+      ScanResult scanResult) {
+    final id = scanResult.device.remoteId;
+    final name = scanResult.device.platformName;
+    final isConnected = scanResult.device.isConnected;
+
+    return BluetoothDevice(
+        id: id.str,
+        name: name,
+        watchingAdvertisements: true,
+        gatt: BluetoothRemoteGATTServer(
+          connected: isConnected,
+          device: BluetoothDevice(
+            id: id.str,
+            name: name,
+            watchingAdvertisements: true,
+          ),
+        ));
+  }
+
   factory BluetoothDevice.fromMap(Map<String, dynamic> map) {
     return BluetoothDevice(
       id: map['id'],
       name: map['name'],
-      gatt: map['gatt'] != null ? BluetoothRemoteGATTServer.fromMap(map['gatt']) : null,
+      gatt: map['gatt'] != null
+          ? BluetoothRemoteGATTServer.fromMap(map['gatt'])
+          : null,
       watchingAdvertisements: map['watchingAdvertisements'],
     );
   }
@@ -47,7 +70,8 @@ class BluetoothDevice extends Equatable {
     };
   }
 
-  factory BluetoothDevice.fromJson(String source) => BluetoothDevice.fromMap(json.decode(source));
+  factory BluetoothDevice.fromJson(String source) =>
+      BluetoothDevice.fromMap(json.decode(source));
 
   String toJson() => json.encode(toMap());
 
@@ -61,7 +85,8 @@ class BluetoothDevice extends Equatable {
       id: id ?? this.id,
       name: name ?? this.name,
       gatt: gatt ?? this.gatt,
-      watchingAdvertisements: watchingAdvertisements ?? this.watchingAdvertisements,
+      watchingAdvertisements:
+          watchingAdvertisements ?? this.watchingAdvertisements,
     );
   }
 

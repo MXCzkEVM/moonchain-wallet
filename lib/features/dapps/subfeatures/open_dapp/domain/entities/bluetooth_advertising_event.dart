@@ -13,7 +13,7 @@ class BluetoothAdvertisingEvent extends Equatable {
   final int? rssi;
   final int? txPower;
 
-  BluetoothAdvertisingEvent({
+  const BluetoothAdvertisingEvent({
     required this.device,
     required this.uuids,
     required this.manufacturerData,
@@ -24,7 +24,10 @@ class BluetoothAdvertisingEvent extends Equatable {
     this.txPower,
   });
 
-  factory BluetoothAdvertisingEvent.fromJson(Map<String, dynamic> json) {
+  factory BluetoothAdvertisingEvent.fromJson(String source) =>
+      BluetoothAdvertisingEvent.fromMap(json.decode(source));
+
+  factory BluetoothAdvertisingEvent.fromMap(Map<String, dynamic> json) {
     return BluetoothAdvertisingEvent(
       device: BluetoothDevice.fromJson(json['device']),
       uuids: List<String>.from(json['uuids']),
@@ -51,8 +54,17 @@ class BluetoothAdvertisingEvent extends Equatable {
   }
 
   @override
-  List<Object?> get props => [device, uuids, manufacturerData, serviceData, name, appearance, rssi, txPower];
-  
+  List<Object?> get props => [
+        device,
+        uuids,
+        manufacturerData,
+        serviceData,
+        name,
+        appearance,
+        rssi,
+        txPower
+      ];
+
   @override
   String toString() {
     return 'BluetoothAdvertisingEvent(device: $device, uuids: $uuids, manufacturerData: $manufacturerData, serviceData: $serviceData, name: $name, appearance: $appearance, rssi: $rssi, txPower: $txPower)';

@@ -12,19 +12,26 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
   final BluetoothCharacteristicProperties properties;
   final ByteData? value;
 
-  BluetoothRemoteGATTCharacteristic({
+  const BluetoothRemoteGATTCharacteristic({
     required this.service,
     required this.uuid,
     required this.properties,
     this.value,
   });
 
-  factory BluetoothRemoteGATTCharacteristic.fromJson(Map<String, dynamic> json) {
+  factory BluetoothRemoteGATTCharacteristic.fromJson(String source) =>
+      BluetoothRemoteGATTCharacteristic.fromMap(json.decode(source));
+
+  factory BluetoothRemoteGATTCharacteristic.fromMap(Map<String, dynamic> json) {
     return BluetoothRemoteGATTCharacteristic(
       service: BluetoothRemoteGATTService.fromJson(json['service']),
       uuid: json['uuid'],
-      properties: BluetoothCharacteristicProperties.fromJson(json['properties']),
-      value: json['value'] != null ? ByteData.sublistView(Uint8List.fromList(List<int>.from(json['value']))) : null,
+      properties:
+          BluetoothCharacteristicProperties.fromJson(json['properties']),
+      value: json['value'] != null
+          ? ByteData.sublistView(
+              Uint8List.fromList(List<int>.from(json['value'])))
+          : null,
     );
   }
 
@@ -36,36 +43,36 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
       'uuid': uuid,
       'properties': properties.toMap(),
       'value': value?.buffer.asUint8List(),
-      'getDescriptor' : '''
+      'getDescriptor': '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.getDescriptor', {'descriptor': '$uuid' });
         return response;
       })()
     ''',
-    'getDescriptors': '''
+      'getDescriptors': '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.getDescriptors', { 'descriptor': '$uuid' });
         return response;
       })()
     ''',
-    'readValue': '''
+      'readValue': '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.readValue', { 'uuid': '$uuid' });
         return response;
       })()
     ''',
-    'writeValue': '''
+      'writeValue': '''
       (async function() {
         await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'uuid': '$uuid', 'value': ${value!.buffer.asUint8List()} });
       })()
     ''',
-    'startNotifications': '''
+      'startNotifications': '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.stopNotifications', { 'uuid': '$uuid' });
         return response;
       })()
     ''',
-    'stopNotifications': '''
+      'stopNotifications': '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.stopNotifications', { 'uuid': '$uuid' });
         return response;
@@ -74,7 +81,8 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
     };
   }
 
-  Future<BluetoothRemoteGATTDescriptor> getDescriptor(InAppWebViewController webViewController, String descriptorUuid) async {
+  Future<BluetoothRemoteGATTDescriptor> getDescriptor(
+      InAppWebViewController webViewController, String descriptorUuid) async {
     final result = await webViewController.evaluateJavascript(source: '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.getDescriptor', { 'uuid': '$uuid', 'descriptor': '$descriptorUuid' });
@@ -84,14 +92,18 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
     return BluetoothRemoteGATTDescriptor.fromJson(result);
   }
 
-  Future<List<BluetoothRemoteGATTDescriptor>> getDescriptors(InAppWebViewController webViewController, {String? descriptorUuid}) async {
+  Future<List<BluetoothRemoteGATTDescriptor>> getDescriptors(
+      InAppWebViewController webViewController,
+      {String? descriptorUuid}) async {
     final result = await webViewController.evaluateJavascript(source: '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.getDescriptors', { 'uuid': '$uuid', 'descriptor': '${descriptorUuid ?? ''}' });
         return response;
       })()
     ''');
-    return (result as List).map((e) => BluetoothRemoteGATTDescriptor.fromJson(e)).toList();
+    return (result as List)
+        .map((e) => BluetoothRemoteGATTDescriptor.fromJson(e))
+        .toList();
   }
 
   Future<ByteData> readValue(InAppWebViewController webViewController) async {
@@ -104,7 +116,8 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
     return ByteData.sublistView(Uint8List.fromList(List<int>.from(result)));
   }
 
-  Future<void> writeValue(InAppWebViewController webViewController, ByteData value) async {
+  Future<void> writeValue(
+      InAppWebViewController webViewController, ByteData value) async {
     await webViewController.evaluateJavascript(source: '''
       (async function() {
         await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'uuid': '$uuid', 'value': ${value.buffer.asUint8List()} });
@@ -112,7 +125,8 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
     ''');
   }
 
-  Future<BluetoothRemoteGATTCharacteristic> startNotifications(InAppWebViewController webViewController) async {
+  Future<BluetoothRemoteGATTCharacteristic> startNotifications(
+      InAppWebViewController webViewController) async {
     final result = await webViewController.evaluateJavascript(source: '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.startNotifications', { 'uuid': '$uuid' });
@@ -122,7 +136,8 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
     return BluetoothRemoteGATTCharacteristic.fromJson(result);
   }
 
-  Future<BluetoothRemoteGATTCharacteristic> stopNotifications(InAppWebViewController webViewController) async {
+  Future<BluetoothRemoteGATTCharacteristic> stopNotifications(
+      InAppWebViewController webViewController) async {
     final result = await webViewController.evaluateJavascript(source: '''
       (async function() {
         var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.stopNotifications', { 'uuid': '$uuid' });
@@ -134,7 +149,7 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
 
   @override
   List<Object?> get props => [service, uuid, properties, value];
-  
+
   @override
   String toString() {
     return 'BluetoothRemoteGATTCharacteristic(service: $service, uuid: $uuid, properties: $properties, value: $value)';

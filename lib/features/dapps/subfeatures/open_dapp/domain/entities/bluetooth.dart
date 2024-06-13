@@ -6,14 +6,16 @@ import 'bluetooth_device.dart';
 class Bluetooth extends Equatable {
   final BluetoothDevice? referringDevice;
 
-  Bluetooth({this.referringDevice});
+  const Bluetooth({this.referringDevice});
 
   @override
   List<Object?> get props => [referringDevice];
 
   factory Bluetooth.fromMap(Map<String, dynamic> map) {
     return Bluetooth(
-      referringDevice: map['referringDevice'] != null ? BluetoothDevice.fromMap(map['referringDevice']) : null,
+      referringDevice: map['referringDevice'] != null
+          ? BluetoothDevice.fromMap(map['referringDevice'])
+          : null,
     );
   }
 
@@ -47,7 +49,8 @@ class Bluetooth extends Equatable {
     };
   }
 
-  factory Bluetooth.fromJson(String source) => Bluetooth.fromMap(json.decode(source));
+  factory Bluetooth.fromJson(String source) =>
+      Bluetooth.fromMap(json.decode(source));
 
   String toJson() => json.encode(toMap());
 

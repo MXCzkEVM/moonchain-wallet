@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import 'guid_helper.dart';
@@ -17,7 +19,10 @@ class BluetoothLEScanFilter {
     this.serviceData,
   });
 
-  factory BluetoothLEScanFilter.fromJson(Map<String, dynamic> json) {
+  factory BluetoothLEScanFilter.fromJson(String source) =>
+      BluetoothLEScanFilter.fromMap(json.decode(source));
+
+  factory BluetoothLEScanFilter.fromMap(Map<String, dynamic> json) {
     return BluetoothLEScanFilter(
       name: json['name'],
       namePrefix: json['namePrefix'],

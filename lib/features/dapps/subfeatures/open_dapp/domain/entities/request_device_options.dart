@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import 'bluetooth_les_scan_filter.dart';
@@ -16,7 +18,10 @@ class RequestDeviceOptions {
     this.acceptAllDevices,
   });
 
-  factory RequestDeviceOptions.fromJson(Map<String, dynamic> json) {
+  factory RequestDeviceOptions.fromJson(String source) =>
+      RequestDeviceOptions.fromMap(json.decode(source));
+
+  factory RequestDeviceOptions.fromMap(Map<String, dynamic> json) {
     return RequestDeviceOptions(
       filters: json['filters'] != null
           ? List<BluetoothLEScanFilter>.from(json['filters']

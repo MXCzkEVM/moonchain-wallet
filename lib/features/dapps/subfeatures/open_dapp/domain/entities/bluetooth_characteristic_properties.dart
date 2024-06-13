@@ -25,8 +25,10 @@ class BluetoothCharacteristicProperties extends Equatable {
     required this.writableAuxiliaries,
   });
 
-  factory BluetoothCharacteristicProperties.fromJson(
-      Map<String, dynamic> json) {
+  factory BluetoothCharacteristicProperties.fromJson(String source) =>
+      BluetoothCharacteristicProperties.fromMap(json.decode(source));
+
+  factory BluetoothCharacteristicProperties.fromMap(Map<String, dynamic> json) {
     return BluetoothCharacteristicProperties(
       broadcast: json['broadcast'],
       read: json['read'],
