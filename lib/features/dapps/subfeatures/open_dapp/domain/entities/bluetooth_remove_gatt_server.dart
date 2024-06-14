@@ -31,24 +31,24 @@ class BluetoothRemoteGATTServer extends Equatable {
       'connected': connected,
       'connect': '''
       (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.connect', { 'id': '${device.id}' });
+        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.connect',  );
         return response;
       })()
     ''',
       'disconnect': '''
       (async function() {
-        await window.axs.callHandler('BluetoothRemoteGATTServer.disconnect', { 'id': '${device.id}' });
+        await window.axs.callHandler('BluetoothRemoteGATTServer.disconnect', {  });
       })()
     ''',
       'getPrimaryService': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.getPrimaryService', {  'service': '${device.id}' });
+      (async function(service) {
+        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.getPrimaryService', {  'service': service });
         return response;
       })()
     ''',
       'getPrimaryServices': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.getPrimaryServices', {  'service': '${device.id}' });
+      (async function(service) {
+        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.getPrimaryServices', {  'service': service });
         return response;
       })()
     ''',

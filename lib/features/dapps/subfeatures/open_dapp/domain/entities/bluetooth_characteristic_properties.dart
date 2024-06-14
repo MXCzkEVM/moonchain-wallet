@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class BluetoothCharacteristicProperties extends Equatable {
   final bool broadcast;
@@ -24,6 +25,20 @@ class BluetoothCharacteristicProperties extends Equatable {
     required this.reliableWrite,
     required this.writableAuxiliaries,
   });
+
+  factory BluetoothCharacteristicProperties.fromCharacteristicProperties(
+          CharacteristicProperties source) =>
+      BluetoothCharacteristicProperties(
+        authenticatedSignedWrites: source.authenticatedSignedWrites,
+        broadcast: source.broadcast,
+        indicate: source.indicate,
+        notify: source.notify,
+        read: source.read,
+        reliableWrite: source.write,
+        writableAuxiliaries: source.write,
+        write: source.write,
+        writeWithoutResponse: source.writeWithoutResponse,
+      );
 
   factory BluetoothCharacteristicProperties.fromJson(String source) =>
       BluetoothCharacteristicProperties.fromMap(json.decode(source));
