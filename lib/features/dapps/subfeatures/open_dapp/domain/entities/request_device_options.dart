@@ -25,7 +25,7 @@ class RequestDeviceOptions {
     return RequestDeviceOptions(
       filters: json['filters'] != null
           ? List<BluetoothLEScanFilter>.from(json['filters']
-              .map((filter) => BluetoothLEScanFilter.fromJson(filter)))
+              .map((filter) => BluetoothLEScanFilter.fromMap(filter)))
           : null,
       optionalServices: json['optionalServices'] != null
           ? List<Guid>.from(json['optionalServices']

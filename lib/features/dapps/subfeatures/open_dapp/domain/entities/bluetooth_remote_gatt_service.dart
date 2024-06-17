@@ -21,7 +21,7 @@ class BluetoothRemoteGATTService extends Equatable {
 
   factory BluetoothRemoteGATTService.fromMap(Map<String, dynamic> json) {
     return BluetoothRemoteGATTService(
-      device: BluetoothDevice.fromJson(json['device']),
+      device: BluetoothDevice.fromMap(json['device']),
       uuid: json['uuid'],
       isPrimary: json['isPrimary'],
     );

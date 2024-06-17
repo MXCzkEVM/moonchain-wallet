@@ -24,10 +24,10 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
 
   factory BluetoothRemoteGATTCharacteristic.fromMap(Map<String, dynamic> json) {
     return BluetoothRemoteGATTCharacteristic(
-      service: BluetoothRemoteGATTService.fromJson(json['service']),
+      service: BluetoothRemoteGATTService.fromMap(json['service']),
       uuid: json['uuid'],
       properties:
-          BluetoothCharacteristicProperties.fromJson(json['properties']),
+          BluetoothCharacteristicProperties.fromMap(json['properties']),
       value: json['value'] != null
           ? ByteData.sublistView(
               Uint8List.fromList(List<int>.from(json['value'])))

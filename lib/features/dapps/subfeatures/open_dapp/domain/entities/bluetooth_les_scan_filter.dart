@@ -32,11 +32,11 @@ class BluetoothLEScanFilter {
           : null,
       manufacturerData: json['manufacturerData'] != null
           ? List<BluetoothManufacturerDataFilter>.from(json['manufacturerData']
-              .map((data) => BluetoothManufacturerDataFilter.fromJson(data)))
+              .map((data) => BluetoothManufacturerDataFilter.fromMap(data)))
           : null,
       serviceData: json['serviceData'] != null
           ? List<BluetoothServiceDataFilter>.from(json['serviceData']
-              .map((data) => BluetoothServiceDataFilter.fromJson(data)))
+              .map((data) => BluetoothServiceDataFilter.fromMap(data)))
           : null,
     );
   }
@@ -65,7 +65,10 @@ class BluetoothManufacturerDataFilter extends BluetoothDataFilter {
       {required this.companyIdentifier, List<int>? dataPrefix, List<int>? mask})
       : super(dataPrefix: dataPrefix, mask: mask);
 
-  factory BluetoothManufacturerDataFilter.fromJson(Map<String, dynamic> json) {
+  factory BluetoothManufacturerDataFilter.fromJson(String source) =>
+      BluetoothManufacturerDataFilter.fromMap(json.decode(source));
+
+  factory BluetoothManufacturerDataFilter.fromMap(Map<String, dynamic> json) {
     return BluetoothManufacturerDataFilter(
       companyIdentifier: json['companyIdentifier'],
       dataPrefix: json['dataPrefix'] != null
@@ -83,7 +86,10 @@ class BluetoothServiceDataFilter extends BluetoothDataFilter {
       {required this.service, List<int>? dataPrefix, List<int>? mask})
       : super(dataPrefix: dataPrefix, mask: mask);
 
-  factory BluetoothServiceDataFilter.fromJson(Map<String, dynamic> json) {
+  factory BluetoothServiceDataFilter.fromJson(String source) =>
+      BluetoothServiceDataFilter.fromMap(json.decode(source));
+
+  factory BluetoothServiceDataFilter.fromMap(Map<String, dynamic> json) {
     return BluetoothServiceDataFilter(
       service: GuidHelper.parse(json['service']),
       dataPrefix: json['dataPrefix'] != null

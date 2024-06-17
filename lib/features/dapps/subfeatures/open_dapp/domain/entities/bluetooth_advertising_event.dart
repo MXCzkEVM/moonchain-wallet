@@ -29,7 +29,7 @@ class BluetoothAdvertisingEvent extends Equatable {
 
   factory BluetoothAdvertisingEvent.fromMap(Map<String, dynamic> json) {
     return BluetoothAdvertisingEvent(
-      device: BluetoothDevice.fromJson(json['device']),
+      device: BluetoothDevice.fromMap(json['device']),
       uuids: List<String>.from(json['uuids']),
       manufacturerData: Map<String, dynamic>.from(json['manufacturerData']),
       serviceData: Map<String, dynamic>.from(json['serviceData']),
