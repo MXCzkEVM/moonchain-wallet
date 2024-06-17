@@ -9,6 +9,17 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 
+class BluetoothTimeoutError extends Error {
+  static const String message = 'unable_to_continue_bluetooth_is_turned_off';
+
+  BluetoothTimeoutError();
+
+  @override
+  String toString() {
+    return "TimeoutError: $message";
+  }
+}
+
 class BluetoothUseCase extends ReactiveUseCase {
   BluetoothUseCase(
       this._repository, this._chainConfigurationUseCase, this._authUseCase){
@@ -30,7 +41,6 @@ class BluetoothUseCase extends ReactiveUseCase {
 
   void initBluetoothUseCase() {
     initStateListener();
-
     bluetoothStatus.listen((state) {
       if (state == BluetoothAdapterState.on) {
         // usually start scanning, connecting, etc
@@ -89,6 +99,15 @@ class BluetoothUseCase extends ReactiveUseCase {
     isScanningStateListener = FlutterBluePlus.isScanning.listen((event) {
       update(isScanning, event);
     });
+  }
+
+  Future<void> turnOnBluetoothAndProceed() async {
+    // Try to turn on
+    await turnOnBluetooth();
+
+    // Wait till IT's turned on 
+    await bluetoothStatus.firstWhere((event) => event == BluetoothAdapterState.on).timeout(const Duration(seconds: 5), onTimeout: () => throw BluetoothTimeoutError() );
+
   }
 
   Future<void> turnOnBluetooth() async {

@@ -779,16 +779,15 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final options = RequestDeviceOptions.fromMap(channelData);
     late BluetoothDevice responseDevice;
 
-    await _bluetoothUseCase.turnOnBluetooth();
-    final bluetoothStatus = await _bluetoothUseCase.bluetoothStatus.first;
+    await _bluetoothUseCase.turnOnBluetoothAndProceed();
 
-    // if (bluetoothStatus == BluetoothAdapterState.on) {
     //  Get the options data
     _bluetoothUseCase.startScanning(
       withServices: options.filters != null
           ? options.filters!
               .expand((filter) => filter.services ?? [])
-              .toList()[0]
+              .toList()
+              .firstOrNull
           : [],
       withRemoteIds:
           null, // No direct mapping in RequestDeviceOptions, adjust as necessary
@@ -807,55 +806,57 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       withMsd: options.filters != null
           ? options.filters!
               .expand((filter) => filter.manufacturerData ?? [])
-              .toList()[0]
+              .toList()
+              .firstOrNull
           : [],
       withServiceData: options.filters != null
           ? options.filters!
               .expand((filter) => filter.serviceData ?? [])
-              .toList()[0]
+              .toList()
+              .firstOrNull
           : [],
-      removeIfGone: const Duration(seconds: 20),
       continuousUpdates: true,
       continuousDivisor: 2,
-      oneByOne: true,
       androidUsesFineLocation: true,
     );
 
-    responseDevice = await getBlueberryRing();
-    // } else {
-    //   addError(translate('unable_to_continue_bluetooth_is_turned_off')!);
-    // }
+    final blueberryRing = await getBlueberryRing();
+    _bluetoothUseCase.stopScanner();
+    if (blueberryRing == null) {
+      return {};
+    } else {
+      responseDevice = blueberryRing;
+    }
 
-    state.selectedBluetoothDevice = responseDevice;
     return responseDevice.toMap();
   }
 
-  Future<BluetoothDevice> getBlueberryRing() async {
-    return Future.delayed(
-      const Duration(seconds: 5),
-      () async {
-        late BluetoothDevice responseDevice;
-        final scanResults = await _bluetoothUseCase.scanResults.first;
-        if (scanResults.length > 1 || scanResults.isEmpty) {
-          // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
-          final scanResult = await showBlueberryDevicesBottomSheet(
-            context!,
-          );
-          if (scanResult != null) {
-            responseDevice =
-                BluetoothDevice.getBluetoothDeviceFromScanResult(scanResult);
-          } else {
-            // TODO: throw error
-          }
-        } else {
-          // only one scan results
-          final scanResult = scanResults.first;
-          responseDevice =
-              BluetoothDevice.getBluetoothDeviceFromScanResult(scanResult);
+  Future<BluetoothDevice?> getBlueberryRing() async {
+    loading = true;
+    return Future.delayed(const Duration(seconds: 3), () async {
+      loading = false;
+      BluetoothDevice? responseDevice;
+      final scanResults = _bluetoothUseCase.scanResults.value;
+      if (scanResults.length > 1 || scanResults.isEmpty) {
+        // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
+        final scanResult = await showBlueberryDevicesBottomSheet(
+          context!,
+        );
+        if (scanResult != null) {
+          state.selectedScanResult = scanResult;
         }
-        return responseDevice;
-      },
-    );
+      } else {
+        // only one scan results
+        final scanResult = scanResults.first;
+        state.selectedScanResult = scanResult;
+      }
+      if (state.selectedScanResult != null) {
+        responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
+            state.selectedScanResult!);
+      }
+
+      return responseDevice;
+    });
   }
 
   Future<Map<String, dynamic>> handleChangeCronTransitionStatusEvent(
