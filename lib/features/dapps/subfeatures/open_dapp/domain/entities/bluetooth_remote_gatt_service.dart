@@ -29,88 +29,89 @@ class BluetoothRemoteGATTService extends Equatable {
 
   String toJson() => json.encode(toMap());
 
+  /// In this method thisService is used to have the 
   Map<String, dynamic> toMap() {
     return {
       'device': device.toMap(),
       'uuid': uuid,
       'isPrimary': isPrimary,
       'getCharacteristic': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristic', {  'characteristic': '$uuid', });
+      (async function(characteristic) {
+        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristic', { 'this': '$uuid', 'characteristic': characteristic, });
         return response;
       })()
     ''',
       'getCharacteristics': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristics', {  'characteristic': '$uuid', });
+      (async function(characteristic) {
+        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristics', { 'this': '$uuid',  'characteristic': characteristic, });
         return response;
       })()
     ''',
       'getIncludedService': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedService', { 'service': '$uuid',});
+      (async function(service) {
+        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedService', {'this': '$uuid', 'service': service,});
         return response;
       })()
     ''',
       'getIncludedServices': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedServices', { 'service': '$uuid', });
+      (async function(service) {
+        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedServices', {'this': '$uuid', 'service': service, });
         return response;
       })()
     ''',
     };
   }
 
-  Future<BluetoothRemoteGATTCharacteristic> getCharacteristic(
-      InAppWebViewController webViewController,
-      String characteristicUuid) async {
-    final result = await webViewController.evaluateJavascript(source: '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristic', { 'uuid': '$uuid', 'characteristic': '$characteristicUuid' });
-        return response;
-      })()
-    ''');
-    return BluetoothRemoteGATTCharacteristic.fromJson(result);
-  }
+  // Future<BluetoothRemoteGATTCharacteristic> getCharacteristic(
+  //     InAppWebViewController webViewController,
+  //     String characteristicUuid) async {
+  //   final result = await webViewController.evaluateJavascript(source: '''
+  //     (async function() {
+  //       var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristic', { 'uuid': '$uuid', 'characteristic': '$characteristicUuid' });
+  //       return response;
+  //     })()
+  //   ''');
+  //   return BluetoothRemoteGATTCharacteristic.fromJson(result);
+  // }
 
-  Future<List<BluetoothRemoteGATTCharacteristic>> getCharacteristics(
-      InAppWebViewController webViewController,
-      {String? characteristicUuid}) async {
-    final result = await webViewController.evaluateJavascript(source: '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristics', { 'uuid': '$uuid', 'characteristic': '${characteristicUuid ?? ''}' });
-        return response;
-      })()
-    ''');
-    return (result as List)
-        .map((e) => BluetoothRemoteGATTCharacteristic.fromJson(e))
-        .toList();
-  }
+  // Future<List<BluetoothRemoteGATTCharacteristic>> getCharacteristics(
+  //     InAppWebViewController webViewController,
+  //     {String? characteristicUuid}) async {
+  //   final result = await webViewController.evaluateJavascript(source: '''
+  //     (async function() {
+  //       var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristics', { 'uuid': '$uuid', 'characteristic': '${characteristicUuid ?? ''}' });
+  //       return response;
+  //     })()
+  //   ''');
+  //   return (result as List)
+  //       .map((e) => BluetoothRemoteGATTCharacteristic.fromJson(e))
+  //       .toList();
+  // }
 
-  Future<BluetoothRemoteGATTService> getIncludedService(
-      InAppWebViewController webViewController, String serviceUuid) async {
-    final result = await webViewController.evaluateJavascript(source: '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedService', { 'uuid': '$uuid', 'service': '$serviceUuid' });
-        return response;
-      })()
-    ''');
-    return BluetoothRemoteGATTService.fromJson(result);
-  }
+  // Future<BluetoothRemoteGATTService> getIncludedService(
+  //     InAppWebViewController webViewController, String serviceUuid) async {
+  //   final result = await webViewController.evaluateJavascript(source: '''
+  //     (async function() {
+  //       var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedService', { 'uuid': '$uuid', 'service': '$serviceUuid' });
+  //       return response;
+  //     })()
+  //   ''');
+  //   return BluetoothRemoteGATTService.fromJson(result);
+  // }
 
-  Future<List<BluetoothRemoteGATTService>> getIncludedServices(
-      InAppWebViewController webViewController,
-      {String? serviceUuid}) async {
-    final result = await webViewController.evaluateJavascript(source: '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedServices', { 'uuid': '$uuid', 'service': '${serviceUuid ?? ''}' });
-        return response;
-      })()
-    ''');
-    return (result as List)
-        .map((e) => BluetoothRemoteGATTService.fromJson(e))
-        .toList();
-  }
+  // Future<List<BluetoothRemoteGATTService>> getIncludedServices(
+  //     InAppWebViewController webViewController,
+  //     {String? serviceUuid}) async {
+  //   final result = await webViewController.evaluateJavascript(source: '''
+  //     (async function() {
+  //       var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedServices', { 'uuid': '$uuid', 'service': '${serviceUuid ?? ''}' });
+  //       return response;
+  //     })()
+  //   ''');
+  //   return (result as List)
+  //       .map((e) => BluetoothRemoteGATTService.fromJson(e))
+  //       .toList();
+  // }
 
   @override
   List<Object?> get props => [device, uuid, isPrimary];

@@ -31,13 +31,13 @@ class BluetoothRemoteGATTServer extends Equatable {
       'connected': connected,
       'connect': '''
       (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.connect',  );
+        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.connect', {} );
         return response;
       })()
     ''',
       'disconnect': '''
       (async function() {
-        await window.axs.callHandler('BluetoothRemoteGATTServer.disconnect', {  });
+        await window.axs.callHandler('BluetoothRemoteGATTServer.disconnect', {} );
       })()
     ''',
       'getPrimaryService': '''

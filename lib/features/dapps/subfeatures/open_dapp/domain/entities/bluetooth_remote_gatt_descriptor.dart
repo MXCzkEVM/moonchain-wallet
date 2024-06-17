@@ -34,12 +34,12 @@ class BluetoothRemoteGATTDescriptor extends Equatable {
       'uuid': uuid,
       'value': value?.buffer.asUint8List(),
       'readValue': '''(async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTDescriptor.readValue', { 'uuid': '$uuid' });
+        var response = await window.axs.callHandler('BluetoothRemoteGATTDescriptor.readValue', { 'this': '$uuid' });
         return response;
       })()''',
       'writeValue': '''
-      (async function() {
-        await window.axs.callHandler('BluetoothRemoteGATTDescriptor.writeValue', { 'uuid': '$uuid', 'value': ${value?.buffer.asUint8List()} });
+      (async function(value) {
+        await window.axs.callHandler('BluetoothRemoteGATTDescriptor.writeValue', { 'this': '$uuid', 'value': ${value?.buffer.asUint8List()} });
       })()
     '''
     };
