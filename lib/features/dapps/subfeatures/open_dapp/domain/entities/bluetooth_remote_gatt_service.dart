@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'bluetooth_device.dart';
-import 'bluetooth_remote_gatt_characteristic.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+// import 'bluetooth_remote_gatt_characteristic.dart';
+// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart' as bluePlus;
 
 class BluetoothRemoteGATTService extends Equatable {
   final BluetoothDevice device;
@@ -15,6 +16,12 @@ class BluetoothRemoteGATTService extends Equatable {
     required this.uuid,
     required this.isPrimary,
   });
+
+  factory BluetoothRemoteGATTService.fromBluetoothService(BluetoothDevice device, bluePlus.BluetoothService service) =>
+      BluetoothRemoteGATTService(
+        device: device,
+        isPrimary: true,
+        uuid: service.uuid.str);
 
   factory BluetoothRemoteGATTService.fromJson(String source) =>
       BluetoothRemoteGATTService.fromMap(json.decode(source));
