@@ -71,6 +71,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       notify(() => state.scanResults = value);
     });
 
+    listen(_bluetoothUseCase.isScanning, (value) {
+      notify(() => state.isBluetoothScanning = value);
+    });
+
     listen(_dAppHooksUseCase.dappHooksData, (value) {
       notify(() => state.dappHooksData = value);
     });
