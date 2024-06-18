@@ -46,25 +46,25 @@ class BluetoothRemoteGATTService extends Equatable {
       (async function(characteristic) {
         var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristic', { 'this': '$uuid', 'characteristic': characteristic, });
         return response;
-      })()
+      })
     ''',
       'getCharacteristics': '''
       (async function(characteristic) {
         var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristics', { 'this': '$uuid',  'characteristic': characteristic, });
         return response;
-      })()
+      })
     ''',
       'getIncludedService': '''
       (async function(service) {
         var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedService', {'this': '$uuid', 'service': service,});
         return response;
-      })()
+      })
     ''',
       'getIncludedServices': '''
       (async function(service) {
         var response = await window.axs.callHandler('BluetoothRemoteGATTService.getIncludedServices', {'this': '$uuid', 'service': service, });
         return response;
-      })()
+      })
     ''',
     };
   }

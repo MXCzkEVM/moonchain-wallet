@@ -60,12 +60,12 @@ class BluetoothDevice extends Equatable {
       'forget': '''
         (async function() {
           await window.axs.callHandler('BluetoothDevice.forget', { 'id': '$id' });
-        })()
+        })
       ''',
       'watchAdvertisements': '''
         (async function() {
           await window.axs.callHandler('BluetoothDevice.watchAdvertisements', { 'id': '$id' });
-        })()
+        })
       '''
     };
   }
