@@ -418,5 +418,5 @@
 	"blueberry_ring_hooks": "Blueberry Ring hooks",
 	"nearby_blueberry_rings": "Nearby Blueberry rings",
 	"unable_to_continue_bluetooth_is_turned_off": "Unable to continue Bluetooth is turned off!",
-	"bluetooth_is_scanning": "Bluetooth is scanning ..."
+	"scanning": "Scanning ..."
 }
