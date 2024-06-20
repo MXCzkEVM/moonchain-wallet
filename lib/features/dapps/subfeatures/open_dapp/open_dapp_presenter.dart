@@ -661,6 +661,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
             JSChannelEvents.bluetoothRemoteGATTServiceGetCharacteristic,
         callback: (args) => jsChannelErrorHandler(
             args, handleBluetoothRemoteGATTServiceGetCharacteristic));
+
+    state.webviewController!.addJavaScriptHandler(
+        handlerName:
+            JSChannelEvents.bluetoothRemoteGATTCharacteristicStartNotifications,
+        callback: (args) => jsChannelErrorHandler(
+            args, handleBluetoothRemoteGATTCharacteristicStartNotifications));
   }
 
   // void notNullHandler(Future<dynamic> Function(dynamic) func) {
@@ -743,6 +749,50 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
                 state.selectedScanResult!),
             connected: true)
         .toMap();
+  }
+
+  Future<Map<String, dynamic>> handleBluetoothRemoteGATTCharacteristicStartNotifications(
+      Map<String, dynamic> data) async {
+    final characteristicUUID = GuidHelper.parse(data['this']);
+    final serviceUUID = GuidHelper.parse(data['serviceUUID']);
+
+    final selectedService = await getServiceWithUUID(serviceUUID);
+
+    final characteristics = selectedService!.characteristics;
+    final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
+        characteristics, characteristicUUID);
+    if (targetCharacteristic != null) {
+      final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
+          state.selectedScanResult!);
+      final bluetoothRemoteGATTService =
+          BluetoothRemoteGATTService.fromBluetoothService(
+              device, selectedService);
+      final bluetoothRemoteGATTCharacteristic =
+          BluetoothRemoteGATTCharacteristic(
+              service: bluetoothRemoteGATTService,
+              properties: BluetoothCharacteristicProperties
+                  .fromCharacteristicProperties(
+                      targetCharacteristic.properties),
+              uuid: targetCharacteristic.uuid.str,
+              value: null);
+      targetCharacteristic.lastValueStream.listen((event) {
+        print("object");
+        print(event);
+      });
+      return {};
+    } else {
+      throw 'Error: Unable to find the characteristic';
+    }
+  }
+
+  void initJSCharacteristicValueEmitter(
+      Stream<List<int>> lastValueStream, Map<String, dynamic> characteristic) {
+    lastValueStream.listen((event) {
+      state.webviewController!.evaluateJavascript(source: '''
+      ${characteristic}.emit('valueChanged', { newValue: 42 });
+      window.axs.callHandler('', )
+''');
+    });
   }
 
   void injectAXSWalletJSChannel() async {
