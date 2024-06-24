@@ -122,6 +122,37 @@ class AXSBluetooth {
     resp.gatt.connect = eval(resp.gatt.connect);
     return resp;
   }
+
+  dispatchCharacteristicEvent(characteristicUUID, eventName) {
+      let selectedCharacteristic = this.getCharacteristicByUUID(characteristicUUID);
+      console.log('X');
+      if (selectedCharacteristic != undefined) {
+        console.log('X1');
+        selectedCharacteristic.dispatchEvent(new Event(eventName),);
+        console.log('X2');
+      }
+  }
+
+  updateCharacteristicValue(characteristicUUID, base64String) {
+    const binaryString = atob(base64String);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    let selectedCharacteristic = this.getCharacteristicByUUID(characteristicUUID);
+    selectedCharacteristic.value = dv;
+    this.dispatchCharacteristicEvent(characteristicUUID, 'characteristicvaluechanged')
+  }
+
+  getServiceByUUID(serviceUUID) {
+    return this.serviceArray.find(service => service.uuid === serviceUUID);
+  }
+
+  getCharacteristicByUUID(characteristicUUID) {
+    return this.characteristicArray.find(characteristic => characteristic.uuid === characteristicUUID);
+  }
 }
 
 navigator.bluetooth = new AXSBluetooth();
