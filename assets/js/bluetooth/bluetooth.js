@@ -1,3 +1,65 @@
+class BluetoothRemoteGATTCharacteristic extends EventTarget {
+  constructor(service, uuid, value) {
+    super();
+    this.service = service;
+    this.uuid = uuid;
+    this.value = value;
+    // this.properties = properties;
+  }
+
+  async startNotifications() {
+    const data = { 'this': this.uuid, 'serviceUUID': this.service.uuid, }
+
+    await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.startNotifications', );
+    return this;
+  }
+
+  async getCharacteristics(characteristic) {}
+
+  async getIncludedService(service) {}
+
+  async getIncludedServices(service) {}
+
+  addEventListener(type, listener, useCapture = false) {
+    // Custom addEventListener implementation to handle specific types
+    super.addEventListener(type, listener, useCapture);
+  }
+}
+
+class BluetoothRemoteGATTService extends EventTarget {
+  constructor(device, uuid, isPrimary) {
+    super();
+    this.device = device;
+    this.uuid = uuid;
+    this.isPrimary = isPrimary;
+  }
+
+  async getCharacteristic(characteristic) {
+    var data = { 'this': this.uuid, 'characteristic': characteristic }
+    console.log("Service changed: ",  JSON.stringify(data));
+    var resp = await window.axs?.callHandler(
+      "BluetoothRemoteGATTService.getCharacteristic",
+      data
+    );        
+    console.log("Service changed:4 ",  resp);
+    const characteristicInstance = new BluetoothRemoteGATTCharacteristic(this, resp.uuid, resp.value)
+    this.characteristicArray.push(characteristicInstance);
+    // resp.startNotifications = eval(resp.startNotifications);
+    return resp;
+  }
+
+  async getCharacteristics(characteristic) {}
+
+  async getIncludedService(service) {}
+
+  async getIncludedServices(service) {}
+
+  addEventListener(type, listener, useCapture = false) {
+    // Custom addEventListener implementation to handle specific types
+    super.addEventListener(type, listener, useCapture);
+  }
+}
+
 class AXSBluetooth {
   constructor() {
     this.serviceArray = [];
@@ -15,43 +77,42 @@ class AXSBluetooth {
       },
 
       getPrimaryService: async (data) => {
-        console.log("Service changed5465: ",  JSON.stringify(data));
         var resp = await window.axs?.callHandler(
           "BluetoothRemoteGATTServer.getPrimaryService",
           data
         );
-        self.serviceArray.push(resp);
-        console.log("Service changed:2 ",);
-        resp.getCharacteristic = eval(resp.getCharacteristic);
-        return resp;
+        const  service = new BluetoothRemoteGATTService(resp.device, resp.uuid, resp.isPrimary);
+        self.serviceArray.push(service);
+        // resp.getCharacteristic = eval(resp.getCharacteristic);
+        return service;
       },
     };
 
-    this.bluetoothRemoteGATTService = {
-      getCharacteristic: async (data) => {
-        console.log("Service changed: ",  JSON.stringify(data));
-        var resp = await window.axs?.callHandler(
-          "BluetoothRemoteGATTService.getCharacteristic",
-          data
-        );
-        console.log("Service changed:3 ",  resp);
-        this.characteristicArray.push(resp);
-        resp.startNotifications = eval(resp.startNotifications);
-        return resp;
-      },
-    };
+    // this.bluetoothRemoteGATTService = {
+    //   getCharacteristic: async (data) => {
+    //     console.log("Service changed: ",  JSON.stringify(data));
+    //     var resp = await window.axs?.callHandler(
+    //       "BluetoothRemoteGATTService.getCharacteristic",
+    //       data
+    //     );        
+    //     console.log("Service changed:3 ",  resp);
+    //     this.characteristicArray.push(resp);
+    //     // resp.startNotifications = eval(resp.startNotifications);
+    //     return resp;
+    //   },
+    // };
 
-    this.bluetoothRemoteGATTCharacteristic = {
-      startNotifications: async (data) => {
-        var resp = await window.axs?.callHandler(
-          "BluetoothRemoteGATTService.startNotifications",
-          data
-        );
-        console.log("Service changed:3 ",  resp);
-        resp.startNotifications = eval(resp.startNotifications);
-        return resp;
-      }
-    }
+    // this.bluetoothRemoteGATTCharacteristic = {
+    //   startNotifications: async (data) => {
+    //     var resp = await window.axs?.callHandler(
+    //       "BluetoothRemoteGATTService.startNotifications",
+    //       data
+    //     );
+    //     console.log("Service changed:3 ",  resp);
+    //     resp.startNotifications = eval(resp.startNotifications);
+    //     return resp;
+    //   }
+    // }
   }
 
   async requestDevice(options) {
@@ -63,35 +124,10 @@ class AXSBluetooth {
   }
 }
 
-// class BluetoothRemoteGATTService extends EventTarget {
-//   constructor(device, uuid, isPrimary) {
-//     super();
-//     this.device = device;
-//     this.uuid = uuid;
-//     this.isPrimary = isPrimary;
-//   }
-
-//   async getCharacteristic(characteristic) {}
-
-//   async getCharacteristics(characteristic) {}
-
-//   async getIncludedService(service) {}
-
-//   async getIncludedServices(service) {}
-
-//   addEventListener(type, listener, useCapture = false) {
-//     // Custom addEventListener implementation to handle specific types
-//     super.addEventListener(type, listener, useCapture);
-//   }
-// }
-
 navigator.bluetooth = new AXSBluetooth();
 console.log("hallo");
 console.log(JSON.stringify(navigator.bluetooth , null, 2));
 
-//   window.bluetooth.requestDevice();
-// window.axs.bluetooth.bluetoothDevice =
-// window.bluetooth.bluetoothDevice.
 
 // Simulated classes for completeness
 // class BluetoothRemoteGATTCharacteristic {
