@@ -62,17 +62,17 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
     ''',
       'writeValue': '''
       (async function(value) {
-        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'value': ${value!.buffer.asUint8List()} });
+        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
       })
     ''',
       'writeValueWithResponse': '''
       (async function(value) {
-        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'value': ${value!.buffer.asUint8List()} });
+        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
       })
     ''',
       'writeValueWithoutResponse': '''
       (async function(value) {
-        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid',  'serviceUUID': '${service.uuid}', 'value': ${value!.buffer.asUint8List()} });
+        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid',  'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
       })
     ''',
       'startNotifications': '''

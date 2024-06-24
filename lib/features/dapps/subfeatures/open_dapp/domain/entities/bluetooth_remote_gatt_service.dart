@@ -44,7 +44,7 @@ class BluetoothRemoteGATTService extends Equatable {
       'isPrimary': isPrimary,
       'getCharacteristic': '''
       (async function(characteristic) {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTService.getCharacteristic', { 'this': '$uuid', 'characteristic': characteristic, });
+        var response = await navigator.bluetooth.bluetoothRemoteGATTService.getCharacteristic( { 'this': '$uuid', 'characteristic': characteristic } );
         return response;
       })
     ''',

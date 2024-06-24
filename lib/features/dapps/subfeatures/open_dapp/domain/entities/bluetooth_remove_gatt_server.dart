@@ -31,7 +31,7 @@ class BluetoothRemoteGATTServer extends Equatable {
       'connected': connected,
       'connect': '''
       (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.connect', {} );
+        var response = await navigator.bluetooth.bluetoothRemoteGATTServer.connect();
         return response;
       })
     ''',
@@ -42,7 +42,7 @@ class BluetoothRemoteGATTServer extends Equatable {
     ''',
       'getPrimaryService': '''
       (async function(service) {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.getPrimaryService', {  'service': service });
+        var response = await navigator.bluetooth.bluetoothRemoteGATTServer.getPrimaryService({  'service': service });
         return response;
       })
     ''',
