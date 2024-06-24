@@ -83,6 +83,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     });
   }
 
+  @override
+  Future<void> dispose() {
+    characteriticListnerTimer?.cancel();
+    return super.dispose();
+  }
+
   void onWebViewCreated(InAppWebViewController controller) async {
     notify(() => state.webviewController = controller);
     updateCurrentUrl(null);
@@ -725,18 +731,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
                       targetCharacteristic.properties),
               uuid: targetCharacteristic.uuid.str,
               value: null);
-
-      targetCharacteristic.lastValueStream.listen((event) {
-        print("object");
-        print(event);
-      });
-      Future.delayed(
-        Duration(seconds: 5),
-        () {
-          print("object1");
-          targetCharacteristic.read();
-        },
-      );
       return bluetoothRemoteGATTCharacteristic.toMap();
     } else {
       throw 'Error: Unable to find the characteristic';
@@ -754,8 +748,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         .toMap();
   }
 
-  Future<Map<String, dynamic>> handleBluetoothRemoteGATTCharacteristicStartNotifications(
-      Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>>
+      handleBluetoothRemoteGATTCharacteristicStartNotifications(
+          Map<String, dynamic> data) async {
     final characteristicUUID = GuidHelper.parse(data['this']);
     final serviceUUID = GuidHelper.parse(data['serviceUUID']);
 
@@ -778,23 +773,44 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
                       targetCharacteristic.properties),
               uuid: targetCharacteristic.uuid.str,
               value: null);
-      targetCharacteristic.lastValueStream.listen((event) {
-        print("object");
-        print(event);
-      });
-      return {};
+      initJSCharacteristicValueEmitter(
+          targetCharacteristic.lastValueStream, targetCharacteristic);
+
+      return bluetoothRemoteGATTCharacteristic.toMap();
     } else {
       throw 'Error: Unable to find the characteristic';
     }
   }
 
+  Timer? characteriticListnerTimer;
   void initJSCharacteristicValueEmitter(
-      Stream<List<int>> lastValueStream, Map<String, dynamic> characteristic) {
+    Stream<List<int>> lastValueStream,
+    bluePlus.BluetoothCharacteristic characteristic,
+  ) async {
+    // await characteristic.setNotifyValue(true);
+    characteriticListnerTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+      characteristic.read();
+    });
+
     lastValueStream.listen((event) {
-      state.webviewController!.evaluateJavascript(source: '''
-      ${characteristic}.emit('valueChanged', { newValue: 42 });
-      window.axs.callHandler('', )
-''');
+      final uInt8List = Uint8List.fromList(event);
+      // final stringUint8List  = uInt8List.toString();
+      final base64String = base64Encode(uInt8List);
+
+      // final byteData = ByteData.view(uInt8List.buffer);
+
+      print('object');
+
+      // var uInt8ListViewOverB = byteData.buffer.asUint8List();
+      // uInt8ListViewOverB.setAll(4, event);
+
+      print('lastValueStream');
+      final script = '''
+      console.log('Hel');
+      navigator.bluetooth.updateCharacteristicValue('${characteristic.uuid.str}', '$base64String',);
+      // navigator.bluetooth.dispatchCharacteristicEvent('${characteristic.uuid.str}', 'characteristicvaluechanged')
+''';
+      state.webviewController!.evaluateJavascript(source: script);
     });
   }
 
