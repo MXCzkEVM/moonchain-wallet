@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:clipboard/clipboard.dart';
+import 'package:collection/collection.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
 
 import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/widgets.dart';
@@ -11,14 +13,15 @@ import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/dapp_hoo
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart' as bluePlus;
 // import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
 
 import './domain/entities/entities.dart';
+import 'domain/utils/utils.dart';
 import 'open_dapp_state.dart';
 
 final openDAppPageContainer =
@@ -802,8 +805,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         source: JSChannelScripts.axsWalletObjectInjectScript(
             JSChannelConfig.axsWalletJSObjectName));
 
-    await state.webviewController!.evaluateJavascript(
-        source: JSChannelScripts.axsBluetoothObjectInjectScript());
+    await state.webviewController!.injectJavascriptFileFromAsset(
+        assetFilePath: 'assets/js/bluetooth/bluetooth.js');
+    // await state.webviewController!.evaluateJavascript(
+    //     source: JSChannelScripts.axsBluetoothObjectInjectScript());
 
     await state.webviewController!.evaluateJavascript(
         source: JSChannelScripts.axsWalletReadyInjectScript(
