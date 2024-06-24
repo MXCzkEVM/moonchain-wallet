@@ -10,7 +10,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   async startNotifications() {
     const data = { 'this': this.uuid, 'serviceUUID': this.service.uuid, }
 
-    await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.startNotifications', );
+    await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.startNotifications', data);
     return this;
   }
 
@@ -35,17 +35,17 @@ class BluetoothRemoteGATTService extends EventTarget {
   }
 
   async getCharacteristic(characteristic) {
-    var data = { 'this': this.uuid, 'characteristic': characteristic }
+    let data = { 'this': this.uuid, 'characteristic': characteristic }
     console.log("Service changed: ",  JSON.stringify(data));
-    var resp = await window.axs?.callHandler(
+    const resp = await window.axs?.callHandler(
       "BluetoothRemoteGATTService.getCharacteristic",
       data
     );        
     console.log("Service changed:4 ",  resp);
     const characteristicInstance = new BluetoothRemoteGATTCharacteristic(this, resp.uuid, resp.value)
-    this.characteristicArray.push(characteristicInstance);
+    navigator.bluetooth.characteristicArray.push(characteristicInstance);
     // resp.startNotifications = eval(resp.startNotifications);
-    return resp;
+    return characteristicInstance;
   }
 
   async getCharacteristics(characteristic) {}
@@ -68,7 +68,7 @@ class AXSBluetooth {
     const self = this;
     this.bluetoothRemoteGATTServer = {
       connect: async () => {
-        var resp = await window.axs?.callHandler(
+        const resp = await window.axs?.callHandler(
           "BluetoothRemoteGATTServer.connect",
           {}
         );
@@ -77,7 +77,7 @@ class AXSBluetooth {
       },
 
       getPrimaryService: async (data) => {
-        var resp = await window.axs?.callHandler(
+        const resp = await window.axs?.callHandler(
           "BluetoothRemoteGATTServer.getPrimaryService",
           data
         );
@@ -116,7 +116,7 @@ class AXSBluetooth {
   }
 
   async requestDevice(options) {
-    var resp = await window.axs?.callHandler("requestDevice", options);
+    const resp = await window.axs?.callHandler("requestDevice", options);
     
 
     resp.gatt.connect = eval(resp.gatt.connect);
