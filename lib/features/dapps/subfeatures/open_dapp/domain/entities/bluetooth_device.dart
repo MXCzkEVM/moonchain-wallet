@@ -57,16 +57,16 @@ class BluetoothDevice extends Equatable {
       'name': name,
       'gatt': gatt?.toMap(),
       'watchingAdvertisements': watchingAdvertisements,
-      'forget': '''
-        (async function() {
-          await window.axs.callHandler('BluetoothDevice.forget', { 'id': '$id' });
-        })
-      ''',
-      'watchAdvertisements': '''
-        (async function() {
-          await window.axs.callHandler('BluetoothDevice.watchAdvertisements', { 'id': '$id' });
-        })
-      '''
+      // 'forget': '''
+      //   (async function() {
+      //     await window.axs.callHandler('BluetoothDevice.forget', { 'id': '$id' });
+      //   })
+      // ''',
+      // 'watchAdvertisements': '''
+      //   (async function() {
+      //     await window.axs.callHandler('BluetoothDevice.watchAdvertisements', { 'id': '$id' });
+      //   })
+      // '''
     };
   }
 

@@ -42,51 +42,51 @@ class BluetoothRemoteGATTCharacteristic extends Equatable {
       'uuid': uuid,
       'properties': properties.toMap(),
       'value': value?.buffer.asUint8List(),
-      'getDescriptor': '''
-      (async function(descriptor) {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.getDescriptor', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'descriptor': descriptor });
-        return response;
-      })
-    ''',
-      'getDescriptors': '''
-      (async function(descriptor) {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.getDescriptors', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'descriptor': descriptor });
-        return response;
-      })
-    ''',
-      'readValue': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.readValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}' });
-        return response;
-      })
-    ''',
-      'writeValue': '''
-      (async function(value) {
-        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
-      })
-    ''',
-      'writeValueWithResponse': '''
-      (async function(value) {
-        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
-      })
-    ''',
-      'writeValueWithoutResponse': '''
-      (async function(value) {
-        await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid',  'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
-      })
-    ''',
-      'startNotifications': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.stopNotifications', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', });
-        return response;
-      })
-    ''',
-      'stopNotifications': '''
-      (async function() {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.stopNotifications', { 'this': '$uuid',  'serviceUUID': '${service.uuid}', });
-        return response;
-      })
-    '''
+    //   'getDescriptor': '''
+    //   (async function(descriptor) {
+    //     var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.getDescriptor', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'descriptor': descriptor });
+    //     return response;
+    //   })
+    // ''',
+    //   'getDescriptors': '''
+    //   (async function(descriptor) {
+    //     var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.getDescriptors', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'descriptor': descriptor });
+    //     return response;
+    //   })
+    // ''',
+    //   'readValue': '''
+    //   (async function() {
+    //     var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.readValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}' });
+    //     return response;
+    //   })
+    // ''',
+    //   'writeValue': '''
+    //   (async function(value) {
+    //     await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
+    //   })
+    // ''',
+    //   'writeValueWithResponse': '''
+    //   (async function(value) {
+    //     await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
+    //   })
+    // ''',
+    //   'writeValueWithoutResponse': '''
+    //   (async function(value) {
+    //     await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.writeValue', { 'this': '$uuid',  'serviceUUID': '${service.uuid}', 'value': ${value?.buffer.asUint8List()} });
+    //   })
+    // ''',
+    //   'startNotifications': '''
+    //   (async function() {
+    //     var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.stopNotifications', { 'this': '$uuid', 'serviceUUID': '${service.uuid}', });
+    //     return response;
+    //   })
+    // ''',
+    //   'stopNotifications': '''
+    //   (async function() {
+    //     var response = await window.axs.callHandler('BluetoothRemoteGATTCharacteristic.stopNotifications', { 'this': '$uuid',  'serviceUUID': '${service.uuid}', });
+    //     return response;
+    //   })
+    // '''
     };
   }
 

@@ -29,29 +29,29 @@ class BluetoothRemoteGATTServer extends Equatable {
     return {
       'device': device.toMap(),
       'connected': connected,
-      'connect': '''
-      (async function() {
-        var response = await navigator.bluetooth.bluetoothRemoteGATTServer.connect();
-        return response;
-      })
-    ''',
-      'disconnect': '''
-      (async function() {
-        await window.axs.callHandler('BluetoothRemoteGATTServer.disconnect', {} );
-      })
-    ''',
-      'getPrimaryService': '''
-      (async function(service) {
-        var response = await navigator.bluetooth.bluetoothRemoteGATTServer.getPrimaryService({  'service': service });
-        return response;
-      })
-    ''',
-      'getPrimaryServices': '''
-      (async function(service) {
-        var response = await window.axs.callHandler('BluetoothRemoteGATTServer.getPrimaryServices', {  'service': service });
-        return response;
-      })
-    ''',
+    //   'connect': '''
+    //   (async function() {
+    //     var response = await navigator.bluetooth.bluetoothRemoteGATTServer.connect();
+    //     return response;
+    //   })
+    // ''',
+    //   'disconnect': '''
+    //   (async function() {
+    //     await window.axs.callHandler('BluetoothRemoteGATTServer.disconnect', {} );
+    //   })
+    // ''',
+    //   'getPrimaryService': '''
+    //   (async function(service) {
+    //     var response = await navigator.bluetooth.bluetoothRemoteGATTServer.getPrimaryService({  'service': service });
+    //     return response;
+    //   })
+    // ''',
+    //   'getPrimaryServices': '''
+    //   (async function(service) {
+    //     var response = await window.axs.callHandler('BluetoothRemoteGATTServer.getPrimaryServices', {  'service': service });
+    //     return response;
+    //   })
+    // ''',
     };
   }
 
