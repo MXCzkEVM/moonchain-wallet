@@ -413,5 +413,10 @@
 	"information": "Information",
 	"ok": "Ok",
 	"local_backup": "Local backup",
-	"no_description": "No description"
+	"no_description": "No description",
+	"bluetooth_not_supported": "Bluetooth is not supported on this device.",
+	"blueberry_ring_hooks": "Blueberry Ring hooks",
+	"nearby_blueberry_rings": "Nearby Blueberry rings",
+	"unable_to_continue_bluetooth_is_turned_off": "Unable to continue Bluetooth is turned off!",
+	"scanning": "Scanning ..."
 }
