@@ -712,10 +712,16 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return primaryService;
   }
 
-  Future<bluePlus.BluetoothService?> getSelectedService(String uuid, )async {
+  Future<bluePlus.BluetoothService> getSelectedService(
+    String uuid,
+  ) async {
     final serviceUUID = GuidHelper.parse(uuid);
     final service = await getServiceWithUUID(serviceUUID);
-    return service;
+    if (service != null) {
+      return service;
+    } else {
+      throw 'Error: Unable to find the service!';
+    }
   }
 
   Future<Map<String, dynamic>>
@@ -725,7 +731,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     final selectedService = await getSelectedService(data['this']);
 
-    final characteristics = selectedService!.characteristics;
+    final characteristics = selectedService.characteristics;
     final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
         characteristics, targetCharacteristicUUID);
     if (targetCharacteristic != null) {
@@ -759,68 +765,68 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         .toMap();
   }
 
-  Future<Map<String, dynamic>>
-      handleBluetoothRemoteGATTCharacteristicStartNotifications(
-          Map<String, dynamic> data) async {
-    final characteristicUUID = GuidHelper.parse(data['this']);
-    final selectedService = await getSelectedService(data['serviceUUID']);
-
+  // Util
+  bluePlus.BluetoothCharacteristic getSelectedCharacteristic(
+      String uuid, bluePlus.BluetoothService? selectedService) {
+    final characteristicUUID = GuidHelper.parse(uuid);
     final characteristics = selectedService!.characteristics;
     final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
         characteristics, characteristicUUID);
     if (targetCharacteristic != null) {
-      final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
-          state.selectedScanResult!);
-      final bluetoothRemoteGATTService =
-          BluetoothRemoteGATTService.fromBluetoothService(
-              device, selectedService);
-      final bluetoothRemoteGATTCharacteristic =
-          BluetoothRemoteGATTCharacteristic(
-              service: bluetoothRemoteGATTService,
-              properties: BluetoothCharacteristicProperties
-                  .fromCharacteristicProperties(
-                      targetCharacteristic.properties),
-              uuid: targetCharacteristic.uuid.str,
-              value: null);
-
-      initJSCharacteristicValueEmitter(targetCharacteristic);
-
-      return bluetoothRemoteGATTCharacteristic.toMap();
+      return targetCharacteristic;
     } else {
       throw 'Error: Unable to find the characteristic';
     }
   }
 
+  BluetoothRemoteGATTCharacteristic getBluetoothRemoteGATTCharacteristic(
+      bluePlus.BluetoothCharacteristic selectedCharacteristic,
+      bluePlus.BluetoothService selectedService) {
+    final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
+        state.selectedScanResult!);
+    final bluetoothRemoteGATTService =
+        BluetoothRemoteGATTService.fromBluetoothService(
+            device, selectedService);
+    final bluetoothRemoteGATTCharacteristic = BluetoothRemoteGATTCharacteristic(
+        service: bluetoothRemoteGATTService,
+        properties:
+            BluetoothCharacteristicProperties.fromCharacteristicProperties(
+                selectedCharacteristic.properties),
+        uuid: selectedCharacteristic.uuid.str,
+        value: null);
+    return bluetoothRemoteGATTCharacteristic;
+  }
+
+  Future<Map<String, dynamic>>
+      handleBluetoothRemoteGATTCharacteristicStartNotifications(
+          Map<String, dynamic> data) async {
+    final selectedService = await getSelectedService(data['serviceUUID']);
+    final selectedCharacteristic =
+        getSelectedCharacteristic(data['this'], selectedService);
+
+    final bluetoothRemoteGATTCharacteristic =
+        getBluetoothRemoteGATTCharacteristic(
+            selectedCharacteristic, selectedService);
+
+    initJSCharacteristicValueEmitter(selectedCharacteristic);
+
+    return bluetoothRemoteGATTCharacteristic.toMap();
+  }
+
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicStopNotifications(
           Map<String, dynamic> data) async {
-    final characteristicUUID = GuidHelper.parse(data['this']);
     final selectedService = await getSelectedService(data['serviceUUID']);
+    final selectedCharacteristic =
+        getSelectedCharacteristic(data['this'], selectedService);
 
-    final characteristics = selectedService!.characteristics;
-    final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
-        characteristics, characteristicUUID);
-    if (targetCharacteristic != null) {
-      final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
-          state.selectedScanResult!);
-      final bluetoothRemoteGATTService =
-          BluetoothRemoteGATTService.fromBluetoothService(
-              device, selectedService);
-      final bluetoothRemoteGATTCharacteristic =
-          BluetoothRemoteGATTCharacteristic(
-              service: bluetoothRemoteGATTService,
-              properties: BluetoothCharacteristicProperties
-                  .fromCharacteristicProperties(
-                      targetCharacteristic.properties),
-              uuid: targetCharacteristic.uuid.str,
-              value: null);
+    final bluetoothRemoteGATTCharacteristic =
+        getBluetoothRemoteGATTCharacteristic(
+            selectedCharacteristic, selectedService);
 
-      removeJSCharacteristicValueEmitter(targetCharacteristic);
+    removeJSCharacteristicValueEmitter(selectedCharacteristic);
 
-      return bluetoothRemoteGATTCharacteristic.toMap();
-    } else {
-      throw 'Error: Unable to find the characteristic';
-    }
+    return bluetoothRemoteGATTCharacteristic.toMap();
   }
 
   Timer? characteriticListnerTimer;
