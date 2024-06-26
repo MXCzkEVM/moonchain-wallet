@@ -635,14 +635,17 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         handlerName: JSChannelEvents.changeCronTransitionEvent,
         callback: (args) =>
             jsChannelCronErrorHandler(args, handleChangeCronTransition));
+
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.changeCronTransitionStatusEvent,
         callback: (args) => jsChannelCronErrorHandler(
             args, handleChangeCronTransitionStatusEvent));
+
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.getSystemInfoEvent,
         callback: (args) =>
             jsChannelCronErrorHandler(args, handleGetSystemInfoEvent));
+
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.goToAdvancedSettingsEvent,
         callback: (args) =>
@@ -650,10 +653,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void injectBluetoothListeners() {
+    // Bluetooth API
+
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.requestDevice,
         callback: (args) =>
             jsChannelErrorHandler(args, handleBluetoothRequestDevice));
+
+    // BluetoothRemoteGATTServer
 
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.bluetoothRemoteGATTServerConnect,
@@ -665,11 +672,15 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         callback: (args) => jsChannelErrorHandler(
             args, handleBluetoothRemoteGATTServerGetPrimaryService));
 
+    // BluetoothRemoteGATTService
+
     state.webviewController!.addJavaScriptHandler(
         handlerName:
             JSChannelEvents.bluetoothRemoteGATTServiceGetCharacteristic,
         callback: (args) => jsChannelErrorHandler(
             args, handleBluetoothRemoteGATTServiceGetCharacteristic));
+
+    // BluetoothRemoteGATTCharacteristic
 
     state.webviewController!.addJavaScriptHandler(
         handlerName:
@@ -682,15 +693,32 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
             JSChannelEvents.bluetoothRemoteGATTCharacteristicStopNotifications,
         callback: (args) => jsChannelErrorHandler(
             args, handleBluetoothRemoteGATTCharacteristicStopNotifications));
+
+    state.webviewController!.addJavaScriptHandler(
+        handlerName:
+            JSChannelEvents.bluetoothRemoteGATTCharacteristicWriteValue,
+        callback: (args) => jsChannelErrorHandler(
+            args, handleBluetoothRemoteGATTCharacteristicWriteValue));
+
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents
+            .bluetoothRemoteGATTCharacteristicWriteValueWithResponse,
+        callback: (args) => jsChannelErrorHandler(args,
+            handleBluetoothRemoteGATTCharacteristicWriteValueWithResponse));
+
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents
+            .bluetoothRemoteGATTCharacteristicWriteValueWithoutResponse,
+        callback: (args) => jsChannelErrorHandler(args,
+            handleBluetoothRemoteGATTCharacteristicWriteValueWithoutResponse));
+
+    state.webviewController!.addJavaScriptHandler(
+        handlerName: JSChannelEvents.bluetoothRemoteGATTCharacteristicReadValue,
+        callback: (args) => jsChannelErrorHandler(
+            args, handleBluetoothRemoteGATTCharacteristicReadValue));
   }
 
-  // void notNullHandler(Future<dynamic> Function(dynamic) func) {
-  //   func();
-  //   if (value == null)  {
-  //     throw 'Value of type ${value.runtimeType}  shouldn\'t be null';
-  //   }
-  // }
-
+  // GATT server
   Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerGetPrimaryService(
       Map<String, dynamic> data) async {
     final selectedService = await getSelectedService(data['service']);
@@ -699,8 +727,19 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         state.selectedScanResult!);
     final bluetoothRemoteGATTService =
         BluetoothRemoteGATTService.fromBluetoothService(
-            device, selectedService!);
+            device, selectedService);
     return bluetoothRemoteGATTService.toMap();
+  }
+
+  Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerConnect(
+      Map<String, dynamic> data) async {
+    await state.selectedScanResult?.device.connect();
+
+    return BluetoothRemoteGATTServer(
+            device: BluetoothDevice.getBluetoothDeviceFromScanResult(
+                state.selectedScanResult!),
+            connected: true)
+        .toMap();
   }
 
   Future<bluePlus.BluetoothService?> getServiceWithUUID(
@@ -724,6 +763,21 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     }
   }
 
+  // Util
+  bluePlus.BluetoothCharacteristic getSelectedCharacteristic(
+      String uuid, bluePlus.BluetoothService? selectedService) {
+    final characteristicUUID = GuidHelper.parse(uuid);
+    final characteristics = selectedService!.characteristics;
+    final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
+        characteristics, characteristicUUID);
+    if (targetCharacteristic != null) {
+      return targetCharacteristic;
+    } else {
+      throw 'Error: Unable to find the characteristic';
+    }
+  }
+
+  // Service
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTServiceGetCharacteristic(
           Map<String, dynamic> data) async {
@@ -749,31 +803,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
               uuid: targetCharacteristic.uuid.str,
               value: null);
       return bluetoothRemoteGATTCharacteristic.toMap();
-    } else {
-      throw 'Error: Unable to find the characteristic';
-    }
-  }
-
-  Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerConnect(
-      Map<String, dynamic> data) async {
-    await state.selectedScanResult?.device.connect();
-
-    return BluetoothRemoteGATTServer(
-            device: BluetoothDevice.getBluetoothDeviceFromScanResult(
-                state.selectedScanResult!),
-            connected: true)
-        .toMap();
-  }
-
-  // Util
-  bluePlus.BluetoothCharacteristic getSelectedCharacteristic(
-      String uuid, bluePlus.BluetoothService? selectedService) {
-    final characteristicUUID = GuidHelper.parse(uuid);
-    final characteristics = selectedService!.characteristics;
-    final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
-        characteristics, characteristicUUID);
-    if (targetCharacteristic != null) {
-      return targetCharacteristic;
     } else {
       throw 'Error: Unable to find the characteristic';
     }
@@ -829,6 +858,58 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return bluetoothRemoteGATTCharacteristic.toMap();
   }
 
+  Future<Map<String, dynamic>> handleWrites(Map<String, dynamic> data,
+      {bool withResponse = true}) async {
+    final selectedService = await getSelectedService(data['serviceUUID']);
+    final selectedCharacteristic =
+        getSelectedCharacteristic(data['this'], selectedService);
+    final base64String = data['value'];
+
+    final value = base64Decode(base64String);
+
+    try {
+      if (withResponse) {
+        await selectedCharacteristic.write(value);
+      } else {
+        await selectedCharacteristic.write(value, withoutResponse: true);
+      }
+      return {};
+    } catch (e) {
+      return {'error': 'true'};
+    }
+  }
+
+  Future<Map<String, dynamic>>
+      handleBluetoothRemoteGATTCharacteristicWriteValue(
+          Map<String, dynamic> data) async {
+    return handleWrites(data);
+  }
+
+  Future<Map<String, dynamic>>
+      handleBluetoothRemoteGATTCharacteristicWriteValueWithResponse(
+          Map<String, dynamic> data) async {
+    return handleWrites(data);
+  }
+
+  Future<Map<String, dynamic>>
+      handleBluetoothRemoteGATTCharacteristicWriteValueWithoutResponse(
+          Map<String, dynamic> data) async {
+    return handleWrites(data, withResponse: false);
+  }
+
+  Future<dynamic> handleBluetoothRemoteGATTCharacteristicReadValue(
+      Map<String, dynamic> data) async {
+    final selectedService = await getSelectedService(data['serviceUUID']);
+    final selectedCharacteristic =
+        getSelectedCharacteristic(data['this'], selectedService);
+    final value = selectedCharacteristic.lastValue;
+
+    final uInt8List = Uint8List.fromList(value);
+    final base64String = base64Encode(uInt8List);
+
+    return base64String;
+  }
+
   Timer? characteriticListnerTimer;
   StreamSubscription<List<int>>? characteristicValueStreamSubscription;
 
@@ -843,12 +924,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     characteristicValueStreamSubscription =
         characteristic.lastValueStream.listen((event) {
       final uInt8List = Uint8List.fromList(event);
+
       // final stringUint8List  = uInt8List.toString();
       final base64String = base64Encode(uInt8List);
 
       // final byteData = ByteData.view(uInt8List.buffer);
 
       print('object');
+      print(uInt8List);
 
       // var uInt8ListViewOverB = byteData.buffer.asUint8List();
       // uInt8ListViewOverB.setAll(4, event);
@@ -917,7 +1000,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   Future<dynamic> jsChannelErrorHandler(
     List<dynamic> args,
-    Future<Map<String, dynamic>> Function(
+    Future<dynamic> Function(
       Map<String, dynamic>,
     )
         callback,
