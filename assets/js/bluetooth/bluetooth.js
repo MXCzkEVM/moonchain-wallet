@@ -1,3 +1,24 @@
+const uInt8ListToBase64 = function(bufferSource) {
+  let binary = '';
+  let bytes = new Uint8Array(bufferSource);
+  let len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+}
+
+const base64ToUint8List = function(base64String) {
+  const binaryString = atob(base64String);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes;
+}
+
+
 class BluetoothCharacteristicProperties {
   constructor(
     broadcast,
@@ -135,16 +156,24 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   }
 
   async writeValue(value) {
+    // We will need to change the value to Base64 for having a standard type to bridge data on that type.
+
+    const base64Value = uInt8ListToBase64(value)
+
     const data = {
       this: this.uuid,
       serviceUUID: this.service.uuid,
-      value: value,
+      value: base64Value,
     };
 
-    await window.axs.callHandler(
+    const resp = await window.axs.callHandler(
       "BluetoothRemoteGATTCharacteristic.writeValue",
       data
     );
+
+    if (resp.error !== undefined && resp.error === true) {
+      throw "Error while writing value.";
+    }
   }
 
   async writeValueWithResponse(value) {
@@ -209,12 +238,10 @@ class BluetoothRemoteGATTService extends EventTarget {
 
   async getCharacteristic(characteristic) {
     let data = { this: this.uuid, characteristic: characteristic };
-    console.log("Service changed: ", JSON.stringify(data));
     const resp = await window.axs?.callHandler(
       "BluetoothRemoteGATTService.getCharacteristic",
       data
     );
-    console.log("Service changed:4 ", resp);
     const characteristicInstance = new BluetoothRemoteGATTCharacteristic(
       this,
       resp.uuid,
@@ -293,12 +320,8 @@ class AXSBluetooth {
   }
 
   updateCharacteristicValue(characteristicUUID, base64String) {
-    const binaryString = atob(base64String);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
+    const bytes = base64ToUint8List(base64String);
+    console.log('Bytes : ',bytes)
     const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
     let selectedCharacteristic =
       this.getCharacteristicByUUID(characteristicUUID);
