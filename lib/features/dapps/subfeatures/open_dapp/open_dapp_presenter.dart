@@ -693,8 +693,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerGetPrimaryService(
       Map<String, dynamic> data) async {
-    final serviceUUID = GuidHelper.parse(data['service']);
-    final selectedService = await getServiceWithUUID(serviceUUID);
+    final selectedService = await getSelectedService(data['service']);
+
     final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
         state.selectedScanResult!);
     final bluetoothRemoteGATTService =
@@ -712,13 +712,18 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return primaryService;
   }
 
+  Future<bluePlus.BluetoothService?> getSelectedService(String uuid, )async {
+    final serviceUUID = GuidHelper.parse(uuid);
+    final service = await getServiceWithUUID(serviceUUID);
+    return service;
+  }
+
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTServiceGetCharacteristic(
           Map<String, dynamic> data) async {
     final targetCharacteristicUUID = GuidHelper.parse(data['characteristic']);
-    final serviceUUID = GuidHelper.parse(data['this']);
 
-    final selectedService = await getServiceWithUUID(serviceUUID);
+    final selectedService = await getSelectedService(data['this']);
 
     final characteristics = selectedService!.characteristics;
     final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
@@ -758,9 +763,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       handleBluetoothRemoteGATTCharacteristicStartNotifications(
           Map<String, dynamic> data) async {
     final characteristicUUID = GuidHelper.parse(data['this']);
-    final serviceUUID = GuidHelper.parse(data['serviceUUID']);
-
-    final selectedService = await getServiceWithUUID(serviceUUID);
+    final selectedService = await getSelectedService(data['serviceUUID']);
 
     final characteristics = selectedService!.characteristics;
     final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
@@ -792,9 +795,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       handleBluetoothRemoteGATTCharacteristicStopNotifications(
           Map<String, dynamic> data) async {
     final characteristicUUID = GuidHelper.parse(data['this']);
-    final serviceUUID = GuidHelper.parse(data['serviceUUID']);
-
-    final selectedService = await getServiceWithUUID(serviceUUID);
+    final selectedService = await getSelectedService(data['serviceUUID']);
 
     final characteristics = selectedService!.characteristics;
     final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
