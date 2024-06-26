@@ -676,6 +676,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
             JSChannelEvents.bluetoothRemoteGATTCharacteristicStartNotifications,
         callback: (args) => jsChannelErrorHandler(
             args, handleBluetoothRemoteGATTCharacteristicStartNotifications));
+
+    state.webviewController!.addJavaScriptHandler(
+        handlerName:
+            JSChannelEvents.bluetoothRemoteGATTCharacteristicStopNotifications,
+        callback: (args) => jsChannelErrorHandler(
+            args, handleBluetoothRemoteGATTCharacteristicStopNotifications));
   }
 
   // void notNullHandler(Future<dynamic> Function(dynamic) func) {
@@ -773,8 +779,42 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
                       targetCharacteristic.properties),
               uuid: targetCharacteristic.uuid.str,
               value: null);
-      initJSCharacteristicValueEmitter(
-          targetCharacteristic.lastValueStream, targetCharacteristic);
+
+      initJSCharacteristicValueEmitter(targetCharacteristic);
+
+      return bluetoothRemoteGATTCharacteristic.toMap();
+    } else {
+      throw 'Error: Unable to find the characteristic';
+    }
+  }
+
+  Future<Map<String, dynamic>>
+      handleBluetoothRemoteGATTCharacteristicStopNotifications(
+          Map<String, dynamic> data) async {
+    final characteristicUUID = GuidHelper.parse(data['this']);
+    final serviceUUID = GuidHelper.parse(data['serviceUUID']);
+
+    final selectedService = await getServiceWithUUID(serviceUUID);
+
+    final characteristics = selectedService!.characteristics;
+    final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
+        characteristics, characteristicUUID);
+    if (targetCharacteristic != null) {
+      final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
+          state.selectedScanResult!);
+      final bluetoothRemoteGATTService =
+          BluetoothRemoteGATTService.fromBluetoothService(
+              device, selectedService);
+      final bluetoothRemoteGATTCharacteristic =
+          BluetoothRemoteGATTCharacteristic(
+              service: bluetoothRemoteGATTService,
+              properties: BluetoothCharacteristicProperties
+                  .fromCharacteristicProperties(
+                      targetCharacteristic.properties),
+              uuid: targetCharacteristic.uuid.str,
+              value: null);
+
+      removeJSCharacteristicValueEmitter(targetCharacteristic);
 
       return bluetoothRemoteGATTCharacteristic.toMap();
     } else {
@@ -783,16 +823,18 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Timer? characteriticListnerTimer;
+  StreamSubscription<List<int>>? characteristicValueStreamSubscription;
+
   void initJSCharacteristicValueEmitter(
-    Stream<List<int>> lastValueStream,
     bluePlus.BluetoothCharacteristic characteristic,
   ) async {
-    // await characteristic.setNotifyValue(true);
+    await characteristic.setNotifyValue(true);
     characteriticListnerTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       characteristic.read();
     });
 
-    lastValueStream.listen((event) {
+    characteristicValueStreamSubscription =
+        characteristic.lastValueStream.listen((event) {
       final uInt8List = Uint8List.fromList(event);
       // final stringUint8List  = uInt8List.toString();
       final base64String = base64Encode(uInt8List);
@@ -808,10 +850,17 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final script = '''
       console.log('Hel');
       navigator.bluetooth.updateCharacteristicValue('${characteristic.uuid.str}', '$base64String',);
-      // navigator.bluetooth.dispatchCharacteristicEvent('${characteristic.uuid.str}', 'characteristicvaluechanged')
-''';
+      ''';
       state.webviewController!.evaluateJavascript(source: script);
     });
+  }
+
+  void removeJSCharacteristicValueEmitter(
+    bluePlus.BluetoothCharacteristic characteristic,
+  ) async {
+    await characteristic.setNotifyValue(false);
+
+    characteristicValueStreamSubscription?.cancel();
   }
 
   void injectAXSWalletJSChannel() async {
