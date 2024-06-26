@@ -60,9 +60,11 @@ class BluetoothRemoteGATTServer extends EventTarget {
     this.connected = resp.connected;
     return this;
   }
+
   async disconnect() {
     await window.axs.callHandler("BluetoothRemoteGATTServer.disconnect", {});
   }
+
   async getPrimaryService(service) {
     const data = { service: service };
     const resp = await window.axs?.callHandler(
@@ -75,7 +77,6 @@ class BluetoothRemoteGATTServer extends EventTarget {
       resp.isPrimary
     );
     navigator.bluetooth.serviceArray.push(respService);
-    // resp.getCharacteristic = eval(resp.getCharacteristic);
     return respService;
   }
 
@@ -90,22 +91,12 @@ class BluetoothRemoteGATTServer extends EventTarget {
 }
 
 class BluetoothRemoteGATTCharacteristic extends EventTarget {
-  constructor(service, uuid, value) {
+  constructor(service, uuid, value, properties) {
     super();
     this.service = service;
     this.uuid = uuid;
     this.value = value;
     this.properties = properties;
-  }
-
-  async startNotifications() {
-    const data = { this: this.uuid, serviceUUID: this.service.uuid };
-
-    await window.axs.callHandler(
-      "BluetoothRemoteGATTCharacteristic.startNotifications",
-      data
-    );
-    return this;
   }
 
   async getDescriptor(descriptor) {
@@ -114,7 +105,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
       serviceUUID: this.service.uuid,
       descriptor: descriptor,
     };
-    var response = await window.axs.callHandler(
+    const response = await window.axs.callHandler(
       "BluetoothRemoteGATTCharacteristic.getDescriptor",
       data
     );
@@ -127,7 +118,8 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
       serviceUUID: this.service.uuid,
       descriptor: descriptor,
     };
-    var response = await window.axs.callHandler(
+
+    const response = await window.axs.callHandler(
       "BluetoothRemoteGATTCharacteristic.getDescriptors",
       data
     );
@@ -135,44 +127,60 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   }
   async readValue() {
     const data = { this: this.uuid, serviceUUID: this.service.uuid };
-    var response = await window.axs.callHandler(
+    const response = await window.axs.callHandler(
       "BluetoothRemoteGATTCharacteristic.readValue",
-      { this: "$uuid", serviceUUID: "${service.uuid}" }
+      data
     );
     return response;
   }
 
   async writeValue(value) {
     const data = {
-      this: "$uuid",
-      serviceUUID: "${service.uuid}",
+      this: this.uuid,
+      serviceUUID: this.service.uuid,
       value: value,
     };
+
     await window.axs.callHandler(
       "BluetoothRemoteGATTCharacteristic.writeValue",
       data
     );
   }
+
   async writeValueWithResponse(value) {
     const data = {
-      this: "$uuid",
-      serviceUUID: "${service.uuid}",
+      this: this.uuid,
+      serviceUUID: this.service.uuid,
       value: value,
     };
-    var response = await window.axs.callHandler(
-      "BluetoothRemoteGATTCharacteristic.writeValueWithResponse"
+
+    await window.axs.callHandler(
+      "BluetoothRemoteGATTCharacteristic.writeValueWithResponse",
+      data
     );
   }
 
   async writeValueWithoutResponse(value) {
     const data = {
-      this: "$uuid",
-      serviceUUID: "${service.uuid}",
+      this: this.uuid,
+      serviceUUID: this.service.uuid,
       value: value,
     };
+
     await window.axs.callHandler(
-      "BluetoothRemoteGATTCharacteristic.writeValueWithoutResponse"
+      "BluetoothRemoteGATTCharacteristic.writeValueWithoutResponse",
+      data
     );
+  }
+
+  async startNotifications() {
+    const data = { this: this.uuid, serviceUUID: this.service.uuid };
+
+    await window.axs.callHandler(
+      "BluetoothRemoteGATTCharacteristic.startNotifications",
+      data
+    );
+    return this;
   }
 
   async stopNotifications() {
@@ -210,7 +218,8 @@ class BluetoothRemoteGATTService extends EventTarget {
     const characteristicInstance = new BluetoothRemoteGATTCharacteristic(
       this,
       resp.uuid,
-      resp.value
+      resp.value,
+      undefined
     );
     navigator.bluetooth.characteristicArray.push(characteristicInstance);
     // resp.startNotifications = eval(resp.startNotifications);
