@@ -863,9 +863,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
-    final base64String = data['value'];
-
-    final value = base64Decode(base64String);
+    final value =  Uint8List.fromList(List<int>.from(data['value']));
 
     try {
       if (withResponse) {
@@ -917,29 +915,17 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     bluePlus.BluetoothCharacteristic characteristic,
   ) async {
     await characteristic.setNotifyValue(true);
-    characteriticListnerTimer = Timer.periodic(Duration(seconds: 5), (timer) {
-      characteristic.read();
-    });
+    // characteriticListnerTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    //   characteristic.read();
+    // });
 
     characteristicValueStreamSubscription =
         characteristic.lastValueStream.listen((event) {
       final uInt8List = Uint8List.fromList(event);
-
-      // final stringUint8List  = uInt8List.toString();
-      final base64String = base64Encode(uInt8List);
-
-      // final byteData = ByteData.view(uInt8List.buffer);
-
-      print('object');
       print(uInt8List);
-
-      // var uInt8ListViewOverB = byteData.buffer.asUint8List();
-      // uInt8ListViewOverB.setAll(4, event);
-
       print('lastValueStream');
       final script = '''
-      console.log('Hel');
-      navigator.bluetooth.updateCharacteristicValue('${characteristic.uuid.str}', '$base64String',);
+      navigator.bluetooth.updateCharacteristicValue('${characteristic.uuid.str}', ${uInt8List.toString()},);
       ''';
       state.webviewController!.evaluateJavascript(source: script);
     });
