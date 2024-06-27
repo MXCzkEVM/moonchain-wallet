@@ -267,3 +267,11 @@ final Provider<BluetoothUseCase> bluetoothUseCaseProvider = Provider(
     ref.watch(authUseCaseProvider),
   ),
 );
+
+final Provider<BlueberryRingUseCase> blueberryRingUseCaseProvider = Provider(
+  (ref) => BlueberryRingUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(bluetoothUseCaseProvider),
+  ),
+);
