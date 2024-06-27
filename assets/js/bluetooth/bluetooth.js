@@ -1,24 +1,3 @@
-// const uInt8ListToBase64 = function(bufferSource) {
-//   let binary = '';
-//   let bytes = new Uint8Array(bufferSource);
-//   let len = bytes.byteLength;
-//   for (let i = 0; i < len; i++) {
-//     binary += String.fromCharCode(bytes[i]);
-//   }
-//   return window.btoa(binary);
-// }
-
-// const base64ToUint8List = function(base64String) {
-//   const binaryString = atob(base64String);
-//   const len = binaryString.length;
-//   const bytes = new Uint8Array(len);
-//   for (let i = 0; i < len; i++) {
-//     bytes[i] = binaryString.charCodeAt(i);
-//   }
-//   return bytes;
-// }
-
-
 class BluetoothCharacteristicProperties {
   constructor(
     broadcast,
@@ -170,7 +149,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
     );
 
     if (resp.error !== undefined && resp.error === true) {
-      throw "Error while writing value.";
+      throw new Error("Error while writing value.");
     }
   }
 
@@ -247,7 +226,6 @@ class BluetoothRemoteGATTService extends EventTarget {
       undefined
     );
     navigator.bluetooth.characteristicArray.push(characteristicInstance);
-    // resp.startNotifications = eval(resp.startNotifications);
     return characteristicInstance;
   }
 
@@ -342,57 +320,4 @@ class AXSBluetooth {
 }
 
 navigator.bluetooth = new AXSBluetooth();
-console.log("hallo");
 console.log(JSON.stringify(navigator.bluetooth, null, 2));
-
-// Simulated classes for completeness
-// class BluetoothRemoteGATTCharacteristic {
-//   constructor(uuid) {
-//     this.uuid = uuid;
-//   }
-// }
-
-// var serviceCopy;
-
-// Usage example
-// const device = { name: "Device1" };
-// const service = new BluetoothRemoteGATTService(device, "1234", true);
-// console.log(JSON.stringify(service));
-
-// service.addEventListener("serviceadded", (ev) => {
-//   console.log("Service added:", ev);
-//   console.log("data:", ev.detail);
-//   ev.detail.dispatchEvent(new Event("servicechanged"));
-// });
-
-// service.addEventListener("servicechanged", (ev) => {
-//   console.log("Service changed:", ev);
-// });
-
-// service.addEventListener("serviceremoved", (ev) => {
-//   console.log("Service removed:", ev);
-// });
-
-// {"device":{"name":"Device1"},"uuid":"1234","isPrimary":true}
-
-// {device: {name: "Device1"}, uuid: 1234, isPrimary: true}
-// Dispatching events for testing
-// service.dispatchEvent(new Event("serviceadded"));
-// service.dispatchEvent(new Event("servicechanged"));
-// service.dispatchEvent(new Event("serviceremoved"));
-
-// hello() {
-//   const customEvent = new CustomEvent("serviceadded", { detail: this });
-//   this.dispatchEvent(customEvent);
-// }
-
-// async helloToFlutter() {
-//   serviceCopy = this;
-//   await window.axs?.callHandler("helloToFlutter", serviceCopy);
-//   this.addEventListener("serviceadded", (ev) => {
-//     console.log("Here is the ");
-//     console.log("Service added:", ev);
-//     console.log("data:", ev.detail);
-//     ev.detail.dispatchEvent(new Event("servicechanged"));
-//   });
-// }
