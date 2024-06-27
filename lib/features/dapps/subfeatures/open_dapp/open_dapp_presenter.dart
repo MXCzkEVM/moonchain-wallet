@@ -14,7 +14,6 @@ import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/ut
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as bluePlus;
-// import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
@@ -863,7 +862,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
-    final value =  Uint8List.fromList(List<int>.from(data['value']));
+    final value = Uint8List.fromList(List<int>.from(data['value']));
 
     try {
       if (withResponse) {
@@ -1133,7 +1132,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final scanResults = _bluetoothUseCase.scanResults.value;
       if (scanResults.length > 1 || scanResults.isEmpty) {
         // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
-        final scanResult = await showBlueberryDevicesBottomSheet(
+        final scanResult = await showBlueberryRingsBottomSheet(
           context!,
         );
         if (scanResult != null) {
@@ -1154,7 +1153,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<Map<String, dynamic>> handleChangeCronTransitionStatusEvent(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    Map<String, dynamic> channelData,
+    AXSCronServices axsCronService,
+  ) async {
     if (axsCronService == AXSCronServices.miningAutoClaimCron) {
       final status = channelData['cron']['status'];
 
@@ -1178,7 +1179,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<Map<String, dynamic>> handleGetSystemInfoEvent(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    Map<String, dynamic> channelData,
+    AXSCronServices axsCronService,
+  ) async {
     if (axsCronService == AXSCronServices.miningAutoClaimCron) {
       final dappHooksData = state.dappHooksData;
 

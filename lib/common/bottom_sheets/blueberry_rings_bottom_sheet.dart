@@ -4,7 +4,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<ScanResult?> showBlueberryDevicesBottomSheet(
+Future<ScanResult?> showBlueberryRingsBottomSheet(
   BuildContext context,
 ) {
   return showModalBottomSheet<ScanResult?>(
