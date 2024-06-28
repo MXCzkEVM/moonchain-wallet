@@ -52,10 +52,6 @@ class BluetoothUseCase extends ReactiveUseCase {
     });
   }
 
-  Future<ChainsList> getChainsRpcUrls() async {
-    return await _repository.chainsRepository.getChainsRpcUrls();
-  }
-
   Future<void> checkBluetoothSupport() async {
     final isSupported = await isBluetoothSupported();
     if (!isSupported) {
