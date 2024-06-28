@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+
+import '../bluetooth.dart';
 
 final bluetoothServiceUUID =
     Guid.fromString('0000fff0-0000-1000-8000-00805f9b34fb');
@@ -78,12 +78,33 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     await selectedBlueberryRing.value!.device.connect();
   }
 
-  
+  Future<BluetoothService> getBlueberryRingBluetoothService() async {
+    return await _getBlueberryRingPrimaryService(bluetoothServiceUUID);
+  }
+
+  Future<BluetoothCharacteristic> getBlueberryRingCharacteristic() async {
+    final service = await getBlueberryRingBluetoothService();
+    return _getBlueberryRingCharacteristic(
+        service, bluetoothCharacteristicUUID);
+  }
+
+  Future<BluetoothCharacteristic> getBlueberryRingCharacteristicNotifications()async {
+    final service = await getBlueberryRingBluetoothService();
+        return _getBlueberryRingCharacteristic(
+        service, bluetoothCharacteristicNotificationUUID);
+  }
+
+  Future<void> startBlueberryRingCharacteristicNotifications()async {
+    final characteristicNotifications = await getBlueberryRingCharacteristicNotifications();
+    await characteristicNotifications.setNotifyValue(true);
+    characteristicNotifications.onValueReceived.listen((event) { });
+    final value = characteristicNotifications.read();
+  }
 
   Future<BluetoothService> _getBlueberryRingPrimaryService(
     Guid serviceUUID,
   ) async {
-    return await _bluetoothUseCase.getPrimaryService(
+    return await BluePlusBluetoothUtils.getPrimaryService(
       selectedBlueberryRing.value!,
       serviceUUID,
     );
@@ -93,7 +114,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     BluetoothService service,
     Guid characteristicUUID,
   ) async {
-    return await _bluetoothUseCase.getCharacteristic(
+    return await BluePlusBluetoothUtils.getCharacteristicWithService(
       service,
       characteristicUUID,
     );

@@ -1,2 +1,2 @@
 export 'bluetooth/bluetooth.dart';
-export 'blueberry_ring_use_case.dart';
+export 'bluetooth/blueberry_ring/blueberry_ring.dart';
