@@ -7,7 +7,7 @@ class Method {
   Method({required this.uid, this.arg});
 }
 
-class BluetoothCommandsUtils {
+class BlueberryCommandsUtils {
   static List<String> radix16bcd(List<int> array, {bool no0x = false}) {
     return array.map((v) {
       String s = v.toRadixString(16);
@@ -28,7 +28,8 @@ class BluetoothCommandsUtils {
     return result;
   }
 
-  static Uint8List parseMethodBytes(Method method, [List<int> args = const []]) {
+  static Uint8List parseMethodBytes(Method method,
+      [List<int> args = const []]) {
     List<int> command = [method.uid, ...List.filled(15, 0x00)];
     int ai = 0;
     for (final index in method.arg ?? []) {

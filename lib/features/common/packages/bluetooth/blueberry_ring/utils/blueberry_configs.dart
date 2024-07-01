@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:collection/collection.dart';
 import 'package:datadashwallet/features/common/common.dart';
 
-
 typedef GetType = String Function();
 
 class GetMappings {
@@ -13,7 +12,7 @@ class GetMappings {
   static const int next = 2;
 }
 
-class Methods {
+class BlueberryMethods {
   static final readLevel = Method(uid: 0x13, arg: [1]);
   static final readVersion = Method(uid: 0x27);
   static final readSteps = Method(uid: 0x52, arg: [1]);
@@ -25,44 +24,44 @@ class Methods {
   static final writeRestore = Method(uid: 0x12, arg: []);
 }
 
-class Commands {
+class BlueberryCommands {
   static Uint8List readLevel() =>
-      BluetoothCommandsUtils.parseMethodBytes(Methods.readLevel);
+      BlueberryCommandsUtils.parseMethodBytes(BlueberryMethods.readLevel);
   static Uint8List readVersion() =>
-      BluetoothCommandsUtils.parseMethodBytes(Methods.readVersion);
+      BlueberryCommandsUtils.parseMethodBytes(BlueberryMethods.readVersion);
   static Uint8List readTime() =>
-      BluetoothCommandsUtils.parseMethodBytes(Methods.readTime);
+      BlueberryCommandsUtils.parseMethodBytes(BlueberryMethods.readTime);
 
-  static Uint8List readSteps(String type) {
+  static Uint8List readSteps() {
     const mapping = GetMappings.last;
-    return BluetoothCommandsUtils.parseMethodBytes(
-        Methods.readSteps, [mapping]);
+    return BlueberryCommandsUtils.parseMethodBytes(
+        BlueberryMethods.readSteps, [mapping]);
   }
 
-  static Uint8List readSleep(String type) {
+  static Uint8List readSleep() {
     const mapping = GetMappings.last;
-    return BluetoothCommandsUtils.parseMethodBytes(
-        Methods.readSleep, [mapping]);
+    return BlueberryCommandsUtils.parseMethodBytes(
+        BlueberryMethods.readSleep, [mapping]);
   }
 
-  static Uint8List readHeartRates(String type) {
+  static Uint8List readHeartRates() {
     const mapping = GetMappings.last;
-    return BluetoothCommandsUtils.parseMethodBytes(
-        Methods.readHeartRates, [mapping]);
+    return BlueberryCommandsUtils.parseMethodBytes(
+        BlueberryMethods.readHeartRates, [mapping]);
   }
 
-  static Uint8List readBloodOxygens(String type) {
+  static Uint8List readBloodOxygens() {
     const mapping = GetMappings.last;
-    return BluetoothCommandsUtils.parseMethodBytes(
-        Methods.readBloodOxygens, [mapping]);
+    return BlueberryCommandsUtils.parseMethodBytes(
+        BlueberryMethods.readBloodOxygens, [mapping]);
   }
 }
 
-class Resolves {
+class BlueberryResolves {
   static int readLevel(Uint8List data) => data[1];
 
   static String readVersion(Uint8List data) {
-    final values = BluetoothCommandsUtils.radix16bcd(data, no0x: true)
+    final values = BlueberryCommandsUtils.radix16bcd(data, no0x: true)
         .map(int.parse)
         .toList();
     return '${values[1]}.${values[2]}${values[3]}${values[4]}';
@@ -71,8 +70,8 @@ class Resolves {
   static Uint8List readTime(Uint8List data) => data;
 
   static List<PeriodicSleepData> readSleep(Uint8List data) {
-    final sleepDataList = BluetoothCommandsUtils.splitArrayByLength(
-            BluetoothCommandsUtils.radix16bcd(data), 130)
+    final sleepDataList = BlueberryCommandsUtils.splitArrayByLength(
+            BlueberryCommandsUtils.radix16bcd(data), 130)
         .map((e) => e.map(int.parse).toList())
         .where((item) => item[1] != 0xFF)
         .map((item) {
@@ -96,13 +95,13 @@ class Resolves {
             .toList())
         .toList()
       ..sort((a, b) => a.date.compareTo(b.date));
-  
+
     return periodicSleepData;
   }
 
   static List<StepsData> readSteps(Uint8List data) {
-    return BluetoothCommandsUtils.splitArrayByLength(
-            BluetoothCommandsUtils.radix16bcd(data), 25)
+    return BlueberryCommandsUtils.splitArrayByLength(
+            BlueberryCommandsUtils.radix16bcd(data), 25)
         .map((item) => item.map(int.parse).toList())
         .toList()
         .where((item) => item[1] != 0xFF)
@@ -119,8 +118,8 @@ class Resolves {
   }
 
   static List<HeartRateData> readHeartRates(Uint8List data) {
-    return BluetoothCommandsUtils.splitArrayByLength(
-            BluetoothCommandsUtils.radix16bcd(data), 10)
+    return BlueberryCommandsUtils.splitArrayByLength(
+            BlueberryCommandsUtils.radix16bcd(data), 10)
         .map((item) => item.map(int.parse).toList())
         .toList()
         .where((item) => item[1] != 0xFF)
@@ -137,8 +136,8 @@ class Resolves {
   }
 
   static List<BloodOxygensData> readBloodOxygens(Uint8List data) {
-    return BluetoothCommandsUtils.splitArrayByLength(
-            BluetoothCommandsUtils.radix16bcd(data), 10)
+    return BlueberryCommandsUtils.splitArrayByLength(
+            BlueberryCommandsUtils.radix16bcd(data), 10)
         .map((item) => item.map(int.parse).toList())
         .where((item) => item[1] != 0xFF)
         .map((item) {
@@ -153,7 +152,7 @@ class Resolves {
 }
 
 int parseDate(List<int> data) {
-  final parts = BluetoothCommandsUtils.radix16bcd(data);
+  final parts = BlueberryCommandsUtils.radix16bcd(data);
   final ymd = '20${parts[0]}-${parts[1]}-${parts[2]}';
   final hms = '${parts[3]}:${parts[4]}:${parts[5]}';
   final date = DateTime.parse('$ymd $hms');

@@ -9,7 +9,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 
-import '../bluetooth.dart';
+import '../../bluetooth.dart';
 
 final bluetoothServiceUUID =
     Guid.fromString('0000fff0-0000-1000-8000-00805f9b34fb');
