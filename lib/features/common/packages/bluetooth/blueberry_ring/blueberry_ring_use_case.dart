@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,11 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   late StreamSubscription<bool>? isScanningStateListener;
 
   late final ValueStream<ScanResult?> selectedBlueberryRing = reactive(null);
+  late final ValueStream<BluetoothCharacteristic?> blueberryRingCharacteristic =
+      reactive(null);
+  late final ValueStream<BluetoothCharacteristic?>
+      blueberryRinCharacteristicNotifications = reactive(null);
+
   late final ValueStream<BluetoothAdapterState> bluetoothStatus =
       reactive(BluetoothAdapterState.off);
 
@@ -82,22 +88,77 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return await _getBlueberryRingPrimaryService(bluetoothServiceUUID);
   }
 
+  Future<int> readLevel() async {
+    final command = BlueberryCommands.readLevel();
+    await blueberryRingCharacteristic.value?.write(command);
+    final value = await blueberryRingCharacteristic.value?.read();
+    return BlueberryResolves.readLevel(Uint8List.fromList(value!));
+  }
+
+  Future<String> readVersion() async {
+    final command = BlueberryCommands.readVersion();
+    await blueberryRingCharacteristic.value?.write(command);
+    final value = await blueberryRingCharacteristic.value?.read();
+    return BlueberryResolves.readVersion(Uint8List.fromList(value!));
+  }
+
+  Future<Uint8List> readTime() async {
+    final command = BlueberryCommands.readTime();
+    await blueberryRingCharacteristic.value?.write(command);
+    final value = await blueberryRingCharacteristic.value?.read();
+    return BlueberryResolves.readTime(Uint8List.fromList(value!));
+  }
+
+  Future<List<PeriodicSleepData>> readSleep() async {
+    final command = BlueberryCommands.readSleep();
+    await blueberryRingCharacteristic.value?.write(command);
+    final value = await blueberryRingCharacteristic.value?.read();
+    return BlueberryResolves.readSleep(Uint8List.fromList(value!));
+  }
+
+  Future<List<BloodOxygensData>> readBloodOxygens() async {
+    final command = BlueberryCommands.readBloodOxygens();
+    await blueberryRingCharacteristic.value?.write(command);
+    final value = await blueberryRingCharacteristic.value?.read();
+    return BlueberryResolves.readBloodOxygens(Uint8List.fromList(value!));
+  }
+
+  Future<List<StepsData>> readSteps() async {
+    final command = BlueberryCommands.readSteps();
+    await blueberryRingCharacteristic.value?.write(command);
+    final value = await blueberryRingCharacteristic.value?.read();
+    return BlueberryResolves.readSteps(Uint8List.fromList(value!));
+  }
+
+  Future<List<HeartRateData>> readHeartRate() async {
+    final command = BlueberryCommands.readHeartRates();
+    await blueberryRingCharacteristic.value?.write(command);
+    final value = await blueberryRingCharacteristic.value?.read();
+    return BlueberryResolves.readHeartRates(Uint8List.fromList(value!));
+  }
+
   Future<BluetoothCharacteristic> getBlueberryRingCharacteristic() async {
     final service = await getBlueberryRingBluetoothService();
-    return _getBlueberryRingCharacteristic(
+    final resp = await _getBlueberryRingCharacteristic(
         service, bluetoothCharacteristicUUID);
+    update(blueberryRingCharacteristic, resp);
+    return resp;
   }
 
-  Future<BluetoothCharacteristic> getBlueberryRingCharacteristicNotifications()async {
+  Future<BluetoothCharacteristic>
+      getBlueberryRingCharacteristicNotifications() async {
     final service = await getBlueberryRingBluetoothService();
-        return _getBlueberryRingCharacteristic(
+    final resp = await _getBlueberryRingCharacteristic(
         service, bluetoothCharacteristicNotificationUUID);
+    update(blueberryRinCharacteristicNotifications, resp);
+    return resp;
   }
 
-  Future<void> startBlueberryRingCharacteristicNotifications()async {
-    final characteristicNotifications = await getBlueberryRingCharacteristicNotifications();
+  Future<void> startBlueberryRingCharacteristicNotifications() async {
+    final characteristicNotifications =
+        await getBlueberryRingCharacteristicNotifications();
     await characteristicNotifications.setNotifyValue(true);
-    characteristicNotifications.onValueReceived.listen((event) { });
+    characteristicNotifications.onValueReceived.listen((event) {});
     final value = characteristicNotifications.read();
   }
 
@@ -114,7 +175,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     BluetoothService service,
     Guid characteristicUUID,
   ) async {
-    return await BluePlusBluetoothUtils.getCharacteristicWithService(
+    return BluePlusBluetoothUtils.getCharacteristicWithService(
       service,
       characteristicUUID,
     );
