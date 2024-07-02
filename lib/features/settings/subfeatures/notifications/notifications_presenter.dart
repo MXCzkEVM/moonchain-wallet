@@ -118,6 +118,18 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
       showChangeSnackBarWrapper(
           () => notificationsHelper.changeExpectedEpochQuantityEnabled(value));
 
+  void changeActivityReminderEnabled(bool value) => showChangeSnackBarWrapper(
+      () => notificationsHelper.changeActivityReminderEnabled(value));
+
+  void changeSleepInsightEnabled(bool value) => showChangeSnackBarWrapper(
+      () => notificationsHelper.changeSleepInsightEnabled(value));
+
+  void changeHeartAlertEnabled(bool value) => showChangeSnackBarWrapper(
+      () => notificationsHelper.changeHeartAlertEnabled(value));
+
+  void changeLowBatteryEnabled(bool value) => showChangeSnackBarWrapper(
+      () => notificationsHelper.changeLowBatteryEnabled(value));
+
   void updateEpochOccur(int value) =>
       notificationsHelper.updateEpochOccur(value);
 
