@@ -275,3 +275,14 @@ final Provider<BlueberryRingUseCase> blueberryRingUseCaseProvider = Provider(
     ref.watch(bluetoothUseCaseProvider),
   ),
 );
+
+final Provider<BlueberryRingBackgroundNotificationsUseCase>
+    blueberryRingBackgroundNotificationsUseCaseProvider = Provider(
+  (ref) => BlueberryRingBackgroundNotificationsUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(bluetoothUseCaseProvider),
+    ref.watch(blueberryRingUseCaseProvider),
+    ref.watch(contextLessTranslationUseCaseProvider),
+  ),
+);
