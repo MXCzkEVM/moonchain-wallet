@@ -28,17 +28,71 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     // Get spteps data from cache and compare
     // If steps is below a certain number then show a
     // Below 5000
-    // if (DateTime.fromMillisecondsSinceEpoch(data.last.date * 1000) )
+    final latestData = data.first;
+    final lastDate = DateTime.fromMillisecondsSinceEpoch(
+      latestData.date * 1000,
+    );
+    final now = DateTime.now();
+    final isToday = now.year == lastDate.year &&
+        now.month == lastDate.month &&
+        now.day == lastDate.day;
+
+    if (isToday && latestData.step < 5000) {
+      AXSNotification().showNotification(
+        cTranslate('blueberry_ring_inactive_alert_title'),
+        cTranslate('blueberry_ring_inactive_alert_text'),
+      );
+    }
   }
 
   Future<void> checkSleepInsight() async {
     final data = await _blueberryRingUseCase.readSleep();
     // If sleeps is below standard level
+    // loop throug all and get average
+    final now = DateTime.now();
+
+    final todaysData = data.where((element) {
+      final date = DateTime.fromMillisecondsSinceEpoch(
+        element.date * 1000,
+      );
+      final isToday = now.year == date.year &&
+          now.month == date.month &&
+          now.day == date.day;
+      return isToday;
+    });
+
+    if (todaysData.isEmpty) {
+      return;
+    }
+
+    final isNormal = BlueberryRingDataAnalyzer.isSleepQualityNormal(todaysData.map((e) => e.value).toList());
+
+    if (!isNormal) {
+      AXSNotification().showNotification(
+        cTranslate('blueberry_ring_sleep_alert_title'),
+        cTranslate('blueberry_ring_sleep_alert_text'),
+      );
+    }
   }
 
   Future<void> checkHeartAlert() async {
     final data = await _blueberryRingUseCase.readHeartRate();
     // If below standard but between person to person different
+    final latestData = data.first;
+    final lastDate = DateTime.fromMillisecondsSinceEpoch(
+      latestData.date * 1000,
+    );
+    final now = DateTime.now();
+    final isToday = now.year == lastDate.year &&
+        now.month == lastDate.month &&
+        now.day == lastDate.day;
+
+    if (isToday && latestData.value >= 100) {
+      AXSNotification().showNotification(
+        cTranslate('blueberry_ring_heart_rate_alert_title'),
+        cTranslate('blueberry_ring_heart_rate_alert_text'),
+      );
+    }
   }
 
   Future<void> checkLowBattery() async {
@@ -47,8 +101,8 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     // Is 10 OK
     if (data < 20) {
       AXSNotification().showNotification(
-        cTranslate('tx_fee_reached_expectation_notification_title'),
-        cTranslate('tx_fee_reached_expectation_notification_text'),
+        cTranslate('blueberry_ring_battery_alert_title'),
+        cTranslate('blueberry_ring_battery_alert_text'),
       );
     }
   }
