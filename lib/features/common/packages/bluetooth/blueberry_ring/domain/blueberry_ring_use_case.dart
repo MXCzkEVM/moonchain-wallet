@@ -28,9 +28,6 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   final ChainConfigurationUseCase _chainConfigurationUseCase;
   final BluetoothUseCase _bluetoothUseCase;
 
-  late StreamSubscription<List<ScanResult>>? scannerListener;
-  late StreamSubscription<BluetoothAdapterState>? stateListener;
-  late StreamSubscription<bool>? isScanningStateListener;
 
   late final ValueStream<ScanResult?> selectedBlueberryRing = reactive(null);
   late final ValueStream<BluetoothCharacteristic?> blueberryRingCharacteristic =
@@ -52,6 +49,28 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         // Blueberry ring is selected
       }
     });
+  }
+
+  Future<void> getBlueberryRingContextless() async {
+    // if (bluetoothStatus.value == BluetoothAdapterState.off || bluetoothStatus.value = BluetoothAdapterState.unauthorized)
+    // TODO: bluetooth should be on before bg notifications
+    // TODO: We will need te user to select which blueberry ring wants to get notificaitons from
+    _bluetoothUseCase.startScanning(
+      withServices: [bluetoothServiceUUID],
+    );
+
+    await Future.delayed(const Duration(seconds: 2), () async {
+      final scanResults = _bluetoothUseCase.scanResults.value;
+      if (scanResults.isNotEmpty) {
+        // only one scan results
+        final scanResult = scanResults.first;
+        update(selectedBlueberryRing, scanResult);
+      } else {
+        throw 'Error: Unable to locate blueberry ring';
+      }
+    });
+
+    _bluetoothUseCase.stopScanner();
   }
 
   // Sets the selectedBlueberryRing
@@ -86,6 +105,34 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
   Future<BluetoothService> getBlueberryRingBluetoothService() async {
     return await _getBlueberryRingPrimaryService(bluetoothServiceUUID);
+  }
+
+  /// This function will check the blueberry ring, connection 
+  Future<T> checkEstablishment<T>(Future<T> Function() func) async {
+    final isBlueberryRingAvailable = selectedBlueberryRing.value != null;
+
+    if (!isBlueberryRingAvailable) {
+      await getBlueberryRingContextless();
+    }
+
+    bool isBlueberryRingConnected =
+        selectedBlueberryRing.value?.device.isConnected ?? false;
+
+    if (!isBlueberryRingConnected) {
+      await selectedBlueberryRing.value?.device.connect();
+      isBlueberryRingConnected =
+          selectedBlueberryRing.value?.device.isConnected ?? false;
+      if (!isBlueberryRingConnected) {
+        throw 'Error: Unable to connect to the bluetooth device';
+      }
+    }
+
+    final isBlueberryRingCharacteristicAvailable = blueberryRingCharacteristic.value != null;
+    if (!isBlueberryRingCharacteristicAvailable) {
+      await getBlueberryRingCharacteristic();
+    }
+
+    return await func();
   }
 
   Future<int> readLevel() async {
