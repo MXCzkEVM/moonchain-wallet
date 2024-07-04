@@ -289,6 +289,32 @@ class NotificationsPage extends HookConsumerWidget {
                     notificationsState
                         .periodicalCallData!.expectedEpochOccurrenceEnabled,
               ),
+              MXCSwitchRowItem(
+                title: translate('activity_reminder'),
+                value: notificationsState
+                    .periodicalCallData!.activityReminderEnabled,
+                onChanged: notificationsPresenter.changeActivityReminderEnabled,
+                enabled: isSettingsChangeEnabled,
+              ),
+              // MXCSwitchRowItem(
+              //   title: translate('sleep_insight'),
+              //   value:
+              //       notificationsState.periodicalCallData!.sleepInsightEnabled,
+              //   onChanged: notificationsPresenter.changeSleepInsightEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              // ),
+              // MXCSwitchRowItem(
+              //   title: translate('heart_alert'),
+              //   value: notificationsState.periodicalCallData!.heartAlertEnabled,
+              //   onChanged: notificationsPresenter.changeHeartAlertEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              // ),
+              // MXCSwitchRowItem(
+              //   title: translate('low_battery'),
+              //   value: notificationsState.periodicalCallData!.lowBatteryEnabled,
+              //   onChanged: notificationsPresenter.changeLowBatteryEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              // ),
               // const SizedBox(height: Sizes.spaceNormal),
               // MXCSwitchRowItem(
               //   title: translate('daily_earnings'),

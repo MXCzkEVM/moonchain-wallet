@@ -14,7 +14,6 @@ import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/ut
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as bluePlus;
-// import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
 import 'package:web3dart/web3dart.dart';
@@ -47,11 +46,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _bluetoothUseCase = ref.read(bluetoothUseCaseProvider);
 
   MinerHooksHelper get minerHooksHelper => MinerHooksHelper(
-      translate: translate,
-      context: context,
-      dAppHooksUseCase: _dAppHooksUseCase,
-      accountUseCase: _accountUseCase,
-      backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase);
+        translate: translate,
+        context: context,
+        dAppHooksUseCase: _dAppHooksUseCase,
+        accountUseCase: _accountUseCase,
+        backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase,
+      );
 
   @override
   void initState() {
@@ -742,70 +742,48 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         .toMap();
   }
 
-  Future<bluePlus.BluetoothService?> getServiceWithUUID(
-      bluePlus.Guid serviceUUID) async {
-    final res = await state.selectedScanResult!.device.discoverServices();
-    final primaryService =
-        BluePlusBluetoothUtils.getPrimaryService(res, serviceUUID);
-
-    return primaryService;
-  }
-
   Future<bluePlus.BluetoothService> getSelectedService(
     String uuid,
   ) async {
     final serviceUUID = GuidHelper.parse(uuid);
-    final service = await getServiceWithUUID(serviceUUID);
-    if (service != null) {
-      return service;
-    } else {
-      throw 'Error: Unable to find the service!';
-    }
+    final selectedService = await BluePlusBluetoothUtils.getPrimaryService(
+        state.selectedScanResult!, serviceUUID);
+    return selectedService;
   }
 
   // Util
   bluePlus.BluetoothCharacteristic getSelectedCharacteristic(
-      String uuid, bluePlus.BluetoothService? selectedService) {
+      String uuid, bluePlus.BluetoothService selectedService) {
     final characteristicUUID = GuidHelper.parse(uuid);
-    final characteristics = selectedService!.characteristics;
-    final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
-        characteristics, characteristicUUID);
-    if (targetCharacteristic != null) {
-      return targetCharacteristic;
-    } else {
-      throw 'Error: Unable to find the characteristic';
-    }
+    final selectedCharacteristic =
+        BluePlusBluetoothUtils.getCharacteristicWithService(
+            selectedService, characteristicUUID);
+    return selectedCharacteristic;
   }
 
   // Service
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTServiceGetCharacteristic(
           Map<String, dynamic> data) async {
-    final targetCharacteristicUUID = GuidHelper.parse(data['characteristic']);
+    final targetCharacteristicUUID = data['characteristic'];
 
     final selectedService = await getSelectedService(data['this']);
+    final targetCharacteristic =
+        getSelectedCharacteristic(targetCharacteristicUUID, selectedService);
 
-    final characteristics = selectedService.characteristics;
-    final targetCharacteristic = BluePlusBluetoothUtils.getCharacteristic(
-        characteristics, targetCharacteristicUUID);
-    if (targetCharacteristic != null) {
-      final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
-          state.selectedScanResult!);
-      final bluetoothRemoteGATTService =
-          BluetoothRemoteGATTService.fromBluetoothService(
-              device, selectedService);
-      final bluetoothRemoteGATTCharacteristic =
-          BluetoothRemoteGATTCharacteristic(
-              service: bluetoothRemoteGATTService,
-              properties: BluetoothCharacteristicProperties
-                  .fromCharacteristicProperties(
-                      targetCharacteristic.properties),
-              uuid: targetCharacteristic.uuid.str,
-              value: null);
-      return bluetoothRemoteGATTCharacteristic.toMap();
-    } else {
-      throw 'Error: Unable to find the characteristic';
-    }
+    final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
+        state.selectedScanResult!);
+    final bluetoothRemoteGATTService =
+        BluetoothRemoteGATTService.fromBluetoothService(
+            device, selectedService);
+    final bluetoothRemoteGATTCharacteristic = BluetoothRemoteGATTCharacteristic(
+        service: bluetoothRemoteGATTService,
+        properties:
+            BluetoothCharacteristicProperties.fromCharacteristicProperties(
+                targetCharacteristic.properties),
+        uuid: targetCharacteristic.uuid.str,
+        value: null);
+    return bluetoothRemoteGATTCharacteristic.toMap();
   }
 
   BluetoothRemoteGATTCharacteristic getBluetoothRemoteGATTCharacteristic(
@@ -863,7 +841,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
-    final value =  Uint8List.fromList(List<int>.from(data['value']));
+    final value = Uint8List.fromList(List<int>.from(data['value']));
 
     try {
       if (withResponse) {
@@ -1133,7 +1111,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final scanResults = _bluetoothUseCase.scanResults.value;
       if (scanResults.length > 1 || scanResults.isEmpty) {
         // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
-        final scanResult = await showBlueberryDevicesBottomSheet(
+        final scanResult = await showBlueberryRingsBottomSheet(
           context!,
         );
         if (scanResult != null) {
@@ -1154,7 +1132,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<Map<String, dynamic>> handleChangeCronTransitionStatusEvent(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    Map<String, dynamic> channelData,
+    AXSCronServices axsCronService,
+  ) async {
     if (axsCronService == AXSCronServices.miningAutoClaimCron) {
       final status = channelData['cron']['status'];
 
@@ -1178,7 +1158,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   Future<Map<String, dynamic>> handleGetSystemInfoEvent(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    Map<String, dynamic> channelData,
+    AXSCronServices axsCronService,
+  ) async {
     if (axsCronService == AXSCronServices.miningAutoClaimCron) {
       final dappHooksData = state.dappHooksData;
 

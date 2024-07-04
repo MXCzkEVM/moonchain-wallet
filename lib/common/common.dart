@@ -10,3 +10,4 @@ export 'biometric.dart';
 export 'components/components.dart';
 export 'dialogs/dialogs.dart';
 export 'assets.dart';
+export 'bottom_sheets/bottom_sheets.dart';

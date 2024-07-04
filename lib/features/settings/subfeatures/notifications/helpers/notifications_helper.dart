@@ -54,6 +54,18 @@ class NotificationsHelper {
     });
   }
 
+  void changeActivityReminderEnabled(bool value) =>
+      backgroundFetchConfigUseCase.updateActivityReminderEnabled(value);
+
+  void changeSleepInsightEnabled(bool value) =>
+      backgroundFetchConfigUseCase.updateSleepInsightEnabled(value);
+
+  void changeHeartAlertEnabled(bool value) =>
+      backgroundFetchConfigUseCase.updateHeartAlertEnabled(value);
+
+  void changeLowBatteryEnabled(bool value) =>
+      backgroundFetchConfigUseCase.updateLowBatteryEnabled(value);
+
   void changeLowBalanceLimitEnabled(bool value) =>
       backgroundFetchConfigUseCase.updateLowBalanceLimitEnabled(value);
 
