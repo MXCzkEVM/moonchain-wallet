@@ -28,7 +28,6 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   final ChainConfigurationUseCase _chainConfigurationUseCase;
   final BluetoothUseCase _bluetoothUseCase;
 
-
   late final ValueStream<ScanResult?> selectedBlueberryRing = reactive(null);
   late final ValueStream<BluetoothCharacteristic?> blueberryRingCharacteristic =
       reactive(null);
@@ -51,10 +50,9 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     });
   }
 
-  Future<void> getBlueberryRingContextless() async {
+  Future<void> getBlueberryRingBackground() async {
     // if (bluetoothStatus.value == BluetoothAdapterState.off || bluetoothStatus.value = BluetoothAdapterState.unauthorized)
     // TODO: bluetooth should be on before bg notifications
-    // TODO: We will need te user to select which blueberry ring wants to get notificaitons from
     _bluetoothUseCase.startScanning(
       withServices: [bluetoothServiceUUID],
     );
@@ -107,12 +105,12 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return await _getBlueberryRingPrimaryService(bluetoothServiceUUID);
   }
 
-  /// This function will check the blueberry ring, connection 
+  /// This function will check the blueberry ring, connection
   Future<T> checkEstablishment<T>(Future<T> Function() func) async {
     final isBlueberryRingAvailable = selectedBlueberryRing.value != null;
 
     if (!isBlueberryRingAvailable) {
-      await getBlueberryRingContextless();
+      await getBlueberryRingBackground();
     }
 
     bool isBlueberryRingConnected =
@@ -127,7 +125,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       }
     }
 
-    final isBlueberryRingCharacteristicAvailable = blueberryRingCharacteristic.value != null;
+    final isBlueberryRingCharacteristicAvailable =
+        blueberryRingCharacteristic.value != null;
     if (!isBlueberryRingCharacteristicAvailable) {
       await getBlueberryRingCharacteristic();
     }
@@ -136,52 +135,80 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   }
 
   Future<int> readLevel() async {
-    final command = BlueberryCommands.readLevel();
-    await blueberryRingCharacteristic.value?.write(command);
-    final value = await blueberryRingCharacteristic.value?.read();
-    return BlueberryResolves.readLevel(Uint8List.fromList(value!));
+    return checkEstablishment<int>(
+      () async {
+        final command = BlueberryCommands.readLevel();
+        await blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingCharacteristic.value?.read();
+        return BlueberryResolves.readLevel(Uint8List.fromList(value!));
+      },
+    );
   }
 
   Future<String> readVersion() async {
-    final command = BlueberryCommands.readVersion();
-    await blueberryRingCharacteristic.value?.write(command);
-    final value = await blueberryRingCharacteristic.value?.read();
-    return BlueberryResolves.readVersion(Uint8List.fromList(value!));
+    return checkEstablishment<String>(
+      () async {
+        final command = BlueberryCommands.readVersion();
+        await blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingCharacteristic.value?.read();
+        return BlueberryResolves.readVersion(Uint8List.fromList(value!));
+      },
+    );
   }
 
   Future<Uint8List> readTime() async {
-    final command = BlueberryCommands.readTime();
-    await blueberryRingCharacteristic.value?.write(command);
-    final value = await blueberryRingCharacteristic.value?.read();
-    return BlueberryResolves.readTime(Uint8List.fromList(value!));
+    return checkEstablishment<Uint8List>(
+      () async {
+        final command = BlueberryCommands.readTime();
+        await blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingCharacteristic.value?.read();
+        return BlueberryResolves.readTime(Uint8List.fromList(value!));
+      },
+    );
   }
 
   Future<List<PeriodicSleepData>> readSleep() async {
-    final command = BlueberryCommands.readSleep();
-    await blueberryRingCharacteristic.value?.write(command);
-    final value = await blueberryRingCharacteristic.value?.read();
-    return BlueberryResolves.readSleep(Uint8List.fromList(value!));
+    return checkEstablishment<List<PeriodicSleepData>>(
+      () async {
+        final command = BlueberryCommands.readSleep();
+        await blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingCharacteristic.value?.read();
+        return BlueberryResolves.readSleep(Uint8List.fromList(value!));
+      },
+    );
   }
 
   Future<List<BloodOxygensData>> readBloodOxygens() async {
-    final command = BlueberryCommands.readBloodOxygens();
-    await blueberryRingCharacteristic.value?.write(command);
-    final value = await blueberryRingCharacteristic.value?.read();
-    return BlueberryResolves.readBloodOxygens(Uint8List.fromList(value!));
+    return checkEstablishment<List<BloodOxygensData>>(
+      () async {
+        final command = BlueberryCommands.readBloodOxygens();
+        await blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingCharacteristic.value?.read();
+        return BlueberryResolves.readBloodOxygens(Uint8List.fromList(value!));
+      },
+    );
   }
 
   Future<List<StepsData>> readSteps() async {
-    final command = BlueberryCommands.readSteps();
-    await blueberryRingCharacteristic.value?.write(command);
-    final value = await blueberryRingCharacteristic.value?.read();
-    return BlueberryResolves.readSteps(Uint8List.fromList(value!));
+    return checkEstablishment<List<StepsData>>(
+      () async {
+        final command = BlueberryCommands.readSteps();
+        await blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingCharacteristic.value?.read();
+        return BlueberryResolves.readSteps(Uint8List.fromList(value!));
+      },
+    );
   }
 
   Future<List<HeartRateData>> readHeartRate() async {
-    final command = BlueberryCommands.readHeartRates();
-    await blueberryRingCharacteristic.value?.write(command);
-    final value = await blueberryRingCharacteristic.value?.read();
-    return BlueberryResolves.readHeartRates(Uint8List.fromList(value!));
+    return checkEstablishment<List<HeartRateData>>(
+      () async {
+        final command = BlueberryCommands.readHeartRates();
+        await blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingCharacteristic.value?.read();
+        return BlueberryResolves.readHeartRates(Uint8List.fromList(value!));
+      },
+    );
   }
 
   Future<BluetoothCharacteristic> getBlueberryRingCharacteristic() async {

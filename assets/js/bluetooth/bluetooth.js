@@ -8,7 +8,7 @@ class BluetoothCharacteristicProperties {
     indicate,
     authenticatedSignedWrites,
     reliableWrite,
-    writableAuxiliaries,
+    writableAuxiliaries
   ) {
     this.broadcast = broadcast;
     this.read = read;
@@ -296,11 +296,16 @@ class AXSBluetooth {
   }
 
   updateCharacteristicValue(characteristicUUID, base64String) {
-    const bytes = new Uint8Array(base64String)
-    console.log('Bytes : ', bytes)
+    const bytes = new Uint8Array(base64String);
+    console.log("Bytes : ", bytes);
     const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
     let selectedCharacteristic =
       this.getCharacteristicByUUID(characteristicUUID);
+
+    console.log(
+      "Selected characteristic : ",
+      JSON.stringify(selectedCharacteristic, null, 2)
+    );
     selectedCharacteristic.value = dv;
     this.dispatchCharacteristicEvent(
       characteristicUUID,
