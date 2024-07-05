@@ -21,18 +21,21 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
   late final _chainConfigurationUseCase =
       ref.read(chainConfigurationUseCaseProvider);
   late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
+  late final bluetoothUseCase = ref.read(bluetoothUseCaseProvider);
 
   final TextEditingController lowBalanceController = TextEditingController();
   final TextEditingController transactionFeeController =
       TextEditingController();
 
   NotificationsHelper get notificationsHelper => NotificationsHelper(
-      translate: translate,
-      context: context,
-      dAppHooksUseCase: _dAppHooksUseCase,
-      state: state,
-      backgroundFetchConfigUseCase: backgroundFetchConfigUseCase,
-      notify: notify);
+        translate: translate,
+        context: context,
+        dAppHooksUseCase: _dAppHooksUseCase,
+        state: state,
+        backgroundFetchConfigUseCase: backgroundFetchConfigUseCase,
+        bluetoothUseCase: bluetoothUseCase,
+        notify: notify,
+      );
 
   @override
   void initState() {
