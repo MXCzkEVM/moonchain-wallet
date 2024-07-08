@@ -22,9 +22,12 @@ class BluetoothTimeoutError extends Error {
 
 class BluetoothUseCase extends ReactiveUseCase {
   BluetoothUseCase(
-      this._repository, this._chainConfigurationUseCase, this._authUseCase){
-        initBluetoothUseCase();
-      }
+    this._repository,
+    this._chainConfigurationUseCase,
+    this._authUseCase,
+  ) {
+    initBluetoothUseCase();
+  }
 
   final Web3Repository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
@@ -101,19 +104,40 @@ class BluetoothUseCase extends ReactiveUseCase {
     // Try to turn on
     await turnOnBluetooth();
 
-    // Wait till IT's turned on 
-    await bluetoothStatus.firstWhere((event) => event == BluetoothAdapterState.on).timeout(const Duration(seconds: 5), onTimeout: () => throw BluetoothTimeoutError() );
+    // Wait till IT's turned on
+    await bluetoothStatus
+        .firstWhere((event) => event == BluetoothAdapterState.on)
+        .timeout(const Duration(seconds: 5),
+            onTimeout: () => throw BluetoothTimeoutError());
+  }
 
+  Future<void> checkBluetoothTurnedOn(
+      Future<void> Function() turnOnBluetoothFunction) async {
+    final isBluetoothOn = await isBluetoothTurnedOn();
+
+    if (!isBluetoothOn) {
+      await turnOnBluetoothFunction();
+    }
   }
 
   Future<void> turnOnBluetooth() async {
-    // turn on bluetooth ourself if we can
-    // for iOS, the user controls bluetooth enable/disable
-    if (Platform.isAndroid) {
-      await FlutterBluePlus.turnOn();
+    await checkBluetoothTurnedOn(() async {
+      // turn on bluetooth ourself if we can
+      // for iOS, the user controls bluetooth enable/disable
+      if (Platform.isAndroid) {
+        await FlutterBluePlus.turnOn();
+      } else {
+        // IOS
+        await AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
+      }
+    });
+  }
+
+  Future<bool> isBluetoothTurnedOn() async {
+    if (bluetoothStatus.value == BluetoothAdapterState.on) {
+      return true;
     } else {
-      // IOS
-      await AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
+      return false;
     }
   }
 
@@ -134,9 +158,10 @@ class BluetoothUseCase extends ReactiveUseCase {
   }) async {
     // Start scanning w/ timeout
     // Optional: use `stopScan()` as an alternative to timeout
-    if (isScanning.value == true) {      
+    if (isScanning.value == true) {
       return;
     }
+
     await FlutterBluePlus.startScan(
       withServices: withServices ?? [],
       withNames: withNames ?? [],
