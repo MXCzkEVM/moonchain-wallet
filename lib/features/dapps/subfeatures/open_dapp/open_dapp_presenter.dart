@@ -926,13 +926,17 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     await state.webviewController!.injectJavascriptFileFromAsset(
         assetFilePath: 'assets/js/bluetooth/bluetooth.js');
-    // await state.webviewController!.evaluateJavascript(
-    //     source: JSChannelScripts.axsBluetoothObjectInjectScript());
 
-    await state.webviewController!.evaluateJavascript(
-        source: JSChannelScripts.axsWalletReadyInjectScript(
-      JSChannelEvents.axsReadyEvent,
-    ));
+    // There is a gap for detecting the axs object in webview, It's intermittent after adding function structure to the scripts 
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () async {
+        await state.webviewController!.evaluateJavascript(
+            source: JSChannelScripts.axsWalletReadyInjectScript(
+          JSChannelEvents.axsReadyEvent,
+        ));
+      },
+    );
   }
 
   Future<Map<String, dynamic>> jsChannelCronErrorHandler(
