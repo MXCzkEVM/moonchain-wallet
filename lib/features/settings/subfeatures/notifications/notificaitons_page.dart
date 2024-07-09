@@ -289,13 +289,14 @@ class NotificationsPage extends HookConsumerWidget {
                     notificationsState
                         .periodicalCallData!.expectedEpochOccurrenceEnabled,
               ),
-              MXCSwitchRowItem(
-                title: translate('activity_reminder'),
-                value: notificationsState
-                    .periodicalCallData!.activityReminderEnabled,
-                onChanged: notificationsPresenter.changeActivityReminderEnabled,
-                enabled: isSettingsChangeEnabled,
-              ),
+              // const SizedBox(height: Sizes.spaceXLarge),
+              // MXCSwitchRowItem(
+              //   title: translate('activity_reminder'),
+              //   value: notificationsState
+              //       .periodicalCallData!.activityReminderEnabled,
+              //   onChanged: notificationsPresenter.changeActivityReminderEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              // ),
               // MXCSwitchRowItem(
               //   title: translate('sleep_insight'),
               //   value:
