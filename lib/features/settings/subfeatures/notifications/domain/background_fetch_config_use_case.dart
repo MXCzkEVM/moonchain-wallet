@@ -55,6 +55,30 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     });
   }
 
+  void updateActivityReminderEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(activityReminderEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateSleepInsightEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(sleepInsightEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateHeartAlertEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(heartAlertEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
+  void updateLowBatteryEnabled(bool value) {
+    final updatedPeriodicalCallData =
+        periodicalCallData.value.copyWith(lowBatteryEnabled: value);
+    updateItem(updatedPeriodicalCallData);
+  }
+
   void updateNotificationsServiceEnabled(bool value) {
     final updatedPeriodicalCallData =
         periodicalCallData.value.copyWith(serviceEnabled: value);

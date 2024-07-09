@@ -412,5 +412,24 @@
 	"dapp_removal_dialog_text": "Deleting this dApp will remove it from your Home Screen.",
 	"information": "Information",
 	"ok": "Ok",
-	"local_backup": "Local backup"
+	"local_backup": "Local backup",
+	"no_description": "No description",
+	"bluetooth_not_supported": "Bluetooth is not supported on this device.",
+	"blueberry_ring_hooks": "Blueberry Ring hooks",
+	"nearby_blueberry_rings": "Nearby Blueberry rings",
+	"unable_to_continue_bluetooth_is_turned_off": "Unable to continue Bluetooth is turned off!",
+	"scanning": "Scanning ...",
+	"blueberry_ring_inactive_alert_title": "Time to go for a walk!",
+	"blueberry_ring_inactive_alert_text": "You've been inactive for a while. A short walk could be really invigorating!",
+	"blueberry_ring_sleep_alert_title": "You've been getting less deep sleep than usual. Try unwinding 30 minutes earlier tonight for better rest.",
+	"blueberry_ring_sleep_alert_text": "You've been getting less deep sleep than usual. Try unwinding 30 minutes earlier tonight for better rest.",
+	"blueberry_ring_heart_rate_alert_title": "Your heart rate has been unusually high today. If you feel unwell, it might be good to check in with a doctor.",
+	"blueberry_ring_heart_rate_alert_text": "Your heart rate has been unusually high today. If you feel unwell, it might be good to check in with a doctor.",
+	"blueberry_ring_battery_alert_title": "Battery is low!",
+	"blueberry_ring_battery_alert_text": "Your Blueberry Ring's battery is low. Please charge soon to avoid data gaps.",
+	"activity_reminder": "Activity reminder",
+	"sleep_insight": "Sleep insight",
+	"heart_alert": "Heart alert",
+	"low_battery": "Low battery"
+
 }

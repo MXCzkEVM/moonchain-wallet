@@ -434,11 +434,10 @@ packages:
   fl_shared_link:
     dependency: "direct main"
     description:
-      name: fl_shared_link
-      sha256: "65ba4e86d2dc8563f626ed681354b980ef4cfb57fd68c4d7c3cb4fc3a27a4ea3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
+      path: "packages/fl_shared_link"
+      relative: true
+    source: path
+    version: "0.2.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -451,6 +450,14 @@ packages:
       relative: true
     source: path
     version: "3.0.2"
+  flutter_blue_plus:
+    dependency: "direct main"
+    description:
+      name: flutter_blue_plus
+      sha256: c762a694c2f67b1f492ef19ead2a30ed3254650bafd852cb8933823d13d7c89f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.32.7"
   flutter_blurhash:
     dependency: transitive
     description:

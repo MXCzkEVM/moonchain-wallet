@@ -32,7 +32,8 @@ class DappsOrderUseCase extends ReactiveUseCase {
   }) {
     List<String> dappsOrder = order.value;
     if (dappsOrder.isEmpty) {
-      dappsOrder = dapps.map((e) => e is Bookmark ? e.url : e.app!.url!).toList();
+      dappsOrder =
+          dapps.map((e) => e is Bookmark ? e.url : e.app!.url!).toList();
     }
 
     if (dapps.isEmpty) {
@@ -53,7 +54,10 @@ class DappsOrderUseCase extends ReactiveUseCase {
       }
 
       if (dappsOrderIndex == -1) {
-        dappsOrder.insert(i, dapp is Bookmark ? dapp.url : dapp.app!.url!);
+        final dappUrl = dapp is Bookmark ? dapp.url : dapp.app!.url!;
+        i >= dappsOrder.length
+            ? dappsOrder.add(dappUrl)
+            : dappsOrder.insert(i, dappUrl);
       }
     }
 

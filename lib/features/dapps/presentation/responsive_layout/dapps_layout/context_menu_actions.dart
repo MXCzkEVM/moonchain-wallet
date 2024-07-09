@@ -43,7 +43,8 @@ List<Widget> getDAppMarkContextMenuAction(
                 .copyWith(fontWeight: FontWeight.w700),
           ),
           Text(
-            dapp.app!.description!,
+            dapp.app?.description ??
+                FlutterI18n.translate(context, 'no_description'),
             style: FontTheme.of(context).caption1.primary(),
           ),
         ],
@@ -79,7 +80,7 @@ getBookMarkContextMenuAction(
                 .copyWith(fontWeight: FontWeight.w700),
           ),
           Text(
-            getDappAbout(dapp),
+            getDappAbout(context, dapp),
             style: FontTheme.of(context).caption1.primary(),
           ),
         ],
@@ -113,8 +114,12 @@ void popWrapper(void Function()? func, BuildContext context) {
 }
 
 String getDappAbout(
+  BuildContext context,
   Dapp dapp,
 ) {
-  final dappAbout = dapp is Bookmark ? (dapp).title : dapp.app!.description!;
+  final dappAbout = dapp is Bookmark
+      ? (dapp).title
+      : dapp.app?.description ??
+          FlutterI18n.translate(context, 'no_description');
   return dappAbout;
 }

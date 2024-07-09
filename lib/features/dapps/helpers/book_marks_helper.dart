@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/src/routing/route.dart';
 import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
@@ -46,9 +48,25 @@ class BookMarksHelper {
   }
 
   void updateBookmarkFavIcon(Bookmark item) async {
-    var iconUrl = await FaviconFinder.getBest(item.url);
+    final res = await getFinalRedirectUrl(
+      item.url,
+    );
+
+    var iconUrl = await FaviconFinder.getBest(
+      res,
+    );
 
     final updatedItem = item.copyWithBookmark(image: iconUrl?.url);
     bookmarkUseCase.updateItem(updatedItem);
+  }
+
+  Future<String> getFinalRedirectUrl(String url) async {
+    final client = HttpClient();
+    var uri = Uri.parse(url);
+    var request = await client.getUrl(uri);
+    var response = await request.close();
+    return response.redirects.isEmpty
+        ? url
+        : response.redirects.last.location.toString();
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_settings/app_settings.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
+import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/domain/dapp_hooks_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
 import 'package:datadashwallet/features/settings/subfeatures/notifications/notifications_state.dart';
@@ -13,16 +14,19 @@ import '../widgets/widgets.dart';
 import 'helpers.dart';
 
 class NotificationsHelper {
-  NotificationsHelper(
-      {required this.state,
-      required this.backgroundFetchConfigUseCase,
-      required this.dAppHooksUseCase,
-      required this.context,
-      required this.translate,
-      required this.notify});
+  NotificationsHelper({
+    required this.state,
+    required this.backgroundFetchConfigUseCase,
+    required this.bluetoothUseCase,
+    required this.dAppHooksUseCase,
+    required this.context,
+    required this.translate,
+    required this.notify,
+  });
 
   DAppHooksUseCase dAppHooksUseCase;
   BackgroundFetchConfigUseCase backgroundFetchConfigUseCase;
+  BluetoothUseCase bluetoothUseCase;
   NotificationsState state;
   NotificationsHooksSnackBarUtils get notificationsSnackBarUtils =>
       NotificationsHooksSnackBarUtils(translate: translate, context: context);
@@ -53,6 +57,36 @@ class NotificationsHelper {
           .updateNotificationsServiceEnabled(value);
     });
   }
+
+  void checkBlueberryNotificationsRequirements(Function func) async {
+    await bluetoothUseCase.turnOnBluetooth();
+
+    final bluetoothTurnedOn = await bluetoothUseCase.isBluetoothTurnedOn();
+
+    if (bluetoothTurnedOn) {
+      func();
+    }
+  }
+
+  void changeActivityReminderEnabled(bool value) => value
+      ? checkBlueberryNotificationsRequirements(() =>
+          backgroundFetchConfigUseCase.updateActivityReminderEnabled(value))
+      : backgroundFetchConfigUseCase.updateActivityReminderEnabled(value);
+
+  void changeSleepInsightEnabled(bool value) => value
+      ? checkBlueberryNotificationsRequirements(
+          () => backgroundFetchConfigUseCase.updateSleepInsightEnabled(value))
+      : backgroundFetchConfigUseCase.updateSleepInsightEnabled(value);
+
+  void changeHeartAlertEnabled(bool value) => value
+      ? checkBlueberryNotificationsRequirements(
+          () => backgroundFetchConfigUseCase.updateHeartAlertEnabled(value))
+      : backgroundFetchConfigUseCase.updateHeartAlertEnabled(value);
+
+  void changeLowBatteryEnabled(bool value) => value
+      ? checkBlueberryNotificationsRequirements(
+          () => backgroundFetchConfigUseCase.updateLowBatteryEnabled(value))
+      : backgroundFetchConfigUseCase.updateLowBatteryEnabled(value);
 
   void changeLowBalanceLimitEnabled(bool value) =>
       backgroundFetchConfigUseCase.updateLowBalanceLimitEnabled(value);

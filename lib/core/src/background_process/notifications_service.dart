@@ -16,6 +16,8 @@ class NotificationsService {
       final accountUseCase = container.read(accountUseCaseProvider);
       final backgroundFetchConfigUseCase =
           container.read(backgroundFetchConfigUseCaseProvider);
+      final blueberryRingBackgroundNotificationsUseCase =
+          container.read(blueberryRingBackgroundNotificationsUseCaseProvider);
       final contextLessTranslationUseCase =
           container.read(contextLessTranslationUseCaseProvider);
 
@@ -38,6 +40,12 @@ class NotificationsService {
       final expectedEpochOccurrenceEnabled =
           periodicalCallData.expectedEpochOccurrenceEnabled;
       final serviceEnabled = periodicalCallData.serviceEnabled;
+
+      final activityReminderEnabled =
+          periodicalCallData.activityReminderEnabled;
+      final sleepInsightEnabled = periodicalCallData.sleepInsightEnabled;
+      final heartAlertEnabled = periodicalCallData.heartAlertEnabled;
+      final lowBatteryEnabled = periodicalCallData.lowBatteryEnabled;
 
       // Make sure user is logged in
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && serviceEnabled) {
@@ -62,6 +70,23 @@ class NotificationsService {
                   lastEpoch,
                   expectedEpochOccurrence,
                   chainId);
+        }
+
+        if (activityReminderEnabled) {
+          await blueberryRingBackgroundNotificationsUseCase
+              .checkActivityReminder();
+        }
+
+        if (sleepInsightEnabled) {
+          await blueberryRingBackgroundNotificationsUseCase.checkSleepInsight();
+        }
+
+        if (heartAlertEnabled) {
+          await blueberryRingBackgroundNotificationsUseCase.checkHeartAlert();
+        }
+
+        if (lowBatteryEnabled) {
+          await blueberryRingBackgroundNotificationsUseCase.checkLowBattery();
         }
 
         backgroundFetchConfigUseCase.updateItem(periodicalCallData);
