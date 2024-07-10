@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -52,9 +53,9 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
   Future<void> getBlueberryRingBackground() async {
     // if (bluetoothStatus.value == BluetoothAdapterState.off || bluetoothStatus.value = BluetoothAdapterState.unauthorized)
-    // TODO: bluetooth should be on before bg notifications
     _bluetoothUseCase.startScanning(
-      withServices: [bluetoothServiceUUID],
+      // withServices: [bluetoothServiceUUID],
+      withNames: ['Mi Smart Band 4']
     );
 
     await Future.delayed(const Duration(seconds: 2), () async {
@@ -107,14 +108,18 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
   /// This function will check the blueberry ring, connection
   Future<T> checkEstablishment<T>(Future<T> Function() func) async {
-    final isBlueberryRingAvailable = selectedBlueberryRing.value != null;
+    collectLog('checkEstablishment');
 
+    final isBlueberryRingAvailable = selectedBlueberryRing.hasValue;
+    collectLog('checkEstablishment:isBlueberryRingAvailable $isBlueberryRingAvailable');
+    
     if (!isBlueberryRingAvailable) {
       await getBlueberryRingBackground();
     }
 
     bool isBlueberryRingConnected =
         selectedBlueberryRing.value?.device.isConnected ?? false;
+    collectLog('checkEstablishment:isBlueberryRingConnected $isBlueberryRingConnected');
 
     if (!isBlueberryRingConnected) {
       await selectedBlueberryRing.value?.device.connect();
@@ -126,7 +131,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     }
 
     final isBlueberryRingCharacteristicAvailable =
-        blueberryRingCharacteristic.value != null;
+        blueberryRingCharacteristic.hasValue;
+    collectLog('checkEstablishment:isBlueberryRingCharacteristicAvailable $isBlueberryRingCharacteristicAvailable');
     if (!isBlueberryRingCharacteristicAvailable) {
       await getBlueberryRingCharacteristic();
     }
@@ -138,8 +144,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return checkEstablishment<int>(
       () async {
         final command = BlueberryCommands.readLevel();
+        collectLog('readLevel:command $command');
         await blueberryRingCharacteristic.value?.write(command);
         final value = await blueberryRingCharacteristic.value?.read();
+        collectLog('readLevel:value $value');
         return BlueberryResolves.readLevel(Uint8List.fromList(value!));
       },
     );
@@ -149,8 +157,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return checkEstablishment<String>(
       () async {
         final command = BlueberryCommands.readVersion();
+        collectLog('readVersion:command $command');
         await blueberryRingCharacteristic.value?.write(command);
         final value = await blueberryRingCharacteristic.value?.read();
+        collectLog('readVersion:value $value');
         return BlueberryResolves.readVersion(Uint8List.fromList(value!));
       },
     );
@@ -160,8 +170,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return checkEstablishment<Uint8List>(
       () async {
         final command = BlueberryCommands.readTime();
+        collectLog('readTime:command $command');
         await blueberryRingCharacteristic.value?.write(command);
         final value = await blueberryRingCharacteristic.value?.read();
+        collectLog('readTime:value $value');
         return BlueberryResolves.readTime(Uint8List.fromList(value!));
       },
     );
@@ -171,8 +183,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return checkEstablishment<List<PeriodicSleepData>>(
       () async {
         final command = BlueberryCommands.readSleep();
+        collectLog('readSleep:command $command');
         await blueberryRingCharacteristic.value?.write(command);
         final value = await blueberryRingCharacteristic.value?.read();
+        collectLog('readSleep:value $value');
         return BlueberryResolves.readSleep(Uint8List.fromList(value!));
       },
     );
@@ -182,8 +196,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return checkEstablishment<List<BloodOxygensData>>(
       () async {
         final command = BlueberryCommands.readBloodOxygens();
+        collectLog('readBloodOxygens:command $command');
         await blueberryRingCharacteristic.value?.write(command);
         final value = await blueberryRingCharacteristic.value?.read();
+        collectLog('readBloodOxygens:value $value');
         return BlueberryResolves.readBloodOxygens(Uint8List.fromList(value!));
       },
     );
@@ -193,8 +209,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return checkEstablishment<List<StepsData>>(
       () async {
         final command = BlueberryCommands.readSteps();
+        collectLog('readSteps:command $command');
         await blueberryRingCharacteristic.value?.write(command);
         final value = await blueberryRingCharacteristic.value?.read();
+        collectLog('readSteps:value $value');
         return BlueberryResolves.readSteps(Uint8List.fromList(value!));
       },
     );
@@ -204,8 +222,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return checkEstablishment<List<HeartRateData>>(
       () async {
         final command = BlueberryCommands.readHeartRates();
+        collectLog('readHeartRate:command $command');
         await blueberryRingCharacteristic.value?.write(command);
         final value = await blueberryRingCharacteristic.value?.read();
+        collectLog('readHeartRate:value $value');
         return BlueberryResolves.readHeartRates(Uint8List.fromList(value!));
       },
     );

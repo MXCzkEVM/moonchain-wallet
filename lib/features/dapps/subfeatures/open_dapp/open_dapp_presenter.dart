@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:clipboard/clipboard.dart';
 import 'package:collection/collection.dart';
+import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
@@ -844,6 +845,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final value = Uint8List.fromList(List<int>.from(data['value']));
 
     try {
+      collectLog('handleWrites:value $value');
       if (withResponse) {
         await selectedCharacteristic.write(value);
       } else {
@@ -881,9 +883,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final value = selectedCharacteristic.lastValue;
 
     final uInt8List = Uint8List.fromList(value);
-    final base64String = base64Encode(uInt8List);
 
-    return base64String;
+      collectLog('characteristicValueStreamSubscription:value $value');
+      collectLog('characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
+
+    return uInt8List;
   }
 
   Timer? characteriticListnerTimer;
@@ -901,7 +905,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         characteristic.lastValueStream.listen((event) {
       final uInt8List = Uint8List.fromList(event);
       print(uInt8List);
-      print('lastValueStream');
+      collectLog('characteristicValueStreamSubscription:event $event');
+      collectLog('characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
       final script = '''
       navigator.bluetooth.updateCharacteristicValue('${characteristic.uuid.str}', ${uInt8List.toString()},);
       ''';
