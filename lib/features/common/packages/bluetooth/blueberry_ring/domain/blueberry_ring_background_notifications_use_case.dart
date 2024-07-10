@@ -5,6 +5,8 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 
+import '../../../../../../app/logger.dart';
+
 class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
   BlueberryRingBackgroundNotificationsUseCase(
       this._repository,
@@ -25,6 +27,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkActivityReminder() async {
     final data = await _blueberryRingUseCase.readSteps();
+    collectLog('checkActivityReminder:data ${data.map((e) => e.toJson()).toList()}');
     // Get spteps data from cache and compare
     // If steps is below a certain number then show a
     // Below 5000
@@ -39,7 +42,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
     if (isToday && latestData.step < 5000) {
       AXSNotification().showNotification(
-        cTranslate('blueberry_ring_inactive_alert_title'),
+        cTranslate('activity_reminder'),
         cTranslate('blueberry_ring_inactive_alert_text'),
       );
     }
@@ -47,6 +50,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkSleepInsight() async {
     final data = await _blueberryRingUseCase.readSleep();
+    collectLog('checkSleepInsight:data ${data.map((e) => e.toJson()).toList()}');
     // If sleeps is below standard level
     // loop throug all and get average
     final now = DateTime.now();
@@ -69,7 +73,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
     if (!isNormal) {
       AXSNotification().showNotification(
-        cTranslate('blueberry_ring_sleep_alert_title'),
+        cTranslate('sleep_insight'),
         cTranslate('blueberry_ring_sleep_alert_text'),
       );
     }
@@ -77,6 +81,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkHeartAlert() async {
     final data = await _blueberryRingUseCase.readHeartRate();
+    collectLog('checkHeartAlert:data ${data.map((e) => e.toJson()).toList()}');
     // If below standard but between person to person different
     final latestData = data.first;
     final lastDate = DateTime.fromMillisecondsSinceEpoch(
@@ -89,7 +94,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
     if (isToday && latestData.value >= 100) {
       AXSNotification().showNotification(
-        cTranslate('blueberry_ring_heart_rate_alert_title'),
+        cTranslate('heart_alert'),
         cTranslate('blueberry_ring_heart_rate_alert_text'),
       );
     }
@@ -97,11 +102,12 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkLowBattery() async {
     final data = await _blueberryRingUseCase.readLevel();
+    collectLog('checkLowBattery:data $data');
     // What si the low battery level
     // Is 10 OK
     if (data < 20) {
       AXSNotification().showNotification(
-        cTranslate('blueberry_ring_battery_alert_title'),
+        cTranslate('low_battery'),
         cTranslate('blueberry_ring_battery_alert_text'),
       );
     }
