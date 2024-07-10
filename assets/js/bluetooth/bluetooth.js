@@ -125,18 +125,23 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
     );
     return response;
   }
+
   async readValue() {
     const data = { this: this.uuid, serviceUUID: this.service.uuid };
     const response = await window.axs.callHandler(
       "BluetoothRemoteGATTCharacteristic.readValue",
       data
     );
-    return response;
+
+    const bytes = new Uint8Array(response);
+    console.log("Bytes : ", bytes);
+    const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    selectedCharacteristic.value = dv;
+
+    return dv;
   }
 
   async writeValue(value) {
-    // We will need to change the value to Base64 for having a standard type to bridge data on that type.
-
     const data = {
       this: this.uuid,
       serviceUUID: this.service.uuid,
@@ -295,9 +300,10 @@ class AXSBluetooth {
     }
   }
 
-  updateCharacteristicValue(characteristicUUID, base64String) {
-    const bytes = new Uint8Array(base64String);
+  updateCharacteristicValue(characteristicUUID, value) {
+    const bytes = new Uint8Array(value);
     console.log("Bytes : ", bytes);
+    console.log("Bytes type: ", typeof bytes);
     const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
     let selectedCharacteristic =
       this.getCharacteristicByUUID(characteristicUUID);

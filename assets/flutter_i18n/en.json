@@ -430,6 +430,9 @@
 	"activity_reminder": "Activity reminder",
 	"sleep_insight": "Sleep insight",
 	"heart_alert": "Heart alert",
-	"low_battery": "Low battery"
+	"low_battery": "Low battery",
+	"blueberry_background_notifications_requirements_title": "This service requires: ",
+	"blueberry_background_notifications_requirements_text_1": "1. Bluetooth to be ON",
+	"blueberry_background_notifications_requirements_text_2": "2. Blueberry to be reachable"
 
 }
