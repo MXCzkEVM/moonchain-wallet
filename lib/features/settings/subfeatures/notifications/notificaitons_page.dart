@@ -297,30 +297,7 @@ class NotificationsPage extends HookConsumerWidget {
                 onChanged: notificationsPresenter.changeActivityReminderEnabled,
                 enabled: isSettingsChangeEnabled,
                 textTrailingWidget: MXCInformationButton(
-                  texts: [
-                    TextSpan(
-                      text:
-                          FlutterI18n.translate(context, 'experiencing_issues'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(context,
-                          'blueberry_background_notifications_requirements_title'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    TextSpan(
-                      text: FlutterI18n.translate(context,
-                          'blueberry_background_notifications_requirements_text'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                  ],
+                  texts: getBlueberryRingServiceInfo(context),
                 ),
                 titleStyle: FontTheme.of(context).h6(),
               ),
@@ -332,53 +309,7 @@ class NotificationsPage extends HookConsumerWidget {
                 onChanged: notificationsPresenter.changeSleepInsightEnabled,
                 enabled: isSettingsChangeEnabled,
                 textTrailingWidget: MXCInformationButton(
-                  texts: [
-                    TextSpan(
-                      text:
-                          FlutterI18n.translate(context, 'experiencing_issues'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_1_title'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_1_text'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_2_title'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_2_text'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'need_further_assistant'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                  ],
+                  texts: getBlueberryRingServiceInfo(context),
                 ),
                 titleStyle: FontTheme.of(context).h6(),
               ),
@@ -389,53 +320,7 @@ class NotificationsPage extends HookConsumerWidget {
                 onChanged: notificationsPresenter.changeHeartAlertEnabled,
                 enabled: isSettingsChangeEnabled,
                 textTrailingWidget: MXCInformationButton(
-                  texts: [
-                    TextSpan(
-                      text:
-                          FlutterI18n.translate(context, 'experiencing_issues'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_1_title'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_1_text'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_2_title'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_2_text'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'need_further_assistant'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                  ],
+                  texts: getBlueberryRingServiceInfo(context),
                 ),
                 titleStyle: FontTheme.of(context).h6(),
               ),
@@ -446,53 +331,7 @@ class NotificationsPage extends HookConsumerWidget {
                 onChanged: notificationsPresenter.changeLowBatteryEnabled,
                 enabled: isSettingsChangeEnabled,
                 textTrailingWidget: MXCInformationButton(
-                  texts: [
-                    TextSpan(
-                      text:
-                          FlutterI18n.translate(context, 'experiencing_issues'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_1_title'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_1_text'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_2_title'),
-                      style: FontTheme.of(context)
-                          .subtitle2()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'background_service_solution_2_text'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                    const TextSpan(text: '\n\n'),
-                    TextSpan(
-                      text: FlutterI18n.translate(
-                          context, 'need_further_assistant'),
-                      style: FontTheme.of(context)
-                          .subtitle1()
-                          .copyWith(color: ColorsTheme.of(context).textPrimary),
-                    ),
-                  ],
+                  texts: getBlueberryRingServiceInfo(context),
                 ),
                 titleStyle: FontTheme.of(context).h6(),
               ),
@@ -521,4 +360,41 @@ class NotificationsPage extends HookConsumerWidget {
       ),
     );
   }
+}
+
+List<TextSpan> getBlueberryRingServiceInfo(
+  BuildContext context,
+) {
+  return [
+    TextSpan(
+      text: FlutterI18n.translate(context, 'experiencing_issues'),
+      style: FontTheme.of(context)
+          .subtitle2()
+          .copyWith(color: ColorsTheme.of(context).textPrimary),
+    ),
+    const TextSpan(text: '\n\n'),
+    TextSpan(
+      text: FlutterI18n.translate(
+          context, 'blueberry_background_notifications_requirements_title'),
+      style: FontTheme.of(context)
+          .subtitle2()
+          .copyWith(color: ColorsTheme.of(context).textPrimary),
+    ),
+    const TextSpan(text: '\n\n'),
+    TextSpan(
+      text: FlutterI18n.translate(
+          context, 'blueberry_background_notifications_requirements_text_1'),
+      style: FontTheme.of(context)
+          .subtitle1()
+          .copyWith(color: ColorsTheme.of(context).textPrimary),
+    ),
+    const TextSpan(text: '\n\n'),
+    TextSpan(
+      text: FlutterI18n.translate(
+          context, 'blueberry_background_notifications_requirements_text_2'),
+      style: FontTheme.of(context)
+          .subtitle1()
+          .copyWith(color: ColorsTheme.of(context).textPrimary),
+    ),
+  ];
 }
