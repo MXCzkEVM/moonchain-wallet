@@ -3,7 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<bool?> showDAppHooksFrequencyDialog(BuildContext context,
+Future<bool?> showWiFiHooksFrequencyBottomSheet(BuildContext context,
     {required void Function(PeriodicalCallDuration duration) onTap,
     required PeriodicalCallDuration selectedFrequency}) {
   String translate(String text) => FlutterI18n.translate(context, text);

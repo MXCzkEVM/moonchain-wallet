@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart' as geo;
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'dapp_hooks_state.dart';
-import 'widgets/dapp_hooks_frequency_dialog.dart';
+import 'widgets/wifi_hooks_frequency_bottom_sheet.dart';
 
 final notificationsContainer =
     PresenterContainer<DAppHooksPresenter, DAppHooksState>(
@@ -39,18 +39,19 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
       backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase);
 
   WiFiHooksHelper get wifiHooksHelper => WiFiHooksHelper(
-      translate: translate,
-      context: context,
-      dAppHooksUseCase: _dAppHooksUseCase,
-      state: state,
-      geoLocatorPlatform: _geoLocatorPlatform);
+        translate: translate,
+        context: context,
+        dAppHooksUseCase: _dAppHooksUseCase,
+        state: state,
+        geoLocatorPlatform: _geoLocatorPlatform,
+        backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase,
+      );
 
   DAppHooksHelper get dappHooksHelper => DAppHooksHelper(
-      translate: translate,
-      context: context,
-      dAppHooksUseCase: _dAppHooksUseCase,
-      state: state,
-      backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase);
+        translate: translate,
+        context: context,
+        state: state,
+      );
 
   @override
   void initState() {
@@ -75,20 +76,17 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
     );
   }
 
-  void changeDAppHooksEnabled(bool value) =>
-      dappHooksHelper.changeDAppHooksEnabled(value);
-
-  void changeWifiHooksEnabled(bool value) =>
-      wifiHooksHelper.changeWifiHooksEnabled(value);
+  void changeWiFiHooksEnabled(bool value) =>
+      wifiHooksHelper.changeWiFiHooksEnabled(value);
 
   void changeMinerHooksEnabled(bool value) =>
       minerHooksHelper.changeMinerHooksEnabled(value);
 
-  void showDAppHooksFrequency() {
-    showDAppHooksFrequencyDialog(context!,
-        onTap: dappHooksHelper.handleFrequencyChange,
-        selectedFrequency:
-            getPeriodicalCallDurationFromInt(state.dAppHooksData!.duration));
+  void showWiFiHooksFrequency() {
+    showWiFiHooksFrequencyBottomSheet(context!,
+        onTap: wifiHooksHelper.handleFrequencyChange,
+        selectedFrequency: getPeriodicalCallDurationFromInt(
+            state.dAppHooksData!.wifiHooks.duration));
   }
 
   void showTimePickerDialog() async {

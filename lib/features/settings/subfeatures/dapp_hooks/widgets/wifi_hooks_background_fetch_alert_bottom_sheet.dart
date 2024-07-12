@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<bool?> showDAppHooksBackgroundFetchAlertDialog({
+Future<bool?> showWiFiHooksBackgroundFetchAlertBottomSheet({
   required BuildContext context,
 }) async {
   String translate(String text) => FlutterI18n.translate(context, text);

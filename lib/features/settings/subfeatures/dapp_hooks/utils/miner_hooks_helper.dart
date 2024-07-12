@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../domain/dapp_hooks_use_case.dart';
 import '../widgets/auto_claim_dialog.dart';
-import '../widgets/background_fetch_dialog.dart';
 
 class MinerHooksHelper {
   MinerHooksHelper(
