@@ -884,8 +884,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     final uInt8List = Uint8List.fromList(value);
 
-      collectLog('characteristicValueStreamSubscription:value $value');
-      collectLog('characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
+    collectLog('characteristicValueStreamSubscription:value $value');
+    collectLog(
+        'characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
 
     return uInt8List;
   }
@@ -906,7 +907,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final uInt8List = Uint8List.fromList(event);
       print(uInt8List);
       collectLog('characteristicValueStreamSubscription:event $event');
-      collectLog('characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
+      collectLog(
+          'characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
       final script = '''
       navigator.bluetooth.updateCharacteristicValue('${characteristic.uuid.str}', ${uInt8List.toString()},);
       ''';
@@ -932,7 +934,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     await state.webviewController!.injectJavascriptFileFromAsset(
         assetFilePath: 'assets/js/bluetooth/bluetooth.js');
 
-    // There is a gap for detecting the axs object in webview, It's intermittent after adding function structure to the scripts 
+    // There is a gap for detecting the axs object in webview, It's intermittent after adding function structure to the scripts
     Future.delayed(
       const Duration(milliseconds: 500),
       () async {

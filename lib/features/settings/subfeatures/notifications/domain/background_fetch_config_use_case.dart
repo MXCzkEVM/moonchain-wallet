@@ -17,7 +17,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     initialize();
   }
 
-  String get taskId => BackgroundExecutionConfig.axsPeriodicalTask;
+  String get taskId => BackgroundExecutionConfig.notificationsTask;
 
   final BackgroundFetchConfigRepository _repository;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
@@ -48,7 +48,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
       final periodicalCallData = _repository.item;
       if (!isMXCChains) {
         bgFetch.BackgroundFetch.stop(
-            BackgroundExecutionConfig.axsPeriodicalTask);
+            BackgroundExecutionConfig.notificationsTask);
       } else if (isMXCChains && periodicalCallData.serviceEnabled) {
         startNotificationsService(periodicalCallData.duration);
       }
