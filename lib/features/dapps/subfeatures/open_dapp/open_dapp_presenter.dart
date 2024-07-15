@@ -14,14 +14,12 @@ import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/dapp_hoo
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart' as bluePlus;
+import 'package:flutter_blue_plus/flutter_blue_plus.dart' as blue_plus;
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
-import 'package:web3dart/web3dart.dart';
 import 'package:eth_sig_util/util/utils.dart';
 
 import './domain/entities/entities.dart';
-import 'domain/utils/utils.dart';
 import 'open_dapp_state.dart';
 
 final openDAppPageContainer =
@@ -722,6 +720,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   // GATT server
   Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerGetPrimaryService(
       Map<String, dynamic> data) async {
+    collectLog('handleBluetoothRemoteGATTServerGetPrimaryService : $data');
     final selectedService = await getSelectedService(data['service']);
 
     final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
@@ -734,6 +733,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerConnect(
       Map<String, dynamic> data) async {
+    collectLog('handleBluetoothRemoteGATTServerConnect : $data');
     await state.selectedScanResult?.device.connect();
 
     return BluetoothRemoteGATTServer(
@@ -743,7 +743,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         .toMap();
   }
 
-  Future<bluePlus.BluetoothService> getSelectedService(
+  Future<blue_plus.BluetoothService> getSelectedService(
     String uuid,
   ) async {
     final serviceUUID = GuidHelper.parse(uuid);
@@ -753,8 +753,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   // Util
-  bluePlus.BluetoothCharacteristic getSelectedCharacteristic(
-      String uuid, bluePlus.BluetoothService selectedService) {
+  blue_plus.BluetoothCharacteristic getSelectedCharacteristic(
+      String uuid, blue_plus.BluetoothService selectedService) {
     final characteristicUUID = GuidHelper.parse(uuid);
     final selectedCharacteristic =
         BluePlusBluetoothUtils.getCharacteristicWithService(
@@ -766,6 +766,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTServiceGetCharacteristic(
           Map<String, dynamic> data) async {
+    collectLog('handleBluetoothRemoteGATTServiceGetCharacteristic : $data');
     final targetCharacteristicUUID = data['characteristic'];
 
     final selectedService = await getSelectedService(data['this']);
@@ -788,8 +789,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   BluetoothRemoteGATTCharacteristic getBluetoothRemoteGATTCharacteristic(
-      bluePlus.BluetoothCharacteristic selectedCharacteristic,
-      bluePlus.BluetoothService selectedService) {
+      blue_plus.BluetoothCharacteristic selectedCharacteristic,
+      blue_plus.BluetoothService selectedService) {
     final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
         state.selectedScanResult!);
     final bluetoothRemoteGATTService =
@@ -808,6 +809,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicStartNotifications(
           Map<String, dynamic> data) async {
+    collectLog('handleBluetoothRemoteGATTCharacteristicStartNotifications : $data');
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
@@ -824,6 +826,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicStopNotifications(
           Map<String, dynamic> data) async {
+    collectLog('handleBluetoothRemoteGATTCharacteristicStopNotifications : $data');
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
@@ -839,6 +842,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   Future<Map<String, dynamic>> handleWrites(Map<String, dynamic> data,
       {bool withResponse = true}) async {
+    collectLog('handleWrites : $data');
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
@@ -877,6 +881,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   Future<dynamic> handleBluetoothRemoteGATTCharacteristicReadValue(
       Map<String, dynamic> data) async {
+    collectLog('handleBluetoothRemoteGATTCharacteristicReadValue : $data');
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
@@ -884,9 +889,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
     final uInt8List = Uint8List.fromList(value);
 
-    collectLog('characteristicValueStreamSubscription:value $value');
+    collectLog('handleBluetoothRemoteGATTCharacteristicReadValue:value $value');
     collectLog(
-        'characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
+        'handleBluetoothRemoteGATTCharacteristicReadValue:uInt8List ${uInt8List.toString()}');
 
     return uInt8List;
   }
@@ -895,7 +900,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   StreamSubscription<List<int>>? characteristicValueStreamSubscription;
 
   void initJSCharacteristicValueEmitter(
-    bluePlus.BluetoothCharacteristic characteristic,
+    blue_plus.BluetoothCharacteristic characteristic,
   ) async {
     await characteristic.setNotifyValue(true);
     // characteriticListnerTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
@@ -903,7 +908,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     // });
 
     characteristicValueStreamSubscription =
-        characteristic.lastValueStream.listen((event) {
+        characteristic.lastValueStream.listen((event) async {
       final uInt8List = Uint8List.fromList(event);
       print(uInt8List);
       collectLog('characteristicValueStreamSubscription:event $event');
@@ -912,12 +917,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       final script = '''
       navigator.bluetooth.updateCharacteristicValue('${characteristic.uuid.str}', ${uInt8List.toString()},);
       ''';
-      state.webviewController!.evaluateJavascript(source: script);
+      await state.webviewController!.evaluateJavascript(source: script);
     });
   }
 
   void removeJSCharacteristicValueEmitter(
-    bluePlus.BluetoothCharacteristic characteristic,
+    blue_plus.BluetoothCharacteristic characteristic,
   ) async {
     await characteristic.setNotifyValue(false);
 
