@@ -51,7 +51,6 @@ class NotificationsService {
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && serviceEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
-        await contextLessTranslationUseCase.setupTranslator();
 
         if (lowBalanceLimitEnabled) {
           await backgroundFetchConfigUseCase.checkLowBalance(

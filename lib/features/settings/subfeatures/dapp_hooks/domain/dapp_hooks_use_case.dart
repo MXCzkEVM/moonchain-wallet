@@ -397,6 +397,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime minerAutoClaimTime}) async {
     try {
+      
       AXSNotification()
           .showNotification(cTranslate('auto_claim_started'), null);
 

@@ -32,7 +32,6 @@ class DAppHooksService {
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && wifiHooksEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
-        await contextLessTranslationUseCase.setupTranslator();
 
         await dAppHooksUseCase.sendWifiInfo(
           account!,
@@ -77,7 +76,6 @@ class DAppHooksService {
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && minerHooksEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
-        await contextLessTranslationUseCase.setupTranslator();
 
         await dAppHooksUseCase.executeMinerAutoClaim(
             account: account!,
