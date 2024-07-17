@@ -54,8 +54,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   Future<void> getBlueberryRingBackground() async {
     // if (bluetoothStatus.value == BluetoothAdapterState.off || bluetoothStatus.value = BluetoothAdapterState.unauthorized)
     _bluetoothUseCase.startScanning(
-      // withServices: [bluetoothServiceUUID],
-      withNames: ['Mi Smart Band 4']
+      withServices: [bluetoothServiceUUID],
+      // withNames: ['Mi Smart Band 4'],
     );
 
     await Future.delayed(const Duration(seconds: 2), () async {
@@ -111,15 +111,17 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     collectLog('checkEstablishment');
 
     final isBlueberryRingAvailable = selectedBlueberryRing.hasValue;
-    collectLog('checkEstablishment:isBlueberryRingAvailable $isBlueberryRingAvailable');
-    
+    collectLog(
+        'checkEstablishment:isBlueberryRingAvailable $isBlueberryRingAvailable');
+
     if (!isBlueberryRingAvailable) {
       await getBlueberryRingBackground();
     }
 
     bool isBlueberryRingConnected =
         selectedBlueberryRing.value?.device.isConnected ?? false;
-    collectLog('checkEstablishment:isBlueberryRingConnected $isBlueberryRingConnected');
+    collectLog(
+        'checkEstablishment:isBlueberryRingConnected $isBlueberryRingConnected');
 
     if (!isBlueberryRingConnected) {
       await selectedBlueberryRing.value?.device.connect();
@@ -132,7 +134,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
     final isBlueberryRingCharacteristicAvailable =
         blueberryRingCharacteristic.hasValue;
-    collectLog('checkEstablishment:isBlueberryRingCharacteristicAvailable $isBlueberryRingCharacteristicAvailable');
+    collectLog(
+        'checkEstablishment:isBlueberryRingCharacteristicAvailable $isBlueberryRingCharacteristicAvailable');
     if (!isBlueberryRingCharacteristicAvailable) {
       await getBlueberryRingCharacteristic();
     }

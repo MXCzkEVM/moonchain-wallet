@@ -846,7 +846,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
-    final value = Uint8List.fromList(List<int>.from(data['value']));
+    final value = Uint8List.fromList(List<int>.from((data['value'] as Map<String, dynamic>).values.toList()));
 
     try {
       collectLog('handleWrites:value $value');
@@ -1125,7 +1125,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       loading = false;
       BluetoothDevice? responseDevice;
       final scanResults = _bluetoothUseCase.scanResults.value;
-      if (scanResults.length > 1 || scanResults.isEmpty) {
+      if (scanResults.length == 1) {
+        // only one scan results
+        final scanResult = scanResults.first;
+        state.selectedScanResult = scanResult;
+      } else {
         // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
         final scanResult = await showBlueberryRingsBottomSheet(
           context!,
@@ -1133,10 +1137,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         if (scanResult != null) {
           state.selectedScanResult = scanResult;
         }
-      } else {
-        // only one scan results
-        final scanResult = scanResults.first;
-        state.selectedScanResult = scanResult;
       }
       if (state.selectedScanResult != null) {
         responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
