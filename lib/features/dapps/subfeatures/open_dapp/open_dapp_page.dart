@@ -180,8 +180,7 @@ class OpenAppPage extends HookConsumerWidget {
                         allowsInlineMediaPlayback: true,
                       ),
                     ),
-                    gestureRecognizers: <
-                        Factory<OneSequenceGestureRecognizer>>{
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                       Factory<VerticalDragGestureRecognizer>(
                         () => VerticalDragGestureRecognizer(),
                       ),
@@ -196,8 +195,7 @@ class OpenAppPage extends HookConsumerWidget {
                         action: PermissionRequestResponseAction.GRANT,
                       );
                     },
-                    androidOnGeolocationPermissionsHidePrompt:
-                        (controller) {},
+                    androidOnGeolocationPermissionsHidePrompt: (controller) {},
                     androidOnGeolocationPermissionsShowPrompt:
                         (InAppWebViewController controller,
                             String origin) async {

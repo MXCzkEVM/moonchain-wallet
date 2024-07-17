@@ -371,12 +371,12 @@ class AXSBluetooth {
     }
   }
 
-  updateCharacteristicValue(characteristicUUID, value) {
+  updateCharacteristicValue(characteristicUUID, value) {    
     console.log(
       "AXSBluetooth:updateCharacteristicValue ",
       characteristicUUID,
       " ",
-      eventName
+      value
     );
     const bytes = new Uint8Array(value);
     console.log("Bytes : ", bytes);
