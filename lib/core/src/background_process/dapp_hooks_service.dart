@@ -26,20 +26,17 @@ class DAppHooksService {
 
       final isLoggedIn = authUseCase.loggedIn;
       final account = accountUseCase.account.value;
-      final serviceEnabled = dappHooksData.enabled;
       final wifiHooksEnabled = dappHooksData.wifiHooks.enabled;
 
       // Make sure user is logged in
-      if (isLoggedIn && MXCChains.isMXCChains(chainId) && serviceEnabled) {
+      if (isLoggedIn && MXCChains.isMXCChains(chainId) && wifiHooksEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
-        await contextLessTranslationUseCase.setupTranslator();
 
-        if (wifiHooksEnabled) {
-          await dAppHooksUseCase.sendWifiInfo(
-            account!,
-          );
-        }
+        await dAppHooksUseCase.sendWifiInfo(
+          account!,
+        );
+
         BackgroundFetch.finish(taskId);
       } else {
         // terminate background fetch
@@ -79,7 +76,6 @@ class DAppHooksService {
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && minerHooksEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
-        await contextLessTranslationUseCase.setupTranslator();
 
         await dAppHooksUseCase.executeMinerAutoClaim(
             account: account!,

@@ -55,7 +55,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
     update(dappHooksData, _repository.item);
   }
 
-  String get dappHookTasksTaskId => BackgroundExecutionConfig.dappHookTasks;
+  String get wifiHookTasksTaskId => BackgroundExecutionConfig.wifiHooksTask;
   String get minerAutoClaimTaskTaskId =>
       BackgroundExecutionConfig.minerAutoClaimTask;
 
@@ -65,21 +65,23 @@ class DAppHooksUseCase extends ReactiveUseCase {
           network != null && !MXCChains.isMXCChains(network.chainId);
       final dappHooksData = _repository.item;
       if (!isMXCChains) {
-        bgFetch.BackgroundFetch.stop(BackgroundExecutionConfig.dappHookTasks);
-      } else if (isMXCChains && dappHooksData.enabled) {
-        startDAppHooksService(dappHooksData.duration);
+        bgFetch.BackgroundFetch.stop(BackgroundExecutionConfig.wifiHooksTask);
+        bgFetch.BackgroundFetch.stop(
+            BackgroundExecutionConfig.minerAutoClaimTask);
+      } else if (isMXCChains && dappHooksData.wifiHooks.enabled) {
+        startWifiHooksService(dappHooksData.wifiHooks.duration);
+      } else if (isMXCChains && dappHooksData.minerHooks.enabled) {
+        // TODO:
+        // startAutoClaimService(dappHooksData)
       }
     });
   }
 
-  void updateDAppHooksEnabled(bool value) {
-    final newDAppHooksData = dappHooksData.value.copyWith(enabled: value);
-    updateItem(newDAppHooksData);
-  }
-
-  void updateDAppHooksDuration(PeriodicalCallDuration duration) {
-    final newDAppHooksData =
-        dappHooksData.value.copyWith(duration: duration.toMinutes());
+  void updateWifiHooksDuration(PeriodicalCallDuration duration) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+      wifiHooks: dappHooksData.value.wifiHooks
+          .copyWith(duration: duration.toMinutes()),
+    );
     updateItem(newDAppHooksData);
   }
 
@@ -223,23 +225,25 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
     if (Platform.isAndroid) {
       locationSettings = geo.AndroidSettings(
-        accuracy: geo.LocationAccuracy.high,
-        distanceFilter: 100,
+        accuracy: geo.LocationAccuracy.best,
+        distanceFilter: 10,
         forceLocationManager: true,
-        intervalDuration: const Duration(minutes: 15),
+        intervalDuration: const Duration(seconds: 5),
         //(Optional) Set foreground notification config to keep the app alive
         //when going to the background
         foregroundNotificationConfig: geo.ForegroundNotificationConfig(
-            notificationText: FlutterI18n.translate(
-                appNavigatorKey.currentContext!,
-                'axs_background_location_service_text'),
-            notificationTitle: FlutterI18n.translate(
-                appNavigatorKey.currentContext!,
-                'axs_background_location_service_title'),
-            enableWakeLock: true,
-            notificationIcon: const geo.AndroidResource(
-              name: 'axs_logo',
-            )),
+          notificationText: FlutterI18n.translate(
+              appNavigatorKey.currentContext!,
+              'axs_background_location_service_text'),
+          notificationTitle: FlutterI18n.translate(
+              appNavigatorKey.currentContext!,
+              'axs_background_location_service_title'),
+          enableWakeLock: true,
+          notificationIcon: const geo.AndroidResource(
+            name: 'axs_logo',
+          ),
+          setOngoing: true,
+        ),
       );
     } else if (Platform.isIOS) {
       locationSettings = geo.AppleSettings(
@@ -291,16 +295,16 @@ class DAppHooksUseCase extends ReactiveUseCase {
   }
 
   // delay is in minutes
-  Future<bool> startDAppHooksService(int delay) async {
+  Future<bool> startWifiHooksService(int delay) async {
     try {
       final result = await AXSBackgroundFetch.startBackgroundProcess(
-          taskId: dappHookTasksTaskId);
+          taskId: wifiHookTasksTaskId);
 
       if (!result) return result;
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: BackgroundExecutionConfig.dappHookTasks,
+        taskId: BackgroundExecutionConfig.wifiHooksTask,
         delay: delay * 60 * 1000,
         periodic: true,
         requiresNetworkConnectivity: true,
@@ -376,9 +380,9 @@ class DAppHooksUseCase extends ReactiveUseCase {
         taskId: minerAutoClaimTaskTaskId, turnOffAll: turnOffAll);
   }
 
-  Future<int> stopDAppHooksService({required bool turnOffAll}) async {
+  Future<int> stopWifiHooksService({required bool turnOffAll}) async {
     return await AXSBackgroundFetch.stopServices(
-        taskId: dappHookTasksTaskId, turnOffAll: turnOffAll);
+        taskId: wifiHookTasksTaskId, turnOffAll: turnOffAll);
   }
 
   List<WifiModel> getWifiModels(List<WiFiAccessPoint> wifiList) {
@@ -393,6 +397,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime minerAutoClaimTime}) async {
     try {
+      
       AXSNotification()
           .showNotification(cTranslate('auto_claim_started'), null);
 

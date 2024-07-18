@@ -25,14 +25,9 @@ class DAppHooksPage extends HookConsumerWidget {
     final dappHooksPresenter = ref.read(presenter);
 
     final frequency = getPeriodicalCallDurationFromInt(
-        dappHooksState.dAppHooksData!.duration);
+        dappHooksState.dAppHooksData!.wifiHooks.duration);
 
     final isMXCChains = MXCChains.isMXCChains(dappHooksState.network!.chainId);
-    final dappHooksServiceServiceEnabled =
-        dappHooksState.dAppHooksData!.enabled;
-
-    final isSettingsChangeEnabled =
-        isMXCChains && dappHooksServiceServiceEnabled;
 
     final minerAutoClaimDateTime =
         dappHooksState.dAppHooksData!.minerHooks.time;
@@ -52,9 +47,10 @@ class DAppHooksPage extends HookConsumerWidget {
       ),
       children: [
         MXCSwitchRowItem(
-          title: translate('dapp_hooks'),
-          value: dappHooksState.dAppHooksData!.enabled,
-          onChanged: dappHooksPresenter.changeDAppHooksEnabled,
+          key: const Key('wifiHookSwitch'),
+          title: translate('wifi_hexagon_location_hooks'),
+          value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
+          onChanged: dappHooksPresenter.changeWiFiHooksEnabled,
           enabled: true,
           textTrailingWidget: MXCInformationButton(texts: [
             TextSpan(
@@ -95,6 +91,13 @@ class DAppHooksPage extends HookConsumerWidget {
             ),
             const TextSpan(text: '\n\n'),
             TextSpan(
+              text: FlutterI18n.translate(context, 'wifi_hooks_solutions'),
+              style: FontTheme.of(context)
+                  .subtitle1()
+                  .copyWith(color: ColorsTheme.of(context).textPrimary),
+            ),
+            const TextSpan(text: '\n\n'),
+            TextSpan(
               text: FlutterI18n.translate(context, 'need_further_assistant'),
               style: FontTheme.of(context)
                   .subtitle1()
@@ -105,80 +108,10 @@ class DAppHooksPage extends HookConsumerWidget {
         ),
         const SizedBox(height: Sizes.spaceNormal),
         MXCDropDown(
-          key: const Key('dappHooksFrequencyDropDown'),
-          onTap: dappHooksPresenter.showDAppHooksFrequency,
+          key: const Key('wifiHooksFrequencyDropDown'),
+          onTap: dappHooksPresenter.showWiFiHooksFrequency,
           selectedItem: frequency.toStringFormatted(),
-          enabled:
-              isSettingsChangeEnabled && dappHooksState.dAppHooksData!.enabled,
-        ),
-        const SizedBox(height: Sizes.spaceXLarge),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceLarge),
-          child: Column(
-            children: [
-              MXCSwitchRowItem(
-                key: const Key('wifiHookSwitch'),
-                title: translate('wifi_hexagon_location_hooks'),
-                value: dappHooksState.dAppHooksData!.wifiHooks.enabled,
-                onChanged: dappHooksPresenter.changeWifiHooksEnabled,
-                enabled: isSettingsChangeEnabled,
-                textTrailingWidget: MXCInformationButton(texts: [
-                  TextSpan(
-                    text: FlutterI18n.translate(context, 'experiencing_issues'),
-                    style: FontTheme.of(context)
-                        .subtitle2()
-                        .copyWith(color: ColorsTheme.of(context).textPrimary),
-                  ),
-                  const TextSpan(text: '\n\n'),
-                  TextSpan(
-                    text: FlutterI18n.translate(
-                        context, 'background_service_solution_1_title'),
-                    style: FontTheme.of(context)
-                        .subtitle2()
-                        .copyWith(color: ColorsTheme.of(context).textPrimary),
-                  ),
-                  TextSpan(
-                    text: FlutterI18n.translate(
-                        context, 'background_service_solution_1_text'),
-                    style: FontTheme.of(context)
-                        .subtitle1()
-                        .copyWith(color: ColorsTheme.of(context).textPrimary),
-                  ),
-                  const TextSpan(text: '\n\n'),
-                  TextSpan(
-                    text: FlutterI18n.translate(
-                        context, 'background_service_solution_2_title'),
-                    style: FontTheme.of(context)
-                        .subtitle2()
-                        .copyWith(color: ColorsTheme.of(context).textPrimary),
-                  ),
-                  TextSpan(
-                    text: FlutterI18n.translate(
-                        context, 'background_service_solution_2_text'),
-                    style: FontTheme.of(context)
-                        .subtitle1()
-                        .copyWith(color: ColorsTheme.of(context).textPrimary),
-                  ),
-                  const TextSpan(text: '\n\n'),
-                  TextSpan(
-                    text:
-                        FlutterI18n.translate(context, 'wifi_hooks_solutions'),
-                    style: FontTheme.of(context)
-                        .subtitle1()
-                        .copyWith(color: ColorsTheme.of(context).textPrimary),
-                  ),
-                  const TextSpan(text: '\n\n'),
-                  TextSpan(
-                    text: FlutterI18n.translate(
-                        context, 'need_further_assistant'),
-                    style: FontTheme.of(context)
-                        .subtitle1()
-                        .copyWith(color: ColorsTheme.of(context).textPrimary),
-                  ),
-                ]),
-              ),
-            ],
-          ),
+          enabled: isMXCChains,
         ),
         const SizedBox(height: Sizes.spaceLarge),
         MXCSwitchRowItem(

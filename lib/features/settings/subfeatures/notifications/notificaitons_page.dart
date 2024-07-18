@@ -296,26 +296,46 @@ class NotificationsPage extends HookConsumerWidget {
               //       .periodicalCallData!.activityReminderEnabled,
               //   onChanged: notificationsPresenter.changeActivityReminderEnabled,
               //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(
+              //     texts: getBlueberryRingServiceInfo(context),
+              //   ),
+              //   titleStyle: FontTheme.of(context).h6(),
               // ),
+              // const SizedBox(height: Sizes.spaceXLarge),
               // MXCSwitchRowItem(
               //   title: translate('sleep_insight'),
               //   value:
               //       notificationsState.periodicalCallData!.sleepInsightEnabled,
               //   onChanged: notificationsPresenter.changeSleepInsightEnabled,
               //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(
+              //     texts: getBlueberryRingServiceInfo(context),
+              //   ),
+              //   titleStyle: FontTheme.of(context).h6(),
               // ),
+              // const SizedBox(height: Sizes.spaceXLarge),
               // MXCSwitchRowItem(
               //   title: translate('heart_alert'),
               //   value: notificationsState.periodicalCallData!.heartAlertEnabled,
               //   onChanged: notificationsPresenter.changeHeartAlertEnabled,
               //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(
+              //     texts: getBlueberryRingServiceInfo(context),
+              //   ),
+              //   titleStyle: FontTheme.of(context).h6(),
               // ),
+              // const SizedBox(height: Sizes.spaceXLarge),
               // MXCSwitchRowItem(
               //   title: translate('low_battery'),
               //   value: notificationsState.periodicalCallData!.lowBatteryEnabled,
               //   onChanged: notificationsPresenter.changeLowBatteryEnabled,
               //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(
+              //     texts: getBlueberryRingServiceInfo(context),
+              //   ),
+              //   titleStyle: FontTheme.of(context).h6(),
               // ),
+              // const SizedBox(height: Sizes.spaceXLarge),
               // const SizedBox(height: Sizes.spaceNormal),
               // MXCSwitchRowItem(
               //   title: translate('daily_earnings'),
@@ -340,4 +360,41 @@ class NotificationsPage extends HookConsumerWidget {
       ),
     );
   }
+}
+
+List<TextSpan> getBlueberryRingServiceInfo(
+  BuildContext context,
+) {
+  return [
+    TextSpan(
+      text: FlutterI18n.translate(context, 'experiencing_issues'),
+      style: FontTheme.of(context)
+          .subtitle2()
+          .copyWith(color: ColorsTheme.of(context).textPrimary),
+    ),
+    const TextSpan(text: '\n\n'),
+    TextSpan(
+      text: FlutterI18n.translate(
+          context, 'blueberry_background_notifications_requirements_title'),
+      style: FontTheme.of(context)
+          .subtitle2()
+          .copyWith(color: ColorsTheme.of(context).textPrimary),
+    ),
+    const TextSpan(text: '\n\n'),
+    TextSpan(
+      text: FlutterI18n.translate(
+          context, 'blueberry_background_notifications_requirements_text_1'),
+      style: FontTheme.of(context)
+          .subtitle1()
+          .copyWith(color: ColorsTheme.of(context).textPrimary),
+    ),
+    const TextSpan(text: '\n\n'),
+    TextSpan(
+      text: FlutterI18n.translate(
+          context, 'blueberry_background_notifications_requirements_text_2'),
+      style: FontTheme.of(context)
+          .subtitle1()
+          .copyWith(color: ColorsTheme.of(context).textPrimary),
+    ),
+  ];
 }

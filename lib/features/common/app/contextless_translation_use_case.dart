@@ -8,16 +8,22 @@ import 'package:datadashwallet/features/settings/settings.dart';
 class ContextLessTranslationUseCase extends ReactiveUseCase {
   ContextLessTranslationUseCase(
     this._languageUseCase,
-  );
+  ) {
+    setupTranslator();
+  }
 
   final LanguageUseCase _languageUseCase;
 
+  bool initialized = false;
   static Map<String, dynamic>? _currentTranslations;
 
   Future<void> setupTranslator() async {
-    final Locale currentLocale =
-        _languageUseCase.currentLocale.value?.toLocale() ?? window.locale;
-    await loadTranslations(currentLocale);
+    if (!initialized) {
+      final Locale currentLocale =
+          _languageUseCase.currentLocale.value?.toLocale() ?? window.locale;
+      await loadTranslations(currentLocale);
+      initialized = true;
+    }
   }
 
   Future<void> loadTranslations(Locale locale) async {

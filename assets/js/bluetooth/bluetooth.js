@@ -32,14 +32,24 @@ class BluetoothDevice extends EventTarget {
   }
 
   async watchAdvertisements() {
+    console.log("BluetoothRemoteGATTServer:watchAdvertisements ");
     const response = await window.axs.callHandler(
       "BluetoothDevice.watchAdvertisements"
+    );
+    console.log(
+      "BluetoothRemoteGATTServer:watchAdvertisements ",
+      JSON.stringify(response, null, 2)
     );
     return response;
   }
 
   async forget() {
+    console.log("BluetoothRemoteGATTServer:forget ");
     const response = await window.axs.callHandler("BluetoothDevice.forget");
+    console.log(
+      "BluetoothRemoteGATTServer:forget ",
+      JSON.stringify(response, null, 2)
+    );
     return response;
   }
 }
@@ -52,35 +62,47 @@ class BluetoothRemoteGATTServer extends EventTarget {
   }
 
   async connect() {
-    const resp = await window.axs?.callHandler(
+    console.log("BluetoothRemoteGATTServer:connect ");
+    const response = await window.axs?.callHandler(
       "BluetoothRemoteGATTServer.connect",
       {}
     );
-    this.device = resp.device;
-    this.connected = resp.connected;
+    console.log(
+      "BluetoothRemoteGATTServer:connect ",
+      JSON.stringify(response, null, 2)
+    );
+    this.device = response.device;
+    this.connected = response.connected;
     return this;
   }
 
   async disconnect() {
+    console.log("BluetoothRemoteGATTServer:disconnect ");
     await window.axs.callHandler("BluetoothRemoteGATTServer.disconnect", {});
   }
 
   async getPrimaryService(service) {
+    console.log("BluetoothRemoteGATTServer:getPrimaryService ", service);
     const data = { service: service };
-    const resp = await window.axs?.callHandler(
+    const response = await window.axs?.callHandler(
       "BluetoothRemoteGATTServer.getPrimaryService",
       data
     );
     const respService = new BluetoothRemoteGATTService(
-      resp.device,
-      resp.uuid,
-      resp.isPrimary
+      response.device,
+      response.uuid,
+      response.isPrimary
     );
     navigator.bluetooth.serviceArray.push(respService);
+    console.log(
+      "BluetoothRemoteGATTServer:getPrimaryService ",
+      JSON.stringify(response, null, 2)
+    );
     return respService;
   }
 
   async getPrimaryServices(service) {
+    console.log("BluetoothRemoteGATTServer:getPrimaryServices ", service);
     const data = { service: service };
     const response = await window.axs.callHandler(
       "BluetoothRemoteGATTServer.getPrimaryServices",
@@ -100,6 +122,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   }
 
   async getDescriptor(descriptor) {
+    console.log("BluetoothRemoteGATTCharacteristic:getDescriptor ", descriptor);
     const data = {
       this: this.uuid,
       serviceUUID: this.service.uuid,
@@ -113,6 +136,10 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   }
 
   async getDescriptors(descriptor) {
+    console.log(
+      "BluetoothRemoteGATTCharacteristic:getDescriptors ",
+      descriptor
+    );
     const data = {
       this: this.uuid,
       serviceUUID: this.service.uuid,
@@ -125,35 +152,56 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
     );
     return response;
   }
+
   async readValue() {
+    console.log("BluetoothRemoteGATTCharacteristic:readValue");
     const data = { this: this.uuid, serviceUUID: this.service.uuid };
     const response = await window.axs.callHandler(
       "BluetoothRemoteGATTCharacteristic.readValue",
       data
     );
-    return response;
+
+    console.log(
+      "BluetoothRemoteGATTCharacteristic:readValue",
+      JSON.stringify(response, null, 2)
+    );
+
+    const bytes = new Uint8Array(response);
+    console.log("Bytes : ", bytes);
+    const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    selectedCharacteristic.value = dv;
+
+    return dv;
   }
 
   async writeValue(value) {
-    // We will need to change the value to Base64 for having a standard type to bridge data on that type.
-
+    console.log("BluetoothRemoteGATTCharacteristic:writeValue", value);
     const data = {
       this: this.uuid,
       serviceUUID: this.service.uuid,
       value: value,
     };
 
-    const resp = await window.axs.callHandler(
+    const response = await window.axs.callHandler(
       "BluetoothRemoteGATTCharacteristic.writeValue",
       data
     );
 
-    if (resp.error !== undefined && resp.error === true) {
+    console.log(
+      "BluetoothRemoteGATTCharacteristic:writeValue",
+      JSON.stringify(response, null, 2)
+    );
+
+    if (response.error !== undefined && response.error === true) {
       throw new Error("Error while writing value.");
     }
   }
 
   async writeValueWithResponse(value) {
+    console.log(
+      "BluetoothRemoteGATTCharacteristic:writeValueWithResponse",
+      value
+    );
     const data = {
       this: this.uuid,
       serviceUUID: this.service.uuid,
@@ -167,6 +215,10 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   }
 
   async writeValueWithoutResponse(value) {
+    console.log(
+      "BluetoothRemoteGATTCharacteristic:writeValueWithoutResponse",
+      value
+    );
     const data = {
       this: this.uuid,
       serviceUUID: this.service.uuid,
@@ -180,6 +232,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   }
 
   async startNotifications() {
+    console.log("BluetoothRemoteGATTCharacteristic:startNotifications");
     const data = { this: this.uuid, serviceUUID: this.service.uuid };
 
     await window.axs.callHandler(
@@ -190,6 +243,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   }
 
   async stopNotifications() {
+    console.log("BluetoothRemoteGATTCharacteristic:stopNotifications");
     const data = { this: this.uuid, serviceUUID: this.service.uuid };
 
     await window.axs.callHandler(
@@ -214,15 +268,23 @@ class BluetoothRemoteGATTService extends EventTarget {
   }
 
   async getCharacteristic(characteristic) {
+    console.log(
+      "BluetoothRemoteGATTService:getCharacteristic ",
+      characteristic
+    );
     let data = { this: this.uuid, characteristic: characteristic };
-    const resp = await window.axs?.callHandler(
+    const response = await window.axs?.callHandler(
       "BluetoothRemoteGATTService.getCharacteristic",
       data
     );
+    console.log(
+      "BluetoothRemoteGATTService:getCharacteristic ",
+      JSON.stringify(response, null, 2)
+    );
     const characteristicInstance = new BluetoothRemoteGATTCharacteristic(
       this,
-      resp.uuid,
-      resp.value,
+      response.uuid,
+      response.value,
       undefined
     );
     navigator.bluetooth.characteristicArray.push(characteristicInstance);
@@ -230,6 +292,10 @@ class BluetoothRemoteGATTService extends EventTarget {
   }
 
   async getCharacteristics(characteristic) {
+    console.log(
+      "BluetoothRemoteGATTService:getCharacteristics ",
+      characteristic
+    );
     const response = await window.axs.callHandler(
       "BluetoothRemoteGATTService.getCharacteristics",
       { this: "$uuid", characteristic: characteristic }
@@ -238,6 +304,7 @@ class BluetoothRemoteGATTService extends EventTarget {
   }
 
   async getIncludedService(service) {
+    console.log("BluetoothRemoteGATTService:getIncludedService ", service);
     const response = await window.axs.callHandler(
       "BluetoothRemoteGATTService.getIncludedService",
       { this: "$uuid", service: service }
@@ -246,6 +313,7 @@ class BluetoothRemoteGATTService extends EventTarget {
   }
 
   async getIncludedServices(service) {
+    console.log("BluetoothRemoteGATTService:getIncludedServices ", service);
     const response = await window.axs.callHandler(
       "BluetoothRemoteGATTService.getIncludedServices",
       { this: "$uuid", service: service }
@@ -267,46 +335,61 @@ class AXSBluetooth {
   }
 
   async requestDevice(options) {
-    const resp = await window.axs?.callHandler("requestDevice", options);
+    console.log("AXSBluetooth:requestDevice ", options);
+    const response = await window.axs?.callHandler("requestDevice", options);
 
     const gatt = new BluetoothRemoteGATTServer(
-      resp.gatt.device,
-      resp.gatt.connected
+      response.gatt.device,
+      response.gatt.connected
     );
 
     const device = new BluetoothDevice(
-      resp.id,
-      resp.name,
+      response.id,
+      response.name,
       gatt,
-      resp.watchingAdvertisements
+      response.watchingAdvertisements
     );
 
     return device;
   }
 
   dispatchCharacteristicEvent(characteristicUUID, eventName) {
+    console.log(
+      "AXSBluetooth:dispatchCharacteristicEvent ",
+      characteristicUUID,
+      " ",
+      eventName
+    );
     let selectedCharacteristic =
       this.getCharacteristicByUUID(characteristicUUID);
-    console.log("X");
     if (selectedCharacteristic != undefined) {
-      console.log("X1");
       selectedCharacteristic.dispatchEvent(new Event(eventName));
-      console.log("X2");
+      console.log(
+        "AXSBluetooth:dispatchCharacteristicEvent:eventName ",
+        eventName
+      );
     }
   }
 
-  updateCharacteristicValue(characteristicUUID, base64String) {
-    const bytes = new Uint8Array(base64String);
+  updateCharacteristicValue(characteristicUUID, value) {    
+    console.log(
+      "AXSBluetooth:updateCharacteristicValue ",
+      characteristicUUID,
+      " ",
+      value
+    );
+    const bytes = new Uint8Array(value);
     console.log("Bytes : ", bytes);
+    console.log("Bytes type: ", typeof bytes);
     const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
     let selectedCharacteristic =
       this.getCharacteristicByUUID(characteristicUUID);
 
+    selectedCharacteristic.value = dv;
     console.log(
       "Selected characteristic : ",
       JSON.stringify(selectedCharacteristic, null, 2)
     );
-    selectedCharacteristic.value = dv;
     this.dispatchCharacteristicEvent(
       characteristicUUID,
       "characteristicvaluechanged"
@@ -314,10 +397,12 @@ class AXSBluetooth {
   }
 
   getServiceByUUID(serviceUUID) {
+    console.log("AXSBluetooth:getServiceByUUID ", serviceUUID);
     return this.serviceArray.find((service) => service.uuid === serviceUUID);
   }
 
   getCharacteristicByUUID(characteristicUUID) {
+    console.log("AXSBluetooth:getCharacteristicByUUID ", characteristicUUID);
     return this.characteristicArray.find(
       (characteristic) => characteristic.uuid === characteristicUUID
     );

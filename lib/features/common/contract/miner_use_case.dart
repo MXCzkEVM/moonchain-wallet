@@ -14,18 +14,19 @@ class MinerUseCase extends ReactiveUseCase {
   String cTranslate(String key) =>
       _contextLessTranslationUseCase.translate(key);
 
-  Future<bool> claimMinersReward(
-      {required List<String> selectedMinerListId,
-      required Account account,
-      required void Function(
-        String title,
-        String? text,
-      )
-          showNotification,
-      required String Function(
-        String key,
-      )
-          translate}) async {
+  Future<bool> claimMinersReward({
+    required List<String> selectedMinerListId,
+    required Account account,
+    required void Function(
+      String title,
+      String? text,
+    )
+        showNotification,
+    required String Function(
+      String key,
+    )
+        translate,
+  }) async {
     return await _repository.minerRepository.claimMinersReward(
         selectedMinerListId: selectedMinerListId,
         account: account,
@@ -33,7 +34,9 @@ class MinerUseCase extends ReactiveUseCase {
         translate: translate);
   }
 
-  Future<MinerListModel> getAddressMiners(String address) async =>
+  Future<MinerListModel> getAddressMiners(
+    String address,
+  ) async =>
       await _repository.minerRepository.getAddressMiners(address);
 
   Future<List<ClaimEarn>> helperGetClaimRewards(
