@@ -289,53 +289,53 @@ class NotificationsPage extends HookConsumerWidget {
                     notificationsState
                         .periodicalCallData!.expectedEpochOccurrenceEnabled,
               ),
-              const SizedBox(height: Sizes.spaceXLarge),
-              MXCSwitchRowItem(
-                title: translate('activity_reminder'),
-                value: notificationsState
-                    .periodicalCallData!.activityReminderEnabled,
-                onChanged: notificationsPresenter.changeActivityReminderEnabled,
-                enabled: isSettingsChangeEnabled,
-                textTrailingWidget: MXCInformationButton(
-                  texts: getBlueberryRingServiceInfo(context),
-                ),
-                titleStyle: FontTheme.of(context).h6(),
-              ),
-              const SizedBox(height: Sizes.spaceXLarge),
-              MXCSwitchRowItem(
-                title: translate('sleep_insight'),
-                value:
-                    notificationsState.periodicalCallData!.sleepInsightEnabled,
-                onChanged: notificationsPresenter.changeSleepInsightEnabled,
-                enabled: isSettingsChangeEnabled,
-                textTrailingWidget: MXCInformationButton(
-                  texts: getBlueberryRingServiceInfo(context),
-                ),
-                titleStyle: FontTheme.of(context).h6(),
-              ),
-              const SizedBox(height: Sizes.spaceXLarge),
-              MXCSwitchRowItem(
-                title: translate('heart_alert'),
-                value: notificationsState.periodicalCallData!.heartAlertEnabled,
-                onChanged: notificationsPresenter.changeHeartAlertEnabled,
-                enabled: isSettingsChangeEnabled,
-                textTrailingWidget: MXCInformationButton(
-                  texts: getBlueberryRingServiceInfo(context),
-                ),
-                titleStyle: FontTheme.of(context).h6(),
-              ),
-              const SizedBox(height: Sizes.spaceXLarge),
-              MXCSwitchRowItem(
-                title: translate('low_battery'),
-                value: notificationsState.periodicalCallData!.lowBatteryEnabled,
-                onChanged: notificationsPresenter.changeLowBatteryEnabled,
-                enabled: isSettingsChangeEnabled,
-                textTrailingWidget: MXCInformationButton(
-                  texts: getBlueberryRingServiceInfo(context),
-                ),
-                titleStyle: FontTheme.of(context).h6(),
-              ),
-              const SizedBox(height: Sizes.spaceXLarge),
+              // const SizedBox(height: Sizes.spaceXLarge),
+              // MXCSwitchRowItem(
+              //   title: translate('activity_reminder'),
+              //   value: notificationsState
+              //       .periodicalCallData!.activityReminderEnabled,
+              //   onChanged: notificationsPresenter.changeActivityReminderEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(
+              //     texts: getBlueberryRingServiceInfo(context),
+              //   ),
+              //   titleStyle: FontTheme.of(context).h6(),
+              // ),
+              // const SizedBox(height: Sizes.spaceXLarge),
+              // MXCSwitchRowItem(
+              //   title: translate('sleep_insight'),
+              //   value:
+              //       notificationsState.periodicalCallData!.sleepInsightEnabled,
+              //   onChanged: notificationsPresenter.changeSleepInsightEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(
+              //     texts: getBlueberryRingServiceInfo(context),
+              //   ),
+              //   titleStyle: FontTheme.of(context).h6(),
+              // ),
+              // const SizedBox(height: Sizes.spaceXLarge),
+              // MXCSwitchRowItem(
+              //   title: translate('heart_alert'),
+              //   value: notificationsState.periodicalCallData!.heartAlertEnabled,
+              //   onChanged: notificationsPresenter.changeHeartAlertEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(
+              //     texts: getBlueberryRingServiceInfo(context),
+              //   ),
+              //   titleStyle: FontTheme.of(context).h6(),
+              // ),
+              // const SizedBox(height: Sizes.spaceXLarge),
+              // MXCSwitchRowItem(
+              //   title: translate('low_battery'),
+              //   value: notificationsState.periodicalCallData!.lowBatteryEnabled,
+              //   onChanged: notificationsPresenter.changeLowBatteryEnabled,
+              //   enabled: isSettingsChangeEnabled,
+              //   textTrailingWidget: MXCInformationButton(
+              //     texts: getBlueberryRingServiceInfo(context),
+              //   ),
+              //   titleStyle: FontTheme.of(context).h6(),
+              // ),
+              // const SizedBox(height: Sizes.spaceXLarge),
               // const SizedBox(height: Sizes.spaceNormal),
               // MXCSwitchRowItem(
               //   title: translate('daily_earnings'),
