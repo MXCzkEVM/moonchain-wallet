@@ -49,8 +49,13 @@ class BluetoothUseCase extends ReactiveUseCase {
         // usually start scanning, connecting, etc
         isScanningListener();
         initScannerListener();
-      } else {
+      } else if (state == BluetoothAdapterState.unauthorized ||
+          state == BluetoothAdapterState.unavailable ||
+          state == BluetoothAdapterState.off ||
+          state == BluetoothAdapterState.unknown) {
         // show an error to the user, etc
+        cancelIsScanningListener();
+        _cancelScannerListen();
       }
     });
   }
