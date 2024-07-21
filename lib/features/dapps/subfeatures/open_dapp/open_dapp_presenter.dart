@@ -85,7 +85,13 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   @override
   Future<void> dispose() {
     characteriticListnerTimer?.cancel();
+    closeBlueberryConnection();
     return super.dispose();
+  }
+
+  // Disconnects from Blueberry If there a selected device.
+  void closeBlueberryConnection() {
+    state.selectedScanResult?.device.disconnect();
   }
 
   void onWebViewCreated(InAppWebViewController controller) async {
