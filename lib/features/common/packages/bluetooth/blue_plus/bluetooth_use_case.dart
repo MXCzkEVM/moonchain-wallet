@@ -33,9 +33,9 @@ class BluetoothUseCase extends ReactiveUseCase {
   final ChainConfigurationUseCase _chainConfigurationUseCase;
   final AuthUseCase _authUseCase;
 
-  late StreamSubscription<List<ScanResult>>? scannerListener;
-  late StreamSubscription<BluetoothAdapterState>? stateListener;
-  late StreamSubscription<bool>? isScanningStateListener;
+  StreamSubscription<List<ScanResult>>? scannerListener;
+  StreamSubscription<BluetoothAdapterState>? stateListener;
+  StreamSubscription<bool>? isScanningStateListener;
 
   late final ValueStream<bool> isScanning = reactive(false);
   late final ValueStream<BluetoothAdapterState> bluetoothStatus =
