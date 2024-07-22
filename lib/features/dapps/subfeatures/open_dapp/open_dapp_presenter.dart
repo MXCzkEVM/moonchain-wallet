@@ -85,7 +85,13 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   @override
   Future<void> dispose() {
     characteriticListnerTimer?.cancel();
+    closeBlueberryConnection();
     return super.dispose();
+  }
+
+  // Disconnects from Blueberry If there a selected device.
+  void closeBlueberryConnection() {
+    state.selectedScanResult?.device.disconnect();
   }
 
   void onWebViewCreated(InAppWebViewController controller) async {
@@ -809,7 +815,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicStartNotifications(
           Map<String, dynamic> data) async {
-    collectLog('handleBluetoothRemoteGATTCharacteristicStartNotifications : $data');
+    collectLog(
+        'handleBluetoothRemoteGATTCharacteristicStartNotifications : $data');
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
@@ -826,7 +833,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicStopNotifications(
           Map<String, dynamic> data) async {
-    collectLog('handleBluetoothRemoteGATTCharacteristicStopNotifications : $data');
+    collectLog(
+        'handleBluetoothRemoteGATTCharacteristicStopNotifications : $data');
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
@@ -846,19 +854,16 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final selectedService = await getSelectedService(data['serviceUUID']);
     final selectedCharacteristic =
         getSelectedCharacteristic(data['this'], selectedService);
-    final value = Uint8List.fromList(List<int>.from((data['value'] as Map<String, dynamic>).values.toList()));
+    final value = Uint8List.fromList(List<int>.from(
+        (data['value'] as Map<String, dynamic>).values.toList()));
 
-    try {
-      collectLog('handleWrites:value $value');
-      if (withResponse) {
-        await selectedCharacteristic.write(value);
-      } else {
-        await selectedCharacteristic.write(value, withoutResponse: true);
-      }
-      return {};
-    } catch (e) {
-      return {'error': 'true'};
+    collectLog('handleWrites:value $value');
+    if (withResponse) {
+      await selectedCharacteristic.write(value);
+    } else {
+      await selectedCharacteristic.write(value, withoutResponse: true);
     }
+    return {};
   }
 
   Future<Map<String, dynamic>>
@@ -903,14 +908,10 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     blue_plus.BluetoothCharacteristic characteristic,
   ) async {
     await characteristic.setNotifyValue(true);
-    // characteriticListnerTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
-    //   characteristic.read();
-    // });
 
     characteristicValueStreamSubscription =
         characteristic.lastValueStream.listen((event) async {
       final uInt8List = Uint8List.fromList(event);
-      print(uInt8List);
       collectLog('characteristicValueStreamSubscription:event $event');
       collectLog(
           'characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
@@ -1006,7 +1007,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
           status: AXSJSChannelResponseStatus.failed,
           data: null,
           message: e.toString());
-      return response.toMap((data) => {'message': e.toString()});
+      return response.toMap((data) => {'message': e});
     }
   }
 

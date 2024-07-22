@@ -152,7 +152,8 @@ class BlueberryResolves {
 }
 
 int parseDate(List<int> data) {
-  final parts = BlueberryCommandsUtils.radix16bcd(data);
+  // 200x24-0x06-0x05 0x06:0x39:0x02
+  final parts = BlueberryCommandsUtils.radix16bcd(data, no0x: true);
   final ymd = '20${parts[0]}-${parts[1]}-${parts[2]}';
   final hms = '${parts[3]}:${parts[4]}:${parts[5]}';
   final date = DateTime.parse('$ymd $hms');

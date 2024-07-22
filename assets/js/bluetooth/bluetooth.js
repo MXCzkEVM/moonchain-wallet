@@ -33,7 +33,7 @@ class BluetoothDevice extends EventTarget {
 
   async watchAdvertisements() {
     console.log("BluetoothRemoteGATTServer:watchAdvertisements ");
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothDevice.watchAdvertisements"
     );
     console.log(
@@ -45,7 +45,7 @@ class BluetoothDevice extends EventTarget {
 
   async forget() {
     console.log("BluetoothRemoteGATTServer:forget ");
-    const response = await window.axs.callHandler("BluetoothDevice.forget");
+    const response = await window.axs?.callHandlerWrapper("BluetoothDevice.forget");
     console.log(
       "BluetoothRemoteGATTServer:forget ",
       JSON.stringify(response, null, 2)
@@ -63,7 +63,7 @@ class BluetoothRemoteGATTServer extends EventTarget {
 
   async connect() {
     console.log("BluetoothRemoteGATTServer:connect ");
-    const response = await window.axs?.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTServer.connect",
       {}
     );
@@ -78,13 +78,13 @@ class BluetoothRemoteGATTServer extends EventTarget {
 
   async disconnect() {
     console.log("BluetoothRemoteGATTServer:disconnect ");
-    await window.axs.callHandler("BluetoothRemoteGATTServer.disconnect", {});
+    await window.axs?.callHandlerWrapper("BluetoothRemoteGATTServer.disconnect", {});
   }
 
   async getPrimaryService(service) {
     console.log("BluetoothRemoteGATTServer:getPrimaryService ", service);
     const data = { service: service };
-    const response = await window.axs?.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTServer.getPrimaryService",
       data
     );
@@ -104,7 +104,7 @@ class BluetoothRemoteGATTServer extends EventTarget {
   async getPrimaryServices(service) {
     console.log("BluetoothRemoteGATTServer:getPrimaryServices ", service);
     const data = { service: service };
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTServer.getPrimaryServices",
       data
     );
@@ -128,7 +128,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
       serviceUUID: this.service.uuid,
       descriptor: descriptor,
     };
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTCharacteristic.getDescriptor",
       data
     );
@@ -146,7 +146,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
       descriptor: descriptor,
     };
 
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTCharacteristic.getDescriptors",
       data
     );
@@ -156,7 +156,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
   async readValue() {
     console.log("BluetoothRemoteGATTCharacteristic:readValue");
     const data = { this: this.uuid, serviceUUID: this.service.uuid };
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTCharacteristic.readValue",
       data
     );
@@ -182,7 +182,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
       value: value,
     };
 
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTCharacteristic.writeValue",
       data
     );
@@ -192,9 +192,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
       JSON.stringify(response, null, 2)
     );
 
-    if (response.error !== undefined && response.error === true) {
-      throw new Error("Error while writing value.");
-    }
+    return {};
   }
 
   async writeValueWithResponse(value) {
@@ -208,10 +206,12 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
       value: value,
     };
 
-    await window.axs.callHandler(
+    await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTCharacteristic.writeValueWithResponse",
       data
     );
+
+    return {};
   }
 
   async writeValueWithoutResponse(value) {
@@ -225,17 +225,19 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
       value: value,
     };
 
-    await window.axs.callHandler(
+    await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTCharacteristic.writeValueWithoutResponse",
       data
     );
+
+    return {};
   }
 
   async startNotifications() {
     console.log("BluetoothRemoteGATTCharacteristic:startNotifications");
     const data = { this: this.uuid, serviceUUID: this.service.uuid };
 
-    await window.axs.callHandler(
+    await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTCharacteristic.startNotifications",
       data
     );
@@ -246,7 +248,7 @@ class BluetoothRemoteGATTCharacteristic extends EventTarget {
     console.log("BluetoothRemoteGATTCharacteristic:stopNotifications");
     const data = { this: this.uuid, serviceUUID: this.service.uuid };
 
-    await window.axs.callHandler(
+    await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTCharacteristic.stopNotifications",
       data
     );
@@ -273,7 +275,7 @@ class BluetoothRemoteGATTService extends EventTarget {
       characteristic
     );
     let data = { this: this.uuid, characteristic: characteristic };
-    const response = await window.axs?.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTService.getCharacteristic",
       data
     );
@@ -296,7 +298,7 @@ class BluetoothRemoteGATTService extends EventTarget {
       "BluetoothRemoteGATTService:getCharacteristics ",
       characteristic
     );
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTService.getCharacteristics",
       { this: "$uuid", characteristic: characteristic }
     );
@@ -305,7 +307,7 @@ class BluetoothRemoteGATTService extends EventTarget {
 
   async getIncludedService(service) {
     console.log("BluetoothRemoteGATTService:getIncludedService ", service);
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTService.getIncludedService",
       { this: "$uuid", service: service }
     );
@@ -314,7 +316,7 @@ class BluetoothRemoteGATTService extends EventTarget {
 
   async getIncludedServices(service) {
     console.log("BluetoothRemoteGATTService:getIncludedServices ", service);
-    const response = await window.axs.callHandler(
+    const response = await window.axs?.callHandlerWrapper(
       "BluetoothRemoteGATTService.getIncludedServices",
       { this: "$uuid", service: service }
     );
@@ -336,7 +338,7 @@ class AXSBluetooth {
 
   async requestDevice(options) {
     console.log("AXSBluetooth:requestDevice ", options);
-    const response = await window.axs?.callHandler("requestDevice", options);
+    const response = await window.axs?.callHandlerWrapper("requestDevice", options);
 
     const gatt = new BluetoothRemoteGATTServer(
       response.gatt.device,
