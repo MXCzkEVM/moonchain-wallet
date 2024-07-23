@@ -27,7 +27,8 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkActivityReminder() async {
     final data = await _blueberryRingUseCase.readSteps();
-    collectLog('checkActivityReminder:data ${data.map((e) => e.toJson()).toList()}');
+    collectLog(
+        'checkActivityReminder:data ${data.map((e) => e.toJson()).toList()}');
     // Get spteps data from cache and compare
     // If steps is below a certain number then show a
     // Below 5000
@@ -40,7 +41,8 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
         now.month == lastDate.month &&
         now.day == lastDate.day;
 
-    if (isToday && latestData.step < 5000) {
+    // isToday &&
+    if (latestData.step < 5000) {
       AXSNotification().showNotification(
         cTranslate('activity_reminder'),
         cTranslate('blueberry_ring_inactive_alert_text'),
@@ -50,26 +52,29 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkSleepInsight() async {
     final data = await _blueberryRingUseCase.readSleep();
-    collectLog('checkSleepInsight:data ${data.map((e) => e.toJson()).toList()}');
+    collectLog(
+        'checkSleepInsight:data ${data.map((e) => e.toJson()).toList()}');
     // If sleeps is below standard level
     // loop throug all and get average
     final now = DateTime.now();
 
     final todaysData = data.where((element) {
-      final date = DateTime.fromMillisecondsSinceEpoch(
-        element.date * 1000,
-      );
-      final isToday = now.year == date.year &&
-          now.month == date.month &&
-          now.day == date.day;
-      return isToday;
+      // final date = DateTime.fromMillisecondsSinceEpoch(
+      //   element.date * 1000,
+      // );
+      // final isToday = now.year == date.year &&
+      //     now.month == date.month &&
+      //     now.day == date.day;
+      // return isToday;
+      return true;
     });
 
     if (todaysData.isEmpty) {
       return;
     }
 
-    final isNormal = BlueberryRingDataAnalyzer.isSleepQualityNormal(todaysData.map((e) => e.value).toList());
+    final isNormal = BlueberryRingDataAnalyzer.isSleepQualityNormal(
+        todaysData.map((e) => e.value).toList());
 
     if (!isNormal) {
       AXSNotification().showNotification(
@@ -92,7 +97,8 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
         now.month == lastDate.month &&
         now.day == lastDate.day;
 
-    if (isToday && latestData.value >= 100) {
+    // isToday &&
+    if (latestData.value >= 100) {
       AXSNotification().showNotification(
         cTranslate('heart_alert'),
         cTranslate('blueberry_ring_heart_rate_alert_text'),
