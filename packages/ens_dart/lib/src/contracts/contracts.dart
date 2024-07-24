@@ -13,3 +13,4 @@ export 'erc_6551_account_impl.g.dart';
 export 'mep2542.g.dart'
     hide Initialized, OwnershipTransferred, ControllerChanged;
 export 'erc_6551_registry.g.dart';
+export 'doit/doit.dart';
