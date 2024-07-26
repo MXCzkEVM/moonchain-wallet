@@ -36,7 +36,8 @@ class BlueberryHooksHelper {
     // After all enabled start service
     // listen for state and stop If the bluetooth & nearby device is went off
     // The Service will listen to the ad data and do the things on that
-    final success = await dAppHooksUseCase.scheduleAutoClaimTransaction(time);
+    final success =
+        await dAppHooksUseCase.scheduleBlueberryAutoSyncTransaction(time);
 
     if (success) {
       // Time past, need to run the auto claim
@@ -64,21 +65,36 @@ class BlueberryHooksHelper {
     return true;
   }
 
-  Future<void> changeMinerHooksEnabled(
+  Future<void> changeBLueberryRingHooksEnabled(
     bool value,
   ) {
     return DAppHooksHelper.shouldUpdateWrapper(() async {
       late bool update;
       if (value) {
         update = await startBlueberryRingHooksService(
-            time: dAppHooksUseCase.dappHooksData.value.minerHooks.time,
+            time: dAppHooksUseCase.dappHooksData.value.blueberryRingHooks.time,
             showBGFetchAlert: true);
       } else {
         update = await stopBlueberryRingService(showSnackbar: true);
       }
       return update;
     }, () {
-      return dAppHooksUseCase.updateMinerHooksEnabled(value);
+      return dAppHooksUseCase.updateBlueberryRingHooksEnabled(value);
+    });
+  }
+
+  Future<void> changeBlueberryRingHookTiming(TimeOfDay value) async {
+    return DAppHooksHelper.shouldUpdateWrapper(() async {
+      late bool update;
+      final currentDateTime =
+          dAppHooksUseCase.dappHooksData.value.blueberryRingHooks.time;
+      final time = currentDateTime.copyWith(
+          hour: value.hour, minute: value.minute, second: 0);
+      update = await startBlueberryRingHooksService(
+          time: time, showBGFetchAlert: false);
+      return update;
+    }, () {
+      return dAppHooksUseCase.updateBlueberryRingHookTiming(value);
     });
   }
 }

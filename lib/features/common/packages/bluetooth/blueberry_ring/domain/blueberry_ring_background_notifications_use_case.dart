@@ -27,7 +27,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkActivityReminder() async {
     final data = await _blueberryRingUseCase.readSteps();
-    collectLog(
+    print(
         'checkActivityReminder:data ${data.map((e) => e.toJson()).toList()}');
     // Get spteps data from cache and compare
     // If steps is below a certain number then show a
@@ -52,7 +52,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkSleepInsight() async {
     final data = await _blueberryRingUseCase.readSleep();
-    collectLog(
+    print(
         'checkSleepInsight:data ${data.map((e) => e.toJson()).toList()}');
     // If sleeps is below standard level
     // loop throug all and get average
@@ -86,7 +86,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkHeartAlert() async {
     final data = await _blueberryRingUseCase.readHeartRate();
-    collectLog('checkHeartAlert:data ${data.map((e) => e.toJson()).toList()}');
+    print('checkHeartAlert:data ${data.map((e) => e.toJson()).toList()}');
     // If below standard but between person to person different
     final latestData = data.first;
     final lastDate = DateTime.fromMillisecondsSinceEpoch(
@@ -108,7 +108,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
 
   Future<void> checkLowBattery() async {
     final data = await _blueberryRingUseCase.readLevel();
-    collectLog('checkLowBattery:data $data');
+    print('checkLowBattery:data $data');
     // What si the low battery level
     // Is 10 OK
     if (data < 20) {

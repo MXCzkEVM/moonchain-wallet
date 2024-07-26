@@ -37,7 +37,7 @@ class SettingsPage extends HookConsumerWidget {
           height: Sizes.space2XLarge,
         ),
         GestureDetector(
-          onTap: AXSFireBase.incrementBuildTap,
+          onTap: presenter.testOnly,
           child: Text(
             '${FlutterI18n.translate(context, 'app_version')}${state.appVersion ?? ''}',
             style: FontTheme.of(context)

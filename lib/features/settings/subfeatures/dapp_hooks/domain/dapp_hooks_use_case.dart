@@ -374,6 +374,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
       return false;
     }
   }
+  Future<int> stopBlueberryAutoSyncService({required bool turnOffAll}) async {
+    return await AXSBackgroundFetch.stopServices(
+        taskId: blueberryAutoSyncTask, turnOffAll: turnOffAll);
+  }
 
   Future<int> stopMinerAutoClaimService({required bool turnOffAll}) async {
     return await AXSBackgroundFetch.stopServices(
