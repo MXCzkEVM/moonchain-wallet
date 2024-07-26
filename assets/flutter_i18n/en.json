@@ -433,6 +433,19 @@
 	"low_battery": "Low battery",
 	"blueberry_background_notifications_requirements_title": "This service requires: ",
 	"blueberry_background_notifications_requirements_text_1": "1. Bluetooth to be ON",
-	"blueberry_background_notifications_requirements_text_2": "2. Blueberry to be reachable"
-
+	"blueberry_background_notifications_requirements_text_2": "2. Blueberry to be reachable",
+	"auto_sync_started": "Blueberry Ring auto sync started 🏁",
+	"no_rings_selected_notification_title": "Looks like you haven't selected any Blueberry Rings. ℹ️",
+	"no_rings_selected_notification_text": "Please head over to Blueberry Ring DApp for selecting rings.",
+	"auto_sync_successful_notification_title": "Blueberry Ring aut-claim successful ✅",
+	"auto_sync_successful_notification_text": "AXS wallet has been successfully synced your ring data",
+	"already_synced_notification_title": "Oops, Already synced ℹ️",
+	"already_synced_notification_text": "AXS wallet tried to sync your ring data, But looks like you have synced the ring data today.",
+	"auto_sync_failed": "Blueberry Ring aut-sync failed ❌",
+	"no_rings_owned_notification": "Looks like this wallet doesn't own any Blueberry Rings. ℹ️",
+	"syncing_data_from_ring": "Syncing data from Blueberry Ring #{0}. ⛏️",
+	"already_synced_ring": "Blueberry Ring #{0}: Already synced. ℹ️",
+	"data_synced_successfully_ring": "Blueberry Ring #{0}: Data synced successfully. ✅",
+	"data_syncing_failed": "Blueberry Ring #{0}: Data syncing process failed. ❌",
+	"blueberry_hooks": "Blueberry hooks"
 }

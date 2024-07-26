@@ -247,6 +247,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
         enableHeadless: true,
         forceAlarmManager: false,
         requiredNetworkType: bgFetch.NetworkType.ANY,
+        
       ));
 
       return scheduleState;

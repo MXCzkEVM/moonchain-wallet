@@ -28,6 +28,8 @@ class AXSBackgroundFetch {
       DAppHooksService.dappHooksServiceCallBackDispatcherForeground(taskId);
     } else if (taskId == BackgroundExecutionConfig.minerAutoClaimTask) {
       DAppHooksService.autoClaimServiceCallBackDispatcherForeground(taskId);
+    } else if (taskId == BackgroundExecutionConfig.blueberryAutoSyncTask) {
+      DAppHooksService.blueberryAutoSyncServiceCallBackDispatcherForeground(taskId);
     } else {
       bgFetch.BackgroundFetch.finish(taskId);
     }
@@ -77,7 +79,7 @@ class AXSBackgroundFetch {
             requiresCharging: false,
             requiresStorageNotLow: false,
             requiresDeviceIdle: false,
-            requiredNetworkType: bgFetch.NetworkType.ANY),
+            requiredNetworkType: bgFetch.NetworkType.ANY,),
         handleCallBackDispatcher);
     // Android Only
     final backgroundFetchState =
