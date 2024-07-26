@@ -38,6 +38,13 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
       accountUseCase: _accountUseCase,
       backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase);
 
+  BlueberryHooksHelper get blueberryRingHooksHelper => BlueberryHooksHelper(
+      translate: translate,
+      context: context,
+      dAppHooksUseCase: _dAppHooksUseCase,
+      accountUseCase: _accountUseCase,
+      backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase);
+
   WiFiHooksHelper get wifiHooksHelper => WiFiHooksHelper(
         translate: translate,
         context: context,
@@ -82,6 +89,9 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
   void changeMinerHooksEnabled(bool value) =>
       minerHooksHelper.changeMinerHooksEnabled(value);
 
+  void changeBlueberryHooksEnabled(bool value) =>
+      blueberryRingHooksHelper.changeBLueberryRingHooksEnabled(value);
+
   void showWiFiHooksFrequency() {
     showWiFiHooksFrequencyBottomSheet(context!,
         onTap: wifiHooksHelper.handleFrequencyChange,
@@ -89,8 +99,20 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
             state.dAppHooksData!.wifiHooks.duration));
   }
 
-  void showTimePickerDialog() async {
+  void showTimePickerMinerDialog() async {
     final currentTimeOfDay = state.dAppHooksData!.minerHooks.time;
+    showTimePickerDialog(
+        currentTimeOfDay, minerHooksHelper.changeMinerHookTiming);
+  }
+
+  void showTimePickerBlueberryRingDialog() async {
+    final currentTimeOfDay = state.dAppHooksData!.blueberryRingHooks.time;
+    showTimePickerDialog(currentTimeOfDay,
+        blueberryRingHooksHelper.changeBlueberryRingHookTiming);
+  }
+
+  void showTimePickerDialog(DateTime currentTimeOfDay,
+      Future<void> Function(TimeOfDay value) changeTimeFunction) async {
     final initialTime = TimeOfDay.fromDateTime(currentTimeOfDay);
     final newTimeOfDay = await showTimePicker(
       context: context!,
@@ -99,7 +121,7 @@ class DAppHooksPresenter extends CompletePresenter<DAppHooksState>
     );
 
     if (newTimeOfDay != null) {
-      minerHooksHelper.changeMinerHookTiming(newTimeOfDay);
+      changeTimeFunction(newTimeOfDay);
     }
   }
 

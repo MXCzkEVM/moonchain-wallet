@@ -58,6 +58,8 @@ class DAppHooksUseCase extends ReactiveUseCase {
   String get wifiHookTasksTaskId => BackgroundExecutionConfig.wifiHooksTask;
   String get minerAutoClaimTaskTaskId =>
       BackgroundExecutionConfig.minerAutoClaimTask;
+  String get blueberryAutoSyncTask =>
+      BackgroundExecutionConfig.blueberryAutoSyncTask;
 
   void initialize() {
     _chainConfigurationUseCase.selectedNetwork.listen((network) {
@@ -81,6 +83,34 @@ class DAppHooksUseCase extends ReactiveUseCase {
     final newDAppHooksData = dappHooksData.value.copyWith(
       wifiHooks: dappHooksData.value.wifiHooks
           .copyWith(duration: duration.toMinutes()),
+    );
+    updateItem(newDAppHooksData);
+  }
+
+  void updateRingsList(List<String> rings) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+      blueberryRingHooks: dappHooksData.value.blueberryRingHooks.copyWith(
+        selectedRings: rings,
+      ),
+    );
+    updateItem(newDAppHooksData);
+  }
+
+  void updateBlueberryRingHookTiming(TimeOfDay value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+      blueberryRingHooks: dappHooksData.value.blueberryRingHooks.copyWith(
+        time: dappHooksData.value.blueberryRingHooks.time
+            .copyWith(hour: value.hour, minute: value.minute, second: 0),
+      ),
+    );
+    updateItem(newDAppHooksData);
+  }
+
+  void updateBlueberryRingHooksEnabled(bool value) {
+    final newDAppHooksData = dappHooksData.value.copyWith(
+      blueberryRingHooks: dappHooksData.value.blueberryRingHooks.copyWith(
+        enabled: value,
+      ),
     );
     updateItem(newDAppHooksData);
   }
@@ -296,15 +326,73 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
   // delay is in minutes
   Future<bool> startWifiHooksService(int delay) async {
+    return await startPeriodicalBackgroundService(delay, wifiHookTasksTaskId);
+  }
+
+  bool isTimeReached(DateTime dateTime) {
+    final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+    return difference <= 15;
+  }
+
+  Future<bool> scheduleTaskForExecution(
+    DateTime dateTime,
+    Future<bool> Function(int delay) startServiceFunction,
+  ) async {
+    final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
+    final delay = difference.isNegative ? (24 * 60 + difference) : difference;
+    return await startServiceFunction(delay);
+  }
+
+  // This function is called after execusion & for scheduling
+  Future<bool> scheduleAutoClaimTransaction(
+    DateTime dateTime,
+  ) async =>
+      scheduleTaskForExecution(dateTime, startAutoClaimService);
+
+  // This function is called after execusion & for scheduling
+  Future<bool> scheduleBlueberryAutoSyncTransaction(
+    DateTime dateTime,
+  ) =>
+      scheduleTaskForExecution(dateTime, startBlueberryAutoSyncService);
+
+  Future<bool> executeMinerAutoClaim(
+      {required Account account,
+      required List<String> selectedMinerListId,
+      required DateTime minerAutoClaimTime}) async {
+    await claimMiners(
+        selectedMinerListId: dappHooksData.value.minerHooks.selectedMiners,
+        account: account,
+        minerAutoClaimTime: minerAutoClaimTime);
+    return await scheduleAutoClaimTransaction(
+      minerAutoClaimTime,
+    );
+  }
+
+  Future<bool> executeBlueberryAutoSync(
+      {required Account account,
+      required List<String> selectedMinerListId,
+      required DateTime minerAutoClaimTime}) async {
+    await claimMiners(
+      selectedMinerListId: dappHooksData.value.minerHooks.selectedMiners,
+      account: account,
+      minerAutoClaimTime: minerAutoClaimTime,
+    );
+    return await scheduleBlueberryAutoSyncTransaction(
+      minerAutoClaimTime,
+    );
+  }
+
+  Future<bool> startPeriodicalBackgroundService(
+      int delay, String taskId) async {
     try {
-      final result = await AXSBackgroundFetch.startBackgroundProcess(
-          taskId: wifiHookTasksTaskId);
+      final result =
+          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
       if (!result) return result;
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: BackgroundExecutionConfig.wifiHooksTask,
+        taskId: taskId,
         delay: delay * 60 * 1000,
         periodic: true,
         requiresNetworkConnectivity: true,
@@ -321,44 +409,16 @@ class DAppHooksUseCase extends ReactiveUseCase {
     }
   }
 
-  bool isTimeReached(DateTime dateTime) {
-    final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
-    return difference <= 15;
-  }
-
-  // This function is called after execusion & for scheduling
-  Future<bool> scheduleAutoClaimTransaction(
-    DateTime dateTime,
-  ) async {
-    final difference = MXCTime.getMinutesDifferenceByDateTime(dateTime);
-    final delay = difference.isNegative ? (24 * 60 + difference) : difference;
-    return await startAutoClaimService(delay);
-  }
-
-  Future<bool> executeMinerAutoClaim(
-      {required Account account,
-      required List<String> selectedMinerListId,
-      required DateTime minerAutoClaimTime}) async {
-    await claimMiners(
-        selectedMinerListId: dappHooksData.value.minerHooks.selectedMiners,
-        account: account,
-        minerAutoClaimTime: minerAutoClaimTime);
-    return await scheduleAutoClaimTransaction(
-      minerAutoClaimTime,
-    );
-  }
-
-  // delay is in minutes
-  Future<bool> startAutoClaimService(int delay) async {
+  Future<bool> startOneTimeBackgroundService(int delay, String taskId) async {
     try {
-      final result = await AXSBackgroundFetch.startBackgroundProcess(
-          taskId: minerAutoClaimTaskTaskId);
+      final result =
+          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
       if (!result) return result;
 
       final scheduleState =
           await bgFetch.BackgroundFetch.scheduleTask(bgFetch.TaskConfig(
-        taskId: BackgroundExecutionConfig.minerAutoClaimTask,
+        taskId: taskId,
         delay: delay * 60 * 1000,
         periodic: false,
         requiresNetworkConnectivity: true,
@@ -374,6 +434,17 @@ class DAppHooksUseCase extends ReactiveUseCase {
       return false;
     }
   }
+
+  // delay is in minutes
+  Future<bool> startBlueberryAutoSyncService(int delay) async {
+    return await startOneTimeBackgroundService(delay, blueberryAutoSyncTask);
+  }
+
+  // delay is in minutes
+  Future<bool> startAutoClaimService(int delay) async {
+    return await startOneTimeBackgroundService(delay, minerAutoClaimTaskTaskId);
+  }
+
   Future<int> stopBlueberryAutoSyncService({required bool turnOffAll}) async {
     return await AXSBackgroundFetch.stopServices(
         taskId: blueberryAutoSyncTask, turnOffAll: turnOffAll);
@@ -401,7 +472,6 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime minerAutoClaimTime}) async {
     try {
-      
       AXSNotification()
           .showNotification(cTranslate('auto_claim_started'), null);
 
@@ -434,6 +504,48 @@ class DAppHooksUseCase extends ReactiveUseCase {
     } catch (e) {
       _errorUseCase.handleBackgroundServiceError(
           cTranslate('auto_claim_failed'), e);
+    }
+  }
+
+  // List of miners
+  Future<void> syncBlueberryRing(
+      {required List<String> selectedMinerListId,
+      required Account account,
+      required DateTime minerAutoClaimTime}) async {
+    try {
+      AXSNotification().showNotification(cTranslate('auto_sync_started'), null);
+
+      if (selectedMinerListId.isEmpty) {
+        AXSNotification().showNotification(
+          cTranslate('no_rings_selected_notification_title'),
+          cTranslate('no_rings_selected_notification_text'),
+        );
+      } else {
+        final ableToClaim = await _minerUseCase.claimMinersReward(
+            selectedMinerListId: selectedMinerListId,
+            account: account,
+            showNotification: AXSNotification().showLowPriorityNotification,
+            translate: cTranslate);
+
+        if (ableToClaim) {
+          AXSNotification().showNotification(
+            cTranslate('auto_sync_successful_notification_title'),
+            cTranslate('auto_sync_successful_notification_text'),
+          );
+        } else {
+          AXSNotification().showNotification(
+            cTranslate('already_synced_notification_title'),
+            cTranslate('already_synced_notification_text'),
+          );
+        }
+        // Updating now date time + 1 day to set the timer for tomorrow
+        updateAutoClaimTime(minerAutoClaimTime);
+      }
+    } catch (e) {
+      _errorUseCase.handleBackgroundServiceError(
+        cTranslate('auto_sync_failed'),
+        e,
+      );
     }
   }
 
