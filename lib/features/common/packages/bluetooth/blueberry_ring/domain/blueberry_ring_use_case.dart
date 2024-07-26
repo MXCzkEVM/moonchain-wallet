@@ -56,6 +56,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     _bluetoothUseCase.startScanning(
       withServices: [bluetoothServiceUUID],
       // withNames: ['Mi Smart Band 4'],
+      withNames: ['2301']
+      
     );
 
     await Future.delayed(const Duration(seconds: 2), () async {
