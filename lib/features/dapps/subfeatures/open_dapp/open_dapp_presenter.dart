@@ -740,7 +740,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerConnect(
       Map<String, dynamic> data) async {
     collectLog('handleBluetoothRemoteGATTServerConnect : $data');
-    await state.selectedScanResult?.device.connect();
+    
+    await _bluetoothUseCase.connectionHandler(state.selectedScanResult!.device);
 
     return BluetoothRemoteGATTServer(
             device: BluetoothDevice.getBluetoothDeviceFromScanResult(
