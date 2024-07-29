@@ -101,7 +101,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   }
 
   Future<void> connectToBlueberryRing() async {
-    await selectedBlueberryRing.value!.device.connect();
+    await _bluetoothUseCase.connectionHandler(selectedBlueberryRing.value!.device);
   }
 
   Future<BluetoothService> getBlueberryRingBluetoothService() async {
@@ -126,7 +126,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         'checkEstablishment:isBlueberryRingConnected $isBlueberryRingConnected');
 
     if (!isBlueberryRingConnected) {
-      await selectedBlueberryRing.value?.device.connect();
+      await _bluetoothUseCase.connectionHandler(selectedBlueberryRing.value!.device); 
       isBlueberryRingConnected =
           selectedBlueberryRing.value?.device.isConnected ?? false;
       if (!isBlueberryRingConnected) {

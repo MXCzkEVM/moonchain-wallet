@@ -146,6 +146,31 @@ class BluetoothUseCase extends ReactiveUseCase {
     }
   }
 
+  Future<void> connectionHandler(BluetoothDevice device) async {
+    int attempts = 0;
+    const maxAttempts = 4;
+    while (attempts < maxAttempts) {
+      try {
+        print('Attempt ${attempts + 1} to connect to device...');
+        await device.connect();
+        print('Connected to device successfully.');
+        break; // Exit the loop if the connection is successful
+      } catch (e) {
+        if (e is FlutterBluePlusException && e.function == 'connect') {
+          attempts++;
+          print('Failed to connect. Attempt $attempts of $maxAttempts.');
+          if (attempts >= maxAttempts) {
+            print('Max attempts reached. Could not connect to device.');
+            break;
+          }
+        } else {
+          print('Unexpected error: $e');
+          break; // Exit on unexpected errors
+        }
+      }
+    }
+  }
+
   void startScanning({
     List<Guid>? withServices,
     List<String>? withRemoteIds,
