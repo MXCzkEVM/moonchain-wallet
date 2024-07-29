@@ -60,7 +60,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       withKeywords: ['2301'],
     );
 
-    await Future.delayed(const Duration(seconds: 2), () async {
+    await Future.delayed(const Duration(seconds: 4), () async {
       final scanResults = _bluetoothUseCase.scanResults.value;
       if (scanResults.isNotEmpty) {
         // only one scan results
@@ -166,9 +166,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readLevel();
         collectLog('readLevel:command $command');
         blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty && element.first == command.first);
         collectLog('readLevel:value $value');
-        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readLevel(Uint8List.fromList(value!));
       },
     );
@@ -180,9 +179,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readVersion();
         collectLog('readVersion:command $command');
         blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty && element.first == command.first);
         collectLog('readVersion:value $value');
-        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readVersion(Uint8List.fromList(value!));
       },
     );
@@ -194,9 +192,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readTime();
         collectLog('readTime:command $command');
         blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty && element.first == command.first);
         collectLog('readTime:value $value');
-        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readTime(Uint8List.fromList(value!));
       },
     );
@@ -208,9 +205,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readSleep();
         collectLog('readSleep:command $command');
         blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty && element.first == command.first);
         collectLog('readSleep:value $value');
-        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readSleep(Uint8List.fromList(value!));
       },
     );
@@ -222,9 +218,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readBloodOxygens();
         collectLog('readBloodOxygens:command $command');
         blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty && element.first == command.first);
         collectLog('readBloodOxygens:value $value');
-        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readBloodOxygens(Uint8List.fromList(value!));
       },
     );
@@ -236,9 +231,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readSteps();
         collectLog('readSteps:command $command');
         blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty && element.first == command.first);
         collectLog('readSteps:value $value');
-        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readSteps(Uint8List.fromList(value!));
       },
     );
@@ -250,9 +244,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readHeartRates();
         collectLog('readHeartRate:command $command');
         blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.firstWhere((element) => element.isNotEmpty && element.first == command.first);
         collectLog('readHeartRate:value $value');
-        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readHeartRates(Uint8List.fromList(value!));
       },
     );
