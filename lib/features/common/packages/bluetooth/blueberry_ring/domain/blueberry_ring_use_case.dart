@@ -33,7 +33,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   late final ValueStream<BluetoothCharacteristic?> blueberryRingCharacteristic =
       reactive(null);
   late final ValueStream<BluetoothCharacteristic?>
-      blueberryRinCharacteristicNotifications = reactive(null);
+      blueberryRingNotificationsCharacteristic = reactive(null);
 
   late final ValueStream<BluetoothAdapterState> bluetoothStatus =
       reactive(BluetoothAdapterState.off);
@@ -142,6 +142,21 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       await getBlueberryRingCharacteristic();
     }
 
+    final isBlueberryRingNotificationsCharacteristicAvailable =
+        blueberryRingNotificationsCharacteristic.hasValue;
+    collectLog(
+        'checkEstablishment:isBlueberryRingNotificationsCharacteristicAvailable $isBlueberryRingNotificationsCharacteristicAvailable');
+    if (!isBlueberryRingNotificationsCharacteristicAvailable) {
+      await getBlueberryRingNotificationsCharacteristic();
+    }
+
+    final isNotifying = blueberryRingNotificationsCharacteristic.value!.isNotifying;
+    collectLog(
+        'checkEstablishment:isBlueberryRingNotificationsCharacteristicNotifiying $isNotifying');
+    if (!isNotifying) {
+      blueberryRingNotificationsCharacteristic.value!.setNotifyValue(true);
+    }
+
     return await func();
   }
 
@@ -150,9 +165,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       () async {
         final command = BlueberryCommands.readLevel();
         collectLog('readLevel:command $command');
-        await blueberryRingCharacteristic.value?.write(command);
-        final value = blueberryRingCharacteristic.value?.lastValue;
+        blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.first;
         collectLog('readLevel:value $value');
+        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readLevel(Uint8List.fromList(value!));
       },
     );
@@ -163,9 +179,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       () async {
         final command = BlueberryCommands.readVersion();
         collectLog('readVersion:command $command');
-        await blueberryRingCharacteristic.value?.write(command);
-        final value = blueberryRingCharacteristic.value?.lastValue;
+        blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.first;
         collectLog('readVersion:value $value');
+        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readVersion(Uint8List.fromList(value!));
       },
     );
@@ -176,9 +193,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       () async {
         final command = BlueberryCommands.readTime();
         collectLog('readTime:command $command');
-        await blueberryRingCharacteristic.value?.write(command);
-        final value = blueberryRingCharacteristic.value?.lastValue;
+        blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.first;
         collectLog('readTime:value $value');
+        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readTime(Uint8List.fromList(value!));
       },
     );
@@ -189,9 +207,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       () async {
         final command = BlueberryCommands.readSleep();
         collectLog('readSleep:command $command');
-        await blueberryRingCharacteristic.value?.write(command);
-        final value = blueberryRingCharacteristic.value?.lastValue;
+        blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.first;
         collectLog('readSleep:value $value');
+        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readSleep(Uint8List.fromList(value!));
       },
     );
@@ -202,9 +221,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       () async {
         final command = BlueberryCommands.readBloodOxygens();
         collectLog('readBloodOxygens:command $command');
-        await blueberryRingCharacteristic.value?.write(command);
-        final value = blueberryRingCharacteristic.value?.lastValue;
+        blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.first;
         collectLog('readBloodOxygens:value $value');
+        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readBloodOxygens(Uint8List.fromList(value!));
       },
     );
@@ -215,9 +235,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       () async {
         final command = BlueberryCommands.readSteps();
         collectLog('readSteps:command $command');
-        await blueberryRingCharacteristic.value?.write(command);
-        final value = blueberryRingCharacteristic.value?.lastValue;
+        blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.first;
         collectLog('readSteps:value $value');
+        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readSteps(Uint8List.fromList(value!));
       },
     );
@@ -228,9 +249,10 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       () async {
         final command = BlueberryCommands.readHeartRates();
         collectLog('readHeartRate:command $command');
-        await blueberryRingCharacteristic.value?.write(command);
-        final value = blueberryRingCharacteristic.value?.lastValue;
+        blueberryRingCharacteristic.value?.write(command);
+        final value = await blueberryRingNotificationsCharacteristic.value?.lastValueStream.first;
         collectLog('readHeartRate:value $value');
+        collectLog('readLevel:lastValue ${blueberryRingNotificationsCharacteristic.value!.lastValue}');
         return BlueberryResolves.readHeartRates(Uint8List.fromList(value!));
       },
     );
@@ -244,22 +266,31 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return resp;
   }
 
-  Future<BluetoothCharacteristic>
-      getBlueberryRingCharacteristicNotifications() async {
+
+  Future<BluetoothCharacteristic> getBlueberryRingNotificationsCharacteristic() async {
     final service = await getBlueberryRingBluetoothService();
     final resp = await _getBlueberryRingCharacteristic(
         service, bluetoothCharacteristicNotificationUUID);
-    update(blueberryRinCharacteristicNotifications, resp);
+    update(blueberryRingNotificationsCharacteristic, resp);
     return resp;
   }
 
-  Future<void> startBlueberryRingCharacteristicNotifications() async {
-    final characteristicNotifications =
-        await getBlueberryRingCharacteristicNotifications();
-    await characteristicNotifications.setNotifyValue(true);
-    characteristicNotifications.onValueReceived.listen((event) {});
-    final value = characteristicNotifications.read();
-  }
+  // Future<BluetoothCharacteristic>
+  //     getBlueberryRingCharacteristicNotifications() async {
+  //   final service = await getBlueberryRingBluetoothService();
+  //   final resp = await _getBlueberryRingCharacteristic(
+  //       service, bluetoothCharacteristicNotificationUUID);
+  //   update(blueberryRinNotificationsCharacteristic, resp);
+  //   return resp;
+  // }
+
+  // Future<void> startBlueberryRingCharacteristicNotifications() async {
+  //   final characteristicNotifications =
+  //       await getBlueberryRingCharacteristicNotifications();
+  //   await characteristicNotifications.setNotifyValue(true);
+  //   characteristicNotifications.lastValueStream.listen((event) {});
+  //   final value = characteristicNotifications.read();
+  // }
 
   Future<BluetoothService> _getBlueberryRingPrimaryService(
     Guid serviceUUID,
