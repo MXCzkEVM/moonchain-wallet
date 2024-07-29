@@ -151,7 +151,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readLevel();
         collectLog('readLevel:command $command');
         await blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingCharacteristic.value?.read();
+        final value = blueberryRingCharacteristic.value?.lastValue;
         collectLog('readLevel:value $value');
         return BlueberryResolves.readLevel(Uint8List.fromList(value!));
       },
@@ -164,7 +164,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readVersion();
         collectLog('readVersion:command $command');
         await blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingCharacteristic.value?.read();
+        final value = blueberryRingCharacteristic.value?.lastValue;
         collectLog('readVersion:value $value');
         return BlueberryResolves.readVersion(Uint8List.fromList(value!));
       },
@@ -177,7 +177,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readTime();
         collectLog('readTime:command $command');
         await blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingCharacteristic.value?.read();
+        final value = blueberryRingCharacteristic.value?.lastValue;
         collectLog('readTime:value $value');
         return BlueberryResolves.readTime(Uint8List.fromList(value!));
       },
@@ -190,7 +190,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readSleep();
         collectLog('readSleep:command $command');
         await blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingCharacteristic.value?.read();
+        final value = blueberryRingCharacteristic.value?.lastValue;
         collectLog('readSleep:value $value');
         return BlueberryResolves.readSleep(Uint8List.fromList(value!));
       },
@@ -203,7 +203,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readBloodOxygens();
         collectLog('readBloodOxygens:command $command');
         await blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingCharacteristic.value?.read();
+        final value = blueberryRingCharacteristic.value?.lastValue;
         collectLog('readBloodOxygens:value $value');
         return BlueberryResolves.readBloodOxygens(Uint8List.fromList(value!));
       },
@@ -216,7 +216,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readSteps();
         collectLog('readSteps:command $command');
         await blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingCharacteristic.value?.read();
+        final value = blueberryRingCharacteristic.value?.lastValue;
         collectLog('readSteps:value $value');
         return BlueberryResolves.readSteps(Uint8List.fromList(value!));
       },
@@ -229,7 +229,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final command = BlueberryCommands.readHeartRates();
         collectLog('readHeartRate:command $command');
         await blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingCharacteristic.value?.read();
+        final value = blueberryRingCharacteristic.value?.lastValue;
         collectLog('readHeartRate:value $value');
         return BlueberryResolves.readHeartRates(Uint8List.fromList(value!));
       },
