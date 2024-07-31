@@ -38,11 +38,6 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   late final ValueStream<BluetoothAdapterState> bluetoothStatus =
       reactive(BluetoothAdapterState.off);
 
-  //   if (state.selectedScanResult != null) {
-  //   responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
-  //       state.selectedScanResult!);
-  // }
-
   void initBlueberryRingSelectedActions() {
     selectedBlueberryRing.listen((event) {
       if (event != null) {
@@ -52,7 +47,6 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   }
 
   Future<void> getBlueberryRingBackground() async {
-    // if (bluetoothStatus.value == BluetoothAdapterState.off || bluetoothStatus.value = BluetoothAdapterState.unauthorized)
     _bluetoothUseCase.startScanning(
       withServices: [bluetoothServiceUUID],
       // withNames: ['Mi Smart Band 4'],
@@ -163,18 +157,16 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     return await func();
   }
 
-  Future<int> readLevel() async {
-    return checkEstablishment<int>(
+  Future<T> readData<T>(Uint8List Function() getCommandFunc, String dataName,
+      T Function(Uint8List) resolveData) async {
+    return checkEstablishment<T>(
       () async {
-        final command = BlueberryCommands.readLevel();
-        collectLog('readLevel:command $command');
+        final command = getCommandFunc();
+        collectLog('read$dataName:command $command');
 
         // Prepare to listen for the response before writing
-        final Stream<List<int>>? stream =
-            blueberryRingNotificationsCharacteristic.value?.lastValueStream;
-        if (stream == null) {
-          throw Exception('Value stream is not available.');
-        }
+        final Stream<List<int>> stream =
+            blueberryRingNotificationsCharacteristic.value!.lastValueStream;
 
         // Create a completer to handle the response
         final Completer<List<int>> completer = Completer<List<int>>();
@@ -183,7 +175,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         final StreamSubscription<List<int>> subscription =
             stream.listen((element) {
           if (element.isNotEmpty && element.first == command.first) {
-            collectLog('readLevel:value $element');
+            collectLog('read$dataName:value $element');
             if (!completer.isCompleted) {
               completer.complete(element);
             }
@@ -198,107 +190,35 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         // Cancel the subscription to avoid memory leaks
         await subscription.cancel();
 
-        collectLog('readLevel:value $value');
-        return BlueberryResolves.readLevel(Uint8List.fromList(value));
+        collectLog('read$dataName:value $value');
+        return resolveData(Uint8List.fromList(value));
       },
     );
   }
 
-  Future<String> readVersion() async {
-    return checkEstablishment<String>(
-      () async {
-        final command = BlueberryCommands.readVersion();
-        collectLog('readVersion:command $command');
-        blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic
-            .value?.lastValueStream
-            .firstWhere((element) =>
-                element.isNotEmpty && element.first == command.first);
-        collectLog('readVersion:value $value');
-        return BlueberryResolves.readVersion(Uint8List.fromList(value!));
-      },
-    );
-  }
+  Future<int> readLevel() async => readData<int>(
+      BlueberryCommands.readLevel, 'Level', BlueberryResolves.readLevel);
 
-  Future<Uint8List> readTime() async {
-    return checkEstablishment<Uint8List>(
-      () async {
-        final command = BlueberryCommands.readTime();
-        collectLog('readTime:command $command');
-        blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic
-            .value?.lastValueStream
-            .firstWhere((element) =>
-                element.isNotEmpty && element.first == command.first);
-        collectLog('readTime:value $value');
-        return BlueberryResolves.readTime(Uint8List.fromList(value!));
-      },
-    );
-  }
+  Future<String> readVersion() async => readData<String>(
+      BlueberryCommands.readVersion, 'Version', BlueberryResolves.readVersion);
 
-  Future<List<PeriodicSleepData>> readSleep() async {
-    return checkEstablishment<List<PeriodicSleepData>>(
-      () async {
-        final command = BlueberryCommands.readSleep();
-        collectLog('readSleep:command $command');
-        blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic
-            .value?.lastValueStream
-            .firstWhere((element) =>
-                element.isNotEmpty && element.first == command.first);
-        collectLog('readSleep:value $value');
-        return BlueberryResolves.readSleep(Uint8List.fromList(value!));
-      },
-    );
-  }
+  Future<Uint8List> readTime() async => readData<Uint8List>(
+      BlueberryCommands.readTime, 'Time', BlueberryResolves.readTime);
 
-  Future<List<BloodOxygensData>> readBloodOxygens() async {
-    return checkEstablishment<List<BloodOxygensData>>(
-      () async {
-        final command = BlueberryCommands.readBloodOxygens();
-        collectLog('readBloodOxygens:command $command');
-        blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic
-            .value?.lastValueStream
-            .firstWhere((element) =>
-                element.isNotEmpty && element.first == command.first);
-        collectLog('readBloodOxygens:value $value');
-        return BlueberryResolves.readBloodOxygens(Uint8List.fromList(value!));
-      },
-    );
-  }
+  Future<List<PeriodicSleepData>> readSleep() async =>
+      readData<List<PeriodicSleepData>>(
+          BlueberryCommands.readSleep, 'Sleep', BlueberryResolves.readSleep);
 
-  Future<List<StepsData>> readSteps() async {
-    return checkEstablishment<List<StepsData>>(
-      () async {
-        final command = BlueberryCommands.readSteps();
-        collectLog('readSteps:command $command');
-        blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic
-            .value?.lastValueStream
-            .firstWhere((element) =>
-                element.isNotEmpty && element.first == command.first);
-        collectLog('readSteps:value $value');
-        return BlueberryResolves.readSteps(Uint8List.fromList(value!));
-      },
-    );
-  }
+  Future<List<BloodOxygensData>> readBloodOxygens() async =>
+      readData<List<BloodOxygensData>>(BlueberryCommands.readBloodOxygens,
+          'BloodOxygens', BlueberryResolves.readBloodOxygens);
 
-  Future<List<HeartRateData>> readHeartRate() async {
-    return checkEstablishment<List<HeartRateData>>(
-      () async {
-        final command = BlueberryCommands.readHeartRates();
-        collectLog('readHeartRate:command $command');
-        blueberryRingCharacteristic.value?.write(command);
-        final value = await blueberryRingNotificationsCharacteristic
-            .value?.lastValueStream
-            .firstWhere((element) =>
-                element.isNotEmpty && element.first == command.first);
-        collectLog('readHeartRate:value $value');
-        return BlueberryResolves.readHeartRates(Uint8List.fromList(value!));
-      },
-    );
-  }
+  Future<List<StepsData>> readSteps() async => readData<List<StepsData>>(
+      BlueberryCommands.readSteps, 'Steps', BlueberryResolves.readSteps);
+
+  Future<List<HeartRateData>> readHeartRate() async =>
+      readData<List<HeartRateData>>(BlueberryCommands.readHeartRates,
+          'HeartRate', BlueberryResolves.readHeartRates);
 
   Future<BluetoothCharacteristic> getBlueberryRingCharacteristic() async {
     final service = await getBlueberryRingBluetoothService();
@@ -316,15 +236,6 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     update(blueberryRingNotificationsCharacteristic, resp);
     return resp;
   }
-
-  // Future<BluetoothCharacteristic>
-  //     getBlueberryRingCharacteristicNotifications() async {
-  //   final service = await getBlueberryRingBluetoothService();
-  //   final resp = await _getBlueberryRingCharacteristic(
-  //       service, bluetoothCharacteristicNotificationUUID);
-  //   update(blueberryRinNotificationsCharacteristic, resp);
-  //   return resp;
-  // }
 
   // Future<void> startBlueberryRingCharacteristicNotifications() async {
   //   final characteristicNotifications =
