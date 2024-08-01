@@ -158,7 +158,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   }
 
   Future<T> readData<T>(Uint8List Function() getCommandFunc, String dataName,
-      T Function(Uint8List) resolveData) async {
+      T Function(Uint8List) resolveData, bool isFrag) async {
     return checkEstablishment<T>(
       () async {
         final command = getCommandFunc();
@@ -171,13 +171,29 @@ class BlueberryRingUseCase extends ReactiveUseCase {
         // Create a completer to handle the response
         final Completer<List<int>> completer = Completer<List<int>>();
 
+        Timer? timer;
+        List<int> data = [];
+
         // Subscribe to the stream and filter for the specific command
         final StreamSubscription<List<int>> subscription =
             stream.listen((element) {
           if (element.isNotEmpty && element.first == command.first) {
+            timer?.cancel();
             collectLog('read$dataName:value $element');
-            if (!completer.isCompleted) {
-              completer.complete(element);
+            data.addAll(element);
+            collectLog('read$dataName:value $data');
+
+            if (!completer.isCompleted && !isFrag) {
+              completer.complete(data);
+            } else if (!completer.isCompleted &&
+                isFrag &&
+                element.last == 255) {
+              completer.complete(data);
+            } else {
+              timer = Timer(
+                const Duration(milliseconds: 5000),
+                () => completer.complete(data),
+              );
             }
           }
         });
@@ -196,29 +212,44 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     );
   }
 
-  Future<int> readLevel() async => readData<int>(
-      BlueberryCommands.readLevel, 'Level', BlueberryResolves.readLevel);
+  Future<int> readLevel() async => readData<int>(BlueberryCommands.readLevel,
+      'Level', BlueberryResolves.readLevel, BlueberryMethods.readLevel.frag);
 
   Future<String> readVersion() async => readData<String>(
-      BlueberryCommands.readVersion, 'Version', BlueberryResolves.readVersion);
+      BlueberryCommands.readVersion,
+      'Version',
+      BlueberryResolves.readVersion,
+      BlueberryMethods.readVersion.frag);
 
   Future<Uint8List> readTime() async => readData<Uint8List>(
-      BlueberryCommands.readTime, 'Time', BlueberryResolves.readTime);
+      BlueberryCommands.readTime,
+      'Time',
+      BlueberryResolves.readTime,
+      BlueberryMethods.readTime.frag);
 
   Future<List<PeriodicSleepData>> readSleep() async =>
-      readData<List<PeriodicSleepData>>(
-          BlueberryCommands.readSleep, 'Sleep', BlueberryResolves.readSleep);
+      readData<List<PeriodicSleepData>>(BlueberryCommands.readSleep, 'Sleep',
+          BlueberryResolves.readSleep, BlueberryMethods.readSleep.frag);
 
   Future<List<BloodOxygensData>> readBloodOxygens() async =>
-      readData<List<BloodOxygensData>>(BlueberryCommands.readBloodOxygens,
-          'BloodOxygens', BlueberryResolves.readBloodOxygens);
+      readData<List<BloodOxygensData>>(
+          BlueberryCommands.readBloodOxygens,
+          'BloodOxygens',
+          BlueberryResolves.readBloodOxygens,
+          BlueberryMethods.readBloodOxygens.frag);
 
   Future<List<StepsData>> readSteps() async => readData<List<StepsData>>(
-      BlueberryCommands.readSteps, 'Steps', BlueberryResolves.readSteps);
+      BlueberryCommands.readSteps,
+      'Steps',
+      BlueberryResolves.readSteps,
+      BlueberryMethods.readSteps.frag);
 
   Future<List<HeartRateData>> readHeartRate() async =>
-      readData<List<HeartRateData>>(BlueberryCommands.readHeartRates,
-          'HeartRate', BlueberryResolves.readHeartRates);
+      readData<List<HeartRateData>>(
+          BlueberryCommands.readHeartRates,
+          'HeartRate',
+          BlueberryResolves.readHeartRates,
+          BlueberryMethods.readHeartRates.frag);
 
   Future<BluetoothCharacteristic> getBlueberryRingCharacteristic() async {
     final service = await getBlueberryRingBluetoothService();
