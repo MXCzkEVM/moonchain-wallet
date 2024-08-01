@@ -15,11 +15,11 @@ class GetMappings {
 class BlueberryMethods {
   static final readLevel = Method(uid: 0x13, arg: [1]);
   static final readVersion = Method(uid: 0x27);
-  static final readSteps = Method(uid: 0x52, arg: [1]);
   static final readTime = Method(uid: 0x41);
-  static final readSleep = Method(uid: 0x53, arg: [1, 2, 3]);
-  static final readHeartRates = Method(uid: 0x55, arg: [1, 2, 3]);
-  static final readBloodOxygens = Method(uid: 0x66, arg: [1, 2, 3]);
+  static final readSteps = Method(uid: 0x52, arg: [1], frag: true);
+  static final readSleep = Method(uid: 0x53, arg: [1, 2, 3], frag: true);
+  static final readHeartRates = Method(uid: 0x55, arg: [1, 2, 3], frag: true);
+  static final readBloodOxygens = Method(uid: 0x66, arg: [1, 2, 3], frag: true);
   static final writeTime = Method(uid: 0x01, arg: [1, 2, 3, 4, 5, 6]);
   static final writeRestore = Method(uid: 0x12, arg: []);
 }
