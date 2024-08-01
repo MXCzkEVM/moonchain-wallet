@@ -3,8 +3,9 @@ import 'dart:typed_data';
 class Method {
   final int uid;
   final List<int>? arg;
+  final bool frag;
 
-  Method({required this.uid, this.arg});
+  Method({required this.uid, this.arg, this.frag = false});
 }
 
 class BlueberryCommandsUtils {
