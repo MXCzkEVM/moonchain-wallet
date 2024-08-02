@@ -24,7 +24,8 @@ class BlueberryCommandsUtils {
   static List<List<T>> splitArrayByLength<T>(List<T> arr, int length) {
     List<List<T>> result = [];
     for (int i = 0; i < arr.length; i += length) {
-      result.add(arr.sublist(i, i + length));
+      int end = (i + length < arr.length) ? i + length : arr.length;
+      result.add(arr.sublist(i, end));
     }
     return result;
   }
