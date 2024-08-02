@@ -179,9 +179,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
             stream.listen((element) {
           if (element.isNotEmpty && element.first == command.first) {
             timer?.cancel();
-            collectLog('read$dataName:value $element');
+            collectLog('read$dataName:element $element');
             data.addAll(element);
-            collectLog('read$dataName:value $data');
 
             if (!completer.isCompleted && !isFrag) {
               completer.complete(data);
