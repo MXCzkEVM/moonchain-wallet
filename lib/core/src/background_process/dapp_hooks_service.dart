@@ -91,7 +91,7 @@ class DAppHooksService {
     }
   }
 
-    static void blueberryAutoSyncServiceCallBackDispatcherForeground(
+  static void blueberryAutoSyncServiceCallBackDispatcherForeground(
       String taskId) async {
     try {
       await loadProviders();
@@ -113,18 +113,18 @@ class DAppHooksService {
       final isLoggedIn = authUseCase.loggedIn;
       final account = accountUseCase.account.value;
       // final serviceEnabled = dappHooksData.enabled;
-      final minerHooksEnabled = dappHooksData.minerHooks.enabled;
-      final minerHooksTime = dappHooksData.minerHooks.time;
-      final selectedMiners = dappHooksData.minerHooks.selectedMiners;
+      final autoSyncEnabled = dappHooksData.blueberryRingHooks.enabled;
+      final ringHooksTime = dappHooksData.blueberryRingHooks.time;
+      final selectedRings = dappHooksData.blueberryRingHooks.selectedRings;
       // Make sure user is logged in
-      if (isLoggedIn && MXCChains.isMXCChains(chainId) && minerHooksEnabled) {
+      if (isLoggedIn && MXCChains.isMXCChains(chainId) && autoSyncEnabled) {
         await AXSNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
 
-        await dAppHooksUseCase.executeMinerAutoClaim(
+        await dAppHooksUseCase.syncBlueberryRingSync(
             account: account!,
-            selectedMinerListId: selectedMiners,
-            minerAutoClaimTime: minerHooksTime);
+            selectedRingsListId: selectedRings,
+            ringAutoSyncTime: ringHooksTime);
         BackgroundFetch.finish(taskId);
       } else {
         // terminate background fetch

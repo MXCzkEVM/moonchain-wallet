@@ -8,8 +8,8 @@ import 'package:datadashwallet/features/settings/subfeatures/chain_configuration
 
 import '../../../../../../app/logger.dart';
 
-class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
-  BlueberryRingBackgroundNotificationsUseCase(
+class BlueberryRingBackgroundSyncUseCase extends ReactiveUseCase {
+  BlueberryRingBackgroundSyncUseCase(
       this._repository,
       this._chainConfigurationUseCase,
       this._bluetoothUseCase,
@@ -30,8 +30,8 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
       _contextLessTranslationUseCase.translate(key);
 
 
-  Future<void> sendSyncTransaction({
-    required BlueberryRingMiner ring,
+  Future<bool> syncRings({
+    required List<String> selectedRingsListId,
     required Account account,
     required void Function(String title, String? text) showNotification,
     required String Function(
@@ -39,7 +39,26 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     )
         translate,
   }) async {
+                 // Get miner from cache 
+        // for (String ring in selectedRings) { 
+          
+        // }
     // Get rings list 
+        // Get the data from contract 
+//         async function arrayFilterDate<T>(array: T[], date?: number) {
+//   if (!date)
+//     return array
+//   return array.filter((item: any) => item.date > (date || 0)) as T[]
+//    }
+// arrayFilterDate(arr, detail.steps.at(-1)?.date)
+// List<T> arrayFilterDate<T>(List<T> array, {int? date}) {
+//   if (date == null) return array;
+  
+//   return array.where((item) {
+//     var itemDate = (item as dynamic).date; // Use 'dynamic' to access the 'date' property
+//     return itemDate > (date ?? 0);
+//   }).toList();
+// }
 
     // showNotification(
     //   translate('no_token_to_claim_miner')
@@ -51,26 +70,28 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
   // already_synced_ring
   // data_synced_successfully_ring
   // data_syncing_failed
-    final memo = await fetchRingData();
+    // final memo = await fetchRingData();
 
-    final postClaimRequest = PostClaimRequestModel(
-      sncode: ring.sncode,
-      sender: account.address,
-    );
-    final postClaimResponse = await _repository.blueberryRingRepository.postClaim(
-      postClaimRequest,
-    );
-
-    final txSig = await _repository.blueberryRingRepository.sendSyncTransaction(account.privateKey, ring, postClaimResponse, memo);
-
-    // showNotification(
-    //   translate('no_token_to_claim_miner')
-    //       .replaceFirst('{0}', miner.mep1004TokenId!),
-    //   null,
+    // final postClaimRequest = PostClaimRequestModel(
+    //   sncode: ring.sncode,
+    //   sender: account.address,
+    // );
+    // final postClaimResponse = await _repository.blueberryRingRepository.postClaim(
+    //   postClaimRequest,
     // );
 
+    // final txSig = await _repository.blueberryRingRepository.sendSyncTransaction(account.privateKey, ring, postClaimResponse, memo);
 
+    // // showNotification(
+    // //   translate('no_token_to_claim_miner')
+    // //       .replaceFirst('{0}', miner.mep1004TokenId!),
+    // //   null,
+    // // );
+
+    return true;
   }
+
+  Future<void> syncRing(BlueberryRingMiner ring) async{}
 
 
   Future<String> fetchRingData() async {
