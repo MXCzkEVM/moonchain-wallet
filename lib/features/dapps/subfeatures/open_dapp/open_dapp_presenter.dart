@@ -165,6 +165,21 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return res.hash;
   }
 
+  String? _signMessage(
+    String hexData,
+  ) {
+    loading = true;
+    try {
+      final res = _tokenContractUseCase.signMessage(
+          privateKey: state.account!.privateKey, message: hexData);
+      return res;
+    } catch (e, s) {
+      addError(e, s);
+    } finally {
+      loading = false;
+    }
+  }
+
   String? _signTypedMessage(
     String hexData,
   ) {
@@ -409,6 +424,38 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void signPersonalMessage() {}
+
+  void signMessage({
+    required Map<String, dynamic> object,
+    required VoidCallback cancel,
+    required Function(String hash) success,
+  }) async {
+    final hexData = object['data'] as String;
+    String message = MXCType.hexToString(hexData);
+    int chainId = state.network!.chainId;
+    String name = state.network!.symbol;
+
+    try {
+      final result = await showSignMessageDialog(
+        context!,
+        title: translate('signature_request')!,
+        message: message,
+        networkName: '$name ($chainId)',
+      );
+
+      if (result != null && result) {
+        final hash = _signMessage(
+          hexData,
+        );
+        if (hash != null) success.call(hash);
+      } else {
+        cancel.call();
+      }
+    } catch (e, s) {
+      cancel.call();
+      addError(e, s);
+    }
+  }
 
   void signTypedMessage({
     required Map<String, dynamic> object,
@@ -740,7 +787,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerConnect(
       Map<String, dynamic> data) async {
     collectLog('handleBluetoothRemoteGATTServerConnect : $data');
-    
     await _bluetoothUseCase.connectionHandler(state.selectedScanResult!.device);
 
     return BluetoothRemoteGATTServer(
