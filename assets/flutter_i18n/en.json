@@ -447,5 +447,6 @@
 	"already_synced_ring": "Blueberry Ring #{0}: Already synced. ℹ️",
 	"data_synced_successfully_ring": "Blueberry Ring #{0}: Data synced successfully. ✅",
 	"data_syncing_failed": "Blueberry Ring #{0}: Data syncing process failed. ❌",
-	"blueberry_hooks": "Blueberry hooks"
+	"blueberry_hooks": "Blueberry hooks",
+	"message": "Message"
 }

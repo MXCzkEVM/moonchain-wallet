@@ -18,13 +18,15 @@ import 'dapp_hooks_repository.dart';
 
 class DAppHooksUseCase extends ReactiveUseCase {
   DAppHooksUseCase(
-      this._repository,
-      this._chainConfigurationUseCase,
-      this._tokenContractUseCase,
-      this._minerUseCase,
-      this._accountUseCase,
-      this._errorUseCase,
-      this._contextLessTranslationUseCase) {
+    this._repository,
+    this._chainConfigurationUseCase,
+    this._tokenContractUseCase,
+    this._minerUseCase,
+    this._accountUseCase,
+    this._errorUseCase,
+    this._contextLessTranslationUseCase,
+    this._blueberryRingBackgroundSyncUseCase,
+  ) {
     initialize();
   }
 
@@ -35,6 +37,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
   final ErrorUseCase _errorUseCase;
   final MinerUseCase _minerUseCase;
   final ContextLessTranslationUseCase _contextLessTranslationUseCase;
+  final BlueberryRingBackgroundSyncUseCase _blueberryRingBackgroundSyncUseCase;
 
   // Context less translation, This should be only used for BG functions
   String cTranslate(String key) =>
@@ -371,14 +374,14 @@ class DAppHooksUseCase extends ReactiveUseCase {
   Future<bool> executeBlueberryAutoSync(
       {required Account account,
       required List<String> selectedMinerListId,
-      required DateTime minerAutoClaimTime}) async {
-    await claimMiners(
-      selectedMinerListId: dappHooksData.value.minerHooks.selectedMiners,
+      required DateTime ringAutoSyncTime}) async {
+    await syncBlueberryRingSync(
+      selectedRingsListId: dappHooksData.value.minerHooks.selectedMiners,
       account: account,
-      minerAutoClaimTime: minerAutoClaimTime,
+      ringAutoSyncTime: ringAutoSyncTime,
     );
     return await scheduleBlueberryAutoSyncTransaction(
-      minerAutoClaimTime,
+      ringAutoSyncTime,
     );
   }
 
@@ -508,21 +511,21 @@ class DAppHooksUseCase extends ReactiveUseCase {
   }
 
   // List of miners
-  Future<void> syncBlueberryRing(
-      {required List<String> selectedMinerListId,
+  Future<void> syncBlueberryRingSync(
+      {required List<String> selectedRingsListId,
       required Account account,
-      required DateTime minerAutoClaimTime}) async {
+      required DateTime ringAutoSyncTime}) async {
     try {
       AXSNotification().showNotification(cTranslate('auto_sync_started'), null);
 
-      if (selectedMinerListId.isEmpty) {
+      if (selectedRingsListId.isEmpty) {
         AXSNotification().showNotification(
           cTranslate('no_rings_selected_notification_title'),
           cTranslate('no_rings_selected_notification_text'),
         );
       } else {
-        final ableToClaim = await _minerUseCase.claimMinersReward(
-            selectedMinerListId: selectedMinerListId,
+        final ableToClaim = await _blueberryRingBackgroundSyncUseCase.syncRings(
+            selectedRingsListId: selectedRingsListId,
             account: account,
             showNotification: AXSNotification().showLowPriorityNotification,
             translate: cTranslate);
@@ -539,7 +542,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
           );
         }
         // Updating now date time + 1 day to set the timer for tomorrow
-        updateAutoClaimTime(minerAutoClaimTime);
+        updateAutoClaimTime(ringAutoSyncTime);
       }
     } catch (e) {
       _errorUseCase.handleBackgroundServiceError(
