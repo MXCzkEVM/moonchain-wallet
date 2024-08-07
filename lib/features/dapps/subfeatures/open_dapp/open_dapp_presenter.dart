@@ -1,26 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
+import 'package:flutter/services.dart';
+
 import 'package:clipboard/clipboard.dart';
-import 'package:collection/collection.dart';
+
 import 'package:datadashwallet/app/logger.dart';
 import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/domain/dapps_errors.dart';
-
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/widgets.dart';
-import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/dapp_hooks_page.dart';
 import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart' as blue_plus;
+
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
-import 'package:eth_sig_util/util/utils.dart';
 
-import './domain/entities/entities.dart';
-import 'open_dapp_state.dart';
+import 'open_dapp.dart';
 
 final openDAppPageContainer =
     PresenterContainer<OpenDAppPresenter, OpenDAppState>(
@@ -44,12 +36,64 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       ref.read(backgroundFetchConfigUseCaseProvider);
   late final _bluetoothUseCase = ref.read(bluetoothUseCaseProvider);
 
+  Timer? characteristicListenerTimer;
+  StreamSubscription<List<int>>? characteristicValueStreamSubscription;
+
   MinerHooksHelper get minerHooksHelper => MinerHooksHelper(
         translate: translate,
         context: context,
         dAppHooksUseCase: _dAppHooksUseCase,
         accountUseCase: _accountUseCase,
         backgroundFetchConfigUseCase: _backgroundFetchConfigUseCase,
+      );
+
+  JsChannelHandlersHelper get jsChannelHandlersHelper =>
+      JsChannelHandlersHelper(
+        translate: translate,
+        context: context,
+        state: state,
+        addError: addError,
+      );
+
+  CronHelper get cronHelper => CronHelper(
+        translate: translate,
+        context: context,
+        dAppHooksUseCase: _dAppHooksUseCase,
+        minerHooksHelper: minerHooksHelper,
+        navigator: navigator,
+        state: state,
+      );
+
+  BluetoothHelper get bluetoothHelper => BluetoothHelper(
+        translate: translate,
+        context: context,
+        collectLog: collectLog,
+        minerHooksHelper: minerHooksHelper,
+        navigator: navigator,
+        state: state,
+        loading: (bool value) => loading = value,
+        bluetoothUseCase: _bluetoothUseCase,
+        characteristicListenerTimer: characteristicListenerTimer,
+        characteristicValueStreamSubscription:
+            characteristicValueStreamSubscription,
+      );
+
+  CronListenersHelper get cronListenersHelper => CronListenersHelper(
+        context: context,
+        state: state,
+        cronHelper: cronHelper,
+        jsChannelHandlerHelper: jsChannelHandlersHelper,
+      );
+
+  BluetoothListenersHelper get bluetoothListenersHelper =>
+      BluetoothListenersHelper(
+        translate: translate,
+        context: context,
+        bluetoothHelper: bluetoothHelper,
+        minerHooksHelper: minerHooksHelper,
+        jsChannelHandlerHelper: jsChannelHandlersHelper,
+        navigator: navigator,
+        state: state,
       );
 
   @override
@@ -84,7 +128,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   @override
   Future<void> dispose() {
-    characteriticListnerTimer?.cancel();
+    cancelCharacteristicListenerTimer();
     closeBlueberryConnection();
     return super.dispose();
   }
@@ -97,8 +141,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void onWebViewCreated(InAppWebViewController controller) async {
     notify(() => state.webviewController = controller);
     updateCurrentUrl(null);
-    injectMinerDappListeners();
-    injectBluetoothListeners();
+    cronListenersHelper.injectMinerDappListeners();
+    bluetoothListenersHelper.injectBluetoothListeners();
   }
 
   void updateCurrentUrl(Uri? value) async {
@@ -237,7 +281,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }) async {
     final amountEther = EtherAmount.inWei(bridge.value ?? BigInt.zero);
     final amount = amountEther.getValueInUnit(EtherUnit.ether).toString();
-    final bridgeData = hexToBytes(bridge.data ?? '');
+    final bridgeData = MXCType.hexToUint8List(bridge.data ?? '');
     EtherAmount? gasPrice;
     double? gasFee;
     TransactionGasEstimation? estimatedGasFee;
@@ -423,8 +467,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return newNetwork;
   }
 
-  void signPersonalMessage() {}
-
+  /// This function is used for both sign message and sign personal message
   void signMessage({
     required Map<String, dynamic> object,
     required VoidCallback cancel,
@@ -600,11 +643,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     return NavigationActionPolicy.ALLOW;
   }
 
-  final double maxPanelHeight = 100.0;
-
-  final cancelDuration = const Duration(milliseconds: 400);
-  final settleDuration = const Duration(milliseconds: 400);
-
   injectScrollDetector() {
     state.webviewController!
         .evaluateJavascript(source: JSChannelScripts.overScrollScript);
@@ -621,34 +659,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
 
   Timer? panelTimer;
 
-  void showPanel() async {
-    final status = state.animationController!.status;
-    if (state.animationController!.value != 1 &&
-            status == AnimationStatus.completed ||
-        status == AnimationStatus.dismissed) {
-      await state.animationController!.animateTo(
-        1.0,
-        duration: settleDuration,
-        curve: Curves.ease,
-      );
-      panelTimer = Timer(const Duration(seconds: 3), hidePanel);
-    }
-  }
+  void showPanel() => PanelUtils.showPanel(state, panelTimer);
 
-  void hidePanel() async {
-    final status = state.animationController!.status;
-    if (state.animationController!.value != 0 &&
-        status == AnimationStatus.completed) {
-      await state.animationController!.animateTo(
-        0.0,
-        duration: cancelDuration,
-        curve: Curves.easeInExpo,
-      );
-      if (panelTimer != null) {
-        panelTimer!.cancel();
-      }
-    }
-  }
+  void hidePanel() => PanelUtils.hidePanel(state, panelTimer);
 
   void closedApp() {
     navigator!.pop();
@@ -681,580 +694,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     state.isLoadStopCalled = !state.isLoadStopCalled;
   }
 
-  // call this on webview created
-  void injectMinerDappListeners() async {
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents.changeCronTransitionEvent,
-        callback: (args) =>
-            jsChannelCronErrorHandler(args, handleChangeCronTransition));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents.changeCronTransitionStatusEvent,
-        callback: (args) => jsChannelCronErrorHandler(
-            args, handleChangeCronTransitionStatusEvent));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents.getSystemInfoEvent,
-        callback: (args) =>
-            jsChannelCronErrorHandler(args, handleGetSystemInfoEvent));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents.goToAdvancedSettingsEvent,
-        callback: (args) =>
-            jsChannelCronErrorHandler(args, handleGoToAdvancedSettingsEvent));
-  }
-
-  void injectBluetoothListeners() {
-    // Bluetooth API
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents.requestDevice,
-        callback: (args) =>
-            jsChannelErrorHandler(args, handleBluetoothRequestDevice));
-
-    // BluetoothRemoteGATTServer
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents.bluetoothRemoteGATTServerConnect,
-        callback: (args) => jsChannelErrorHandler(
-            args, handleBluetoothRemoteGATTServerConnect));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents.bluetoothRemoteGATTServerGetPrimaryService,
-        callback: (args) => jsChannelErrorHandler(
-            args, handleBluetoothRemoteGATTServerGetPrimaryService));
-
-    // BluetoothRemoteGATTService
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName:
-            JSChannelEvents.bluetoothRemoteGATTServiceGetCharacteristic,
-        callback: (args) => jsChannelErrorHandler(
-            args, handleBluetoothRemoteGATTServiceGetCharacteristic));
-
-    // BluetoothRemoteGATTCharacteristic
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName:
-            JSChannelEvents.bluetoothRemoteGATTCharacteristicStartNotifications,
-        callback: (args) => jsChannelErrorHandler(
-            args, handleBluetoothRemoteGATTCharacteristicStartNotifications));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName:
-            JSChannelEvents.bluetoothRemoteGATTCharacteristicStopNotifications,
-        callback: (args) => jsChannelErrorHandler(
-            args, handleBluetoothRemoteGATTCharacteristicStopNotifications));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName:
-            JSChannelEvents.bluetoothRemoteGATTCharacteristicWriteValue,
-        callback: (args) => jsChannelErrorHandler(
-            args, handleBluetoothRemoteGATTCharacteristicWriteValue));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents
-            .bluetoothRemoteGATTCharacteristicWriteValueWithResponse,
-        callback: (args) => jsChannelErrorHandler(args,
-            handleBluetoothRemoteGATTCharacteristicWriteValueWithResponse));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents
-            .bluetoothRemoteGATTCharacteristicWriteValueWithoutResponse,
-        callback: (args) => jsChannelErrorHandler(args,
-            handleBluetoothRemoteGATTCharacteristicWriteValueWithoutResponse));
-
-    state.webviewController!.addJavaScriptHandler(
-        handlerName: JSChannelEvents.bluetoothRemoteGATTCharacteristicReadValue,
-        callback: (args) => jsChannelErrorHandler(
-            args, handleBluetoothRemoteGATTCharacteristicReadValue));
-  }
-
-  // GATT server
-  Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerGetPrimaryService(
-      Map<String, dynamic> data) async {
-    collectLog('handleBluetoothRemoteGATTServerGetPrimaryService : $data');
-    final selectedService = await getSelectedService(data['service']);
-
-    final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
-        state.selectedScanResult!);
-    final bluetoothRemoteGATTService =
-        BluetoothRemoteGATTService.fromBluetoothService(
-            device, selectedService);
-    return bluetoothRemoteGATTService.toMap();
-  }
-
-  Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerConnect(
-      Map<String, dynamic> data) async {
-    collectLog('handleBluetoothRemoteGATTServerConnect : $data');
-    await _bluetoothUseCase.connectionHandler(state.selectedScanResult!.device);
-
-    return BluetoothRemoteGATTServer(
-            device: BluetoothDevice.getBluetoothDeviceFromScanResult(
-                state.selectedScanResult!),
-            connected: true)
-        .toMap();
-  }
-
-  Future<blue_plus.BluetoothService> getSelectedService(
-    String uuid,
-  ) async {
-    final serviceUUID = GuidHelper.parse(uuid);
-    final selectedService = await BluePlusBluetoothUtils.getPrimaryService(
-        state.selectedScanResult!, serviceUUID);
-    return selectedService;
-  }
-
-  // Util
-  blue_plus.BluetoothCharacteristic getSelectedCharacteristic(
-      String uuid, blue_plus.BluetoothService selectedService) {
-    final characteristicUUID = GuidHelper.parse(uuid);
-    final selectedCharacteristic =
-        BluePlusBluetoothUtils.getCharacteristicWithService(
-            selectedService, characteristicUUID);
-    return selectedCharacteristic;
-  }
-
-  // Service
-  Future<Map<String, dynamic>>
-      handleBluetoothRemoteGATTServiceGetCharacteristic(
-          Map<String, dynamic> data) async {
-    collectLog('handleBluetoothRemoteGATTServiceGetCharacteristic : $data');
-    final targetCharacteristicUUID = data['characteristic'];
-
-    final selectedService = await getSelectedService(data['this']);
-    final targetCharacteristic =
-        getSelectedCharacteristic(targetCharacteristicUUID, selectedService);
-
-    final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
-        state.selectedScanResult!);
-    final bluetoothRemoteGATTService =
-        BluetoothRemoteGATTService.fromBluetoothService(
-            device, selectedService);
-    final bluetoothRemoteGATTCharacteristic = BluetoothRemoteGATTCharacteristic(
-        service: bluetoothRemoteGATTService,
-        properties:
-            BluetoothCharacteristicProperties.fromCharacteristicProperties(
-                targetCharacteristic.properties),
-        uuid: targetCharacteristic.uuid.str,
-        value: null);
-    return bluetoothRemoteGATTCharacteristic.toMap();
-  }
-
-  BluetoothRemoteGATTCharacteristic getBluetoothRemoteGATTCharacteristic(
-      blue_plus.BluetoothCharacteristic selectedCharacteristic,
-      blue_plus.BluetoothService selectedService) {
-    final device = BluetoothDevice.getBluetoothDeviceFromScanResult(
-        state.selectedScanResult!);
-    final bluetoothRemoteGATTService =
-        BluetoothRemoteGATTService.fromBluetoothService(
-            device, selectedService);
-    final bluetoothRemoteGATTCharacteristic = BluetoothRemoteGATTCharacteristic(
-        service: bluetoothRemoteGATTService,
-        properties:
-            BluetoothCharacteristicProperties.fromCharacteristicProperties(
-                selectedCharacteristic.properties),
-        uuid: selectedCharacteristic.uuid.str,
-        value: null);
-    return bluetoothRemoteGATTCharacteristic;
-  }
-
-  Future<Map<String, dynamic>>
-      handleBluetoothRemoteGATTCharacteristicStartNotifications(
-          Map<String, dynamic> data) async {
-    collectLog(
-        'handleBluetoothRemoteGATTCharacteristicStartNotifications : $data');
-    final selectedService = await getSelectedService(data['serviceUUID']);
-    final selectedCharacteristic =
-        getSelectedCharacteristic(data['this'], selectedService);
-
-    final bluetoothRemoteGATTCharacteristic =
-        getBluetoothRemoteGATTCharacteristic(
-            selectedCharacteristic, selectedService);
-
-    initJSCharacteristicValueEmitter(selectedCharacteristic);
-
-    return bluetoothRemoteGATTCharacteristic.toMap();
-  }
-
-  Future<Map<String, dynamic>>
-      handleBluetoothRemoteGATTCharacteristicStopNotifications(
-          Map<String, dynamic> data) async {
-    collectLog(
-        'handleBluetoothRemoteGATTCharacteristicStopNotifications : $data');
-    final selectedService = await getSelectedService(data['serviceUUID']);
-    final selectedCharacteristic =
-        getSelectedCharacteristic(data['this'], selectedService);
-
-    final bluetoothRemoteGATTCharacteristic =
-        getBluetoothRemoteGATTCharacteristic(
-            selectedCharacteristic, selectedService);
-
-    removeJSCharacteristicValueEmitter(selectedCharacteristic);
-
-    return bluetoothRemoteGATTCharacteristic.toMap();
-  }
-
-  Future<Map<String, dynamic>> handleWrites(Map<String, dynamic> data,
-      {bool withResponse = true}) async {
-    collectLog('handleWrites : $data');
-    final selectedService = await getSelectedService(data['serviceUUID']);
-    final selectedCharacteristic =
-        getSelectedCharacteristic(data['this'], selectedService);
-    final value = Uint8List.fromList(List<int>.from(
-        (data['value'] as Map<String, dynamic>).values.toList()));
-
-    collectLog('handleWrites:value $value');
-    if (withResponse) {
-      await selectedCharacteristic.write(value);
-    } else {
-      await selectedCharacteristic.write(value, withoutResponse: true);
-    }
-    return {};
-  }
-
-  Future<Map<String, dynamic>>
-      handleBluetoothRemoteGATTCharacteristicWriteValue(
-          Map<String, dynamic> data) async {
-    return handleWrites(data);
-  }
-
-  Future<Map<String, dynamic>>
-      handleBluetoothRemoteGATTCharacteristicWriteValueWithResponse(
-          Map<String, dynamic> data) async {
-    return handleWrites(data);
-  }
-
-  Future<Map<String, dynamic>>
-      handleBluetoothRemoteGATTCharacteristicWriteValueWithoutResponse(
-          Map<String, dynamic> data) async {
-    return handleWrites(data, withResponse: false);
-  }
-
-  Future<dynamic> handleBluetoothRemoteGATTCharacteristicReadValue(
-      Map<String, dynamic> data) async {
-    collectLog('handleBluetoothRemoteGATTCharacteristicReadValue : $data');
-    final selectedService = await getSelectedService(data['serviceUUID']);
-    final selectedCharacteristic =
-        getSelectedCharacteristic(data['this'], selectedService);
-    final value = selectedCharacteristic.lastValue;
-
-    final uInt8List = Uint8List.fromList(value);
-
-    collectLog('handleBluetoothRemoteGATTCharacteristicReadValue:value $value');
-    collectLog(
-        'handleBluetoothRemoteGATTCharacteristicReadValue:uInt8List ${uInt8List.toString()}');
-
-    return uInt8List;
-  }
-
-  Timer? characteriticListnerTimer;
-  StreamSubscription<List<int>>? characteristicValueStreamSubscription;
-
-  void initJSCharacteristicValueEmitter(
-    blue_plus.BluetoothCharacteristic characteristic,
-  ) async {
-    await characteristic.setNotifyValue(true);
-
-    characteristicValueStreamSubscription =
-        characteristic.lastValueStream.listen((event) async {
-      final uInt8List = Uint8List.fromList(event);
-      collectLog('characteristicValueStreamSubscription:event $event');
-      collectLog(
-          'characteristicValueStreamSubscription:uInt8List ${uInt8List.toString()}');
-      final script = '''
-      navigator.bluetooth.updateCharacteristicValue('${characteristic.uuid.str}', ${uInt8List.toString()},);
-      ''';
-      await state.webviewController!.evaluateJavascript(source: script);
-    });
-  }
-
-  void removeJSCharacteristicValueEmitter(
-    blue_plus.BluetoothCharacteristic characteristic,
-  ) async {
-    await characteristic.setNotifyValue(false);
-
-    characteristicValueStreamSubscription?.cancel();
-  }
-
-  void injectAXSWalletJSChannel() async {
-    // Making It easy for accessing axs wallet
-    // use this way window.axs.callHandler
-    await state.webviewController!.evaluateJavascript(
-        source: JSChannelScripts.axsWalletObjectInjectScript(
-            JSChannelConfig.axsWalletJSObjectName));
-
-    await state.webviewController!.injectJavascriptFileFromAsset(
-        assetFilePath: 'assets/js/bluetooth/bluetooth.js');
-
-    // There is a gap for detecting the axs object in webview, It's intermittent after adding function structure to the scripts
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () async {
-        await state.webviewController!.evaluateJavascript(
-            source: JSChannelScripts.axsWalletReadyInjectScript(
-          JSChannelEvents.axsReadyEvent,
-        ));
-      },
-    );
-  }
-
-  Future<Map<String, dynamic>> jsChannelCronErrorHandler(
-    List<dynamic> args,
-    Future<Map<String, dynamic>> Function(
-      Map<String, dynamic>,
-      AXSCronServices,
-    )
-        callback,
-  ) async {
-    try {
-      Map<String, dynamic> channelDataMap;
-
-      final channelData = args[0];
-      channelDataMap = channelData as Map<String, dynamic>;
-
-      final axsCronService =
-          AXSCronServicesExtension.getCronServiceFromJson(channelDataMap);
-      final callbackRes = await callback(channelDataMap, axsCronService);
-      return callbackRes;
-    } catch (e) {
-      final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
-          status: AXSJSChannelResponseStatus.failed,
-          data: null,
-          message: e.toString());
-      return response.toMap((data) => {'message': e.toString()});
-    }
-  }
-
-  Future<dynamic> jsChannelErrorHandler(
-    List<dynamic> args,
-    Future<dynamic> Function(
-      Map<String, dynamic>,
-    )
-        callback,
-  ) async {
-    try {
-      Map<String, dynamic> channelDataMap;
-
-      final channelData = args[0];
-      channelDataMap = channelData == null
-          ? {}
-          : channelData is String
-              ? json.decode(channelData) as Map<String, dynamic>
-              : channelData as Map<String, dynamic>;
-
-      final callbackRes = await callback(channelDataMap);
-      return callbackRes;
-    } catch (e) {
-      if (e is BluetoothTimeoutError) {
-        addError(translate('unable_to_continue_bluetooth_is_turned_off')!);
-      }
-
-      final response = AXSJSChannelResponseModel<String>(
-          status: AXSJSChannelResponseStatus.failed,
-          data: null,
-          message: e.toString());
-      return response.toMap((data) => {'message': e});
-    }
-  }
-
-  // Update via functions & get data via steam & send the data via event eaach time
-  // ready => updateSystemInfo (service statues, mining service status, time, selected miners, camera permission location permission)
-
-  Future<Map<String, dynamic>> handleChangeCronTransition(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
-    final axsCronService =
-        AXSCronServicesExtension.getCronServiceFromJson(channelData);
-    if (axsCronService == AXSCronServices.miningAutoClaimCron) {
-      ChangeCronTransitionRequestModel;
-      final changeCronTransitionRequestModel =
-          ChangeCronTransitionRequestModel<MiningCronServiceDataModel>.fromMap(
-              channelData['cron'], MiningCronServiceDataModel.fromMap);
-
-      // Here i change the data that won't effect the
-      final currentDappHooksData = state.dappHooksData;
-      final newData = changeCronTransitionRequestModel.data;
-
-      if (newData != null) {
-        final minersList = newData.minersList ??
-            currentDappHooksData.minerHooks.selectedMiners;
-        _dAppHooksUseCase.updateMinersList(minersList);
-
-        final newTimeOfDay = TimeOfDay.fromDateTime(newData.time!);
-        final currentTimeOfDay =
-            TimeOfDay.fromDateTime(currentDappHooksData.minerHooks.time);
-
-        if (newData.time != null && newTimeOfDay != currentTimeOfDay) {
-          await minerHooksHelper.changeMinerHookTiming(newTimeOfDay);
-        }
-      }
-
-      final miningCronServiceData =
-          MiningCronServiceDataModel.fromDAppHooksData(
-              _dAppHooksUseCase.dappHooksData.value);
-
-      final responseData = CronServiceDataModel.fromDAppHooksData(
-          axsCronService,
-          _dAppHooksUseCase.dappHooksData.value,
-          miningCronServiceData);
-
-      final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
-          status: AXSJSChannelResponseStatus.success,
-          data: responseData,
-          message: null);
-      return response.toMap(miningCronServiceData.toMapWrapper);
-    } else {
-      throw 'Unknown service';
-    }
-  }
-
-  Future<Map<String, dynamic>> handleBluetoothRequestDevice(
-    Map<String, dynamic> channelData,
-  ) async {
-    // final options = RequestDeviceOptions.fromJson(channelData['data']);
-    final options = RequestDeviceOptions.fromMap(channelData);
-    late BluetoothDevice responseDevice;
-
-    await _bluetoothUseCase.turnOnBluetoothAndProceed();
-
-    //  Get the options data
-    _bluetoothUseCase.startScanning(
-      withServices: options.filters != null
-          ? options.filters!
-              .expand((filter) => filter.services ?? [])
-              .toList()
-              .firstOrNull
-          : [],
-      withRemoteIds:
-          null, // No direct mapping in RequestDeviceOptions, adjust as necessary
-      withNames: options.filters != null
-          ? options.filters!
-              .where((filter) => filter.name != null)
-              .map((filter) => filter.name!)
-              .toList()
-          : [],
-      withKeywords: options.filters != null
-          ? options.filters!
-              .where((filter) => filter.namePrefix != null)
-              .map((filter) => filter.namePrefix!)
-              .toList()
-          : [],
-      withMsd: options.filters != null
-          ? options.filters!
-              .expand((filter) => filter.manufacturerData ?? [])
-              .toList()
-              .firstOrNull
-          : [],
-      withServiceData: options.filters != null
-          ? options.filters!
-              .expand((filter) => filter.serviceData ?? [])
-              .toList()
-              .firstOrNull
-          : [],
-      continuousUpdates: true,
-      continuousDivisor: 2,
-      androidUsesFineLocation: true,
-    );
-
-    final blueberryRing = await getBlueberryRing();
-    _bluetoothUseCase.stopScanner();
-    if (blueberryRing == null) {
-      return {};
-    } else {
-      responseDevice = blueberryRing;
-    }
-
-    return responseDevice.toMap();
-  }
-
-  Future<BluetoothDevice?> getBlueberryRing() async {
-    loading = true;
-    return Future.delayed(const Duration(seconds: 3), () async {
-      loading = false;
-      BluetoothDevice? responseDevice;
-      final scanResults = _bluetoothUseCase.scanResults.value;
-      if (scanResults.length == 1) {
-        // only one scan results
-        final scanResult = scanResults.first;
-        state.selectedScanResult = scanResult;
-      } else {
-        // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
-        final scanResult = await showBlueberryRingsBottomSheet(
-          context!,
-        );
-        if (scanResult != null) {
-          state.selectedScanResult = scanResult;
-        }
-      }
-      if (state.selectedScanResult != null) {
-        responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
-            state.selectedScanResult!);
-      }
-
-      return responseDevice;
-    });
-  }
-
-  Future<Map<String, dynamic>> handleChangeCronTransitionStatusEvent(
-    Map<String, dynamic> channelData,
-    AXSCronServices axsCronService,
-  ) async {
-    if (axsCronService == AXSCronServices.miningAutoClaimCron) {
-      final status = channelData['cron']['status'];
-
-      await minerHooksHelper.changeMinerHooksEnabled(status);
-      final miningCronServiceData =
-          MiningCronServiceDataModel.fromDAppHooksData(
-              _dAppHooksUseCase.dappHooksData.value);
-
-      final responseData = CronServiceDataModel.fromDAppHooksData(
-          axsCronService,
-          _dAppHooksUseCase.dappHooksData.value,
-          miningCronServiceData);
-      final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
-          status: AXSJSChannelResponseStatus.success,
-          message: null,
-          data: responseData);
-      return response.toMap(miningCronServiceData.toMapWrapper);
-    } else {
-      throw 'Unknown cron service';
-    }
-  }
-
-  Future<Map<String, dynamic>> handleGetSystemInfoEvent(
-    Map<String, dynamic> channelData,
-    AXSCronServices axsCronService,
-  ) async {
-    if (axsCronService == AXSCronServices.miningAutoClaimCron) {
-      final dappHooksData = state.dappHooksData;
-
-      final miningCronServiceData =
-          MiningCronServiceDataModel.fromDAppHooksData(dappHooksData);
-
-      final responseData = CronServiceDataModel.fromDAppHooksData(
-          axsCronService, dappHooksData, miningCronServiceData);
-      final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
-        status: AXSJSChannelResponseStatus.success,
-        message: null,
-        data: responseData,
-      );
-      return response.toMap(miningCronServiceData.toMapWrapper);
-    } else {
-      throw 'Unknown cron service';
-    }
-  }
-
-  Future<Map<String, dynamic>> handleGoToAdvancedSettingsEvent(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
-    goToAdvancedSettings();
-    final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
-        status: AXSJSChannelResponseStatus.success, message: null, data: null);
-    return response.toMap((data) => {});
-  }
-
-  void goToAdvancedSettings() {
-    navigator!.push(route(
-      const DAppHooksPage(),
-    ));
-  }
+  void injectAXSWalletJSChannel() =>
+      JSChannelUtils.injectAXSWalletJSChannel(state);
+
+  void cancelCharacteristicListenerTimer() =>
+      characteristicListenerTimer?.cancel();
 }
