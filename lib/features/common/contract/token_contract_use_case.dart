@@ -269,6 +269,12 @@ class TokenContractUseCase extends ReactiveUseCase {
         .getTokenTransferData(tokenHash, toAddress, amount);
   }
 
+  String signPersonalMessage({required String privateKey, required String message}) {
+    return _repository.tokenContract
+        .signPersonalMessage(privateKey: privateKey, message: message);
+  }
+
+
   String signMessage({required String privateKey, required String message}) {
     return _repository.tokenContract
         .signMessage(privateKey: privateKey, message: message);
