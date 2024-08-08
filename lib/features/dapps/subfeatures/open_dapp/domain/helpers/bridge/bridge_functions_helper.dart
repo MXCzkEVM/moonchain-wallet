@@ -91,6 +91,21 @@ class BridgeFunctionsHelper {
     }
   }
 
+  String? signPersonalMessage(
+    String hexData,
+  ) {
+    loading(true);
+    try {
+      final res = tokenContractUseCase.signPersonalMessage(
+          privateKey: state.account!.privateKey, message: hexData);
+      return res;
+    } catch (e, s) {
+      addError(e, s);
+    } finally {
+      loading(false);
+    }
+  }
+
   String? signTypedMessage(
     String hexData,
   ) {

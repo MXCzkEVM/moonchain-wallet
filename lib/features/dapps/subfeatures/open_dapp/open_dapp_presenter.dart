@@ -296,6 +296,17 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         success: success,
       );
 
+  void signPersonalMessage({
+    required Map<String, dynamic> object,
+    required VoidCallback cancel,
+    required Function(String hash) success,
+  }) async =>
+      bridgeHelper.signPersonalMessage(
+        object: object,
+        cancel: cancel,
+        success: success,
+      );
+
   void signTypedMessage({
     required Map<String, dynamic> object,
     required VoidCallback cancel,

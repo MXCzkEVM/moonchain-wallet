@@ -187,7 +187,7 @@ class BridgeHelper {
     }
   }
 
-  /// This function is used for both sign message and sign personal message
+
   void signMessage({
     required Map<String, dynamic> object,
     required VoidCallback cancel,
@@ -208,6 +208,39 @@ class BridgeHelper {
 
       if (result != null && result) {
         final hash = bridgeFunctionsHelper.signMessage(
+          hexData,
+        );
+        if (hash != null) success.call(hash);
+      } else {
+        cancel.call();
+      }
+    } catch (e, s) {
+      cancel.call();
+      addError(e, s);
+    }
+  }
+
+  
+  void signPersonalMessage({
+    required Map<String, dynamic> object,
+    required VoidCallback cancel,
+    required Function(String hash) success,
+  }) async {
+    final hexData = object['data'] as String;
+    String message = MXCType.hexToString(hexData);
+    int chainId = state.network!.chainId;
+    String name = state.network!.symbol;
+
+    try {
+      final result = await showSignMessageDialog(
+        context!,
+        title: translate('signature_request')!,
+        message: message,
+        networkName: '$name ($chainId)',
+      );
+
+      if (result != null && result) {
+        final hash = bridgeFunctionsHelper.signPersonalMessage(
           hexData,
         );
         if (hash != null) success.call(hash);
