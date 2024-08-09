@@ -15,7 +15,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>AXS</string>
+	<string>Moonchain Wallet</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
