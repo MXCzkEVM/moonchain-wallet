@@ -75,14 +75,14 @@ String getPermissionUseCaseText(Permission permission) {
   if (Permission.location == permission ||
       Permission.locationAlways == permission ||
       Permission.locationWhenInUse == permission) {
-    return 'axs_location_permission_use_case';
+    return 'moonchain_location_permission_use_case';
   } else if (Permission.camera == permission) {
-    return 'axs_camera_permission_use_case';
+    return 'moonchain_camera_permission_use_case';
   } else if (Permission.storage == permission) {
-    return 'axs_storage_permission_use_case';
+    return 'moonchain_storage_permission_use_case';
   } else if (Permission.photos == permission) {
-    return 'axs_photos_permission_use_case';
+    return 'moonchain_photos_permission_use_case';
   } else {
-    return 'axs_location_permission_use_case';
+    return 'moonchain_location_permission_use_case';
   }
 }

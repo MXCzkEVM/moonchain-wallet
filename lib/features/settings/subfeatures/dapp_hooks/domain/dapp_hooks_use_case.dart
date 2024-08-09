@@ -267,10 +267,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
         foregroundNotificationConfig: geo.ForegroundNotificationConfig(
           notificationText: FlutterI18n.translate(
               appNavigatorKey.currentContext!,
-              'axs_background_location_service_text'),
+              'moonchain_background_location_service_text'),
           notificationTitle: FlutterI18n.translate(
               appNavigatorKey.currentContext!,
-              'axs_background_location_service_title'),
+              'moonchain_background_location_service_title'),
           enableWakeLock: true,
           notificationIcon: const geo.AndroidResource(
             name: 'axs_logo',
