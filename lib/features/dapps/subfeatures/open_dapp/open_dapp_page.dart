@@ -82,7 +82,7 @@ class OpenAppPage extends HookConsumerWidget {
                       presenter.injectCopyHandling();
                       presenter.injectScrollDetector();
                       if (!state.isLoadStopCalled) {
-                        presenter.injectAXSWalletJSChannel();
+                        presenter.injectMXCWalletJSChannel();
                         presenter.changeOnLoadStopCalled();
                       }
                     },

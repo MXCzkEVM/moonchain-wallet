@@ -58,7 +58,7 @@ class NetworkDetailsPage extends HookConsumerWidget {
                   ref.read(presenter).setAsDefault(network);
                   BottomFlowDialog.of(context).close();
                 },
-                size: AxsButtonSize.xl,
+                size: MXCWalletButtonSize.xl,
               )
             : Container()
       ],

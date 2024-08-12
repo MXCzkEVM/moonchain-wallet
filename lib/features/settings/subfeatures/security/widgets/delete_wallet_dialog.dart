@@ -70,7 +70,7 @@ Future<bool?> showDeleteWalletDialog({
                     title:
                         FlutterI18n.translate(context, ok ?? 'delete_wallet'),
                     titleColor: ColorsTheme.of(context).textBlack200,
-                    size: AxsButtonSize.xl,
+                    size: MXCWalletButtonSize.xl,
                     onTap: isButtonDisabled == true
                         ? () =>
                             Navigator.of(context).pop(controller.text == 'yes')
@@ -80,7 +80,7 @@ Future<bool?> showDeleteWalletDialog({
                   MxcButton.secondary(
                     key: const ValueKey('cancelButton'),
                     title: FlutterI18n.translate(context, cancel ?? 'cancel'),
-                    size: AxsButtonSize.xl,
+                    size: MXCWalletButtonSize.xl,
                     onTap: () => Navigator.of(context).pop(false),
                   ),
                 ],

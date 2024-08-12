@@ -55,7 +55,7 @@ Future<bool?> showBackgroundFetchAlertDialog({
                   onTap: () {
                     Navigator.of(context).pop(true);
                   },
-                  size: AxsButtonSize.xl,
+                  size: MXCWalletButtonSize.xl,
                 ),
               ],
             ),

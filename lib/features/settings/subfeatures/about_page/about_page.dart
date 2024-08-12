@@ -40,11 +40,11 @@ class AboutPage extends HookConsumerWidget {
         const SizedBox(height: Sizes.space2XLarge),
         const AppTerm(
           name: 'terms_and_service',
-          externalLink: Urls.axsTermsConditions,
+          externalLink: Urls.mxcWalletTermsConditions,
         ),
         const AppTerm(
           name: 'privacy_policy',
-          externalLink: Urls.axsPrivacy,
+          externalLink: Urls.mxcWalletPrivacy,
           isFile: true,
         ),
       ],

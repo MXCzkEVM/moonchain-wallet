@@ -144,7 +144,7 @@ class DeleteCustomNetworkPage extends HookConsumerWidget {
                             presenter.setAsDefault();
                             BottomFlowDialog.of(context).close();
                           },
-                          size: AxsButtonSize.xl,
+                          size: MXCWalletButtonSize.xl,
                         ),
                       ],
                     )
@@ -160,7 +160,7 @@ class DeleteCustomNetworkPage extends HookConsumerWidget {
                   presenter.deleteNetwork();
                   BottomFlowDialog.of(context).close();
                 },
-                size: AxsButtonSize.xl,
+                size: MXCWalletButtonSize.xl,
               ),
             ],
           ),

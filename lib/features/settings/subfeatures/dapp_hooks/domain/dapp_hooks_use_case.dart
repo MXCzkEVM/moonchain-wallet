@@ -241,7 +241,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
           amount: MxcAmount.zero(),
           nonce: nonce,
         );
-        AXSNotification().showNotification(
+        MXCWalletNotification().showNotification(
           cTranslate('wifi_info_notifications_title'),
           cTranslate('wifi_info_notifications_text'),
         );
@@ -389,7 +389,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
       int delay, String taskId) async {
     try {
       final result =
-          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
+          await MXCWalletBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
       if (!result) return result;
 
@@ -415,7 +415,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
   Future<bool> startOneTimeBackgroundService(int delay, String taskId) async {
     try {
       final result =
-          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
+          await MXCWalletBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
       if (!result) return result;
 
@@ -449,17 +449,17 @@ class DAppHooksUseCase extends ReactiveUseCase {
   }
 
   Future<int> stopBlueberryAutoSyncService({required bool turnOffAll}) async {
-    return await AXSBackgroundFetch.stopServices(
+    return await MXCWalletBackgroundFetch.stopServices(
         taskId: blueberryAutoSyncTask, turnOffAll: turnOffAll);
   }
 
   Future<int> stopMinerAutoClaimService({required bool turnOffAll}) async {
-    return await AXSBackgroundFetch.stopServices(
+    return await MXCWalletBackgroundFetch.stopServices(
         taskId: minerAutoClaimTaskTaskId, turnOffAll: turnOffAll);
   }
 
   Future<int> stopWifiHooksService({required bool turnOffAll}) async {
-    return await AXSBackgroundFetch.stopServices(
+    return await MXCWalletBackgroundFetch.stopServices(
         taskId: wifiHookTasksTaskId, turnOffAll: turnOffAll);
   }
 
@@ -475,11 +475,11 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime minerAutoClaimTime}) async {
     try {
-      AXSNotification()
+      MXCWalletNotification()
           .showNotification(cTranslate('auto_claim_started'), null);
 
       if (selectedMinerListId.isEmpty) {
-        AXSNotification().showNotification(
+        MXCWalletNotification().showNotification(
           cTranslate('no_miners_selected_notification_title'),
           cTranslate('no_miners_selected_notification_text'),
         );
@@ -487,16 +487,17 @@ class DAppHooksUseCase extends ReactiveUseCase {
         final ableToClaim = await _minerUseCase.claimMinersReward(
             selectedMinerListId: selectedMinerListId,
             account: account,
-            showNotification: AXSNotification().showLowPriorityNotification,
+            showNotification:
+                MXCWalletNotification().showLowPriorityNotification,
             translate: cTranslate);
 
         if (ableToClaim) {
-          AXSNotification().showNotification(
+          MXCWalletNotification().showNotification(
             cTranslate('auto_claim_successful_notification_title'),
             cTranslate('auto_claim_successful_notification_text'),
           );
         } else {
-          AXSNotification().showNotification(
+          MXCWalletNotification().showNotification(
             cTranslate('nothing_to_claim_notification_title'),
             cTranslate('nothing_to_claim_notification_text'),
           );
@@ -516,10 +517,11 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime ringAutoSyncTime}) async {
     try {
-      AXSNotification().showNotification(cTranslate('auto_sync_started'), null);
+      MXCWalletNotification()
+          .showNotification(cTranslate('auto_sync_started'), null);
 
       if (selectedRingsListId.isEmpty) {
-        AXSNotification().showNotification(
+        MXCWalletNotification().showNotification(
           cTranslate('no_rings_selected_notification_title'),
           cTranslate('no_rings_selected_notification_text'),
         );
@@ -527,16 +529,17 @@ class DAppHooksUseCase extends ReactiveUseCase {
         final ableToClaim = await _blueberryRingBackgroundSyncUseCase.syncRings(
             selectedRingsListId: selectedRingsListId,
             account: account,
-            showNotification: AXSNotification().showLowPriorityNotification,
+            showNotification:
+                MXCWalletNotification().showLowPriorityNotification,
             translate: cTranslate);
 
         if (ableToClaim) {
-          AXSNotification().showNotification(
+          MXCWalletNotification().showNotification(
             cTranslate('auto_sync_successful_notification_title'),
             cTranslate('auto_sync_successful_notification_text'),
           );
         } else {
-          AXSNotification().showNotification(
+          MXCWalletNotification().showNotification(
             cTranslate('already_synced_notification_title'),
             cTranslate('already_synced_notification_text'),
           );

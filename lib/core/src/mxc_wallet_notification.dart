@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:datadashwallet/core/src/firebase/firebase.dart';
+import 'package:datadashwallet/core/src/firebase/mxc_wallet_firebase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +8,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:http/http.dart' as http;
 
-class AXSNotification {
-  static AXSNotification? _instance;
+class MXCWalletNotification {
+  static MXCWalletNotification? _instance;
 
-  AXSNotification._();
+  MXCWalletNotification._();
 
-  factory AXSNotification() {
-    _instance ??= AXSNotification._();
+  factory MXCWalletNotification() {
+    _instance ??= MXCWalletNotification._();
     return _instance!;
   }
 
@@ -60,7 +60,7 @@ class AXSNotification {
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
     if (shouldInitFirebase) {
-      await AXSFireBase.setForegroundNotificationPresentationOptions();
+      await MXCWalletFireBase.setForegroundNotificationPresentationOptions();
     }
 
     isFlutterLocalNotificationsInitialized = true;

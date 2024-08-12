@@ -91,7 +91,7 @@ class PasscodeRequirePage extends PasscodeBasePage {
             child: MxcButton.secondaryWhite(
               key: const ValueKey('forgotPasscodeButton'),
               title: FlutterI18n.translate(context, 'forgot_passcode'),
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
               onTap: () => showResetPasscodeDialog(context, ref),
             ),
           ),

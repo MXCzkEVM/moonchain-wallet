@@ -115,7 +115,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
 
   Widget transactionButton(BuildContext context) {
     String titleText = 'confirm';
-    AxsButtonType type = AxsButtonType.primary;
+    MXCWalletButtonType type = MXCWalletButtonType.primary;
 
     switch (processType) {
       case TransactionProcessType.confirm:
@@ -129,7 +129,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
         break;
       default:
         titleText = 'done';
-        type = AxsButtonType.pass;
+        type = MXCWalletButtonType.pass;
         break;
     }
 
@@ -142,7 +142,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
 
     return MxcButton.primary(
       key: const ValueKey('transactionButton'),
-      size: AxsButtonSize.xl,
+      size: MXCWalletButtonSize.xl,
       title: FlutterI18n.translate(context, titleText),
       type: type,
       onTap: () async {

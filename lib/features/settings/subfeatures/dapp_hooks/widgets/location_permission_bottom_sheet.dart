@@ -57,7 +57,7 @@ Future<bool?> showLocationPermissionBottomSheet({
                     openLocationSettings();
                     Navigator.of(context).pop(true);
                   },
-                  size: AxsButtonSize.xl,
+                  size: MXCWalletButtonSize.xl,
                 ),
                 const SizedBox(
                   height: Sizes.spaceNormal,
@@ -68,7 +68,7 @@ Future<bool?> showLocationPermissionBottomSheet({
                   onTap: () {
                     Navigator.of(context).pop(true);
                   },
-                  size: AxsButtonSize.xl,
+                  size: MXCWalletButtonSize.xl,
                 ),
               ],
             ),

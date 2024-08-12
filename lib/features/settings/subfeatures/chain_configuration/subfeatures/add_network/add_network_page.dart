@@ -75,7 +75,7 @@ class AddNetworkPage extends HookConsumerWidget {
               ),
             );
           },
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
         ),
       ],
     );

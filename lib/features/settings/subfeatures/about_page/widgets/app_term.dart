@@ -22,7 +22,7 @@ class AppTerm extends HookConsumerWidget {
 
     return InkWell(
       onTap: () => isFile
-          ? launcherUseCase.openAXSPrivacy(externalLink)
+          ? launcherUseCase.openMXCWalletPrivacy(externalLink)
           : launcherUseCase.launchUrlInExternalAppWithString(externalLink),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: Sizes.spaceSmall),

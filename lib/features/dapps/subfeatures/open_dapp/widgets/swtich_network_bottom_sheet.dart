@@ -61,7 +61,7 @@ Future<bool?> showSwitchNetworkDialog(
               key: const ValueKey('cancelButton'),
               title: translate('cancel'),
               onTap: () => Navigator.of(context).pop(false),
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
             const SizedBox(
               height: Sizes.spaceXLarge,
@@ -73,7 +73,7 @@ Future<bool?> showSwitchNetworkDialog(
                 onTap();
                 Navigator.of(context).pop(true);
               },
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
             const SizedBox(height: Sizes.spaceNormal)
           ],

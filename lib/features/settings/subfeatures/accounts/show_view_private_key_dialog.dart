@@ -54,7 +54,7 @@ void showViewPrivateKeyDialog(
             key: const ValueKey('doneButton'),
             title: FlutterI18n.translate(context, 'done'),
             onTap: () => Navigator.of(context).pop(false),
-            size: AxsButtonSize.xl,
+            size: MXCWalletButtonSize.xl,
           ),
         ],
       ),

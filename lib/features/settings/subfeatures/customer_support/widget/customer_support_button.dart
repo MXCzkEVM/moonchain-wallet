@@ -25,7 +25,7 @@ class CustomerSupportButton extends StatelessWidget {
         MxcButton.secondary(
           key: key,
           title: buttonLabel,
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
           onTap: buttonFunction != null ? () => buttonFunction!() : null,
         ),
         const SizedBox(height: Sizes.spaceNormal),

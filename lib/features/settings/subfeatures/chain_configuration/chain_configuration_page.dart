@@ -65,7 +65,7 @@ class ChainConfigurationPage extends HookConsumerWidget {
                   ),
                 );
               },
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
             const SizedBox(
               height: Sizes.space4XLarge,

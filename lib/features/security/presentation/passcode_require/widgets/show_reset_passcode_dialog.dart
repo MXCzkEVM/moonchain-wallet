@@ -110,7 +110,7 @@ class ResetPasscode extends StatelessWidget {
             MxcButton.secondary(
               key: const ValueKey('logOutButton'),
               title: FlutterI18n.translate(context, 'log_out'),
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
               onTap: onTap,
             ),
             const SizedBox(height: 26),

@@ -57,6 +57,6 @@ class SplashSetupWalletPresenter
   }
 
   void launchAxsTermsConditions() {
-    _launcherUseCase.launchAxsTermsConditions();
+    _launcherUseCase.launchMXCWalletTermsConditions();
   }
 }

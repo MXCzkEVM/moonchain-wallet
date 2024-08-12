@@ -4,7 +4,7 @@ import 'package:background_fetch/background_fetch.dart' as bgFetch;
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-class AXSBackgroundFetch {
+class MXCWalletBackgroundFetch {
   @pragma(
       'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
   static void handleHeadlessCallBackDispatcher(
@@ -29,7 +29,8 @@ class AXSBackgroundFetch {
     } else if (taskId == BackgroundExecutionConfig.minerAutoClaimTask) {
       DAppHooksService.autoClaimServiceCallBackDispatcherForeground(taskId);
     } else if (taskId == BackgroundExecutionConfig.blueberryAutoSyncTask) {
-      DAppHooksService.blueberryAutoSyncServiceCallBackDispatcherForeground(taskId);
+      DAppHooksService.blueberryAutoSyncServiceCallBackDispatcherForeground(
+          taskId);
     } else {
       bgFetch.BackgroundFetch.finish(taskId);
     }
@@ -69,17 +70,18 @@ class AXSBackgroundFetch {
   static Future<bool> _configureBackgroundProcess() async {
     final configurationState = await bgFetch.BackgroundFetch.configure(
         bgFetch.BackgroundFetchConfig(
-            minimumFetchInterval:
-                BackgroundExecutionConfig.axsBackgroundServiceInterval,
-            forceAlarmManager: true,
-            stopOnTerminate: false,
-            enableHeadless: true,
-            startOnBoot: true,
-            requiresBatteryNotLow: false,
-            requiresCharging: false,
-            requiresStorageNotLow: false,
-            requiresDeviceIdle: false,
-            requiredNetworkType: bgFetch.NetworkType.ANY,),
+          minimumFetchInterval:
+              BackgroundExecutionConfig.mxcWalletBackgroundServiceInterval,
+          forceAlarmManager: true,
+          stopOnTerminate: false,
+          enableHeadless: true,
+          startOnBoot: true,
+          requiresBatteryNotLow: false,
+          requiresCharging: false,
+          requiresStorageNotLow: false,
+          requiresDeviceIdle: false,
+          requiredNetworkType: bgFetch.NetworkType.ANY,
+        ),
         handleCallBackDispatcher);
     // Android Only
     final backgroundFetchState =

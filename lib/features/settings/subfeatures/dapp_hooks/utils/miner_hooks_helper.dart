@@ -71,7 +71,7 @@ class MinerHooksHelper {
     final periodicalCallData =
         backgroundFetchConfigUseCase.periodicalCallData.value;
     final turnOffAll =
-        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
+        MXCWalletBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
 
     await dAppHooksUseCase.stopMinerAutoClaimService(turnOffAll: turnOffAll);
     if (showSnackbar) {

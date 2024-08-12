@@ -107,7 +107,7 @@ Future<bool?> showAddNetworkDialog(
               key: const ValueKey('cancelButton'),
               title: translate('cancel'),
               onTap: () => Navigator.of(context).pop(false),
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
             const SizedBox(
               height: Sizes.spaceNormal,
@@ -119,7 +119,7 @@ Future<bool?> showAddNetworkDialog(
                 final updatedNetwork = approveFunction(network);
                 Navigator.of(context).pop(updatedNetwork != null);
               },
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
           ],
         ),

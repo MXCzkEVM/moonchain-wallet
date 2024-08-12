@@ -53,7 +53,7 @@ Future<bool?> showPermissionUseCasesBottomSheet(
               key: const ValueKey('notNow'),
               title: translate('not_now'),
               onTap: () => Navigator.of(context).pop(false),
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
             const SizedBox(
               height: Sizes.spaceXLarge,
@@ -62,7 +62,7 @@ Future<bool?> showPermissionUseCasesBottomSheet(
               key: const ValueKey('okAllow'),
               title: translate('ok_allow'),
               onTap: () => Navigator.of(context).pop(true),
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
           ],
         ),

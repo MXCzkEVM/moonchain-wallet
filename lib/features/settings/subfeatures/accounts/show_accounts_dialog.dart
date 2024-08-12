@@ -71,14 +71,14 @@ void showAccountsDialog(
               title: FlutterI18n.translate(
                   context, isLoading ? 'adding_account' : 'add_new_account'),
               onTap: onAdd,
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
             const SizedBox(height: Sizes.spaceXSmall),
             MxcButton.plainWhite(
               key: const ValueKey('importAccountButton'),
               title: FlutterI18n.translate(context, 'import_account'),
               onTap: onImport,
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
               titleColor: ColorsTheme.of(context).primary,
             ),
           ],
