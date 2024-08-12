@@ -190,8 +190,8 @@ abstract class MxcPage extends HookConsumerWidget {
         decoration: const BoxDecoration(
           gradient: SweepGradient(
             colors: <Color>[
-              Color(0xFF0F46F4),
-              Color(0xFF082FAF),
+              Color(0xFF1B1B1B),
+              Color(0xFF010101),
             ],
             tileMode: TileMode.clamp,
             transform: GradientRotation(2.5),
