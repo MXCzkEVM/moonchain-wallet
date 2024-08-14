@@ -27,6 +27,8 @@ class SplashStoragePage extends SplashBasePage {
         text: FlutterI18n.translate(context, 'create_wallet'));
   }
 
+  MXCWalletButtonEdgeType getPageButtonsEdge() => MXCWalletButtonEdgeType.hard;
+
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     final isEmailAvailable = ref.watch(state).isEmailAppAvailable == true;
@@ -52,6 +54,7 @@ class SplashStoragePage extends SplashBasePage {
                   ),
                 )
             : null,
+        edgeType: getPageButtonsEdge(),
       ),
       MxcButton.secondaryWhite(
         key: const ValueKey('wechatButton'),
@@ -68,6 +71,7 @@ class SplashStoragePage extends SplashBasePage {
                   ),
                 )
             : null,
+        edgeType: getPageButtonsEdge(),
       ),
       MxcButton.secondaryWhite(
         key: const ValueKey('emailButton'),
@@ -84,6 +88,7 @@ class SplashStoragePage extends SplashBasePage {
                   ),
                 )
             : null,
+        edgeType: getPageButtonsEdge(),
       ),
       isNoneAvailable
           ? MxcButton.secondaryWhite(
@@ -99,6 +104,7 @@ class SplashStoragePage extends SplashBasePage {
                   ),
                 ),
               ),
+              edgeType: getPageButtonsEdge(),
             )
           : Container(),
     ];

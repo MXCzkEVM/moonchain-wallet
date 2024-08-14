@@ -23,6 +23,8 @@ class SplashImportStoragePage extends SplashBasePage {
         text: FlutterI18n.translate(context, 'import_wallet'));
   }
 
+  MXCWalletButtonEdgeType getPageButtonsEdge() => MXCWalletButtonEdgeType.hard;
+
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     final isTelegramAvailable = ref.watch(state).applist['telegram'] == true ||
@@ -40,6 +42,7 @@ class SplashImportStoragePage extends SplashBasePage {
         onTap: isTelegramAvailable
             ? () => ref.read(presenter).openTelegram()
             : null,
+        edgeType: getPageButtonsEdge(),
       ),
       MxcButton.secondaryWhite(
         key: const ValueKey('wechatButton'),
@@ -49,6 +52,7 @@ class SplashImportStoragePage extends SplashBasePage {
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap:
             isWeChatAvailable ? () => ref.read(presenter).openWechat() : null,
+        edgeType: getPageButtonsEdge(),
       ),
       MxcButton.secondaryWhite(
         key: const ValueKey('mnemonicButton'),
@@ -61,6 +65,7 @@ class SplashImportStoragePage extends SplashBasePage {
             const SplashImportWalletPage(),
           ),
         ),
+        edgeType: getPageButtonsEdge(),
       ),
       !isNoneAvailable
           ? MxcButton.secondaryWhite(
@@ -70,8 +75,9 @@ class SplashImportStoragePage extends SplashBasePage {
               titleSize: 18,
               title: FlutterI18n.translate(context, 'local_secured_storage'),
               onTap: () => ref.read(presenter).openLocalSeedPhrase(),
+              edgeType: getPageButtonsEdge(),
             )
-          : Container()
+          : Container(),
     ];
   }
 }

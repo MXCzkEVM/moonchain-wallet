@@ -27,7 +27,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
   Widget icon(BuildContext context) => Icon(
         MxcIcons.email,
         size: 40,
-        color: themeColor(),
+        color: themeColor(context: context),
       );
 
   @override
@@ -41,7 +41,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: ColorsTheme.of(context).cardBackground,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.zero),
       ),
       child: Column(
         children: [
@@ -51,7 +51,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: themeColor(),
+              color: themeColor(context: context),
             ),
             child: const Icon(
               MxcIcons.email,
@@ -73,15 +73,15 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
   }
 
   @override
-  Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primary(
+  Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primaryWhite(
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'email_to_myself'),
         titleColor: ColorsTheme.of(context).textBlack200,
-        color: themeColor(),
-        borderColor: themeColor(),
+        titleSize: 18,
         onTap: () => ref.read(presenter).sendEmail(
               context,
               settingsFlow,
             ),
+        edgeType: MXCWalletButtonEdgeType.hard,
       );
 }

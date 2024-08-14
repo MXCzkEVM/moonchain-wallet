@@ -42,6 +42,7 @@ class SplashMNSAnnouncementPage extends HookConsumerWidget {
               const SplashMNSQueryPage(),
             ),
           ),
+          edgeType: UIConfig.securityScreensButtonsEdgeType,
         ),
       ),
       children: [

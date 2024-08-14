@@ -82,5 +82,6 @@ class LocalRecoveryPhrasePage extends RecoveryPhraseBasePage {
         onTap: () => ref.read(presenter).saveLocally(
               settingsFlow,
             ),
+        edgeType: MXCWalletButtonEdgeType.hard,
       );
 }

@@ -154,15 +154,14 @@ class WechatRecoveryPhrasePage extends RecoveryPhraseBasePage {
       );
 
   @override
-  Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primary(
+  Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primaryWhite(
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'store_to')
             .replaceFirst('{0}', name(context)),
         titleColor: ColorsTheme.of(context).textBlack200,
-        color: themeColor(),
-        borderColor: themeColor(),
         onTap: ref.watch(state).acceptAgreement
             ? () => ref.read(presenter).shareToWechat(settingsFlow)
             : null,
+        edgeType: MXCWalletButtonEdgeType.hard,
       );
 }

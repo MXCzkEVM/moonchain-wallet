@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'splash_base_presenter.dart';
 import 'splash_base_state.dart';
+
+
 
 abstract class SplashBasePage extends HookConsumerWidget {
   const SplashBasePage({Key? key}) : super(key: key);
@@ -45,9 +48,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Image(
-          image: ImagesTheme.of(context).axsWithTitle,
-        ),
+        Image(image: ImagesTheme.of(context).appTextLogo),
       ],
     );
   }
@@ -66,43 +67,27 @@ abstract class SplashBasePage extends HookConsumerWidget {
     ) {
       return Expanded(
         child: Stack(fit: StackFit.expand, children: [
-          Positioned(top: 40, child: appLogo(context)),
-          FutureBuilder(
-            future: Future.delayed(const Duration(seconds: 4)),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // Return an empty container while waiting for the delay
-                return AnimatedPositioned(
-                  duration: const Duration(milliseconds: 4000),
-                  curve: Curves.easeInOut,
-                  bottom: splashState.animate
-                      ? Platform.isAndroid
-                          ? 16
-                          : 0
-                      : -600,
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: buildFooter(context, ref)!)),
-                );
-              } else {
-                return AnimatedPositioned(
-                  duration: const Duration(milliseconds: 4000),
-                  curve: Curves.easeInOut,
-                  bottom: splashState.animate
-                      ? Platform.isAndroid
-                          ? 16
-                          : 0
-                      : -600,
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: buildFooter(context, ref)!)),
-                );
-              }
-            },
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 2000),
+            curve: Curves.easeInOut,
+            bottom: splashState.animate
+                ? 625
+                : -600,
+            child: appLogo(context),
+          ),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 3000),
+            curve: Curves.easeInOut,
+            bottom: splashState.animate
+                ? Platform.isAndroid
+                    ? 16
+                    : 0
+                : -1200,
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: buildFooter(context, ref)!)),
           ),
         ]),
       );
@@ -119,9 +104,9 @@ abstract class SplashBasePage extends HookConsumerWidget {
         if (drawAnimated == true)
           buildAnimatedLayout(context)!
         else ...[
-          const SizedBox(height: 40),
+          const SizedBox(height: 140),
           appLogo(context),
-          const SizedBox(height: 48),
+          const SizedBox(height: 140),
           Expanded(
             child: Column(
               children: getButtons(context, ref),
