@@ -116,7 +116,6 @@ flutter:
   assets:
     - assets/.env
     - assets/flutter_i18n/
-    - assets/images/security/
     - assets/svg/
     - assets/svg/networks/
     - assets/svg/splash/

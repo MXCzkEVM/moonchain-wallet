@@ -88,12 +88,9 @@ class ResetPasscode extends StatelessWidget {
             ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8),
-              child: Image(
-                image: AssetImage(
-                  'assets/images/security/unlock.png',
-                ),
-                width: 80,
-                height: 80,
+              child: Icon(
+                MxcIcons.security,
+                size: 66,
               ),
             ),
             Text(
