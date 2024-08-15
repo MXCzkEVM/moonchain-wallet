@@ -31,6 +31,8 @@ class PasscodeChangeConfirmPagePresenter extends PasscodeBasePagePresenter {
     _passcodeUseCase.setNeedSetPasscode(false);
     _passcodeUseCase.setPasscode(expectedNumbers.join());
 
-    navigator?.popFeature();
+    navigator?.popUntil((route) {
+      return route.settings.name?.contains('SecuritySettingsPage') ?? false;
+    });
   }
 }
