@@ -93,6 +93,7 @@ class PasscodeRequirePage extends PasscodeBasePage {
               title: FlutterI18n.translate(context, 'forgot_passcode'),
               size: MXCWalletButtonSize.xl,
               onTap: () => showResetPasscodeDialog(context, ref),
+              edgeType: UIConfig.securityScreensButtonsEdgeType,
             ),
           ),
         const Spacer(),

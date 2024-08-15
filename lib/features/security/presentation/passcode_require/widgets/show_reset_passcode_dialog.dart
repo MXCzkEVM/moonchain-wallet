@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class ResetPasscode extends StatelessWidget {
                     Expanded(
                       child: Text(
                         FlutterI18n.translate(context, item),
-                        style: FontTheme.of(context).body1.primary(),
+                        style: FontTheme.of(context).body2.primary(),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -104,11 +105,12 @@ class ResetPasscode extends StatelessWidget {
             const SizedBox(height: 10),
             content(context),
             const SizedBox(height: 10),
-            MxcButton.secondary(
+            MxcButton.secondaryWhite(
               key: const ValueKey('logOutButton'),
               title: FlutterI18n.translate(context, 'log_out'),
               size: MXCWalletButtonSize.xl,
               onTap: onTap,
+              edgeType: UIConfig.securityScreensButtonsEdgeType,
             ),
             const SizedBox(height: 26),
           ],
