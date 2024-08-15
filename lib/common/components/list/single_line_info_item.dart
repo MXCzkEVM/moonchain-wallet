@@ -49,7 +49,7 @@ class SingleLineInfoItem extends HookConsumerWidget {
                       value,
                       style: FontTheme.of(context).body1.primary(),
                       softWrap: true,
-                      textAlign: TextAlign.end,
+                      textAlign: TextAlign.start,
                     ),
                   ),
                   if (valueActionIcon != null)

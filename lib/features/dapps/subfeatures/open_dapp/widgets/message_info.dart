@@ -58,7 +58,7 @@ class MessageInfo extends ConsumerWidget {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               networkName,
