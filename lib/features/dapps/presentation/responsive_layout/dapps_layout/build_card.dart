@@ -76,6 +76,8 @@ Widget buildCard(
                       )
                     : image.contains(
                         'https',
+                      ) || image.contains(
+                        'http',
                       )
                         ? image.contains(
                             'svg',
