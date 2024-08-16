@@ -125,11 +125,28 @@ class DAppHooksPage extends HookConsumerWidget {
         const SizedBox(height: Sizes.spaceNormal),
         MXCDropDown(
           key: const Key('minerHooksTimingDropDown'),
-          onTap: dappHooksPresenter.showTimePickerDialog,
+          onTap: dappHooksPresenter.showTimePickerMinerDialog,
           selectedItem: autoClaimTime,
           enabled:
               isMXCChains && dappHooksState.dAppHooksData!.minerHooks.enabled,
         ),
+        // const SizedBox(height: Sizes.spaceLarge),
+        // MXCSwitchRowItem(
+        //   key: const Key('blueberryRingHookSwitch'),
+        //   title: translate('blueberry_hooks'),
+        //   value: dappHooksState.dAppHooksData!.blueberryRingHooks.enabled,
+        //   onChanged: dappHooksPresenter.changeBlueberryHooksEnabled,
+        //   enabled: isMXCChains,
+        //   titleStyle: FontTheme.of(context).h6(),
+        // ),
+        // const SizedBox(height: Sizes.spaceNormal),
+        // MXCDropDown(
+        //   key: const Key('BlueberryHooksTimingDropDown'),
+        //   onTap: dappHooksPresenter.showTimePickerBlueberryRingDialog,
+        //   selectedItem: autoClaimTime,
+        //   enabled:
+        //       isMXCChains && dappHooksState.dAppHooksData!.blueberryRingHooks.enabled,
+        // ),
       ],
     );
   }

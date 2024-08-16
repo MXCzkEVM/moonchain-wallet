@@ -90,4 +90,48 @@ class DAppHooksService {
       BackgroundFetch.finish(taskId);
     }
   }
+
+  static void blueberryAutoSyncServiceCallBackDispatcherForeground(
+      String taskId) async {
+    try {
+      await loadProviders();
+
+      final container = ProviderContainer();
+      final authUseCase = container.read(authUseCaseProvider);
+      final chainConfigurationUseCase =
+          container.read(chainConfigurationUseCaseProvider);
+      final accountUseCase = container.read(accountUseCaseProvider);
+      final dAppHooksUseCase = container.read(dAppHooksUseCaseProvider);
+      final contextLessTranslationUseCase =
+          container.read(contextLessTranslationUseCaseProvider);
+
+      final selectedNetwork =
+          chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
+      DAppHooksModel dappHooksData = dAppHooksUseCase.dappHooksData.value;
+      final chainId = selectedNetwork.chainId;
+
+      final isLoggedIn = authUseCase.loggedIn;
+      final account = accountUseCase.account.value;
+      // final serviceEnabled = dappHooksData.enabled;
+      final autoSyncEnabled = dappHooksData.blueberryRingHooks.enabled;
+      final ringHooksTime = dappHooksData.blueberryRingHooks.time;
+      final selectedRings = dappHooksData.blueberryRingHooks.selectedRings;
+      // Make sure user is logged in
+      if (isLoggedIn && MXCChains.isMXCChains(chainId) && autoSyncEnabled) {
+        await AXSNotification()
+            .setupFlutterNotifications(shouldInitFirebase: false);
+
+        await dAppHooksUseCase.syncBlueberryRingSync(
+            account: account!,
+            selectedRingsListId: selectedRings,
+            ringAutoSyncTime: ringHooksTime);
+        BackgroundFetch.finish(taskId);
+      } else {
+        // terminate background fetch
+        BackgroundFetch.stop(taskId);
+      }
+    } catch (e) {
+      BackgroundFetch.finish(taskId);
+    }
+  }
 }

@@ -3,8 +3,9 @@ import 'dart:typed_data';
 class Method {
   final int uid;
   final List<int>? arg;
+  final bool frag;
 
-  Method({required this.uid, this.arg});
+  Method({required this.uid, this.arg, this.frag = false});
 }
 
 class BlueberryCommandsUtils {
@@ -23,7 +24,8 @@ class BlueberryCommandsUtils {
   static List<List<T>> splitArrayByLength<T>(List<T> arr, int length) {
     List<List<T>> result = [];
     for (int i = 0; i < arr.length; i += length) {
-      result.add(arr.sublist(i, i + length));
+      int end = (i + length < arr.length) ? i + length : arr.length;
+      result.add(arr.sublist(i, end));
     }
     return result;
   }

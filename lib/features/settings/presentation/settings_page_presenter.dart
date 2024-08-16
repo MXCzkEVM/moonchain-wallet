@@ -15,6 +15,10 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
   late final _webviewUseCase = WebviewUseCase();
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
+  late final blueberryRingBackgroundNotificationsUseCase =
+      ref.read(blueberryRingBackgroundNotificationsUseCaseProvider);
+  late final contextLessTranslationUseCase =
+      ref.read(contextLessTranslationUseCaseProvider);
 
   @override
   void initState() {
@@ -101,5 +105,12 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
 
   void loadCache() {
     _webviewUseCase.clearCache();
+  }
+
+  void testOnly() async {
+    await blueberryRingBackgroundNotificationsUseCase.checkLowBattery();
+    await blueberryRingBackgroundNotificationsUseCase.checkActivityReminder();
+    await blueberryRingBackgroundNotificationsUseCase.checkSleepInsight();
+    await blueberryRingBackgroundNotificationsUseCase.checkHeartAlert();
   }
 }

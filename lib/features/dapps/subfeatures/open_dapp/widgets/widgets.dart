@@ -10,3 +10,5 @@ export 'transaction_dialog.dart';
 export 'transaction_info.dart';
 export 'typed_message_bottom_sheet.dart';
 export 'typed_message_info.dart';
+export 'message_info.dart';
+export 'sign_message_bottom_sheet.dart';

@@ -33,9 +33,9 @@ class BluetoothUseCase extends ReactiveUseCase {
   final ChainConfigurationUseCase _chainConfigurationUseCase;
   final AuthUseCase _authUseCase;
 
-  late StreamSubscription<List<ScanResult>>? scannerListener;
-  late StreamSubscription<BluetoothAdapterState>? stateListener;
-  late StreamSubscription<bool>? isScanningStateListener;
+  StreamSubscription<List<ScanResult>>? scannerListener;
+  StreamSubscription<BluetoothAdapterState>? stateListener;
+  StreamSubscription<bool>? isScanningStateListener;
 
   late final ValueStream<bool> isScanning = reactive(false);
   late final ValueStream<BluetoothAdapterState> bluetoothStatus =
@@ -49,8 +49,13 @@ class BluetoothUseCase extends ReactiveUseCase {
         // usually start scanning, connecting, etc
         isScanningListener();
         initScannerListener();
-      } else {
+      } else if (state == BluetoothAdapterState.unauthorized ||
+          state == BluetoothAdapterState.unavailable ||
+          state == BluetoothAdapterState.off ||
+          state == BluetoothAdapterState.unknown) {
         // show an error to the user, etc
+        cancelIsScanningListener();
+        _cancelScannerListen();
       }
     });
   }
@@ -138,6 +143,31 @@ class BluetoothUseCase extends ReactiveUseCase {
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future<void> connectionHandler(BluetoothDevice device) async {
+    int attempts = 0;
+    const maxAttempts = 4;
+    while (attempts < maxAttempts) {
+      try {
+        print('Attempt ${attempts + 1} to connect to device...');
+        await device.connect();
+        print('Connected to device successfully.');
+        break; // Exit the loop if the connection is successful
+      } catch (e) {
+        if (e is FlutterBluePlusException && e.function == 'connect') {
+          attempts++;
+          print('Failed to connect. Attempt $attempts of $maxAttempts.');
+          if (attempts >= maxAttempts) {
+            print('Max attempts reached. Could not connect to device.');
+            break;
+          }
+        } else {
+          print('Unexpected error: $e');
+          break; // Exit on unexpected errors
+        }
+      }
     }
   }
 

@@ -146,6 +146,7 @@ final Provider<DAppHooksUseCase> dAppHooksUseCaseProvider = Provider(
     ),
     ref.watch(errorUseCaseProvider),
     ref.watch(contextLessTranslationUseCaseProvider),
+    ref.watch(blueberryRingBackgroundSyncUseCase),
   ),
 );
 
@@ -283,6 +284,18 @@ final Provider<BlueberryRingBackgroundNotificationsUseCase>
     ref.watch(chainConfigurationUseCaseProvider),
     ref.watch(bluetoothUseCaseProvider),
     ref.watch(blueberryRingUseCaseProvider),
+    ref.watch(contextLessTranslationUseCaseProvider),
+  ),
+);
+
+final Provider<BlueberryRingBackgroundSyncUseCase>
+    blueberryRingBackgroundSyncUseCase = Provider(
+  (ref) => BlueberryRingBackgroundSyncUseCase(
+    ref.watch(web3RepositoryProvider),
+    ref.watch(chainConfigurationUseCaseProvider),
+    ref.watch(bluetoothUseCaseProvider),
+    ref.watch(blueberryRingUseCaseProvider),
+    ref.watch(accountUseCaseProvider),
     ref.watch(contextLessTranslationUseCaseProvider),
   ),
 );
