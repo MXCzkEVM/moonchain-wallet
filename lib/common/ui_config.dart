@@ -6,10 +6,11 @@ class UIConfig {
       MXCWalletButtonEdgeType.hard;
   static MXCWalletButtonEdgeType get securityScreensButtonsEdgeType =>
       MXCWalletButtonEdgeType.hard;
-  static LinearGradient get gradientBackground => const LinearGradient(
+  static LinearGradient gradientBackground(BuildContext context) =>
+      LinearGradient(
         colors: [
-          Color(0xFF0E1629),
-          Color(0xFF333333),
+          ColorsTheme.of(context).darkBlue,
+          ColorsTheme.of(context).charcoalGray,
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
