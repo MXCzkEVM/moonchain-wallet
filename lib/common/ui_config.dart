@@ -6,6 +6,8 @@ class UIConfig {
       MXCWalletButtonEdgeType.hard;
   static MXCWalletButtonEdgeType get securityScreensButtonsEdgeType =>
       MXCWalletButtonEdgeType.hard;
+  static MXCWalletButtonEdgeType get settingsScreensButtonsEdgeType =>
+      MXCWalletButtonEdgeType.hard;
   static LinearGradient gradientBackground(BuildContext context) =>
       LinearGradient(
         colors: [
@@ -15,4 +17,7 @@ class UIConfig {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       );
+
+  static Radius defaultRadius = const Radius.circular(10);
+  static BorderRadiusGeometry defaultBorderRadiusAll = BorderRadius.all(defaultRadius);
 }
