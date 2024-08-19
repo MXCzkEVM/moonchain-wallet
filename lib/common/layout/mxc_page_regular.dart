@@ -30,6 +30,7 @@ class MxcPageRegular extends MxcPage {
     bool useFooterPadding = true,
     bool resizeToAvoidBottomInset = true,
     bool useSplashBackground = false,
+    bool useGradientBackground = false,
     bool useAppBar = false,
   }) : super.internal(
           key: key,
@@ -53,6 +54,7 @@ class MxcPageRegular extends MxcPage {
           useFooterPadding: useFooterPadding,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           useSplashBackground: useSplashBackground,
+          useGradientBackground: useGradientBackground,
         );
 
   @override
