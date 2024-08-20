@@ -16,11 +16,17 @@ void showSnackBar({
   required String content,
   String? title,
   SnackBarType? type = SnackBarType.success,
-  SnackBarAction? action,
+  String? buttonTitle,
+  void Function()? buttonOnTap,
   AnimationController? animation,
+  action,
 }) {
-  assert(action?.textColor == null, '\'action\' text color should be null');
-  SnackBarAction? updateAction = action;
+  if (buttonOnTap != null || buttonTitle != null) {
+    assert(buttonOnTap != null && buttonTitle != null,
+        'Button onTap & title should both be specified if one of them is specified.');
+  }
+
+  // SnackBarAction? updateAction = action;
 
   final isTitleAvailable = title != null;
 
@@ -37,13 +43,13 @@ void showSnackBar({
     }
   }
 
-  if (action != null && action.textColor == null) {
-    updateAction = SnackBarAction(
-      label: action.label,
-      onPressed: action.onPressed,
-      textColor: getColor().withOpacity(0.4),
-    );
-  }
+  // if (action != null && action.textColor == null) {
+  //   updateAction = SnackBarAction(
+  //     label: action.label,
+  //     onPressed: action.onPressed,
+  //     textColor: ,
+  //   );
+  // }
 
   Color getShadowColor() {
     switch (type) {
@@ -88,7 +94,7 @@ void showSnackBar({
       left: Sizes.spaceNormal,
       right: Sizes.spaceNormal,
       bottom: SnackBarType.warning == type
-          ? MediaQuery.of(context).size.height - 250
+          ? MediaQuery.of(context, ).size.height - 250
           : 0,
     ),
     duration: const Duration(seconds: 4),
@@ -123,21 +129,19 @@ void showSnackBar({
           Positioned(
             bottom: 0,
             child: Container(
-              width: MediaQuery.of(context).size.width - (Sizes.spaceNormal * 2),
-              
+              width:
+                  MediaQuery.of(context, ).size.width - (Sizes.spaceNormal * 2),
               child: AnimatedBuilder(
                 animation: animation!,
                 builder: (context, child) {
                   return LinearProgressIndicator(
-                  color: getColor(),
-                  value: animation.value,
-                  minHeight: 5,
-                  valueColor:  AlwaysStoppedAnimation<Color>(Colors.red),
-                  backgroundColor: Colors.transparent,
-
-                );
+                    color: getColor(),
+                    value: animation.value,
+                    minHeight: 5,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                    backgroundColor: Colors.transparent,
+                  );
                 },
-
               ),
             ),
           ),
@@ -190,15 +194,29 @@ void showSnackBar({
                         textAlign: TextAlign.start,
                         softWrap: true,
                       ),
-                      Text(
-                        content,
-                        style: getContentStyle(),
-                        textAlign: TextAlign.start,
-                        softWrap: true,
-                      ),
                     ],
                   ),
                 ),
+                if (buttonTitle != null && buttonOnTap != null) ...[
+                  Container(
+                    alignment: AlignmentDirectional.centerEnd,
+                    width: MediaQuery.of(context, ).size.width * 0.2,
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          buttonOnTap();
+                        },
+                        child: Text(
+                          buttonTitle,
+                          style: FontTheme.of(context, listen: false).subtitle1().copyWith(
+                                color: getColor().withOpacity(0.4),
+                              ),
+                        ),
+                      ),
+                    ),
+                  )
+                ] else
+                  Container()
               ],
             ),
           ),
