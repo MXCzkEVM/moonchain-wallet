@@ -91,6 +91,7 @@ void showSnackBar({
           ? MediaQuery.of(context).size.height - 250
           : 0,
     ),
+    duration: const Duration(seconds: 4),
     padding: const EdgeInsets.all(0),
     backgroundColor: const Color(0XFF202020),
     content: ClipRRect(
@@ -120,12 +121,24 @@ void showSnackBar({
             ),
           ),
           Positioned(
-            top: 0,
-            child: LinearProgressIndicator(
-              color: Colors.red,
-              value: 0.5,
-              minHeight: 50,
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+            bottom: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width - (Sizes.spaceNormal * 2),
+              
+              child: AnimatedBuilder(
+                animation: animation!,
+                builder: (context, child) {
+                  return LinearProgressIndicator(
+                  color: getColor(),
+                  value: animation.value,
+                  minHeight: 5,
+                  valueColor:  AlwaysStoppedAnimation<Color>(Colors.red),
+                  backgroundColor: Colors.transparent,
+
+                );
+                },
+
+              ),
             ),
           ),
           Padding(
@@ -196,7 +209,7 @@ void showSnackBar({
     // action: updateAction,
   );
 
-  animation?.forward();
+  animation.forward(from: 0);
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
