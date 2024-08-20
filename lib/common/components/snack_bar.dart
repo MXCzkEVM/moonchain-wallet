@@ -94,7 +94,10 @@ void showSnackBar({
       left: Sizes.spaceNormal,
       right: Sizes.spaceNormal,
       bottom: SnackBarType.warning == type
-          ? MediaQuery.of(context, ).size.height - 250
+          ? MediaQuery.of(
+                context,
+              ).size.height -
+              250
           : 0,
     ),
     duration: const Duration(seconds: 4),
@@ -128,21 +131,26 @@ void showSnackBar({
           ),
           Positioned(
             bottom: 0,
-            child: Container(
-              width:
-                  MediaQuery.of(context, ).size.width - (Sizes.spaceNormal * 2),
-              child: AnimatedBuilder(
-                animation: animation!,
-                builder: (context, child) {
-                  return LinearProgressIndicator(
-                    color: getColor(),
-                    value: animation.value,
-                    minHeight: 5,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-                    backgroundColor: Colors.transparent,
-                  );
-                },
-              ),
+            child: AnimatedBuilder(
+              animation: animation!,
+              builder: (context, child) {
+                return Container(
+                  height: 3,
+                  width: animation.value *
+                          MediaQuery.of(
+                            context,
+                          ).size.width,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: getColor(),
+                        blurRadius: 1, 
+                        spreadRadius: 1.0,
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
           Padding(
@@ -200,7 +208,10 @@ void showSnackBar({
                 if (buttonTitle != null && buttonOnTap != null) ...[
                   Container(
                     alignment: AlignmentDirectional.centerEnd,
-                    width: MediaQuery.of(context, ).size.width * 0.2,
+                    width: MediaQuery.of(
+                          context,
+                        ).size.width *
+                        0.15,
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
@@ -208,7 +219,9 @@ void showSnackBar({
                         },
                         child: Text(
                           buttonTitle,
-                          style: FontTheme.of(context, listen: false).subtitle1().copyWith(
+                          style: FontTheme.of(context, listen: false)
+                              .subtitle1()
+                              .copyWith(
                                 color: getColor().withOpacity(0.4),
                               ),
                         ),
@@ -227,7 +240,7 @@ void showSnackBar({
     // action: updateAction,
   );
 
-  animation.forward(from: 0);
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  animation.forward(from: 0);
 }
