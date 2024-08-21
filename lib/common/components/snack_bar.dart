@@ -1,14 +1,22 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-
-import 'c.dart';
 
 enum SnackBarType { success, fail, warning }
 
 enum SnackBarPosition {
   top,
   bottom,
+}
+
+class MXCSnackBar extends HookConsumerWidget {
+  const MXCSnackBar({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef) {
+    return Container();
+  }
 }
 
 void showSnackBar({
@@ -18,15 +26,12 @@ void showSnackBar({
   SnackBarType? type = SnackBarType.success,
   String? buttonTitle,
   void Function()? buttonOnTap,
-  AnimationController? animation,
   action,
 }) {
   if (buttonOnTap != null || buttonTitle != null) {
     assert(buttonOnTap != null && buttonTitle != null,
         'Button onTap & title should both be specified if one of them is specified.');
   }
-
-  // SnackBarAction? updateAction = action;
 
   final isTitleAvailable = title != null;
 
@@ -43,24 +48,28 @@ void showSnackBar({
     }
   }
 
-  // if (action != null && action.textColor == null) {
-  //   updateAction = SnackBarAction(
-  //     label: action.label,
-  //     onPressed: action.onPressed,
-  //     textColor: ,
-  //   );
-  // }
-
   Color getShadowColor() {
     switch (type) {
       case SnackBarType.success:
-        return ColorsTheme.of(context, listen: false).successShadow;
+        return ColorsTheme.of(
+          context,
+          listen: false,
+        ).successShadow;
       case SnackBarType.fail:
-        return ColorsTheme.of(context, listen: false).errorShadow;
+        return ColorsTheme.of(
+          context,
+          listen: false,
+        ).errorShadow;
       case SnackBarType.warning:
-        return ColorsTheme.of(context, listen: false).warningShadow;
+        return ColorsTheme.of(
+          context,
+          listen: false,
+        ).warningShadow;
       default:
-        return ColorsTheme.of(context, listen: false).warningShadow;
+        return ColorsTheme.of(
+          context,
+          listen: false,
+        ).warningShadow;
     }
   }
 
@@ -83,12 +92,9 @@ void showSnackBar({
   }
 
   final snackBar = SnackBar(
-    // animation: animation,
     elevation: 1000,
-    shape: RoundedBottomBorder(
-      bottomBorder:
-          BorderSide(color: getColor(), width: 2, style: BorderStyle.solid),
-      // animationValue: animation.value
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
     margin: EdgeInsets.only(
       left: Sizes.spaceNormal,
@@ -117,9 +123,6 @@ void showSnackBar({
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
-                  // center: Alignment.centerLeft, // Center the gradient on the icon
-                  // radius: 20,
-
                   colors: [
                     getShadowColor().withOpacity(0.21),
                     getShadowColor().withOpacity(0),
@@ -129,30 +132,7 @@ void showSnackBar({
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: AnimatedBuilder(
-              animation: animation!,
-              builder: (context, child) {
-                return Container(
-                  height: 3,
-                  width: animation.value *
-                          MediaQuery.of(
-                            context,
-                          ).size.width,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: getColor(),
-                        blurRadius: 1, 
-                        spreadRadius: 1.0,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+          LinearBarAnimation(color: getColor()),
           Padding(
             padding: const EdgeInsets.all(Sizes.spaceXSmall),
             child: Row(
@@ -178,31 +158,35 @@ void showSnackBar({
                 ),
                 const SizedBox(width: Sizes.spaceXSmall),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      isTitleAvailable
-                          ? Text(
-                              title,
-                              style: FontTheme.of(
-                                context,
-                                listen: false,
-                              ).subtitle2().copyWith(
-                                    color:
-                                        ColorsTheme.of(context, listen: false)
-                                            .white,
-                                  ),
-                              textAlign: TextAlign.start,
-                              softWrap: true,
-                            )
-                          : Container(),
-                      Text(
-                        content,
-                        style: getContentStyle(),
-                        textAlign: TextAlign.start,
-                        softWrap: true,
-                      ),
-                    ],
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: Sizes.spaceXSmall),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        isTitleAvailable
+                            ? Text(
+                                title,
+                                style: FontTheme.of(
+                                  context,
+                                  listen: false,
+                                ).subtitle2().copyWith(
+                                      color:
+                                          ColorsTheme.of(context, listen: false)
+                                              .white,
+                                    ),
+                                textAlign: TextAlign.start,
+                                softWrap: true,
+                              )
+                            : Container(),
+                        Text(
+                          content,
+                          style: getContentStyle(),
+                          textAlign: TextAlign.start,
+                          softWrap: true,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 if (buttonTitle != null && buttonOnTap != null) ...[
@@ -237,10 +221,70 @@ void showSnackBar({
       ),
     ),
     behavior: SnackBarBehavior.floating,
-    // action: updateAction,
   );
 
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  animation.forward(from: 0);
+}
+
+class LinearBarAnimation extends StatefulWidget {
+  final Color color;
+  const LinearBarAnimation({super.key, required this.color});
+
+  @override
+  State<LinearBarAnimation> createState() => _LinearBarAnimationState();
+}
+
+class _LinearBarAnimationState extends State<LinearBarAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 4500), // Duration of the animation
+      upperBound: 1,
+      lowerBound: 0,
+      value: 0,
+    );
+
+    _controller.forward(); // Start the animation
+  }
+
+  @override
+  void dispose() {
+    _controller
+        .dispose(); // Clean up the controller when the widget is disposed
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Container(
+            height: 2,
+            width: _controller.value *
+                MediaQuery.of(
+                  context,
+                ).size.width,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: widget.color,
+                  blurRadius: 1,
+                  spreadRadius: 1.0,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
