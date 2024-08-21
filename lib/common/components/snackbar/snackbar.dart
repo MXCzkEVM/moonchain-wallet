@@ -1,22 +1,14 @@
 import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
+
+import 'linear_bar_animation.dart';
 
 enum SnackBarType { success, fail, warning }
 
 enum SnackBarPosition {
   top,
   bottom,
-}
-
-class MXCSnackBar extends HookConsumerWidget {
-  const MXCSnackBar({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef) {
-    return Container();
-  }
 }
 
 void showSnackBar({
@@ -26,6 +18,7 @@ void showSnackBar({
   SnackBarType? type = SnackBarType.success,
   String? buttonTitle,
   void Function()? buttonOnTap,
+  SnackBarPosition? snackBarPosition,
   action,
 }) {
   if (buttonOnTap != null || buttonTitle != null) {
@@ -99,7 +92,7 @@ void showSnackBar({
     margin: EdgeInsets.only(
       left: Sizes.spaceNormal,
       right: Sizes.spaceNormal,
-      bottom: SnackBarType.warning == type
+      bottom: SnackBarPosition.top == snackBarPosition
           ? MediaQuery.of(
                 context,
               ).size.height -
@@ -227,64 +220,3 @@ void showSnackBar({
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
-class LinearBarAnimation extends StatefulWidget {
-  final Color color;
-  const LinearBarAnimation({super.key, required this.color});
-
-  @override
-  State<LinearBarAnimation> createState() => _LinearBarAnimationState();
-}
-
-class _LinearBarAnimationState extends State<LinearBarAnimation>
-    with TickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 4500), // Duration of the animation
-      upperBound: 1,
-      lowerBound: 0,
-      value: 0,
-    );
-
-    _controller.forward(); // Start the animation
-  }
-
-  @override
-  void dispose() {
-    _controller
-        .dispose(); // Clean up the controller when the widget is disposed
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          return Container(
-            height: 2,
-            width: _controller.value *
-                MediaQuery.of(
-                  context,
-                ).size.width,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: widget.color,
-                  blurRadius: 1,
-                  spreadRadius: 1.0,
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
