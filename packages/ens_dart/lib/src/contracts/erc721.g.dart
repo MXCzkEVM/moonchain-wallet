@@ -1106,7 +1106,7 @@ class Erc721 extends _i1.GeneratedContract {
   }
 
   /// Returns a live stream of all Approval events emitted by this contract.
-  Stream<Approval> approvalEvents({
+  Stream<ERC721Approval> approvalEvents({
     _i1.BlockNum? fromBlock,
     _i1.BlockNum? toBlock,
   }) {
@@ -1122,7 +1122,7 @@ class Erc721 extends _i1.GeneratedContract {
         result.topics!,
         result.data!,
       );
-      return Approval(
+      return ERC721Approval(
         decoded,
         result,
       );
@@ -1130,7 +1130,7 @@ class Erc721 extends _i1.GeneratedContract {
   }
 
   /// Returns a live stream of all ApprovalForAll events emitted by this contract.
-  Stream<ApprovalForAll> approvalForAllEvents({
+  Stream<ERC721ApprovalForAll> approvalForAllEvents({
     _i1.BlockNum? fromBlock,
     _i1.BlockNum? toBlock,
   }) {
@@ -1146,7 +1146,7 @@ class Erc721 extends _i1.GeneratedContract {
         result.topics!,
         result.data!,
       );
-      return ApprovalForAll(
+      return ERC721ApprovalForAll(
         decoded,
         result,
       );
@@ -1178,7 +1178,7 @@ class Erc721 extends _i1.GeneratedContract {
   }
 
   /// Returns a live stream of all OwnershipTransferred events emitted by this contract.
-  Stream<OwnershipTransferred> ownershipTransferredEvents({
+  Stream<ERC721OwnershipTransferred> ownershipTransferredEvents({
     _i1.BlockNum? fromBlock,
     _i1.BlockNum? toBlock,
   }) {
@@ -1194,7 +1194,7 @@ class Erc721 extends _i1.GeneratedContract {
         result.topics!,
         result.data!,
       );
-      return OwnershipTransferred(
+      return ERC721OwnershipTransferred(
         decoded,
         result,
       );
@@ -1202,7 +1202,7 @@ class Erc721 extends _i1.GeneratedContract {
   }
 
   /// Returns a live stream of all Transfer events emitted by this contract.
-  Stream<Transfer> transferEvents({
+  Stream<ERC721Transfer> transferEvents({
     _i1.BlockNum? fromBlock,
     _i1.BlockNum? toBlock,
   }) {
@@ -1218,7 +1218,7 @@ class Erc721 extends _i1.GeneratedContract {
         result.topics!,
         result.data!,
       );
-      return Transfer(
+      return ERC721Transfer(
         decoded,
         result,
       );
@@ -1267,8 +1267,8 @@ class WithdrawRecipients {
   final BigInt percentage;
 }
 
-class Approval {
-  Approval(
+class ERC721Approval {
+  ERC721Approval(
     List<dynamic> response,
     this.event,
   )   : owner = (response[0] as _i1.EthereumAddress),
@@ -1284,8 +1284,8 @@ class Approval {
   final _i1.FilterEvent event;
 }
 
-class ApprovalForAll {
-  ApprovalForAll(
+class ERC721ApprovalForAll {
+  ERC721ApprovalForAll(
     List<dynamic> response,
     this.event,
   )   : owner = (response[0] as _i1.EthereumAddress),
@@ -1321,8 +1321,8 @@ class ConsecutiveTransfer {
   final _i1.FilterEvent event;
 }
 
-class OwnershipTransferred {
-  OwnershipTransferred(
+class ERC721OwnershipTransferred {
+  ERC721OwnershipTransferred(
     List<dynamic> response,
     this.event,
   )   : previousOwner = (response[0] as _i1.EthereumAddress),
@@ -1335,8 +1335,8 @@ class OwnershipTransferred {
   final _i1.FilterEvent event;
 }
 
-class Transfer {
-  Transfer(
+class ERC721Transfer {
+  ERC721Transfer(
     List<dynamic> response,
     this.event,
   )   : from = (response[0] as _i1.EthereumAddress),
