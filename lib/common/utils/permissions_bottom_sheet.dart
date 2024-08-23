@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/bottom_sheets/bottom_sheets.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -9,64 +10,44 @@ Future<bool?> showPermissionUseCasesBottomSheet(
 }) {
   String translate(String text) => FlutterI18n.translate(context, text);
 
-  return showModalBottomSheet<bool>(
+  return showBaseBottomSheet<bool>(
     context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
-    useSafeArea: true,
-    backgroundColor: Colors.transparent,
-    builder: (BuildContext context) => Container(
-      padding: const EdgeInsets.only(
-          top: Sizes.spaceNormal, bottom: Sizes.space3XLarge),
-      decoration: BoxDecoration(
-        color: ColorsTheme.of(context).layerSheetBackground,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.only(
+              start: Sizes.spaceNormal,
+              end: Sizes.spaceNormal,
+              bottom: Sizes.space2XLarge),
+          child: MxcAppBarEvenly.title(
+            titleText: translate('permission_use_cases'),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsetsDirectional.symmetric(
-          horizontal: Sizes.spaceXLarge,
+        Text(
+          translate(getPermissionUseCaseText(permission)),
+          style: FontTheme.of(context).body2.primary(),
+          textAlign: TextAlign.center,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsetsDirectional.only(
-                  start: Sizes.spaceNormal,
-                  end: Sizes.spaceNormal,
-                  bottom: Sizes.space2XLarge),
-              child: MxcAppBarEvenly.title(
-                titleText: translate('permission_use_cases'),
-              ),
-            ),
-            Text(
-              translate(getPermissionUseCaseText(permission)),
-              style: FontTheme.of(context).body2.primary(),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: Sizes.spaceXLarge,
-            ),
-            MxcButton.secondary(
-              key: const ValueKey('notNow'),
-              title: translate('not_now'),
-              onTap: () => Navigator.of(context).pop(false),
-              size: MXCWalletButtonSize.xl,
-            ),
-            const SizedBox(
-              height: Sizes.spaceXLarge,
-            ),
-            MxcButton.primary(
-              key: const ValueKey('okAllow'),
-              title: translate('ok_allow'),
-              onTap: () => Navigator.of(context).pop(true),
-              size: MXCWalletButtonSize.xl,
-            ),
-          ],
+        const SizedBox(
+          height: Sizes.spaceXLarge,
         ),
-      ),
+        MxcButton.secondary(
+          key: const ValueKey('notNow'),
+          title: translate('not_now'),
+          onTap: () => Navigator.of(context).pop(false),
+          size: MXCWalletButtonSize.xl,
+        ),
+        const SizedBox(
+          height: Sizes.spaceXLarge,
+        ),
+        MxcButton.primary(
+          key: const ValueKey('okAllow'),
+          title: translate('ok_allow'),
+          onTap: () => Navigator.of(context).pop(true),
+          size: MXCWalletButtonSize.xl,
+        ),
+      ],
     ),
   );
 }

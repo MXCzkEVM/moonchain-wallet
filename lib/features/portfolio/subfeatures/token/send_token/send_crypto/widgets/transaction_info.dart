@@ -52,7 +52,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
           action: Container(
             alignment: Alignment.centerRight,
             child: InkWell(
-              child: const Icon(Icons.close),
+              child: const Icon(Icons.close, size: 30),
               onTap: () => Navigator.of(context).pop(false),
             ),
           ),

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/components/snack_bar.dart';
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
