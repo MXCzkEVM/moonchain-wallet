@@ -28,6 +28,7 @@ class TransactionHistoryPage extends HookConsumerWidget {
     return MxcPage(
       presenter: ref.watch(presenter),
       onRefresh: () => ref.read(presenter).loadPage(),
+      useGradientBackground: true,
       crossAxisAlignment: CrossAxisAlignment.start,
       appBar: AppNavBar(
         action: IconButton(
