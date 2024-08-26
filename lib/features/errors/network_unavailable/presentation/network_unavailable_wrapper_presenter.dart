@@ -48,6 +48,7 @@ class NetworkUnavailableWrapperPresenterPresenter
           }
         },
       ),
+      snackBarPosition: SnackBarPosition.top,
     );
   }
 }
