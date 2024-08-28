@@ -34,7 +34,7 @@ Future<bool?> showAddNetworkDialog(
               translate(
                 'want_to_add_this_network',
               ),
-              style: FontTheme.of(context)
+              style: FontTheme.of(context, listen: false)
                   .body2
                   .primary()
                   .copyWith(fontWeight: FontWeight.w600),
@@ -46,7 +46,7 @@ Future<bool?> showAddNetworkDialog(
               translate(
                 'network_adding_usage_notice',
               ),
-              style: FontTheme.of(context).body2.primary(),
+              style: FontTheme.of(context, listen: false).body2.primary(),
               textAlign: TextAlign.center,
             ),
             const SizedBox(
@@ -57,9 +57,11 @@ Future<bool?> showAddNetworkDialog(
                     translate(
                       'custom_network_security_alert',
                     ),
-                    style: FontTheme.of(context)
+                    style: FontTheme.of(context, listen: false)
                         .body1()
-                        .copyWith(color: ColorsTheme.of(context).textCritical),
+                        .copyWith(
+                            color: ColorsTheme.of(context, listen: false)
+                                .textCritical),
                     textAlign: TextAlign.center,
                   )
                 : Container()
@@ -89,6 +91,7 @@ Future<bool?> showAddNetworkDialog(
           title: translate('cancel'),
           onTap: () => Navigator.of(context).pop(false),
           size: MXCWalletButtonSize.xl,
+          edgeType: MXCWalletButtonEdgeType.hard,
         ),
         const SizedBox(
           height: Sizes.spaceNormal,
@@ -101,6 +104,7 @@ Future<bool?> showAddNetworkDialog(
             Navigator.of(context).pop(updatedNetwork != null);
           },
           size: MXCWalletButtonSize.xl,
+          edgeType: MXCWalletButtonEdgeType.hard,
         ),
       ],
     ),

@@ -31,7 +31,7 @@ Future<bool?> showNetworkDetailsDialog(
         //       translate(
         //         'want_to_add_this_network',
         //       ),
-        //       style: FontTheme.of(context)
+        //       style: FontTheme.of(context, listen: false)
         //           .body2
         //           .primary()
         //           .copyWith(fontWeight: FontWeight.w600),
@@ -43,7 +43,7 @@ Future<bool?> showNetworkDetailsDialog(
         //       translate(
         //         'network_adding_usage_notice',
         //       ),
-        //       style: FontTheme.of(context).body2.primary(),
+        //       style: FontTheme.of(context, listen: false).body2.primary(),
         //       textAlign: TextAlign.center,
         //     ),
         //     const SizedBox(
@@ -54,8 +54,8 @@ Future<bool?> showNetworkDetailsDialog(
         //             translate(
         //               'custom_network_security_alert',
         //             ),
-        //             style: FontTheme.of(context).body1().copyWith(
-        //                 color: ColorsTheme.of(context).textCritical),
+        //             style: FontTheme.of(context, listen: false).body1().copyWith(
+        //                 color: ColorsTheme.of(context, listen: false).textCritical),
         //             textAlign: TextAlign.center,
         //           )
         //         : Container()

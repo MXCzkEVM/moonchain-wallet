@@ -166,7 +166,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
       children: [
         Text(
           FlutterI18n.translate(context, 'sending'),
-          style: FontTheme.of(context).subtitle1.secondary(),
+          style: FontTheme.of(context, listen: false).subtitle1.secondary(),
         ),
         const SizedBox(width: 4),
         Row(
@@ -176,12 +176,12 @@ class _TransactionInfoState extends State<TransactionInfo> {
               MXCFormatter.formatNumberForUI(
                 widget.amount,
               ),
-              style: FontTheme.of(context).h5(),
+              style: FontTheme.of(context, listen: false).h5(),
             ),
             const SizedBox(width: 4),
             Text(
               widget.token.symbol ?? '--',
-              style: FontTheme.of(context).h5.secondary(),
+              style: FontTheme.of(context, listen: false).h5.secondary(),
             ),
             const SizedBox(height: 4),
           ],

@@ -60,7 +60,10 @@ void showAccountsDialog(
           title: FlutterI18n.translate(context, 'import_account'),
           onTap: onImport,
           size: MXCWalletButtonSize.xl,
-          titleColor: ColorsTheme.of(context).primary,
+          titleColor: ColorsTheme.of(
+            context,
+            listen: false,
+          ).primary,
         ),
       ],
     ),

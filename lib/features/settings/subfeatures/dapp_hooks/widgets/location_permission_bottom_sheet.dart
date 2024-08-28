@@ -31,7 +31,7 @@ Future<bool?> showLocationPermissionBottomSheet({
                   translate(
                     'location_permission_required_text',
                   ),
-                  style: FontTheme.of(context).body1.primary().copyWith(),
+                  style: FontTheme.of(context, listen: false).body1.primary().copyWith(),
                   softWrap: true,
                   textAlign: TextAlign.justify,
                 ),

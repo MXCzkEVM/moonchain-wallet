@@ -4,9 +4,11 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<bool?> showBGNotificationsFrequencyDialog(BuildContext context,
-    {required void Function(PeriodicalCallDuration duration) onTap,
-    required PeriodicalCallDuration selectedFrequency}) {
+Future<bool?> showBGNotificationsFrequencyDialog(
+  BuildContext context, {
+  required void Function(PeriodicalCallDuration duration) onTap,
+  required PeriodicalCallDuration selectedFrequency,
+}) {
   String translate(String text) => FlutterI18n.translate(context, text);
 
   return showBaseBottomSheet<bool>(
@@ -28,7 +30,7 @@ Future<bool?> showBGNotificationsFrequencyDialog(BuildContext context,
                 child: Icon(
                   MxcIcons.close,
                   size: 32,
-                  color: ColorsTheme.of(context).iconPrimary,
+                  color: ColorsTheme.of(context, listen: false).iconPrimary,
                 ),
                 onTap: () => Navigator.of(context).pop(false),
               ),
@@ -52,7 +54,7 @@ Future<bool?> showBGNotificationsFrequencyDialog(BuildContext context,
                           alignment: AlignmentDirectional.centerStart,
                           child: Text(
                             e.toStringFormatted(),
-                            style: FontTheme.of(context).body2.primary(),
+                            style: FontTheme.of(context, listen: false).body2.primary(),
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -65,7 +67,7 @@ Future<bool?> showBGNotificationsFrequencyDialog(BuildContext context,
                           child: Icon(
                             MxcIcons.check,
                             size: 24,
-                            color: ColorsTheme.of(context).white400,
+                            color: ColorsTheme.of(context, listen: false).white400,
                           ),
                         ),
                     ],

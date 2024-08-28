@@ -32,7 +32,7 @@ Future<bool?> showSwitchNetworkDialog(
           translate('allow_this_site_notice')
               .replaceFirst('{0}', "\"$fromNetwork\"")
               .replaceFirst('{1}', "\"$toNetwork\""),
-          style: FontTheme.of(context).body2.primary(),
+          style: FontTheme.of(context, listen: false).body2.primary(),
           textAlign: TextAlign.center,
         ),
         const SizedBox(
@@ -43,6 +43,7 @@ Future<bool?> showSwitchNetworkDialog(
           title: translate('cancel'),
           onTap: () => Navigator.of(context).pop(false),
           size: MXCWalletButtonSize.xl,
+          edgeType: MXCWalletButtonEdgeType.hard,
         ),
         const SizedBox(
           height: Sizes.spaceXLarge,
@@ -55,8 +56,9 @@ Future<bool?> showSwitchNetworkDialog(
             Navigator.of(context).pop(true);
           },
           size: MXCWalletButtonSize.xl,
+          edgeType: MXCWalletButtonEdgeType.hard,
         ),
-        const SizedBox(height: Sizes.spaceNormal)
+        const SizedBox(height: Sizes.spaceNormal),
       ],
     ),
   );

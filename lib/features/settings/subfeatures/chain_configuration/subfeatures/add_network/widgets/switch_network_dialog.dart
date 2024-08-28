@@ -28,7 +28,7 @@ Future<bool?> showSwitchNetworkDialog(
         Text(
           translate('x_is_now_available')
               .replaceFirst('{0}', network.label ?? network.web3RpcHttpUrl),
-          style: FontTheme.of(context).body2.primary(),
+          style: FontTheme.of(context, listen: false).body2.primary(),
           textAlign: TextAlign.center,
         ),
         const SizedBox(
@@ -39,6 +39,7 @@ Future<bool?> showSwitchNetworkDialog(
           title: translate('close'),
           onTap: () => Navigator.of(context).pop(false),
           size: MXCWalletButtonSize.xl,
+          edgeType: MXCWalletButtonEdgeType.hard,
         ),
         const SizedBox(
           height: Sizes.spaceXLarge,
@@ -50,6 +51,7 @@ Future<bool?> showSwitchNetworkDialog(
             onSwitch(network);
           },
           size: MXCWalletButtonSize.xl,
+          edgeType: MXCWalletButtonEdgeType.hard,
         ),
       ],
     ),

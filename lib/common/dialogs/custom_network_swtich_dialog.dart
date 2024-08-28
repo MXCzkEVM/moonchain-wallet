@@ -23,13 +23,13 @@ Future<bool?> showCustomNetworkSwitchDialog(
                     .replaceFirst("{0}", networkTitle)
                 : translate('custom_network_switch_title__notice')
                     .replaceFirst("{0}", networkTitle),
-            style: FontTheme.of(context).h6.primary(),
+            style: FontTheme.of(context, listen: false).h6.primary(),
             textAlign: TextAlign.center,
           ),
         ),
         Text(
           translate('custom_network_switch_text__notice'),
-          style: FontTheme.of(context).body2.primary(),
+          style: FontTheme.of(context, listen: false).body2.primary(),
           textAlign: TextAlign.start,
         ),
         const SizedBox(
@@ -42,6 +42,7 @@ Future<bool?> showCustomNetworkSwitchDialog(
             Navigator.of(context).pop(false);
           },
           size: MXCWalletButtonSize.xl,
+          edgeType: MXCWalletButtonEdgeType.hard,
         ),
       ],
     ),

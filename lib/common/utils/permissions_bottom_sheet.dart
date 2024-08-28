@@ -26,7 +26,7 @@ Future<bool?> showPermissionUseCasesBottomSheet(
         ),
         Text(
           translate(getPermissionUseCaseText(permission)),
-          style: FontTheme.of(context).body2.primary(),
+          style: FontTheme.of(context, listen: false).body2.primary(),
           textAlign: TextAlign.center,
         ),
         const SizedBox(
