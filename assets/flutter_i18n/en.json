@@ -94,7 +94,7 @@
 	"enter_secret_recovery_phrase": "Enter your secret recovery phrase",
 	"log_out": "Log out",
 	"to_reset_passcode": "To reset your passcode",
-	"create_new_wallet": "Create a new wallet or import an existing one.",
+	"create_new_wallet": "Import an existing one.",
 	"automatically_log_out": "After 6 failed attempts, you’ll be automatically logged out for your security.",
 	"done": "Done",
 	"add_x": "Add {0}",
@@ -448,5 +448,10 @@
 	"data_synced_successfully_ring": "Blueberry Ring #{0}: Data synced successfully. ✅",
 	"data_syncing_failed": "Blueberry Ring #{0}: Data syncing process failed. ❌",
 	"blueberry_hooks": "Blueberry hooks",
-	"message": "Message"
+	"message": "Message",
+	"continue_now": "Continue Now",
+	"you_will_be_directed_to_the_main_app": "You will be directed to the main app",
+	"account_setup_complete": "Account Setup Complete!",
+	"entering_the_app": "Entering the App",
+	"in": "in"
 }
