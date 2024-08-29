@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -54,6 +55,7 @@ Future<bool?> showWarningDialog({
               titleColor: ColorsTheme.of(context).textBlack200,
               size: MXCWalletButtonSize.xl,
               onTap: () => Navigator.of(context).pop(true),
+              edgeType: UIConfig.settingsScreensButtonsEdgeType,
             ),
             const SizedBox(height: Sizes.spaceNormal),
             MxcButton.secondary(
@@ -61,6 +63,7 @@ Future<bool?> showWarningDialog({
               title: FlutterI18n.translate(context, cancel ?? 'cancel'),
               size: MXCWalletButtonSize.xl,
               onTap: () => Navigator.of(context).pop(false),
+              edgeType: UIConfig.settingsScreensButtonsEdgeType,
             ),
           ],
         ),

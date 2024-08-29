@@ -2,10 +2,10 @@ import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
 import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_state.dart';
-import 'package:mxc_logic/src/domain/entities/network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class NetworkDetailsPage extends HookConsumerWidget {
@@ -31,6 +31,8 @@ class NetworkDetailsPage extends HookConsumerWidget {
     return MxcPage.layer(
       presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: ColorsTheme.of(context).backgroundLightGrey,
+      upperBackgroundColor: ColorsTheme.of(context).layerSheetBackground,
       children: [
         MxcAppBarEvenly.text(
           titleText: network.label ?? network.web3RpcHttpUrl,
@@ -54,6 +56,7 @@ class NetworkDetailsPage extends HookConsumerWidget {
             ? MxcButton.secondary(
                 key: const ValueKey('setAsDefaultButton'),
                 title: translate('set_as_default'),
+                edgeType: UIConfig.settingsScreensButtonsEdgeType,
                 onTap: () {
                   ref.read(presenter).setAsDefault(network);
                   BottomFlowDialog.of(context).close();

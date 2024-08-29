@@ -85,6 +85,7 @@ class XsdConversionRatePage extends HookConsumerWidget {
                 key: const ValueKey('resetXsdRateButton'),
                 title: FlutterI18n.translate(context, 'reset_xsd_rate'),
                 size: MXCWalletButtonSize.xl,
+                edgeType: UIConfig.settingsScreensButtonsEdgeType,
                 onTap: rateValue.text.isNotEmpty
                     ? () {
                         if (!formKey.currentState!.validate()) return;

@@ -21,7 +21,6 @@ class SettingsPage extends HookConsumerWidget {
     return MxcPage(
       presenter: presenter,
       resizeToAvoidBottomInset: true,
-      backgroundColor: ColorsTheme.of(context).screenBackground,
       appBar: AppNavBar(
         title: Text(
           FlutterI18n.translate(context, 'settings'),

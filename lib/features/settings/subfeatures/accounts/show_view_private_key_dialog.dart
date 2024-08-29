@@ -29,7 +29,7 @@ void showViewPrivateKeyDialog(
               icon: Icon(
                 MxcIcons.copy,
                 size: 20,
-                color: ColorsTheme.of(context).iconGrey1,
+                color: ColorsTheme.of(context, listen: false).iconGrey1,
               ),
               onPressed: () {
                 onCopy(privateKey);

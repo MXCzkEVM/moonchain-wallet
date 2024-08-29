@@ -161,6 +161,7 @@ class DeleteCustomNetworkPage extends HookConsumerWidget {
                   BottomFlowDialog.of(context).close();
                 },
                 size: MXCWalletButtonSize.xl,
+                edgeType: UIConfig.settingsScreensButtonsEdgeType,
               ),
             ],
           ),

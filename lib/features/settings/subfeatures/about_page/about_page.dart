@@ -25,11 +25,9 @@ class AboutPage extends HookConsumerWidget {
         ),
       ),
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: Sizes.spaceNormal),
-          child: Image(
-            image: ImagesTheme.of(context).axs,
-          ),
+        const SizedBox(height: Sizes.space4XLarge),
+        Image(
+          image: ImagesTheme.of(context).appTextLogo,
         ),
         Text(
           '${FlutterI18n.translate(context, 'app_version')}${settingsState.appVersion ?? ''}',
@@ -37,7 +35,7 @@ class AboutPage extends HookConsumerWidget {
                 color: ColorsTheme.of(context).textGrey1,
               ),
         ),
-        const SizedBox(height: Sizes.space2XLarge),
+        const SizedBox(height: Sizes.space10XLarge),
         const AppTerm(
           name: 'terms_and_service',
           externalLink: Urls.mxcWalletTermsConditions,

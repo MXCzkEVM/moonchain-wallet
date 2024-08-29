@@ -49,6 +49,7 @@ class CustomerSupportPage extends HookConsumerWidget {
           key: const ValueKey('exportLogsButton'),
           title: FlutterI18n.translate(context, 'export_logs'),
           size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => ref.read(presenter).exportedLogs(),
         ),
         if (ref.watch(state.select((v) => v.exportedLogsPath)).isNotEmpty) ...[

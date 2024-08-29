@@ -52,6 +52,7 @@ class SecuritySettingsPage extends HookConsumerWidget {
           key: const ValueKey('changePasscodeButton'),
           title: translate('change_passcode'),
           size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => Navigator.of(context).push(
             route.featureDialog<PasscodeChangeEnterCurrentPage>(
                 const PasscodeChangeEnterCurrentPage(
@@ -69,6 +70,7 @@ class SecuritySettingsPage extends HookConsumerWidget {
           key: const ValueKey('clearBrowserCacheButton'),
           title: translate('clear_browser_cache'),
           size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => ref.read(presenter).clearBrowserCache(),
         ),
         const SizedBox(height: Sizes.space4XLarge),
@@ -81,6 +83,7 @@ class SecuritySettingsPage extends HookConsumerWidget {
           key: const ValueKey('deleteWalletButton'),
           title: translate('delete_wallet'),
           size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => ref.read(presenter).deleteWallet(),
           titleColor: ColorsTheme.of(context).textBlack200,
         ),
@@ -94,6 +97,7 @@ class SecuritySettingsPage extends HookConsumerWidget {
           key: const ValueKey('exportWalletButton'),
           title: translate('export_wallet'),
           size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => Navigator.of(context).push(
             route(const SplashStoragePage(
               settingsFlow: true,
