@@ -158,6 +158,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<void> dispose() {
     cancelCharacteristicListenerTimer();
     closeBlueberryConnection();
+    state.animationController = null;
     return super.dispose();
   }
 
