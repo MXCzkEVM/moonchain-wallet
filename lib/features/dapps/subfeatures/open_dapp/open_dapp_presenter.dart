@@ -230,14 +230,41 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     final url = await state.webviewController?.getUrl();
     final deepLink = navigationAction.request.url;
 
-    if (deepLink != null &&
+    collectLog('checkDeepLink:url ${url.toString()}');
+    collectLog('checkDeepLink:deepLink ${deepLink.toString()}');
+
+    // Discord gg for redirecting to App
+    if (deepLink != null && (deepLink.host == "discord.gg")) {
+      return await launchDeepLinking(deepLink, allowNavigation: true);
+    } else if (deepLink != null &&
         url != navigationAction.request.url &&
-        (deepLink.scheme != 'https' && deepLink.scheme != 'http')) {
-      _launcherUseCase.launchUrlInExternalApp(deepLink);
-      return NavigationActionPolicy.CANCEL;
+        (deepLink.scheme != 'https' &&
+            deepLink.scheme != 'http' &&
+            deepLink.scheme != 'data' &&
+            deepLink.toString() != "about:blank")) {
+      Uri? modifiedDeepLink;
+      if (deepLink.scheme == 'intent') {
+        modifiedDeepLink = deepLink.replace(scheme: 'https');
+      }
+      return await launchDeepLinking(modifiedDeepLink ?? deepLink);
     }
 
     return NavigationActionPolicy.ALLOW;
+  }
+
+  Future<NavigationActionPolicy> launchDeepLinking(Uri deepLink,
+      {bool allowNavigation = false}) async {
+    try {
+      await _launcherUseCase.launchUrlInExternalApp(deepLink);
+    } catch (e) {
+      addError(e.toString());
+      return NavigationActionPolicy.ALLOW;
+    }
+    if (allowNavigation) {
+      return NavigationActionPolicy.ALLOW;
+    } else {
+      return NavigationActionPolicy.CANCEL;
+    }
   }
 
   injectScrollDetector() {
