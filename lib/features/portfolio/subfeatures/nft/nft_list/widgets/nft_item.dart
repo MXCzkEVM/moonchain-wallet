@@ -6,23 +6,45 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-enum NFTItemType { domain, hexagon, image, withoutImage }
+enum NFTItemType { domain, hexagon, networkImage, localImage, withoutImage }
 
 NFTItemType getNFTItemType(String? nftData) {
   final pattern = RegExp(r'^\w+\.\w+$');
   if (nftData == null) {
     return NFTItemType.withoutImage;
+  } else if (nftData.startsWith('assets')) {
+    return NFTItemType.localImage;
   } else if (pattern.hasMatch(nftData)) {
     return NFTItemType.domain;
   } else if (nftData.startsWith('#')) {
     return NFTItemType.hexagon;
   } else {
-    return NFTItemType.image;
+    return NFTItemType.networkImage;
   }
 }
 
 Widget getNFTWidget(PortfolioState state, BuildContext context,
     NFTItemType nftItemType, String? nftData) {
+  Widget imageLoadingBuilder(
+      BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+    if (loadingProgress == null) return child;
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: CircularProgressIndicator(
+        value: loadingProgress.expectedTotalBytes != null
+            ? loadingProgress.cumulativeBytesLoaded /
+                loadingProgress.expectedTotalBytes!
+            : null,
+      ),
+    );
+  }
+
+  Widget imageErrorBuilder(
+          BuildContext context, Object error, StackTrace? stackTrace) =>
+      Text(
+        error.toString(),
+      );
+
   switch (nftItemType) {
     case NFTItemType.domain:
       return Container(
@@ -53,25 +75,21 @@ Widget getNFTWidget(PortfolioState state, BuildContext context,
           padding: const EdgeInsets.all(Sizes.space2XSmall),
           color: ColorsTheme.of(context).darkGray,
           child: Image(image: ImagesTheme.of(context).appTextLogo));
+    case NFTItemType.localImage:
+      return Image(
+        image: AssetImage(
+          nftData!,
+        ),
+        fit: BoxFit.fill,
+        errorBuilder: imageErrorBuilder,
+        loadingBuilder: imageLoadingBuilder,
+      );
     default:
       return Image.network(
         '${state.ipfsGateway}$nftData',
         fit: BoxFit.fill,
-        errorBuilder: (context, error, stackTrace) => Text(
-          error.toString(),
-        ),
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Padding(
-            padding: const EdgeInsets.all(20),
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!
-                  : null,
-            ),
-          );
-        },
+        errorBuilder: imageErrorBuilder,
+        loadingBuilder: imageLoadingBuilder,
       );
   }
 }
