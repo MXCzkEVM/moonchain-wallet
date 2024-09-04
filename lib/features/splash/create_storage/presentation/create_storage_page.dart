@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:datadashwallet/features/splash/splash.dart';
@@ -107,6 +109,37 @@ class SplashStoragePage extends SplashBasePage {
               edgeType: getPageButtonsEdge(),
             )
           : Container(),
+      Platform.isAndroid
+          ? MxcButton.secondaryWhite(
+              key: const ValueKey('GoogleDriveButton'),
+              icon: MxcIcons.google_drive,
+              iconSize: 24,
+              titleSize: 18,
+              title: FlutterI18n.translate(context, 'google_drive_secured_storage'),
+              onTap: () => Navigator.of(context).push(
+                route.featureDialog(
+                  GoogleDriveRecoveryPhrasePage(
+                    settingsFlow: settingsFlow,
+                  ),
+                ),
+              ),
+              edgeType: getPageButtonsEdge(),
+            )
+          : MxcButton.secondaryWhite(
+              key: const ValueKey('icloudButton'),
+              icon: MxcIcons.icloud,
+              iconSize: 18,
+              titleSize: 18,
+              title: FlutterI18n.translate(context, 'icloud_secured_storage'),
+              onTap: () => Navigator.of(context).push(
+                route.featureDialog(
+                  ICloudRecoveryPhrasePage(
+                    settingsFlow: settingsFlow,
+                  ),
+                ),
+              ),
+              edgeType: getPageButtonsEdge(),
+            ),
     ];
   }
 }
