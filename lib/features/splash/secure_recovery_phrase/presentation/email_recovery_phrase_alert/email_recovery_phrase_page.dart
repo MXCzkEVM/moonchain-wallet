@@ -1,3 +1,4 @@
+import 'package:datadashwallet/common/common.dart';
 import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -32,6 +33,9 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
 
   @override
   Color themeColor({BuildContext? context}) => const Color(0xFFE64340);
+
+  String translate(BuildContext context, String text) =>
+      FlutterI18n.translate(context, text);
 
   @override
   Widget buildAlert(BuildContext context) {
@@ -73,15 +77,90 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
   }
 
   @override
-  Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primaryWhite(
+  Widget? buildEmailInput(BuildContext context, WidgetRef ref) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: Sizes.space3XLarge),
+        Text(
+          '${FlutterI18n.translate(context, 'from')}:',
+          style: FontTheme.of(context).caption1().copyWith(
+                fontWeight: FontWeight.w500,
+                color: ColorsTheme.of(context).textPrimary,
+              ),
+          textAlign: TextAlign.start,
+        ),
+        const SizedBox(height: Sizes.space2XSmall),
+        Form(
+          key: ref.watch(state).formKey,
+          child: MxcTextField(
+            key: const Key('fromTextField'),
+            controller: ref.read(presenter).fromController,
+            hint: FlutterI18n.translate(context, 'your_email_address'),
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              // ref.read(presenter).fromController;
+              final res = Validation.notEmpty(
+                  context,
+                  value,
+                  translate(context, 'x_not_empty')
+                      .replaceFirst('{0}', translate(context, 'email')));
+
+              if (res != null) {
+                return res;
+              }
+
+              return Validation.checkEmailAddress(context, value!); //
+            },
+            onChanged: (value) => ref.read(state).formKey.currentState!.validate(),
+          ),
+        ),
+        const SizedBox(height: Sizes.spaceXSmall),
+        Text(
+          '${FlutterI18n.translate(context, 'to')}:',
+          style: FontTheme.of(context).caption1().copyWith(
+                fontWeight: FontWeight.w500,
+                color: ColorsTheme.of(context).textPrimary,
+              ),
+          textAlign: TextAlign.start,
+        ),
+        const SizedBox(height: Sizes.spaceSmall),
+        
+        Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.all(14),
+          decoration: BoxDecoration(
+              color: ColorsTheme.of(context).cardBackground,
+              borderRadius: UIConfig.defaultBorderRadiusAll),
+          child: Text(
+            ref.watch(state).to,
+            style: FontTheme.of(context).subtitle2().copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: ColorsTheme.of(context).textPrimary,
+                ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget? buildFooter(BuildContext context, WidgetRef ref) =>
+      MxcButton.primaryWhite(
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'email_to_myself'),
         titleColor: ColorsTheme.of(context).textBlack200,
         titleSize: 18,
-        onTap: () => ref.read(presenter).sendEmail(
-              context,
-              settingsFlow,
-            ),
+        onTap: () {
+          if (!ref.read(state).formKey.currentState!.validate()) {
+            return;
+          }
+          ref.read(presenter).sendEmail(
+                context,
+                settingsFlow,
+                ref.read(state).to,
+              );
+        },
         edgeType: MXCWalletButtonEdgeType.hard,
       );
 }

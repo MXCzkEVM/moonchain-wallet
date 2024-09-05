@@ -459,5 +459,8 @@
 	"make_sure_you_have_stored_your_keys_correctly_in_your_x": "Make sure you have stored your keys correctly in your {0}",
 	"icloud": "iCloud",
 	"google_drive": "Google Drive",
-	"store_in_x": "Store in {0}"
+	"store_in_x": "Store in {0}",
+	"your_email_address": "Your Email Address",
+	"invalid_email": "Please enter a valid email address (e.g., name@example.com)",
+	"email": "Email"
 }
