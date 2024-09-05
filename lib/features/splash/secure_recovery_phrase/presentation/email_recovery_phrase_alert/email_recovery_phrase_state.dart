@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 
 class EmailRecoveryPhrasetState extends RecoveryPhraseBaseState
     with EquatableMixin {
-  String to = '';
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   List<Object?> get props => [
         super.props,
-        to,
         formKey
       ];
 }

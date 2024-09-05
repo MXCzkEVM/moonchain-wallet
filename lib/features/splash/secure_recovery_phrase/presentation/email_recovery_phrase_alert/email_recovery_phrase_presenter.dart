@@ -19,9 +19,7 @@ class EmailRecoveryPhrasePresenter
     super.initState();
 
     fromController.addListener(
-      () => notify(
-        () => state.to = fromController.text,
-      ),
+      () => toController.text = fromController.text,
     );
   }
 }

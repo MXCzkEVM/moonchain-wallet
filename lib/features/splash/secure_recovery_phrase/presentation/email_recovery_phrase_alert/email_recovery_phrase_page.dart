@@ -112,7 +112,8 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
 
               return Validation.checkEmailAddress(context, value!); //
             },
-            onChanged: (value) => ref.read(state).formKey.currentState!.validate(),
+            onChanged: (value) =>
+                ref.read(state).formKey.currentState!.validate(),
           ),
         ),
         const SizedBox(height: Sizes.spaceXSmall),
@@ -125,20 +126,13 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
           textAlign: TextAlign.start,
         ),
         const SizedBox(height: Sizes.spaceSmall),
-        
-        Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.all(14),
-          decoration: BoxDecoration(
-              color: ColorsTheme.of(context).cardBackground,
-              borderRadius: UIConfig.defaultBorderRadiusAll),
-          child: Text(
-            ref.watch(state).to,
-            style: FontTheme.of(context).subtitle2().copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: ColorsTheme.of(context).textPrimary,
-                ),
-          ),
+        MxcTextField(
+          key: const Key('fromTextField'),
+          controller: ref.read(presenter).fromController,
+          hint: FlutterI18n.translate(context, 'your_email_address'),
+          keyboardType: TextInputType.emailAddress,
+          readOnly: true,
+          hasClearButton: false,
         ),
       ],
     );
@@ -158,7 +152,7 @@ class EmailRecoveryPhrasePage extends RecoveryPhraseBasePage {
           ref.read(presenter).sendEmail(
                 context,
                 settingsFlow,
-                ref.read(state).to,
+                ref.read(presenter).fromController.text,
               );
         },
         edgeType: MXCWalletButtonEdgeType.hard,
