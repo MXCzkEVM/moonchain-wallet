@@ -58,7 +58,7 @@ class MessageInfo extends ConsumerWidget {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               networkName,
@@ -75,6 +75,9 @@ class MessageInfo extends ConsumerWidget {
   Widget messageItem(
       BuildContext context, OpenDAppPresenter presenter, String message) {
     return SingleLineInfoItem(
-        title: FlutterI18n.translate(context, 'message'), value: message);
+      title: FlutterI18n.translate(context, 'message'),
+      value: message,
+      valueAlign: TextAlign.start,
+    );
   }
 }

@@ -196,7 +196,7 @@ class BridgeHelper {
     final hexData = object['data'] as String;
     String message = MXCType.hexToString(hexData);
     int chainId = state.network!.chainId;
-    String name = state.network!.symbol;
+    String name = state.network!.label ?? state.network!.symbol;
 
     try {
       final result = await showSignMessageDialog(
@@ -229,7 +229,7 @@ class BridgeHelper {
     final hexData = object['data'] as String;
     String message = MXCType.hexToString(hexData);
     int chainId = state.network!.chainId;
-    String name = state.network!.symbol;
+    String name = state.network!.label ?? state.network!.symbol;
 
     try {
       final result = await showSignMessageDialog(
