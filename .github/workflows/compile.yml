@@ -23,7 +23,7 @@ jobs:
         echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
     - uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.24.1'
+        flutter-version: '3.3.0'
         channel: 'stable'
     - uses: oberhauser-dev/flutter-release-action@v0
       with:
