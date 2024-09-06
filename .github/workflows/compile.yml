@@ -12,7 +12,11 @@ jobs:
 
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code with submodules
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+
     - name: Read app version from YAML
       run: |
         APP_VERSION=$(sed -n 's/^version:[ ]*//p' pubspec.yaml | tr -d '[:space:]')
