@@ -153,5 +153,3 @@ flutter:
     - family: MxcIcons
       fonts:
         - asset: assets/icons/mxc-icons.ttf
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
