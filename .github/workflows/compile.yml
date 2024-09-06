@@ -1,0 +1,28 @@
+name: compileAPKIPA
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  compile_IPA_APK:
+    runs-on: macos-14
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Read app version from YAML
+      run: |
+        APP_VERSION=$(grep -oP 'version:\s*\K(.*)' pubspec.yaml | tr -d '[:space:]')
+        echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
+      
+    - uses: subosito/flutter-action@v2
+    - uses: oberhauser-dev/flutter-release-action@v0
+      with:
+        token: ${{ github.token }}
+        dry-run: true
+        app-name: 'moonchain_app'
+        app-version: ${{ env.APP_VERSION }}
+        tag: ${{ github.ref }}
+        build-type: 'apk'
