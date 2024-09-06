@@ -33,6 +33,7 @@ jobs:
         app-version: ${{ env.APP_VERSION }}
         tag: ${{ github.ref }}
         build-type: 'ipa'
+        flutter-release-version: '0.2.4'
         build-args: |-
             --flavor product
             --release
