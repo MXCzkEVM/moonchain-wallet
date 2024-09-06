@@ -29,7 +29,7 @@ jobs:
         app-name: 'moonchain_app'
         app-version: ${{ env.APP_VERSION }}
         tag: ${{ github.ref }}
-        build-type: 'apk'
+        build-type: 'ipa'
         build-args: |-
             --flavor product
             --release
