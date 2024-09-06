@@ -21,12 +21,7 @@ jobs:
       run: |
         APP_VERSION=$(sed -n 's/^version:[ ]*//p' pubspec.yaml | tr -d '[:space:]')
         echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
-      
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        channel: stable
-        flutter-version: 3.7.12
+
     - uses: oberhauser-dev/flutter-release-action@v0
       with:
         token: ${{ github.token }}
