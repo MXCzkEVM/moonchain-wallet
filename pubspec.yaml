@@ -58,7 +58,7 @@ dependencies:
   flutter_blue_plus: ^1.32.7
   flutter_dotenv: ^5.1.0
   flutter_hooks: ^0.18.5+1
-  flutter_i18n: 0.32.4
+  flutter_i18n: ^0.32.5
   flutter_inappwebview: ^5.8.0
   flutter_local_notifications: ^16.1.0
   flutter_mailer: ^2.0.2
