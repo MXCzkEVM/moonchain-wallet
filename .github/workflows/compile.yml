@@ -1,35 +1,28 @@
-name: compileAPKIPA
+name: Build and distribute
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
+  push:
+    branches:
+      - pre_main_qa
 
 jobs:
-  compile_IPA_APK:
-    runs-on: macos-latest
-
-
+  build:
+    name: build
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout code with submodules
-      uses: actions/checkout@v4
-      with:
-        submodules: 'recursive'
+      - uses: actions/checkout@v2
 
-    - name: Read app version from YAML
-      run: |
-        APP_VERSION=$(sed -n 's/^version:[ ]*//p' pubspec.yaml | tr -d '[:space:]')
-        echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
-    - uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.7.12'
-        channel: 'stable'
-    - uses: Oberhauser-Dev/flutter-release-action@v0
-      with:
-        token: ${{ github.token }}
-        dry-run: true
-        app-name: 'moonchain_app'
-        app-version: ${{ env.APP_VERSION }}
-        tag: ${{ github.ref }}
-        build-type: 'ipa'
+      - uses: sheenhx/action-flutter-build-android@v2
+        with:
+          keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
+          keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
+          # optionals
+          build-cmd: flutter build apk --flavor product --release
+          working-directory: ./
+          
+      - name: Archive APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-apk
+          # Try running the build locally with the build command to be sure of this path
+          path: build/app/outputs/flutter-apk/app-release.apk
