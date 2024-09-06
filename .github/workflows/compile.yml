@@ -26,3 +26,4 @@ jobs:
         app-version: ${{ env.APP_VERSION }}
         tag: ${{ github.ref }}
         build-type: 'apk'
+        build-args: --flavor product --release
