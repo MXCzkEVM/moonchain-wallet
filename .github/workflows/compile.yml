@@ -14,19 +14,21 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-
-      - name: Generate build number
-        uses:  snakka-hv/action-custom-build-number@master 
+      - name: Generate
+        id: generate
+        uses: AcmeSoftwareLLC/app-build-number@v1
         with:
-          token: ${{secrets.DART_TOKEN}}        
-      - name: Print new build number
-        run: echo "Build number is $BUILD_NUMBER"
+          timezone: Asia/Kathmandu
+    
+      - name: Display the generated build number
+        run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
+
 
       - name: Set Version Code
         run: |
-          echo "Received PR count: $BUILD_NUMBER"
-          echo "VERSION_CODE=$BUILD_NUMBER" >> $GITHUB_ENV
-          echo "Set VERSION_CODE to: $BUILD_NUMBER"
+          echo "Received Number: ${{ steps.generate.outputs.build-number }}"
+          echo "VERSION_CODE=${{ steps.generate.outputs.build-number }}" >> $GITHUB_ENV
+          echo "Set VERSION_CODE to: ${{ steps.generate.outputs.build-number }}"
         shell: bash
 
       - uses: sheenhx/action-flutter-build-android@v3
@@ -49,6 +51,6 @@ jobs:
         with:
           artifacts: /home/runner/work/moonchain-wallet/moonchain-wallet/build/app/outputs/flutter-apk/app-product-release.apk
           token: ${{ secrets.DART_TOKEN }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ steps.generate.outputs.build-number }}
           prerelease: true
 
