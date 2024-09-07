@@ -45,13 +45,18 @@ jobs:
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
 
-      - name: Releasing using Hub
-        uses: yurakurets/action-release-debugapk@master
+      - name: Upload artifacts and release assets
+        uses: nanoufo/action-upload-artifacts-and-release-assets@v2
+        with:
+          path: |
+              build/app/outputs/flutter-apk/app-product-release.apk
+          upload-release-files: true
+
+      - name: Release-2
+        uses: fnkr/github-action-ghr@v1
+        if: startsWith(github.ref, 'refs/tags/')
         env:
-         REPO_BRANCH: master
-         GITHUB_TOKEN: ${{ secrets.DART_TOKEN }}
-         APK_FOLDER: build/app/outputs/flutter-apk/app-product-release.apk
-         APP_FOLDER: build/app
-         RELEASE_TITLE: New Build
+          GHR_PATH: build/app/outputs/flutter-apk/app-product-release.apk
+          GITHUB_TOKEN: ${{ secrets.DART_TOKEN }}
 
 
