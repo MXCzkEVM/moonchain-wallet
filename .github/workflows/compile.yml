@@ -45,6 +45,9 @@ jobs:
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
       - name: Release
-        uses: EffectiveRange/version-release-github-action@v1
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: build/app/outputs/flutter-apk/app-product-release.apk
 
 
