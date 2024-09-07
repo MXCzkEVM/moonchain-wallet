@@ -16,7 +16,7 @@ jobs:
           submodules: 'recursive'
       - uses: actions/checkout@v2
 
-      - uses: sheenhx/action-flutter-build-android@v2
+      - uses: sheenhx/action-flutter-build-android@v3
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
