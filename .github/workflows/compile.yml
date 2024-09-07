@@ -45,12 +45,6 @@ jobs:
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
 
-      - name: Upload artifacts and release assets
-        uses: nanoufo/action-upload-artifacts-and-release-assets@v2
-        with:
-          path: |
-              build/app/outputs/flutter-apk/app-product-release.apk
-          upload-release-files: true
 
       - name: Release-2
         uses: fnkr/github-action-ghr@v1
