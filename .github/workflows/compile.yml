@@ -24,7 +24,7 @@ jobs:
                   totalCount
                 }
               }
-            }' -f owner=${{ github.repository_owner }} -f repo=${{ github.event.repository.name }} --jq '.data.repository.pullRequests.totalCount')
+            }' -f owner="${{ github.repository_owner }}" -f repo="${{ github.event.repository.name }}" --jq '.data.repository.pullRequests.totalCount')
           echo "PR count is: $PR_COUNT"
           echo "COUNT=$PR_COUNT" >> $GITHUB_OUTPUT
         env:
