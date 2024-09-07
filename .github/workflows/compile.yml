@@ -16,8 +16,12 @@ jobs:
           submodules: 'recursive'
       - uses: actions/checkout@v2
 
+      - name: Get Latest PR Number
+        uses: dawidd6/action-get-latest-pr@v2
+        id: pr
+
       - name: Set Version Code
-        run: echo "VERSION_CODE=$(git rev-parse --short HEAD | tr -d '[a-f]')" >> $GITHUB_ENV
+        run: echo "VERSION_CODE=${{ steps.pr.outputs.number }}" >> $GITHUB_ENV
         shell: bash
 
       - uses: sheenhx/action-flutter-build-android@v3
@@ -34,3 +38,23 @@ jobs:
           name: release-apk
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.VERSION_CODE }}
+          release_name: Release ${{ env.VERSION_CODE }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app/outputs/flutter-apk/app-product-release.apk
+          asset_name: app-product-release.apk
+          asset_content_type: application/vnd.android.package-archive
