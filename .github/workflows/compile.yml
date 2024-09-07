@@ -14,23 +14,28 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - uses: actions/checkout@v2
-
       - name: Get commit count
         id: commit_count
         run: echo "COUNT=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
         shell: bash
 
-      - name: Set Version Code
-        run: echo "VERSION_CODE=${{ steps.commit_count.outputs.COUNT }}" >> $GITHUB_ENV
+      - name: Set Version Name and Code
+        run: |
+          echo "VERSION_NAME=1.0.0" >> $GITHUB_ENV  
+          echo "VERSION_CODE=${{ steps.commit_count.outputs.COUNT }}" >> $GITHUB_ENV
         shell: bash
-        
+
+      - name: Debug Output
+        run: |
+          echo "VERSION_NAME: ${{ env.VERSION_NAME }}"
+          echo "VERSION_CODE: ${{ env.VERSION_CODE }}"
+        shell: bash
+
       - uses: sheenhx/action-flutter-build-android@v3
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
-          # optionals
-          build-cmd: flutter build apk --flavor product --release
+          build-cmd: flutter build apk --flavor product --release --build-name=${{ env.VERSION_NAME }} --build-number=${{ env.VERSION_CODE }}
           working-directory: ./
           
       - name: Archive APK
