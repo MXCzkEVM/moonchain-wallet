@@ -42,10 +42,13 @@ jobs:
           name: release-apk
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
-          
+
+
+      - uses: actions/checkout@v3
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: build/app/outputs/flutter-apk/app-product-release.apk
+          artifacts: /home/runner/work/moonchain-wallet/moonchain-wallet/build/app/outputs/flutter-apk/app-product-release.apk
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ github.ref_name }}
+          prerelease: true
 
