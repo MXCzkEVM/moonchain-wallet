@@ -14,32 +14,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - name: Count closed PRs
-        id: pr_count
-        run: |
-          PR_COUNT=$(gh api graphql -f query='
-            query($owner:String!, $repo:String!) {
-              repository(owner:$owner, name:$repo) {
-                pullRequests(states:CLOSED) {
-                  totalCount
-                }
-              }
-            }' -f owner="${{ github.repository_owner }}" -f repo="${{ github.event.repository.name }}" --jq '.data.repository.pullRequests.totalCount')
-          echo "PR count is: $PR_COUNT"
-          echo "COUNT=$PR_COUNT" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate build number
+        uses:  snakka-hv/action-custom-build-number@master 
+        with:
+          token: ${{secrets.DART_TOKEN}}        
+      - name: Print new build number
+        run: echo "Build number is $BUILD_NUMBER"
 
       - name: Set Version Code
         run: |
-          echo "Received PR count: ${{ steps.pr_count.outputs.COUNT }}"
-          echo "VERSION_CODE=${{ steps.pr_count.outputs.COUNT }}" >> $GITHUB_ENV
-          echo "Set VERSION_CODE to: ${{ steps.pr_count.outputs.COUNT }}"
-        shell: bash
-
-      - name: Debug Output
-        run: |
-          echo "VERSION_CODE: ${{ env.VERSION_CODE }}"
+          echo "Received PR count: $BUILD_NUMBER"
+          echo "VERSION_CODE=$BUILD_NUMBER" >> $GITHUB_ENV
+          echo "Set VERSION_CODE to: $BUILD_NUMBER"
         shell: bash
 
       - uses: sheenhx/action-flutter-build-android@v3
@@ -60,4 +47,6 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/app-product-release.apk
+          token: ${{ secrets.DART_TOKEN }}
+          tag: ${{ github.ref_name }}
 
