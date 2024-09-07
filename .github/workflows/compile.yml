@@ -45,12 +45,13 @@ jobs:
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
 
+      - name: Releasing using Hub
+        uses: yurakurets/action-release-debugapk@master
+        env:
+         REPO_BRANCH: master
+         GITHUB_TOKEN: ${{ secrets.DART_TOKEN }}
+         APK_FOLDER: build/app/outputs/flutter-apk/app-product-release.apk
+         APP_FOLDER: build/app
+         RELEASE_TITLE: New Build
 
-      - uses: actions/checkout@v3
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: "release.tar.gz,build/*.apk"
-          token: ${{ secrets.DART_TOKEN }}
-          tag: ${{ steps.generate.outputs.build-number }}
-          prerelease: true
 
