@@ -37,13 +37,12 @@ jobs:
           working-directory: ./
           
       - name: Archive APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: release-apk
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
-
-      - uses: actions/checkout@v3
+          
       - uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/app-product-release.apk
