@@ -16,14 +16,15 @@ jobs:
           submodules: 'recursive'
       - uses: actions/checkout@v2
 
-      - name: Get Latest PR Number
-        uses: dawidd6/action-get-latest-pr@v2
-        id: pr
-
-      - name: Set Version Code
-        run: echo "VERSION_CODE=${{ steps.pr.outputs.number }}" >> $GITHUB_ENV
+      - name: Get commit count
+        id: commit_count
+        run: echo "COUNT=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
         shell: bash
 
+      - name: Set Version Code
+        run: echo "VERSION_CODE=${{ steps.commit_count.outputs.COUNT }}" >> $GITHUB_ENV
+        shell: bash
+        
       - uses: sheenhx/action-flutter-build-android@v3
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
