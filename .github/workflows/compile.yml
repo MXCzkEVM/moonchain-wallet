@@ -16,17 +16,21 @@ jobs:
           submodules: 'recursive'
       - name: Get commit count
         id: commit_count
-        run: echo "COUNT=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          COUNT=$(git rev-list --count HEAD)
+          echo "Commit count is: $COUNT"
+          echo "COUNT=$COUNT" >> $GITHUB_OUTPUT
         shell: bash
 
-      - name: Set Version Name and Code
+      - name: Set Version Code
         run: |
+          echo "Received commit count: ${{ steps.commit_count.outputs.COUNT }}"
           echo "VERSION_CODE=${{ steps.commit_count.outputs.COUNT }}" >> $GITHUB_ENV
+          echo "Set VERSION_CODE to: ${{ steps.commit_count.outputs.COUNT }}"
         shell: bash
 
       - name: Debug Output
         run: |
-          echo "VERSION_NAME: ${{ env.VERSION_NAME }}"
           echo "VERSION_CODE: ${{ env.VERSION_CODE }}"
         shell: bash
 
@@ -57,7 +61,7 @@ jobs:
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DART_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/app/outputs/flutter-apk/app-product-release.apk
