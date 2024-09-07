@@ -21,7 +21,6 @@ jobs:
 
       - name: Set Version Name and Code
         run: |
-          echo "VERSION_NAME=1.0.0" >> $GITHUB_ENV  
           echo "VERSION_CODE=${{ steps.commit_count.outputs.COUNT }}" >> $GITHUB_ENV
         shell: bash
 
