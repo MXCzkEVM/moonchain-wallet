@@ -47,16 +47,16 @@ jobs:
           
       - name: Move APK to release directory
         run: |
-          mkdir -p release # Create the release directory if it doesn't exist
-          mv build/app/outputs/flutter-apk/app-product-release.apk release/app-release.apk
+          mkdir -p release
+          mv build/app/outputs/flutter-apk/app-product-release.apk release/app-product-release.apk
 
           
       - uses: actions/checkout@v3
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "`app-product-release.apk"
+          artifacts: "app-product-release.apk"
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
-          prerelease: true
+          draft: true
 
 
