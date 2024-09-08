@@ -44,12 +44,17 @@ jobs:
           name: release-apk
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
+          
+      - name: Move APK to release directory
+        run: |
+          mkdir -p release # Create the release directory if it doesn't exist
+          mv build/app/outputs/flutter-apk/app-product-release.apk release/app-release.apk
 
           
       - uses: actions/checkout@v3
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/app-product-release.apk"
+          artifacts: "`app-product-release.apk"
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
           prerelease: true
