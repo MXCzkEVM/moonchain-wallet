@@ -46,9 +46,12 @@ jobs:
           path: build/app/outputs/flutter-apk/app-product-release.apk
 
           
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - uses: actions/checkout@v3
+      - uses: ncipollo/release-action@v1
         with:
-          files: build/app/outputs/flutter-apk/app-product-release.apk
+          artifacts: "build/app/outputs/flutter-apk/app-product-release.apk"
+          token: ${{ secrets.DART_TOKEN }}
+          tag: ${{ steps.generate.outputs.build-number }}
+          prerelease: true
 
 
