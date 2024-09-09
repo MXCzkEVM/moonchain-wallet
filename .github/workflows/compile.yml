@@ -1,0 +1,54 @@
+name: Build and distribute
+
+on:
+  push:
+    branches:
+      - pre_main_qa
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Generate
+        id: generate
+        uses: AcmeSoftwareLLC/app-build-number@v1
+        with:
+          timezone: Asia/Kathmandu
+    
+      - name: Display the generated build number
+        run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
+
+
+      - name: Set Version Code
+        run: |
+          echo "Received Number: ${{ steps.generate.outputs.build-number }}"
+          echo "VERSION_CODE=${{ steps.generate.outputs.build-number }}" >> $GITHUB_ENV
+          echo "Set VERSION_CODE to: ${{ steps.generate.outputs.build-number }}"
+        shell: bash
+
+      - uses: sheenhx/action-flutter-build-android@v3
+        with:
+          keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
+          keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
+          build-cmd: flutter build apk --flavor product --release --build-number=${{ env.VERSION_CODE }}
+          working-directory: ./
+          
+      - name: Archive APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          # Try running the build locally with the build command to be sure of this path
+          path: build/app/outputs/flutter-apk/app-product-release.apk
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/app/outputs/flutter-apk/app-product-release.apk
+          token: ${{ secrets.DART_TOKEN }}
+          tag: ${{ steps.generate.outputs.build-number }}
+          prerelease: true
+
+
