@@ -5,10 +5,10 @@
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.transistorsoft.fetch</string>
-		<string>com.mxc.axswallet.notificationsTask</string>
-		<string>com.mxc.axswallet.wifiHooksTask</string>
-		<string>com.mxc.axswallet.minerAutoClaimTask</string>
-		<string>com.mxc.axswallet.blueberryAutoSyncTask</string>
+		<string>com.mxc.moonchainWallet.notificationsTask</string>
+		<string>com.mxc.moonchainWallet.wifiHooksTask</string>
+		<string>com.mxc.moonchainWallet.minerAutoClaimTask</string>
+		<string>com.mxc.moonchainWallet.blueberryAutoSyncTask</string>
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
@@ -94,6 +94,8 @@
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Media Library?</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>AXS Wallet needs access to your Bluetooth when the app is in use  or running in the background for services such as BluberryRing. Blutooth data is not saved or shared with any third parties.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Would you allow AXS Wallet to use the Bluetooth?</string>
 	<key>NSCalendarsUsageDescription</key>
@@ -120,8 +122,6 @@
 	<string>Would you allow AXS Wallet to use the Speech Recognition?</string>
 	<key>PermissionGroupNotification</key>
 	<string>Would you allow AXS Wallet to use the Notification?</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>AXS Wallet needs access to your Bluetooth when the app is in use  or running in the background for services such as BluberryRing. Blutooth data is not saved or shared with any third parties.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -149,9 +149,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
