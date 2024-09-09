@@ -22,7 +22,7 @@ class PasscodeRequirePage extends PasscodeBasePage {
 
   @override
   String title(BuildContext context, WidgetRef ref) =>
-      FlutterI18n.translate(context, 'unlock_axs_wallet');
+      FlutterI18n.translate(context, 'unlock_moonchain_wallet');
 
   @override
   String hint(BuildContext context, WidgetRef ref) =>
@@ -91,8 +91,9 @@ class PasscodeRequirePage extends PasscodeBasePage {
             child: MxcButton.secondaryWhite(
               key: const ValueKey('forgotPasscodeButton'),
               title: FlutterI18n.translate(context, 'forgot_passcode'),
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
               onTap: () => showResetPasscodeDialog(context, ref),
+              edgeType: UIConfig.securityScreensButtonsEdgeType,
             ),
           ),
         const Spacer(),

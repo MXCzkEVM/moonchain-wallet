@@ -7,4 +7,7 @@ export 'presentation/wechat_recovery_phrase_alert/wechat_recovery_phrase_page.da
 export 'presentation/email_recovery_phrase_alert/email_recovery_phrase_page.dart';
 export 'presentation/local_seed_phrase_alert/local_recovery_phrase_page.dart';
 
+export 'presentation/google_drive_recovery_phrase_alert/google_drive_recovery_phrase_alert.dart';
+export 'presentation/icloud_recovery_phrase_alert/icloud_recovery_phrase_alert.dart';
+
 export 'presentation/widgets/scale_animation.dart';

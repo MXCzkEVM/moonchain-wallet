@@ -6,10 +6,13 @@ class ChooseNftState with EquatableMixin {
   List<Nft> filterNfts = [];
   Account? account;
 
+  String? ipfsGateway;
+
   @override
   List<Object?> get props => [
         nfts,
         filterNfts,
         account,
+        ipfsGateway,
       ];
 }

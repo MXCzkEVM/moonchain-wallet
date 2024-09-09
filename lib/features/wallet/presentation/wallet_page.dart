@@ -30,7 +30,7 @@ class WalletPage extends HookConsumerWidget {
         useAppBar: true,
         presenter: presenter,
         resizeToAvoidBottomInset: true,
-        backgroundColor: ColorsTheme.of(context).screenBackground,
+        useGradientBackground: true,
         layout: LayoutType.column,
         useContentPadding: false,
         appBar: AppNavBar(

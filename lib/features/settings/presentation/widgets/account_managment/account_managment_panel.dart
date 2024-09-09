@@ -23,12 +23,16 @@ class AccountManagementPanel extends HookConsumerWidget {
         account?.address ?? '',
         nCharacters: 10);
 
-    return GreyContainer(
+    return Container(
         padding: const EdgeInsetsDirectional.only(
             bottom: Sizes.spaceSmall,
             top: Sizes.spaceSmall,
             start: Sizes.spaceNormal,
             end: Sizes.spaceSmall),
+        decoration: BoxDecoration(
+          borderRadius: UIConfig.defaultBorderRadiusAll,
+          color: const Color(0XFF212529),
+        ),
         child: Column(
           children: [
             InkWell(

@@ -14,3 +14,5 @@ export 'mep2542.g.dart'
     hide Initialized, OwnershipTransferred, ControllerChanged;
 export 'erc_6551_registry.g.dart';
 export 'doit/doit.dart';
+export 'erc721.g.dart';
+export 'storage.g.dart';

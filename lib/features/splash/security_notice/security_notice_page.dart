@@ -25,10 +25,11 @@ class SecurityNoticePage extends HookConsumerWidget {
       footer: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: MxcButton.primaryWhite(
-          key: const Key('confrimButton'),
+          key: const Key('storedMyKeyButton'),
           title: FlutterI18n.translate(context, 'stored_my_key'),
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
           onTap: () => presenter.confirm(),
+          edgeType: UIConfig.splashScreensButtonsEdgeType,
         ),
       ),
       children: [

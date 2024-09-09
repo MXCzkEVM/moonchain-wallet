@@ -108,15 +108,15 @@ class LauncherUseCase extends ReactiveUseCase {
     await launchUrlInExternalAppWithString(Urls.mxcDesignDocs);
   }
 
-  Future<void> launchAxsTermsConditions() async {
-    await launchUrlInExternalAppWithString(Urls.axsTermsConditions);
+  Future<void> launchMXCWalletTermsConditions() async {
+    await launchUrlInExternalAppWithString(Urls.mxcWalletTermsConditions);
   }
 
   void openTelegram() => launchUrlInPlatformDefaultWithString(Urls.telegram);
 
   void openWeChat() => launchUrlInPlatformDefaultWithString(Urls.weChat);
 
-  void openAXSPrivacy(String path) async {
+  void openMXCWalletPrivacy(String path) async {
     ByteData data = await rootBundle.load(path);
     List<int> bytes = data.buffer.asUint8List();
     String tempDir = (await getTemporaryDirectory()).path;

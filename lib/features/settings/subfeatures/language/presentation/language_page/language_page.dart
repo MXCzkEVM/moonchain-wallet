@@ -42,7 +42,7 @@ class LanguagePage extends ConsumerWidget {
                     children: [
                       Text(
                         FlutterI18n.translate(context, language.nativeName),
-                        style: FontTheme.of(context).body1(),
+                        style: FontTheme.of(context).body2(),
                       ),
                       if (selectedLanguage == language) ...[
                         const Icon(Icons.check_rounded),

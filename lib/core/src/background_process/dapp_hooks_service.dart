@@ -30,7 +30,7 @@ class DAppHooksService {
 
       // Make sure user is logged in
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && wifiHooksEnabled) {
-        await AXSNotification()
+        await MXCWalletNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
 
         await dAppHooksUseCase.sendWifiInfo(
@@ -74,7 +74,7 @@ class DAppHooksService {
       final selectedMiners = dappHooksData.minerHooks.selectedMiners;
       // Make sure user is logged in
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && minerHooksEnabled) {
-        await AXSNotification()
+        await MXCWalletNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
 
         await dAppHooksUseCase.executeMinerAutoClaim(
@@ -118,7 +118,7 @@ class DAppHooksService {
       final selectedRings = dappHooksData.blueberryRingHooks.selectedRings;
       // Make sure user is logged in
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && autoSyncEnabled) {
-        await AXSNotification()
+        await MXCWalletNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
 
         await dAppHooksUseCase.syncBlueberryRingSync(

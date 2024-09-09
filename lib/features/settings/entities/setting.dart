@@ -27,7 +27,7 @@ class Setting {
     return [
       Setting(
         title: FlutterI18n.translate(context, 'security'),
-        icon: MxcIcons.security,
+        icon: MxcIcons.shield,
         page: const SecuritySettingsPage(),
       ),
       Setting(

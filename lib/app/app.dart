@@ -15,8 +15,8 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 final appNavigatorKey = GlobalKey<NavigatorState>();
 
-class AxsWallet extends HookConsumerWidget {
-  const AxsWallet({
+class MXCWallet extends HookConsumerWidget {
+  const MXCWallet({
     Key? key,
     required this.isLoggedIn,
   }) : super(key: key);

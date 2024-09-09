@@ -42,7 +42,7 @@ class ThemeSettingsPage extends ConsumerWidget {
                     children: [
                       Text(
                         FlutterI18n.translate(context, item.name),
-                        style: FontTheme.of(context).body1(),
+                        style: FontTheme.of(context).body2(),
                       ),
                       if (option == item) ...[
                         const Icon(Icons.check_rounded),

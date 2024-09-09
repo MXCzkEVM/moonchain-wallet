@@ -113,7 +113,7 @@ class WiFiHooksHelper {
     final periodicalCallData =
         backgroundFetchConfigUseCase.periodicalCallData.value;
     final turnOffAll =
-        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
+        MXCWalletBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
     await dAppHooksUseCase.stopWifiHooksService(turnOffAll: turnOffAll);
     if (showSnackbar) {
       dappHooksSnackBarUtils.showWiFiHooksServiceDisableSuccessSnackBar();

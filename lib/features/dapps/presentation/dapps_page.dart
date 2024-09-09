@@ -27,14 +27,7 @@ class DAppsPage extends HookConsumerWidget {
       useContentPadding: false,
       childrenPadding: const EdgeInsets.symmetric(
           horizontal: Sizes.spaceSmall, vertical: Sizes.spaceNormal),
-      backgroundGradient: const LinearGradient(
-        colors: [
-          Color(0xFF0E1629),
-          Color(0xFF333333),
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
+      useGradientBackground: true,
       presenter: ref.watch(presenter),
       appBar: Column(
         children: [

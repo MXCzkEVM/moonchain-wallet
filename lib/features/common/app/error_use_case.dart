@@ -41,7 +41,7 @@ class ErrorUseCase extends ReactiveUseCase {
       return true;
     }
 
-    AXSNotification().showNotification(
+    MXCWalletNotification().showNotification(
       notificationTitle,
       e.toString(),
     );

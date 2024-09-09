@@ -37,6 +37,7 @@ class SplashImportWalletPage extends HookConsumerWidget {
                         presenter.confirm();
                       }
                     : null,
+                edgeType: MXCWalletButtonEdgeType.hard,
               ),
             );
           }),

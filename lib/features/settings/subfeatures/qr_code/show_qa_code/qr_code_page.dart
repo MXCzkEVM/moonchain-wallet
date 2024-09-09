@@ -37,9 +37,9 @@ class QrCodePage extends HookConsumerWidget {
       children: [
         Container(
           width: double.infinity,
-          decoration: ShapeDecoration(
-            color: ColorsTheme.of(context).primaryBackground,
-            shape: const RoundedRectangleBorder(
+          decoration: const ShapeDecoration(
+            color: Color(0xFF30363C),
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
           ),
@@ -78,6 +78,7 @@ class QrCodePage extends HookConsumerWidget {
         MxcButton.secondary(
           key: const ValueKey('viewPrivateKeyButton'),
           title: FlutterI18n.translate(context, 'view_private_key'),
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => Navigator.of(context)
               .push(
             route.featureDialog<PasscodeAuthenticateUserPage>(
@@ -99,6 +100,7 @@ class QrCodePage extends HookConsumerWidget {
           key: const ValueKey('scanQrCodeButton'),
           title: FlutterI18n.translate(context, 'scan_qr_code'),
           icon: MxcIcons.qr_code,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => Navigator.of(context).push(
             route.featureDialog(const QrScannerPage()),
           ),

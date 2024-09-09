@@ -32,6 +32,6 @@ class PasscodeSetConfirmPagePresenter extends PasscodeBasePagePresenter {
     _passcodeUseCase.setNeedSetPasscode(false);
     _passcodeUseCase.setPasscode(expectedNumbers.join());
 
-    pushMNSAnnouncementPage(context!);
+    pushWalletCreationNoticePage(context!);
   }
 }

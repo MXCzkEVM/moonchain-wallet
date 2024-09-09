@@ -56,11 +56,12 @@ class RecentTransactions extends HookConsumerWidget {
           height: Sizes.spaceSmall,
         ),
         MxcChipButton(
-            key: const Key('viewOtherTransactions'),
-            title: FlutterI18n.translate(context, 'view_other_transactions'),
-            iconData: MxcIcons.external_link,
-            alignIconStart: false,
-            onTap: () => presenter.getViewOtherTransactionsLink()),
+          key: const Key('viewOtherTransactions'),
+          title: FlutterI18n.translate(context, 'view_other_transactions'),
+          iconData: MxcIcons.external_link,
+          alignIconStart: false,
+          onTap: () => presenter.getViewOtherTransactionsLink(),
+        ),
       ],
     );
   }

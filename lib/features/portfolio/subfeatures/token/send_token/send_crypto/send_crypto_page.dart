@@ -48,6 +48,7 @@ class SendCryptoPage extends HookConsumerWidget {
         child: MxcButton.primary(
           key: const ValueKey('nextButton'),
           title: FlutterI18n.translate(context, 'next'),
+          size: MXCWalletButtonSize.xxl,
           onTap: ref.watch(state).valid
               ? () {
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -163,6 +164,7 @@ class SendCryptoPage extends HookConsumerWidget {
                               buttonState: ref.watch(state).discount == item
                                   ? ChipButtonStates.activeState
                                   : ChipButtonStates.inactiveState,
+                              mxcChipsEdgeType: MXCChipsEdgeType.hard,
                             ),
                           ))
                       .toList()),

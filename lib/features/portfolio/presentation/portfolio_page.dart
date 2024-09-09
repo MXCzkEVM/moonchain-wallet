@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:datadashwallet/core/core.dart';
 import 'package:datadashwallet/features/common/common.dart';
 import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/open_dapp.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/choose_nft/choose_nft_page.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/nft_list.dart';
 import 'package:datadashwallet/features/portfolio/subfeatures/tokens_balance_list/tokens_balance_list.dart';
@@ -26,7 +27,7 @@ class PortfolioPage extends HookConsumerWidget {
     return MxcPage(
         presenter: presenter,
         resizeToAvoidBottomInset: true,
-        backgroundColor: ColorsTheme.of(context).screenBackground,
+        useGradientBackground: true,
         layout: LayoutType.column,
         useContentPadding: false,
         childrenPadding: const EdgeInsets.only(top: 25, right: 24, left: 24),
@@ -49,13 +50,13 @@ class PortfolioPage extends HookConsumerWidget {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
+
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
                       child: Container(
-                        // width: 100,
                         decoration: BoxDecoration(
                           border:
-                              Border.all(color: ColorsTheme.of(context).grey4),
+                              Border.all(color: ColorsTheme.of(context).white),
                           borderRadius:
                               const BorderRadius.all(Radius.circular(15)),
                           color:
@@ -71,11 +72,10 @@ class PortfolioPage extends HookConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        MxcCircleButton.icon(
+                        MXCRectangleButton.icon(
                           key: const Key('sendButton'),
                           icon: MxcIcons.send,
-                          iconFillColor: ColorsTheme.of(context)
-                              .iconButtonBackgroundActive,
+                          iconFillColor: Colors.white,
                           color: ColorsTheme.of(context).iconButtonInvertActive,
                           onTap: () => Navigator.of(context).push(route(
                               state.switchTokensOrNFTs
@@ -90,10 +90,9 @@ class PortfolioPage extends HookConsumerWidget {
                         const SizedBox(
                           width: 32,
                         ),
-                        MxcCircleButton.icon(
+                        MXCRectangleButton.icon(
                           key: const Key('receiveButton'),
-                          iconFillColor: ColorsTheme.of(context)
-                              .iconButtonBackgroundActive,
+                          iconFillColor: Colors.white,
                           color: ColorsTheme.of(context).iconButtonInvertActive,
                           icon: MxcIcons.receive,
                           onTap: () => presenter.showReceiveSheet(),
@@ -106,10 +105,9 @@ class PortfolioPage extends HookConsumerWidget {
                         const SizedBox(
                           width: 32,
                         ),
-                        MxcCircleButton.icon(
+                        MXCRectangleButton.icon(
                           key: const Key('historyButton'),
-                          iconFillColor: ColorsTheme.of(context)
-                              .iconButtonBackgroundActive,
+                          iconFillColor: Colors.white,
                           color: ColorsTheme.of(context).iconButtonInvertActive,
                           icon: MxcIcons.history,
                           onTap: () => Navigator.of(context)
@@ -153,6 +151,8 @@ class PortfolioPage extends HookConsumerWidget {
                     onTap: () => presenter.changeTokensOrNFTsTab(true),
                     title: FlutterI18n.translate(context, 'tokens'),
                     alignIconStart: true,
+                    mxcChipsEdgeType: MXCChipsEdgeType.hard,
+                    primaryColor: Colors.white,
                   ),
                   const SizedBox(
                     width: 10,
@@ -165,6 +165,8 @@ class PortfolioPage extends HookConsumerWidget {
                     onTap: () => presenter.changeTokensOrNFTsTab(false),
                     title: FlutterI18n.translate(context, 'nfts'),
                     alignIconStart: true,
+                    mxcChipsEdgeType: MXCChipsEdgeType.hard,
+                    primaryColor: Colors.white,
                   )
                 ],
               ),

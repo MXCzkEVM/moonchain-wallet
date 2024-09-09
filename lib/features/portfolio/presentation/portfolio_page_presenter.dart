@@ -67,9 +67,13 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   }
 
   getNfts() async {
-    final newNftList =
-        await _nftContractUseCase.getNftsByAddress(state.walletAddress!);
-    _nftUseCase.mergeNewList(newNftList);
+    final nftList = await _nftContractUseCase.getNftsByAddress(
+        state.walletAddress!, state.ipfsGateway!);
+    final domainsList = await _nftContractUseCase.getDomainsByAddress(
+        state.walletAddress!, state.ipfsGateway!);
+
+    nftList.addAll(domainsList);
+    _nftUseCase.mergeNewList(nftList);
   }
 
   void changeTokensOrNFTsTab(bool toggle) {

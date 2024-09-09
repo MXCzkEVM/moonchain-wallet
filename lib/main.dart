@@ -16,9 +16,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   print(message.data);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await AXSNotification().setupFlutterNotifications();
+  await MXCWalletNotification().setupFlutterNotifications();
   // Firebase triggers notifications Itself
-  // axsNotification.showFlutterNotification(message);
+  // mxcNotification.showFlutterNotification(message);
   print('Handling a background message ${message.messageId}');
 }
 
@@ -60,7 +60,7 @@ void main() {
       runApp(
         UncontrolledProviderScope(
           container: container,
-          child: AxsWallet(
+          child: MXCWallet(
             isLoggedIn: isLoggedIn,
           ),
         ),

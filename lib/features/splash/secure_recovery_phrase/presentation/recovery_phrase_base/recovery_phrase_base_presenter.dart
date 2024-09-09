@@ -103,7 +103,11 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     nextProcess(settingsFlow, res['phrases']);
   }
 
-  void sendEmail(BuildContext ctx, bool settingsFlow) async {
+  void sendEmail(
+    BuildContext ctx,
+    bool settingsFlow,
+    String userEmail,
+  ) async {
     final res = await generateMnemonicFile(settingsFlow);
 
     final email = MailOptions(
@@ -111,6 +115,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
       subject: translate('email_secured_subject')!,
       attachments: [res['filePath']],
       isHTML: false,
+      recipients: [userEmail],
     );
 
     try {

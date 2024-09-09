@@ -40,11 +40,11 @@ class AddAssetInfo extends ConsumerWidget {
   Widget addTokenButton(BuildContext context) {
     String titleText = FlutterI18n.translate(context, 'add_x').replaceFirst(
         '{0}', FlutterI18n.translate(context, 'token').toLowerCase());
-    AxsButtonType type = AxsButtonType.primary;
+    MXCWalletButtonType type = MXCWalletButtonType.primary;
 
     return MxcButton.primary(
       key: const ValueKey('addTokenButton'),
-      size: AxsButtonSize.xl,
+      size: MXCWalletButtonSize.xl,
       title: titleText,
       type: type,
       onTap: () {

@@ -30,11 +30,25 @@ class NFTList extends HookConsumerWidget {
         nfts.isEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 100),
-                child: Text(
-                  translate('no_nfts_added_yet'),
-                  style: FontTheme.of(context).h6().copyWith(
-                        fontSize: 18,
-                      ),
+                child: Column(
+                  children: [
+                    Text(
+                      translate('no_nfts_added_yet'),
+                      style: FontTheme.of(context).body2.secondary(),
+                    ),
+                    const SizedBox(
+                      height: Sizes.spaceNormal,
+                    ),
+                    MxcChipButton(
+                      key: const Key('buyNFT'),
+                      title: FlutterI18n.translate(context, 'buy_x')
+                          .replaceFirst('{0}', 'NFT'),
+                      iconData: Icons.add_rounded,
+                      alignIconStart: true,
+                      onTap: () => presenter.getNfts(),
+                      backgroundColor:  ColorsTheme.of(context).darkGray,
+                    ),
+                  ],
                 ),
               )
             : Column(

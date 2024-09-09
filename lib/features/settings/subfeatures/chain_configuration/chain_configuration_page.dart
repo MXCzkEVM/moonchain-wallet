@@ -21,7 +21,6 @@ class ChainConfigurationPage extends HookConsumerWidget {
     return MxcPage(
       presenter: presenter,
       resizeToAvoidBottomInset: true,
-      backgroundColor: ColorsTheme.of(context).screenBackground,
       layout: LayoutType.column,
       useContentPadding: false,
       childrenPadding: const EdgeInsets.only(
@@ -58,6 +57,7 @@ class ChainConfigurationPage extends HookConsumerWidget {
             MxcButton.secondary(
               key: const ValueKey('addNetworkButton'),
               title: translate('add_network'),
+              edgeType: UIConfig.settingsScreensButtonsEdgeType,
               onTap: () {
                 Navigator.of(context).push(
                   route.featureDialog(
@@ -65,7 +65,7 @@ class ChainConfigurationPage extends HookConsumerWidget {
                   ),
                 );
               },
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
             const SizedBox(
               height: Sizes.space4XLarge,

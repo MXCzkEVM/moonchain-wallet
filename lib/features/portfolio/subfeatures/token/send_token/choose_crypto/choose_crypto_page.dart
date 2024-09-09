@@ -36,6 +36,7 @@ class ChooseCryptoPage extends HookConsumerWidget {
       presenter: ref.watch(presenter),
       crossAxisAlignment: CrossAxisAlignment.start,
       layout: LayoutType.column,
+      useGradientBackground: true,
       appBar: AppNavBar(
         action: IconButton(
           key: const ValueKey('appsButton'),
@@ -69,7 +70,7 @@ class ChooseCryptoPage extends HookConsumerWidget {
                   MxcTextField.search(
                     key: const ValueKey('chooseTokenTextField'),
                     width: 150,
-                    backgroundColor: ColorsTheme.of(context).chipDefaultBg,
+                    backgroundColor: ColorsTheme.of(context).layerSheetBackground,
                     prefix: const Icon(Icons.search_rounded),
                     hint: translate('find_your_x')
                         .replaceFirst('{0}', translate('token').toLowerCase()),

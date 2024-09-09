@@ -1,3 +1,5 @@
+
+import 'package:datadashwallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -8,23 +10,9 @@ Future<bool?> showLocationPermissionBottomSheet({
 }) async {
   String translate(String text) => FlutterI18n.translate(context, text);
 
-  return showModalBottomSheet<bool>(
+  return showBaseBottomSheet<bool>(
     context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
-    builder: (BuildContext context) => Container(
-      padding: const EdgeInsets.only(
-          top: Sizes.spaceNormal, bottom: Sizes.space3XLarge),
-      decoration: BoxDecoration(
-        color: ColorsTheme.of(context).layerSheetBackground,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-      child: Column(
+    content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,7 +31,7 @@ Future<bool?> showLocationPermissionBottomSheet({
                   translate(
                     'location_permission_required_text',
                   ),
-                  style: FontTheme.of(context).body1.primary().copyWith(),
+                  style: FontTheme.of(context, listen: false).body1.primary().copyWith(),
                   softWrap: true,
                   textAlign: TextAlign.justify,
                 ),
@@ -57,7 +45,7 @@ Future<bool?> showLocationPermissionBottomSheet({
                     openLocationSettings();
                     Navigator.of(context).pop(true);
                   },
-                  size: AxsButtonSize.xl,
+                  size: MXCWalletButtonSize.xl,
                 ),
                 const SizedBox(
                   height: Sizes.spaceNormal,
@@ -68,13 +56,12 @@ Future<bool?> showLocationPermissionBottomSheet({
                   onTap: () {
                     Navigator.of(context).pop(true);
                   },
-                  size: AxsButtonSize.xl,
+                  size: MXCWalletButtonSize.xl,
                 ),
               ],
             ),
           )
         ],
       ),
-    ),
   );
 }

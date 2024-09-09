@@ -1,4 +1,4 @@
-package com.mxc.axswallet
+package com.mxc.moonchainWallet
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

@@ -123,7 +123,7 @@ class NotificationsHelper {
     final dappHooksData = dAppHooksUseCase.dappHooksData.value;
     final periodicalCallData = state.periodicalCallData;
     final turnOffAll =
-        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData!);
+        MXCWalletBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData!);
     await backgroundFetchConfigUseCase.stopNotificationsService(
         turnOffAll: turnOffAll);
     if (showSnackbar) {
@@ -147,8 +147,8 @@ class NotificationsHelper {
   void checkNotificationsStatus() async {
     final isGranted = await PermissionUtils.checkNotificationPermission();
     if (state.isNotificationsEnabled == false && isGranted == true) {
-      await AXSFireBase.initializeFirebase();
-      AXSFireBase.initLocalNotificationsAndListeners();
+      await MXCWalletFireBase.initializeFirebase();
+      MXCWalletFireBase.initLocalNotificationsAndListeners();
     }
     notify(() => state.isNotificationsEnabled = isGranted);
   }

@@ -33,12 +33,8 @@ class SplashSetupWalletPage extends SplashBasePage {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Center(
-        child: SizedBox(
-          width: 200,
-          child: LottieBuilder.asset(
-            'assets/lottie/axs_logo_animation.json',
-            repeat: false,
-          ),
+        child: Image(
+          image: ImagesTheme.of(context).appTextLogo,
         ),
       ),
     );
@@ -59,6 +55,8 @@ class SplashSetupWalletPage extends SplashBasePage {
               const SplashStoragePage(),
             ),
           ),
+          edgeType: UIConfig.splashScreensButtonsEdgeType,
+          size: MXCWalletButtonSize.xxl,
         ),
         MxcButton.plainWhite(
           key: const ValueKey('importButton'),

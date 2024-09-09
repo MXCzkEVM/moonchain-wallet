@@ -29,22 +29,22 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
             title: FlutterI18n.translate(context, 'use_biometric').replaceFirst(
                 '{0}',
                 FlutterI18n.translate(context, presenter.getAppBarTitle())
-                    .toLowerCase()),
+                    ),
             onTap: () => presenter.authenticateBiometrics(),
+            edgeType: UIConfig.securityScreensButtonsEdgeType,
           ),
           MxcButton.plainWhite(
             key: const ValueKey('createPasscodeButton'),
             title: FlutterI18n.translate(context, 'create_passcode'),
             onTap: () => presenter.createPasscode(),
+            edgeType: UIConfig.securityScreensButtonsEdgeType,
           ),
         ],
       ),
       children: [
-        const SizedBox(height: 75),
+        const SizedBox(height: 200),
         Image(
-          image: ImagesTheme.of(context).axs,
-          width: 80,
-          height: 80,
+          image: ImagesTheme.of(context).appTextLogo,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -62,11 +62,11 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
           style: FontTheme.of(context).h6.white(),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 43),
+        const SizedBox(height: 24),
         SvgPicture.asset(
           presenter.getSvg(),
-          height: 64,
-          width: 64,
+          height: 80,
+          width: 80,
           colorFilter: filterFor(ColorsTheme.of(context).iconWhite),
         ),
         const Spacer(),
