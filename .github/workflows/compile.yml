@@ -106,10 +106,10 @@ jobs:
       - name: Upload APK to Waldo
         uses: waldoapp/gh-action-upload@v2
         with:
-          build_path: combined-builds/android/*.apk
+          build_path: combined-builds/android/app-product-release.apk
           upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
-      - name: Upload APK to Waldo
+      - name: Upload IPA to Waldo
         uses: waldoapp/gh-action-upload@v2
         with:
-          build_path: combined-builds/iOS/*.ipa
+          build_path: combined-builds/iOS/moonchain.ipa
           upload_token: ${{ secrets.WALDO_SESSIONS_IOS }}
