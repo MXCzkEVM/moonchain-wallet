@@ -26,9 +26,9 @@ jobs:
 
       - name: Set Version Code
         run: |
-          echo "Received Number: ${{ steps.generate.outputs.build-number }}"
-          echo "VERSION_CODE=${{ steps.generate.outputs.build-number }}" >> $GITHUB_ENV
-          echo "Set VERSION_CODE to: ${{ steps.generate.outputs.build-number }}"
+          echo "Received Number: ${{ github.run_number }}"
+          echo "VERSION_CODE=${{ github.run_number }}" >> $GITHUB_ENV
+          echo "Set VERSION_CODE to: ${{ github.run_number }}"
         shell: bash
 
       - uses: sheenhx/action-flutter-build-android@v3
@@ -51,7 +51,7 @@ jobs:
           tag: ${{ steps.generate.outputs.build-number }}
 
   build-macos:
-    name: Build on macOS
+    name: Build-ios
     runs-on: macos-latest
     steps:
       - name: Checkout code with submodules
@@ -62,7 +62,7 @@ jobs:
       - uses: sheenhx/action-flutter-build-ios@v1
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
-          build-cmd: flutter build ipa --release --no-codesign --export-options-plist=ios/GithubActionsExportOptions.plist
+          build-cmd: flutter build ipa --build-number=$(( 15 + ${{ github.run_number }})) --export-options-plist=ios/GithubActionsExportOptions.plist
           certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
           certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
           provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
