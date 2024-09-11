@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-apk:
-    name: build-apk
+    name: Build-apk
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code with submodules
@@ -96,6 +96,6 @@ jobs:
         run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: combined-builds
+          artifacts: combined-builds/*.*
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
