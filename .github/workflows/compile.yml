@@ -14,14 +14,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - name: Generate
-        id: generate
-        uses: AcmeSoftwareLLC/app-build-number@v1
-        with:
-          timezone: Asia/Kathmandu
-    
-      - name: Display the generated build number
-        run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
 
 
       - name: Set Version Code
@@ -44,11 +36,7 @@ jobs:
           name: release-apk
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/flutter-apk/app-product-release.apk
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: build/app/outputs/flutter-apk/app-product-release.apk
-          token: ${{ secrets.DART_TOKEN }}
-          tag: ${{ steps.generate.outputs.build-number }}
+
 
   build-macos:
     name: Build-ios
@@ -73,4 +61,41 @@ jobs:
         with:
           name: release-ipa
           # Try running the build locally with the build command to be sure of this path
-          path: build/ios/ipa/App.ipa
+          path: build/ios/ipa/*.ipa
+
+  upload-combined:
+    name: Combine and Upload Builds
+    needs: [build-apk, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Ubuntu artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+          path: combined-builds/android
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-ipa
+          path: combined-builds/iOS
+
+      - name: Upload combined artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-builds
+          path: combined-builds
+
+      - name: Generate
+        id: generate
+        uses: AcmeSoftwareLLC/app-build-number@v1
+        with:
+          timezone: Asia/Kathmandu
+    
+      - name: Display the generated build number
+        run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: combined-builds
+          token: ${{ secrets.DART_TOKEN }}
+          tag: ${{ steps.generate.outputs.build-number }}
