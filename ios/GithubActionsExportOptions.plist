@@ -15,7 +15,7 @@
   <key>provisioningProfiles</key>
   <dict>
     <key>com.mxc.moonchainWallet</key>
-    <string>MoonDev</string>
+    <string>MoonchainWalletProvisioningProfile</string>
   </dict>
 	<key>stripSwiftSymbols</key>
 	<true/>
