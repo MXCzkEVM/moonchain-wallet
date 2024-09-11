@@ -96,6 +96,6 @@ jobs:
         run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: combined-builds/*.*
+          artifacts: "combined-builds/android/*.apk,combined-builds/android/*.ipa"
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
