@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -115,7 +115,8 @@ class SplashStoragePage extends SplashBasePage {
               icon: MxcIcons.google_drive,
               iconSize: 24,
               titleSize: 18,
-              title: FlutterI18n.translate(context, 'google_drive_secured_storage'),
+              title: FlutterI18n.translate(
+                  context, 'google_drive_secured_storage'),
               onTap: () => Navigator.of(context).push(
                 route.featureDialog(
                   GoogleDriveRecoveryPhrasePage(

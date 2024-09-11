@@ -1,5 +1,5 @@
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 class BalanceRepository extends ControlledCacheRepository {
   @override

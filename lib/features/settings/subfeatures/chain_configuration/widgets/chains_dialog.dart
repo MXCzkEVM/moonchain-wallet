@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -29,7 +29,8 @@ Future<bool?> showChainsDialog(BuildContext context,
               alignment: Alignment.centerRight,
               child: InkWell(
                 child: Icon(MxcIcons.close,
-                    size: 32, color: ColorsTheme.of(context, listen: false).iconPrimary),
+                    size: 32,
+                    color: ColorsTheme.of(context, listen: false).iconPrimary),
                 onTap: () => Navigator.of(context).pop(false),
               ),
             ),
@@ -52,7 +53,9 @@ Future<bool?> showChainsDialog(BuildContext context,
                       ),
                       Text(
                         e.label ?? e.web3RpcHttpUrl,
-                        style: FontTheme.of(context, listen: false).body2.primary(),
+                        style: FontTheme.of(context, listen: false)
+                            .body2
+                            .primary(),
                       ),
                       const Spacer(),
                       if (selectedChainId == e.chainId)
@@ -62,7 +65,8 @@ Future<bool?> showChainsDialog(BuildContext context,
                           child: Icon(
                             MxcIcons.check,
                             size: 24,
-                            color: ColorsTheme.of(context, listen: false).white400,
+                            color:
+                                ColorsTheme.of(context, listen: false).white400,
                           ),
                         ),
                     ]),

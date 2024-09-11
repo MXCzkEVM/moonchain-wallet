@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/dapps/presentation/dapps_presenter.dart';
+import 'package:moonchain_wallet/features/dapps/presentation/dapps_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';

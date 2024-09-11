@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:equatable/equatable.dart';
 
 class LanguageState with EquatableMixin {

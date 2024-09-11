@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/internal.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:datadashwallet/core/src/cached_types.dart';
+import 'package:moonchain_wallet/core/src/cached_types.dart';
 import '../cache/datadash_cache.dart';
 import '../cache/global_cache.dart';
 export 'providers_aliases.dart';

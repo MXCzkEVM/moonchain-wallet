@@ -1,7 +1,7 @@
-import 'package:datadashwallet/common/components/balance_panel/widgets/balance_chart.dart';
-import 'package:datadashwallet/common/components/balance_panel/widgets/balance_in_xsd.dart';
-import 'package:datadashwallet/common/components/balance_panel/widgets/balance_title.dart';
-import 'package:datadashwallet/common/components/balance_panel/widgets/manage_portfolio_section.dart';
+import 'package:moonchain_wallet/common/components/balance_panel/widgets/balance_chart.dart';
+import 'package:moonchain_wallet/common/components/balance_panel/widgets/balance_in_xsd.dart';
+import 'package:moonchain_wallet/common/components/balance_panel/widgets/balance_title.dart';
+import 'package:moonchain_wallet/common/components/balance_panel/widgets/manage_portfolio_section.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';

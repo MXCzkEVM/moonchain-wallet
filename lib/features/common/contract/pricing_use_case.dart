@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class PricingUseCase extends ReactiveUseCase {

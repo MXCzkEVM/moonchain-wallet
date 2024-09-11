@@ -1,5 +1,5 @@
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:datadashwallet/common/utils/utils.dart';
+import 'package:moonchain_wallet/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:web3dart/web3dart.dart';

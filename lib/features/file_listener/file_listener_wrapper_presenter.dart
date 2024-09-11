@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:datadashwallet/app/app.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/security/security.dart';
+import 'package:moonchain_wallet/app/app.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/security/security.dart';
 import 'package:fl_shared_link/fl_shared_link.dart';
 import 'package:flutter/material.dart';
 

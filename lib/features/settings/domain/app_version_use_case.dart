@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:android_metadata/android_metadata.dart';
-import 'package:datadashwallet/app/configuration.dart';
+import 'package:moonchain_wallet/app/configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_update/flutter_app_update.dart';
 import 'package:mxc_logic/mxc_logic.dart';

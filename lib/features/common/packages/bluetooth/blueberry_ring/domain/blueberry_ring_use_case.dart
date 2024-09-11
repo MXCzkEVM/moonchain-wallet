@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:datadashwallet/app/logger.dart';
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/app/logger.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 
 import '../../bluetooth.dart';
 

@@ -1,10 +1,9 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/presentation/settings_page.dart';
-import 'package:datadashwallet/features/wallet/presentation/wallet_page.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/presentation/settings_page.dart';
+import 'package:moonchain_wallet/features/wallet/presentation/wallet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-
 
 class DefaultAppBar extends StatelessWidget {
   const DefaultAppBar({super.key});
@@ -17,7 +16,6 @@ class DefaultAppBar extends StatelessWidget {
         icon: const Icon(MxcIcons.settings),
         iconSize: Sizes.space2XLarge,
         onPressed: () {
-          
           Navigator.of(context).push(
             route(
               const SettingsPage(),

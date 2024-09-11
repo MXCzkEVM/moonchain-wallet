@@ -1,5 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'chain_configuration_repository.dart';

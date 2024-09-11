@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/security/security.dart';
+import 'package:moonchain_wallet/features/security/security.dart';
 
 class PasscodeChangeEnterCurrentPageState extends PasscodeBasePageState {
   int wrongInputCounter = 0;

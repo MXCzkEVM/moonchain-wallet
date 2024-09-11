@@ -3,7 +3,7 @@ import 'package:flutter/material.dart' hide RefreshCallback;
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import 'layout.dart';
 

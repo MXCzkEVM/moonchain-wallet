@@ -1,7 +1,7 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/presentation/settings_page_presenter.dart';
-import 'package:datadashwallet/features/settings/subfeatures/about_page/widgets/app_term.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/presentation/settings_page_presenter.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/about_page/widgets/app_term.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';

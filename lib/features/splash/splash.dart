@@ -1,5 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/mns_process/mns.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/splash/mns_process/mns.dart';
 import 'wallet_creation_notice/wallet_creation_notice.dart';
 import 'package:flutter/material.dart';
 

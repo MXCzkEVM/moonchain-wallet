@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'widgets/token_balance_item.dart';

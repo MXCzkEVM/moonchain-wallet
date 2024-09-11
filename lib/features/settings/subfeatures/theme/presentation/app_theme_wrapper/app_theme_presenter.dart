@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
 
 import 'app_theme_state.dart';
 

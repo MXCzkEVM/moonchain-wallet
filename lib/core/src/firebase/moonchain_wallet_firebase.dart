@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/src/moonchain_wallet_notification.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/src/moonchain_wallet_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -25,7 +25,8 @@ class MoonchainWalletFireBase {
     firebaseToken = Platform.isAndroid
         ? await FirebaseMessaging.instance.getToken()
         : await FirebaseMessaging.instance.getAPNSToken();
-    FirebaseMessaging.onMessage.listen(moonchainNotification.showFlutterNotification);
+    FirebaseMessaging.onMessage
+        .listen(moonchainNotification.showFlutterNotification);
   }
 
   // It is assumed that all messages contain a data field with the key 'type'

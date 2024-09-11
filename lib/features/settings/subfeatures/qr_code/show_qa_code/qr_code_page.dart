@@ -1,8 +1,8 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/security/presentation/passcode_authenticate/passcode_authenticate_user_page.dart';
-import 'package:datadashwallet/features/settings/presentation/widgets/account_managment/copyable_item.dart';
-import 'package:datadashwallet/features/settings/subfeatures/accounts/show_view_private_key_dialog.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/security/presentation/passcode_authenticate/passcode_authenticate_user_page.dart';
+import 'package:moonchain_wallet/features/settings/presentation/widgets/account_managment/copyable_item.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/accounts/show_view_private_key_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';

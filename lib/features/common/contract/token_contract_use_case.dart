@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
@@ -269,11 +269,11 @@ class TokenContractUseCase extends ReactiveUseCase {
         .getTokenTransferData(tokenHash, toAddress, amount);
   }
 
-  String signPersonalMessage({required String privateKey, required String message}) {
+  String signPersonalMessage(
+      {required String privateKey, required String message}) {
     return _repository.tokenContract
         .signPersonalMessage(privateKey: privateKey, message: message);
   }
-
 
   String signMessage({required String privateKey, required String message}) {
     return _repository.tokenContract

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3dart/web3dart.dart';
 

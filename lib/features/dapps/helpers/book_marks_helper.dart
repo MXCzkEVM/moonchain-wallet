@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/src/routing/route.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/src/routing/route.dart';
+import 'package:moonchain_wallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';

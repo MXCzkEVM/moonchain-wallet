@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:datadashwallet/core/src/firebase/moonchain_wallet_firebase.dart';
+import 'package:moonchain_wallet/core/src/firebase/moonchain_wallet_firebase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

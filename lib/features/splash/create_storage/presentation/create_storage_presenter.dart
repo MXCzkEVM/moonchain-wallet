@@ -1,5 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 
 final splashStorageContainer =
     PresenterContainer<SplashStoragePresenter, SplashBaseState>(

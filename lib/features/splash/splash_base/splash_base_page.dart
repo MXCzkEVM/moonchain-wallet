@@ -1,14 +1,12 @@
 import 'dart:io';
 
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'splash_base_presenter.dart';
 import 'splash_base_state.dart';
-
-
 
 abstract class SplashBasePage extends HookConsumerWidget {
   const SplashBasePage({Key? key}) : super(key: key);
@@ -70,9 +68,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 2000),
             curve: Curves.easeInOut,
-            bottom: splashState.animate
-                ? 625
-                : -600,
+            bottom: splashState.animate ? 625 : -600,
             child: appLogo(context),
           ),
           AnimatedPositioned(

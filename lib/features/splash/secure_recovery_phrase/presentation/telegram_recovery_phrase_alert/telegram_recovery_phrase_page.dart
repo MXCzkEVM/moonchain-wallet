@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
+import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -172,7 +172,8 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
       );
 
   @override
-  Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primaryWhite(
+  Widget? buildFooter(BuildContext context, WidgetRef ref) =>
+      MxcButton.primaryWhite(
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'store_to')
             .replaceFirst('{0}', name(context)),

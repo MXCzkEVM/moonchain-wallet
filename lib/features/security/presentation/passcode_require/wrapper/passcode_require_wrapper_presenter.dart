@@ -1,6 +1,6 @@
-import 'package:datadashwallet/features/security/security.dart';
+import 'package:moonchain_wallet/features/security/security.dart';
 import 'package:flutter/widgets.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import 'passcode_require_wrapper_state.dart';
 

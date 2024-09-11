@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'nfts_repository.dart';
 
@@ -33,8 +33,7 @@ class NftsUseCase extends ReactiveUseCase {
 
   void mergeNewList(List<Nft>? newNftList) {
     if (newNftList != null && newNftList.isNotEmpty) {
-        update(nfts, newNftList);
-
+      update(nfts, newNftList);
 
       // // updating cache by removing removed nfts
       // for (Nft nft in nfts.value) {

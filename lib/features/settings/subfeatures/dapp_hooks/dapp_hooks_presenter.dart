@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
-import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/wifi_hooks_helper.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/utils/wifi_hooks_helper.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:mxc_logic/mxc_logic.dart';

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -54,7 +54,9 @@ Future<bool?> showBGNotificationsFrequencyDialog(
                           alignment: AlignmentDirectional.centerStart,
                           child: Text(
                             e.toStringFormatted(),
-                            style: FontTheme.of(context, listen: false).body2.primary(),
+                            style: FontTheme.of(context, listen: false)
+                                .body2
+                                .primary(),
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -67,7 +69,8 @@ Future<bool?> showBGNotificationsFrequencyDialog(
                           child: Icon(
                             MxcIcons.check,
                             size: 24,
-                            color: ColorsTheme.of(context, listen: false).white400,
+                            color:
+                                ColorsTheme.of(context, listen: false).white400,
                           ),
                         ),
                     ],

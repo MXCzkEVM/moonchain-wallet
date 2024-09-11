@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,8 +28,7 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
             key: const ValueKey('useBiometricButton'),
             title: FlutterI18n.translate(context, 'use_biometric').replaceFirst(
                 '{0}',
-                FlutterI18n.translate(context, presenter.getAppBarTitle())
-                    ),
+                FlutterI18n.translate(context, presenter.getAppBarTitle())),
             onTap: () => presenter.authenticateBiometrics(),
             edgeType: UIConfig.securityScreensButtonsEdgeType,
           ),

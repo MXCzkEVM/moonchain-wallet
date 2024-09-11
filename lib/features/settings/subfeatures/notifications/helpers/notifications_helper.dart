@@ -1,12 +1,12 @@
 import 'dart:io';
-
+// import 'package:moonchain_wallet';
 import 'package:app_settings/app_settings.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/domain/dapp_hooks_use_case.dart';
-import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
-import 'package:datadashwallet/features/settings/subfeatures/notifications/notifications_state.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/domain/dapp_hooks_use_case.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/notifications/notifications_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
