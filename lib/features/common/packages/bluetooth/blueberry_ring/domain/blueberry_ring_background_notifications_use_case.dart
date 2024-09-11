@@ -41,7 +41,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
         now.day == lastDate.day;
 
     if (isToday && latestData.step < 5000) {
-      MXCWalletNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('activity_reminder'),
         cTranslate('blueberry_ring_inactive_alert_text'),
       );
@@ -75,7 +75,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
         todaysData.map((e) => e.value).toList());
 
     if (!isNormal) {
-      MXCWalletNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('sleep_insight'),
         cTranslate('blueberry_ring_sleep_alert_text'),
       );
@@ -96,7 +96,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
         now.day == lastDate.day;
 
     if (isToday && latestData.value >= 100) {
-      MXCWalletNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('heart_alert'),
         cTranslate('blueberry_ring_heart_rate_alert_text'),
       );
@@ -109,7 +109,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     // What si the low battery level
     // Is 10 OK
     if (data < 20) {
-      MXCWalletNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('low_battery'),
         cTranslate('blueberry_ring_battery_alert_text'),
       );

@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/src/mxc_wallet_notification.dart';
+import 'package:datadashwallet/core/src/moonchain_wallet_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'firebase_options.dart';
 export 'firebase_options.dart';
 
-class MXCWalletFireBase {
-  static MXCWalletNotification get mxcNotification => MXCWalletNotification();
+class MoonchainWalletFireBase {
+  static MoonchainWalletNotification get moonchainNotification =>
+      MoonchainWalletNotification();
 
   static String? firebaseToken;
   static int buildTap = 0;
@@ -24,7 +25,7 @@ class MXCWalletFireBase {
     firebaseToken = Platform.isAndroid
         ? await FirebaseMessaging.instance.getToken()
         : await FirebaseMessaging.instance.getAPNSToken();
-    FirebaseMessaging.onMessage.listen(mxcNotification.showFlutterNotification);
+    FirebaseMessaging.onMessage.listen(moonchainNotification.showFlutterNotification);
   }
 
   // It is assumed that all messages contain a data field with the key 'type'
@@ -77,7 +78,7 @@ class MXCWalletFireBase {
   static Future<bool> _initLocalNotifications() async {
     final isGranted = await PermissionUtils.initNotificationPermission();
     if (isGranted) {
-      mxcNotification.setupFlutterNotifications();
+      moonchainNotification.setupFlutterNotifications();
     }
     return isGranted;
   }

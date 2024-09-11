@@ -241,7 +241,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
           amount: MxcAmount.zero(),
           nonce: nonce,
         );
-        MXCWalletNotification().showNotification(
+        MoonchainWalletNotification().showNotification(
           cTranslate('wifi_info_notifications_title'),
           cTranslate('wifi_info_notifications_text'),
         );
@@ -475,11 +475,11 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime minerAutoClaimTime}) async {
     try {
-      MXCWalletNotification()
+      MoonchainWalletNotification()
           .showNotification(cTranslate('auto_claim_started'), null);
 
       if (selectedMinerListId.isEmpty) {
-        MXCWalletNotification().showNotification(
+        MoonchainWalletNotification().showNotification(
           cTranslate('no_miners_selected_notification_title'),
           cTranslate('no_miners_selected_notification_text'),
         );
@@ -488,16 +488,16 @@ class DAppHooksUseCase extends ReactiveUseCase {
             selectedMinerListId: selectedMinerListId,
             account: account,
             showNotification:
-                MXCWalletNotification().showLowPriorityNotification,
+                MoonchainWalletNotification().showLowPriorityNotification,
             translate: cTranslate);
 
         if (ableToClaim) {
-          MXCWalletNotification().showNotification(
+          MoonchainWalletNotification().showNotification(
             cTranslate('auto_claim_successful_notification_title'),
             cTranslate('auto_claim_successful_notification_text'),
           );
         } else {
-          MXCWalletNotification().showNotification(
+          MoonchainWalletNotification().showNotification(
             cTranslate('nothing_to_claim_notification_title'),
             cTranslate('nothing_to_claim_notification_text'),
           );
@@ -517,11 +517,11 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime ringAutoSyncTime}) async {
     try {
-      MXCWalletNotification()
+      MoonchainWalletNotification()
           .showNotification(cTranslate('auto_sync_started'), null);
 
       if (selectedRingsListId.isEmpty) {
-        MXCWalletNotification().showNotification(
+        MoonchainWalletNotification().showNotification(
           cTranslate('no_rings_selected_notification_title'),
           cTranslate('no_rings_selected_notification_text'),
         );
@@ -530,16 +530,16 @@ class DAppHooksUseCase extends ReactiveUseCase {
             selectedRingsListId: selectedRingsListId,
             account: account,
             showNotification:
-                MXCWalletNotification().showLowPriorityNotification,
+                MoonchainWalletNotification().showLowPriorityNotification,
             translate: cTranslate);
 
         if (ableToClaim) {
-          MXCWalletNotification().showNotification(
+          MoonchainWalletNotification().showNotification(
             cTranslate('auto_sync_successful_notification_title'),
             cTranslate('auto_sync_successful_notification_text'),
           );
         } else {
-          MXCWalletNotification().showNotification(
+          MoonchainWalletNotification().showNotification(
             cTranslate('already_synced_notification_title'),
             cTranslate('already_synced_notification_text'),
           );

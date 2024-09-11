@@ -135,7 +135,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     final balanceDouble = balance.getInEther.toDouble();
     print("lowBalanceLimitEnabled $balanceDouble $lowBalanceLimit");
     if (balanceDouble < lowBalanceLimit) {
-      MXCWalletNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('low_balance_notification_title'),
         cTranslate('low_balance_notification_text')
             .replaceFirst('{0}', balanceDouble.toString())
@@ -156,7 +156,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     print(
         "expectedTransactionFeeEnabled $transactionFee $expectedTransactionFee");
     if (transactionFee < expectedTransactionFee) {
-      MXCWalletNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('tx_fee_reached_expectation_notification_title'),
         cTranslate('tx_fee_reached_expectation_notification_text')
             .replaceFirst('{0}', transactionFee.toString())
@@ -185,7 +185,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
 
     if (expectedEpochOccurrence <= epochQuantity) {
       periodicalCallData = periodicalCallData.copyWith(lasEpoch: epochNumber);
-      MXCWalletNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
           cTranslate('epoch_occur_notification_title'),
           cTranslate('epoch_occur_notification_text'));
     }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:datadashwallet/core/src/firebase/mxc_wallet_firebase.dart';
+import 'package:datadashwallet/core/src/firebase/moonchain_wallet_firebase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +8,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:http/http.dart' as http;
 
-class MXCWalletNotification {
-  static MXCWalletNotification? _instance;
+class MoonchainWalletNotification {
+  static MoonchainWalletNotification? _instance;
 
-  MXCWalletNotification._();
+  MoonchainWalletNotification._();
 
-  factory MXCWalletNotification() {
-    _instance ??= MXCWalletNotification._();
+  factory MoonchainWalletNotification() {
+    _instance ??= MoonchainWalletNotification._();
     return _instance!;
   }
 
@@ -33,16 +33,18 @@ class MXCWalletNotification {
       return;
     }
     channel = const AndroidNotificationChannel(
-      'axs_wallet_channel',
-      'AXS Notifications Cannel',
-      description: 'This channel is related to AXS wallet app notifications.',
+      'moonchain_wallet_channel',
+      'Moonchain wallet notifications Channel',
+      description:
+          'This channel is related to Moonchain wallet app notifications.',
       importance: Importance.high,
     );
 
     lowPriorityChannel = const AndroidNotificationChannel(
-      'axs_wallet_low_priority_channel',
-      'AXS low priority notifications channel',
-      description: 'This channel is related to AXS wallet app notifications.',
+      'moonchain_wallet_low_priority_channel',
+      'Moonchain wallet low priority notifications channel',
+      description:
+          'This channel is related to Moonchain wallet app notifications.',
       importance: Importance.low,
     );
 
@@ -60,7 +62,8 @@ class MXCWalletNotification {
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
     if (shouldInitFirebase) {
-      await MXCWalletFireBase.setForegroundNotificationPresentationOptions();
+      await MoonchainWalletFireBase
+          .setForegroundNotificationPresentationOptions();
     }
 
     isFlutterLocalNotificationsInitialized = true;
@@ -74,7 +77,8 @@ class MXCWalletNotification {
     if (imageUrl != null) {
       final http.Response response = await http.get(Uri.parse(imageUrl));
       largeImage = ByteArrayAndroidBitmap.fromBase64String(
-          base64Encode(response.bodyBytes));
+        base64Encode(response.bodyBytes),
+      );
     }
     if (notification != null && android != null && !kIsWeb) {
       flutterLocalNotificationsPlugin.show(
@@ -85,14 +89,14 @@ class MXCWalletNotification {
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,
-            groupKey: 'axs_wallet',
+            groupKey: 'moonchain_wallet',
             channelDescription: channel.description,
             importance: Importance.high,
             priority: Priority.high,
             playSound: true,
             visibility: NotificationVisibility.public,
-            icon: 'axs_logo',
-            color: ColorsTheme.primary300,
+            icon: 'moonchain_logo',
+            color: Colors.black,
             largeIcon: largeImage,
           ),
         ),
@@ -113,14 +117,14 @@ class MXCWalletNotification {
         text,
         NotificationDetails(
           android: AndroidNotificationDetails(channel.id, channel.name,
-              groupKey: 'axs_wallet',
+              groupKey: 'moonchain_wallet',
               channelDescription: channel.description,
               importance: Importance.high,
               priority: Priority.high,
               playSound: true,
               visibility: NotificationVisibility.public,
-              icon: 'axs_logo',
-              color: ColorsTheme.primary300,
+              icon: 'moonchain_logo',
+              color: Colors.black,
               largeIcon: null,
               styleInformation: bigTextStyleInformation),
         ),
@@ -141,14 +145,14 @@ class MXCWalletNotification {
         NotificationDetails(
           android: AndroidNotificationDetails(
               lowPriorityChannel.id, lowPriorityChannel.name,
-              groupKey: 'axs_wallet_low_priority',
+              groupKey: 'moonchain_wallet_low_priority',
               channelDescription: channel.description,
               importance: Importance.low,
               priority: Priority.low,
               playSound: true,
               visibility: NotificationVisibility.public,
-              icon: 'axs_logo',
-              color: ColorsTheme.primary300,
+              icon: 'moonchain_logo',
+              color: Colors.black,
               largeIcon: null,
               styleInformation: bigTextStyleInformation),
         ),

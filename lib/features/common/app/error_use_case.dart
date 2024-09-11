@@ -41,7 +41,7 @@ class ErrorUseCase extends ReactiveUseCase {
       return true;
     }
 
-    MXCWalletNotification().showNotification(
+    MoonchainWalletNotification().showNotification(
       notificationTitle,
       e.toString(),
     );

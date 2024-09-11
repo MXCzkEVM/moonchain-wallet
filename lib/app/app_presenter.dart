@@ -9,6 +9,6 @@ class SettingsPresenter extends CompletePresenter {
   @override
   void initState() {
     super.initState();
-    MXCWalletFireBase.initLocalNotificationsAndListeners();
+    MoonchainWalletFireBase.initLocalNotificationsAndListeners();
   }
 }

@@ -147,8 +147,8 @@ class NotificationsHelper {
   void checkNotificationsStatus() async {
     final isGranted = await PermissionUtils.checkNotificationPermission();
     if (state.isNotificationsEnabled == false && isGranted == true) {
-      await MXCWalletFireBase.initializeFirebase();
-      MXCWalletFireBase.initLocalNotificationsAndListeners();
+      await MoonchainWalletFireBase.initializeFirebase();
+      MoonchainWalletFireBase.initLocalNotificationsAndListeners();
     }
     notify(() => state.isNotificationsEnabled = isGranted);
   }

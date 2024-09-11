@@ -49,7 +49,7 @@ class NotificationsService {
 
       // Make sure user is logged in
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && serviceEnabled) {
-        await MXCWalletNotification()
+        await MoonchainWalletNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
 
         if (lowBalanceLimitEnabled) {
