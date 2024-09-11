@@ -69,7 +69,7 @@ jobs:
           keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
 
       - name: Archive IPA
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: release-ipa
           # Try running the build locally with the build command to be sure of this path
