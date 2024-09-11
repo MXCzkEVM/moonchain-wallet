@@ -108,8 +108,22 @@ jobs:
         with:
           build_path: combined-builds/android/app-product-release.apk
           upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
+
+  build-waldo:
+    name: Build-waldo
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: sheenhx/action-flutter-build-ios@v1
+        with:
+          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
+          build-cmd: flutter build ios --simulator
       - name: Upload IPA to Waldo
         uses: waldoapp/gh-action-upload@v2
         with:
-          build_path: combined-builds/iOS/moonchain.ipa
+          build_path: build/ios/iphonesimulator/Runner.app
           upload_token: ${{ secrets.WALDO_SESSIONS_IOS }}
