@@ -122,6 +122,10 @@ jobs:
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
           build-cmd: flutter build ios --simulator
+          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
       - name: Upload IPA to Waldo
         uses: waldoapp/gh-action-upload@v2
         with:
