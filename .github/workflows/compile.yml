@@ -94,8 +94,22 @@ jobs:
     
       - name: Display the generated build number
         run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
+
+        
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "combined-builds/android/*.apk,combined-builds/android/*.ipa"
+          artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa"
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
+
+          
+      - name: Upload APK to Waldo
+        uses: waldoapp/gh-action-upload@v2
+        with:
+          build_path: combined-builds/android/*.apk
+          upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
+      - name: Upload APK to Waldo
+        uses: waldoapp/gh-action-upload@v2
+        with:
+          build_path: combined-builds/iOS/*.ipa
+          upload_token: ${{ secrets.WALDO_SESSIONS_IOS }}
