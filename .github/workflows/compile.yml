@@ -6,8 +6,8 @@ on:
       - pre_main_qa
 
 jobs:
-  build:
-    name: build
+  build-apk:
+    name: build-apk
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code with submodules
@@ -49,6 +49,28 @@ jobs:
           artifacts: build/app/outputs/flutter-apk/app-product-release.apk
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
-          prerelease: true
 
+  build-macos:
+    name: Build on macOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
+      - uses: cedvdb/action-flutter-build-ios@v1
+        with:
+          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
+          build-cmd: flutter build ipa --release --export-options-plist=ios/GithubActionsExportOptions.plist
+          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
+
+      - name: Archive IPA
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-ipa
+          # Try running the build locally with the build command to be sure of this path
+          path: build/ios/ipa/App.ipa
