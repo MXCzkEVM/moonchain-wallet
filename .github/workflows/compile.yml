@@ -62,7 +62,7 @@ jobs:
       - uses: sheenhx/action-flutter-build-ios@v1
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
-          build-cmd: flutter build ipa --build-number=$(( 15 + ${{ github.run_number }}))
+          build-cmd: flutter build ipa --build-number=$(( 15 + ${{ github.run_number }})) --export-options-plist=ios/GithubActionsExportOptions.plist
           certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
           certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
           provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
