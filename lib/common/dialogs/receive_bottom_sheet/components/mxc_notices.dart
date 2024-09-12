@@ -19,7 +19,16 @@ List<TextSpan> depositFromExchangesNotice(
   final fourthSplit = thirdSplit[1].split('{3}');
   final fourthPart = fourthSplit[0];
 
-  final fifthPart = fourthSplit[1];
+  final fifthSplit = fourthSplit[1].split('{4}');
+  final fifthPart = fifthSplit[0];
+
+  final sixthSplit = fifthSplit[1].split('{5}');
+  final sixthPart = sixthSplit[0];
+
+  final seventhSplit = sixthSplit[1].split('{6}');
+  final seventhPart = seventhSplit[0];
+
+  final eighthPart = seventhSplit[1];
   return [
     TextSpan(
       text: firstPart,
@@ -72,6 +81,42 @@ List<TextSpan> depositFromExchangesNotice(
         },
     ),
     TextSpan(text: fifthPart),
+    TextSpan(
+      text: 'Bitget',
+      style: TextStyle(
+        color: ColorsTheme.of(context, listen: false).textSecondary,
+        decoration: TextDecoration.underline,
+      ),
+      recognizer: TapGestureRecognizer()
+        ..onTap = () {
+          launchUrl(Urls.bitget);
+        },
+    ),
+    TextSpan(text: sixthPart),
+    TextSpan(
+      text: 'HTX',
+      style: TextStyle(
+        color: ColorsTheme.of(context, listen: false).textSecondary,
+        decoration: TextDecoration.underline,
+      ),
+      recognizer: TapGestureRecognizer()
+        ..onTap = () {
+          launchUrl(Urls.htx);
+        },
+    ),
+    TextSpan(text: seventhPart),
+    TextSpan(
+      text: 'BitMart',
+      style: TextStyle(
+        color: ColorsTheme.of(context, listen: false).textSecondary,
+        decoration: TextDecoration.underline,
+      ),
+      recognizer: TapGestureRecognizer()
+        ..onTap = () {
+          launchUrl(Urls.bitmart);
+        },
+    ),
+    TextSpan(text: eighthPart),
   ];
 }
 
