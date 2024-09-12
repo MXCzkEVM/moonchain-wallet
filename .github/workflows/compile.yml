@@ -44,7 +44,7 @@ jobs:
           r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           r2-bucket: ${{ secrets.R2_BUCKET }}
           source-dir: build/app/outputs/flutter-apk/app-product-release.apk
-          destination-dir: ./
+          destination-dir: app/moonbase.apk
 
 
   build-macos:
