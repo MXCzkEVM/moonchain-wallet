@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/security/security.dart';
+import 'package:moonchain_wallet/features/security/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

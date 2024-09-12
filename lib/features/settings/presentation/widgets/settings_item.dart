@@ -1,7 +1,7 @@
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/entities/setting.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/entities/setting.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

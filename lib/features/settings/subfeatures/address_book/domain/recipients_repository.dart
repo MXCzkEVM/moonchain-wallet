@@ -1,6 +1,6 @@
-import 'package:datadashwallet/features/settings/subfeatures/address_book/entities/recipient.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/address_book/entities/recipient.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 class RecipientsRepository extends ControlledCacheRepository {
   @override

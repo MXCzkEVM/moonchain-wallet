@@ -1,5 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/security/security.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/security/security.dart';
 
 final passcodeChangeEnterNewPageContainer = PresenterContainer<
     PasscodeChangeEnterNewPagePresenter,

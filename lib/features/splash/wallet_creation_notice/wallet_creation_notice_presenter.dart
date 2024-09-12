@@ -1,4 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:flutter/material.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import '../splash.dart';
 
@@ -9,5 +10,5 @@ final walletCreationNoticeContainer =
 class WalletCreationNoticePresenter extends CompletePresenter<void> {
   WalletCreationNoticePresenter() : super(null);
 
-  Future<void> continueNow() => pushMNSAnnouncementPage(context!);
+  Future<void> continueNow(BuildContext context) => pushMNSAnnouncementPage(context);
 }

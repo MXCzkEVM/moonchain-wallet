@@ -1,5 +1,5 @@
 import 'package:clipboard/clipboard.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'app_nav_bar_state.dart';

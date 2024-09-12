@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/components/recent_transactions/widgets/recent_transaction_item.dart';
+import 'package:moonchain_wallet/common/components/recent_transactions/widgets/recent_transaction_item.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';

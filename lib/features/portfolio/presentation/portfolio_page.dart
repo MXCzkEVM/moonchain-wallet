@@ -1,17 +1,17 @@
 import 'dart:ui';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/open_dapp.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/nft/choose_nft/choose_nft_page.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/nft_list.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/tokens_balance_list/tokens_balance_list.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/transaction_history/transaction_history_page.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/token/send_token/choose_crypto/choose_crypto_page.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/dapps/dapps.dart';
+import 'package:moonchain_wallet/features/dapps/subfeatures/open_dapp/open_dapp.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/choose_nft/choose_nft_page.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/nft_list/nft_list.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/tokens_balance_list/tokens_balance_list.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/transaction_history/transaction_history_page.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/token/send_token/choose_crypto/choose_crypto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'portfolio_page_presenter.dart';
@@ -23,7 +23,7 @@ class PortfolioPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(portfolioContainer.actions);
     final state = ref.watch(portfolioContainer.state);
-    
+
     return MxcPage(
         presenter: presenter,
         resizeToAvoidBottomInset: true,
@@ -50,7 +50,6 @@ class PortfolioPage extends HookConsumerWidget {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
-
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
                       child: Container(

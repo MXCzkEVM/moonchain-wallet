@@ -1,12 +1,11 @@
-import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../dapp_hooks_state.dart';
+
 class DAppHooksHelper {
   DAppHooksHelper(
-      {required this.state,
-      required this.context,
-      required this.translate});
+      {required this.state, required this.context, required this.translate});
 
   DAppHooksState state;
   DappHooksSnackBarUtils get dappHooksSnackBarUtils =>

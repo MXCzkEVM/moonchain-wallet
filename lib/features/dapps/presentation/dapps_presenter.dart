@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:datadashwallet/features/dapps/helpers/book_marks_helper.dart';
-import 'package:datadashwallet/features/dapps/helpers/helpers.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/dapps/dapps.dart';
+import 'package:moonchain_wallet/features/dapps/helpers/book_marks_helper.dart';
+import 'package:moonchain_wallet/features/dapps/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';

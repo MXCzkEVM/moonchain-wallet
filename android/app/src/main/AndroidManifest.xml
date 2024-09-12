@@ -44,12 +44,12 @@
 
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
 
-    <application tools:replace="android:label" android:label="Moonchain Wallet" android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:theme="@style/LaunchTheme" android:requestLegacyExternalStorage="true">
+    <application tools:replace="android:label" android:label="MoonBase" android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:theme="@style/LaunchTheme" android:requestLegacyExternalStorage="true">
 
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="axs_wallet_channel" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="moonchain_wallet_channel" />
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/axs_logo" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/moonchain_logo" />
 
         <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/primary" />
 

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
+import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -59,8 +59,7 @@ class ICloudRecoveryPhrasePage extends RecoveryPhraseBasePage {
           Text(
             FlutterI18n.translate(context,
                     'make_sure_you_have_stored_your_keys_correctly_in_your_x')
-                .replaceFirst(
-                    '{0}', FlutterI18n.translate(context, 'icloud')),
+                .replaceFirst('{0}', FlutterI18n.translate(context, 'icloud')),
             style: FontTheme.of(context).body1().copyWith(
                   fontWeight: FontWeight.w500,
                   color: ColorsTheme.of(context).textPrimary,
@@ -76,8 +75,8 @@ class ICloudRecoveryPhrasePage extends RecoveryPhraseBasePage {
   Widget? buildFooter(BuildContext context, WidgetRef ref) =>
       MxcButton.primaryWhite(
         key: const ValueKey('storeButton'),
-        title: FlutterI18n.translate(context, 'store_in_x').replaceFirst(
-            '{0}', FlutterI18n.translate(context, 'icloud')),
+        title: FlutterI18n.translate(context, 'store_in_x')
+            .replaceFirst('{0}', FlutterI18n.translate(context, 'icloud')),
         titleColor: ColorsTheme.of(context).textBlack200,
         titleSize: 18,
         onTap: () => ref.read(presenter).storeAndProceed(),

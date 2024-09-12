@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class MXCWalletBackgroundFetch {

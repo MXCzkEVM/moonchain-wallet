@@ -1,5 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class FunctionUseCase extends ReactiveUseCase {
@@ -22,7 +22,8 @@ class FunctionUseCase extends ReactiveUseCase {
   void mxcChainsAndEthereumFuncWrapper(
     Function func,
   ) {
-    if (_chainConfigurationUseCase.isMXCChains() || _chainConfigurationUseCase.isEthereumMainnet()) {
+    if (_chainConfigurationUseCase.isMXCChains() ||
+        _chainConfigurationUseCase.isEthereumMainnet()) {
       func();
     }
   }

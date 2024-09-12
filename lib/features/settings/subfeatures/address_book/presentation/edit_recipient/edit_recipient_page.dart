@@ -1,6 +1,6 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/qr_code/qr_scanner/qr_scanner_page.dart';
-import 'package:datadashwallet/features/settings/subfeatures/qr_code/show_qa_code/qr_code_page.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/qr_code/qr_scanner/qr_scanner_page.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/qr_code/show_qa_code/qr_code_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:datadashwallet/common/color_filter.dart';
+import 'package:moonchain_wallet/common/color_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

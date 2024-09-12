@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
@@ -99,7 +99,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
             if (snapshot.data == 0) {
               Future.delayed(
                 const Duration(seconds: 1),
-                () => presenter.continueNow(),
+                () => presenter.continueNow(context),
               );
             }
             return Column(
@@ -125,7 +125,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
         MxcButton.plainWhite(
           key: const ValueKey('continueNow'),
           title: FlutterI18n.translate(context, 'continue_now'),
-          onTap: () => presenter.continueNow(),
+          onTap: () => presenter.continueNow(context),
           edgeType: UIConfig.securityScreensButtonsEdgeType,
         ),
       ],

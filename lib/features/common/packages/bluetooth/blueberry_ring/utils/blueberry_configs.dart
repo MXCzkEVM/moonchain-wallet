@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 // import 'package:dayjs/dayjs.dart';
 import 'package:collection/collection.dart';
-import 'package:datadashwallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
 
 typedef GetType = String Function();
 

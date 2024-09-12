@@ -7,7 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import 'layout.dart';
 
@@ -36,7 +36,6 @@ class MxcPageLayer extends MxcPage {
     bool resizeToAvoidBottomInset = true,
     bool useSplashBackground = false,
     bool useGradientBackground = false,
-    
   })  : assert(layout != LayoutType.column2 || footer == null || fixedFooter,
             'layout: column2 and fixedFooter: false isn\'t compatible, pls set fixedFooter: true'),
         super.internal(
@@ -155,7 +154,8 @@ class MxcPageLayer extends MxcPage {
                   ColorsTheme.of(context).layerSheetBackground,
             )
           : Container(
-              color: backgroundColor ?? ColorsTheme.of(context).layerSheetBackground,
+              color: backgroundColor ??
+                  ColorsTheme.of(context).layerSheetBackground,
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: (useFooterPadding
@@ -224,7 +224,8 @@ class MxcPageLayer extends MxcPage {
                       ),
                     ),
                     child: ColoredBox(
-                      color: backgroundColor ?? ColorsTheme.of(context).layerSheetBackground,
+                      color: backgroundColor ??
+                          ColorsTheme.of(context).layerSheetBackground,
                     ),
                   ),
                 ),
@@ -302,7 +303,8 @@ class MxcPageLayer extends MxcPage {
                 topLeft: Radius.circular(bottomFlowDialogRoundedCornersRadius),
                 topRight: Radius.circular(bottomFlowDialogRoundedCornersRadius),
               ),
-              color: backgroundColor ?? ColorsTheme.of(context).layerSheetBackground,
+              color: backgroundColor ??
+                  ColorsTheme.of(context).layerSheetBackground,
             ),
             child: Column(
               crossAxisAlignment: crossAxisAlignment,

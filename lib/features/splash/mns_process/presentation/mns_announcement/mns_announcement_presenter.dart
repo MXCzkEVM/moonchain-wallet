@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 final splashMNSAnnouncementContainer =
     PresenterContainer<SplashMNSAnnouncementPresenter, void>(

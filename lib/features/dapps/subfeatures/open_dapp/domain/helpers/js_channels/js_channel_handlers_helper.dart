@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:datadashwallet/features/common/packages/bluetooth/bluetooth.dart';
+import 'package:moonchain_wallet/features/common/packages/bluetooth/bluetooth.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
@@ -11,15 +11,13 @@ class JsChannelHandlersHelper {
     required this.state,
     required this.context,
     required this.translate,
-        required this.addError,
+    required this.addError,
   });
 
   OpenDAppState state;
   BuildContext? context;
   String? Function(String) translate;
-    void Function(dynamic error, [StackTrace? stackTrace]) addError;
-
-
+  void Function(dynamic error, [StackTrace? stackTrace]) addError;
 
   Future<Map<String, dynamic>> jsChannelCronErrorHandler(
     List<dynamic> args,

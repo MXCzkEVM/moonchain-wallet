@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:datadashwallet/common/components/recent_transactions/widgets/widgets.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/wallet/wallet.dart';
+import 'package:moonchain_wallet/common/components/recent_transactions/widgets/widgets.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/wallet/wallet.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 import 'package:mxc_logic/mxc_logic.dart';

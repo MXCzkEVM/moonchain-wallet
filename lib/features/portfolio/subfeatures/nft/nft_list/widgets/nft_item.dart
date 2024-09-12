@@ -1,6 +1,6 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/portfolio/presentation/portfolio_page_presenter.dart';
-import 'package:datadashwallet/features/portfolio/presentation/portfolio_page_state.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/portfolio/presentation/portfolio_page_presenter.dart';
+import 'package:moonchain_wallet/features/portfolio/presentation/portfolio_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';

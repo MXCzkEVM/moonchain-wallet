@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:datadashwallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 
 import '../../../../../../app/logger.dart';
 
@@ -24,11 +24,9 @@ class BlueberryRingBackgroundSyncUseCase extends ReactiveUseCase {
   final AccountUseCase _accountUserCase;
   final ContextLessTranslationUseCase _contextLessTranslationUseCase;
 
-
   // Context less translation, This should be only used for BG functions
   String cTranslate(String key) =>
       _contextLessTranslationUseCase.translate(key);
-
 
   Future<bool> syncRings({
     required List<String> selectedRingsListId,
@@ -39,12 +37,12 @@ class BlueberryRingBackgroundSyncUseCase extends ReactiveUseCase {
     )
         translate,
   }) async {
-                 // Get miner from cache 
-        // for (String ring in selectedRings) { 
-          
-        // }
-    // Get rings list 
-        // Get the data from contract 
+    // Get miner from cache
+    // for (String ring in selectedRings) {
+
+    // }
+    // Get rings list
+    // Get the data from contract
 //         async function arrayFilterDate<T>(array: T[], date?: number) {
 //   if (!date)
 //     return array
@@ -53,7 +51,7 @@ class BlueberryRingBackgroundSyncUseCase extends ReactiveUseCase {
 // arrayFilterDate(arr, detail.steps.at(-1)?.date)
 // List<T> arrayFilterDate<T>(List<T> array, {int? date}) {
 //   if (date == null) return array;
-  
+
 //   return array.where((item) {
 //     var itemDate = (item as dynamic).date; // Use 'dynamic' to access the 'date' property
 //     return itemDate > (date ?? 0);
@@ -65,11 +63,11 @@ class BlueberryRingBackgroundSyncUseCase extends ReactiveUseCase {
     //       .replaceFirst('{0}', miner.mep1004TokenId!),
     //   null,
     // );
-  // no_rings_owned_notification
-  // syncing_data_from_ring
-  // already_synced_ring
-  // data_synced_successfully_ring
-  // data_syncing_failed
+    // no_rings_owned_notification
+    // syncing_data_from_ring
+    // already_synced_ring
+    // data_synced_successfully_ring
+    // data_syncing_failed
     // final memo = await fetchRingData();
 
     // final postClaimRequest = PostClaimRequestModel(
@@ -91,12 +89,11 @@ class BlueberryRingBackgroundSyncUseCase extends ReactiveUseCase {
     return true;
   }
 
-  Future<void> syncRing(BlueberryRingMiner ring) async{}
-
+  Future<void> syncRing(BlueberryRingMiner ring) async {}
 
   Future<String> fetchRingData() async {
     collectLog('fetchRingData');
-    
+
     final sleep = await _blueberryRingUseCase.readSleep();
     final bloodOxygens = await _blueberryRingUseCase.readBloodOxygens();
     final steps = await _blueberryRingUseCase.readSteps();
@@ -108,7 +105,6 @@ class BlueberryRingBackgroundSyncUseCase extends ReactiveUseCase {
       'heartRate': heartRate.map((e) => e.toJson()).toList(),
       'bloodOxygens': bloodOxygens.map((e) => e.toJson()).toList(),
     };
-
 
     final content = json.encode(data);
 
@@ -140,5 +136,4 @@ class BlueberryRingBackgroundSyncUseCase extends ReactiveUseCase {
     final returnDataJson = json.encode(returndataMap);
     return returnDataJson;
   }
-
 }

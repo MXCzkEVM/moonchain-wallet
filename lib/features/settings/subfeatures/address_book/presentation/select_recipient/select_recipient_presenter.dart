@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'select_recipient_state.dart';

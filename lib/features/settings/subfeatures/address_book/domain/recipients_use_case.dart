@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import '../entities/recipient.dart';
 import 'recipients_repository.dart';

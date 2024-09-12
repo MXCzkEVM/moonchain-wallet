@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:flutter/material.dart';
 
 import 'passcode_set/passcode_set_page/passcode_set_page.dart';

@@ -1,5 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:open_file_manager/open_file_manager.dart';
 import 'package:open_mail_app/open_mail_app.dart';

@@ -1,7 +1,7 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/portfolio/portfolio.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/token/add_token/add_token_page.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/portfolio/portfolio.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/add_token_page.dart';
 import '../token/send_token/send_crypto/send_crypto_page.dart';
 import './utils.dart';
 import 'package:flutter/material.dart';

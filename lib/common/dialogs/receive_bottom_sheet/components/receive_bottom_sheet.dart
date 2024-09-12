@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:clipboard/clipboard.dart';
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';

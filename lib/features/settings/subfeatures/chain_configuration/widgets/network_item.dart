@@ -1,8 +1,8 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
 import 'package:mxc_logic/src/domain/entities/network.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/subfeatures/delete_custom_network/delete_custom_network_page.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/widgets/chain_logo_widget.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/subfeatures/delete_custom_network/delete_custom_network_page.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/widgets/chain_logo_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import './network_details_page.dart';
 import 'package:flutter/material.dart';

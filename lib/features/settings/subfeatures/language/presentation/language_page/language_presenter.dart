@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
 import 'language_state.dart';

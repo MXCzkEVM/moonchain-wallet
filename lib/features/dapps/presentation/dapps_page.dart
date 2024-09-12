@@ -1,6 +1,6 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/dapps/presentation/widgets/default_app_bar.dart';
-import 'package:datadashwallet/features/dapps/presentation/widgets/edit_mode_app_bar.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/dapps/presentation/widgets/default_app_bar.dart';
+import 'package:moonchain_wallet/features/dapps/presentation/widgets/edit_mode_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
