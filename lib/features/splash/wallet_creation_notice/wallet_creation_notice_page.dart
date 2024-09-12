@@ -99,7 +99,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
             if (snapshot.data == 0) {
               Future.delayed(
                 const Duration(seconds: 1),
-                () => presenter.continueNow(),
+                () => presenter.continueNow(context),
               );
             }
             return Column(
@@ -125,7 +125,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
         MxcButton.plainWhite(
           key: const ValueKey('continueNow'),
           title: FlutterI18n.translate(context, 'continue_now'),
-          onTap: () => presenter.continueNow(),
+          onTap: () => presenter.continueNow(context),
           edgeType: UIConfig.securityScreensButtonsEdgeType,
         ),
       ],
