@@ -67,7 +67,7 @@ class SplashMNSQueryPage extends HookConsumerWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          FlutterI18n.translate(context, 'prowerd_zkevm'),
+          FlutterI18n.translate(context, 'powered_by_moonchain_supernodes'),
           style: FontTheme.of(context).caption1.white().copyWith(
                 color: Colors.white.withOpacity(0.5),
               ),

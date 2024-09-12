@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../widgets/address_bar.dart';
@@ -46,15 +47,17 @@ class SplashMNSAnnouncementPage extends HookConsumerWidget {
         ),
       ),
       children: [
-        Image(
-          image: ImagesTheme.of(context).mxc,
-          width: 61,
-          height: 68,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: Sizes.spaceXSmall),
+          child: Text(
+            appName,
+            style: FontTheme.of(context).logo(),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            FlutterI18n.translate(context, 'mxc_zkevm_username'),
+            FlutterI18n.translate(context, 'moonchain_username'),
             style: FontTheme.of(context).h4.white(),
             textAlign: TextAlign.center,
           ),
