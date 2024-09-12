@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'setup_wallet_presenter.dart';
@@ -32,10 +33,14 @@ class SplashSetupWalletPage extends SplashBasePage {
   Widget appLogo(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: Image(
-          image: ImagesTheme.of(context).appTextLogo,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            appName,
+            style: FontTheme.of(context).logo(),
+          ),
+        ],
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'splash_base_presenter.dart';
 import 'splash_base_state.dart';
@@ -43,11 +44,9 @@ abstract class SplashBasePage extends HookConsumerWidget {
   Widget? buildFooter(BuildContext context, WidgetRef ref) => null;
 
   Widget appLogo(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Image(image: ImagesTheme.of(context).appTextLogo),
-      ],
+    return Text(
+      appName,
+      style: FontTheme.of(context).logo(),
     );
   }
 
@@ -68,7 +67,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 2000),
             curve: Curves.easeInOut,
-            bottom: splashState.animate ? 625 : -600,
+            top: splashState.animate ? 175 : MediaQuery.of(context).size.height + 600,
             child: appLogo(context),
           ),
           AnimatedPositioned(
@@ -78,7 +77,7 @@ abstract class SplashBasePage extends HookConsumerWidget {
                 ? Platform.isAndroid
                     ? 16
                     : 0
-                : -1200,
+                : -600,
             child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Container(
@@ -100,9 +99,9 @@ abstract class SplashBasePage extends HookConsumerWidget {
         if (drawAnimated == true)
           buildAnimatedLayout(context)!
         else ...[
-          const SizedBox(height: 140),
+          const SizedBox(height: 130),
           appLogo(context),
-          const SizedBox(height: 140),
+          const SizedBox(height: Sizes.space4XLarge),
           Expanded(
             child: Column(
               children: getButtons(context, ref),
