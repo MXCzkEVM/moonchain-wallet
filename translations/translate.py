@@ -14,16 +14,16 @@ def translate(text, target_language):
             f"""You are a translator API. Your task is to translate the following text.
 
 CRITICAL INSTRUCTIONS:
-1. Do NOT translate any text enclosed in curly braces {{ }}. These are placeholders and must remain exactly as they are.
-2. Treat all curly braces {{ }} as literal text. They are NOT format specifiers.
-3. Translate ONLY the actual text content outside of curly braces.
-4. Preserve ALL formatting, special characters, and placeholders in their original form.
-5. Provide ONLY the translated text as your response, without any additional comments, explanations, or quotation marks.
+1. Translate the entire text as is, without adding or removing any characters or placeholders.
+2. Do NOT add any curly braces {{ }} that are not in the original text.
+3. Provide ONLY the translated text as your response.
+4. Do NOT include any markdown formatting, quotation marks, backticks, or extra newline characters in your response.
+5. Preserve the exact structure and formatting of the original text.
 
 Original text (in English):
 {text}
 
-Translate the above text to {target_language}."""
+Translate the above text to {target_language}. Remember, provide ONLY the direct translation without any modifications to the structure or added characters."""
         )
         print(response)
         if response.parts:
