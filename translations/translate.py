@@ -53,14 +53,14 @@ def main():
         "ru": "Russian"
     }
     # Read the input JSON file
-    with open('en.json', 'r') as file:
+    with open('../assets/flutter_i18n/en.json', 'r') as file:
         en_data = json.load(file)
 
     # Loop through each language in the dictionary
     for lang_code, lang_name in language_dict.items():
         # Load the existing language file or create an empty dictionary if it doesn't exist
         try:
-            with open(f'{lang_code}.json', 'r') as file:
+            with open(f'../assets/flutter_i18n/{lang_code}.json', 'r') as file:
                 lang_data = json.load(file)
         except FileNotFoundError:
             lang_data = {}
@@ -72,7 +72,7 @@ def main():
         for key, value in new_entries.items():
             lang_data[key] = translate(value, lang_name)
             time.sleep(10)  # Pause for a bit between each translation r
-        with open(f'{lang_code}.json', 'w') as file:
+        with open(f'../assets/flutter_i18n/{lang_code}.json', 'w') as file:
             json.dump(lang_data, file, ensure_ascii=False, indent=4)
 
         print(f"Translation to {lang_name} complete. Check the '{lang_code}.json' file.")
