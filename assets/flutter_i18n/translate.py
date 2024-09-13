@@ -9,10 +9,30 @@ genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
 # Function to translate text using Gemini
 def translate(text, target_language):
     model = genai.GenerativeModel("gemini-1.5-flash")  
-    response = model.generate_content(
-        [f"this is an API, please just translate the following English text to {target_language}: {text}"]
-    )
-    return response.text.strip()
+    try:
+        response = model.generate_content(
+            f"""You are a translator API. Your task is to translate the following text.
+
+CRITICAL INSTRUCTIONS:
+1. Do NOT translate any text enclosed in curly braces {{ }}. These are placeholders and must remain exactly as they are.
+2. Treat all curly braces {{ }} as literal text. They are NOT format specifiers.
+3. Translate ONLY the actual text content outside of curly braces.
+4. Preserve ALL formatting, special characters, and placeholders in their original form.
+5. Provide ONLY the translated text as your response, without any additional comments, explanations, or quotation marks.
+
+Original text (in English):
+{text}
+
+Translate the above text to {target_language}."""
+        )
+        print(response)
+        if response.parts:
+            return response.parts[0].text.strip()
+        else:
+            raise ValueError("No translation generated")
+    except Exception as e:
+        print(f"Translation error for '{text}': {str(e)}")
+        return text  # Return original text if translation fails
 
 def main():
     language_dict = {
