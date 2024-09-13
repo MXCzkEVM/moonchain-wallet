@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - pre_main_qa
+    paths:
+      - 'assets/flutter_i18n/en.json'
   workflow_dispatch:
 
 jobs:
