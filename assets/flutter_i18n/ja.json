@@ -470,5 +470,6 @@
     "store_in_x": "{0} に保管する",
     "your_email_address": "メールアドレス",
     "invalid_email": "有効なメールアドレスを入力してください（例：name@example.com）",
-    "email": "電子メール"
+    "email": "電子メール",
+    "hello": "こんにちは"
 }

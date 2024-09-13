@@ -470,5 +470,6 @@
     "store_in_x": "{0}'da sakla",
     "your_email_address": "E-posta Adresiniz",
     "invalid_email": "Lütfen geçerli bir e-posta adresi girin (örneğin, name@example.com)",
-    "email": "E-posta"
+    "email": "E-posta",
+    "hello": "Merhaba"
 }

@@ -470,5 +470,6 @@
     "store_in_x": "儲存在 {0} 中",
     "your_email_address": "您的電子郵件地址",
     "invalid_email": "請輸入有效的電子郵件地址（例如：name@example.com）",
-    "email": "電子郵件"
+    "email": "電子郵件",
+    "hello": "您好"
 }

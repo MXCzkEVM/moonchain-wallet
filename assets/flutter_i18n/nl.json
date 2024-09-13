@@ -470,5 +470,6 @@
     "store_in_x": "Bewaar in {0}",
     "your_email_address": "Uw e-mailadres",
     "invalid_email": "Voer een geldig e-mailadres in (bijv. naam@voorbeeld.com)",
-    "email": "E-mail"
+    "email": "E-mail",
+    "hello": "Hallo"
 }

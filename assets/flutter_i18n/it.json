@@ -470,5 +470,6 @@
     "store_in_x": "Memorizza in {0}",
     "your_email_address": "Il tuo indirizzo email",
     "invalid_email": "Inserisci un indirizzo email valido (es. nome@esempio.com)",
-    "email": "Email"
+    "email": "Email",
+    "hello": "Ciao"
 }

@@ -470,5 +470,6 @@
     "store_in_x": "Speichern in {0}",
     "your_email_address": "Ihre E-Mail-Adresse",
     "invalid_email": "Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. name@example.com)",
-    "email": "E-Mail"
+    "email": "E-Mail",
+    "hello": "Hallo"
 }

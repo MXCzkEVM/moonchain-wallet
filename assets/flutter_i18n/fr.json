@@ -470,5 +470,6 @@
     "store_in_x": "Stocker dans {0}",
     "your_email_address": "Votre adresse e-mail",
     "invalid_email": "Veuillez entrer une adresse électronique valide (par exemple, {nom@example.com})",
-    "email": "Courriel"
+    "email": "Courriel",
+    "hello": "Bonjour"
 }

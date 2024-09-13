@@ -470,5 +470,6 @@
     "store_in_x": "Stocați în {0}",
     "your_email_address": "Adresa dumneavoastră de e-mail",
     "invalid_email": "Vă rugăm să introduceți o adresă de e-mail validă (de ex., nume@exemplu.com)",
-    "email": "E-mail"
+    "email": "E-mail",
+    "hello": "Salut"
 }

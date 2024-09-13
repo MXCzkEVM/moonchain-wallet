@@ -470,5 +470,6 @@
     "store_in_x": "Guardar en {0}",
     "your_email_address": "Su dirección de correo electrónico",
     "invalid_email": "Por favor, ingrese una dirección de correo electrónico válida (por ejemplo, name@example.com)",
-    "email": "Correo electrónico"
+    "email": "Correo electrónico",
+    "hello": "Hola"
 }

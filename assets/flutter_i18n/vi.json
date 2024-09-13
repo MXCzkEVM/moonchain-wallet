@@ -470,5 +470,6 @@
     "store_in_x": "Lưu trữ trong {0}",
     "your_email_address": "Địa chỉ Email của bạn",
     "invalid_email": "Vui lòng nhập một địa chỉ email hợp lệ (ví dụ: name@example.com)",
-    "email": "Email"
+    "email": "Email",
+    "hello": "Xin chào"
 }
