@@ -2,8 +2,8 @@ name: Translate en.json to de.json
 
 on:
   push:
-    paths:
-      - 'assets/flutter_i18n/en.json'
+    branches:
+      - pre_main_qa
   workflow_dispatch:
 
 jobs:
