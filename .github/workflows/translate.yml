@@ -25,10 +25,11 @@ jobs:
         pip install -q -U google-generativeai
 
     - name: Run translation script
+      working-directory: assets/flutter_i18n
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINIKEY }}
       run: |
-        python assets/flutter_i18n/translate.py
+        python translate.py
 
     - name: Commit changes
       run: |
