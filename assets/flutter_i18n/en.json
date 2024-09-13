@@ -197,7 +197,7 @@
 	"default": "Default",
 	"gas_limit": "Gas limit",
 	"x_must_numeric": "{0} Must be numeric",
-	"chain": "chain",
+	"chain": "Chain",
 	"network_name": "Network Name",
 	"rpc_url": "RPC URL",
 	"chain_id": "Chain ID",
