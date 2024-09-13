@@ -81,7 +81,7 @@
     "use_biometric_or_passcode": "使用您的 {0} 或继续输入密码",
     "use_biometric": "使用 {0}",
     "create_passcode": "创建密码",
-    "skip": "跳过",
+    "skip": "略",
     "domain_registered": "哇，剧情大反转！你梦寐以求的用户名已经被占用了。先别急着庆祝，老铁！",
     "domain_limit": "选择一个3-30个字符的用户名，以避免过长或类似于小说或推文。",
     "domain_invalid": "名称格式无效",
