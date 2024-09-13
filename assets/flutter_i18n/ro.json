@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "Inelul Blueberry #{0}: Datele au fost sincronizate cu succes. ✅",
     "data_syncing_failed": "Inelul Blueberry #{0}: Procesul de sincronizare a datelor a eșuat. ❌",
     "blueberry_hooks": "Cârlige de afine",
-    "message": "Mesaj"
+    "message": "Mesaj",
+    "moonchain_username": "Nume de utilizator Moonchain",
+    "powered_by_moonchain_supernodes": "Asistență de la Supernodurile Moonchain",
+    "moonchain_design_documents": "Documente de proiectare Moonchain",
+    "continue_now": "Continuă acum",
+    "you_will_be_directed_to_the_main_app": "Veți fi redirecționat către aplicația principală",
+    "account_setup_complete": "Configurarea contului finalizată!",
+    "entering_the_app": "Intrare în aplicație",
+    "in": "Încărcare..",
+    "google_drive_secured_storage": "Stocare securizată Google Drive",
+    "icloud_secured_storage": "Stocare securizată iCloud",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Asigurați-vă că ați stocat corect tastele în {0}",
+    "icloud": "iCloud",
+    "google_drive": "Google Drive",
+    "store_in_x": "Stocați în {0}",
+    "your_email_address": "Adresa dumneavoastră de e-mail",
+    "invalid_email": "Vă rugăm să introduceți o adresă de e-mail validă (de ex., nume@exemplu.com)",
+    "email": "E-mail"
 }

@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "Bague de Myrtille #{0} : Données synchronisées avec succès. ✅",
     "data_syncing_failed": "Bague de Myrtille #{0} : Le processus de synchronisation des données a échoué. ❌",
     "blueberry_hooks": "Crochets de Myrtille",
-    "message": "Message"
+    "message": "Message",
+    "moonchain_username": "Nom d'utilisateur Moonchain",
+    "powered_by_moonchain_supernodes": "Alimenté par les Supernœuds Moonchain { }",
+    "moonchain_design_documents": "Documents de conception de Moonchain",
+    "continue_now": "Continuer maintenant",
+    "you_will_be_directed_to_the_main_app": "Vous serez redirigé vers l'application principale",
+    "account_setup_complete": "Configuration du compte terminée !",
+    "entering_the_app": "Entrer dans l'application",
+    "in": "Chargement..",
+    "google_drive_secured_storage": "Stockage sécurisé Google Drive",
+    "icloud_secured_storage": "Stockage sécurisé iCloud",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Assurez-vous d'avoir correctement enregistré vos clés dans votre {0}",
+    "icloud": "iCloud",
+    "google_drive": "Google Drive",
+    "store_in_x": "Stocker dans {0}",
+    "your_email_address": "Votre adresse e-mail",
+    "invalid_email": "Veuillez entrer une adresse électronique valide (par exemple, {nom@example.com})",
+    "email": "Courriel"
 }

@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "Yaban Mersini Halkası #{0}: Veri başarıyla senkronize edildi. ✅",
     "data_syncing_failed": "Yaban Mersini Halkası #{0}: Veri senkronizasyon işlemi başarısız oldu. ❌",
     "blueberry_hooks": "Yaban Mersini Çengelleri",
-    "message": "Mesaj"
+    "message": "Mesaj",
+    "moonchain_username": "AyZincir Kullanıcı Adı",
+    "powered_by_moonchain_supernodes": "Moonchain Süper Düğümleri ile Güçlendirilmiştir",
+    "moonchain_design_documents": "AyZincir tasarım belgeleri",
+    "continue_now": "Şimdi Devam Et",
+    "you_will_be_directed_to_the_main_app": "Ana uygulamaya yönlendirileceksiniz.",
+    "account_setup_complete": "Hesap Kurulumu Tamamlandı!",
+    "entering_the_app": "Uygulamaya Giriş",
+    "in": "Yükleniyor..",
+    "google_drive_secured_storage": "Google Drive güvenli depolama alanı",
+    "icloud_secured_storage": "iCloud Güvenli depolama",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Anahtarlarınızı {0} içinde doğru şekilde sakladığınızdan emin olun.",
+    "icloud": "iCloud",
+    "google_drive": "Google Drive",
+    "store_in_x": "{0}'da sakla",
+    "your_email_address": "E-posta Adresiniz",
+    "invalid_email": "Lütfen geçerli bir e-posta adresi girin (örneğin, name@example.com)",
+    "email": "E-posta"
 }

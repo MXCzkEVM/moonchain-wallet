@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "ブルーベリーリング #{0}: データは正常に同期されました。✅",
     "data_syncing_failed": "ブルーベリーリング #{0}: データ同期処理が失敗しました。❌",
     "blueberry_hooks": "ブルーベリーフック",
-    "message": "メッセージ"
+    "message": "メッセージ",
+    "moonchain_username": "ムーンチェーン ユーザー名",
+    "powered_by_moonchain_supernodes": "Moonchain スーパーノードによって提供されています",
+    "moonchain_design_documents": "ムーンチェーン設計ドキュメント",
+    "continue_now": "続ける",
+    "you_will_be_directed_to_the_main_app": "あなたはメインアプリに案内されます。",
+    "account_setup_complete": "アカウント設定完了！",
+    "entering_the_app": "アプリへの入力",
+    "in": "読み込み中…",
+    "google_drive_secured_storage": "Google Drive セキュリティで保護されたストレージ",
+    "icloud_secured_storage": "iCloud セキュリティで保護されたストレージ",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "キーを {0} に正しく保存したことを確認してください。",
+    "icloud": "iCloud",
+    "google_drive": "Google ドライブ",
+    "store_in_x": "{0} に保管する",
+    "your_email_address": "メールアドレス",
+    "invalid_email": "有効なメールアドレスを入力してください（例：name@example.com）",
+    "email": "電子メール"
 }

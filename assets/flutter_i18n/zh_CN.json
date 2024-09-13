@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "蓝莓环 # {0}：数据同步成功。✅",
     "data_syncing_failed": "蓝莓环＃{0}：数据同步过程失败。❌",
     "blueberry_hooks": "蓝莓钩子",
-    "message": "消息"
+    "message": "消息",
+    "moonchain_username": "月链用户名",
+    "powered_by_moonchain_supernodes": "由 Moonchain 超级节点驱动 { }",
+    "moonchain_design_documents": "月链设计文档",
+    "continue_now": "继续现在",
+    "you_will_be_directed_to_the_main_app": "您将被引导至主应用程序 { }",
+    "account_setup_complete": "帐户设置已完成！",
+    "entering_the_app": "进入应用程序",
+    "in": "正在加载..",
+    "google_drive_secured_storage": "谷歌云端硬盘安全存储",
+    "icloud_secured_storage": "iCloud 安全存储 { }",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "确保您已将密钥正确存储在您的 {0} 中",
+    "icloud": "iCloud",
+    "google_drive": "谷歌云端硬盘",
+    "store_in_x": "存入 {0}",
+    "your_email_address": "您的电子邮件地址",
+    "invalid_email": "请输入一个有效的电子邮件地址（例如，name@example.com）",
+    "email": "电子邮件"
 }

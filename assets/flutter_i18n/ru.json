@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "Кольцо Blueberry #{0}: Данные успешно синхронизированы. ✅",
     "data_syncing_failed": "Черничное кольцо #{0}: Процесс синхронизации данных не удался. ❌",
     "blueberry_hooks": "Крючки для черники",
-    "message": "Сообщение"
+    "message": "Сообщение",
+    "moonchain_username": "Имя пользователя Moonchain",
+    "powered_by_moonchain_supernodes": "Работает на суперузлах Moonchain { }",
+    "moonchain_design_documents": "Документы по проектированию Moonchain",
+    "continue_now": "Продолжить сейчас",
+    "you_will_be_directed_to_the_main_app": "Вы будете перенаправлены на главное приложение",
+    "account_setup_complete": "Настройка учетной записи завершена!",
+    "entering_the_app": "Вход в приложение",
+    "in": "Загрузка..",
+    "google_drive_secured_storage": "Защищенное хранилище Google Диска",
+    "icloud_secured_storage": "Хранилище iCloud с защитой",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Убедитесь, что вы правильно сохранили свои ключи в {0}",
+    "icloud": "iCloud",
+    "google_drive": "Google Диск",
+    "store_in_x": "Сохранить в {0}",
+    "your_email_address": "Ваш адрес электронной почты",
+    "invalid_email": "Пожалуйста, введите действительный адрес электронной почты (например, name@example.com)",
+    "email": "Электронная почта"
 }

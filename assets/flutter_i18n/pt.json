@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "Anel de Mirtilo #{0}: Dados sincronizados com sucesso. ✅",
     "data_syncing_failed": "Anel de Mirtilo #{0}: Processo de sincronização de dados falhou. ❌",
     "blueberry_hooks": "Ganchos de Mirtilo",
-    "message": "Mensagem"
+    "message": "Mensagem",
+    "moonchain_username": "Nome de usuário do Moonchain",
+    "powered_by_moonchain_supernodes": "Impulsionado por Supernós Moonchain",
+    "moonchain_design_documents": "Documentos de design do Moonchain",
+    "continue_now": "Continuar Agora",
+    "you_will_be_directed_to_the_main_app": "Você será direcionado para o aplicativo principal",
+    "account_setup_complete": "Configuração da Conta Concluída!",
+    "entering_the_app": "Entrando no App",
+    "in": "Carregando..",
+    "google_drive_secured_storage": "Armazenamento seguro do Google Drive",
+    "icloud_secured_storage": "Armazenamento seguro do iCloud",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Certifique-se de que você armazenou suas chaves corretamente em seu {0}",
+    "icloud": "iCloud",
+    "google_drive": "Google Drive",
+    "store_in_x": "Armazenar em {0}",
+    "your_email_address": "Seu Endereço de Email",
+    "invalid_email": "Por favor, insira um endereço de e-mail válido (por exemplo, {name@example.com})",
+    "email": "E-mail"
 }

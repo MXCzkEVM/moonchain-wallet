@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "Cincin Blueberry #{0}: Data berhasil disinkronkan. ✅",
     "data_syncing_failed": "Cincin Blueberry #{0}: Proses sinkronisasi data gagal. ❌",
     "blueberry_hooks": "Kait Blueberry",
-    "message": "Pesan"
+    "message": "Pesan",
+    "moonchain_username": "Nama Pengguna Moonchain",
+    "powered_by_moonchain_supernodes": "Didukung oleh Supernode Moonchain",
+    "moonchain_design_documents": "Dokumen desain Moonchain",
+    "continue_now": "Lanjutkan Sekarang",
+    "you_will_be_directed_to_the_main_app": "Anda akan diarahkan ke aplikasi utama { }",
+    "account_setup_complete": "Pengaturan Akun Selesai!",
+    "entering_the_app": "Memasuki Aplikasi",
+    "in": "Memuat..",
+    "google_drive_secured_storage": "Penyimpanan yang aman di Google Drive",
+    "icloud_secured_storage": "Penyimpanan yang Diproteksi iCloud",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Pastikan Anda telah menyimpan kunci Anda dengan benar di {0}",
+    "icloud": "iCloud",
+    "google_drive": "Google Drive",
+    "store_in_x": "Simpan di {0}",
+    "your_email_address": "Alamat Email Anda",
+    "invalid_email": "Harap masukkan alamat email yang valid (misalnya, nama@contoh.com)",
+    "email": "Surel"
 }

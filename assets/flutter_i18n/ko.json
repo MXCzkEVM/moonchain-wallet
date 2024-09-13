@@ -453,5 +453,22 @@
     "data_synced_successfully_ring": "블루베리 링 #{0}: 데이터 동기화 성공적으로 완료. ✅",
     "data_syncing_failed": "블루베리 링 #{0}: 데이터 동기화 과정이 실패했습니다. ❌",
     "blueberry_hooks": "블루베리 훅스",
-    "message": "메시지"
+    "message": "메시지",
+    "moonchain_username": "문체인 사용자 이름",
+    "powered_by_moonchain_supernodes": "문체인 슈퍼노드 지원",
+    "moonchain_design_documents": "문체인 설계 문서",
+    "continue_now": "지금 계속하기",
+    "you_will_be_directed_to_the_main_app": "{ } 주 앱으로 안내됩니다.",
+    "account_setup_complete": "계정 설정 완료!",
+    "entering_the_app": "앱에 들어가기",
+    "in": "로드 중..",
+    "google_drive_secured_storage": "구글 드라이브 보안 저장소",
+    "icloud_secured_storage": "iCloud 보안 저장소",
+    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "키를 {0}에 올바르게 저장했는지 확인하세요.",
+    "icloud": "iCloud",
+    "google_drive": "구글 드라이브",
+    "store_in_x": "{0}에 저장",
+    "your_email_address": "이메일 주소",
+    "invalid_email": "유효한 이메일 주소를 입력해 주세요(예: name@example.com)",
+    "email": "이메일"
 }
