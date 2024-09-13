@@ -12,7 +12,9 @@ def translate(text, target_language):
     response = model.generate_content(
         [f"this is an API, please just translate the following English text to {target_language}: {text}"]
     )
-    return response.candidates[0].text.strip()
+    # Extract the translated text
+    translated_text = response.result.candidates[0].content.parts[0].text.strip()
+    return translated_text 
 
 def main():
     language_dict = {
