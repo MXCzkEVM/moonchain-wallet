@@ -1,0 +1,43 @@
+name: Translate en.json to de.json
+
+on:
+  push:
+    paths:
+      - 'assets/flutter_i18n/en.json'
+  workflow_dispatch:
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9' # Specify Python version
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+	pip install -q -U google-generativeai
+        # Install any additional dependencies your script may require
+        # e.g., `pip install some-translation-library`
+
+    - name: Run translation script
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINIKEY }}
+      run: |
+        python translate.py
+
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Update pre-QA with latest translations"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
