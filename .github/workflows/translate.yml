@@ -31,7 +31,7 @@ jobs:
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINIKEY }}
       run: |
-        python translate.py
+        python ../translations/translate.py
 
     - name: Commit changes
       run: |
