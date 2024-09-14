@@ -3,6 +3,7 @@ import 'package:moonchain_wallet/features/portfolio/presentation/portfolio_page_
 import 'package:moonchain_wallet/features/portfolio/presentation/portfolio_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -72,9 +73,13 @@ Widget getNFTWidget(PortfolioState state, BuildContext context,
 
     case NFTItemType.withoutImage:
       return Container(
-          padding: const EdgeInsets.all(Sizes.space2XSmall),
-          color: ColorsTheme.of(context).darkGray,
-          child: Image(image: ImagesTheme.of(context).appTextLogo));
+        padding: const EdgeInsets.all(Sizes.space2XSmall),
+        color: ColorsTheme.of(context).darkGray,
+        child: Text(
+          appName,
+          style: FontTheme.of(context).logo(),
+        ),
+      );
     case NFTItemType.localImage:
       return Image(
         image: AssetImage(

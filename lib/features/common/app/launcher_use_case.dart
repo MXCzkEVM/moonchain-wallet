@@ -100,12 +100,12 @@ class LauncherUseCase extends ReactiveUseCase {
     await launchUrlInExternalAppWithString(Urls.mxcZendesk);
   }
 
-  Future<void> launchMXCKnowledgeHub() async {
-    await launchUrlInExternalAppWithString(Urls.mxcKnowledgeHub);
+  Future<void> launchMoonchainWebsite() async {
+    await launchUrlInExternalAppWithString(Urls.moonchainWebsite);
   }
 
-  Future<void> launchMXCDesignDocs() async {
-    await launchUrlInExternalAppWithString(Urls.mxcDesignDocs);
+  Future<void> launchMoonchainDesignDocs() async {
+    await launchUrlInExternalAppWithString(Urls.moonchainDesignDocs);
   }
 
   Future<void> launchMXCWalletTermsConditions() async {
