@@ -70,10 +70,10 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
   }
 
   Future<void> launchMXCKnowledgeHub() async {
-    return _launcherUseCase.launchMXCKnowledgeHub();
+    return _launcherUseCase.launchMoonchainWebsite();
   }
 
   Future<void> launchMXCDesignDocs() async {
-    return _launcherUseCase.launchMXCDesignDocs();
+    return _launcherUseCase.launchMoonchainDesignDocs();
   }
 }
