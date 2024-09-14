@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -26,8 +27,9 @@ class AboutPage extends HookConsumerWidget {
       ),
       children: [
         const SizedBox(height: Sizes.space4XLarge),
-        Image(
-          image: ImagesTheme.of(context).appTextLogo,
+        Text(
+          appName,
+          style: FontTheme.of(context).logo(),
         ),
         Text(
           '${FlutterI18n.translate(context, 'app_version')}${settingsState.appVersion ?? ''}',

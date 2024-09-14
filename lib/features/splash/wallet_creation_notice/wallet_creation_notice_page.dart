@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'wallet_creation_notice_presenter.dart';
@@ -44,8 +45,9 @@ class WalletCreationNoticePage extends HookConsumerWidget {
       // ),
       children: [
         const SizedBox(height: 200),
-        Image(
-          image: ImagesTheme.of(context).appTextLogo,
+        Text(
+          appName,
+          style: FontTheme.of(context).logo(),
         ),
         const SizedBox(
           height: 30,
