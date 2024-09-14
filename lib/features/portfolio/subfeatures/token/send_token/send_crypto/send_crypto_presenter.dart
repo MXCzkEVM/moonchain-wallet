@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/common/utils/utils.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/common/utils/utils.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class MinerUseCase extends ReactiveUseCase {

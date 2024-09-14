@@ -1,8 +1,8 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
-import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
-import 'package:datadashwallet/features/settings/subfeatures/notifications/widgets/background_fetch_dialog.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/notifications/widgets/background_fetch_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../domain/dapp_hooks_use_case.dart';
@@ -71,7 +71,7 @@ class MinerHooksHelper {
     final periodicalCallData =
         backgroundFetchConfigUseCase.periodicalCallData.value;
     final turnOffAll =
-        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
+        MXCWalletBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
 
     await dAppHooksUseCase.stopMinerAutoClaimService(turnOffAll: turnOffAll);
     if (showSnackbar) {

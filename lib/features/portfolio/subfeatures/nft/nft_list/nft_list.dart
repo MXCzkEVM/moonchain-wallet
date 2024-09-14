@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:datadashwallet/features/portfolio/presentation/portfolio_page_presenter.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/utils.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/dapps/dapps.dart';
+import 'package:moonchain_wallet/features/portfolio/presentation/portfolio_page_presenter.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/nft_list/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,11 +30,25 @@ class NFTList extends HookConsumerWidget {
         nfts.isEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 100),
-                child: Text(
-                  translate('no_nfts_added_yet'),
-                  style: FontTheme.of(context).h6().copyWith(
-                        fontSize: 18,
-                      ),
+                child: Column(
+                  children: [
+                    Text(
+                      translate('no_nfts_added_yet'),
+                      style: FontTheme.of(context).body2.secondary(),
+                    ),
+                    const SizedBox(
+                      height: Sizes.spaceNormal,
+                    ),
+                    MxcChipButton(
+                      key: const Key('buyNFT'),
+                      title: FlutterI18n.translate(context, 'buy_x')
+                          .replaceFirst('{0}', 'NFT'),
+                      iconData: Icons.add_rounded,
+                      alignIconStart: true,
+                      onTap: () => presenter.getNfts(),
+                      backgroundColor: ColorsTheme.of(context).darkGray,
+                    ),
+                  ],
                 ),
               )
             : Column(

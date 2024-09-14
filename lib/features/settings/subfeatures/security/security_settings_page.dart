@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/security/presentation/passcode_change/passcode_change_enter_current_page/passcode_change_enter_current_page.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/security/presentation/passcode_change/passcode_change_enter_current_page/passcode_change_enter_current_page.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -51,7 +51,8 @@ class SecuritySettingsPage extends HookConsumerWidget {
         MxcButton.secondary(
           key: const ValueKey('changePasscodeButton'),
           title: translate('change_passcode'),
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => Navigator.of(context).push(
             route.featureDialog<PasscodeChangeEnterCurrentPage>(
                 const PasscodeChangeEnterCurrentPage(
@@ -68,7 +69,8 @@ class SecuritySettingsPage extends HookConsumerWidget {
         MxcButton.secondary(
           key: const ValueKey('clearBrowserCacheButton'),
           title: translate('clear_browser_cache'),
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => ref.read(presenter).clearBrowserCache(),
         ),
         const SizedBox(height: Sizes.space4XLarge),
@@ -80,7 +82,8 @@ class SecuritySettingsPage extends HookConsumerWidget {
         MxcButton.primaryWarning(
           key: const ValueKey('deleteWalletButton'),
           title: translate('delete_wallet'),
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => ref.read(presenter).deleteWallet(),
           titleColor: ColorsTheme.of(context).textBlack200,
         ),
@@ -93,7 +96,8 @@ class SecuritySettingsPage extends HookConsumerWidget {
         MxcButton.secondary(
           key: const ValueKey('exportWalletButton'),
           title: translate('export_wallet'),
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => Navigator.of(context).push(
             route(const SplashStoragePage(
               settingsFlow: true,

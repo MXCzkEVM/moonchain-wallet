@@ -1,7 +1,7 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:collection/collection.dart';
-import 'package:datadashwallet/features/security/security.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/features/security/security.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 
 final passcodeSetConfirmPageContainer = PresenterContainerWithParameter<
     PasscodeSetConfirmPagePresenter,
@@ -32,6 +32,6 @@ class PasscodeSetConfirmPagePresenter extends PasscodeBasePagePresenter {
     _passcodeUseCase.setNeedSetPasscode(false);
     _passcodeUseCase.setPasscode(expectedNumbers.join());
 
-    pushMNSAnnouncementPage(context!);
+    pushWalletCreationNoticePage(context!);
   }
 }

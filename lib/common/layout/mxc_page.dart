@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import 'mxc_page_regular.dart';
 import 'mxc_page_layer.dart';
@@ -35,6 +35,7 @@ abstract class MxcPage extends HookConsumerWidget {
     this.useFooterPadding = true,
     this.resizeToAvoidBottomInset = true,
     this.useSplashBackground = false,
+    this.useGradientBackground = false,
   })  : assert(scrollController == null || layout != LayoutType.column),
         super(key: key);
 
@@ -60,6 +61,7 @@ abstract class MxcPage extends HookConsumerWidget {
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
     bool useSplashBackground,
+    bool useGradientBackground,
     bool useAppBar,
   }) = MxcPageRegular;
 
@@ -84,6 +86,8 @@ abstract class MxcPage extends HookConsumerWidget {
     bool useFooterPadding,
     bool resizeToAvoidBottomInset,
     bool useSplashBackground,
+    bool useGradientBackground,
+    Color? upperBackgroundColor,
   }) = MxcPageLayer;
 
   final Key? scaffoldKey;
@@ -109,6 +113,7 @@ abstract class MxcPage extends HookConsumerWidget {
   final bool resizeToAvoidBottomInset;
 
   final bool useSplashBackground;
+  final bool useGradientBackground;
 
   Widget buildChildrenAsSliver(BoxConstraints? constraints) {
     Widget sliver;
@@ -178,24 +183,34 @@ abstract class MxcPage extends HookConsumerWidget {
     if (backgroundColor != null) {
       return backgroundColor!;
     }
-    return ColorsTheme.of(context).screenBackground;
+    return ColorsTheme.of(context).darkGray;
   }
 
-  Widget splashLinearBackground({
+  Widget paintBackground({
     Widget? child,
-    bool visiable = true,
+    bool splashBackgroundVisible = true,
+    bool gradientBackgroundVisible = false,
+    required BuildContext context,
   }) {
-    if (visiable) {
+    if (splashBackgroundVisible) {
       return Container(
         decoration: const BoxDecoration(
           gradient: SweepGradient(
             colors: <Color>[
-              Color(0xFF0F46F4),
-              Color(0xFF082FAF),
+              Color(0xFF1B1B1B),
+              Color(0xFF010101),
             ],
             tileMode: TileMode.clamp,
             transform: GradientRotation(2.5),
           ),
+        ),
+        child: child,
+      );
+    }
+    if (gradientBackgroundVisible) {
+      return Container(
+        decoration: BoxDecoration(
+          gradient: UIConfig.gradientBackground(context),
         ),
         child: child,
       );
@@ -243,8 +258,10 @@ abstract class MxcPage extends HookConsumerWidget {
                 FloatingActionButtonLocation.miniCenterFloat,
             body: PresenterHooks(
               presenter: presenter,
-              child: splashLinearBackground(
-                visiable: useSplashBackground,
+              child: paintBackground(
+                context: context,
+                splashBackgroundVisible: useSplashBackground,
+                gradientBackgroundVisible: useGradientBackground,
                 child: SafeArea(
                   bottom: maintainBottomSafeArea,
                   top: topSafeArea,

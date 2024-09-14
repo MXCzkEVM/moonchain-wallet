@@ -1,3 +1,4 @@
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -70,7 +71,8 @@ Future<bool?> showDeleteWalletDialog({
                     title:
                         FlutterI18n.translate(context, ok ?? 'delete_wallet'),
                     titleColor: ColorsTheme.of(context).textBlack200,
-                    size: AxsButtonSize.xl,
+                    size: MXCWalletButtonSize.xl,
+                    edgeType: UIConfig.settingsScreensButtonsEdgeType,
                     onTap: isButtonDisabled == true
                         ? () =>
                             Navigator.of(context).pop(controller.text == 'yes')
@@ -80,7 +82,8 @@ Future<bool?> showDeleteWalletDialog({
                   MxcButton.secondary(
                     key: const ValueKey('cancelButton'),
                     title: FlutterI18n.translate(context, cancel ?? 'cancel'),
-                    size: AxsButtonSize.xl,
+                    size: MXCWalletButtonSize.xl,
+                    edgeType: UIConfig.settingsScreensButtonsEdgeType,
                     onTap: () => Navigator.of(context).pop(false),
                   ),
                 ],

@@ -1,5 +1,5 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/widgets/nft_item.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/nft_list/widgets/nft_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -53,18 +53,18 @@ class TransactionInfo extends StatelessWidget {
 
   Widget transactionButton(BuildContext context) {
     String titleText = 'confirm';
-    AxsButtonType type = AxsButtonType.primary;
+    MXCWalletButtonType type = MXCWalletButtonType.primary;
 
     if (processType == TransactionProcessType.send) {
       titleText = 'send';
     } else if (processType == TransactionProcessType.done) {
       titleText = 'done';
-      type = AxsButtonType.pass;
+      type = MXCWalletButtonType.pass;
     }
 
     return MxcButton.primary(
       key: const ValueKey('transactionButton'),
-      size: AxsButtonSize.xl,
+      size: MXCWalletButtonSize.xl,
       title: FlutterI18n.translate(context, titleText),
       type: type,
       onTap: () {

@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:background_fetch/background_fetch.dart' as bgFetch;
 
@@ -135,7 +135,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     final balanceDouble = balance.getInEther.toDouble();
     print("lowBalanceLimitEnabled $balanceDouble $lowBalanceLimit");
     if (balanceDouble < lowBalanceLimit) {
-      AXSNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('low_balance_notification_title'),
         cTranslate('low_balance_notification_text')
             .replaceFirst('{0}', balanceDouble.toString())
@@ -156,7 +156,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
     print(
         "expectedTransactionFeeEnabled $transactionFee $expectedTransactionFee");
     if (transactionFee < expectedTransactionFee) {
-      AXSNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('tx_fee_reached_expectation_notification_title'),
         cTranslate('tx_fee_reached_expectation_notification_text')
             .replaceFirst('{0}', transactionFee.toString())
@@ -185,7 +185,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
 
     if (expectedEpochOccurrence <= epochQuantity) {
       periodicalCallData = periodicalCallData.copyWith(lasEpoch: epochNumber);
-      AXSNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
           cTranslate('epoch_occur_notification_title'),
           cTranslate('epoch_occur_notification_text'));
     }
@@ -232,7 +232,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
   ) async {
     try {
       final result =
-          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
+          await MXCWalletBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
       if (!result) return result;
 
@@ -247,7 +247,6 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
         enableHeadless: true,
         forceAlarmManager: false,
         requiredNetworkType: bgFetch.NetworkType.ANY,
-        
       ));
 
       return scheduleState;
@@ -257,7 +256,7 @@ class BackgroundFetchConfigUseCase extends ReactiveUseCase {
   }
 
   Future<int> stopNotificationsService({required bool turnOffAll}) async {
-    return await AXSBackgroundFetch.stopServices(
+    return await MXCWalletBackgroundFetch.stopServices(
         taskId: taskId, turnOffAll: turnOffAll);
   }
 }

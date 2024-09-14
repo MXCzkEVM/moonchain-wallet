@@ -7,7 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import 'layout.dart';
 
@@ -30,10 +30,12 @@ class MxcPageLayer extends MxcPage {
     bool fixedFooter = false,
     Widget? floatingActionButton,
     Color? backgroundColor,
+    this.upperBackgroundColor,
     Gradient? backgroundGradient,
     bool useFooterPadding = true,
     bool resizeToAvoidBottomInset = true,
     bool useSplashBackground = false,
+    bool useGradientBackground = false,
   })  : assert(layout != LayoutType.column2 || footer == null || fixedFooter,
             'layout: column2 and fixedFooter: false isn\'t compatible, pls set fixedFooter: true'),
         super.internal(
@@ -58,6 +60,7 @@ class MxcPageLayer extends MxcPage {
           useFooterPadding: useFooterPadding,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           useSplashBackground: useSplashBackground,
+          useGradientBackground: useGradientBackground,
         );
 
   @override
@@ -66,15 +69,17 @@ class MxcPageLayer extends MxcPage {
   @override
   bool get maintainBottomSafeArea => false;
 
+  final Color? upperBackgroundColor;
+
   @override
   Color resolveBackgroundColor(BuildContext context) {
-    if (backgroundColor != null) {
-      return backgroundColor!;
+    if (upperBackgroundColor != null) {
+      return upperBackgroundColor!;
     }
     if (BottomFlowDialog.maybeOf(context) != null) {
-      return ColorsTheme.of(context).primaryBackground;
+      return ColorsTheme.of(context).darkBlue;
     }
-    return ColorsTheme.of(context).primaryBackground;
+    return ColorsTheme.of(context).darkBlue;
   }
 
   @override
@@ -149,7 +154,8 @@ class MxcPageLayer extends MxcPage {
                   ColorsTheme.of(context).layerSheetBackground,
             )
           : Container(
-              color: ColorsTheme.of(context).layerSheetBackground,
+              color: backgroundColor ??
+                  ColorsTheme.of(context).layerSheetBackground,
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: (useFooterPadding
@@ -218,7 +224,8 @@ class MxcPageLayer extends MxcPage {
                       ),
                     ),
                     child: ColoredBox(
-                      color: ColorsTheme.of(context).layerSheetBackground,
+                      color: backgroundColor ??
+                          ColorsTheme.of(context).layerSheetBackground,
                     ),
                   ),
                 ),
@@ -296,7 +303,8 @@ class MxcPageLayer extends MxcPage {
                 topLeft: Radius.circular(bottomFlowDialogRoundedCornersRadius),
                 topRight: Radius.circular(bottomFlowDialogRoundedCornersRadius),
               ),
-              color: ColorsTheme.of(context).layerSheetBackground,
+              color: backgroundColor ??
+                  ColorsTheme.of(context).layerSheetBackground,
             ),
             child: Column(
               crossAxisAlignment: crossAxisAlignment,

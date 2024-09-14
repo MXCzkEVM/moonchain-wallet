@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,11 +42,11 @@ class TypeMessageInfo extends ConsumerWidget {
 
   Widget signButton(BuildContext context) {
     String titleText = 'sign';
-    AxsButtonType type = AxsButtonType.primary;
+    MXCWalletButtonType type = MXCWalletButtonType.primary;
 
     return MxcButton.primary(
       key: const ValueKey('signButton'),
-      size: AxsButtonSize.xl,
+      size: MXCWalletButtonSize.xl,
       title: FlutterI18n.translate(context, titleText),
       type: type,
       onTap: () {

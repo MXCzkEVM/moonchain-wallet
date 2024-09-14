@@ -1,6 +1,6 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/dapps/dapps.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
@@ -67,9 +67,13 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
   }
 
   getNfts() async {
-    final newNftList =
-        await _nftContractUseCase.getNftsByAddress(state.walletAddress!);
-    _nftUseCase.mergeNewList(newNftList);
+    final nftList = await _nftContractUseCase.getNftsByAddress(
+        state.walletAddress!, state.ipfsGateway!);
+    final domainsList = await _nftContractUseCase.getDomainsByAddress(
+        state.walletAddress!, state.ipfsGateway!);
+
+    nftList.addAll(domainsList);
+    _nftUseCase.mergeNewList(nftList);
   }
 
   void changeTokensOrNFTsTab(bool toggle) {

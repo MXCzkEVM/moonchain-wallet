@@ -6,8 +6,8 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 
 class BluetoothTimeoutError extends Error {
   static const String message = 'unable_to_continue_bluetooth_is_turned_off';

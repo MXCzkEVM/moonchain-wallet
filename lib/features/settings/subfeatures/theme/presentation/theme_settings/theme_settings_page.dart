@@ -1,6 +1,6 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,7 +42,7 @@ class ThemeSettingsPage extends ConsumerWidget {
                     children: [
                       Text(
                         FlutterI18n.translate(context, item.name),
-                        style: FontTheme.of(context).body1(),
+                        style: FontTheme.of(context).body2(),
                       ),
                       if (option == item) ...[
                         const Icon(Icons.check_rounded),

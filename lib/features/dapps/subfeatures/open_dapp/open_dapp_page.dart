@@ -1,6 +1,6 @@
-import 'package:datadashwallet/app/logger.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/dapps/subfeatures/open_dapp/widgets/drag_down_panel.dart';
+import 'package:moonchain_wallet/app/logger.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/dapps/subfeatures/open_dapp/widgets/drag_down_panel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +82,7 @@ class OpenAppPage extends HookConsumerWidget {
                       presenter.injectCopyHandling();
                       presenter.injectScrollDetector();
                       if (!state.isLoadStopCalled) {
-                        presenter.injectAXSWalletJSChannel();
+                        presenter.injectMXCWalletJSChannel();
                         presenter.changeOnLoadStopCalled();
                       }
                     },

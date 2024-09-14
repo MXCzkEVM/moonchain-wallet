@@ -1,9 +1,9 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 showNotification(String title, String? text) {
-  AXSNotification().showNotification(title, text);
+  MoonchainWalletNotification().showNotification(title, text);
 }
 
 showLowPriorityNotification(String title, String? text) {
-  AXSNotification().showLowPriorityNotification(title, text);
+  MoonchainWalletNotification().showLowPriorityNotification(title, text);
 }

@@ -1,11 +1,12 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'setup_wallet_presenter.dart';
@@ -32,14 +33,14 @@ class SplashSetupWalletPage extends SplashBasePage {
   Widget appLogo(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: SizedBox(
-          width: 200,
-          child: LottieBuilder.asset(
-            'assets/lottie/axs_logo_animation.json',
-            repeat: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            appName,
+            style: FontTheme.of(context).logo(),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -59,6 +60,8 @@ class SplashSetupWalletPage extends SplashBasePage {
               const SplashStoragePage(),
             ),
           ),
+          edgeType: UIConfig.splashScreensButtonsEdgeType,
+          size: MXCWalletButtonSize.xxl,
         ),
         MxcButton.plainWhite(
           key: const ValueKey('importButton'),

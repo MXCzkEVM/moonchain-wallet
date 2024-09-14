@@ -1,6 +1,6 @@
-import 'package:datadashwallet/common/components/snack_bar.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'helpers/notifications_helper.dart';
 import 'notifications_state.dart';

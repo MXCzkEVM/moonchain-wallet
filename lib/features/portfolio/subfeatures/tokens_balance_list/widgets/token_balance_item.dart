@@ -1,6 +1,6 @@
-import 'package:datadashwallet/core/src/providers/providers_use_cases.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/wallet/wallet.dart';
+import 'package:moonchain_wallet/core/src/providers/providers_use_cases.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

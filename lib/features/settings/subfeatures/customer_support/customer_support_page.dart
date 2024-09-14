@@ -1,6 +1,6 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/customer_support/widget/customer_support_button.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/customer_support/widget/customer_support_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -48,7 +48,8 @@ class CustomerSupportPage extends HookConsumerWidget {
         MxcButton.secondary(
           key: const ValueKey('exportLogsButton'),
           title: FlutterI18n.translate(context, 'export_logs'),
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: () => ref.read(presenter).exportedLogs(),
         ),
         if (ref.watch(state.select((v) => v.exportedLogsPath)).isNotEmpty) ...[
@@ -68,7 +69,7 @@ class CustomerSupportPage extends HookConsumerWidget {
             buttonFunction: ref.read(presenter).launchMXCZendesk),
         CustomerSupportButton(
             key: const ValueKey('browseDocuments'),
-            title: translate('mxc_design_documents'),
+            title: translate('moonchain_design_documents'),
             buttonLabel: translate('browse_documents'),
             buttonFunction: ref.read(presenter).launchMXCDesignDocs),
         CustomerSupportButton(

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/portfolio/subfeatures/nft/nft_list/widgets/nft_collection_expandable_item.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/nft_list/widgets/nft_collection_expandable_item.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:collection/collection.dart';
 

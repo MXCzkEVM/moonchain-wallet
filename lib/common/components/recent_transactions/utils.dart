@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/components/recent_transactions/widgets/recent_transaction_item.dart';
+import 'package:moonchain_wallet/common/components/recent_transactions/widgets/recent_transaction_item.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -21,7 +21,7 @@ class RecentTransactionsUtils {
     late Color txColor;
     switch (transactionType) {
       case TransactionType.sent:
-        txColor = ColorsTheme.of(context).mainRed;
+        txColor = ColorsTheme.of(context).saturatedRed;
         break;
       case TransactionType.received:
         txColor = ColorsTheme.of(context).greenMain;
@@ -30,7 +30,7 @@ class RecentTransactionsUtils {
         txColor = ColorsTheme.of(context).textGrey1;
         break;
       default:
-        txColor = ColorsTheme.of(context).mainRed;
+        txColor = ColorsTheme.of(context).saturatedRed;
     }
     return txColor;
   }
@@ -61,10 +61,10 @@ class RecentTransactionsUtils {
         txColor = ColorsTheme.of(context).textOrange;
         break;
       case TransactionStatus.failed:
-        txColor = ColorsTheme.of(context).mainRed;
+        txColor = ColorsTheme.of(context).saturatedRed;
         break;
       default:
-        txColor = ColorsTheme.of(context).mainRed;
+        txColor = ColorsTheme.of(context).saturatedRed;
     }
     return txColor;
   }

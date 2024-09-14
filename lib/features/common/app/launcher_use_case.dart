@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -100,23 +100,23 @@ class LauncherUseCase extends ReactiveUseCase {
     await launchUrlInExternalAppWithString(Urls.mxcZendesk);
   }
 
-  Future<void> launchMXCKnowledgeHub() async {
-    await launchUrlInExternalAppWithString(Urls.mxcKnowledgeHub);
+  Future<void> launchMoonchainWebsite() async {
+    await launchUrlInExternalAppWithString(Urls.moonchainWebsite);
   }
 
-  Future<void> launchMXCDesignDocs() async {
-    await launchUrlInExternalAppWithString(Urls.mxcDesignDocs);
+  Future<void> launchMoonchainDesignDocs() async {
+    await launchUrlInExternalAppWithString(Urls.moonchainDesignDocs);
   }
 
-  Future<void> launchAxsTermsConditions() async {
-    await launchUrlInExternalAppWithString(Urls.axsTermsConditions);
+  Future<void> launchMXCWalletTermsConditions() async {
+    await launchUrlInExternalAppWithString(Urls.mxcWalletTermsConditions);
   }
 
   void openTelegram() => launchUrlInPlatformDefaultWithString(Urls.telegram);
 
   void openWeChat() => launchUrlInPlatformDefaultWithString(Urls.weChat);
 
-  void openAXSPrivacy(String path) async {
+  void openMXCWalletPrivacy(String path) async {
     ByteData data = await rootBundle.load(path);
     List<int> bytes = data.buffer.asUint8List();
     String tempDir = (await getTemporaryDirectory()).path;

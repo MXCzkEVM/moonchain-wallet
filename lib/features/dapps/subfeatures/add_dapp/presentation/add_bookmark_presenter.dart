@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

@@ -5,6 +5,12 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
+// Load key.properties
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
@@ -23,7 +29,7 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 // START: FlutterFire Configuration
-apply plugin: 'com.google.gms.google-services'
+// apply plugin: 'com.google.gms.google-services'
 // END: FlutterFire Configuration
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -50,31 +56,34 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mxc.axswallet"
+        applicationId "com.mxc.moonchainWallet"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode System.getenv('APPCENTER_BUILD_ID')?.toInteger() ?: 404
+        versionCode System.getenv('VERSION_CODE')?.hashCode()?.abs() ?: 404
         versionName flutterVersionName
     }
 
     signingConfigs {
         release {
-            storeFile rootProject.file("app/key.jks")
-            storePassword System.getenv("APPCENTER_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("APPCENTER_KEY_ALIAS")
-            keyPassword System.getenv("APPCENTER_KEY_PASSWORD")
+            keyAlias = keystoreProperties['keyAlias']
+            keyPassword = keystoreProperties['keyPassword']
+            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword = keystoreProperties['storePassword']
         }
       
     }
 
      buildTypes {
         release {
-            signingConfig signingConfigs.release
+            // Enables code shrinking, obfuscation, and optimization
             minifyEnabled true
+            // Enables resource shrinking
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // Specify ProGuard rules files
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             signingConfig signingConfigs.debug

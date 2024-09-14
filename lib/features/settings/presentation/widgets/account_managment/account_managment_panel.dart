@@ -1,8 +1,8 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
-import 'package:datadashwallet/features/settings/subfeatures/accounts/show_accounts_dialog.dart';
-import 'package:datadashwallet/features/settings/subfeatures/accounts/subfeatures/import_account/import_account_page.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/accounts/show_accounts_dialog.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/accounts/subfeatures/import_account/import_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,12 +23,16 @@ class AccountManagementPanel extends HookConsumerWidget {
         account?.address ?? '',
         nCharacters: 10);
 
-    return GreyContainer(
+    return Container(
         padding: const EdgeInsetsDirectional.only(
             bottom: Sizes.spaceSmall,
             top: Sizes.spaceSmall,
             start: Sizes.spaceNormal,
             end: Sizes.spaceSmall),
+        decoration: BoxDecoration(
+          borderRadius: UIConfig.defaultBorderRadiusAll,
+          color: const Color(0XFF212529),
+        ),
         child: Column(
           children: [
             InkWell(

@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
-import 'package:datadashwallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/notifications/domain/background_fetch_config_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../dapp_hooks_state.dart';
 import '../domain/dapp_hooks_use_case.dart';
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import '../widgets/wifi_hooks_background_fetch_alert_bottom_sheet.dart';
 import '../widgets/location_permission_bottom_sheet.dart';
@@ -113,7 +113,7 @@ class WiFiHooksHelper {
     final periodicalCallData =
         backgroundFetchConfigUseCase.periodicalCallData.value;
     final turnOffAll =
-        AXSBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
+        MXCWalletBackgroundFetch.turnOffAll(dappHooksData, periodicalCallData);
     await dAppHooksUseCase.stopWifiHooksService(turnOffAll: turnOffAll);
     if (showSnackbar) {
       dappHooksSnackBarUtils.showWiFiHooksServiceDisableSuccessSnackBar();

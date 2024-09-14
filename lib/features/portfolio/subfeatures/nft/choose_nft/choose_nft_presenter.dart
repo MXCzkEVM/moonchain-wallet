@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:flutter/material.dart';
 
 import 'choose_nft_state.dart';
@@ -12,7 +12,10 @@ class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
 
   late final _nftContractUseCase = ref.read(nftContractUseCaseProvider);
   late final _accountUserCase = ref.read(accountUseCaseProvider);
-  late final _nftsUseCase = ref.read(nftsUseCaseProvider);
+  late final _nftUseCase = ref.read(nftsUseCaseProvider);
+  late final _chainConfigurationUseCase =
+      ref.read(chainConfigurationUseCaseProvider);
+
   late final TextEditingController searchController = TextEditingController();
 
   @override
@@ -26,18 +29,28 @@ class ChooseNftPresenter extends CompletePresenter<ChooseNftState> {
       }
     });
 
-    listen(_nftsUseCase.nfts, (value) {
+    listen(_nftUseCase.nfts, (value) {
       notify(() {
         state.nfts = value;
         state.filterNfts = value;
       });
     });
+
+    listen(_chainConfigurationUseCase.selectedIpfsGateWay, (newIpfsGateWay) {
+      if (newIpfsGateWay != null) {
+        notify(() => state.ipfsGateway = newIpfsGateWay);
+      }
+    });
   }
 
   void loadPage() async {
-    final nfts =
-        await _nftContractUseCase.getNftsByAddress(state.account!.address);
-    _nftsUseCase.mergeNewList(nfts);
+    final nftList = await _nftContractUseCase.getNftsByAddress(
+        state.account!.address, state.ipfsGateway!);
+    final domainsList = await _nftContractUseCase.getDomainsByAddress(
+        state.account!.address, state.ipfsGateway!);
+
+    nftList.addAll(domainsList);
+    _nftUseCase.mergeNewList(nftList);
   }
 
   void fliterNfts(String value) {

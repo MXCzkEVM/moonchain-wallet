@@ -1,0 +1,145 @@
+name: Build and distribute
+
+on:
+  push:
+    branches:
+      - pre_main_qa
+
+jobs:
+  build-apk:
+    name: Build-apk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+
+      - name: Set Version Code
+        run: |
+          echo "Received Number: ${{ github.run_number }}"
+          echo "VERSION_CODE=${{ github.run_number }}" >> $GITHUB_ENV
+          echo "Set VERSION_CODE to: ${{ github.run_number }}"
+        shell: bash
+
+      - uses: sheenhx/action-flutter-build-android@v3
+        with:
+          keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
+          keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
+          build-cmd: flutter build apk --flavor product --release --build-number=${{ env.VERSION_CODE }}
+          working-directory: ./
+
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-product-release.apk build/app/outputs/flutter-apk/moonchain.apk
+          
+      - name: Archive APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          # Try running the build locally with the build command to be sure of this path
+          path: build/app/outputs/flutter-apk/moonchain.apk
+
+      - uses: ryand56/r2-upload-action@latest
+        with:
+          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          r2-bucket: ${{ secrets.R2_BUCKET }}
+          source-dir: build/app/outputs/flutter-apk
+          destination-dir: app
+
+
+  build-macos:
+    name: Build-ios
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: sheenhx/action-flutter-build-ios@v1
+        with:
+          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
+          build-cmd: flutter build ipa --build-number=$(( 15 + ${{ github.run_number }})) --export-options-plist=ios/GithubActionsExportOptions.plist
+          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
+
+      - name: Archive IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-ipa
+          # Try running the build locally with the build command to be sure of this path
+          path: build/ios/ipa/*.ipa
+
+  upload-combined:
+    name: Combine and Upload Builds
+    needs: [build-apk, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Ubuntu artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+          path: combined-builds/android
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-ipa
+          path: combined-builds/iOS
+
+      - name: Upload combined artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-builds
+          path: combined-builds
+
+      - name: Generate
+        id: generate
+        uses: AcmeSoftwareLLC/app-build-number@v1
+        with:
+          timezone: Asia/Kathmandu
+    
+      - name: Display the generated build number
+        run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
+
+        
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa"
+          token: ${{ secrets.DART_TOKEN }}
+          tag: ${{ steps.generate.outputs.build-number }}
+
+          
+      - name: Upload APK to Waldo
+        uses: waldoapp/gh-action-upload@v2
+        with:
+          build_path: combined-builds/android/moonchain.apk
+          upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
+
+  build-waldo:
+    name: Build-waldo
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: sheenhx/action-flutter-build-ios@v1
+        with:
+          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
+          build-cmd: flutter build ios --simulator
+          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
+      - name: Upload IPA to Waldo
+        uses: waldoapp/gh-action-upload@v2
+        with:
+          build_path: build/ios/iphonesimulator/Runner.app
+          upload_token: ${{ secrets.WALDO_SESSIONS_IOS }}

@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:datadashwallet/app/logger.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/app/logger.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +10,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'app/app.dart';
 
+const appName = 'MOONCHAIN';
+
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   print(message.data);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await AXSNotification().setupFlutterNotifications();
+  await MoonchainWalletNotification().setupFlutterNotifications();
   // Firebase triggers notifications Itself
-  // axsNotification.showFlutterNotification(message);
+  // mxcNotification.showFlutterNotification(message);
   print('Handling a background message ${message.messageId}');
 }
 
@@ -60,7 +62,7 @@ void main() {
       runApp(
         UncontrolledProviderScope(
           container: container,
-          child: AxsWallet(
+          child: MXCWallet(
             isLoggedIn: isLoggedIn,
           ),
         ),

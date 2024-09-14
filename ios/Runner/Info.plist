@@ -5,17 +5,17 @@
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.transistorsoft.fetch</string>
-		<string>com.mxc.axswallet.notificationsTask</string>
-		<string>com.mxc.axswallet.wifiHooksTask</string>
-		<string>com.mxc.axswallet.minerAutoClaimTask</string>
-		<string>com.mxc.axswallet.blueberryAutoSyncTask</string>
+		<string>com.mxc.moonchainWallet.notificationsTask</string>
+		<string>com.mxc.moonchainWallet.wifiHooksTask</string>
+		<string>com.mxc.moonchainWallet.minerAutoClaimTask</string>
+		<string>com.mxc.moonchainWallet.blueberryAutoSyncTask</string>
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>AXS</string>
+	<string>MoonBase</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -59,7 +59,7 @@
 		<string>fr</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>axs</string>
+	<string>moonchain</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -93,35 +93,35 @@
 		<true/>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Media Library?</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Bluetooth?</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Calendar?</string>
-	<key>NSCameraUsageDescription</key>
-	<string>AXS Wallet needs access to your camera when the app is in use for services such as RWA minting. Image data is not saved or shared with any third parties.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>AXS Wallet needs access to your Biometric data when the app is in use for authentication only. Your Biometric data is not saved or shared with any third parties.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>AXS Wallet needs access to your location for features such as Wi-Fi hooks while the app is in use or running in the background. Your location data is not saved or shared with any third parties.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>AXS Wallet requires access to your location at all times for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
-	<key>NSLocationUsageDescription</key>
-	<string>AXS Wallet needs access to your location to provide services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>AXS Wallet needs access to your location when the app is in use for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Motion?</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>AXS Wallet needs access to your photos to save images such as RWA. Your photos are not saved or shared with any third parties.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>AXS Wallet needs access to your photos when the app is in use for services such as RWA minting. Your photos are not saved or shared with any third parties.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Would you allow AXS Wallet to use the Speech Recognition?</string>
-	<key>PermissionGroupNotification</key>
-	<string>Would you allow AXS Wallet to use the Notification?</string>
+	<string>Would you allow Moonchain Wallet to use the Media Library?</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>AXS Wallet needs access to your Bluetooth when the app is in use  or running in the background for services such as BluberryRing. Blutooth data is not saved or shared with any third parties.</string>
+	<string>Moonchain Wallet needs access to your Bluetooth when the app is in use  or running in the background for services such as BluberryRing. Blutooth data is not saved or shared with any third parties.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Would you allow Moonchain Wallet to use the Bluetooth?</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Would you allow Moonchain Wallet to use the Calendar?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Moonchain Wallet needs access to your camera when the app is in use for services such as RWA minting. Image data is not saved or shared with any third parties.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Moonchain Wallet needs access to your Biometric data when the app is in use for authentication only. Your Biometric data is not saved or shared with any third parties.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Moonchain Wallet needs access to your location for features such as Wi-Fi hooks while the app is in use or running in the background. Your location data is not saved or shared with any third parties.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Moonchain Wallet requires access to your location at all times for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Moonchain Wallet needs access to your location to provide services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Moonchain Wallet needs access to your location when the app is in use for services such as Wi-Fi hooks. Your location data is not saved or shared with any third parties.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Would you allow Moonchain Wallet to use the Motion?</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Moonchain Wallet needs access to your photos to save images such as RWA. Your photos are not saved or shared with any third parties.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Moonchain Wallet needs access to your photos when the app is in use for services such as RWA minting. Your photos are not saved or shared with any third parties.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Would you allow Moonchain Wallet to use the Speech Recognition?</string>
+	<key>PermissionGroupNotification</key>
+	<string>Would you allow Moonchain Wallet to use the Notification?</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -149,9 +149,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

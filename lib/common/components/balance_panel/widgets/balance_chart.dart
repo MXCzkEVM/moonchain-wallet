@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/wallet/wallet.dart';
+import 'package:moonchain_wallet/features/wallet/wallet.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';

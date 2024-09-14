@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -38,23 +38,30 @@ abstract class RecoveryPhraseBasePage extends HookConsumerWidget {
 
   Widget? buildAccept(BuildContext context, WidgetRef ref) => null;
 
+  Widget? buildEmailInput(BuildContext context, WidgetRef ref) => null;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final acceptComponent = buildAccept(context, ref);
 
     return MxcPage(
-      layout: LayoutType.column,
+      layout: LayoutType.scrollable,
       useSplashBackground: true,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 24),
       presenter: ref.watch(presenter),
       appBar: buildAppBar(context, ref),
       footer: buildFooter(context, ref),
+      resizeToAvoidBottomInset: true,
       children: [
         buildAppLogo(context),
-        const Spacer(),
+        const SizedBox(height: 120),
         buildAlert(context),
-        const Spacer(),
+        if (buildEmailInput(context, ref) != null) ...[
+          const SizedBox(height: 18),
+          buildEmailInput(context, ref)!,
+        ],
         if (acceptComponent != null) ...[
+          const SizedBox(height: 130),
           acceptComponent,
           const SizedBox(height: 16),
         ]

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 final appContainer =
     PresenterContainer<SettingsPresenter, void>(() => SettingsPresenter());
@@ -9,6 +9,6 @@ class SettingsPresenter extends CompletePresenter {
   @override
   void initState() {
     super.initState();
-    AXSFireBase.initLocalNotificationsAndListeners();
+    MoonchainWalletFireBase.initLocalNotificationsAndListeners();
   }
 }

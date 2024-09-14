@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 
 import 'package:clipboard/clipboard.dart';
 
-import 'package:datadashwallet/app/logger.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
+import 'package:moonchain_wallet/app/logger.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/utils/utils.dart';
 
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:web3_provider/web3_provider.dart';
@@ -158,6 +158,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<void> dispose() {
     cancelCharacteristicListenerTimer();
     closeBlueberryConnection();
+    state.animationController = null;
     return super.dispose();
   }
 
@@ -209,7 +210,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     state.webviewController!
         .evaluateJavascript(source: JSChannelScripts.clipboardHandlerScript);
     state.webviewController!.addJavaScriptHandler(
-      handlerName: JSChannelEvents.axsWalletCopyClipboard,
+      handlerName: JSChannelEvents.mxcWalletCopyClipboard,
       callback: (args) {
         copy(args);
       },
@@ -272,7 +273,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         .evaluateJavascript(source: JSChannelScripts.overScrollScript);
 
     state.webviewController!.addJavaScriptHandler(
-      handlerName: JSChannelEvents.axsWalletScrollDetector,
+      handlerName: JSChannelEvents.mxcWalletScrollDetector,
       callback: (args) {
         if (args[0] is bool) {
           args[0] == true ? showPanel() : hidePanel();
@@ -398,8 +399,8 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   void changeOnLoadStopCalled() =>
       state.isLoadStopCalled = !state.isLoadStopCalled;
 
-  void injectAXSWalletJSChannel() =>
-      JSChannelUtils.injectAXSWalletJSChannel(state);
+  void injectMXCWalletJSChannel() =>
+      JSChannelUtils.injectMXCWalletJSChannel(state);
 
   void cancelCharacteristicListenerTimer() =>
       characteristicListenerTimer?.cancel();

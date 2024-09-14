@@ -1,5 +1,5 @@
-name: datadashwallet
-description: AXS wallet using an ERC-20 smart contract.
+name: moonchain_wallet
+description: Self custodial Moonchain wallet, Seamless interaction with MXC chains & EVM based chains, Enabling users to Send/Receive tokens, NFTs, and interact with Web3 DApps.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 2.5.1
+version: 3.0.0
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
@@ -99,11 +99,9 @@ dependencies:
   wifi_scan: ^0.4.1
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.9.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
@@ -117,7 +115,6 @@ flutter:
   assets:
     - assets/.env
     - assets/flutter_i18n/
-    - assets/images/security/
     - assets/svg/
     - assets/svg/networks/
     - assets/svg/splash/
@@ -127,6 +124,7 @@ flutter:
     - assets/lottie/gestures/
     - assets/pdf/
     - assets/js/bluetooth/
+    - assets/image/miners/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -137,13 +135,8 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+
   fonts:
-    - family: .SF NS Display
-      fonts:
-        - asset: assets/fonts/SFNSDisplay.ttf
-    - family: .SF NS Text
-      fonts:
-        - asset: assets/fonts/SFNSText.ttf
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Regular.ttf
@@ -153,5 +146,3 @@ flutter:
     - family: MxcIcons
       fonts:
         - asset: assets/icons/mxc-icons.ttf
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages

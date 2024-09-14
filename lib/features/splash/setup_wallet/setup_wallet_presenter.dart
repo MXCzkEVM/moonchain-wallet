@@ -1,5 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
@@ -57,6 +57,6 @@ class SplashSetupWalletPresenter
   }
 
   void launchAxsTermsConditions() {
-    _launcherUseCase.launchAxsTermsConditions();
+    _launcherUseCase.launchMXCWalletTermsConditions();
   }
 }

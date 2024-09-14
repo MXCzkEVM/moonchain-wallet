@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:datadashwallet/app/app.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/app/app.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:h3_flutter/h3_flutter.dart';
@@ -241,7 +241,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
           amount: MxcAmount.zero(),
           nonce: nonce,
         );
-        AXSNotification().showNotification(
+        MoonchainWalletNotification().showNotification(
           cTranslate('wifi_info_notifications_title'),
           cTranslate('wifi_info_notifications_text'),
         );
@@ -267,10 +267,10 @@ class DAppHooksUseCase extends ReactiveUseCase {
         foregroundNotificationConfig: geo.ForegroundNotificationConfig(
           notificationText: FlutterI18n.translate(
               appNavigatorKey.currentContext!,
-              'axs_background_location_service_text'),
+              'moonchain_background_location_service_text'),
           notificationTitle: FlutterI18n.translate(
               appNavigatorKey.currentContext!,
-              'axs_background_location_service_title'),
+              'moonchain_background_location_service_title'),
           enableWakeLock: true,
           notificationIcon: const geo.AndroidResource(
             name: 'axs_logo',
@@ -389,7 +389,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
       int delay, String taskId) async {
     try {
       final result =
-          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
+          await MXCWalletBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
       if (!result) return result;
 
@@ -415,7 +415,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
   Future<bool> startOneTimeBackgroundService(int delay, String taskId) async {
     try {
       final result =
-          await AXSBackgroundFetch.startBackgroundProcess(taskId: taskId);
+          await MXCWalletBackgroundFetch.startBackgroundProcess(taskId: taskId);
 
       if (!result) return result;
 
@@ -449,17 +449,17 @@ class DAppHooksUseCase extends ReactiveUseCase {
   }
 
   Future<int> stopBlueberryAutoSyncService({required bool turnOffAll}) async {
-    return await AXSBackgroundFetch.stopServices(
+    return await MXCWalletBackgroundFetch.stopServices(
         taskId: blueberryAutoSyncTask, turnOffAll: turnOffAll);
   }
 
   Future<int> stopMinerAutoClaimService({required bool turnOffAll}) async {
-    return await AXSBackgroundFetch.stopServices(
+    return await MXCWalletBackgroundFetch.stopServices(
         taskId: minerAutoClaimTaskTaskId, turnOffAll: turnOffAll);
   }
 
   Future<int> stopWifiHooksService({required bool turnOffAll}) async {
-    return await AXSBackgroundFetch.stopServices(
+    return await MXCWalletBackgroundFetch.stopServices(
         taskId: wifiHookTasksTaskId, turnOffAll: turnOffAll);
   }
 
@@ -475,11 +475,11 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime minerAutoClaimTime}) async {
     try {
-      AXSNotification()
+      MoonchainWalletNotification()
           .showNotification(cTranslate('auto_claim_started'), null);
 
       if (selectedMinerListId.isEmpty) {
-        AXSNotification().showNotification(
+        MoonchainWalletNotification().showNotification(
           cTranslate('no_miners_selected_notification_title'),
           cTranslate('no_miners_selected_notification_text'),
         );
@@ -487,16 +487,17 @@ class DAppHooksUseCase extends ReactiveUseCase {
         final ableToClaim = await _minerUseCase.claimMinersReward(
             selectedMinerListId: selectedMinerListId,
             account: account,
-            showNotification: AXSNotification().showLowPriorityNotification,
+            showNotification:
+                MoonchainWalletNotification().showLowPriorityNotification,
             translate: cTranslate);
 
         if (ableToClaim) {
-          AXSNotification().showNotification(
+          MoonchainWalletNotification().showNotification(
             cTranslate('auto_claim_successful_notification_title'),
             cTranslate('auto_claim_successful_notification_text'),
           );
         } else {
-          AXSNotification().showNotification(
+          MoonchainWalletNotification().showNotification(
             cTranslate('nothing_to_claim_notification_title'),
             cTranslate('nothing_to_claim_notification_text'),
           );
@@ -516,10 +517,11 @@ class DAppHooksUseCase extends ReactiveUseCase {
       required Account account,
       required DateTime ringAutoSyncTime}) async {
     try {
-      AXSNotification().showNotification(cTranslate('auto_sync_started'), null);
+      MoonchainWalletNotification()
+          .showNotification(cTranslate('auto_sync_started'), null);
 
       if (selectedRingsListId.isEmpty) {
-        AXSNotification().showNotification(
+        MoonchainWalletNotification().showNotification(
           cTranslate('no_rings_selected_notification_title'),
           cTranslate('no_rings_selected_notification_text'),
         );
@@ -527,16 +529,17 @@ class DAppHooksUseCase extends ReactiveUseCase {
         final ableToClaim = await _blueberryRingBackgroundSyncUseCase.syncRings(
             selectedRingsListId: selectedRingsListId,
             account: account,
-            showNotification: AXSNotification().showLowPriorityNotification,
+            showNotification:
+                MoonchainWalletNotification().showLowPriorityNotification,
             translate: cTranslate);
 
         if (ableToClaim) {
-          AXSNotification().showNotification(
+          MoonchainWalletNotification().showNotification(
             cTranslate('auto_sync_successful_notification_title'),
             cTranslate('auto_sync_successful_notification_text'),
           );
         } else {
-          AXSNotification().showNotification(
+          MoonchainWalletNotification().showNotification(
             cTranslate('already_synced_notification_title'),
             cTranslate('already_synced_notification_text'),
           );

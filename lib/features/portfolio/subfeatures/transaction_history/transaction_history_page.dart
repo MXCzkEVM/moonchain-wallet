@@ -1,7 +1,7 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/dapps/dapps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -28,6 +28,7 @@ class TransactionHistoryPage extends HookConsumerWidget {
     return MxcPage(
       presenter: ref.watch(presenter),
       onRefresh: () => ref.read(presenter).loadPage(),
+      useGradientBackground: true,
       crossAxisAlignment: CrossAxisAlignment.start,
       appBar: AppNavBar(
         action: IconButton(

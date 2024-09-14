@@ -1,4 +1,4 @@
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import 'gestures_instruction_repository.dart';
 

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/common/packages/bluetooth/blue_plus/blue_plus.dart';
+import 'package:moonchain_wallet/features/common/packages/bluetooth/blue_plus/blue_plus.dart';
 
 import '../../open_dapp.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as blue_plus;

@@ -1,7 +1,7 @@
 import 'package:mxc_logic/mxc_logic.dart';
 
-import 'package:datadashwallet/common/serialization.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/common/serialization.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import 'theme_option.dart';
 

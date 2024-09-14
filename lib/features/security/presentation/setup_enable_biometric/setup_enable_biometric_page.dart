@@ -1,8 +1,9 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'setup_enable_biometric_presenter.dart';
@@ -28,23 +29,23 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
             key: const ValueKey('useBiometricButton'),
             title: FlutterI18n.translate(context, 'use_biometric').replaceFirst(
                 '{0}',
-                FlutterI18n.translate(context, presenter.getAppBarTitle())
-                    .toLowerCase()),
+                FlutterI18n.translate(context, presenter.getAppBarTitle())),
             onTap: () => presenter.authenticateBiometrics(),
+            edgeType: UIConfig.securityScreensButtonsEdgeType,
           ),
           MxcButton.plainWhite(
             key: const ValueKey('createPasscodeButton'),
             title: FlutterI18n.translate(context, 'create_passcode'),
             onTap: () => presenter.createPasscode(),
+            edgeType: UIConfig.securityScreensButtonsEdgeType,
           ),
         ],
       ),
       children: [
-        const SizedBox(height: 75),
-        Image(
-          image: ImagesTheme.of(context).axs,
-          width: 80,
-          height: 80,
+        const SizedBox(height: 200),
+        Text(
+          appName,
+          style: FontTheme.of(context).logo(),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -62,11 +63,11 @@ class SetupEnableBiometricPage extends HookConsumerWidget {
           style: FontTheme.of(context).h6.white(),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 43),
+        const SizedBox(height: 24),
         SvgPicture.asset(
           presenter.getSvg(),
-          height: 64,
-          width: 64,
+          height: 80,
+          width: 80,
           colorFilter: filterFor(ColorsTheme.of(context).iconWhite),
         ),
         const Spacer(),

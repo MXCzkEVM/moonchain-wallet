@@ -1,6 +1,6 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/address_book/address_book.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/address_book/address_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -48,6 +48,7 @@ class SendCryptoPage extends HookConsumerWidget {
         child: MxcButton.primary(
           key: const ValueKey('nextButton'),
           title: FlutterI18n.translate(context, 'next'),
+          size: MXCWalletButtonSize.xxl,
           onTap: ref.watch(state).valid
               ? () {
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -163,6 +164,7 @@ class SendCryptoPage extends HookConsumerWidget {
                               buttonState: ref.watch(state).discount == item
                                   ? ChipButtonStates.activeState
                                   : ChipButtonStates.inactiveState,
+                              mxcChipsEdgeType: MXCChipsEdgeType.hard,
                             ),
                           ))
                       .toList()),

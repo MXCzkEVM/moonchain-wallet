@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
 
 extension LanguageExt on Language {
   Locale toLocale() {

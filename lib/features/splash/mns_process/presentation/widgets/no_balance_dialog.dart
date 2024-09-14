@@ -42,7 +42,7 @@ Future<bool?> showNoBalanceDialog(
                 MxcButton.secondary(
                   key: const ValueKey('cancelButton'),
                   title: FlutterI18n.translate(context, 'skip'),
-                  size: AxsButtonSize.xl,
+                  size: MXCWalletButtonSize.xl,
                   width: 120,
                   onTap: () => Navigator.of(context).pop(false),
                 ),
@@ -50,7 +50,7 @@ Future<bool?> showNoBalanceDialog(
                   key: const ValueKey('okayButton'),
                   title: FlutterI18n.translate(context, 'receive'),
                   titleColor: ColorsTheme.of(context).textBlack200,
-                  size: AxsButtonSize.xl,
+                  size: MXCWalletButtonSize.xl,
                   width: 120,
                   onTap: () => Navigator.of(context).pop(true),
                 ),

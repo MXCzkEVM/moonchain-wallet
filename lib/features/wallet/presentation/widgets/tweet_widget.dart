@@ -93,7 +93,7 @@ class _TweetState extends State<Tweet> {
                         height: double.maxFinite,
                         width: double.maxFinite,
                         decoration: BoxDecoration(
-                          color: ColorsTheme.of(context).cardBackground,
+                          color: ColorsTheme.of(context).layerSheetBackground,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
                         ),

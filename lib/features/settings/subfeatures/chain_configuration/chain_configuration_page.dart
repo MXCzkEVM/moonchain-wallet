@@ -1,7 +1,7 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/chain_configuration.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/chain_configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -21,7 +21,6 @@ class ChainConfigurationPage extends HookConsumerWidget {
     return MxcPage(
       presenter: presenter,
       resizeToAvoidBottomInset: true,
-      backgroundColor: ColorsTheme.of(context).screenBackground,
       layout: LayoutType.column,
       useContentPadding: false,
       childrenPadding: const EdgeInsets.only(
@@ -58,6 +57,7 @@ class ChainConfigurationPage extends HookConsumerWidget {
             MxcButton.secondary(
               key: const ValueKey('addNetworkButton'),
               title: translate('add_network'),
+              edgeType: UIConfig.settingsScreensButtonsEdgeType,
               onTap: () {
                 Navigator.of(context).push(
                   route.featureDialog(
@@ -65,7 +65,7 @@ class ChainConfigurationPage extends HookConsumerWidget {
                   ),
                 );
               },
-              size: AxsButtonSize.xl,
+              size: MXCWalletButtonSize.xl,
             ),
             const SizedBox(
               height: Sizes.space4XLarge,

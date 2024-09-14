@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class NftContractUseCase extends ReactiveUseCase {
@@ -51,9 +51,18 @@ class NftContractUseCase extends ReactiveUseCase {
         estimatedGasFee: estimatedGasFee,
       );
 
-  Future<List<Nft>?> getNftsByAddress(
+  Future<List<Nft>> getNftsByAddress(
     String address,
+    String ipfsGateWay,
   ) async {
-    return await _repository.nftContract.getNftsByAddress(address);
+    return await _repository.nftContract.getNftsByAddress(address, ipfsGateWay);
+  }
+
+  Future<List<Nft>> getDomainsByAddress(
+    String address,
+    String ipfsGateWay,
+  ) async {
+    return await _repository.nftContract
+        .getDomainsByAddress(address, ipfsGateWay);
   }
 }

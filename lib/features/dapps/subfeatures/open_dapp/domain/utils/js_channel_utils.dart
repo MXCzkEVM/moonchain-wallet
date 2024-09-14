@@ -3,9 +3,7 @@ import 'package:mxc_logic/mxc_logic.dart';
 import '../../open_dapp.dart';
 
 class JSChannelUtils {
-
-
-  static void injectAXSWalletJSChannel(OpenDAppState state) async {
+  static void injectMXCWalletJSChannel(OpenDAppState state) async {
     // Making It easy for accessing axs wallet
     // use this way window.axs.callHandler
     await state.webviewController!.evaluateJavascript(

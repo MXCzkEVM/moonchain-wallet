@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsHooksSnackBarUtils {
@@ -29,5 +29,4 @@ class NotificationsHooksSnackBarUtils {
         content: translate('service_disabled_successfully')!
             .replaceAll('{0}', translate('background_notifications')!));
   }
-
 }

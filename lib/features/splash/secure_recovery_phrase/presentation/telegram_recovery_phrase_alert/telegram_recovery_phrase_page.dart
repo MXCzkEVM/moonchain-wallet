@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
+import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -44,9 +44,8 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
         Container(
           decoration: const BoxDecoration(
             color: Color(0xFF527DA3),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
+            borderRadius: BorderRadius.all(
+              Radius.zero,
             ),
           ),
           child: Column(children: [
@@ -111,16 +110,15 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
           height: 80,
           decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
+            borderRadius: BorderRadius.all(
+              Radius.zero,
             ),
           ),
           child: ScaleAnimation(
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.all(Radius.zero),
               ),
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -174,15 +172,15 @@ class TelegramRecoveryPhrasePage extends RecoveryPhraseBasePage {
       );
 
   @override
-  Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primary(
+  Widget? buildFooter(BuildContext context, WidgetRef ref) =>
+      MxcButton.primaryWhite(
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'store_to')
             .replaceFirst('{0}', name(context)),
         titleColor: ColorsTheme.of(context).textBlack200,
-        color: themeColor(),
-        borderColor: themeColor(),
         onTap: ref.watch(state).acceptAgreement
             ? () => ref.read(presenter).shareToTelegram(settingsFlow)
             : null,
+        edgeType: MXCWalletButtonEdgeType.hard,
       );
 }

@@ -1,13 +1,13 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/common.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
-import 'package:datadashwallet/features/wallet/presentation/widgets/tweets_list.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/dapps/dapps.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/features/wallet/presentation/widgets/tweets_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:datadashwallet/features/wallet/wallet.dart';
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/features/wallet/wallet.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -30,7 +30,7 @@ class WalletPage extends HookConsumerWidget {
         useAppBar: true,
         presenter: presenter,
         resizeToAvoidBottomInset: true,
-        backgroundColor: ColorsTheme.of(context).screenBackground,
+        useGradientBackground: true,
         layout: LayoutType.column,
         useContentPadding: false,
         appBar: AppNavBar(

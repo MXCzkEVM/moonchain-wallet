@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -96,7 +96,7 @@ class _FilterAndSortItemsState extends State<FilterAndSortItems> {
         const SizedBox(height: 8),
         MxcButton.primary(
             key: const ValueKey('transactionButton'),
-            size: AxsButtonSize.xl,
+            size: MXCWalletButtonSize.xl,
             title: FlutterI18n.translate(context, 'done'),
             onTap: () {
               Navigator.of(context).pop();

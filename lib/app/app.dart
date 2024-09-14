@@ -1,22 +1,22 @@
-import 'package:datadashwallet/app/app_presenter.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/dapps/dapps.dart';
-import 'package:datadashwallet/features/errors/network_unavailable/network_unavailable.dart';
-import 'package:datadashwallet/features/file_listener/file_listener_wrapper.dart';
-import 'package:datadashwallet/features/security/security.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/app/app_presenter.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/dapps/dapps.dart';
+import 'package:moonchain_wallet/features/errors/network_unavailable/network_unavailable.dart';
+import 'package:moonchain_wallet/features/file_listener/file_listener_wrapper.dart';
+import 'package:moonchain_wallet/features/security/security.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 final appNavigatorKey = GlobalKey<NavigatorState>();
 
-class AxsWallet extends HookConsumerWidget {
-  const AxsWallet({
+class MXCWallet extends HookConsumerWidget {
+  const MXCWallet({
     Key? key,
     required this.isLoggedIn,
   }) : super(key: key);

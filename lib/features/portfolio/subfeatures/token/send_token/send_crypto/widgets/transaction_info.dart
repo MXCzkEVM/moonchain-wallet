@@ -1,4 +1,4 @@
-import 'package:datadashwallet/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -52,7 +52,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
           action: Container(
             alignment: Alignment.centerRight,
             child: InkWell(
-              child: const Icon(Icons.close),
+              child: const Icon(Icons.close, size: 30),
               onTap: () => Navigator.of(context).pop(false),
             ),
           ),
@@ -115,7 +115,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
 
   Widget transactionButton(BuildContext context) {
     String titleText = 'confirm';
-    AxsButtonType type = AxsButtonType.primary;
+    MXCWalletButtonType type = MXCWalletButtonType.primary;
 
     switch (processType) {
       case TransactionProcessType.confirm:
@@ -129,7 +129,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
         break;
       default:
         titleText = 'done';
-        type = AxsButtonType.pass;
+        type = MXCWalletButtonType.pass;
         break;
     }
 
@@ -142,7 +142,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
 
     return MxcButton.primary(
       key: const ValueKey('transactionButton'),
-      size: AxsButtonSize.xl,
+      size: MXCWalletButtonSize.xl,
       title: FlutterI18n.translate(context, titleText),
       type: type,
       onTap: () async {
@@ -166,7 +166,7 @@ class _TransactionInfoState extends State<TransactionInfo> {
       children: [
         Text(
           FlutterI18n.translate(context, 'sending'),
-          style: FontTheme.of(context).subtitle1.secondary(),
+          style: FontTheme.of(context, listen: false).subtitle1.secondary(),
         ),
         const SizedBox(width: 4),
         Row(
@@ -176,12 +176,12 @@ class _TransactionInfoState extends State<TransactionInfo> {
               MXCFormatter.formatNumberForUI(
                 widget.amount,
               ),
-              style: FontTheme.of(context).h5(),
+              style: FontTheme.of(context, listen: false).h5(),
             ),
             const SizedBox(width: 4),
             Text(
               widget.token.symbol ?? '--',
-              style: FontTheme.of(context).h5.secondary(),
+              style: FontTheme.of(context, listen: false).h5.secondary(),
             ),
             const SizedBox(height: 4),
           ],

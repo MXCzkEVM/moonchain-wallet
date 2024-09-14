@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:datadashwallet/common/utils/permissions_bottom_sheet.dart';
+import 'package:moonchain_wallet/common/utils/permissions_bottom_sheet.dart';
 import 'package:f_logs/f_logs.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';

@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
+import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -82,5 +82,6 @@ class LocalRecoveryPhrasePage extends RecoveryPhraseBasePage {
         onTap: () => ref.read(presenter).saveLocally(
               settingsFlow,
             ),
+        edgeType: MXCWalletButtonEdgeType.hard,
       );
 }

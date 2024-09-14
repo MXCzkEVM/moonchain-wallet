@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/settings.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/settings.dart';
 
 class ContextLessTranslationUseCase extends ReactiveUseCase {
   ContextLessTranslationUseCase(

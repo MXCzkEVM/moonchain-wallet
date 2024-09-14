@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:appinio_social_share/appinio_social_share.dart';
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:intl/intl.dart';
@@ -103,7 +103,11 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     nextProcess(settingsFlow, res['phrases']);
   }
 
-  void sendEmail(BuildContext ctx, bool settingsFlow) async {
+  void sendEmail(
+    BuildContext ctx,
+    bool settingsFlow,
+    String userEmail,
+  ) async {
     final res = await generateMnemonicFile(settingsFlow);
 
     final email = MailOptions(
@@ -111,6 +115,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
       subject: translate('email_secured_subject')!,
       attachments: [res['filePath']],
       isHTML: false,
+      recipients: [userEmail],
     );
 
     try {

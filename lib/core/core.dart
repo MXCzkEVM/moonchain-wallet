@@ -13,6 +13,6 @@ export 'src/wrap.dart';
 export 'src/pagination_list.dart';
 export 'src/disposable.dart';
 export 'src/cache/base_cache.dart';
-export 'src/notification.dart';
-export 'src/firebase/firebase.dart';
+export 'src/moonchain_wallet_notification.dart';
+export 'src/firebase/moonchain_wallet_firebase.dart';
 export 'src/background_process/background_process.dart';

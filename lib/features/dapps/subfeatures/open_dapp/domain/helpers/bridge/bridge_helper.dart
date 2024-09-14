@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/src/providers/providers.dart';
-import 'package:datadashwallet/features/common/common.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/src/providers/providers.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
 
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -187,7 +187,6 @@ class BridgeHelper {
     }
   }
 
-
   void signMessage({
     required Map<String, dynamic> object,
     required VoidCallback cancel,
@@ -196,7 +195,7 @@ class BridgeHelper {
     final hexData = object['data'] as String;
     String message = MXCType.hexToString(hexData);
     int chainId = state.network!.chainId;
-    String name = state.network!.symbol;
+    String name = state.network!.label ?? state.network!.symbol;
 
     try {
       final result = await showSignMessageDialog(
@@ -220,7 +219,6 @@ class BridgeHelper {
     }
   }
 
-  
   void signPersonalMessage({
     required Map<String, dynamic> object,
     required VoidCallback cancel,
@@ -229,7 +227,7 @@ class BridgeHelper {
     final hexData = object['data'] as String;
     String message = MXCType.hexToString(hexData);
     int chainId = state.network!.chainId;
-    String name = state.network!.symbol;
+    String name = state.network!.label ?? state.network!.symbol;
 
     try {
       final result = await showSignMessageDialog(

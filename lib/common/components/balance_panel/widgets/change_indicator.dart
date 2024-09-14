@@ -1,4 +1,4 @@
-import 'package:datadashwallet/features/wallet/wallet.dart';
+import 'package:moonchain_wallet/features/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,7 +31,7 @@ class ChangeIndicator extends HookConsumerWidget {
                               ? MxcIcons.decrease
                               : MxcIcons.increase,
                           color: state.changeIndicator!.isNegative
-                              ? ColorsTheme.of(context).systemStatusInActive
+                              ? ColorsTheme.of(context).saturatedRed
                               : ColorsTheme.of(context).systemStatusActive,
                           size: 16,
                         ),
@@ -39,32 +39,33 @@ class ChangeIndicator extends HookConsumerWidget {
                 width: 4,
               ),
               Text(
-                  '${state.changeIndicator == 0.0 ? 0 : state.changeIndicator!.toStringAsFixed(2)}%',
-                  style: FontTheme.of(context).h7().copyWith(
-                        foreground: state.hideBalance == true
-                            ? (Paint()
-                              ..style = PaintingStyle.fill
-                              ..color = Colors.white
-                              ..maskFilter =
-                                  const MaskFilter.blur(BlurStyle.normal, 6))
-                            : null,
-                        color: state.hideBalance == true
-                            ? null
-                            : state.changeIndicator == 0.0
-                                ? ColorsTheme.of(context).textSecondary
-                                : state.changeIndicator!.isNegative
-                                    ? ColorsTheme.of(context)
-                                        .systemStatusInActive
-                                    : ColorsTheme.of(context)
-                                        .systemStatusActive,
-                      )),
+                '${state.changeIndicator == 0.0 ? 0 : state.changeIndicator!.toStringAsFixed(2)}%',
+                style: FontTheme.of(context).h7().copyWith(
+                      foreground: state.hideBalance == true
+                          ? (Paint()
+                            ..style = PaintingStyle.fill
+                            ..color = Colors.white
+                            ..maskFilter =
+                                const MaskFilter.blur(BlurStyle.normal, 6))
+                          : null,
+                      color: state.hideBalance == true
+                          ? null
+                          : state.changeIndicator == 0.0
+                              ? ColorsTheme.of(context).textSecondary
+                              : state.changeIndicator!.isNegative
+                                  ? ColorsTheme.of(context).saturatedRed
+                                  : ColorsTheme.of(context).systemStatusActive,
+                    ),
+              ),
               const SizedBox(
                 width: 4,
               ),
-              Text(FlutterI18n.translate(context, 'today'),
-                  style: FontTheme.of(context)
-                      .caption1()
-                      .copyWith(color: ColorsTheme.of(context).textSecondary)),
+              Text(
+                FlutterI18n.translate(context, 'today'),
+                style: FontTheme.of(context)
+                    .caption1()
+                    .copyWith(color: ColorsTheme.of(context).textSecondary),
+              ),
             ],
           )
         : Container();

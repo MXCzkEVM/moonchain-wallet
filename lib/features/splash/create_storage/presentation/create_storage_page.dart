@@ -1,6 +1,8 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
-import 'package:datadashwallet/features/splash/splash.dart';
+import 'dart:io';
+
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
+import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,6 +29,8 @@ class SplashStoragePage extends SplashBasePage {
         text: FlutterI18n.translate(context, 'create_wallet'));
   }
 
+  MXCWalletButtonEdgeType getPageButtonsEdge() => MXCWalletButtonEdgeType.hard;
+
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
     final isEmailAvailable = ref.watch(state).isEmailAppAvailable == true;
@@ -52,6 +56,7 @@ class SplashStoragePage extends SplashBasePage {
                   ),
                 )
             : null,
+        edgeType: getPageButtonsEdge(),
       ),
       MxcButton.secondaryWhite(
         key: const ValueKey('wechatButton'),
@@ -68,6 +73,7 @@ class SplashStoragePage extends SplashBasePage {
                   ),
                 )
             : null,
+        edgeType: getPageButtonsEdge(),
       ),
       MxcButton.secondaryWhite(
         key: const ValueKey('emailButton'),
@@ -84,6 +90,7 @@ class SplashStoragePage extends SplashBasePage {
                   ),
                 )
             : null,
+        edgeType: getPageButtonsEdge(),
       ),
       isNoneAvailable
           ? MxcButton.secondaryWhite(
@@ -99,8 +106,41 @@ class SplashStoragePage extends SplashBasePage {
                   ),
                 ),
               ),
+              edgeType: getPageButtonsEdge(),
             )
           : Container(),
+      Platform.isAndroid
+          ? MxcButton.secondaryWhite(
+              key: const ValueKey('GoogleDriveButton'),
+              icon: MxcIcons.google_drive,
+              iconSize: 24,
+              titleSize: 18,
+              title: FlutterI18n.translate(
+                  context, 'google_drive_secured_storage'),
+              onTap: () => Navigator.of(context).push(
+                route.featureDialog(
+                  GoogleDriveRecoveryPhrasePage(
+                    settingsFlow: settingsFlow,
+                  ),
+                ),
+              ),
+              edgeType: getPageButtonsEdge(),
+            )
+          : MxcButton.secondaryWhite(
+              key: const ValueKey('icloudButton'),
+              icon: MxcIcons.icloud,
+              iconSize: 18,
+              titleSize: 18,
+              title: FlutterI18n.translate(context, 'icloud_secured_storage'),
+              onTap: () => Navigator.of(context).push(
+                route.featureDialog(
+                  ICloudRecoveryPhrasePage(
+                    settingsFlow: settingsFlow,
+                  ),
+                ),
+              ),
+              edgeType: getPageButtonsEdge(),
+            ),
     ];
   }
 }

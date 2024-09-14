@@ -1,7 +1,7 @@
-import 'package:datadashwallet/features/security/security.dart';
+import 'package:moonchain_wallet/features/security/security.dart';
 import 'package:flutter/material.dart';
-import 'package:datadashwallet/common/biometric.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/common/biometric.dart';
+import 'package:moonchain_wallet/core/core.dart';
 
 import 'passcode_base_page_state.dart';
 

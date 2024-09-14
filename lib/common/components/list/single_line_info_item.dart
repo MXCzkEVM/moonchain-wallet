@@ -1,22 +1,25 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/core/src/providers/providers_use_cases.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/src/providers/providers_use_cases.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class SingleLineInfoItem extends HookConsumerWidget {
-  const SingleLineInfoItem(
-      {super.key,
-      required this.title,
-      required this.value,
-      this.hint,
-      this.valueActionIcon});
+  const SingleLineInfoItem({
+    super.key,
+    required this.title,
+    required this.value,
+    this.hint,
+    this.valueActionIcon,
+    this.valueAlign = TextAlign.end,
+  });
 
   final String title;
   final String value;
   final String? hint;
   final Widget? valueActionIcon;
+  final TextAlign valueAlign;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,9 +29,10 @@ class SingleLineInfoItem extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Sizes.spaceXSmall),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 FlutterI18n.translate(context, title),
@@ -37,19 +41,21 @@ class SingleLineInfoItem extends HookConsumerWidget {
               const SizedBox(width: 10),
             ],
           ),
+          const SizedBox(width: 10),
           Expanded(
+            flex: 4,
             child: InkWell(
               onTap:
                   isAddress ? () => launcherUseCase.viewAddress(value) : null,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Expanded(
                     child: Text(
                       value,
                       style: FontTheme.of(context).body1.primary(),
                       softWrap: true,
-                      textAlign: TextAlign.start,
+                      textAlign: valueAlign,
                     ),
                   ),
                   if (valueActionIcon != null)

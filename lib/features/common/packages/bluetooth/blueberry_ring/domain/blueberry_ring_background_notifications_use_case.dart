@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:datadashwallet/features/common/common.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 
 import '../../../../../../app/logger.dart';
 
@@ -41,7 +41,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
         now.day == lastDate.day;
 
     if (isToday && latestData.step < 5000) {
-      AXSNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('activity_reminder'),
         cTranslate('blueberry_ring_inactive_alert_text'),
       );
@@ -75,7 +75,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
         todaysData.map((e) => e.value).toList());
 
     if (!isNormal) {
-      AXSNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('sleep_insight'),
         cTranslate('blueberry_ring_sleep_alert_text'),
       );
@@ -96,7 +96,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
         now.day == lastDate.day;
 
     if (isToday && latestData.value >= 100) {
-      AXSNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('heart_alert'),
         cTranslate('blueberry_ring_heart_rate_alert_text'),
       );
@@ -109,7 +109,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     // What si the low battery level
     // Is 10 OK
     if (data < 20) {
-      AXSNotification().showNotification(
+      MoonchainWalletNotification().showNotification(
         cTranslate('low_battery'),
         cTranslate('blueberry_ring_battery_alert_text'),
       );

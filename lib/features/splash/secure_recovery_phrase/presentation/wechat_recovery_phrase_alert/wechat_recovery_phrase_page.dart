@@ -1,5 +1,5 @@
-import 'package:datadashwallet/common/common.dart';
-import 'package:datadashwallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
+import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -154,15 +154,15 @@ class WechatRecoveryPhrasePage extends RecoveryPhraseBasePage {
       );
 
   @override
-  Widget? buildFooter(BuildContext context, WidgetRef ref) => MxcButton.primary(
+  Widget? buildFooter(BuildContext context, WidgetRef ref) =>
+      MxcButton.primaryWhite(
         key: const ValueKey('storeButton'),
         title: FlutterI18n.translate(context, 'store_to')
             .replaceFirst('{0}', name(context)),
         titleColor: ColorsTheme.of(context).textBlack200,
-        color: themeColor(),
-        borderColor: themeColor(),
         onTap: ref.watch(state).acceptAgreement
             ? () => ref.read(presenter).shareToWechat(settingsFlow)
             : null,
+        edgeType: MXCWalletButtonEdgeType.hard,
       );
 }

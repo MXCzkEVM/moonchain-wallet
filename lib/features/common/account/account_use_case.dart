@@ -1,5 +1,5 @@
-import 'package:datadashwallet/core/core.dart';
-import 'package:datadashwallet/features/common/account/account_cache_repository.dart';
+import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/account/account_cache_repository.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 class AccountUseCase extends ReactiveUseCase {

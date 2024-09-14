@@ -1,5 +1,5 @@
 import 'package:background_fetch/background_fetch.dart';
-import 'package:datadashwallet/core/core.dart';
+import 'package:moonchain_wallet/core/core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
@@ -49,7 +49,7 @@ class NotificationsService {
 
       // Make sure user is logged in
       if (isLoggedIn && MXCChains.isMXCChains(chainId) && serviceEnabled) {
-        await AXSNotification()
+        await MoonchainWalletNotification()
             .setupFlutterNotifications(shouldInitFirebase: false);
 
         if (lowBalanceLimitEnabled) {

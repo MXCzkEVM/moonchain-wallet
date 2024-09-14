@@ -1,3 +1,4 @@
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -25,7 +26,8 @@ class CustomerSupportButton extends StatelessWidget {
         MxcButton.secondary(
           key: key,
           title: buttonLabel,
-          size: AxsButtonSize.xl,
+          size: MXCWalletButtonSize.xl,
+          edgeType: UIConfig.settingsScreensButtonsEdgeType,
           onTap: buttonFunction != null ? () => buttonFunction!() : null,
         ),
         const SizedBox(height: Sizes.spaceNormal),

@@ -1,5 +1,5 @@
-import 'package:datadashwallet/common/components/list/single_line_info_item.dart';
-import 'package:datadashwallet/common/utils/utils.dart';
+import 'package:moonchain_wallet/common/components/list/single_line_info_item.dart';
+import 'package:moonchain_wallet/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,11 +40,11 @@ class AddAssetInfo extends ConsumerWidget {
   Widget addTokenButton(BuildContext context) {
     String titleText = FlutterI18n.translate(context, 'add_x').replaceFirst(
         '{0}', FlutterI18n.translate(context, 'token').toLowerCase());
-    AxsButtonType type = AxsButtonType.primary;
+    MXCWalletButtonType type = MXCWalletButtonType.primary;
 
     return MxcButton.primary(
       key: const ValueKey('addTokenButton'),
-      size: AxsButtonSize.xl,
+      size: MXCWalletButtonSize.xl,
       title: titleText,
       type: type,
       onTap: () {
