@@ -242,7 +242,7 @@
     "confirm_delete_wallet": "Cüzdanınızı sıfırlamak istediğinizden emin misiniz?",
     "confirm_delete_wallet_note": "Lütfen bu işlemin geri alınamaz olduğunu unutmayın. Cüzdanınız sıfırlandığında, ödeme yöntemleriniz, işlem geçmişiniz ve varsa tüm dijital para birimleri kalıcı olarak silinecektir.\n\nCüzdanınızın yedeğini almadıysanız, önemli bilgi veya varlıklarınızı kaybetmemek için şimdi yapmanızı şiddetle tavsiye ederiz.",
     "understand_delete": "Anladım, sıfırla",
-    "delete_wallet_warning": "\"Mevcut cüzdanınızı sıfırlamak için \"evet\" yazın\"",
+    "delete_wallet_warning": "\"Mevcut cüzdanınızı sıfırlamak için \"yes\" yazın\"",
     "type_yes": "\"yes\" yazın",
     "clear_browser_successfully": "Geçmiş ve çerezler başarıyla temizlendi",
     "exported_logs_successfully": "Başarıyla dışa aktarılan loglar",
