@@ -29,13 +29,16 @@ jobs:
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
           build-cmd: flutter build apk --flavor product --release --build-number=${{ env.VERSION_CODE }}
           working-directory: ./
+
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-product-release.apk build/app/outputs/flutter-apk/moonchain.apk
           
       - name: Archive APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           # Try running the build locally with the build command to be sure of this path
-          path: build/app/outputs/flutter-apk/app-product-release.apk
+          path: build/app/outputs/flutter-apk/moonchain.apk
 
       - uses: ryand56/r2-upload-action@latest
         with:
@@ -115,7 +118,7 @@ jobs:
       - name: Upload APK to Waldo
         uses: waldoapp/gh-action-upload@v2
         with:
-          build_path: combined-builds/android/app-product-release.apk
+          build_path: combined-builds/android/moonchain.apk
           upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
 
   build-waldo:
