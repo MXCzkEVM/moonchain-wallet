@@ -441,7 +441,7 @@
 	"auto_sync_successful_notification_text": "Moonchain wallet has been successfully synced your ring data",
 	"already_synced_notification_title": "Oops, Already synced ℹ️",
 	"already_synced_notification_text": "Moonchain wallet tried to sync your ring data, But looks like you have synced the ring data today.",
-	"auto_sync_failed": "Blueberry Ring aut-sync failed ❌",
+	"auto_sync_failed": "Blueberry Ring aut-sync has been failed ❌, Please try again.",
 	"no_rings_owned_notification": "Looks like this wallet doesn't own any Blueberry Rings. ℹ️",
 	"syncing_data_from_ring": "Syncing data from Blueberry Ring #{0}. ⛏️",
 	"already_synced_ring": "Blueberry Ring #{0}: Already synced. ℹ️",
