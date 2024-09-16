@@ -462,6 +462,5 @@
 	"store_in_x": "Store in {0}",
 	"your_email_address": "Your Email Address",
 	"invalid_email": "Please enter a valid email address (e.g., name@example.com)",
-	"email": "Email",
-	"hello": "Hello"
+	"email": "Email"
 }
