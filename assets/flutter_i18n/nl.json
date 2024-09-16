@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "Het account dat u probeert te importeren is een duplicaat.",
     "unable_to_launch_email_app": "Kan e-mail app niet starten",
     "max_fee": "Maximale Vergoeding",
-    "deposit_from_exchanges_notice": "Koop van {0}, {1} beurzen en stort zkEVM MXC direct in de Moonchain portemonnee",
     "deposit_with_l3_bridge_notice": "Koop van andere beurzen en gebruik {0} om ERC20 MXC te storten in de Moonchain portemonnee",
     "buy_some_x_for_fee_notice": "Koop wat {0} om de gasprijs voor de transactie te betalen, normaal gesproken minder dan 2 USD wanneer het netwerk niet druk is.",
     "insufficient_funds_notice": "Onvoldoende saldo voor deze transactie. Voeg alsjeblieft fondsen toe.",
@@ -462,5 +461,6 @@
     "store_in_x": "Bewaar in {0}",
     "your_email_address": "Uw e-mailadres",
     "invalid_email": "Voer een geldig e-mailadres in (bijv. naam@voorbeeld.com)",
-    "email": "E-mail"
+    "email": "E-mail",
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "Koop van {0}, {1}, {2}, {3}, {4}, {5} of {6} beurzen en stort zkEVM MXC direct naar de Moonchain-portemonnee"
 }

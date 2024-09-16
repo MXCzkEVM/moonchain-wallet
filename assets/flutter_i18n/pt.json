@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "A conta que você está tentando importar é uma duplicata.",
     "unable_to_launch_email_app": "Incapaz de iniciar o aplicativo de email",
     "max_fee": "Taxa Máxima",
-    "deposit_from_exchanges_notice": "Compre de {0}, {1} bolsas e deposite zkEVM MXC diretamente na carteira Moonchain",
     "deposit_with_l3_bridge_notice": "Compre de outras bolsas e use {0} para depositar ERC20 MXC na carteira Moonchain",
     "buy_some_x_for_fee_notice": "Compre algum {0} para pagar a taxa de gás para a transação, normalmente menos de 2 USD quando a rede não está ocupada.",
     "insufficient_funds_notice": "Saldo insuficiente para esta transação. Por favor, adicione fundos.",
@@ -462,5 +461,6 @@
     "store_in_x": "Armazenar em {0}",
     "your_email_address": "Seu Endereço de Email",
     "invalid_email": "Por favor, insira um endereço de e-mail válido (por exemplo, {name@example.com})",
-    "email": "E-mail"
+    "email": "E-mail",
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "Compre de {0}, {1}, {2}, {3}, {4}, {5} ou {6} exchanges e deposite zkEVM MXC diretamente na carteira Moonchain"
 }

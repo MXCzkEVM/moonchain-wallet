@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "Tài khoản bạn đang cố gắng nhập vào là một bản sao.",
     "unable_to_launch_email_app": "Không thể khởi chạy ứng dụng email",
     "max_fee": "Phí Tối Đa",
-    "deposit_from_exchanges_notice": "Mua từ {0}, {1} sàn giao dịch và nạp zkEVM MXC trực tiếp vào ví Moonchain",
     "deposit_with_l3_bridge_notice": "Mua từ các sàn giao dịch khác và sử dụng {0} để nạp MXC ERC20 vào ví Moonchain",
     "buy_some_x_for_fee_notice": "Mua một số {0} để trả phí gas cho giao dịch, thường ít hơn 2 USD khi mạng không bận rộn",
     "insufficient_funds_notice": "Số dư không đủ cho giao dịch này. Vui lòng nạp thêm tiền.",
@@ -462,5 +461,6 @@
     "store_in_x": "Lưu trữ trong {0}",
     "your_email_address": "Địa chỉ Email của bạn",
     "invalid_email": "Vui lòng nhập một địa chỉ email hợp lệ (ví dụ: name@example.com)",
-    "email": "Email"
+    "email": "Email",
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "Mua từ {0}, {1}, {2}, {3}, {4}, {5} hoặc {6} sàn giao dịch và gửi zkEVM MXC trực tiếp vào ví Moonchain"
 }
