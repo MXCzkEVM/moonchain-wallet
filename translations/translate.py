@@ -52,6 +52,7 @@ def main():
         "ja": "Japanese",
         "ru": "Russian"
     }
+    
     # Read the input JSON file
     with open('../assets/flutter_i18n/en.json', 'r') as file:
         en_data = json.load(file)
@@ -68,15 +69,24 @@ def main():
         # Find keys that are present in en.json but not in the current language file
         new_entries = {key: en_data[key] for key in en_data if key not in lang_data}
 
+        # Find keys that are present in the current language file but not in en.json
+        unused_keys = [key for key in lang_data if key not in en_data]
+
+        # Remove unused keys from lang_data
+        for key in unused_keys:
+            del lang_data[key]
+
         # Translate the new entries
         for key, value in new_entries.items():
             lang_data[key] = translate(value, lang_name)
-            time.sleep(10)  # Pause for a bit between each translation r
+            time.sleep(10)  # Pause for a bit between each translation request
+
+        # Write the updated language data back to the file
         with open(f'../assets/flutter_i18n/{lang_code}.json', 'w') as file:
             json.dump(lang_data, file, ensure_ascii=False, indent=4)
 
         print(f"Translation to {lang_name} complete. Check the '{lang_code}.json' file.")
+        print(f"Added {len(new_entries)} new entries and removed {len(unused_keys)} unused entries.")
 
 if __name__ == '__main__':
     main()
-
