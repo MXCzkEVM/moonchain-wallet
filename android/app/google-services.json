@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "618216834503",
-    "project_id": "axs-app-bd752",
-    "storage_bucket": "axs-app-bd752.appspot.com"
+    "project_number": "810578982053",
+    "project_id": "moonchain-app",
+    "storage_bucket": "moonchain-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:618216834503:android:e27ed7cfc97972273b85e2",
+        "mobilesdk_app_id": "1:810578982053:android:b8d690bcdd5b43d121094c",
         "android_client_info": {
-          "package_name": "com.mxc.axswallet"
+          "package_name": "com.mxc.moonchainWallet"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDce6qQLy9i3_GzwOMAAjlM28k_TSioCMo"
+          "current_key": "AIzaSyCyny8vayQzMxTWnJcK7KIl7GKEwtloC8Q"
         }
       ],
       "services": {
