@@ -101,6 +101,7 @@ class SecuritySettingsPage extends HookConsumerWidget {
           onTap: () => Navigator.of(context).push(
             route(const SplashStoragePage(
               settingsFlow: true,
+              pageTitle: 'export_wallet',
             )),
           ),
         ),
