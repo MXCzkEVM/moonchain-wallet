@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/src/moonchain_wallet_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -87,7 +88,8 @@ class MoonchainWalletFireBase {
   static void incrementBuildTap() async {
     buildTap++;
     if (buildTap == 10) {
-      // FlutterClipboard.copy('');
+      final token = await FirebaseMessaging.instance.getToken();
+      FlutterClipboard.copy(token ?? 'Unable to get token');
       buildTap = 0;
     }
   }

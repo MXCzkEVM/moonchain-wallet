@@ -4,6 +4,16 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+/// Default [FirebaseOptions] for use with your Firebase apps.
+///
+/// Example:
+/// ```dart
+/// import 'firebase_options.dart';
+/// // ...
+/// await Firebase.initializeApp(
+///   options: DefaultFirebaseOptions.currentPlatform,
+/// );
+/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -40,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDce6qQLy9i3_GzwOMAAjlM28k_TSioCMo',
-    appId: '1:618216834503:android:e27ed7cfc97972273b85e2',
-    messagingSenderId: '618216834503',
-    projectId: 'axs-app-bd752',
-    storageBucket: 'axs-app-bd752.appspot.com',
+    apiKey: 'AIzaSyCyny8vayQzMxTWnJcK7KIl7GKEwtloC8Q',
+    appId: '1:810578982053:android:b8d690bcdd5b43d121094c',
+    messagingSenderId: '810578982053',
+    projectId: 'moonchain-app',
+    storageBucket: 'moonchain-app.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDWprDBrCttNp51Vck8_02GEciFk_dWg_c',
-    appId: '1:618216834503:ios:832dbca085022b983b85e2',
-    messagingSenderId: '618216834503',
-    projectId: 'axs-app-bd752',
-    storageBucket: 'axs-app-bd752.appspot.com',
-    iosBundleId: 'com.mxc.axswallet',
+    apiKey: 'AIzaSyBY-VWbgxaPfGC0WnkSga4zWEFpSs0ybZU',
+    appId: '1:810578982053:ios:9300aee40b29cce621094c',
+    messagingSenderId: '810578982053',
+    projectId: 'moonchain-app',
+    storageBucket: 'moonchain-app.appspot.com',
+    iosBundleId: 'com.mxc.moonchainWallet',
   );
 }
