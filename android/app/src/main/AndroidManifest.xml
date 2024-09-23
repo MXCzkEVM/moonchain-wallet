@@ -92,6 +92,16 @@
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/pdf" />
             </intent-filter>
+
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
+
+            <!-- App Link sample -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="www.mxc1usd.com" android:pathPrefix="/app" />
+            </intent-filter>
         </activity>
 
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true">
