@@ -16,3 +16,5 @@ export 'src/cache/base_cache.dart';
 export 'src/moonchain_wallet_notification.dart';
 export 'src/firebase/moonchain_wallet_firebase.dart';
 export 'src/background_process/background_process.dart';
+export 'src/app_links/app_links.dart';
+
