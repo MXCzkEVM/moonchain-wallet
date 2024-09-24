@@ -106,7 +106,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
       final l3BridgeUri = Urls.networkL3Bridge(chainId);
       Navigator.of(context!).push(route.featureDialog(
         maintainState: false,
-        OpenAppPage(
+        OpenDAppPage(
           url: l3BridgeUri,
         ),
       ));

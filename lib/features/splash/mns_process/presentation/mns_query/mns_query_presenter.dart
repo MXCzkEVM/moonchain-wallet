@@ -89,7 +89,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
                 final l3BridgeUri = Urls.networkL3Bridge(chainId);
                 Navigator.of(context!).push(route.featureDialog(
                   maintainState: false,
-                  OpenAppPage(
+                  OpenDAppPage(
                     url: l3BridgeUri,
                   ),
                 ));
@@ -116,7 +116,7 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
         ? Urls.mainnetMns(name)
         : Urls.testnetMns(name);
     await navigator
-        ?.push(route.featureDialog(OpenAppPage(url: launchUrl)))
+        ?.push(route.featureDialog(OpenDAppPage(url: launchUrl)))
         .then((_) {
       navigator?.replaceAll(route(const DAppsPage()));
     });

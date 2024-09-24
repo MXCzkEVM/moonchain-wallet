@@ -13,7 +13,7 @@ Future<void> openAppPage(
       .push(
         route.featureDialog(
           maintainState: false,
-          OpenAppPage(url: url),
+          OpenDAppPage(url: url),
         ),
       )
       .then((value) => refreshApp());

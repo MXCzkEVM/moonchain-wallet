@@ -11,8 +11,8 @@ import 'open_dapp_presenter.dart';
 import 'widgets/bridge_params.dart';
 import 'widgets/allow_multiple_gestures.dart';
 
-class OpenAppPage extends HookConsumerWidget {
-  const OpenAppPage({Key? key, required this.url}) : super(key: key);
+class OpenDAppPage extends HookConsumerWidget {
+  const OpenDAppPage({Key? key, required this.url}) : super(key: key);
 
   final String url;
 
