@@ -8,21 +8,21 @@ import 'package:moonchain_wallet/features/wallet/wallet.dart';
 class AppLinksRouter {
   AppLinksRouter(this.navigator);
 
-  NavigatorState navigator;
+  NavigatorState? navigator;
 
   // TODO:
-  // Remove www from links
+  // CHeck login 
   // What if already in that page
   // Check to push and replace or only push
   // Link : https://www.mxc1usd.com/app/
   // Routes : dapps - wallet - portfolio (wallet sub page) - openDapp - sendCrypto -
   //
 
-  dynamic Function()? openLink(Uri uri) {
+  Widget openLink(Uri uri) {
     final page = getPage(uri);
     final params = getParams(uri);
 
-    return navigateTo(page, params);
+    return getPageWithParams(page, params);
   }
 
   String getPage(Uri uri) => uri.pathSegments[1];
@@ -30,21 +30,21 @@ class AppLinksRouter {
   Map<String, List<String>>? getParams(Uri uri) =>
       uri.hasQuery ? uri.queryParametersAll : null;
 
-  Future pushTo(Widget page) => navigator.push(route(page));
-  Future pushAndReplaceUntil(Widget page) => navigator.pushAndRemoveUntil(
+  Future pushTo(Widget page) => navigator!.push(route(page));
+  Future pushAndReplaceUntil(Widget page) => navigator!.pushAndRemoveUntil(
         route(page),
         (route) => false,
       );
 
-  dynamic Function()? navigateTo(String page, Map<String, List<String>>? params) {
+  Widget getPageWithParams(String page, Map<String, List<String>>? params) {
     // Avoid navigating to a page that is already up
-    bool inPassCodeRequirePage = false;
-    final currentRoute = navigator.currentRoute.settings.name;
-    if ('PasscodeRequirePage' == currentRoute) {
-      inPassCodeRequirePage = true;
+    // bool inPassCodeRequirePage = false;
+    // final currentRoute = navigator.currentRoute.settings.name;
+    // if ('PasscodeRequirePage' == currentRoute) {
+    //   inPassCodeRequirePage = true;
       // We need to manipulate the widget tree
       // Can be app start or later
-    }
+    // }
     // How to handle this PasscodeRequirePage
     // if (page.toLowerCase() ==
     //     currentRoute?.toLowerCase().replaceFirst('page', '')) {
@@ -73,6 +73,10 @@ class AppLinksRouter {
         toPushPage = const DAppsPage();
     }
 
+    return toPushPage;
+  }
+
+  void navigateTo(Widget toPushPage){
     late Function() navigationFunc;
 
     if (toPushPage.runtimeType == OpenDAppPage) {
@@ -90,10 +94,6 @@ class AppLinksRouter {
       };
     }
 
-    if (inPassCodeRequirePage) {
-      return navigationFunc;
-    } else {
-      navigationFunc();
-    }
+    navigationFunc();
   }
 }

@@ -7,24 +7,17 @@ class MoonchainAppLinks {
   StreamSubscription<Uri>? linkSubscription;
   
 
-  Future<void> initAppLinks() async {
+  Future<Uri?> initAppLinks() async {
     _appLinks = AppLinks();
 
     // Check initial link if app was in cold state (terminated)
     final appLink = await _appLinks.getInitialAppLink();
-    if (appLink != null) {
-      print('getInitialAppLink: $appLink');
-      openAppLink(appLink);
-    }
 
     // Handle link when app is in warm state (front or background)
     linkSubscription = _appLinks.uriLinkStream.listen((event) { });
+    return appLink;
   }
 
-  void openAppLink(Uri uri, ) {
-    print('Trying to launch $uri');
-    // navigatorKey.currentState?.pushNamed(uri.fragment);
-  }
 
   void cancelAppLinks() {
     linkSubscription?.cancel();
