@@ -55,7 +55,7 @@ jobs:
           packageName: com.mxc.moonchain
           releaseFiles: build/app/outputs/flutter-apk/moonchain.apk
           track: production
-          status: inProgress
+          status: draft
 
   build-macos:
     name: Build-ios
