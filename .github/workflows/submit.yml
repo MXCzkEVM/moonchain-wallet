@@ -121,6 +121,6 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.mxc.moonchain
-          releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
+          releaseFiles: combined-builds/android/moonchain.aab
           track: qa
           status: draft
