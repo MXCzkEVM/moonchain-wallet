@@ -113,6 +113,7 @@ jobs:
           artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa"
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
+          name: "Nightly-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
 
           
       - name: Upload APK to Waldo
