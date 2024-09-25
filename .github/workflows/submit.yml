@@ -1,9 +1,9 @@
-name: Build and distribute
+name: Submit to Google and Apple
 
 on:
   push:
     branches:
-      - pre_main_qa
+      - submit
 
 jobs:
   build-apk:
@@ -48,7 +48,14 @@ jobs:
           r2-bucket: ${{ secrets.R2_BUCKET }}
           source-dir: build/app/outputs/flutter-apk
           destination-dir: app
-
+          
+      - uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ SERVICE_ACCOUNT_JSON }}
+          packageName: com.mxc.moonchain
+          releaseFiles: build/app/outputs/flutter-apk/moonchain.apk
+          track: production
+          status: inProgress
 
   build-macos:
     name: Build-ios
@@ -74,6 +81,14 @@ jobs:
           name: release-ipa
           # Try running the build locally with the build command to be sure of this path
           path: build/ios/ipa/*.ipa
+
+      - name: "Upload app to TestFlight"
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: "build/ios/ipa/moonchain.ipa"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
 
   upload-combined:
     name: Combine and Upload Builds
@@ -113,6 +128,7 @@ jobs:
           artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa"
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
+          name: "Release-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
 
           
       - name: Upload APK to Waldo
