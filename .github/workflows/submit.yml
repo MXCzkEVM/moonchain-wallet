@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-apk:
-    name: Build-apk
+    name: Build-aab
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code with submodules
@@ -31,14 +31,14 @@ jobs:
           working-directory: ./
 
       - name: Rename APK
-        run: mv build/app/outputs/flutter-apk/*.aab build/app/outputs/flutter-apk/moonchain.aab
+        run: mv build/app/outputs/bundle/googlePlayRelease/app-googlePlay-release.aab build/app/outputs/bundle/googlePlayRelease/moonchain.aab
           
       - name: Archive APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           # Try running the build locally with the build command to be sure of this path
-          path: build/app/outputs/flutter-apk/moonchain.aab
+          path: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
 
           
 
@@ -111,7 +111,7 @@ jobs:
         
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa"
+          artifacts: "combined-builds/android/*.aab,combined-builds/iOS/*.ipa"
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
           name: "Release-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
@@ -121,6 +121,6 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.mxc.moonchain
-          releaseFiles: build/app/outputs/flutter-apk/moonchain.aab
+          releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
           track: qa
           status: draft
