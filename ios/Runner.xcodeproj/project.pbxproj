@@ -377,7 +377,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mxc.moonchainWallet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mxc.moonchain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "MoonchainWalletProvisioningProfile";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MoonchainWalletProvisioningProfile;
@@ -516,7 +516,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mxc.moonchainWallet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mxc.moonchain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MoonchainWalletProvisioningProfile;
@@ -547,7 +547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mxc.moonchainWallet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mxc.moonchain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MoonchainWalletProvisioningProfile;

@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '810578982053',
     projectId: 'moonchain-app',
     storageBucket: 'moonchain-app.appspot.com',
-    iosBundleId: 'com.mxc.moonchainWallet',
+    iosBundleId: 'com.mxc.moonchain',
   );
 }
