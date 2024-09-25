@@ -3,7 +3,7 @@ name: Submit to Google and Apple
 on:
   push:
     branches:
-      - submit
+      - main
 
 jobs:
   build-apk:
