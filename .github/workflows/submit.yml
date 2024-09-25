@@ -27,35 +27,21 @@ jobs:
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
-          build-cmd: flutter build apk --flavor product --release --build-number=${{ env.VERSION_CODE }}
+          build-cmd: flutter build appbundle --flavor googlePlay --release --build-number=${{ env.VERSION_CODE }}
           working-directory: ./
 
       - name: Rename APK
-        run: mv build/app/outputs/flutter-apk/app-product-release.apk build/app/outputs/flutter-apk/moonchain.apk
+        run: mv build/app/outputs/flutter-apk/*.aab build/app/outputs/flutter-apk/moonchain.aab
           
       - name: Archive APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           # Try running the build locally with the build command to be sure of this path
-          path: build/app/outputs/flutter-apk/moonchain.apk
+          path: build/app/outputs/flutter-apk/moonchain.aab
 
-      - uses: ryand56/r2-upload-action@latest
-        with:
-          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
-          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
-          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          r2-bucket: ${{ secrets.R2_BUCKET }}
-          source-dir: build/app/outputs/flutter-apk
-          destination-dir: app
           
-      - uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.mxc.moonchain
-          releaseFiles: build/app/outputs/flutter-apk/moonchain.apk
-          track: production
-          status: draft
+
 
   build-macos:
     name: Build-ios
@@ -131,31 +117,10 @@ jobs:
           name: "Release-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
 
           
-      - name: Upload APK to Waldo
-        uses: waldoapp/gh-action-upload@v2
+      - uses: r0adkll/upload-google-play@v1
         with:
-          build_path: combined-builds/android/moonchain.apk
-          upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
-
-  build-waldo:
-    name: Build-waldo
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code with submodules
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - uses: sheenhx/action-flutter-build-ios@v1
-        with:
-          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
-          build-cmd: flutter build ios --simulator
-          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
-          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
-          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
-          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
-      - name: Upload IPA to Waldo
-        uses: waldoapp/gh-action-upload@v2
-        with:
-          build_path: build/ios/iphonesimulator/Runner.app
-          upload_token: ${{ secrets.WALDO_SESSIONS_IOS }}
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.mxc.moonchain
+          releaseFiles: build/app/outputs/flutter-apk/moonchain.aab
+          track: qa
+          status: draft
