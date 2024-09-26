@@ -120,7 +120,7 @@ jobs:
       - uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.mxc.moonchain
+          packageName: com.moonchain.mxc
           releaseFiles: combined-builds/android/moonchain.aab
           track: alpha
           status: draft

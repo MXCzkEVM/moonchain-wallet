@@ -22,12 +22,13 @@ class AppVersionUseCase {
   Future<bool> checkAppVersionCode() async {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String currrentVersion = packageInfo.version;
+      String currentVersion = packageInfo.version; // Use version instead of buildNumber
 
       final result = await repository.appVersionRepository.checkLatestVersion(
-        currrentVersion,
+        currentVersion,
       );
 
+      print('Update available: $result');
       return result;
     } catch (e) {
       debugPrint('checkAppVersionCode: $e');
