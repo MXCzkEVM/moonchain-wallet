@@ -17,7 +17,7 @@ class AppVersionUseCase {
   static const apkName = 'app-release.apk';
   static const smallIcon = 'ic_launcher';
   static const downloadLink =
-      'https://datadash.oss-accelerate.aliyuncs.com/axs-wallet.apk';
+      'https://app.xbmxc.com/app/moonchain.apk';
 
   Future<bool> checkAppVersionCode() async {
     try {
