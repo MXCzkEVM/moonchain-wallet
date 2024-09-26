@@ -17,7 +17,7 @@ class AppLinksRouter {
   // Link : https://www.mxc1usd.com/app/
   // Routes : dapps - wallet - portfolio (wallet sub page) - openDapp - sendCrypto -
   //
-
+    // https://www.mxc1usd.com/app/openDapp?url=https://github.com/reasje
   Widget openLink(Uri uri) {
     final page = getPage(uri);
     final params = getParams(uri);
@@ -25,32 +25,25 @@ class AppLinksRouter {
     return getPageWithParams(page, params);
   }
 
+  // Get page from uri 
   String getPage(Uri uri) => uri.pathSegments[1];
 
+  // Get params 
+  // Note: https://mxc1usd.com/app/openDapp?url=https://testnet.blueberryring.com?invite=p8M6E7b02l has the
+  // https://testnet.blueberryring.com?invite=p8M6E7b02l as List of params in the first index 
   Map<String, List<String>>? getParams(Uri uri) =>
       uri.hasQuery ? uri.queryParametersAll : null;
 
+  // Push to stack 
   Future pushTo(Widget page) => navigator!.push(route(page));
+  // Remove stacks until that page 
   Future pushAndReplaceUntil(Widget page) => navigator!.pushAndRemoveUntil(
         route(page),
         (route) => false,
       );
 
+  // Combine page with It's params 
   Widget getPageWithParams(String page, Map<String, List<String>>? params) {
-    // Avoid navigating to a page that is already up
-    // bool inPassCodeRequirePage = false;
-    // final currentRoute = navigator.currentRoute.settings.name;
-    // if ('PasscodeRequirePage' == currentRoute) {
-    //   inPassCodeRequirePage = true;
-      // We need to manipulate the widget tree
-      // Can be app start or later
-    // }
-    // How to handle this PasscodeRequirePage
-    // if (page.toLowerCase() ==
-    //     currentRoute?.toLowerCase().replaceFirst('page', '')) {
-    //   collectLog('Trying to navigate to $page, But already in that page!');
-    //   return;
-    // }
     late Widget toPushPage;
 
     switch ('/$page') {
@@ -61,7 +54,8 @@ class AppLinksRouter {
         toPushPage = const DAppsPage();
         break;
       case '/openDapp':
-        toPushPage = const DAppsPage();
+        final url = params!['url']![0];
+        toPushPage = OpenDAppPage(url: url,);
         break;
       case '/wallet':
         toPushPage = const WalletPage();
@@ -76,6 +70,8 @@ class AppLinksRouter {
     return toPushPage;
   }
 
+  /// This function will do the navigation according to the page widget that
+  /// includes the params based on how page specific navigation instruction.
   void navigateTo(Widget toPushPage){
     late Function() navigationFunc;
 
