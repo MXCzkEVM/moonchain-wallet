@@ -10,6 +10,8 @@
 		<string>com.mxc.moonchainWallet.minerAutoClaimTask</string>
 		<string>com.mxc.moonchainWallet.blueberryAutoSyncTask</string>
 	</array>
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
