@@ -27,7 +27,7 @@ jobs:
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
-          build-cmd: flutter build appbundle --flavor googlePlay --release --build-number=${{ env.VERSION_CODE }}
+          build-cmd: flutter build appbundle --flavor googlePlay --release --build-number=${{ env.VERSION_CODE }} --obfuscate --split-debug-info=debug-info/
           working-directory: ./
 
       - name: Rename APK
@@ -48,3 +48,4 @@ jobs:
           releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
           track: alpha
           status: draft
+          debugSymbols: build/app/intermediates/merged_native_libs/release/out/lib
