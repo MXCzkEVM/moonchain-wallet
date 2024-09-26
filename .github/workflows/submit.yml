@@ -69,7 +69,7 @@ jobs:
           path: build/ios/ipa/*.ipa
 
       - name: "Upload app to TestFlight"
-        uses: apple-actions/upload-testflight-build@v1
+        uses: henrik1/upload-testflight@v2
         with:
           app-path: "build/ios/ipa/moonchain.ipa"
           issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
