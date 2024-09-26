@@ -25,8 +25,6 @@ class AppVersionUseCase {
       String currrentVersion = packageInfo.buildNumber;
 
       final result = await repository.appVersionRepository.checkLatestVersion(
-        Sys.appSecretAndroid!,
-        Sys.distributionGroupIdAndroid!,
         currrentVersion,
       );
 
