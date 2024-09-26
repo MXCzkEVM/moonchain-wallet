@@ -71,7 +71,7 @@ class NFTList extends HookConsumerWidget {
                   if (launchUrl != null) {
                     Navigator.of(context).push(route.featureDialog(
                       maintainState: false,
-                      OpenAppPage(
+                      OpenDAppPage(
                         url: launchUrl,
                       ),
                     ));

@@ -1,10 +1,10 @@
 import 'package:moonchain_wallet/core/core.dart';
 
 final appContainer =
-    PresenterContainer<SettingsPresenter, void>(() => SettingsPresenter());
+    PresenterContainer<AppPresenter, void>(() => AppPresenter());
 
-class SettingsPresenter extends CompletePresenter {
-  SettingsPresenter() : super(null);
+class AppPresenter extends CompletePresenter {
+  AppPresenter() : super(null);
 
   @override
   void initState() {

@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:ui';
-
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:moonchain_wallet/core/core.dart';
@@ -21,6 +21,10 @@ class AppThemePresenter extends Presenter<AppThemeState>
 
   @override
   void initState() {
+
+    // Init app links NOTE that It will be alive for app life cycle 
+    ref.read(appLinksUseCaseProvider);
+
     super.initState();
     state.darkMode = _darkThemeShouldBeShown();
     listen<ThemeOption>(_themeUseCase.currentTheme, (_) => refreshTheme());
