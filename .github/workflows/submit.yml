@@ -48,4 +48,3 @@ jobs:
           releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
           track: alpha
           status: draft
-          debugSymbols: build/app/outputs/symbols
