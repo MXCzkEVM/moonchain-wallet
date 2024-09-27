@@ -30,21 +30,18 @@ jobs:
           build-cmd: flutter build appbundle --release --build-number=${{ env.VERSION_CODE }} --flavor googlePlay
           working-directory: ./
 
-      - name: Rename APK
+      - name: Rename aab
         run: mv build/app/outputs/bundle/googlePlayRelease/app-googlePlay-release.aab build/app/outputs/bundle/googlePlayRelease/moonchain.aab
-          
+        
+      - name: Zip debug symbols
+        run: cd build/app/intermediates/flutter/googlePlayRelease && zip -r native-debug-symbols.zip arm64-v8a armeabi-v7a x86_64
+
       - name: Archive APK
         uses: actions/upload-artifact@v4
         with:
-          name: release-apk
+          name: release-aab
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
-
-      - name: Archive symbols
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-symbol
-          path: build/app/intermediates
 
           
       - uses: r0adkll/upload-google-play@v1
@@ -54,4 +51,4 @@ jobs:
           releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
           track: alpha
           status: draft
-          debugSymbols: build/app/intermediates
+          debugSymbols: build/app/intermediates/flutter/googlePlayRelease/native-debug-symbols.zip
