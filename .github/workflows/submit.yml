@@ -27,7 +27,7 @@ jobs:
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
-          build-cmd: flutter build appbundle --flavor googlePlay --obfuscate --build-number=${{ env.VERSION_CODE }} --split-debug-info=build/app/outputs/symbols --verbose
+          build-cmd: flutter build appbundle --flavor googlePlay --release --obfuscate --build-number=${{ env.VERSION_CODE }} --split-debug-info=build/app/outputs/symbols --verbose
           working-directory: ./
 
       - name: Rename APK
