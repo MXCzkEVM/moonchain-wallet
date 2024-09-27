@@ -84,6 +84,9 @@ android {
             // Specify ProGuard rules files
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
         }
         debug {
             signingConfig signingConfigs.debug
