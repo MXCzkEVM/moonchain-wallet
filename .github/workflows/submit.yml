@@ -40,6 +40,12 @@ jobs:
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
 
+      - name: Archive symbols
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-symbol
+          path: build/app/outputs/symbols
+
           
       - uses: r0adkll/upload-google-play@v1
         with:
