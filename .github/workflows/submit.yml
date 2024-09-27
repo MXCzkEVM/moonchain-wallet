@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-symbol
-          path: build/app/outputs/symbols
+          path: build/app/intermediates/merged_native_libs/release/out/lib
 
           
       - uses: r0adkll/upload-google-play@v1
@@ -54,4 +54,4 @@ jobs:
           releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
           track: alpha
           status: draft
-          debugSymbols: build/app/outputs/symbols
+          debugSymbols: build/app/intermediates/merged_native_libs/release/out/lib
