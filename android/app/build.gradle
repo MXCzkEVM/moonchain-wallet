@@ -39,6 +39,10 @@ android {
     buildToolsVersion "33.0.1"
     ndkVersion flutter.ndkVersion
 
+    ndk {
+        debugSymbolLevel 'SYMBOL_TABLE'
+    }
+
     lintOptions {
         disable 'InvalidPackage'
         checkReleaseBuilds false
@@ -84,9 +88,6 @@ android {
             // Specify ProGuard rules files
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            ndk {
-                debugSymbolLevel 'FULL'
-            }
         }
         debug {
             signingConfig signingConfigs.debug
@@ -97,7 +98,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
-        ndk.debugSymbolLevel 'FULL'
     }
 
     kotlinOptions {
