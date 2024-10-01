@@ -42,13 +42,23 @@ class MoonchainAppLinksUseCase extends ReactiveUseCase {
 
     _moonchainAppLinks.initAppLinks().then((value) {
       if (value != null) {
-        toNavigateWidget = _appLinksRouter.openLink(value);
+        isLoggedInWrapper(() {
+          toNavigateWidget = _appLinksRouter.openLink(value);
+        });
       }
       _moonchainAppLinks.linkSubscription!.onData((data) {
-        toNavigateWidget = _appLinksRouter.openLink(data);
-        checkNavigationFunction();
+        isLoggedInWrapper(() {
+          toNavigateWidget = _appLinksRouter.openLink(data);
+          checkNavigationFunction();
+        });
       });
     });
+  }
+
+  void isLoggedInWrapper(Function function) {
+    if (_authUseCase.loggedIn) {
+      function();
+    }
   }
 
   void checkNavigationFunction() {
