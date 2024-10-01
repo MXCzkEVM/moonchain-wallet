@@ -3,7 +3,7 @@ name: Submit to Google and Apple
 on:
   push:
     branches:
-      - main
+      - google
 
 jobs:
   build-apk:
@@ -27,21 +27,30 @@ jobs:
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
-          build-cmd: flutter build appbundle --flavor googlePlay --release --build-number=${{ env.VERSION_CODE }}
+          build-cmd: flutter build appbundle --release --build-number=${{ env.VERSION_CODE }} --flavor googlePlay
           working-directory: ./
 
-      - name: Rename APK
+      - name: Rename aab
         run: mv build/app/outputs/bundle/googlePlayRelease/app-googlePlay-release.aab build/app/outputs/bundle/googlePlayRelease/moonchain.aab
-          
+        
+      - name: Zip debug symbols
+        run: cd build/app/intermediates/flutter/googlePlayRelease && zip -r native-debug-symbols.zip arm64-v8a armeabi-v7a x86_64
+
       - name: Archive APK
         uses: actions/upload-artifact@v4
         with:
-          name: release-apk
+          name: release-aab
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
-
           
-
+      - uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.moonchain.mxc
+          releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
+          track: alpha
+          status: draft
+          debugSymbols: build/app/intermediates/flutter/googlePlayRelease/native-debug-symbols.zip
 
   build-macos:
     name: Build-ios
@@ -84,7 +93,7 @@ jobs:
       - name: Download Ubuntu artifact
         uses: actions/download-artifact@v4
         with:
-          name: release-apk
+          name: release-aab
           path: combined-builds/android
 
       - name: Download macOS artifact
@@ -104,11 +113,11 @@ jobs:
         uses: AcmeSoftwareLLC/app-build-number@v1
         with:
           timezone: Asia/Kathmandu
-    
+
       - name: Display the generated build number
         run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
 
-        
+
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "combined-builds/android/*.aab,combined-builds/iOS/*.ipa"
@@ -116,11 +125,3 @@ jobs:
           tag: ${{ steps.generate.outputs.build-number }}
           name: "Release-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
 
-          
-      - uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.moonchain.mxc
-          releaseFiles: combined-builds/android/moonchain.aab
-          track: alpha
-          status: draft
