@@ -84,7 +84,7 @@ jobs:
       - name: Download Ubuntu artifact
         uses: actions/download-artifact@v4
         with:
-          name: release-apk
+          name: release-aab
           path: combined-builds/android
 
       - name: Download macOS artifact
