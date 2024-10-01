@@ -27,7 +27,7 @@ jobs:
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
-          build-cmd: flutter build appbundle --release --build-number=${{ env.VERSION_CODE }} --flavor googlePlay --obfuscate
+          build-cmd: flutter build appbundle --release --build-number=${{ env.VERSION_CODE }} --flavor googlePlay
           working-directory: ./
 
       - name: Rename aab
