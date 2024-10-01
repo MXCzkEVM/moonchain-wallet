@@ -8,6 +8,7 @@ import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:intl/intl.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -21,9 +22,9 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
   final AppinioSocialShare _socialShare = AppinioSocialShare();
-  final _mnemonicTitle = 'AXS Wallet Mnemonic Key';
+  final _mnemonicTitle = 'Moonchain Wallet Mnemonic Key';
   final _mnemonicFileName =
-      '${DateFormat('y-M-d').format(DateTime.now())}-axs-key.txt';
+      Assets.seedPhaseFileName;
 
   void changeAcceptAggreement() =>
       notify(() => state.acceptAgreement = !state.acceptAgreement);
