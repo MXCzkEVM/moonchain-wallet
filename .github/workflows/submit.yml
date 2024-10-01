@@ -42,6 +42,15 @@ jobs:
           name: release-aab
           # Try running the build locally with the build command to be sure of this path
           path: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
+          
+      - uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.moonchain.mxc
+          releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
+          track: alpha
+          status: draft
+          debugSymbols: build/app/intermediates/flutter/googlePlayRelease/native-debug-symbols.zip
 
   build-macos:
     name: Build-ios
@@ -115,12 +124,4 @@ jobs:
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
           name: "Release-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
-          
-      - uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.moonchain.mxc
-          releaseFiles: build/app/outputs/bundle/googlePlayRelease/moonchain.aab
-          track: alpha
-          status: draft
-          debugSymbols: build/app/intermediates/flutter/googlePlayRelease/native-debug-symbols.zip
+
