@@ -17,7 +17,7 @@ class AppLinksRouter {
   // Link : https://www.mxc1usd.com/app/
   // Routes : dapps - wallet - portfolio (wallet sub page) - openDapp - sendCrypto -
   //
-    // https://www.mxc1usd.com/app/openDapp?url=https://github.com/reasje
+  // https://www.mxc1usd.com/app/openDapp?url=https://github.com/reasje
   Widget openLink(Uri uri) {
     final page = getPage(uri);
     final params = getParams(uri);
