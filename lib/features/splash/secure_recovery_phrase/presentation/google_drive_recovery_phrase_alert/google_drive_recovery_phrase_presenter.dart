@@ -11,8 +11,4 @@ class GoogleDriveRecoveryPhrasePresenter
     extends RecoveryPhraseBasePresenter<GoogleDriveRecoveryPhraseState> {
   GoogleDriveRecoveryPhrasePresenter()
       : super(GoogleDriveRecoveryPhraseState());
-
-  void storeAndProceed() {}
-
-  void saveToGoogleDrive() {}
 }

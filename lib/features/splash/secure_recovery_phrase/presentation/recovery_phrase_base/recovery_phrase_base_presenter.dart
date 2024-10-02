@@ -21,10 +21,11 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+  late final _googleDriveUseCase = ref.read(googleDriveUseCaseProvider);
+
   final AppinioSocialShare _socialShare = AppinioSocialShare();
   final _mnemonicTitle = 'Moonchain Wallet Mnemonic Key';
-  final _mnemonicFileName =
-      Assets.seedPhaseFileName;
+  final _mnemonicFileName = Assets.seedPhaseFileName;
 
   void changeAcceptAggreement() =>
       notify(() => state.acceptAgreement = !state.acceptAgreement);
@@ -40,9 +41,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   Future<Map> generateMnemonicFile(bool settingsFlow) async {
-    final phrases = settingsFlow
-        ? _accountUseCase.getMnemonic()!
-        : _authUseCase.generateMnemonic();
+    final phrases = getMnemonic(settingsFlow);
     final filePath = await writeToFile(phrases);
 
     return {
@@ -143,10 +142,35 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   void saveLocally(bool settingsFlow) async {
-    final mnemonic = settingsFlow
-        ? _accountUseCase.getMnemonic()!
-        : _authUseCase.generateMnemonic();
+    final mnemonic = getMnemonic(settingsFlow);
+
     await _authUseCase.saveMnemonicLocally(mnemonic);
     nextProcess(settingsFlow, mnemonic);
   }
+
+  void saveToGoogleDrive(bool settingsFlow) async {
+    final mnemonic = getMnemonic(settingsFlow);
+
+    // Trying to pass the auth headers to google drive use case for further api calls
+    final hasGoogleDriveAccess =
+        await _googleDriveUseCase.initGoogleDriveAccess();
+
+    if (!hasGoogleDriveAccess) {
+      addError(translate('unable_to_authenticate_with_x')!
+          .replaceFirst('{0}', translate('google_drive')!));
+    }
+
+    try {
+      await _googleDriveUseCase.uploadBackup(mnemonic);
+      nextProcess(settingsFlow, mnemonic);
+    } catch (e) {
+      addError(e);
+    }
+  }
+
+  void saveToICloud(bool settingsFlow) {}
+
+  String getMnemonic(bool settingsFlow) => settingsFlow
+      ? _accountUseCase.getMnemonic()!
+      : _authUseCase.generateMnemonic();
 }

@@ -80,7 +80,7 @@ class GoogleDriveRecoveryPhrasePage extends RecoveryPhraseBasePage {
             '{0}', FlutterI18n.translate(context, 'google_drive')),
         titleColor: ColorsTheme.of(context).textBlack200,
         titleSize: 18,
-        onTap: () => ref.read(presenter).storeAndProceed(),
+        onTap: () => ref.read(presenter).saveToGoogleDrive(settingsFlow),
         edgeType: MXCWalletButtonEdgeType.hard,
       );
 }
