@@ -10,6 +10,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import 'widgets/buy_nft_button.dart';
+
 class NFTList extends HookConsumerWidget {
   const NFTList({
     super.key,
@@ -39,15 +41,6 @@ class NFTList extends HookConsumerWidget {
                     const SizedBox(
                       height: Sizes.spaceNormal,
                     ),
-                    MxcChipButton(
-                      key: const Key('buyNFT'),
-                      title: FlutterI18n.translate(context, 'buy_x')
-                          .replaceFirst('{0}', 'NFT'),
-                      iconData: Icons.add_rounded,
-                      alignIconStart: true,
-                      onTap: () => presenter.getNfts(),
-                      backgroundColor: ColorsTheme.of(context).darkGray,
-                    ),
                   ],
                 ),
               )
@@ -58,34 +51,14 @@ class NFTList extends HookConsumerWidget {
                 ),
               ),
         const SizedBox(height: 8),
-        if (Platform.isAndroid)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MxcChipButton(
-                key: const Key('buyNFTButton'),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                onTap: () {
-                  final launchUrl = presenter.getNftMarketPlaceUrl();
-                  if (launchUrl != null) {
-                    Navigator.of(context).push(route.featureDialog(
-                      maintainState: false,
-                      OpenDAppPage(
-                        url: launchUrl,
-                      ),
-                    ));
-                  }
-                },
-                title: translate('buy_x').replaceFirst('{0}', 'NFT'),
-                iconData: Icons.add,
-                alignIconStart: true,
-                buttonState: state.buyEnabled
-                    ? ChipButtonStates.defaultState
-                    : ChipButtonStates.disabled,
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BuyNFTButton(
+              presenter: presenter,
+            )
+          ],
+        ),
       ],
     );
   }
