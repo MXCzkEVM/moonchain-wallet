@@ -12,9 +12,11 @@ class SplashStoragePage extends SplashBasePage {
   const SplashStoragePage({
     Key? key,
     this.settingsFlow = false,
+    this.pageTitle,
   }) : super(key: key);
 
   final bool settingsFlow;
+  final String? pageTitle;
 
   @override
   ProviderBase<SplashStoragePresenter> get presenter =>
@@ -26,7 +28,7 @@ class SplashStoragePage extends SplashBasePage {
   @override
   Widget buildAppBar(BuildContext context, WidgetRef ref) {
     return MxcAppBar.splashBack(
-        text: FlutterI18n.translate(context, 'create_wallet'));
+        text: FlutterI18n.translate(context, pageTitle ?? 'create_wallet'));
   }
 
   MXCWalletButtonEdgeType getPageButtonsEdge() => MXCWalletButtonEdgeType.hard;

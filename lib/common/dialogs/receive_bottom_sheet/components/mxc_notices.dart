@@ -6,7 +6,7 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 List<TextSpan> depositFromExchangesNotice(
     BuildContext context, void Function(String) launchUrl) {
-  final text = FlutterI18n.translate(context, 'deposit_from_exchanges_notice');
+  final text = FlutterI18n.translate(context, 'deposit_from_exchanges_to_moonchain_wallet_notice');
   final firstSplit = text.split('{0}');
   final firstPart = firstSplit[0];
 

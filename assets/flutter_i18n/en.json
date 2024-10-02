@@ -307,7 +307,7 @@
 	"remove": "Remove",
 	"duplicate_account_import_notice": "The account you are trying to import is a duplicate",
 	"unable_to_launch_email_app": "Unable to launch email app",
-	"deposit_from_exchanges_notice": "Buy from {0}, {1}, {2}, {3}, {4}, {5} or {6} exchanges and deposit zkEVM MXC directly to Moonchain wallet",
+	"deposit_from_exchanges_to_moonchain_wallet_notice": "Buy from {0}, {1}, {2}, {3}, {4}, {5} or {6} exchanges and deposit zkEVM MXC directly to Moonchain wallet",
 	"deposit_with_l3_bridge_notice": "Buy from other exchanges and use {0} to deposit ERC20 MXC to Moonchain wallet",
 	"buy_some_x_for_fee_notice": "Buy some {0} to pay for gas fee for the transaction, normally less than 2 USD when the network is not busy",
 	"insufficient_funds_notice": "Insufficient balance for this transaction.\n Please add funds.",
@@ -462,6 +462,5 @@
 	"store_in_x": "Store in {0}",
 	"your_email_address": "Your Email Address",
 	"invalid_email": "Please enter a valid email address (e.g., name@example.com)",
-	"email": "Email",
-	"hello": "Hello"
+	"email": "Email"
 }

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" package="com.mxc.moonchainWallet">
+    xmlns:tools="http://schemas.android.com/tools" package="com.moonchain.mxc">
 
     <queries>
         <package android:name="org.telegram.messenger" />
@@ -91,6 +91,16 @@
                 <data android:mimeType="text/*" />
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/pdf" />
+            </intent-filter>
+
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
+
+            <!-- App Link sample -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="mxc1usd.com" android:pathPrefix="/app" />
             </intent-filter>
         </activity>
 

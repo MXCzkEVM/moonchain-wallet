@@ -45,11 +45,11 @@ class Setting {
         icon: MxcIcons.language,
         page: const LanguagePage(),
       ),
-      Setting(
-        title: FlutterI18n.translate(context, 'theme'),
-        icon: MxcIcons.theme,
-        page: const ThemeSettingsPage(),
-      ),
+      // Setting(
+      //   title: FlutterI18n.translate(context, 'theme'),
+      //   icon: MxcIcons.theme,
+      //   page: const ThemeSettingsPage(),
+      // ),
       Setting(
         title: FlutterI18n.translate(context, 'address_book'),
         icon: MxcIcons.address,

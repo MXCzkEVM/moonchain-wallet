@@ -14,13 +14,13 @@
 	<string>manual</string>
   <key>provisioningProfiles</key>
   <dict>
-    <key>com.mxc.moonchainWallet</key>
+    <key>com.moonchain.mxc</key>
     <string>MoonchainWalletProvisioningProfile</string>
   </dict>
 	<key>stripSwiftSymbols</key>
 	<true/>
 	<key>teamID</key>
-	<string>WA3C8L5PJX</string>
+	<string>AABGTMBC5Q</string>
 	<key>testFlightInternalTestingOnly</key>
 	<false/>
 	<key>uploadSymbols</key>

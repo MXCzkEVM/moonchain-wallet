@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/dapps/dapps.dart';
-import 'package:moonchain_wallet/features/dapps/subfeatures/open_dapp/open_dapp.dart';
 import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/choose_nft/choose_nft_page.dart';
 import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/nft_list/nft_list.dart';
 import 'package:moonchain_wallet/features/portfolio/subfeatures/tokens_balance_list/tokens_balance_list.dart';

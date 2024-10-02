@@ -5,10 +5,10 @@
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.transistorsoft.fetch</string>
-		<string>com.mxc.moonchainWallet.notificationsTask</string>
-		<string>com.mxc.moonchainWallet.wifiHooksTask</string>
-		<string>com.mxc.moonchainWallet.minerAutoClaimTask</string>
-		<string>com.mxc.moonchainWallet.blueberryAutoSyncTask</string>
+		<string>com.moonchain.mxc.notificationsTask</string>
+		<string>com.moonchain.mxc.wifiHooksTask</string>
+		<string>com.moonchain.mxc.minerAutoClaimTask</string>
+		<string>com.moonchain.mxc.blueberryAutoSyncTask</string>
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
@@ -68,6 +68,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tg</string>

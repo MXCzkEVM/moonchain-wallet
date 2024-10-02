@@ -56,7 +56,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mxc.moonchainWallet"
+        applicationId "com.moonchain.mxc"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
@@ -84,6 +84,11 @@ android {
             // Specify ProGuard rules files
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE' //<--- this defines what goes to those symbols
+                abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+            }
+
         }
         debug {
             signingConfig signingConfigs.debug

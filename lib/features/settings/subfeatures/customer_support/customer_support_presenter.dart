@@ -29,7 +29,7 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
       final file = await FLog.exportLogs();
       final newFile = await changeFileName(
         file,
-        'axs-wallet.txt',
+        'Moonbase-log.txt',
       );
 
       final Size size = MediaQuery.of(context!).size;

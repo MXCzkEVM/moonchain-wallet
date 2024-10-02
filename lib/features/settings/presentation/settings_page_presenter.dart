@@ -108,9 +108,10 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
   }
 
   void testOnly() async {
-    await blueberryRingBackgroundNotificationsUseCase.checkLowBattery();
-    await blueberryRingBackgroundNotificationsUseCase.checkActivityReminder();
-    await blueberryRingBackgroundNotificationsUseCase.checkSleepInsight();
-    await blueberryRingBackgroundNotificationsUseCase.checkHeartAlert();
+    
+    // await blueberryRingBackgroundNotificationsUseCase.checkLowBattery();
+    // await blueberryRingBackgroundNotificationsUseCase.checkActivityReminder();
+    // await blueberryRingBackgroundNotificationsUseCase.checkSleepInsight();
+    // await blueberryRingBackgroundNotificationsUseCase.checkHeartAlert();
   }
 }

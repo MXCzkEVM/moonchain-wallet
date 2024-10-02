@@ -115,7 +115,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
                   height: Sizes.spaceNormal,
                 ),
                 Text(
-                  FlutterI18n.translate(context, 'in ${snapshot.data ?? 0}'),
+                  '${FlutterI18n.translate(context, 'in')} ${snapshot.data ?? 0}',
                   style: FontTheme.of(context).body2.white(),
                   textAlign: TextAlign.center,
                 )

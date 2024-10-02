@@ -17,17 +17,20 @@ class AppVersionUseCase {
   static const apkName = 'app-release.apk';
   static const smallIcon = 'ic_launcher';
   static const downloadLink =
-      'https://datadash.oss-accelerate.aliyuncs.com/axs-wallet.apk';
+      'https://app.xbmxc.com/app/moonchain.apk';
 
   Future<bool> checkAppVersionCode() async {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String currrentVersion = packageInfo.buildNumber;
+      String currentVersion = packageInfo.version; // Use version instead of buildNumber
 
       final result = await repository.appVersionRepository.checkLatestVersion(
-        currrentVersion,
+
+        currentVersion,
+
       );
 
+      print('Update available: $result');
       return result;
     } catch (e) {
       debugPrint('checkAppVersionCode: $e');
@@ -37,14 +40,27 @@ class AppVersionUseCase {
   }
 
   Future<void> checkLatestVersion() async {
-    if (Platform.isIOS) return;
+    debugPrint('Checking latest version...');
+    if (Platform.isIOS) {
+      debugPrint('Skipping update check for iOS');
+      return;
+    }
 
     final metaData = await AndroidMetadata.metaDataAsMap;
-    if (metaData == null || metaData['CHANNEL'] != 'product') return;
+    debugPrint('Metadata: $metaData');
+    if (metaData == null || metaData['CHANNEL'] != 'product') {
+      debugPrint('Skipping update - not on product channel');
+      return;
+    }
 
     final result = await checkAppVersionCode();
-    if (!result) return;
+    debugPrint('Update available: $result');
+    if (!result) {
+      debugPrint('No update available, exiting');
+      return;
+    }
 
+    debugPrint('Initiating update process...');
     UpdateModel model = UpdateModel(
       downloadLink,
       apkName,
@@ -52,7 +68,11 @@ class AppVersionUseCase {
       Urls.iOSUrl,
     );
 
-    AzhonAppUpdate.update(model)
-        .then((value) => debugPrint('app update progress: $value'));
+    try {
+      final updateResult = await AzhonAppUpdate.update(model);
+      debugPrint('App update progress: $updateResult');
+    } catch (e) {
+      debugPrint('Error during update process: $e');
+    }
   }
 }
