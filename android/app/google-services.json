@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:810578982053:android:b8d690bcdd5b43d121094c",
+        "mobilesdk_app_id": "1:810578982053:android:98b17812d3f86af721094c",
         "android_client_info": {
           "package_name": "com.moonchain.mxc"
         }
@@ -23,7 +23,7 @@
           "other_platform_oauth_client": []
         }
       }
-    }
+    },
   ],
   "configuration_version": "1"
 }

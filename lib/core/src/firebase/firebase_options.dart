@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCyny8vayQzMxTWnJcK7KIl7GKEwtloC8Q',
-    appId: '1:810578982053:android:b8d690bcdd5b43d121094c',
+    appId: '1:810578982053:android:98b17812d3f86af721094c',
     messagingSenderId: '810578982053',
     projectId: 'moonchain-app',
     storageBucket: 'moonchain-app.appspot.com',
@@ -59,7 +59,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBY-VWbgxaPfGC0WnkSga4zWEFpSs0ybZU',
-    appId: '1:810578982053:ios:9300aee40b29cce621094c',
+    appId: '1:810578982053:ios:bc715e679aa91fe221094c',
     messagingSenderId: '810578982053',
     projectId: 'moonchain-app',
     storageBucket: 'moonchain-app.appspot.com',
