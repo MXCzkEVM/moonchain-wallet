@@ -70,6 +70,7 @@ dependencies:
   google_sign_in: ^6.1.5
   h3_flutter: ^0.6.6
   hooks_riverpod: ^1.0.3
+  icloud_storage: ^2.2.0
   jdenticon_dart: ^2.0.0
   local_auth:
     path: packages/local_auth/local_auth
