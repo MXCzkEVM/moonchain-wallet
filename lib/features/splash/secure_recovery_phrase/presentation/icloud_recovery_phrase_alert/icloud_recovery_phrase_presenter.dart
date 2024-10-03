@@ -10,8 +10,4 @@ final iCloudRecoveryPhraseContainer = PresenterContainer<
 class ICloudRecoveryPhrasePresenter
     extends RecoveryPhraseBasePresenter<ICloudRecoveryPhraseState> {
   ICloudRecoveryPhrasePresenter() : super(ICloudRecoveryPhraseState());
-
-  void storeAndProceed() {}
-
-  void saveToGoogleDrive() {}
 }

@@ -462,5 +462,7 @@
 	"store_in_x": "Store in {0}",
 	"your_email_address": "Your Email Address",
 	"invalid_email": "Please enter a valid email address (e.g., name@example.com)",
-	"email": "Email"
+	"email": "Email",
+	"unable_to_authenticate_with_x": "Unable to authenticate with {0}.",
+	"unable_to_upload_backup_to_x": "Unable to upload backup to {0}."
 }

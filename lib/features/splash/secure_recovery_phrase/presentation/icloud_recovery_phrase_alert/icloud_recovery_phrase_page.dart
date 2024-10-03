@@ -79,7 +79,7 @@ class ICloudRecoveryPhrasePage extends RecoveryPhraseBasePage {
             .replaceFirst('{0}', FlutterI18n.translate(context, 'icloud')),
         titleColor: ColorsTheme.of(context).textBlack200,
         titleSize: 18,
-        onTap: () => ref.read(presenter).storeAndProceed(),
+        onTap: () => ref.read(presenter).saveToICloud(settingsFlow),
         edgeType: MXCWalletButtonEdgeType.hard,
       );
 }

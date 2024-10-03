@@ -244,7 +244,6 @@ final Provider<MoonchainAppLinksUseCase> appLinksUseCaseProvider = Provider(
   ),
 );
 
-
 final Provider<MXCTransactionsUseCase> mxcTransactionsUseCaseProvider =
     Provider(
   (ref) => MXCTransactionsUseCase(
@@ -274,6 +273,18 @@ final Provider<BluetoothUseCase> bluetoothUseCaseProvider = Provider(
     ref.watch(web3RepositoryProvider),
     ref.watch(chainConfigurationUseCaseProvider),
     ref.watch(authUseCaseProvider),
+  ),
+);
+
+final Provider<GoogleDriveUseCase> googleDriveUseCaseProvider = Provider(
+  (ref) => GoogleDriveUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
+final Provider<ICloudUseCase> iCloudUseCaseProvider = Provider(
+  (ref) => ICloudUseCase(
+    ref.watch(web3RepositoryProvider),
   ),
 );
 

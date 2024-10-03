@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:appinio_social_share/appinio_social_share.dart';
+import 'package:flutter/services.dart';
+import 'package:moonchain_wallet/app/logger.dart';
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
@@ -8,6 +10,7 @@ import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:intl/intl.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -20,10 +23,12 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   late final _authUseCase = ref.read(authUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+  late final _googleDriveUseCase = ref.read(googleDriveUseCaseProvider);
+  late final _iCloudUseCase = ref.read(iCloudUseCaseProvider);
+
   final AppinioSocialShare _socialShare = AppinioSocialShare();
-  final _mnemonicTitle = 'AXS Wallet Mnemonic Key';
-  final _mnemonicFileName =
-      '${DateFormat('y-M-d').format(DateTime.now())}-axs-key.txt';
+  final _mnemonicTitle = 'Moonchain Wallet Mnemonic Key';
+  final _mnemonicFileName = Assets.seedPhaseFileName;
 
   void changeAcceptAggreement() =>
       notify(() => state.acceptAgreement = !state.acceptAgreement);
@@ -39,9 +44,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   Future<Map> generateMnemonicFile(bool settingsFlow) async {
-    final phrases = settingsFlow
-        ? _accountUseCase.getMnemonic()!
-        : _authUseCase.generateMnemonic();
+    final phrases = getMnemonic(settingsFlow);
     final filePath = await writeToFile(phrases);
 
     return {
@@ -142,10 +145,48 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   void saveLocally(bool settingsFlow) async {
-    final mnemonic = settingsFlow
-        ? _accountUseCase.getMnemonic()!
-        : _authUseCase.generateMnemonic();
+    final mnemonic = getMnemonic(settingsFlow);
+
     await _authUseCase.saveMnemonicLocally(mnemonic);
     nextProcess(settingsFlow, mnemonic);
   }
+
+  Future<void> saveToGoogleDrive(bool settingsFlow) async {
+    final mnemonic = getMnemonic(settingsFlow);
+
+    // Trying to pass the auth headers to google drive use case for further api calls
+    final hasGoogleDriveAccess =
+        await _googleDriveUseCase.initGoogleDriveAccess();
+
+    if (!hasGoogleDriveAccess) {
+      addError(translate('unable_to_authenticate_with_x')!
+          .replaceFirst('{0}', translate('google_drive')!));
+    }
+
+    try {
+      await _googleDriveUseCase.uploadBackup(mnemonic);
+      nextProcess(settingsFlow, mnemonic);
+    } catch (e) {
+      addError(translate('unable_to_upload_backup_to_x')!
+          .replaceFirst('{0}', translate('google_drive')!));
+      collectLog(e.toString());
+    }
+  }
+
+  Future<void> saveToICloud(bool settingsFlow) async {
+    final mnemonic = getMnemonic(settingsFlow);
+
+    try {
+      await _iCloudUseCase.uploadBackup(mnemonic);
+      nextProcess(settingsFlow, mnemonic);
+    } catch (e) {
+      addError(translate('unable_to_upload_backup_to_x')!
+          .replaceFirst('{0}', translate('icloud')!));
+      collectLog(e.toString());
+    }
+  }
+
+  String getMnemonic(bool settingsFlow) => settingsFlow
+      ? _accountUseCase.getMnemonic()!
+      : _authUseCase.generateMnemonic();
 }
