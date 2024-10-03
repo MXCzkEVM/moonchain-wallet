@@ -25,7 +25,9 @@ class AppVersionUseCase {
       String currentVersion = packageInfo.version; // Use version instead of buildNumber
 
       final result = await repository.appVersionRepository.checkLatestVersion(
+
         currentVersion,
+
       );
 
       print('Update available: $result');
