@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:appinio_social_share/appinio_social_share.dart';
+import 'package:flutter/services.dart';
+import 'package:moonchain_wallet/app/logger.dart';
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
@@ -22,6 +24,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
   late final _googleDriveUseCase = ref.read(googleDriveUseCaseProvider);
+  late final _iCloudUseCase = ref.read(iCloudUseCaseProvider);
 
   final AppinioSocialShare _socialShare = AppinioSocialShare();
   final _mnemonicTitle = 'Moonchain Wallet Mnemonic Key';
@@ -148,7 +151,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     nextProcess(settingsFlow, mnemonic);
   }
 
-  void saveToGoogleDrive(bool settingsFlow) async {
+  Future<void> saveToGoogleDrive(bool settingsFlow) async {
     final mnemonic = getMnemonic(settingsFlow);
 
     // Trying to pass the auth headers to google drive use case for further api calls
@@ -164,11 +167,24 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
       await _googleDriveUseCase.uploadBackup(mnemonic);
       nextProcess(settingsFlow, mnemonic);
     } catch (e) {
-      addError(e);
+      addError(translate('unable_to_upload_backup_to_x')!
+          .replaceFirst('{0}', translate('google_drive')!));
+      collectLog(e.toString());
     }
   }
 
-  void saveToICloud(bool settingsFlow) {}
+  Future<void> saveToICloud(bool settingsFlow) async {
+    final mnemonic = getMnemonic(settingsFlow);
+
+    try {
+      await _iCloudUseCase.uploadBackup(mnemonic);
+      nextProcess(settingsFlow, mnemonic);
+    } catch (e) {
+      addError(translate('unable_to_upload_backup_to_x')!
+          .replaceFirst('{0}', translate('icloud')!));
+      collectLog(e.toString());
+    }
+  }
 
   String getMnemonic(bool settingsFlow) => settingsFlow
       ? _accountUseCase.getMnemonic()!
