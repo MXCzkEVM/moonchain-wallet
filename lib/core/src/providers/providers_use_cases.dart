@@ -282,6 +282,12 @@ final Provider<GoogleDriveUseCase> googleDriveUseCaseProvider = Provider(
   ),
 );
 
+final Provider<ICloudUseCase> iCloudUseCaseProvider = Provider(
+  (ref) => ICloudUseCase(
+    ref.watch(web3RepositoryProvider),
+  ),
+);
+
 final Provider<BlueberryRingUseCase> blueberryRingUseCaseProvider = Provider(
   (ref) => BlueberryRingUseCase(
     ref.watch(web3RepositoryProvider),
