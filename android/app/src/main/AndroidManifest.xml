@@ -98,9 +98,15 @@
             <!-- App Link sample -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="mxc1usd.com" android:pathPrefix="/app" />
+
+                <data
+                    android:host="mxc1usd.com"
+                    android:pathPrefix="/app/" />
+
+                <data android:scheme="https"/>
             </intent-filter>
         </activity>
 
