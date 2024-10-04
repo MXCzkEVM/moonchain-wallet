@@ -464,6 +464,5 @@
     "email": "電子メール",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "{0}、{1}、{2}、{3}、{4}、{5} または {6} の取引所から購入し、zkEVM MXC を Moonchain ウォレットに直接入金してください",
     "unable_to_authenticate_with_x": "{0} で認証できません。",
-    "unable_to_upload_backup_to_x": "{0} にバックアップをアップロードできません。",
-    "hello": "こんにちは"
+    "unable_to_upload_backup_to_x": "{0} にバックアップをアップロードできません。"
 }

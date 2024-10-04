@@ -464,6 +464,5 @@
     "email": "Correo electrónico",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "Compre de {0}, {1}, {2}, {3}, {4}, {5} o {6} intercambios y deposite zkEVM MXC directamente en la billetera Moonchain",
     "unable_to_authenticate_with_x": "No se pudo autenticar con {0}.",
-    "unable_to_upload_backup_to_x": "No se pudo cargar la copia de seguridad en {0}.",
-    "hello": "Hola"
+    "unable_to_upload_backup_to_x": "No se pudo cargar la copia de seguridad en {0}."
 }

@@ -464,6 +464,5 @@
     "email": "Surel",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "Beli dari {0}, {1}, {2}, {3}, {4}, {5} atau {6} bursa dan setor zkEVM MXC langsung ke dompet Moonchain",
     "unable_to_authenticate_with_x": "Tidak dapat diautentikasi dengan {0}.",
-    "unable_to_upload_backup_to_x": "Tidak dapat mengunggah cadangan ke {0}.",
-    "hello": "Halo"
+    "unable_to_upload_backup_to_x": "Tidak dapat mengunggah cadangan ke {0}."
 }
