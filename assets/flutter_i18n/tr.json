@@ -462,5 +462,8 @@
     "your_email_address": "E-posta Adresiniz",
     "invalid_email": "Lütfen geçerli bir e-posta adresi girin (örneğin, name@example.com)",
     "email": "E-posta",
-    "deposit_from_exchanges_to_moonchain_wallet_notice": "{0}, {1}, {2}, {3}, {4}, {5} veya {6} borsalarından satın alın ve zkEVM MXC'yi doğrudan Moonchain cüzdanına yatırın"
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "{0}, {1}, {2}, {3}, {4}, {5} veya {6} borsalarından satın alın ve zkEVM MXC'yi doğrudan Moonchain cüzdanına yatırın",
+    "unable_to_authenticate_with_x": "{0} ile kimlik doğrulaması yapılamadı.",
+    "unable_to_upload_backup_to_x": "Yedekleme {0}'a yüklenemedi.",
+    "hello": "Merhaba"
 }
