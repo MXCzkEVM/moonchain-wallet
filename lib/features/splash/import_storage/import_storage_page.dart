@@ -67,6 +67,24 @@ class SplashImportStoragePage extends SplashBasePage {
         ),
         edgeType: getPageButtonsEdge(),
       ),
+      MxcButton.secondaryWhite(
+        key: const ValueKey('GoogleDriveButton'),
+        icon: MxcIcons.google_drive,
+        iconSize: 32,
+        titleSize: 18,
+        title: FlutterI18n.translate(context, 'google_drive_secured_storage'),
+        onTap: () => ref.read(presenter).loadBackupFromGoogleDrive(),
+        edgeType: getPageButtonsEdge(),
+      ),
+      MxcButton.secondaryWhite(
+        key: const ValueKey('icloudButton'),
+        icon: MxcIcons.icloud,
+        iconSize: 32,
+        titleSize: 18,
+        title: FlutterI18n.translate(context, 'icloud_secured_storage'),
+        onTap: () => ref.read(presenter).loadBackupFromICloud(),
+        edgeType: getPageButtonsEdge(),
+      ),
       !isNoneAvailable
           ? MxcButton.secondaryWhite(
               key: const ValueKey('localButton'),

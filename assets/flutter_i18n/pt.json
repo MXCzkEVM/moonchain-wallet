@@ -462,5 +462,7 @@
     "your_email_address": "Seu Endereço de Email",
     "invalid_email": "Por favor, insira um endereço de e-mail válido (por exemplo, {name@example.com})",
     "email": "E-mail",
-    "deposit_from_exchanges_to_moonchain_wallet_notice": "Compre de {0}, {1}, {2}, {3}, {4}, {5} ou {6} exchanges e deposite zkEVM MXC diretamente na carteira Moonchain"
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "Compre de {0}, {1}, {2}, {3}, {4}, {5} ou {6} exchanges e deposite zkEVM MXC diretamente na carteira Moonchain",
+    "unable_to_authenticate_with_x": "Impossível autenticar com {0}.",
+    "unable_to_upload_backup_to_x": "Impossível fazer upload do backup para {0}."
 }

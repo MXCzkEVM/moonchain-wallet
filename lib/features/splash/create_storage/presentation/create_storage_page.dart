@@ -111,24 +111,23 @@ class SplashStoragePage extends SplashBasePage {
               edgeType: getPageButtonsEdge(),
             )
           : Container(),
-      Platform.isAndroid
+      MxcButton.secondaryWhite(
+        key: const ValueKey('GoogleDriveButton'),
+        icon: MxcIcons.google_drive,
+        iconSize: 24,
+        titleSize: 18,
+        title: FlutterI18n.translate(context, 'google_drive_secured_storage'),
+        onTap: () => Navigator.of(context).push(
+          route.featureDialog(
+            GoogleDriveRecoveryPhrasePage(
+              settingsFlow: settingsFlow,
+            ),
+          ),
+        ),
+        edgeType: getPageButtonsEdge(),
+      ),
+      Platform.isIOS
           ? MxcButton.secondaryWhite(
-              key: const ValueKey('GoogleDriveButton'),
-              icon: MxcIcons.google_drive,
-              iconSize: 24,
-              titleSize: 18,
-              title: FlutterI18n.translate(
-                  context, 'google_drive_secured_storage'),
-              onTap: () => Navigator.of(context).push(
-                route.featureDialog(
-                  GoogleDriveRecoveryPhrasePage(
-                    settingsFlow: settingsFlow,
-                  ),
-                ),
-              ),
-              edgeType: getPageButtonsEdge(),
-            )
-          : MxcButton.secondaryWhite(
               key: const ValueKey('icloudButton'),
               icon: MxcIcons.icloud,
               iconSize: 18,
@@ -142,7 +141,8 @@ class SplashStoragePage extends SplashBasePage {
                 ),
               ),
               edgeType: getPageButtonsEdge(),
-            ),
+            )
+          : Container()
     ];
   }
 }

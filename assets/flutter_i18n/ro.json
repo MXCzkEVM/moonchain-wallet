@@ -462,5 +462,7 @@
     "your_email_address": "Adresa dumneavoastră de e-mail",
     "invalid_email": "Vă rugăm să introduceți o adresă de e-mail validă (de ex., nume@exemplu.com)",
     "email": "E-mail",
-    "deposit_from_exchanges_to_moonchain_wallet_notice": "Cumpărați de la {0}, {1}, {2}, {3}, {4}, {5} sau {6} burse și depuneți zkEVM MXC direct în portofelul Moonchain"
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "Cumpărați de la {0}, {1}, {2}, {3}, {4}, {5} sau {6} burse și depuneți zkEVM MXC direct în portofelul Moonchain",
+    "unable_to_authenticate_with_x": "Imposibil de autentificat cu {0}.",
+    "unable_to_upload_backup_to_x": "Imposibil de încărcat backup-ul la {0}."
 }

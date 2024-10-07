@@ -14,7 +14,9 @@ class TweetsUseCase extends ReactiveUseCase {
   late final ValueStream<DefaultTweets?> defaultTweets = reactive(null);
 
   void initTweetsList() async {
-    final data = await getDefaultTweetsLocal();
+    DefaultTweets data = await getDefaultTweetsLocal();
+    update(defaultTweets, data);
+    data = await getDefaultTweets();
     update(defaultTweets, data);
   }
 

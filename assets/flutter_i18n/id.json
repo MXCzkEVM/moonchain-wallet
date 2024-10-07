@@ -462,5 +462,7 @@
     "your_email_address": "Alamat Email Anda",
     "invalid_email": "Harap masukkan alamat email yang valid (misalnya, nama@contoh.com)",
     "email": "Surel",
-    "deposit_from_exchanges_to_moonchain_wallet_notice": "Beli dari {0}, {1}, {2}, {3}, {4}, {5} atau {6} bursa dan setor zkEVM MXC langsung ke dompet Moonchain"
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "Beli dari {0}, {1}, {2}, {3}, {4}, {5} atau {6} bursa dan setor zkEVM MXC langsung ke dompet Moonchain",
+    "unable_to_authenticate_with_x": "Tidak dapat diautentikasi dengan {0}.",
+    "unable_to_upload_backup_to_x": "Tidak dapat mengunggah cadangan ke {0}."
 }

@@ -462,5 +462,7 @@
     "your_email_address": "이메일 주소",
     "invalid_email": "유효한 이메일 주소를 입력해 주세요(예: name@example.com)",
     "email": "이메일",
-    "deposit_from_exchanges_to_moonchain_wallet_notice": "{0}, {1}, {2}, {3}, {4}, {5} 또는 {6} 거래소에서 구매하고 zkEVM MXC를 Moonchain 지갑에 직접 입금하세요"
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "{0}, {1}, {2}, {3}, {4}, {5} 또는 {6} 거래소에서 구매하고 zkEVM MXC를 Moonchain 지갑에 직접 입금하세요",
+    "unable_to_authenticate_with_x": "{0}으로 인증할 수 없습니다.",
+    "unable_to_upload_backup_to_x": "{0}에 백업을 업로드할 수 없습니다."
 }

@@ -462,5 +462,7 @@
     "your_email_address": "Uw e-mailadres",
     "invalid_email": "Voer een geldig e-mailadres in (bijv. naam@voorbeeld.com)",
     "email": "E-mail",
-    "deposit_from_exchanges_to_moonchain_wallet_notice": "Koop van {0}, {1}, {2}, {3}, {4}, {5} of {6} beurzen en stort zkEVM MXC direct naar de Moonchain-portemonnee"
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "Koop van {0}, {1}, {2}, {3}, {4}, {5} of {6} beurzen en stort zkEVM MXC direct naar de Moonchain-portemonnee",
+    "unable_to_authenticate_with_x": "Kan niet authenticeren met {0}.",
+    "unable_to_upload_backup_to_x": "Kan geen back-up uploaden naar {0}."
 }

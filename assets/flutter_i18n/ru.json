@@ -462,5 +462,7 @@
     "your_email_address": "Ваш адрес электронной почты",
     "invalid_email": "Пожалуйста, введите действительный адрес электронной почты (например, name@example.com)",
     "email": "Электронная почта",
-    "deposit_from_exchanges_to_moonchain_wallet_notice": "Покупайте на {0}, {1}, {2}, {3}, {4}, {5} или {6} биржах и депозируйте zkEVM MXC прямо на кошелек Moonchain"
+    "deposit_from_exchanges_to_moonchain_wallet_notice": "Покупайте на {0}, {1}, {2}, {3}, {4}, {5} или {6} биржах и депозируйте zkEVM MXC прямо на кошелек Moonchain",
+    "unable_to_authenticate_with_x": "Невозможно пройти аутентификацию с {0}.",
+    "unable_to_upload_backup_to_x": "Невозможно загрузить резервную копию в {0}."
 }
