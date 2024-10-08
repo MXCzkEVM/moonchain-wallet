@@ -114,8 +114,10 @@ jobs:
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
           name: "Nightly-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
+          generateReleaseNotes: true
+          body: >
+            <a href="https://play.google.com/store/apps/details?id=com.moonchain.mxc" target="_blank"><img width="500" alt="image" src="https://github.com/user-attachments/assets/802b4fa6-8978-4b01-8de7-68207a5f8d77"></a><a href="https://apps.apple.com/app/moonbase-the-mining-hub/id6736371768" target="_blank"><img width="500" alt="image" src="https://github.com/user-attachments/assets/ed4678e2-4099-498c-92ee-94b88b620c21"></a>
 
-          
       - name: Upload APK to Waldo
         uses: waldoapp/gh-action-upload@v2
         with:

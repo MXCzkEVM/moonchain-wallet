@@ -464,6 +464,5 @@
     "email": "電子郵件",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "在 {0}、{1}、{2}、{3}、{4}、{5} 或 {6} 交易所购买，并将 zkEVM MXC 直接存入 Moonchain 钱包",
     "unable_to_authenticate_with_x": "無法與 {0} 進行驗證。",
-    "unable_to_upload_backup_to_x": "無法將備份上傳至 {0}。",
-    "hello": "您好"
+    "unable_to_upload_backup_to_x": "無法將備份上傳至 {0}。"
 }

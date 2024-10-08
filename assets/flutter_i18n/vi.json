@@ -464,6 +464,5 @@
     "email": "Email",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "Mua từ {0}, {1}, {2}, {3}, {4}, {5} hoặc {6} sàn giao dịch và gửi zkEVM MXC trực tiếp vào ví Moonchain",
     "unable_to_authenticate_with_x": "Không thể xác thực với {0}.",
-    "unable_to_upload_backup_to_x": "Không thể tải bản sao lưu lên {0}.",
-    "hello": "Xin chào"
+    "unable_to_upload_backup_to_x": "Không thể tải bản sao lưu lên {0}."
 }
