@@ -124,6 +124,20 @@
 	<string>Would you allow Moonchain Wallet to use the Speech Recognition?</string>
 	<key>PermissionGroupNotification</key>
 	<string>Would you allow Moonchain Wallet to use the Notification?</string>
+	<!-- Google Sign-in Section -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+				<string>com.googleusercontent.apps.810578982053-p196bn8p9ipg3709v4ftk2a28fcvi6ka</string>
+			</array>
+		</dict>
+	</array>
+	<!-- End of the Google Sign-in Section -->
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
