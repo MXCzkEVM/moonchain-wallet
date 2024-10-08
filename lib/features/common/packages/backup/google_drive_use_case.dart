@@ -8,6 +8,7 @@ class GoogleDriveUseCase extends ReactiveUseCase {
   );
 
   final Web3Repository _repository;
+  Map<String, String>? _googleAuthHeaders;
 
   Future<bool> initGoogleDriveAccess() async {
     final googleAuthHeaders = await singInToGoogleDrive();
@@ -16,7 +17,7 @@ class GoogleDriveUseCase extends ReactiveUseCase {
       return false;
     }
 
-    _repository.googleDriveRepository.initGoogleAuthHeaders(googleAuthHeaders);
+    _googleAuthHeaders = googleAuthHeaders;
 
     return true;
   }
@@ -25,16 +26,18 @@ class GoogleDriveUseCase extends ReactiveUseCase {
     final googleAuthData = await GoogleSignIn(
       scopes: [
         'email',
-        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file',
       ],
     ).signIn();
 
-    return await googleAuthData?.authHeaders;
+    final authHeaders = await googleAuthData?.authHeaders;
+
+    return authHeaders;
   }
 
   Future<void> uploadBackup(String mnemonic) async =>
-      _repository.googleDriveRepository.uploadBackup(mnemonic);
+      _repository.googleDriveRepository.uploadBackup(mnemonic, _googleAuthHeaders);
 
   Future<String> readBackupFile() async =>
-      _repository.googleDriveRepository.readBackupFile();
+      _repository.googleDriveRepository.readBackupFile(_googleAuthHeaders);
 }
