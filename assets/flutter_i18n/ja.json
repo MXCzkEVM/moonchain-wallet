@@ -455,7 +455,6 @@
     "in": "読み込み中…",
     "google_drive_secured_storage": "Google Drive セキュリティで保護されたストレージ",
     "icloud_secured_storage": "iCloud セキュリティで保護されたストレージ",
-    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "キーを {0} に正しく保存したことを確認してください。",
     "icloud": "iCloud",
     "google_drive": "Google ドライブ",
     "store_in_x": "{0} に保管する",
@@ -464,5 +463,8 @@
     "email": "電子メール",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "{0}、{1}、{2}、{3}、{4}、{5} または {6} の取引所から購入し、zkEVM MXC を Moonchain ウォレットに直接入金してください",
     "unable_to_authenticate_with_x": "{0} で認証できません。",
-    "unable_to_upload_backup_to_x": "{0} にバックアップをアップロードできません。"
+    "unable_to_upload_backup_to_x": "{0} にバックアップをアップロードできません。",
+    "ensure_that_your_keys_are_stored_correctly_in_your_x": "キーが {0} に正しく保存されていることを確認してください！",
+    "google_drive_backup_note": "重要: ムーンチェーンのシードフレーズは、MoonBase フォルダにある moonchain-key.txt という名前のファイルに保存されます。",
+    "tips_for_storing_keys_safely": "キーを安全に保管するためのヒント"
 }

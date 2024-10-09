@@ -455,7 +455,6 @@
     "in": "Загрузка..",
     "google_drive_secured_storage": "Защищенное хранилище Google Диска",
     "icloud_secured_storage": "Хранилище iCloud с защитой",
-    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Убедитесь, что вы правильно сохранили свои ключи в {0}",
     "icloud": "iCloud",
     "google_drive": "Google Диск",
     "store_in_x": "Сохранить в {0}",
@@ -464,5 +463,8 @@
     "email": "Электронная почта",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "Покупайте на {0}, {1}, {2}, {3}, {4}, {5} или {6} биржах и депозируйте zkEVM MXC прямо на кошелек Moonchain",
     "unable_to_authenticate_with_x": "Невозможно пройти аутентификацию с {0}.",
-    "unable_to_upload_backup_to_x": "Невозможно загрузить резервную копию в {0}."
+    "unable_to_upload_backup_to_x": "Невозможно загрузить резервную копию в {0}.",
+    "ensure_that_your_keys_are_stored_correctly_in_your_x": "Убедитесь, что ваши ключи хранятся правильно в вашем {0}!",
+    "google_drive_backup_note": "Важно: Мы сохраняем мнемоническую фразу в файле с именем moonchain-key.txt, расположенном в папке MoonBase.",
+    "tips_for_storing_keys_safely": "Совет по безопасному хранению ключей"
 }

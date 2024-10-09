@@ -455,7 +455,6 @@
     "in": "載入中..",
     "google_drive_secured_storage": "Google 雲端硬碟安全儲存空間",
     "icloud_secured_storage": "iCloud 安全儲存空間",
-    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "請確保您已將您的金鑰正確儲存在您的 {0} 中",
     "icloud": "iCloud",
     "google_drive": "Google 雲端硬碟",
     "store_in_x": "儲存在 {0} 中",
@@ -464,5 +463,8 @@
     "email": "電子郵件",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "在 {0}、{1}、{2}、{3}、{4}、{5} 或 {6} 交易所购买，并将 zkEVM MXC 直接存入 Moonchain 钱包",
     "unable_to_authenticate_with_x": "無法與 {0} 進行驗證。",
-    "unable_to_upload_backup_to_x": "無法將備份上傳至 {0}。"
+    "unable_to_upload_backup_to_x": "無法將備份上傳至 {0}。",
+    "ensure_that_your_keys_are_stored_correctly_in_your_x": "確保您的金鑰正確儲存在您的 {0} 中！",
+    "google_drive_backup_note": "重要：我們將助記詞種子儲存在 MoonBase 資料夾中名為 moonchain-key.txt 的檔案中。",
+    "tips_for_storing_keys_safely": "安全儲存鑰匙的秘訣"
 }

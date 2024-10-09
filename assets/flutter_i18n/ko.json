@@ -455,7 +455,6 @@
     "in": "로드 중..",
     "google_drive_secured_storage": "구글 드라이브 보안 저장소",
     "icloud_secured_storage": "iCloud 보안 저장소",
-    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "키를 {0}에 올바르게 저장했는지 확인하세요.",
     "icloud": "iCloud",
     "google_drive": "구글 드라이브",
     "store_in_x": "{0}에 저장",
@@ -464,5 +463,8 @@
     "email": "이메일",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "{0}, {1}, {2}, {3}, {4}, {5} 또는 {6} 거래소에서 구매하고 zkEVM MXC를 Moonchain 지갑에 직접 입금하세요",
     "unable_to_authenticate_with_x": "{0}으로 인증할 수 없습니다.",
-    "unable_to_upload_backup_to_x": "{0}에 백업을 업로드할 수 없습니다."
+    "unable_to_upload_backup_to_x": "{0}에 백업을 업로드할 수 없습니다.",
+    "ensure_that_your_keys_are_stored_correctly_in_your_x": "키가 {0}에 올바르게 저장되었는지 확인하세요!",
+    "google_drive_backup_note": "중요: 문베이스 폴더에 있는 moonchain-key.txt라는 파일 이름으로 니모닉 시드 구문을 저장합니다.",
+    "tips_for_storing_keys_safely": "키 안전하게 보관하는 팁"
 }

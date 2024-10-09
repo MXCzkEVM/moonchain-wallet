@@ -455,7 +455,6 @@
     "in": "Cargando..",
     "google_drive_secured_storage": "Almacenamiento seguro de Google Drive",
     "icloud_secured_storage": "Almacenamiento seguro de iCloud",
-    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Asegúrate de haber almacenado tus claves correctamente en tu {0}",
     "icloud": "iCloud",
     "google_drive": "Google Drive",
     "store_in_x": "Guardar en {0}",
@@ -464,5 +463,8 @@
     "email": "Correo electrónico",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "Compre de {0}, {1}, {2}, {3}, {4}, {5} o {6} intercambios y deposite zkEVM MXC directamente en la billetera Moonchain",
     "unable_to_authenticate_with_x": "No se pudo autenticar con {0}.",
-    "unable_to_upload_backup_to_x": "No se pudo cargar la copia de seguridad en {0}."
+    "unable_to_upload_backup_to_x": "No se pudo cargar la copia de seguridad en {0}.",
+    "ensure_that_your_keys_are_stored_correctly_in_your_x": "Asegúrese de que sus claves estén almacenadas correctamente en su {0}!",
+    "google_drive_backup_note": "Importante: Guardamos la frase semilla mnemónica en el archivo llamado moonchain-key.txt ubicado en la carpeta MoonBase.",
+    "tips_for_storing_keys_safely": "Consejo para guardar las llaves de forma segura"
 }
