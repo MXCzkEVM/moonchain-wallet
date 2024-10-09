@@ -56,16 +56,41 @@ class GoogleDriveRecoveryPhrasePage extends RecoveryPhraseBasePage {
               ),
               child: getIcon(context)),
           const SizedBox(height: 12),
-          Text(
-            FlutterI18n.translate(context,
-                    'make_sure_you_have_stored_your_keys_correctly_in_your_x')
-                .replaceFirst(
-                    '{0}', FlutterI18n.translate(context, 'google_drive')),
-            style: FontTheme.of(context).body1().copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: ColorsTheme.of(context).textPrimary,
-                ),
-            textAlign: TextAlign.center,
+          Text.rich(
+            TextSpan(children: [
+              TextSpan(
+                text: FlutterI18n.translate(
+                    context, 'tips_for_storing_keys_safely'),
+                style: FontTheme.of(context).body1().copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: ColorsTheme.of(context).textPrimary,
+                    ),
+              ),
+              const TextSpan(
+                text: '\n',
+              ),
+              TextSpan(
+                text: FlutterI18n.translate(context,
+                        'ensure_that_your_keys_are_stored_correctly_in_your_x')
+                    .replaceFirst(
+                        '{0}', FlutterI18n.translate(context, 'google_drive')),
+                style: FontTheme.of(context).body1().copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: ColorsTheme.of(context).textPrimary,
+                    ),
+              ),
+              const TextSpan(
+                text: '\n\n',
+              ),
+              TextSpan(
+                text:
+                    FlutterI18n.translate(context, 'google_drive_backup_note'),
+                style: FontTheme.of(context).body1().copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: ColorsTheme.of(context).textPrimary,
+                    ),
+              ),
+            ]),
           ),
         ],
       ),
