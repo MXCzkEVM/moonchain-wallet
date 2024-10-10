@@ -26,7 +26,8 @@ class LauncherUseCase extends ReactiveUseCase {
     final chainExplorerUrl =
         _chainConfigurationUseCase.selectedNetwork.value!.explorerUrl!;
     final address = _accountUseCase.account.value!.address;
-    final addressExplorer = Urls.addressExplorer(address);
+    final ethAddress = EthereumAddress.fromHex(address);
+    final addressExplorer = Urls.addressExplorer(ethAddress.hexEip55);
     final launchUri = MXCFormatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
     openUrl(launchUri, LaunchMode.platformDefault);
