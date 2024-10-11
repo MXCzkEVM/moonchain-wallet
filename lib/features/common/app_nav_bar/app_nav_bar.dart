@@ -1,10 +1,13 @@
 import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/core/src/routing/route.dart';
 import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moonchain_wallet/features/settings/subfeatures/accounts/show_accounts_dialog.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import '../../settings/subfeatures/accounts/subfeatures/import_account/import_account_page.dart';
 import 'app_nav_bar_presenter.dart';
 import 'app_nav_bar_state.dart';
 
@@ -47,7 +50,21 @@ class AppNavBar extends HookConsumerWidget {
                   color: ColorsTheme.of(context).iconPrimary,
                 ),
                 child: GestureDetector(
-                  onTap: () => presenter.copy(),
+                  onTap: () => showAccountsDialog(
+                    context: context,
+                    currentAccount: state.account!,
+                    accounts: state.accounts,
+                    isLoading: state.isLoading,
+                    onImport: () => Navigator.of(context).push(
+                      route.featureDialog(
+                        const ImportAccountPage(),
+                      ),
+                    ),
+                    onAdd: () => presenter.addNewAccount(),
+                    onSelect: (item) => presenter.changeAccount(item),
+                    onRemove: (item) => presenter.removeAccount(item),
+                  ),
+                  onDoubleTap: () => presenter.copy(),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
