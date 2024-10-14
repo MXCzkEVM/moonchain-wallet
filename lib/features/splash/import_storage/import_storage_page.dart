@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -76,15 +78,17 @@ class SplashImportStoragePage extends SplashBasePage {
         onTap: () => ref.read(presenter).loadBackupFromGoogleDrive(),
         edgeType: getPageButtonsEdge(),
       ),
-      MxcButton.secondaryWhite(
-        key: const ValueKey('icloudButton'),
-        icon: MxcIcons.icloud,
-        iconSize: 32,
-        titleSize: 18,
-        title: FlutterI18n.translate(context, 'icloud_secured_storage'),
-        onTap: () => ref.read(presenter).loadBackupFromICloud(),
-        edgeType: getPageButtonsEdge(),
-      ),
+      Platform.isIOS
+          ? MxcButton.secondaryWhite(
+              key: const ValueKey('icloudButton'),
+              icon: MxcIcons.icloud,
+              iconSize: 32,
+              titleSize: 18,
+              title: FlutterI18n.translate(context, 'icloud_secured_storage'),
+              onTap: () => ref.read(presenter).loadBackupFromICloud(),
+              edgeType: getPageButtonsEdge(),
+            )
+          : Container(),
       !isNoneAvailable
           ? MxcButton.secondaryWhite(
               key: const ValueKey('localButton'),
