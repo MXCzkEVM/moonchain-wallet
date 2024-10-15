@@ -13,7 +13,8 @@ Widget buildCard(
   int mainAxisCount,
   VoidCallback? onTap,
   bool isEditMode,
-  double width, {
+  // double width,
+  {
   double? ratioFactor,
   DAppsPagePresenter? actions,
   void Function()? shatter,
@@ -21,19 +22,21 @@ Widget buildCard(
 }) {
   final isMobile = mainAxisCount == CardMainAxisCount.mobile;
   final imageRatioFactor = (isMobile ? 0.2 : 0.1);
-  String? image;
-  if (dapp is Bookmark) {
-    if ((dapp).image != null) {
-      image = (dapp).image!;
-    } else {
-      actions!.updateBookmarkFavIcon(dapp);
-    }
-  } else {
-    image = dapp.reviewApi?.icon;
-  }
+  String? image =
+      'packages/mxc_logic/assets/cache/MEP-1759-DApp-store/mxc_dapps_thumbnails/test.png';
+  // if (dapp is Bookmark) {
+  //   if ((dapp).image != null) {
+  //     image = (dapp).image!;
+  //   } else {
+  //     actions!.updateBookmarkFavIcon(dapp);
+  //   }
+  // } else {
+  //   image = dapp.reviewApi?.icon;
+  // }
   final name = dapp is Bookmark ? (dapp).title : dapp.app?.name;
   final url = dapp is Bookmark ? (dapp).url : dapp.app?.url;
-  final imageSize = width * (ratioFactor ?? imageRatioFactor);
+  final info = dapp is Bookmark ? (dapp).description : dapp.app?.description;
+  // final imageSize = width * (ratioFactor ?? imageRatioFactor);
   return GestureDetector(
     onTap: () {
       if (animated) {
@@ -46,39 +49,29 @@ Widget buildCard(
         onTap();
       }
     },
-    child: Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(Sizes.spaceLarge),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                gradient: LinearGradient(
-                  colors: [
-                    ColorsTheme.of(context).textBlack100,
-                    ColorsTheme.of(context).iconBlack200,
-                  ],
-                  begin: AlignmentDirectional.bottomEnd,
-                  end: AlignmentDirectional.topStart,
-                ),
-              ),
-              child: SizedBox(
-                width: imageSize,
-                height: imageSize,
-                child: image == null
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      color: Colors.red,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                image == null
                     ? Icon(
                         Icons.image_not_supported_rounded,
                         color: ColorsTheme.of(context).textPrimary,
                       )
                     : image.contains(
-                        'https',
-                      ) || image.contains(
-                        'http',
-                      )
+                              'https',
+                            ) ||
+                            image.contains(
+                              'http',
+                            )
                         ? image.contains(
                             'svg',
                           )
@@ -93,44 +86,69 @@ Widget buildCard(
                                     children: [
                                       Icon(
                                         Icons.image_not_supported_outlined,
-                                        color:
-                                            ColorsTheme.of(context).textError,
+                                        color: ColorsTheme.of(context)
+                                            .textError,
                                       ),
                                     ],
                                   );
                                 },
                               )
-                        : SvgPicture.asset(
-                            image,
-                          ),
-              ),
-            ),
-            if (isEditMode && dapp is Bookmark)
-              Positioned(
-                top: -6,
-                left: -6,
-                child: GestureDetector(
-                  onTap: () => actions!.removeBookmarkDialog(dapp, shatter!),
-                  child: const Icon(
-                    Icons.remove_circle_rounded,
+                        : image.contains(
+                            'svg',
+                          )
+                            ? SvgPicture.asset(
+                                image,
+                              )
+                            : Image.asset(image),
+                if (isEditMode && dapp is Bookmark)
+                  Positioned(
+                    top: -6,
+                    left: -6,
+                    child: GestureDetector(
+                      onTap: () =>
+                          actions!.removeBookmarkDialog(dapp, shatter!),
+                      child: const Icon(
+                        Icons.remove_circle_rounded,
+                      ),
+                    ),
                   ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name ?? url ?? '',
+                  style: FontTheme.of(context)
+                      .caption1
+                      .primary()
+                      .copyWith(fontWeight: FontWeight.w700),
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-          ],
-        ),
-        const SizedBox(
-          height: Sizes.space2XSmall,
-        ),
-        Text(
-          name ?? url ?? '',
-          style: FontTheme.of(context)
-              .caption1
-              .primary()
-              .copyWith(fontWeight: FontWeight.w700),
-          softWrap: false,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ],
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  info ?? '',
+                  style: FontTheme.of(context)
+                      .caption2
+                      .primary()
+                      .copyWith(fontWeight: FontWeight.w500),
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

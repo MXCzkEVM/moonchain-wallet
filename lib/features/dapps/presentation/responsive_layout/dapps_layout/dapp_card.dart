@@ -16,12 +16,12 @@ import 'card_item.dart';
 class DAppCard extends HookConsumerWidget {
   final Dapp dapp;
   final int index;
-  final double width;
+  // final double width;
   final int mainAxisCount;
   const DAppCard({
     super.key,
     required this.index,
-    required this.width,
+    // required this.width,
     required this.dapp,
     required this.mainAxisCount,
   });
@@ -97,7 +97,7 @@ class DAppCard extends HookConsumerWidget {
             },
             child: SizedBox.expand(
                 child: buildCard(
-                    context, dapp, mainAxisCount, onTap, isEditMode, width,
+                    context, dapp, mainAxisCount, onTap, isEditMode, 
                     shatter: shatter, actions: actions)),
           ),
         );
@@ -113,7 +113,7 @@ class DAppCard extends HookConsumerWidget {
               mainAxisCount,
               onTap,
               isEditMode,
-              width,
+              // width,
               ratioFactor: animation.value < sizeLimit
                   ? null
                   : (animatedSize * animation.value),
