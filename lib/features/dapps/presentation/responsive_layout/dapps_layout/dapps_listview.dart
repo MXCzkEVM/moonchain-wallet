@@ -1,27 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
+import '../../dapps_presenter.dart';
 import 'dapps_layout.dart';
 
-class DAppsListView extends StatelessWidget {
-  final List<Dapp> dapps;
+class DAppsListView extends HookConsumerWidget {
   final int mainAxisCount;
   const DAppsListView({
     super.key,
-    required this.dapps,
     required this.mainAxisCount,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(appsPagePageContainer.state);
+    final actions = ref.read(appsPagePageContainer.actions);
+
+    final dapps = state.seeAllDapps;
+
+    if (dapps == null) {
+      return Container();
+    }
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         IconButton(
           key: const ValueKey('backButton'),
           icon: const Icon(Icons.arrow_back_rounded),
           iconSize: 28,
-          onPressed: () => print('object'),
+          onPressed: () => actions.deselectSeeAllDApps(),
           color: ColorsTheme.of(context).iconPrimary,
         ),
         Expanded(

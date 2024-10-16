@@ -53,16 +53,28 @@ class DappCardLayout extends HookConsumerWidget {
 
     String translate(String key) => FlutterI18n.translate(context, key);
 
+    if (state.seeAllDapps != null) {
+      return DAppsListView(mainAxisCount: mainAxisCount);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ...buildDAppProviderSection('${translate('native')} ${translate('dapps')}', dapps, 2, 2, mainAxisCount),
-    
-        ...buildDAppProviderSection('${translate('partner')} ${translate('dapps')}', dapps, 2, 2, mainAxisCount),
-    
         ...buildDAppProviderSection(
-            translate('bookmark'), dapps, 1, 1,mainAxisCount),
+            '${translate('native')} ${translate('dapps')}',
+            dapps,
+            2,
+            2,
+            mainAxisCount),
+        ...buildDAppProviderSection(
+            '${translate('partner')} ${translate('dapps')}',
+            dapps,
+            2,
+            2,
+            mainAxisCount),
+        ...buildDAppProviderSection(
+            translate('bookmark'), dapps, 1, 1, mainAxisCount),
       ],
     );
   }

@@ -23,6 +23,7 @@ List<Widget> buildDAppProviderSection(
     return [
       DAppProviderHeader(
         providerTitle: providerTitle,
+        dapps: dapps,
       ),
       DappsGridView(
         flex: flex,
