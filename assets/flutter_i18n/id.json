@@ -455,7 +455,6 @@
     "in": "Memuat..",
     "google_drive_secured_storage": "Penyimpanan yang aman di Google Drive",
     "icloud_secured_storage": "Penyimpanan yang Diproteksi iCloud",
-    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Pastikan Anda telah menyimpan kunci Anda dengan benar di {0}",
     "icloud": "iCloud",
     "google_drive": "Google Drive",
     "store_in_x": "Simpan di {0}",
@@ -464,5 +463,8 @@
     "email": "Surel",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "Beli dari {0}, {1}, {2}, {3}, {4}, {5} atau {6} bursa dan setor zkEVM MXC langsung ke dompet Moonchain",
     "unable_to_authenticate_with_x": "Tidak dapat diautentikasi dengan {0}.",
-    "unable_to_upload_backup_to_x": "Tidak dapat mengunggah cadangan ke {0}."
+    "unable_to_upload_backup_to_x": "Tidak dapat mengunggah cadangan ke {0}.",
+    "ensure_that_your_keys_are_stored_correctly_in_your_x": "Pastikan kunci Anda disimpan dengan benar di {0} Anda!",
+    "google_drive_backup_note": "Penting: Kami menyimpan frasa benih mnemonik di file bernama moonchain-key.txt yang terletak di folder MoonBase.",
+    "tips_for_storing_keys_safely": "Tips Menyimpan Kunci dengan Aman"
 }

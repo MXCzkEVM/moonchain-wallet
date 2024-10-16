@@ -198,7 +198,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   }
 
   void getViewOtherTransactionsLink() async {
-    _launcherUseCase.viewTransactions();
+    _launcherUseCase.viewTransactions(state.txList!);
   }
 
   void generateChartData(List<BalanceData> balanceData) {

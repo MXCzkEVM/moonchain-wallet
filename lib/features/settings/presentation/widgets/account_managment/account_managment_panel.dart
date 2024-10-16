@@ -1,5 +1,6 @@
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
+import 'package:moonchain_wallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
 import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/accounts/show_accounts_dialog.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/accounts/subfeatures/import_account/import_account_page.dart';
@@ -17,7 +18,9 @@ class AccountManagementPanel extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(settingsContainer.actions);
+    final appNavBarPresenter = ref.read(appNavBarContainer.actions);
     final state = ref.watch(settingsContainer.state);
+    final appNavBarState = ref.watch(appNavBarContainer.state);
     final account = state.account;
     final walletAddress = MXCFormatter.formatWalletAddress(
         account?.address ?? '',
@@ -40,15 +43,15 @@ class AccountManagementPanel extends HookConsumerWidget {
                 context: context,
                 currentAccount: state.account!,
                 accounts: state.accounts,
-                isLoading: state.isLoading,
+                isLoading: appNavBarState.isLoading,
                 onImport: () => Navigator.of(context).push(
                   route.featureDialog(
                     const ImportAccountPage(),
                   ),
                 ),
-                onAdd: () => presenter.addNewAccount(),
-                onSelect: (item) => presenter.changeAccount(item),
-                onRemove: (item) => presenter.removeAccount(item),
+                onAdd: () => appNavBarPresenter.addNewAccount(),
+                onSelect: (item) => appNavBarPresenter.changeAccount(item),
+                onRemove: (item) => appNavBarPresenter.removeAccount(item),
               ),
               child: Row(
                 children: [

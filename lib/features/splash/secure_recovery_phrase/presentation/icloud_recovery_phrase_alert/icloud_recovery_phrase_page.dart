@@ -58,7 +58,7 @@ class ICloudRecoveryPhrasePage extends RecoveryPhraseBasePage {
           const SizedBox(height: 12),
           Text(
             FlutterI18n.translate(context,
-                    'make_sure_you_have_stored_your_keys_correctly_in_your_x')
+                    'ensure_that_your_keys_are_stored_correctly_in_your_x')
                 .replaceFirst('{0}', FlutterI18n.translate(context, 'icloud')),
             style: FontTheme.of(context).body1().copyWith(
                   fontWeight: FontWeight.w500,

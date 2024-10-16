@@ -152,6 +152,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
   }
 
   Future<void> saveToGoogleDrive(bool settingsFlow) async {
+    loading = true;
     final mnemonic = getMnemonic(settingsFlow);
 
     // Trying to pass the auth headers to google drive use case for further api calls
@@ -170,19 +171,25 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
       addError(translate('unable_to_upload_backup_to_x')!
           .replaceFirst('{0}', translate('google_drive')!));
       collectLog(e.toString());
+    } finally {
+      loading = false;
     }
   }
 
   Future<void> saveToICloud(bool settingsFlow) async {
+    loading = true;
     final mnemonic = getMnemonic(settingsFlow);
 
     try {
+      await Future.delayed(Duration(seconds: 5));
       await _iCloudUseCase.uploadBackup(mnemonic);
       nextProcess(settingsFlow, mnemonic);
     } catch (e) {
       addError(translate('unable_to_upload_backup_to_x')!
           .replaceFirst('{0}', translate('icloud')!));
       collectLog(e.toString());
+    } finally {
+      loading = false;
     }
   }
 

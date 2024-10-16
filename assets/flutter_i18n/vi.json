@@ -455,7 +455,6 @@
     "in": "Đang tải..",
     "google_drive_secured_storage": "Lưu trữ bảo mật Google Drive",
     "icloud_secured_storage": "Lưu trữ được bảo mật bởi iCloud",
-    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Hãy đảm bảo rằng bạn đã lưu trữ khóa của mình một cách chính xác trong {0}",
     "icloud": "iCloud",
     "google_drive": "Google Drive",
     "store_in_x": "Lưu trữ trong {0}",
@@ -464,5 +463,8 @@
     "email": "Email",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "Mua từ {0}, {1}, {2}, {3}, {4}, {5} hoặc {6} sàn giao dịch và gửi zkEVM MXC trực tiếp vào ví Moonchain",
     "unable_to_authenticate_with_x": "Không thể xác thực với {0}.",
-    "unable_to_upload_backup_to_x": "Không thể tải bản sao lưu lên {0}."
+    "unable_to_upload_backup_to_x": "Không thể tải bản sao lưu lên {0}.",
+    "ensure_that_your_keys_are_stored_correctly_in_your_x": "Hãy đảm bảo rằng các khóa của bạn được lưu trữ chính xác trong {0} của bạn!",
+    "google_drive_backup_note": "Quan trọng: Chúng tôi lưu trữ cụm từ hạt giống ghi nhớ trong tệp có tên moonchain-key.txt nằm trong thư mục MoonBase.",
+    "tips_for_storing_keys_safely": "Mẹo lưu trữ khóa an toàn"
 }

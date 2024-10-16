@@ -114,7 +114,7 @@ class SplashStoragePage extends SplashBasePage {
       MxcButton.secondaryWhite(
         key: const ValueKey('GoogleDriveButton'),
         icon: MxcIcons.google_drive,
-        iconSize: 24,
+        iconSize: 32,
         titleSize: 18,
         title: FlutterI18n.translate(context, 'google_drive_secured_storage'),
         onTap: () => Navigator.of(context).push(
@@ -130,7 +130,7 @@ class SplashStoragePage extends SplashBasePage {
           ? MxcButton.secondaryWhite(
               key: const ValueKey('icloudButton'),
               icon: MxcIcons.icloud,
-              iconSize: 18,
+              iconSize: 32,
               titleSize: 18,
               title: FlutterI18n.translate(context, 'icloud_secured_storage'),
               onTap: () => Navigator.of(context).push(

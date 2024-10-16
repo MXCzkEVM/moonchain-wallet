@@ -41,9 +41,7 @@ class ImportAccountPresenter extends CompletePresenter<ImportAccountState> {
 
       notify(() => state.isLoading = false);
       BottomFlowDialog.of(context!).close();
-      navigator?.popUntil((route) {
-        return route.settings.name?.contains('SettingsPage') ?? false;
-      });
+      navigator!.pop();
     } catch (error, stackTrace) {
       addError(error, stackTrace);
     } finally {

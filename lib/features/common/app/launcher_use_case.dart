@@ -22,14 +22,23 @@ class LauncherUseCase extends ReactiveUseCase {
   final AccountUseCase _accountUseCase;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
 
-  void viewTransactions() async {
-    final chainExplorerUrl =
-        _chainConfigurationUseCase.selectedNetwork.value!.explorerUrl!;
-    final address = _accountUseCase.account.value!.address;
-    final addressExplorer = Urls.addressExplorer(address);
-    final launchUri = MXCFormatter.mergeUrl(chainExplorerUrl, addressExplorer);
+  void viewTransactions(List<TransactionModel>? txList) async {
+    // Account should have tx
+    if (txList != null && txList.isNotEmpty) {
+      final chainExplorerUrl =
+          _chainConfigurationUseCase.selectedNetwork.value!.explorerUrl!;
+      final address = _accountUseCase.account.value!.address;
+      final ethAddress = EthereumAddress.fromHex(address);
+      final addressExplorer = Urls.addressExplorer(ethAddress.hexEip55);
+      final launchUri =
+          MXCFormatter.mergeUrl(chainExplorerUrl, addressExplorer);
 
-    openUrl(launchUri, LaunchMode.platformDefault);
+      openUrl(launchUri, LaunchMode.platformDefault);
+    } else {
+      final chainExplorerUrl = Uri.parse(
+          _chainConfigurationUseCase.selectedNetwork.value!.explorerUrl!);
+      openUrl(chainExplorerUrl, LaunchMode.platformDefault);
+    }
   }
 
   /// Launches the given txHash in the chains explorer tx page

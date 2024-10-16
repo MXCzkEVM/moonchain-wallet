@@ -455,7 +455,6 @@
     "in": "Loading..",
     "google_drive_secured_storage": "Google Drive beveiligde opslag",
     "icloud_secured_storage": "iCloud-beveiligde opslag",
-    "make_sure_you_have_stored_your_keys_correctly_in_your_x": "Zorg ervoor dat u uw sleutels correct hebt opgeslagen in uw {0}",
     "icloud": "iCloud",
     "google_drive": "Google Drive",
     "store_in_x": "Bewaar in {0}",
@@ -464,5 +463,8 @@
     "email": "E-mail",
     "deposit_from_exchanges_to_moonchain_wallet_notice": "Koop van {0}, {1}, {2}, {3}, {4}, {5} of {6} beurzen en stort zkEVM MXC direct naar de Moonchain-portemonnee",
     "unable_to_authenticate_with_x": "Kan niet authenticeren met {0}.",
-    "unable_to_upload_backup_to_x": "Kan geen back-up uploaden naar {0}."
+    "unable_to_upload_backup_to_x": "Kan geen back-up uploaden naar {0}.",
+    "ensure_that_your_keys_are_stored_correctly_in_your_x": "Zorg ervoor dat uw sleutels correct zijn opgeslagen in uw {0}!",
+    "google_drive_backup_note": "Belangrijk: We slaan de mnemonische zaadzin op in het bestand met de naam moonchain-key.txt dat zich in de MoonBase-map bevindt.",
+    "tips_for_storing_keys_safely": "Tip voor het veilig bewaren van sleutels"
 }
