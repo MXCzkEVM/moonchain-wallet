@@ -16,12 +16,10 @@ import 'card_item.dart';
 class DAppCard extends HookConsumerWidget {
   final Dapp dapp;
   final int index;
-  // final double width;
   final int mainAxisCount;
   const DAppCard({
     super.key,
     required this.index,
-    // required this.width,
     required this.dapp,
     required this.mainAxisCount,
   });

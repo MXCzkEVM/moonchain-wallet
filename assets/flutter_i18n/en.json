@@ -466,5 +466,9 @@
 	"unable_to_authenticate_with_x": "Unable to authenticate with {0}.",
 	"unable_to_upload_backup_to_x": "Unable to upload backup to {0}.",
 	"google_drive_backup_note": "Important: We save the mnemonic seed phrase in the file named moonchain-key.txt located in the MoonBase folder.",
-	"tips_for_storing_keys_safely": "Tip for Storing Keys Safely"
+	"tips_for_storing_keys_safely": "Tip for Storing Keys Safely",
+	"dapps": "DApps",
+	"partner": "Partner",
+	"native": "Native",
+	"see_all": "See all"
 }

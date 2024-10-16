@@ -8,10 +8,9 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../dapps_state.dart';
 import '../widgets/dapp_indicator.dart';
-import 'dapps_layout/card_item.dart';
 import 'dapp_loading.dart';
 import 'dapp_utils.dart';
-import 'dapps_layout/dapp_card.dart';
+import 'dapps_layout/dapps_layout.dart';
 
 class DappCardLayout extends HookConsumerWidget {
   const DappCardLayout({
@@ -29,9 +28,12 @@ class DappCardLayout extends HookConsumerWidget {
     final actions = ref.read(appsPagePageContainer.actions);
     final dapps = state.orderedDapps;
 
-    final List<Dapp> bookmarksDapps = [];
-    final List<Dapp> nativeDapps = [];
-    final List<Dapp> partnerDapps = [];
+    final List<Dapp> bookmarksDapps = dapps.whereType<Bookmark>().toList();
+    final List<Dapp> nativeDapps =
+        dapps.where((e) => e.app?.providerType == ProviderType.native).toList();
+    final List<Dapp> partnerDapps = dapps
+        .where((e) => e.app?.providerType == ProviderType.thirdParty)
+        .toList();
 
     final pages = actions.calculateMaxItemsCount(
         dapps.length, mainAxisCount, crossAxisCount);
@@ -91,164 +93,18 @@ class DappCardLayout extends HookConsumerWidget {
         //     },
         //   ),
         // ),
-        DAppProviderHeader(
-          providerTitle: '${translate('native')} ${translate('dapps')}',
-        ),
-        Expanded(
-          flex: 2,
-          child: GridView.builder(
-            scrollDirection: Axis.horizontal,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: 2 / 3,
-            ),
-            itemCount: dapps.length,
-            itemBuilder: (context, index) => DAppCard(
-              index: index,
-              // width: itemWidth,
-              dapp: dapps[index],
-              mainAxisCount: mainAxisCount,
-            ),
-          ),
-        ),
-        DAppProviderHeader(
-          providerTitle: '${translate('partner')} ${translate('dapps')}',
-        ),
-        Expanded(
-          flex: 2,
-          child: GridView.builder(
-            scrollDirection: Axis.horizontal,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: 2 / 3,
-            ),
-            itemCount: dapps.length,
-            itemBuilder: (context, index) => DAppCard(
-              index: index,
-              // width: itemWidth,
-              dapp: dapps[index],
-              mainAxisCount: mainAxisCount,
-            ),
-          ),
-        ),
-        DAppProviderHeader(
-          providerTitle: translate('bookmark'),
-        ),
-        Expanded(
-          child: GridView.builder(
-            scrollDirection: Axis.horizontal,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: 2 / 3,
-            ),
-            itemCount: dapps.length,
-            itemBuilder: (context, index) => DAppCard(
-              index: index,
-              // width: itemWidth,
-              dapp: dapps[index],
-              mainAxisCount: mainAxisCount,
-            ),
-          ),
-        ),
-        // const SizedBox(
-        //   height: Sizes.spaceXLarge,
-        // ),
-        // DAppIndicator(
-        //   total: pages,
-        //   selectedIndex: state.pageIndex,
-        // ),
+
+        ...buildDAppProviderSection('${translate('native')} ${translate('dapps')}', dapps, 2, 2, mainAxisCount),
+
+        ...buildDAppProviderSection('${translate('partner')} ${translate('dapps')}', dapps, 2, 2, mainAxisCount),
+
+        ...buildDAppProviderSection(
+            translate('bookmark'), dapps, 1, 1,mainAxisCount),
+
+        Container(
+          height: 50,
+        )
       ],
-    );
-  }
-}
-
-// List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
-//     DAppsState state, double itemWidth, int mainAxisCount) {
-//   List<Widget> dappCards = [];
-
-//   for (int i = 0; i < dapps.length; i++) {
-//     final item = dapps[i];
-//     final dappCard = DAppCard(
-//       index: i,
-//       // width: itemWidth,
-//       dapp: item,
-//       mainAxisCount: mainAxisCount,
-//     );
-//     dappCards.add(dappCard);
-//   }
-
-//   return dappCards;
-// }
-
-class DAppProviderHeader extends StatelessWidget {
-  final String providerTitle;
-  const DAppProviderHeader({super.key, required this.providerTitle});
-
-  @override
-  Widget build(
-    BuildContext context,
-  ) {
-    return Row(
-      children: [
-        Text(
-          providerTitle,
-          style: FontTheme.of(context).h7().copyWith(
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
-              color: ColorsTheme.of(context).textPrimary),
-        ),
-        const Spacer(),
-        Text(
-          FlutterI18n.translate(context, 'see_all'),
-          style: FontTheme.of(context).h7().copyWith(
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
-              color: ColorsTheme.of(context).textPrimary),
-        ),
-      ],
-    );
-  }
-}
-
-class DappsGridView extends StatelessWidget {
-  final int flex;
-  final int crossAxisCount;
-  final List<Dapp> dapps;
-  final int mainAxisCount;
-
-  const DappsGridView({
-    super.key,
-    required this.flex,
-    required this.crossAxisCount,
-    required this.dapps,
-    required this.mainAxisCount,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: flex,
-      child: GridView.builder(
-        scrollDirection: Axis.horizontal,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 2 / 3,
-        ),
-        itemCount: dapps.length,
-        itemBuilder: (context, index) => DAppCard(
-          index: index,
-          dapp: dapps[index],
-          mainAxisCount: mainAxisCount,
-        ),
-      ),
     );
   }
 }

@@ -51,15 +51,15 @@ Widget buildCard(
     },
     child: Container(
       padding: const EdgeInsets.all(10),
-      color: Colors.red,
       child: Row(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 2,
+          AspectRatio(
+            aspectRatio: 60/64,
             child: Stack(
               clipBehavior: Clip.none,
+              fit: StackFit.expand,
               children: [
                 image == null
                     ? Icon(
@@ -86,8 +86,8 @@ Widget buildCard(
                                     children: [
                                       Icon(
                                         Icons.image_not_supported_outlined,
-                                        color: ColorsTheme.of(context)
-                                            .textError,
+                                        color:
+                                            ColorsTheme.of(context).textError,
                                       ),
                                     ],
                                   );
@@ -99,7 +99,10 @@ Widget buildCard(
                             ? SvgPicture.asset(
                                 image,
                               )
-                            : Image.asset(image),
+                            : Image.asset(
+                                image,
+                                fit: BoxFit.fill,
+                              ),
                 if (isEditMode && dapp is Bookmark)
                   Positioned(
                     top: -6,
@@ -119,7 +122,6 @@ Widget buildCard(
             width: 10,
           ),
           Expanded(
-            flex: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -135,14 +137,16 @@ Widget buildCard(
                 const SizedBox(
                   height: 5,
                 ),
-                Text(
-                  info ?? '',
-                  style: FontTheme.of(context)
-                      .caption2
-                      .primary()
-                      .copyWith(fontWeight: FontWeight.w500),
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
+                Flexible(
+                  child: Text(
+                    info ?? '',
+                    style: FontTheme.of(context)
+                        .caption2
+                        .primary()
+                        .copyWith(fontWeight: FontWeight.w500),
+                    // softWrap: false,
+                    // overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
