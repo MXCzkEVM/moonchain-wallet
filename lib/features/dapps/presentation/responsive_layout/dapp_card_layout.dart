@@ -55,55 +55,14 @@ class DappCardLayout extends HookConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        // Expanded(
-        //   flex: 2,
-        //   child: LayoutBuilder(
-        //     builder: (context, constraint) {
-        //       actions.initializeViewPreferences(constraint.maxWidth);
-        //       final itemWidth = actions.getItemWidth();
-        //       return ReorderableWrapperWidget(
-        //         dragWidgetBuilder: DragWidgetBuilderV2(
-        //           builder: (index, child, screenshot) {
-        //             return Container(
-        //               child: child,
-        //             );
-        //           },
-        //         ),
-        //         // the drag and drop index is from (index passed to ReorderableItemView)
-        //         onReorder: (dragIndex, dropIndex) {
-        //           actions.handleOnReorder(dropIndex, dragIndex);
-        //         },
-        //         onDragUpdate: (dragIndex, position, delta) =>
-        //             actions.handleOnDragUpdate(position),
-        //         child: GridView(
-        //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //             crossAxisCount: crossAxisCount,
-        //             mainAxisExtent: constraint.maxWidth / mainAxisCount,
-        //           ),
-        //           scrollDirection: Axis.horizontal,
-        //           physics: const PageScrollPhysics(),
-        //           controller: actions.scrollController,
-        //           children: [
-        //             ...getList(dapps, actions, state, itemWidth, mainAxisCount),
-        //             ...emptyWidgets
-        //           ],
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ),
-
         ...buildDAppProviderSection('${translate('native')} ${translate('dapps')}', dapps, 2, 2, mainAxisCount),
-
+    
         ...buildDAppProviderSection('${translate('partner')} ${translate('dapps')}', dapps, 2, 2, mainAxisCount),
-
+    
         ...buildDAppProviderSection(
             translate('bookmark'), dapps, 1, 1,mainAxisCount),
-
-        Container(
-          height: 50,
-        )
       ],
     );
   }

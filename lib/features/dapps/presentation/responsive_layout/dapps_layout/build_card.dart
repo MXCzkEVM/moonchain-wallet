@@ -56,7 +56,7 @@ Widget buildCard(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           AspectRatio(
-            aspectRatio: 60/64,
+            aspectRatio: 60 / 64,
             child: Stack(
               clipBehavior: Clip.none,
               fit: StackFit.expand,
@@ -77,10 +77,11 @@ Widget buildCard(
                           )
                             ? SvgPicture.network(
                                 image,
+                                fit: BoxFit.fill,
                               )
                             : CachedNetworkImage(
                                 imageUrl: image,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                                 errorWidget: (context, url, error) {
                                   return Column(
                                     children: [
@@ -98,6 +99,7 @@ Widget buildCard(
                           )
                             ? SvgPicture.asset(
                                 image,
+                                fit: BoxFit.fill,
                               )
                             : Image.asset(
                                 image,
