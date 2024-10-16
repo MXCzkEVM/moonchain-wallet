@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCyny8vayQzMxTWnJcK7KIl7GKEwtloC8Q',
-    appId: '1:810578982053:android:98b17812d3f86af721094c',
+    appId: '1:810578982053:android:dbfbe51474fccc2b21094c',
     messagingSenderId: '810578982053',
     projectId: 'moonchain-app',
     storageBucket: 'moonchain-app.appspot.com',
