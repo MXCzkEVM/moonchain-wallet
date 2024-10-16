@@ -1,4 +1,4 @@
-package com.moonchain.mxc
+package com.moonchain.app
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
