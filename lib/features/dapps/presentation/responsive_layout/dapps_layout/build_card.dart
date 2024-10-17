@@ -22,17 +22,16 @@ Widget buildCard(
 }) {
   final isMobile = mainAxisCount == CardMainAxisCount.mobile;
   final imageRatioFactor = (isMobile ? 0.2 : 0.1);
-  String? image =
-      'packages/mxc_logic/assets/cache/MEP-1759-DApp-store/mxc_dapps_thumbnails/test.png';
-  // if (dapp is Bookmark) {
-  //   if ((dapp).image != null) {
-  //     image = (dapp).image!;
-  //   } else {
-  //     actions!.updateBookmarkFavIcon(dapp);
-  //   }
-  // } else {
-  //   image = dapp.reviewApi?.icon;
-  // }
+  String? image;
+  if (dapp is Bookmark) {
+    if ((dapp).image != null) {
+      image = (dapp).image!;
+    } else {
+      actions!.updateBookmarkFavIcon(dapp);
+    }
+  } else {
+    image = dapp.reviewApi?.iconV2;
+  }
   final name = dapp is Bookmark ? (dapp).title : dapp.app?.name;
   final url = dapp is Bookmark ? (dapp).url : dapp.app?.url;
   final info = dapp is Bookmark ? (dapp).description : dapp.app?.description;
