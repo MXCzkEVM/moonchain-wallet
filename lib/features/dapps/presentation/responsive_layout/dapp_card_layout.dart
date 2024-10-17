@@ -63,18 +63,18 @@ class DappCardLayout extends HookConsumerWidget {
       children: [
         ...buildDAppProviderSection(
             '${translate('native')} ${translate('dapps')}',
-            dapps,
+            nativeDapps,
             2,
             2,
             mainAxisCount),
         ...buildDAppProviderSection(
             '${translate('partner')} ${translate('dapps')}',
-            dapps,
+            partnerDapps,
             2,
             2,
             mainAxisCount),
         ...buildDAppProviderSection(
-            translate('bookmark'), dapps, 1, 1, mainAxisCount),
+            translate('bookmark'), bookmarksDapps, 1, 1, mainAxisCount),
       ],
     );
   }
