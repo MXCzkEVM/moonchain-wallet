@@ -9,8 +9,7 @@ import '../../dapps_presenter.dart';
 class DAppProviderHeader extends HookConsumerWidget {
   final String providerTitle;
   final List<Dapp> dapps;
-  const DAppProviderHeader(
-     {
+  const DAppProviderHeader({
     super.key,
     required this.dapps,
     required this.providerTitle,
@@ -34,8 +33,8 @@ class DAppProviderHeader extends HookConsumerWidget {
             Text(
               providerTitle,
               style: FontTheme.of(context).h7().copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w900,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
                   color: ColorsTheme.of(context).textPrimary),
             ),
             const Spacer(),
@@ -44,7 +43,7 @@ class DAppProviderHeader extends HookConsumerWidget {
               child: Text(
                 FlutterI18n.translate(context, 'see_all'),
                 style: FontTheme.of(context).h7().copyWith(
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: const Color(0xFF00AEFF)),
               ),

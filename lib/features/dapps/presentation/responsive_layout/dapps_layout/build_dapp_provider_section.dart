@@ -31,6 +31,9 @@ List<Widget> buildDAppProviderSection(
         dapps: dapps,
         mainAxisCount: mainAxisCount,
       ),
+      const SizedBox(
+        height: 10,
+      ),
     ];
   }
 }

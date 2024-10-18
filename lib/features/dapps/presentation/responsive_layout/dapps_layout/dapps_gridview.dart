@@ -32,7 +32,7 @@ class DappsGridView extends StatelessWidget {
                 crossAxisCount: crossAxisCount,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 4 / 7,
+                childAspectRatio: 4 / 8,
               ),
               itemCount: dapps.length,
               padding: const EdgeInsets.symmetric(vertical: 10),
