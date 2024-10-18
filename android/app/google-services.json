@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:810578982053:android:dbfbe51474fccc2b21094c",
+        "android_client_info": {
+          "package_name": "com.moonchain.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810578982053-5mthh5ep4k1601komn39hu7c4biu4chb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyny8vayQzMxTWnJcK7KIl7GKEwtloC8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "810578982053-5mthh5ep4k1601komn39hu7c4biu4chb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "810578982053-p196bn8p9ipg3709v4ftk2a28fcvi6ka.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.moonchain.mxc",
+                "app_store_id": "6736371768"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:810578982053:android:98b17812d3f86af721094c",
         "android_client_info": {
           "package_name": "com.moonchain.mxc"
@@ -19,6 +56,14 @@
           "android_info": {
             "package_name": "com.moonchain.mxc",
             "certificate_hash": "5c3aaff06b031aa5f90f61c1e1d3b79fc0294af0"
+          }
+        },
+        {
+          "client_id": "810578982053-misr3ehc1l6mhef3s25botsd3v8jje9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moonchain.mxc",
+            "certificate_hash": "2d7ddbcda8fff7b9cbc2b55d3b01e9ddc77c20e4"
           }
         },
         {
