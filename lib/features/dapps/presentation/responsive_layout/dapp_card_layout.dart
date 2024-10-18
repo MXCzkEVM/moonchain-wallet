@@ -53,29 +53,36 @@ class DappCardLayout extends HookConsumerWidget {
 
     String translate(String key) => FlutterI18n.translate(context, key);
 
+    Widget constraintWrapperWidget(Widget child) => ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 780),
+          child: child,
+        );
+
     if (state.seeAllDapps != null) {
       return DAppsListView(mainAxisCount: mainAxisCount);
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        ...buildDAppProviderSection(
-            '${translate('native')} ${translate('dapps')}',
-            nativeDapps,
-            2,
-            2,
-            mainAxisCount),
-        ...buildDAppProviderSection(
-            '${translate('partner')} ${translate('dapps')}',
-            partnerDapps,
-            2,
-            2,
-            mainAxisCount),
-        ...buildDAppProviderSection(
-            translate('bookmark'), bookmarksDapps, 1, 1, mainAxisCount),
-      ],
+    return constraintWrapperWidget(
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ...buildDAppProviderSection(
+              '${translate('native')} ${translate('dapps')}',
+              nativeDapps,
+              2,
+              2,
+              mainAxisCount),
+          ...buildDAppProviderSection(
+              '${translate('partner')} ${translate('dapps')}',
+              partnerDapps,
+              2,
+              2,
+              mainAxisCount),
+          ...buildDAppProviderSection(
+              translate('bookmark'), bookmarksDapps, 1, 1, mainAxisCount),
+        ],
+      ),
     );
   }
 }

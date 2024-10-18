@@ -38,9 +38,9 @@ class DAppsPage extends HookConsumerWidget {
       ),
       children: const [
         Expanded(
-          child: Center(
-            child: ResponsiveLayout(),
-          ),
+          child: Align(
+              alignment: AlignmentDirectional.topCenter,
+              child: ResponsiveLayout()),
         )
       ],
     );

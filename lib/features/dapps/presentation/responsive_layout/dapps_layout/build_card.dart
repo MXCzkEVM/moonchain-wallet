@@ -10,18 +10,13 @@ import 'card_item.dart';
 Widget buildCard(
   BuildContext context,
   Dapp dapp,
-  int mainAxisCount,
   VoidCallback? onTap,
-  bool isEditMode,
-  // double width,
-  {
-  double? ratioFactor,
+  bool isEditMode, {
   DAppsPagePresenter? actions,
   void Function()? shatter,
   bool animated = false,
+  bool contextMenuAnimation = false,
 }) {
-  final isMobile = mainAxisCount == CardMainAxisCount.mobile;
-  final imageRatioFactor = (isMobile ? 0.2 : 0.1);
   String? image;
   if (dapp is Bookmark) {
     if ((dapp).image != null) {
@@ -35,7 +30,6 @@ Widget buildCard(
   final name = dapp is Bookmark ? (dapp).title : dapp.app?.name;
   final url = dapp is Bookmark ? (dapp).url : dapp.app?.url;
   final info = dapp is Bookmark ? (dapp).description : dapp.app?.description;
-  // final imageSize = width * (ratioFactor ?? imageRatioFactor);
   return GestureDetector(
     onTap: () {
       if (animated) {
@@ -119,39 +113,39 @@ Widget buildCard(
               ],
             ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name ?? url ?? '',
-                  style: FontTheme.of(context)
-                      .caption1
-                      .primary()
-                      .copyWith(fontWeight: FontWeight.w700),
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Flexible(
-                  child: Text(
-                    info ?? '',
-                    style: FontTheme.of(context)
-                        .caption2
-                        .primary()
-                        .copyWith(fontWeight: FontWeight.w500),
-                    // softWrap: false,
-                    // overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+          if (!contextMenuAnimation) ...[
+            const SizedBox(
+              width: 10,
             ),
-          ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name ?? url ?? '',
+                    style: FontTheme.of(context)
+                        .caption1
+                        .primary()
+                        .copyWith(fontWeight: FontWeight.w700),
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Flexible(
+                    child: Text(
+                      info ?? '',
+                      style: FontTheme.of(context)
+                          .caption2
+                          .primary()
+                          .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]
         ],
       ),
     ),

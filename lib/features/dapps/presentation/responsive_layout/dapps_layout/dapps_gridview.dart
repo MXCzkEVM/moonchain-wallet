@@ -39,7 +39,6 @@ class DappsGridView extends StatelessWidget {
               itemBuilder: (context, index) => DAppCard(
                 index: index,
                 dapp: dapps[index],
-                mainAxisCount: mainAxisCount,
               ),
             ),
     );
