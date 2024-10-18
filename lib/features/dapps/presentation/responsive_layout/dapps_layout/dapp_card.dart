@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import '../../dapps_presenter.dart';
 import 'build_card.dart';
 import 'context_menu_actions.dart';
@@ -16,14 +15,10 @@ import 'card_item.dart';
 class DAppCard extends HookConsumerWidget {
   final Dapp dapp;
   final int index;
-  final double width;
-  final int mainAxisCount;
   const DAppCard({
     super.key,
     required this.index,
-    required this.width,
     required this.dapp,
-    required this.mainAxisCount,
   });
 
   @override
@@ -56,10 +51,6 @@ class DAppCard extends HookConsumerWidget {
             };
     }
 
-    final isMobile = mainAxisCount == CardMainAxisCount.mobile;
-    final imageRatioFactor = (isMobile ? 0.2 : 0.1);
-    final animatedSize = (isMobile ? 0.25 : 0.15);
-    final sizeLimit = (imageRatioFactor / animatedSize);
 
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 75),
@@ -83,40 +74,31 @@ class DAppCard extends HookConsumerWidget {
 
     Widget getCardItem({void Function()? shatter}) {
       if (isEditMode) {
-        return ReorderableItemView(
-          key: Key(dappUrl),
-          index: index,
-          child: AnimatedBuilder(
-            animation: animationController,
-            builder: (context, child) {
-              return Transform.rotate(
-                angle: animationController.value *
-                    (pi / 8), // Adjust the range of rotation
-                child: child,
-              );
-            },
-            child: SizedBox.expand(
-                child: buildCard(
-                    context, dapp, mainAxisCount, onTap, isEditMode, width,
-                    shatter: shatter, actions: actions)),
-          ),
+        return AnimatedBuilder(
+          animation: animationController,
+          builder: (context, child) {
+            return Transform.rotate(
+              angle: animationController.value *
+                  (pi / 8), 
+              child: child,
+            );
+          },
+          child: SizedBox.expand(
+              child: buildCard(
+                  context, dapp, onTap, isEditMode, 
+                  shatter: shatter, actions: actions)),
         );
       }
       return CupertinoContextMenuExtended.builder(
         builder: (context, animation) {
           return SizedBox(
-            width: MediaQuery.of(context).size.width / (mainAxisCount),
-            height: MediaQuery.of(context).size.width / (mainAxisCount),
+            width: 300,
+            height: 140,
             child: buildCard(
               context,
               dapp,
-              mainAxisCount,
               onTap,
               isEditMode,
-              width,
-              ratioFactor: animation.value < sizeLimit
-                  ? null
-                  : (animatedSize * animation.value),
               shatter: shatter,
               actions: actions,
               animated: animation.value != 0.0,

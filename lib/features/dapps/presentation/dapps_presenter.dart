@@ -240,6 +240,18 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     reorderHelper.handleOnReorder(newIndex, oldIndex);
   }
 
+  selectSeeAllDApps(List<Dapp> dapps) {
+    notify(
+      () => state.seeAllDapps = dapps,
+    );
+  }
+
+  deselectSeeAllDApps() {
+    notify(
+      () => state.seeAllDapps = null,
+    );
+  }
+
   @override
   Future<void> dispose() async {
     state.timer?.cancel();
