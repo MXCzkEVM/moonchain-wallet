@@ -18,7 +18,8 @@ Widget buildCard(
   bool contextMenuAnimation = false,
 }) {
   String? image;
-  if (dapp is Bookmark) {
+  final isBookmark = dapp is Bookmark;
+  if (isBookmark) {
     if ((dapp).image != null) {
       image = (dapp).image!;
     } else {
@@ -48,69 +49,29 @@ Widget buildCard(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          AspectRatio(
-            aspectRatio: 60 / 64,
-            child: Stack(
-              clipBehavior: Clip.none,
-              fit: StackFit.expand,
-              children: [
-                image == null
-                    ? Icon(
-                        Icons.image_not_supported_rounded,
-                        color: ColorsTheme.of(context).textPrimary,
-                      )
-                    : image.contains(
-                              'https',
-                            ) ||
-                            image.contains(
-                              'http',
-                            )
-                        ? image.contains(
-                            'svg',
-                          )
-                            ? SvgPicture.network(
-                                image,
-                                fit: BoxFit.fill,
-                              )
-                            : CachedNetworkImage(
-                                imageUrl: image,
-                                fit: BoxFit.fill,
-                                errorWidget: (context, url, error) {
-                                  return Column(
-                                    children: [
-                                      Icon(
-                                        Icons.image_not_supported_outlined,
-                                        color:
-                                            ColorsTheme.of(context).textError,
-                                      ),
-                                    ],
-                                  );
-                                },
-                              )
-                        : image.contains(
-                            'svg',
-                          )
-                            ? SvgPicture.asset(
-                                image,
-                                fit: BoxFit.fill,
-                              )
-                            : Image.asset(
-                                image,
-                                fit: BoxFit.fill,
-                              ),
-                if (isEditMode && dapp is Bookmark)
-                  Positioned(
-                    top: -6,
-                    left: -6,
-                    child: GestureDetector(
-                      onTap: () =>
-                          actions!.removeBookmarkDialog(dapp, shatter!),
-                      child: const Icon(
-                        Icons.remove_circle_rounded,
+          Expanded(
+            flex: 2,
+            child: AspectRatio(
+              aspectRatio: 60 / 64,
+              child: Stack(
+                clipBehavior: Clip.none,
+                fit: StackFit.expand,
+                children: [
+                  buildDappIcon(context, image, isBookmark),
+                  if (isEditMode && dapp is Bookmark)
+                    Positioned(
+                      top: -6,
+                      left: -6,
+                      child: GestureDetector(
+                        onTap: () =>
+                            actions!.removeBookmarkDialog(dapp, shatter!),
+                        child: const Icon(
+                          Icons.remove_circle_rounded,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
           if (!contextMenuAnimation) ...[
@@ -118,15 +79,16 @@ Widget buildCard(
               width: 10,
             ),
             Expanded(
+              flex: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name ?? url ?? '',
                     style: FontTheme.of(context)
-                        .caption1
+                        .subtitle2
                         .primary()
-                        .copyWith(fontWeight: FontWeight.w700),
+                        .copyWith(fontWeight: FontWeight.w800),
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -137,7 +99,7 @@ Widget buildCard(
                     child: Text(
                       info ?? '',
                       style: FontTheme.of(context)
-                          .caption2
+                          .caption1
                           .primary()
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
@@ -150,4 +112,77 @@ Widget buildCard(
       ),
     ),
   );
+}
+
+class DappIcon extends StatelessWidget {
+  final String? image;
+  const DappIcon({super.key, required this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    if (image == null) {
+      return Icon(
+        Icons.image_not_supported_rounded,
+        color: ColorsTheme.of(context).textPrimary,
+      );
+    }
+
+    final isNetworkImage = image!.contains(
+          'https',
+        ) ||
+        image!.contains(
+          'http',
+        );
+
+    if (isNetworkImage) {
+      if (image!.contains('svg')) {
+        return SvgPicture.network(
+          image!,
+          fit: BoxFit.fill,
+        );
+      } else {
+        return CachedNetworkImage(
+          imageUrl: image!,
+          fit: BoxFit.fill,
+          errorWidget: (context, url, error) {
+            return Column(
+              children: [
+                Icon(
+                  Icons.image_not_supported_outlined,
+                  color: ColorsTheme.of(context).textError,
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } else {
+      if (image!.contains('svg')) {
+        return SvgPicture.asset(
+          image!,
+          fit: BoxFit.fill,
+        );
+      } else {
+        return Image.asset(
+          image!,
+          fit: BoxFit.fill,
+        );
+      }
+    }
+  }
+}
+
+Widget buildDappIcon(BuildContext context, String? image, bool isBookmark) {
+  return isBookmark
+      ? Container(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 28),
+          decoration: const BoxDecoration(
+            color: Color(0XFF040404),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          child: DappIcon(image: image),
+        )
+      : DappIcon(image: image);
 }
