@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "無法將備份上傳至 {0}。",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "確保您的金鑰正確儲存在您的 {0} 中！",
     "google_drive_backup_note": "重要：我們將助記詞種子儲存在 MoonBase 資料夾中名為 moonchain-key.txt 的檔案中。",
-    "tips_for_storing_keys_safely": "安全儲存鑰匙的秘訣"
+    "tips_for_storing_keys_safely": "安全儲存鑰匙的秘訣",
+    "dapps": "去中心化應用程式",
+    "partner": "合作夥伴",
+    "native": "原生",
+    "see_all": "全部顯示"
 }

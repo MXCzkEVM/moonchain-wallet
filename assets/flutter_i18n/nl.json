@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "Kan geen back-up uploaden naar {0}.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Zorg ervoor dat uw sleutels correct zijn opgeslagen in uw {0}!",
     "google_drive_backup_note": "Belangrijk: We slaan de mnemonische zaadzin op in het bestand met de naam moonchain-key.txt dat zich in de MoonBase-map bevindt.",
-    "tips_for_storing_keys_safely": "Tip voor het veilig bewaren van sleutels"
+    "tips_for_storing_keys_safely": "Tip voor het veilig bewaren van sleutels",
+    "dapps": "DApps",
+    "partner": "Partner",
+    "native": "Inheems",
+    "see_all": "Alles bekijken"
 }

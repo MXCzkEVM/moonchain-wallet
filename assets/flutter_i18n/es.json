@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "No se pudo cargar la copia de seguridad en {0}.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Asegúrese de que sus claves estén almacenadas correctamente en su {0}!",
     "google_drive_backup_note": "Importante: Guardamos la frase semilla mnemónica en el archivo llamado moonchain-key.txt ubicado en la carpeta MoonBase.",
-    "tips_for_storing_keys_safely": "Consejo para guardar las llaves de forma segura"
+    "tips_for_storing_keys_safely": "Consejo para guardar las llaves de forma segura",
+    "dapps": "DApps",
+    "partner": "Socio",
+    "native": "Nativo",
+    "see_all": "Ver todo"
 }

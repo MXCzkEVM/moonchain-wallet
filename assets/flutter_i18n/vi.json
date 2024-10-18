@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "Không thể tải bản sao lưu lên {0}.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Hãy đảm bảo rằng các khóa của bạn được lưu trữ chính xác trong {0} của bạn!",
     "google_drive_backup_note": "Quan trọng: Chúng tôi lưu trữ cụm từ hạt giống ghi nhớ trong tệp có tên moonchain-key.txt nằm trong thư mục MoonBase.",
-    "tips_for_storing_keys_safely": "Mẹo lưu trữ khóa an toàn"
+    "tips_for_storing_keys_safely": "Mẹo lưu trữ khóa an toàn",
+    "dapps": "Ứng dụng phi tập trung",
+    "partner": "Đối tác",
+    "native": "Bản địa",
+    "see_all": "Xem tất cả"
 }
