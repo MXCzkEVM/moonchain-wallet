@@ -22,6 +22,11 @@ class AppinioSocialShare {
         .shareToTelegram(message, filePath: filePath);
   }
 
+  Future<String> shareToTelegramWeb(String message, {String? filePath}) {
+    return AppinioSocialSharePlatform.instance
+        .shareToTelegramWeb(message, filePath: filePath);
+  }
+
   Future<String> shareToTwitter(String message, {String? filePath}) {
     return AppinioSocialSharePlatform.instance
         .shareToTwitter(message, filePath: filePath);
