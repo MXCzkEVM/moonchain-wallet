@@ -38,6 +38,7 @@ public class AppinioSocialSharePlugin implements FlutterPlugin, MethodCallHandle
     private final String SYSTEM_SHARE = "system_share";
     private final String COPY_TO_CLIPBOARD = "copy_to_clipboard";
     private final String TELEGRAM = "telegram";
+    private final String TELEGRAM_WEB = "telegram_web";
 
     private SocialShareUtil socialShareUtil;
     private MethodChannel channel;
@@ -103,6 +104,8 @@ public class AppinioSocialSharePlugin implements FlutterPlugin, MethodCallHandle
                 return socialShareUtil.shareToWhatsApp(imagePath, message, activeContext);
             case TELEGRAM:
                 return socialShareUtil.shareToTelegram(imagePath, activeContext, message);
+            case TELEGRAM_WEB:
+                return socialShareUtil.shareToTelegramWeb(imagePath, activeContext, message);                
             case TWITTER:
                 return socialShareUtil.shareToTwitter(imagePath, activeContext, message);
             case COPY_TO_CLIPBOARD:

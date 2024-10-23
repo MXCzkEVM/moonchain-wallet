@@ -22,6 +22,7 @@ class MethodChannelAppinioSocialShare extends AppinioSocialSharePlatform {
   final String systemShare = "system_share";
   final String copyToClipboard = "copy_to_clipboard";
   final String telegram = "telegram";
+  final String telegramWeb = "telegram_web";
   final String installedApps = "installed_apps";
 
   /// The method channel used to interact with the native platform.
@@ -60,6 +61,13 @@ class MethodChannelAppinioSocialShare extends AppinioSocialSharePlatform {
   Future<String> shareToTelegram(String message, {String? filePath}) async {
     return ((await methodChannel.invokeMethod<String>(
             telegram, {"imagePath": filePath, "message": message})) ??
+        "");
+  }
+
+  @override
+  Future<String> shareToTelegramWeb(String message, {String? filePath}) async {
+    return ((await methodChannel.invokeMethod<String>(
+            telegramWeb, {"imagePath": filePath, "message": message})) ??
         "");
   }
 
