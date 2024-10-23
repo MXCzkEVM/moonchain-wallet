@@ -49,26 +49,28 @@ Widget buildCard(
         children: [
           Expanded(
             flex: 2,
-            child: AspectRatio(
-              aspectRatio: 60 / 64,
-              child: Stack(
-                clipBehavior: Clip.none,
-                fit: StackFit.expand,
-                children: [
-                  buildDappIcon(context, image, isBookmark),
-                  if (isEditMode && dapp is Bookmark)
-                    Positioned(
-                      top: -6,
-                      left: -6,
-                      child: GestureDetector(
-                        onTap: () =>
-                            actions!.removeBookmarkDialog(dapp, shatter!),
-                        child: const Icon(
-                          Icons.remove_circle_rounded,
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: 60 / 64,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  fit: StackFit.expand,
+                  children: [
+                    buildDappIcon(context, image, isBookmark),
+                    if (isEditMode && dapp is Bookmark)
+                      Positioned(
+                        top: -6,
+                        left: -6,
+                        child: GestureDetector(
+                          onTap: () =>
+                              actions!.removeBookmarkDialog(dapp, shatter!),
+                          child: const Icon(
+                            Icons.remove_circle_rounded,
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -24,7 +24,7 @@ class DAppsListView extends HookConsumerWidget {
       return Container();
     }
 
-    final itemMaxWidth = MediaQuery.of(context).size.width / 3.5;
+    final itemMaxWidth = MediaQuery.of(context).size.width / 4;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,13 +40,16 @@ class DAppsListView extends HookConsumerWidget {
           child: ListView.builder(
             itemCount: dapps.length,
             padding: const EdgeInsets.all(10),
-            itemBuilder: (context, index) => ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: itemMaxWidth > 250 ? 250 : itemMaxWidth,
-              ),
-              child: DAppCard(
-                index: index,
-                dapp: dapps[index],
+            itemBuilder: (context, index) => Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: itemMaxWidth > 250 ? 250 : itemMaxWidth,
+                ),
+                child: DAppCard(
+                  index: index,
+                  dapp: dapps[index],
+                ),
               ),
             ),
           ),
