@@ -102,11 +102,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="mxc1usd.com"
-                    android:pathPrefix="/app/" />
+                <data android:host="mxc1usd.com" android:pathPrefix="/app/" />
 
                 <data android:scheme="https"/>
+            </intent-filter>
+
+            <!-- Deep Link  -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="moonbase" android:host="mxc1usd.com" android:pathPrefix="/app/" />
             </intent-filter>
         </activity>
 
