@@ -85,8 +85,4 @@ It will upload to R2 storage and let the APK users to update automatically
 #### Repo activities
 
 ![Alt](https://repobeats.axiom.co/api/embed/9e4d9ed0556bec8d6005a78247b9ff51e01e92b3.svg "Repobeats analytics image")
-1. On `Build` menu, select a latest build of `release_china` branch, click `Distribute` to show a dialog on the right of screen.
 
-2. Click `Click to begin` to select the public group, and then click `Next` button to finish distribution process.
-
-3. Once distributed, you can check a latest version as you released on the `RELEASES` column of the public group on the `Groups` submenu of `Distribute` menu.
