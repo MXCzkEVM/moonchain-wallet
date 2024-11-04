@@ -66,7 +66,7 @@ class CustomerSupportPage extends HookConsumerWidget {
             key: const ValueKey('mxcSupport'),
             title: translate('mxc_support_form'),
             buttonLabel: translate('mxc_support'),
-            buttonFunction: ref.read(presenter).launchMXCZendesk),
+            buttonFunction: ref.read(presenter).launchMoonchainSupportBot),
         CustomerSupportButton(
             key: const ValueKey('browseDocuments'),
             title: translate('moonchain_design_documents'),

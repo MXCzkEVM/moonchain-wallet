@@ -148,7 +148,8 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   void transactionProcess() async {
     loading = true;
     final amount = amountController.text;
-    final recipient = recipientController.text;
+    final recipient =
+        EthereumAddress.fromHex(recipientController.text).hexEip55;
     String recipientAddress = await getAddress(recipient);
     double sumBalance = token.balance! - double.parse(amount);
 
