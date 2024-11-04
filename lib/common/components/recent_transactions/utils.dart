@@ -76,7 +76,8 @@ class RecentTransactionsUtils {
     }
     return items.map((e) {
       final foundToken = tokensList.firstWhere(
-          (element) => element.address == e.token.address,
+          (element) =>
+              element.address?.toLowerCase() == e.token.address?.toLowerCase(),
           orElse: () => Token());
       final logoUrl = foundToken.logoUri ??
           e.token.logoUri ??
