@@ -10,14 +10,20 @@ class AccountCacheRepository extends GlobalCacheRepository {
             'name': s?.name,
             'mns': s?.mns,
             'privateKey': s?.privateKey,
-            'address': s?.address,
+            // Our ethereum addresses weren't eip55 and they were cached
+            // This way we try to standardize It
+            'address': s?.address == null
+                ? null
+                : EthereumAddress.fromHex(s!.address).hexEip55,
             'isCustom': s?.isCustom
           },
       deserializer: (i) => Account(
             name: i['name'],
             mns: i['mns'],
             privateKey: i['privateKey'],
-            address: i['address'],
+            // Our ethereum addresses weren't eip55 and they were cached
+            // This way we try to standardize It
+            address: EthereumAddress.fromHex(i['address']).hexEip55,
             isCustom: (i as Map<String, dynamic>).containsKey('isCustom')
                 ? i['isCustom']
                 : false,
