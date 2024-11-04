@@ -104,8 +104,8 @@ class LauncherUseCase extends ReactiveUseCase {
     return await canLaunchUrl(url);
   }
 
-  Future<void> launchMXCZendesk() async {
-    await launchUrlInExternalAppWithString(Urls.mxcZendesk);
+  Future<void> launchMoonchainSupportBot() async {
+    await launchUrlInExternalAppWithString(Urls.moonchainSupportBot);
   }
 
   Future<void> launchMoonchainWebsite() async {

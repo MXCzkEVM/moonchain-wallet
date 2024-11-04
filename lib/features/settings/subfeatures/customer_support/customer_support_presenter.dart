@@ -65,8 +65,8 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
     notify(() => state.applist = applist);
   }
 
-  Future<void> launchMXCZendesk() async {
-    return _launcherUseCase.launchMXCZendesk();
+  Future<void> launchMoonchainSupportBot() async {
+    return _launcherUseCase.launchMoonchainSupportBot();
   }
 
   Future<void> launchMXCKnowledgeHub() async {
