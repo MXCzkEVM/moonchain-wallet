@@ -72,16 +72,20 @@ class TokenContractUseCase extends ReactiveUseCase {
   }
 
   Future<WannseeTransactionsModel?> getTransactionsByAddress(
-      String address) async {
+    String address,
+  ) async {
     return _repository.tokenContract.getTransactionsByAddress(address);
   }
 
-  Future<WannseeTransactionModel?> getTransactionByHash(String hash) async {
+  Future<WannseeTransactionModel?> getTransactionByHash(
+    String hash,
+  ) async {
     return _repository.tokenContract.getTransactionByHash(hash);
   }
 
   Future<WannseeTokenTransfersModel?> getTokenTransfersByAddress(
-      String address) async {
+    String address,
+  ) async {
     return _repository.tokenContract
         .getTokenTransfersByAddress(address, TokenType.erc_20);
   }

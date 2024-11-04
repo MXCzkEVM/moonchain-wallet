@@ -37,7 +37,7 @@ class MinerUseCase extends ReactiveUseCase {
   Future<MinerListModel> getAddressMiners(
     String address,
   ) async =>
-      await _repository.minerRepository.getAddressMiners(address);
+      await _repository.minerRepository.getAddressMiners(address.toLowerCase());
 
   Future<List<ClaimEarn>> helperGetClaimRewards(
     GetClaimRewardsQuery query,
@@ -51,7 +51,7 @@ class MinerUseCase extends ReactiveUseCase {
     List<String> miners,
   ) async {
     return await _repository.minerRepository
-        .helperGetClaimTotal(query, address, miners);
+        .helperGetClaimTotal(query, address.toLowerCase(), miners);
   }
 
   void getExpirationDateForEpoch() async {
