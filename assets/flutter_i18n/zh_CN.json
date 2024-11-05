@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "无法将备份上传到 {0}。",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "确保您的密钥正确存储在您的 {0} 中！",
     "google_drive_backup_note": "重要提示：我们将助记词种子短语保存在 MoonBase 文件夹中的名为 moonchain-key.txt 的文件中。",
-    "tips_for_storing_keys_safely": "安全存放钥匙的小贴士"
+    "tips_for_storing_keys_safely": "安全存放钥匙的小贴士",
+    "dapps": "去中心化应用",
+    "partner": "合作伙伴",
+    "native": "本地",
+    "see_all": "查看全部"
 }

@@ -9,6 +9,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:moonchain_wallet/features/dapps/subfeatures/open_dapp/open_dapp.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 import 'json_util.dart';
 
@@ -834,6 +836,10 @@ class InAppWebViewEIP1193 extends StatefulWidget {
 class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
   /// Script provider will inject in web app
   String? jsProviderScript;
+  String jsChannelScript = JSChannelScripts.axsWalletObjectInjectScript(
+      JSChannelConfig.axsWalletJSObjectName);
+  String jsBluetoothScript = JSChannelScripts.axsWalletObjectInjectScript(
+      JSChannelConfig.axsWalletJSObjectName);
 
   /// Load provider and function initial web3 end
   bool isLoadJs = false;
@@ -848,12 +854,19 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
   ///Load provider initial web3 to inject web app
   Future<void> _loadWeb3() async {
     String? web3;
+    String? jsChannelBluetoothScript;
+
     String path = widget.customPathProvider ??
         'packages/web3_provider/assets/posi.min.js';
     web3 = await DefaultAssetBundle.of(context).loadString(path);
+
+    jsChannelBluetoothScript = await JSChannelUtils.loadJSBluetoothScript(
+      context,
+    );
     if (mounted) {
       setState(() {
         jsProviderScript = web3;
+        jsBluetoothScript = jsChannelBluetoothScript!;
         isLoadJs = true;
       });
     }
@@ -942,6 +955,16 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
                         ),
                         UserScript(
                           source: _getFunctionInject(),
+                          injectionTime:
+                              UserScriptInjectionTime.AT_DOCUMENT_START,
+                        ),
+                        UserScript(
+                          source: jsChannelScript,
+                          injectionTime:
+                              UserScriptInjectionTime.AT_DOCUMENT_START,
+                        ),
+                        UserScript(
+                          source: jsBluetoothScript,
                           injectionTime:
                               UserScriptInjectionTime.AT_DOCUMENT_START,
                         ),

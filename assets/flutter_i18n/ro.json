@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "Imposibil de încărcat backup-ul la {0}.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Asigurați-vă că cheile dvs. sunt stocate corect în {0}!",
     "google_drive_backup_note": "Important: Salvam fraza mnemonică seed în fișierul denumit moonchain-key.txt aflat în folderul MoonBase.",
-    "tips_for_storing_keys_safely": "Sfat pentru păstrarea cheilor în siguranță"
+    "tips_for_storing_keys_safely": "Sfat pentru păstrarea cheilor în siguranță",
+    "dapps": "DApps",
+    "partner": "Partener",
+    "native": "Nativ",
+    "see_all": "Vezi toate"
 }

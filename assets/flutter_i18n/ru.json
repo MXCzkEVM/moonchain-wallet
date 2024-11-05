@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "Невозможно загрузить резервную копию в {0}.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Убедитесь, что ваши ключи хранятся правильно в вашем {0}!",
     "google_drive_backup_note": "Важно: Мы сохраняем мнемоническую фразу в файле с именем moonchain-key.txt, расположенном в папке MoonBase.",
-    "tips_for_storing_keys_safely": "Совет по безопасному хранению ключей"
+    "tips_for_storing_keys_safely": "Совет по безопасному хранению ключей",
+    "dapps": "DApps",
+    "partner": "Партнер",
+    "native": "Родной",
+    "see_all": "Смотреть все"
 }

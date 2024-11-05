@@ -1,3 +1,4 @@
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:moonchain_wallet/features/dapps/presentation/dapps_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,10 +8,9 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../dapps_state.dart';
 import '../widgets/dapp_indicator.dart';
-import 'dapps_layout/card_item.dart';
 import 'dapp_loading.dart';
 import 'dapp_utils.dart';
-import 'dapps_layout/dapp_card.dart';
+import 'dapps_layout/dapps_layout.dart';
 
 class DappCardLayout extends HookConsumerWidget {
   const DappCardLayout({
@@ -28,6 +28,13 @@ class DappCardLayout extends HookConsumerWidget {
     final actions = ref.read(appsPagePageContainer.actions);
     final dapps = state.orderedDapps;
 
+    final List<Dapp> bookmarksDapps = dapps.whereType<Bookmark>().toList();
+    final List<Dapp> nativeDapps =
+        dapps.where((e) => e.app?.providerType == ProviderType.native).toList();
+    final List<Dapp> partnerDapps = dapps
+        .where((e) => e.app?.providerType == ProviderType.thirdParty)
+        .toList();
+
     final pages = actions.calculateMaxItemsCount(
         dapps.length, mainAxisCount, crossAxisCount);
     final emptyItems = actions.getRequiredItems(
@@ -44,70 +51,38 @@ class DappCardLayout extends HookConsumerWidget {
 
     if (dapps.isEmpty) return Container();
 
-    return Column(
-      children: [
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraint) {
-              actions.initializeViewPreferences(constraint.maxWidth);
-              final itemWidth = actions.getItemWidth();
-              return ReorderableWrapperWidget(
-                dragWidgetBuilder: DragWidgetBuilderV2(
-                  builder: (index, child, screenshot) {
-                    return Container(
-                      child: child,
-                    );
-                  },
-                ),
-                // the drag and drop index is from (index passed to ReorderableItemView)
-                onReorder: (dragIndex, dropIndex) {
-                  actions.handleOnReorder(dropIndex, dragIndex);
-                },
-                onDragUpdate: (dragIndex, position, delta) =>
-                    actions.handleOnDragUpdate(position),
-                child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    mainAxisExtent: constraint.maxWidth / mainAxisCount,
-                  ),
-                  scrollDirection: Axis.horizontal,
-                  physics: const PageScrollPhysics(),
-                  controller: actions.scrollController,
-                  children: [
-                    ...getList(dapps, actions, state, itemWidth, mainAxisCount),
-                    ...emptyWidgets
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-        const SizedBox(
-          height: Sizes.spaceXLarge,
-        ),
-        DAppIndicator(
-          total: pages,
-          selectedIndex: state.pageIndex,
-        ),
-      ],
+    String translate(String key) => FlutterI18n.translate(context, key);
+
+    Widget constraintWrapperWidget(Widget child) => ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 780),
+          child: child,
+        );
+
+    if (state.seeAllDapps != null) {
+      return DAppsListView(mainAxisCount: mainAxisCount);
+    }
+
+    return constraintWrapperWidget(
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ...buildDAppProviderSection(
+              '${translate('native')} ${translate('dapps')}',
+              nativeDapps,
+              2,
+              2,
+              mainAxisCount),
+          ...buildDAppProviderSection(
+              '${translate('partner')} ${translate('dapps')}',
+              partnerDapps,
+              2,
+              2,
+              mainAxisCount),
+          ...buildDAppProviderSection(
+              translate('bookmark'), bookmarksDapps, 1, 1, mainAxisCount),
+        ],
+      ),
     );
   }
-}
-
-List<Widget> getList(List<Dapp> dapps, DAppsPagePresenter actions,
-    DAppsState state, double itemWidth, int mainAxisCount) {
-  List<Widget> dappCards = [];
-
-  for (int i = 0; i < dapps.length; i++) {
-    final item = dapps[i];
-    final dappCard = DAppCard(
-      index: i,
-      width: itemWidth,
-      dapp: item,
-      mainAxisCount: mainAxisCount,
-    );
-    dappCards.add(dappCard);
-  }
-
-  return dappCards;
 }

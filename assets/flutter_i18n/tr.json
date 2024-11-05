@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "Yedekleme {0}'a yüklenemedi.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Anahtarlarınızın {0} içinde doğru bir şekilde saklandığından emin olun!",
     "google_drive_backup_note": "Önemli: AyZincir anahtar sözcüğünü MoonBase klasöründe bulunan moonchain-key.txt adlı dosyaya kaydediyoruz.",
-    "tips_for_storing_keys_safely": "Anahtarları Güvenle Saklama İpucu"
+    "tips_for_storing_keys_safely": "Anahtarları Güvenle Saklama İpucu",
+    "dapps": "DApp'ler",
+    "partner": "Ortak",
+    "native": "Yerli",
+    "see_all": "Hepsini Gör"
 }

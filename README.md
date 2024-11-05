@@ -36,7 +36,7 @@ The repository: https://github.com/MXCzkEVM/mxc-shared-flutter
 
 ## App Update
 
-We can update our app automatically on android, not now support for iOS. With appcenter's distribute [API](https://openapi.appcenter.ms/#/distribute/releases_getLatestByPublicDistributionGroup), it requests the latest version to compare our app version. It will update automatically if the latest version number more than our app version's.
+We can update our app automatically on android, not now support for iOS. With version code in yaml, it requests the latest version to compare our app version. It will update automatically if the latest version number more than our app version's.
 
 Note: 
 
@@ -44,17 +44,7 @@ Based on build number to compare to update, not using version number(like 1.0.0)
 
 ### Environment Variables Setup
 
-1. Create assets/.env file with following content:
-
-```sh
-APPCENTER_SECRET_ANDROID=${APPCENTER_SECRET_ANDROID}
-APPCENTER_DISTRIBUTION_GROUP_ID_ANDROID=${APPCENTER_DISTRIBUTION_GROUP_ID_ANDROID}
-```
-
-2. Go to android's `Build` page on appcenter, find a branch to set up above variables's value in `Environment variables` form.
-
-Note:
-About getting the distribute group id, refer to the above `How To Distribute A Latest Version`
+It is all stored in Github environment
 
 ### Distribute
 
@@ -90,20 +80,9 @@ When you want to debug on your local computer, suggest to create .vscode/launch.
 
 #### How To Distribute A Latest Version
 
-1. Need to build `release_china` branch with the latest build number on appcenter.
+It will upload to R2 storage and let the APK users to update automatically
 
-2. When finish the first step, go to `Distribute` menu's `Groups` submenu, and create a group for the public, it aims to everyone to access to this group. 
+#### Repo activities
 
-3. Go to this public group, and at this time you can get group id from settings. 
+![Alt](https://repobeats.axiom.co/api/embed/9e4d9ed0556bec8d6005a78247b9ff51e01e92b3.svg "Repobeats analytics image")
 
-4. Click `New release` button, to select a latest version to distribute in `release_china` branch. After that, on the `RELEASES` column, you can see a new version on the list as you just added.
-
-5. Launch our app, it will check the latest build number automatically to update for the first time on android.
-
-There is alternative way to distribute a latest version.
-
-1. On `Build` menu, select a latest build of `release_china` branch, click `Distribute` to show a dialog on the right of screen.
-
-2. Click `Click to begin` to select the public group, and then click `Next` button to finish distribution process.
-
-3. Once distributed, you can check a latest version as you released on the `RELEASES` column of the public group on the `Groups` submenu of `Distribute` menu.

@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "{0}에 백업을 업로드할 수 없습니다.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "키가 {0}에 올바르게 저장되었는지 확인하세요!",
     "google_drive_backup_note": "중요: 문베이스 폴더에 있는 moonchain-key.txt라는 파일 이름으로 니모닉 시드 구문을 저장합니다.",
-    "tips_for_storing_keys_safely": "키 안전하게 보관하는 팁"
+    "tips_for_storing_keys_safely": "키 안전하게 보관하는 팁",
+    "dapps": "DApps",
+    "partner": "파트너",
+    "native": "원주민",
+    "see_all": "모두 보기"
 }

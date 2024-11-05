@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "Impossible de télécharger la sauvegarde vers {0}.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Assurez-vous que vos clés sont stockées correctement dans votre {0} !",
     "google_drive_backup_note": "Important : Nous sauvegardons la phrase mnémonique dans le fichier nommé moonchain-key.txt situé dans le dossier MoonBase.",
-    "tips_for_storing_keys_safely": "Conseil pour stocker les clés en toute sécurité"
+    "tips_for_storing_keys_safely": "Conseil pour stocker les clés en toute sécurité",
+    "dapps": "DApps",
+    "partner": "Partenaire",
+    "native": "Natif",
+    "see_all": "Voir tout"
 }

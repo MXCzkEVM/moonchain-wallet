@@ -88,6 +88,9 @@ public class SocialShareUtil {
         return shareFileAndTextToPackage(imagePath, text, activity, TELEGRAM_PACKAGE);
     }
 
+    public String shareToTelegramWeb(String imagePath, Context activity, String text) {
+        return shareFileAndTextToPackage(imagePath, text, activity, TELEGRAM_WEB_PACKAGE);
+    }
 
     public String shareToMessenger(String text, Context activity) {
         Map<String, Boolean> apps = getInstalledApps(activity);

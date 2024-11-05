@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "Backup kann nicht auf {0} hochgeladen werden.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Stellen Sie sicher, dass Ihre Schlüssel korrekt in Ihrem {0} gespeichert sind!",
     "google_drive_backup_note": "Wichtig: Wir speichern den mnemonischen Seed-Satz in der Datei mit dem Namen moonchain-key.txt, die sich im Ordner MoonBase befindet.",
-    "tips_for_storing_keys_safely": "Tipp zum sicheren Aufbewahren von Schlüsseln"
+    "tips_for_storing_keys_safely": "Tipp zum sicheren Aufbewahren von Schlüsseln",
+    "dapps": "DApps",
+    "partner": "Partner",
+    "native": "Einheimisch",
+    "see_all": "Alles anzeigen"
 }

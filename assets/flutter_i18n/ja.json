@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "{0} にバックアップをアップロードできません。",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "キーが {0} に正しく保存されていることを確認してください！",
     "google_drive_backup_note": "重要: ムーンチェーンのシードフレーズは、MoonBase フォルダにある moonchain-key.txt という名前のファイルに保存されます。",
-    "tips_for_storing_keys_safely": "キーを安全に保管するためのヒント"
+    "tips_for_storing_keys_safely": "キーを安全に保管するためのヒント",
+    "dapps": "DApps",
+    "partner": "パートナー",
+    "native": "ネイティブ",
+    "see_all": "すべて表示"
 }

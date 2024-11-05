@@ -138,9 +138,31 @@ class Validation {
     }
   }
 
-  static bool isPrivateKey(String privateKey) {
+  static bool isPrivateKey(String hex) {
     try {
-      EthPrivateKey.fromHex(MXCFormatter.removeZeroX(privateKey));
+      // Valid curve for private key according to here : https://ethereum.stackexchange.com/a/2320/122729
+      const privateKeyLength = 64;
+      final hexRegExp = RegExp(r'^[0-9a-fA-F]+$');
+      hex = MXCFormatter.removeZeroX(hex);
+
+      // Check if the hex string has valid length and is hexadecimal
+      if (hex.length != privateKeyLength || !hexRegExp.hasMatch(hex)) {
+        return false;
+      }
+
+      final curveOrder = BigInt.parse(
+        'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141',
+        radix: 16,
+      );
+
+      // Convert hex to BigInt
+      final privateKey = BigInt.parse(hex, radix: 16);
+
+      // Check if privateKey is not zero and is less than curve order
+      if (privateKey == BigInt.zero || privateKey >= curveOrder) {
+        return false;
+      }
+
       return true;
     } catch (e) {
       return false;

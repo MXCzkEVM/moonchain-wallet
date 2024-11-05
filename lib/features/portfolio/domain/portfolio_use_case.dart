@@ -12,7 +12,7 @@ class PortfolioUseCase extends ReactiveUseCase {
 
   Future<String> getWalletNativeTokenBalance(String address) async {
     final wallet =
-        await (await _repository.tokenContract).getEthBalance(address);
+        await _repository.tokenContract.getEthBalance(address);
     return (wallet.getInWei.toDouble() / pow(10, 18))
         .toStringAsFixed(Config.decimalShowFixed);
   }

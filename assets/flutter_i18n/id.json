@@ -466,5 +466,9 @@
     "unable_to_upload_backup_to_x": "Tidak dapat mengunggah cadangan ke {0}.",
     "ensure_that_your_keys_are_stored_correctly_in_your_x": "Pastikan kunci Anda disimpan dengan benar di {0} Anda!",
     "google_drive_backup_note": "Penting: Kami menyimpan frasa benih mnemonik di file bernama moonchain-key.txt yang terletak di folder MoonBase.",
-    "tips_for_storing_keys_safely": "Tips Menyimpan Kunci dengan Aman"
+    "tips_for_storing_keys_safely": "Tips Menyimpan Kunci dengan Aman",
+    "dapps": "DApps",
+    "partner": "Mitra",
+    "native": "Pribumi",
+    "see_all": "Lihat semua"
 }
