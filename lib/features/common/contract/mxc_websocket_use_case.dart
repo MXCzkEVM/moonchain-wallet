@@ -127,7 +127,7 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
   void listenToTopUpEvents(dynamic event) {
     switch (event.event.value as String) {
       case 'transaction':
-        final newMXCTx = WannseeTransactionModel.fromJson(
+        final newMXCTx = MoonchainTransactionModel.fromJson(
             json.encode(event.payload['transactions'][0]));
 
         final newTx =

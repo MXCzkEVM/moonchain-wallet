@@ -86,6 +86,7 @@ class BridgeFunctionsHelper {
       return res;
     } catch (e, s) {
       addError(e, s);
+      return null;
     } finally {
       loading(false);
     }
@@ -101,6 +102,7 @@ class BridgeFunctionsHelper {
       return res;
     } catch (e, s) {
       addError(e, s);
+      return null;
     } finally {
       loading(false);
     }
@@ -116,6 +118,7 @@ class BridgeFunctionsHelper {
       return res;
     } catch (e, s) {
       addError(e, s);
+      return null;
     } finally {
       loading(false);
     }

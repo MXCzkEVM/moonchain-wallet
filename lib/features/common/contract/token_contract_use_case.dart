@@ -71,19 +71,19 @@ class TokenContractUseCase extends ReactiveUseCase {
     return await _repository.tokenContract.getEthBalance(from);
   }
 
-  Future<WannseeTransactionsModel?> getTransactionsByAddress(
+  Future<MoonchainTransactionsModel?> getTransactionsByAddress(
     String address,
   ) async {
     return _repository.tokenContract.getTransactionsByAddress(address);
   }
 
-  Future<WannseeTransactionModel?> getTransactionByHash(
+  Future<MoonchainTransactionModel?> getTransactionByHash(
     String hash,
   ) async {
     return _repository.tokenContract.getTransactionByHash(hash);
   }
 
-  Future<WannseeTokenTransfersModel?> getTokenTransfersByAddress(
+  Future<MoonchainTokenTransfersResponseModel?> getTokenTransfersByAddress(
     String address,
   ) async {
     return _repository.tokenContract
