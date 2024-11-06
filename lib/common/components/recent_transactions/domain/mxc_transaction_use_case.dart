@@ -54,8 +54,8 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
   }
 
   /// Will remove token transfer (tx that are in general transaction) from general transaction
-  List<WannseeTransactionModel> removeTokenTransfersFromTxList(
-      List<WannseeTransactionModel> txList,
+  List<MoonchainTransactionModel> removeTokenTransfersFromTxList(
+      List<MoonchainTransactionModel> txList,
       List<TokenTransfer> tokenTransferList) {
     return txList.where((element) {
       if (element.hash != null) {
@@ -70,15 +70,15 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
     }).toList();
   }
 
-  void addTokenTransfersToTxList(List<WannseeTransactionModel> txList,
+  void addTokenTransfersToTxList(List<MoonchainTransactionModel> txList,
       List<TokenTransfer> tokenTransferList) {
     for (int i = 0; i < tokenTransferList.length; i++) {
       final item = tokenTransferList[i];
-      txList.add(WannseeTransactionModel(tokenTransfers: [item]));
+      txList.add(MoonchainTransactionModel(tokenTransfers: [item]));
     }
   }
 
-  void sortByDate(List<WannseeTransactionModel> txList) {
+  void sortByDate(List<MoonchainTransactionModel> txList) {
     if (txList.isNotEmpty) {
       txList.sort((a, b) {
         // If not simple transaction If not token transfer Then It is pending tx
@@ -93,7 +93,7 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
   }
 
   List<TransactionModel> axsTxListFromMxcTxList(
-      List<WannseeTransactionModel> mxcTxList, String walletAddress) {
+      List<MoonchainTransactionModel> mxcTxList, String walletAddress) {
     return mxcTxList
         .map((e) => TransactionModel.fromMXCTransaction(e, walletAddress))
         .toList();

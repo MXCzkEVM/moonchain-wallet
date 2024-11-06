@@ -125,7 +125,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
     switch (event.event.value as String) {
       // coin transfer pending tx token transfer - coin transfer
       case 'pending_transaction':
-        final newTx = WannseeTransactionModel.fromJson(
+        final newTx = MoonchainTransactionModel.fromJson(
             json.encode(event.payload['transactions'][0]));
         if (newTx.value != null) {
           notify(() => state.txList!.insert(
@@ -146,7 +146,8 @@ class WalletPresenter extends CompletePresenter<WalletState> {
         break;
       // new balance
       case 'balance':
-        final wannseeBalanceEvent = WannseeBalanceModel.fromJson(event.payload);
+        final wannseeBalanceEvent =
+            MoonchainBalanceEvenModel.fromJson(event.payload);
         getWalletTokensBalance(null, true);
         break;
       default:
