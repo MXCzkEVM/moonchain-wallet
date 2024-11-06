@@ -31,7 +31,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
       presenter: presenter,
       useSplashBackground: true,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 24),
-
+      useFooterPadding: true,
       // footer: Column(
       //   mainAxisAlignment: MainAxisAlignment.end,
       //   children: [
@@ -130,6 +130,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
           onTap: () => presenter.continueNow(context),
           edgeType: UIConfig.securityScreensButtonsEdgeType,
         ),
+        const SizedBox(height: Sizes.spaceNormal,)
       ],
     );
   }
