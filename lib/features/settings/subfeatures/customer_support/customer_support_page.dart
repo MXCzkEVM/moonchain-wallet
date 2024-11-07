@@ -45,6 +45,15 @@ class CustomerSupportPage extends HookConsumerWidget {
           style: FontTheme.of(context).subtitle1.secondary(),
         ),
         const SizedBox(height: Sizes.spaceNormal),
+        MXCSwitchRowItem(
+          key: const Key('changeNotImportantLogsEnabledSwitch'),
+          title: translate('enable_not_important_logs'),
+          value: ref.watch(state).notImportantLogsEnabled,
+          onChanged: ref.read(presenter).changeNotImportantLogsEnabled,
+          enabled: true,
+          titleStyle: FontTheme.of(context).h6(),
+        ),
+        const SizedBox(height: Sizes.spaceNormal),
         MxcButton.secondary(
           key: const ValueKey('exportLogsButton'),
           title: FlutterI18n.translate(context, 'export_logs'),

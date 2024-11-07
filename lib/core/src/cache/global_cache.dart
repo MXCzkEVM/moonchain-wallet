@@ -1,4 +1,5 @@
 import 'package:moonchain_wallet/features/common/account/account_cache_repository.dart';
+import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/dapps/domain/domain.dart';
 import 'package:moonchain_wallet/features/security/security.dart';
 import 'package:mxc_logic/internal.dart';
@@ -25,6 +26,7 @@ class GlobalCache extends GlobalCacheContainer {
   final ChainConfigurationRepository chainConfigurationRepository =
       ChainConfigurationRepository();
   final AccountCacheRepository account = AccountCacheRepository();
+  final LogsConfigRepository logsConfigRepository = LogsConfigRepository();
 
   @override
   List<BaseCacheRepository> get repositories => [
@@ -34,5 +36,6 @@ class GlobalCache extends GlobalCacheContainer {
         gesturesInstruction,
         chainConfigurationRepository,
         account,
+        logsConfigRepository,
       ];
 }
