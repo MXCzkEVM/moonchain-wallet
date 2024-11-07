@@ -470,5 +470,6 @@
     "dapps": "DApps",
     "partner": "Partner",
     "native": "Einheimisch",
-    "see_all": "Alles anzeigen"
+    "see_all": "Alles anzeigen",
+    "enable_not_important_logs": "Nicht wichtige Protokolle aktivieren"
 }

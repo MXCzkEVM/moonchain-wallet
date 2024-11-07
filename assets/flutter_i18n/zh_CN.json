@@ -470,5 +470,6 @@
     "dapps": "去中心化应用",
     "partner": "合作伙伴",
     "native": "本地",
-    "see_all": "查看全部"
+    "see_all": "查看全部",
+    "enable_not_important_logs": "启用不重要的日志"
 }

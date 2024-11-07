@@ -470,5 +470,6 @@
     "dapps": "DApp'ler",
     "partner": "Ortak",
     "native": "Yerli",
-    "see_all": "Hepsini Gör"
+    "see_all": "Hepsini Gör",
+    "enable_not_important_logs": "Önemli olmayan günlükleri etkinleştir"
 }

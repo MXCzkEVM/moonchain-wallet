@@ -470,5 +470,6 @@
     "dapps": "DApps",
     "partner": "파트너",
     "native": "원주민",
-    "see_all": "모두 보기"
+    "see_all": "모두 보기",
+    "enable_not_important_logs": "중요하지 않은 로그 활성화"
 }
