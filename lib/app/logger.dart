@@ -15,8 +15,10 @@ void reportErrorAndLog(FlutterErrorDetails details) {
   );
 }
 
+LogsConfig? config;
+
 Future<void> initLogs() async {
-  LogsConfig config = FLog.getDefaultConfigurations()
+  config = FLog.getDefaultConfigurations()
     ..isDebuggable = false
     ..isDevelopmentDebuggingEnabled = false
     ..timestampFormat = TimestampFormat.TIME_FORMAT_FULL_3
@@ -30,16 +32,30 @@ Future<void> initLogs() async {
       FieldName.EXCEPTION,
       FieldName.STACKTRACE
     ];
-  delete5MinutesBugs();
+  delete30MinutesLogs();
   Timer.periodic(const Duration(minutes: 5), (timer) {
-    delete5MinutesBugs();
+    delete30MinutesLogs();
   });
-  FLog.applyConfigurations(config);
+  applyConfig();
 }
 
-void delete5MinutesBugs() {
+void activateNotImportantLogs() {
+  config = config!..activeLogLevel = LogLevel.DEBUG;
+  applyConfig();
+}
+
+void disableNotImportantLogs() {
+  config = config!..activeLogLevel = LogLevel.ERROR;
+  applyConfig();
+}
+
+void applyConfig() {
+  FLog.applyConfigurations(config!);
+}
+
+void delete30MinutesLogs() {
   FLog.deleteAllLogsByFilter(filters: [
     Filter.lessThan(DBConstants.FIELD_TIME_IN_MILLIS,
-        DateTime.now().millisecondsSinceEpoch - 1000 * 60 * 5)
+        DateTime.now().millisecondsSinceEpoch - 1000 * 60 * 30)
   ]);
 }
