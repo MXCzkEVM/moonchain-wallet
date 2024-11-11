@@ -148,11 +148,20 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   void transactionProcess() async {
     loading = true;
     final amount = amountController.text;
-    final recipient =
-        EthereumAddress.fromHex(recipientController.text).hexEip55;
-    String recipientAddress = await getAddress(recipient);
-    double sumBalance = token.balance! - double.parse(amount);
+    String recipient = recipientController.text;
+    String recipientAddress = recipient;
 
+    // Format address to checksum address
+    try {
+      final ethAddress = EthereumAddress.fromHex(recipient);
+      recipient = ethAddress.hexEip55;
+      recipientAddress = recipient;
+    } catch (e) {
+      // If It's mns
+      recipientAddress = await getAddress(recipient);
+    }
+
+    double sumBalance = token.balance! - double.parse(amount);
     TransactionGasEstimation? estimatedGasFee;
 
     if (recipientAddress == ContractAddresses.zeroAddress) {
