@@ -62,9 +62,21 @@ jobs:
       # Step to clear CocoaPods cache and reinstall pods
       - name: Reinstall CocoaPods
         run: |
-          rm -rf "${HOME}/Library/Caches/CocoaPods"
-          rm -rf "`pwd`/Pods/"
-          pod update
+          echo "Current Directory:"
+          pwd
+          echo "Contents of Current Directory:"
+          ls -la
+          echo "CD to IOS folder!"
+          cd ios          
+          echo "Current Directory:"
+          pwd
+          echo "Contents of Current Directory:"
+          ls -la
+          echo "Remove Podfile.lock"
+          rm Podfile.lock
+          echo "Remove Pods"
+          rm -rf Pods
+          pod install --repo-update
 
 
       - uses: sheenhx/action-flutter-build-ios@v1
