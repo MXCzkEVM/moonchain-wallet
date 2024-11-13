@@ -59,6 +59,14 @@ jobs:
         with:
           submodules: recursive
 
+      # Step to clear CocoaPods cache and reinstall pods
+      - name: Reinstall CocoaPods
+        run: |
+          rm -rf "${HOME}/Library/Caches/CocoaPods"
+          rm -rf "`pwd`/Pods/"
+          pod update
+
+
       - uses: sheenhx/action-flutter-build-ios@v1
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
