@@ -15,6 +15,36 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Check flutter found
+        id: check_flutter
+        shell: bash
+        run: |
+          if flutter --version; then
+              echo "installed=true" >> "$GITHUB_OUTPUT"
+          else
+              echo "installed=false" >> "$GITHUB_OUTPUT"
+          fi
+  
+      - name: Setup flutter
+        if: steps.check_flutter.outputs.installed == 'false'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version: '3.7.12'
+          cache: true
+
+      # Step to clear CocoaPods cache and reinstall pods
+      - name: Reinstall CocoaPods
+        run: |
+          flutter pub get
+          cd ios          
+          echo "Current Directory:"
+          pwd
+          echo "Contents of Current Directory:"
+          ls -la
+          pod install --repo-update
+          echo "Contents of Current Directory:"
+          ls -la  
 
       - name: Set Version Code
         run: |
