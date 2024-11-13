@@ -62,6 +62,7 @@ jobs:
       # Step to clear CocoaPods cache and reinstall pods
       - name: Reinstall CocoaPods
         run: |
+          flutter pub get
           cd ios          
           echo "Current Directory:"
           pwd
