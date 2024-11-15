@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:moonchain_wallet/features/security/security.dart';
-import 'package:moonchain_wallet/features/splash/mns_process/mns.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
