@@ -162,7 +162,7 @@ class MxcPageLayer extends MxcPage {
                         ? MxcScrollableContent.defaultFooterPadding(fixedFooter)
                         : EdgeInsets.zero)
                     .copyWith(
-                  bottom: MediaQueryData.fromWindow(window).padding.bottom +
+                  bottom: MediaQueryData.fromView(window).padding.bottom +
                       (useFooterPadding
                           ? MxcScrollableContent.defaultFooterPadding(
                                   fixedFooter)

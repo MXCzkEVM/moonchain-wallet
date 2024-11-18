@@ -9,7 +9,7 @@ class BluetoothRemoteGATTDescriptor extends Equatable {
   final String uuid;
   final ByteData? value;
 
-  BluetoothRemoteGATTDescriptor({
+  const BluetoothRemoteGATTDescriptor({
     required this.characteristic,
     required this.uuid,
     this.value,

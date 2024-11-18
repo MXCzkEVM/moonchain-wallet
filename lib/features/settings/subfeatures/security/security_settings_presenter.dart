@@ -30,10 +30,6 @@ class SecuritySettingsPresenter
     );
   }
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
 
   void clearBrowserCache() async {
     final result = await showAlertDialog(

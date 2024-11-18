@@ -50,6 +50,7 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
       } else {
         return null;
       }
+      return null;
     });
   }
 

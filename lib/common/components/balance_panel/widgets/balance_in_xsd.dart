@@ -10,7 +10,7 @@ class BalanceInXSD extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _accountUseCase = ref.watch(accountUseCaseProvider);
+    final accountUseCase = ref.watch(accountUseCaseProvider);
     final state = ref.watch(walletContainer.state);
     final walletBalance = double.parse(state.walletBalance);
     double balanceConverter = state.xsdConversionRate == 1.0
@@ -30,7 +30,7 @@ class BalanceInXSD extends HookConsumerWidget {
                     ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6))
                   : null)),
       const SizedBox(width: 4),
-      Text(_accountUseCase.getXsdUnit(),
+      Text(accountUseCase.getXsdUnit(),
           style: FontTheme.of(context).body2().copyWith(
                 color: ColorsTheme.of(context).textSecondary,
               )),

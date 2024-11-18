@@ -78,7 +78,7 @@ class RecentTransactionsUtils {
       final foundToken = tokensList.firstWhere(
           (element) =>
               element.address?.toLowerCase() == e.token.address?.toLowerCase(),
-          orElse: () => Token());
+          orElse: () => const Token());
       final logoUrl = foundToken.logoUri ??
           e.token.logoUri ??
           'assets/svg/networks/unknown.svg';

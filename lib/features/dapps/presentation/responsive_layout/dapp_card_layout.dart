@@ -3,11 +3,7 @@ import 'package:moonchain_wallet/features/dapps/presentation/dapps_presenter.dar
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:mxc_ui/mxc_ui.dart';
-import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
-import '../dapps_state.dart';
-import '../widgets/dapp_indicator.dart';
 import 'dapp_loading.dart';
 import 'dapp_utils.dart';
 import 'dapps_layout/dapps_layout.dart';

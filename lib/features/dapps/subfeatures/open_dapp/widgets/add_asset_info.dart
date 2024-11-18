@@ -1,5 +1,4 @@
 import 'package:moonchain_wallet/common/components/list/single_line_info_item.dart';
-import 'package:moonchain_wallet/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -9,7 +9,6 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart' show ByteData, rootBundle;
-import 'package:web3dart/web3dart.dart';
 
 class LauncherUseCase extends ReactiveUseCase {
   LauncherUseCase(

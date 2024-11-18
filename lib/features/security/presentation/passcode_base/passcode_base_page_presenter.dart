@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:moonchain_wallet/common/biometric.dart';
 import 'package:moonchain_wallet/core/core.dart';
 
-import 'passcode_base_page_state.dart';
 
 const passcodeTransitionDuration = Duration(milliseconds: 400);
 

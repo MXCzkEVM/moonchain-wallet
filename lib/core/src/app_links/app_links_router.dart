@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moonchain_wallet/app/logger.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/dapps/dapps.dart';
 import 'package:moonchain_wallet/features/portfolio/presentation/portfolio_page.dart';

@@ -135,7 +135,7 @@ void showSnackBar({
                   padding: const EdgeInsets.all(Sizes.spaceXSmall),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xFF303746).withOpacity(0.5),
+                    color: const Color(0xFF303746).withOpacity(0.5),
                   ),
                   child: Center(
                     child: Icon(

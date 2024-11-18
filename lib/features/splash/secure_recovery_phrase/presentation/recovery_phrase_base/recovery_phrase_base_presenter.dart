@@ -189,7 +189,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final mnemonic = getMnemonic(settingsFlow);
 
     try {
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       await _iCloudUseCase.uploadBackup(mnemonic);
       nextProcess(settingsFlow, mnemonic);
     } catch (e) {

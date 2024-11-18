@@ -9,7 +9,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 import '../../settings/subfeatures/accounts/subfeatures/import_account/import_account_page.dart';
 import 'app_nav_bar_presenter.dart';
-import 'app_nav_bar_state.dart';
 
 class AppNavBar extends HookConsumerWidget {
   const AppNavBar({Key? key, this.leading, this.action, this.title})

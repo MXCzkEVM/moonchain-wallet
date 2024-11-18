@@ -91,7 +91,7 @@ class ShatteringWidgetState extends State<ShatteringWidget>
   void initState() {
     super.initState();
     controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1200));
+        vsync: this, duration: const Duration(milliseconds: 1200));
     controller!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
@@ -122,14 +122,14 @@ class ShatteringWidgetState extends State<ShatteringWidget>
         image = value;
         List<Tri> triangles = image!.width > image!.height
             ? [
-                Tri(Offset(0, 0), Offset(.3, 0), Offset(0, 1.0)),
-                Tri(Offset(.3, 0), Offset(1.0, 0), Offset(1.0, 1.0)),
-                Tri(Offset(0, 1.0), Offset(.3, 0), Offset(1.0, 1.0)),
+                Tri(const Offset(0, 0), const Offset(.3, 0), const Offset(0, 1.0)),
+                Tri(const Offset(.3, 0), const Offset(1.0, 0), const Offset(1.0, 1.0)),
+                Tri(const Offset(0, 1.0), const Offset(.3, 0), const Offset(1.0, 1.0)),
               ]
             : [
-                Tri(Offset(0, 0), Offset(1.0, 0), Offset(1.0, .3)),
-                Tri(Offset(0, 0), Offset(1.0, .3), Offset(0, 1.0)),
-                Tri(Offset(0, 1.0), Offset(1.0, .3), Offset(1.0, 1.0)),
+                Tri(const Offset(0, 0), const Offset(1.0, 0), const Offset(1.0, .3)),
+                Tri(const Offset(0, 0), const Offset(1.0, .3), const Offset(0, 1.0)),
+                Tri(const Offset(0, 1.0), const Offset(1.0, .3), const Offset(1.0, 1.0)),
               ];
         shards = triangles
             .map((e) => r.nextBool() ? e.split() : [e])
@@ -145,7 +145,7 @@ class ShatteringWidgetState extends State<ShatteringWidget>
             .map((e) => r.nextBool() ? e.split() : [e])
             .expand((e) => e)
             .map((e) => Shard(e, -.3 + r.nextDouble() * .6,
-                ((e.center - Offset(.5, .5)) * r.nextDouble() * 600)))
+                ((e.center - const Offset(.5, .5)) * r.nextDouble() * 600)))
             .toList();
         controller!.forward();
       });

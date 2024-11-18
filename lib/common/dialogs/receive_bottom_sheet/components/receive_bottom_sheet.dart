@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:moonchain_wallet/common/common.dart';

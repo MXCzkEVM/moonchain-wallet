@@ -57,6 +57,7 @@ class BridgeFunctionsHelper {
     } finally {
       loading(false);
     }
+    return null;
   }
 
   Future<String?> sendTransaction(String to, EtherAmount amount,

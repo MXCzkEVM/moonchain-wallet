@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
@@ -7,7 +6,6 @@ import 'package:moonchain_wallet/features/dapps/dapps.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:web3dart/web3dart.dart';
 import 'package:web3dart/json_rpc.dart';
 
 class ErrorUseCase extends ReactiveUseCase {
