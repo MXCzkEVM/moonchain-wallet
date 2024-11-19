@@ -51,7 +51,8 @@ void main() {
       final isLoggedIn = authUseCase.loggedIn;
 
       await Biometric.load();
-      Paint.enableDithering = true;
+      // Should be set by default in new Flutter version 
+      // Paint.enableDithering = true;
 
       final appVersionUseCase = container.read(appVersionUseCaseProvider);
       await appVersionUseCase.checkLatestVersion();
