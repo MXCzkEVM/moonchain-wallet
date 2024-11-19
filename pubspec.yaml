@@ -53,7 +53,7 @@ dependencies:
   favicon: ^1.0.15
   firebase_core: ^2.22.0
   firebase_messaging: ^14.7.4
-  fl_chart: ^0.62.0
+  fl_chart: ^0.69.0
   fl_shared_link:
     path: packages/fl_shared_link
   flutter:
