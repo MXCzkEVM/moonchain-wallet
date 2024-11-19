@@ -17,11 +17,7 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
   void initState() {
     super.initState();
 
-    // Simulate initial lifecycle change
-    onAppLifecycleChanged(
-      null,
-      AppLifecycleState.resumed,
-    );
+  
 
     listen<bool>(
       _passcodeUseCase.biometricEnabled,
@@ -32,13 +28,6 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
 
   void onAllNumbersEntered(String? dismissedPage);
 
-  Future<void> onAppLifecycleChanged(
-    AppLifecycleState? previous,
-    AppLifecycleState current,
-  ) async {
-    final userHasActiveFingerprints = await Biometric.userHasFingerPrints();
-    notify(() => state.userHasActiveFingerprints = userHasActiveFingerprints);
-  }
 
   Future<bool> requestBiometrics() async {
     return await Biometric.authenticate(context!);
