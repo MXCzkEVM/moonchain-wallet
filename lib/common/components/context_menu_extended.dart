@@ -1100,7 +1100,7 @@ class _ContextMenuRouteStatic extends StatefulWidget {
     this.onDismiss,
     required this.orientation,
     this.sheetGlobalKey,
-  })  : assert(orientation != null);
+  });
 
   final List<Widget>? actions;
   final Widget child;
