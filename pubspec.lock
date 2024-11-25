@@ -60,10 +60,10 @@ packages:
   appinio_social_share:
     dependency: "direct main"
     description:
-      path: "packages/appinio_social_share"
+      path: "packages/flutter_packages/packages/appinio_social_share"
       relative: true
     source: path
-    version: "0.2.2"
+    version: "0.3.2"
   archive:
     dependency: transitive
     description:
