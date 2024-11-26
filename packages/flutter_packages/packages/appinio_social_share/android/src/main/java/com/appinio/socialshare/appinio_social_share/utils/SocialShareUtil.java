@@ -443,7 +443,7 @@ public class SocialShareUtil {
      */
     private boolean isPackageInstalled(String packageName, PackageManager pm) {
         try {
-            packageManager.getPackageInfo(packageName, pm.GET_META_DATA);
+            pm.getPackageInfo(packageName, pm.GET_META_DATA);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             return false;
