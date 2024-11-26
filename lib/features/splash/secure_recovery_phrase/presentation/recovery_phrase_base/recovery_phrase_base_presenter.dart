@@ -69,23 +69,14 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final res = await generateMnemonicFile(settingsFlow);
 
     if (Platform.isAndroid) {
-      final apps = await _socialShare.getInstalledApps();
-      if (apps['telegram_web'] == true) {
-        await _socialShare.shareToTelegramWeb(
-          _mnemonicTitle,
-          filePath: res['filePath'],
-        );
-      } else {
-        await _socialShare.shareToTelegram(
-          _mnemonicTitle,
-          filePath: res['filePath'],
-        );
-      }
-    } else {
-      await _socialShare.shareToSystem(
+      await _socialShare.android.shareToTelegram(
         _mnemonicTitle,
-        '',
-        filePath: res['filePath'],
+        res['filePath'],
+      );
+    } else {
+      await _socialShare.iOS.shareToSystem(
+        _mnemonicTitle,
+        filePaths: [res['filePath']],
       );
     }
 
