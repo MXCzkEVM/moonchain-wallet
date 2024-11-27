@@ -32,6 +32,7 @@ public class AppinioSocialSharePlugin implements FlutterPlugin, MethodCallHandle
     private final String FACEBOOK = "facebook";
     private final String MESSENGER = "messenger";
     private final String FACEBOOK_STORIES = "facebook_stories";
+    private final String WE_CHAT = "we_chat";
     private final String WHATSAPP_ANDROID = "whatsapp_android";
     private final String WHATSAPP_ANDROID_MULTIFILES = "whatsapp_android_multifiles";
     private final String TWITTER_ANDROID = "twitter_android";
@@ -111,6 +112,8 @@ public class AppinioSocialSharePlugin implements FlutterPlugin, MethodCallHandle
                 return socialShareUtil.shareToWhatsApp(imagePath, message, activeContext);
             case WHATSAPP_ANDROID_MULTIFILES:
                 return socialShareUtil.shareToWhatsAppFiles(imagePaths, activeContext);
+            case WE_CHAT:
+                return socialShareUtil.shareToWeChat(imagePath, message, activeContext);                
             case TELEGRAM_ANDROID:
                 return socialShareUtil.shareToTelegram(imagePath, activeContext, message);
             case TELEGRAM_ANDROID_MULTIFILES:

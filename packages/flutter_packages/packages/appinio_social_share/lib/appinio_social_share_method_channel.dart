@@ -17,6 +17,7 @@ class MethodChannelAppinioSocialShare extends AppinioSocialSharePlatform {
   final String whatsapp = "whatsapp";
   final String whatsappAndroid = "whatsapp_android";
   final String whatsappAndroidMultiFiles = "whatsapp_android_multifiles";
+  final String weChat = "we_chat";
   final String twitter = "twitter";
   final String twitterAndroid = "twitter_android";
   final String twitterAndroidMultiFiles = "twitter_android_multifiles";
@@ -145,6 +146,18 @@ class MethodChannelAppinioSocialShare extends AppinioSocialSharePlatform {
       List<String> filePaths) async {
     return ((await methodChannel.invokeMethod<String>(
             whatsappAndroidMultiFiles, {"imagePaths": filePaths})) ??
+        "");
+  }
+
+  @override
+  Future<String> shareToWeChat(
+    String message,
+    String? filePath,
+  ) async {
+    return ((await methodChannel.invokeMethod<String>(weChat, {
+          "imagePath": filePath,
+          "message": message,
+        })) ??
         "");
   }
 

@@ -11,6 +11,14 @@ class Android {
         .shareToWhatsappAndroidMultiFiles(filePaths);
   }
 
+  Future<String> shareToWechat(
+    String message,
+    String? filePath,
+  ) {
+    return AppinioSocialSharePlatform.instance
+        .shareToWeChat(message, filePath);
+  }
+
   Future<String> shareToTelegram(String message, String? filePath) {
     return AppinioSocialSharePlatform.instance
         .shareToTelegramAndroid(message, filePath);
