@@ -64,8 +64,4 @@ class ChooseCryptoPresenter extends CompletePresenter<ChooseCryptoState> {
     notify(() => state.filterTokens = tokens);
   }
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
 }

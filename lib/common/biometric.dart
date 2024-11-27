@@ -23,20 +23,19 @@ class Biometric {
       _availableBiometrics = await _localAuth.getAvailableBiometrics();
 
       if (Platform.isIOS) {
-        _iosSystemBiometric = await _localAuth.getIosBiometricType();
+        if (_availableBiometrics?.contains(BiometricType.face) ?? false) {
+          _iosSystemBiometric = BiometricType.face;
+        } else if (_availableBiometrics?.contains(BiometricType.fingerprint) ??
+            false) {
+          _iosSystemBiometric = BiometricType.face;
+        } else {
+          log('No biometrics are available on this iOS device!');
+          _availableBiometrics = [];
+        }
       }
     } catch (e, s) {
       log('Can\'t load biometric', error: e, stackTrace: s);
       _availableBiometrics = [];
-    }
-  }
-
-  // Android only
-  static Future<bool> userHasFingerPrints() async {
-    if (Platform.isAndroid) {
-      return await _localAuth.userHasActiveFingerprints();
-    } else {
-      return true;
     }
   }
 
@@ -48,8 +47,10 @@ class Biometric {
 
       return await _localAuth.authenticate(
         localizedReason: localizedReason,
-        useErrorDialogs: true,
-        biometricOnly: true,
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          biometricOnly: true,
+        ),
       );
     } catch (e) {
       return false;

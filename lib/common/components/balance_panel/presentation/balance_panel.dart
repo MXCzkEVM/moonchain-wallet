@@ -30,11 +30,11 @@ class BalancePanel extends HookConsumerWidget {
   Widget _showWithGraph(
     BuildContext context,
   ) {
-    return Row(
+    return const Row(
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             BalanceTitle(),
             SizedBox(
               height: 4,
@@ -43,8 +43,8 @@ class BalancePanel extends HookConsumerWidget {
             ChangeIndicator()
           ],
         ),
-        const Spacer(),
-        const BalanceChart()
+        Spacer(),
+        BalanceChart()
       ],
     );
   }
@@ -55,9 +55,9 @@ class BalancePanel extends HookConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Row(
+        const Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [BalanceTitle(), Spacer(), BalanceInXSD()],
+          children: [BalanceTitle(), Spacer(), BalanceInXSD()],
         ),
         const ChangeIndicator(),
         const SizedBox(

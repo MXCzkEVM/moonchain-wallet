@@ -6,7 +6,6 @@ class PasscodeBasePageState with EquatableMixin {
   List<int> enteredNumbers = [];
   String? errorText;
   bool isBiometricEnabled = false;
-  bool userHasActiveFingerprints = false;
   AnimationController? shakeAnimationController;
 
   String? dismissedPage;
@@ -17,6 +16,5 @@ class PasscodeBasePageState with EquatableMixin {
         enteredNumbers,
         errorText,
         isBiometricEnabled,
-        userHasActiveFingerprints,
       ];
 }

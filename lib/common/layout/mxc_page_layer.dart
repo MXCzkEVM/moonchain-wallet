@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart' hide RefreshCallback;
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -162,7 +160,7 @@ class MxcPageLayer extends MxcPage {
                         ? MxcScrollableContent.defaultFooterPadding(fixedFooter)
                         : EdgeInsets.zero)
                     .copyWith(
-                  bottom: MediaQueryData.fromWindow(window).padding.bottom +
+                  bottom: MediaQueryData.fromView(window).padding.bottom +
                       (useFooterPadding
                           ? MxcScrollableContent.defaultFooterPadding(
                                   fixedFooter)

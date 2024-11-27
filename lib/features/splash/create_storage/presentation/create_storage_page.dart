@@ -39,7 +39,7 @@ class SplashStoragePage extends SplashBasePage {
     final isTelegramAvailable = ref.watch(state).applist['telegram'] == true ||
         ref.watch(state).applist['telegram_web'] == true;
     final isWeChatAvailable = ref.watch(state).applist['weixin'] == true ||
-        ref.watch(state).applist['wechat'] == true;
+        ref.watch(state).applist['we_chat'] == true;
     final isNoneAvailable =
         !(isEmailAvailable || isTelegramAvailable || isWeChatAvailable);
     return [

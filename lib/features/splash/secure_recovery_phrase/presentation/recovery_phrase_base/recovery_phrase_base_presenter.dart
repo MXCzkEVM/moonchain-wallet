@@ -1,15 +1,12 @@
 import 'dart:io';
 
 import 'package:appinio_social_share/appinio_social_share.dart';
-import 'package:flutter/services.dart';
 import 'package:moonchain_wallet/app/logger.dart';
-import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:moonchain_wallet/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
-import 'package:intl/intl.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:path_provider/path_provider.dart';
@@ -72,23 +69,14 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final res = await generateMnemonicFile(settingsFlow);
 
     if (Platform.isAndroid) {
-      final apps = await _socialShare.getInstalledApps();
-      if (apps['telegram_web'] == true) {
-        await _socialShare.shareToTelegramWeb(
-          _mnemonicTitle,
-          filePath: res['filePath'],
-        );
-      } else {
-        await _socialShare.shareToTelegram(
-          _mnemonicTitle,
-          filePath: res['filePath'],
-        );
-      }
-    } else {
-      await _socialShare.shareToSystem(
+      await _socialShare.android.shareToTelegram(
         _mnemonicTitle,
-        '',
-        filePath: res['filePath'],
+        res['filePath'],
+      );
+    } else {
+      await _socialShare.iOS.shareToSystem(
+        _mnemonicTitle,
+        filePaths: [res['filePath']],
       );
     }
 
@@ -99,15 +87,16 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final res = await generateMnemonicFile(settingsFlow);
 
     if (Platform.isAndroid) {
-      await _socialShare.shareToWechat(
+      await _socialShare.android.shareToWechat(
         _mnemonicTitle,
-        filePath: res['filePath'],
+        res['filePath'],
       );
     } else {
-      await _socialShare.shareToSystem(
+      await _socialShare.iOS.shareToSystem(
         _mnemonicTitle,
-        '',
-        filePath: res['filePath'],
+        filePaths: [
+          res['filePath'],
+        ],
       );
     }
 
@@ -189,7 +178,7 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final mnemonic = getMnemonic(settingsFlow);
 
     try {
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       await _iCloudUseCase.uploadBackup(mnemonic);
       nextProcess(settingsFlow, mnemonic);
     } catch (e) {

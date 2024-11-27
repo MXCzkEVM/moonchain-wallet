@@ -22,10 +22,6 @@ class SelectRecipientPresenter extends CompletePresenter<SelectRecipientState> {
     loadPage();
   }
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
 
   void loadPage() {
     _recipientsUseCase.getRecipients();

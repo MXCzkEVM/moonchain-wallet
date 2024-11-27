@@ -240,6 +240,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         });
       });
     }
+    return null;
   }
 
   Future<TransactionGasEstimation?> _estimateGasFeeForCoinTransfer(
@@ -330,6 +331,7 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     } finally {
       loading = false;
     }
+    return null;
   }
 
   void callErrorHandler(dynamic e, StackTrace s) {

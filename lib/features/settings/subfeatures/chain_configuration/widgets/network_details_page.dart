@@ -1,5 +1,4 @@
 import 'package:moonchain_wallet/common/common.dart';
-import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/chain_configuration_presenter.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/chain_configuration_state.dart';
 import 'package:flutter/material.dart';

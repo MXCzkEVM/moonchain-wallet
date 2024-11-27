@@ -72,15 +72,15 @@ class PermissionsHelper {
     final geo.GeolocatorPlatform geoLocatorPlatform =
         geo.GeolocatorPlatform.instance;
 
-    bool _serviceEnabled;
+    bool serviceEnabled;
 
     try {
-      _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
-      if (!_serviceEnabled) {
+      serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
+      if (!serviceEnabled) {
         await geoLocatorPlatform.getCurrentPosition();
-        _serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
+        serviceEnabled = await geoLocatorPlatform.isLocationServiceEnabled();
       }
-      return _serviceEnabled;
+      return serviceEnabled;
     } catch (e) {
       return false;
     }

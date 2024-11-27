@@ -1,9 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:web3dart/web3dart.dart';
 
 class MXCTransactionsUseCase extends ReactiveUseCase {
   MXCTransactionsUseCase(this._web3Repository, this._tokenContractUseCase);
@@ -50,6 +48,7 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
       } else {
         return null;
       }
+      return null;
     });
   }
 

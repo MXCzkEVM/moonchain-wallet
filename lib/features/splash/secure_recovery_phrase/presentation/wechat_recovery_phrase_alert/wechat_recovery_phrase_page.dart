@@ -1,4 +1,3 @@
-import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/features/splash/secure_recovery_phrase/secure_recovery_phrase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

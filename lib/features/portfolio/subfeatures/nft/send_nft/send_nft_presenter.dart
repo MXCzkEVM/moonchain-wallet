@@ -156,8 +156,4 @@ class SendNftPresenter extends CompletePresenter<SendNftState> {
     }
   }
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
 }

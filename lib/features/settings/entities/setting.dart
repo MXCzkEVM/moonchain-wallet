@@ -4,7 +4,6 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/settings/settings.dart';
-import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/chain_configuration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:url_launcher/url_launcher.dart';

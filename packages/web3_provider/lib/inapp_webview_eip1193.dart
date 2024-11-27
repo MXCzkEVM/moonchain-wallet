@@ -958,16 +958,16 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
                           injectionTime:
                               UserScriptInjectionTime.AT_DOCUMENT_START,
                         ),
-                        UserScript(
-                          source: jsChannelScript,
-                          injectionTime:
-                              UserScriptInjectionTime.AT_DOCUMENT_START,
-                        ),
-                        UserScript(
-                          source: jsBluetoothScript,
-                          injectionTime:
-                              UserScriptInjectionTime.AT_DOCUMENT_START,
-                        ),
+                          UserScript(
+                            source: jsChannelScript,
+                            injectionTime:
+                                UserScriptInjectionTime.AT_DOCUMENT_START,
+                          ),
+                          UserScript(
+                            source: jsBluetoothScript,
+                            injectionTime:
+                                UserScriptInjectionTime.AT_DOCUMENT_START,
+                          ),
                       ])
                     : null),
             pullToRefreshController: widget.pullToRefreshController,

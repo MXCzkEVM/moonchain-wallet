@@ -1,6 +1,5 @@
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CircleIcon extends StatelessWidget {
   const CircleIcon({

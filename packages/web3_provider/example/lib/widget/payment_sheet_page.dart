@@ -18,7 +18,7 @@ class PaymentSheetText {
 }
 
 class PaymentSheet extends StatefulWidget {
-  PaymentSheet(
+  const PaymentSheet(
       {Key? key,
       required this.datas,
       required this.nextAction,
@@ -102,14 +102,14 @@ class _PaymentSheetState extends State<PaymentSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 420,
       child: Column(
         children: [
           _getTitle(),
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: 16,
                 right: 16,
                 bottom: 20,
@@ -117,7 +117,7 @@ class _PaymentSheetState extends State<PaymentSheet> {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(top: 31),
+                    padding: const EdgeInsets.only(top: 31),
                     alignment: Alignment.center,
                     child: Text(
                       widget.amount,
@@ -135,8 +135,8 @@ class _PaymentSheetState extends State<PaymentSheet> {
                       itemBuilder: (BuildContext context, int index) {
                         PaymentSheetText sheet = widget.datas[index];
                         return Container(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          constraints: BoxConstraints(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          constraints: const BoxConstraints(
                             minHeight: 45,
                           ),
                           decoration: const BoxDecoration(
@@ -149,7 +149,7 @@ class _PaymentSheetState extends State<PaymentSheet> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 120,
                                 child: Text(sheet.title!,
                                     style: TextStyle(
@@ -181,7 +181,7 @@ class _PaymentSheetState extends State<PaymentSheet> {
                     height: 48,
                     bgc: ColorUtils.blueColor,
                     title: "OK",
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeightUtils.medium,
                       color: Colors.white,

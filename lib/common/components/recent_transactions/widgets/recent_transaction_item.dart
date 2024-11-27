@@ -7,7 +7,6 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
-import '../../../common.dart';
 import '../utils.dart';
 
 class RecentTrxListItem extends HookConsumerWidget {

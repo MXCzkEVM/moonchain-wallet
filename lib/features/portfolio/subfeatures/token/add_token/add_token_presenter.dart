@@ -21,10 +21,6 @@ class AddTokenPresenter extends CompletePresenter<AddTokenState> {
   late final TextEditingController symbolController = TextEditingController();
   late final TextEditingController decimalController = TextEditingController();
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
 
   void onChanged(String value) async {
     loading = true;

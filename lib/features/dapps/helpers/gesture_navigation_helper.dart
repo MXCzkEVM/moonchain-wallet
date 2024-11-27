@@ -32,7 +32,7 @@ class GestureNavigationHelper {
       cancelTimer();
     }
 
-    print('position: ' + position.toString());
+    print('position: $position');
   }
 
   void changePageToLeft() {
@@ -61,7 +61,7 @@ class GestureNavigationHelper {
   }
 
   void startTimer() {
-    print('timer' + state.timer.toString());
+    print('timer${state.timer}');
     state.timer ??= Timer(Config.dragScrollingDuration, () {
       if (state.onLeftEdge) {
         changePageToLeft();

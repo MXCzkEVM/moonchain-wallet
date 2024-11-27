@@ -117,6 +117,7 @@ class DeleteCustomNetworkPage extends HookConsumerWidget {
                       translate('x_not_empty')
                           .replaceFirst('{0}', translate('symbol')));
                   if (res != null) return res;
+                  return null;
                 },
                 onChanged: (value) {
                   presenter.changeAbleToSave(

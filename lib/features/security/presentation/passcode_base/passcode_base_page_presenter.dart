@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:moonchain_wallet/common/biometric.dart';
 import 'package:moonchain_wallet/core/core.dart';
 
-import 'passcode_base_page_state.dart';
 
 const passcodeTransitionDuration = Duration(milliseconds: 400);
 
@@ -18,11 +17,7 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
   void initState() {
     super.initState();
 
-    // Simulate initial lifecycle change
-    onAppLifecycleChanged(
-      null,
-      AppLifecycleState.resumed,
-    );
+  
 
     listen<bool>(
       _passcodeUseCase.biometricEnabled,
@@ -33,13 +28,6 @@ abstract class PasscodeBasePagePresenter<T extends PasscodeBasePageState>
 
   void onAllNumbersEntered(String? dismissedPage);
 
-  Future<void> onAppLifecycleChanged(
-    AppLifecycleState? previous,
-    AppLifecycleState current,
-  ) async {
-    final userHasActiveFingerprints = await Biometric.userHasFingerPrints();
-    notify(() => state.userHasActiveFingerprints = userHasActiveFingerprints);
-  }
 
   Future<bool> requestBiometrics() async {
     return await Biometric.authenticate(context!);

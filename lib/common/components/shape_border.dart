@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RoundedBottomBorder extends ShapeBorder {
   final BorderSide bottomBorder;
 
-  RoundedBottomBorder({required this.bottomBorder});
+  const RoundedBottomBorder({required this.bottomBorder});
 
   @override
   EdgeInsetsGeometry get dimensions => EdgeInsets.only(bottom: bottomBorder.width);

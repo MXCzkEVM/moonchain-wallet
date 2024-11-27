@@ -1,7 +1,6 @@
 import 'package:moonchain_wallet/common/components/recent_transactions/widgets/recent_transaction_item.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:flutter/material.dart';
-import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 class RecentTransactionsUtils {
@@ -78,7 +77,7 @@ class RecentTransactionsUtils {
       final foundToken = tokensList.firstWhere(
           (element) =>
               element.address?.toLowerCase() == e.token.address?.toLowerCase(),
-          orElse: () => Token());
+          orElse: () => const Token());
       final logoUrl = foundToken.logoUri ??
           e.token.logoUri ??
           'assets/svg/networks/unknown.svg';
