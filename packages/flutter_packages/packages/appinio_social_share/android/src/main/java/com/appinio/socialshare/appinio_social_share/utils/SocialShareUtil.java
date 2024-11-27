@@ -50,6 +50,7 @@ public class SocialShareUtil {
     private final String INSTAGRAM_STORY_PACKAGE = "com.instagram.share.ADD_TO_STORY";
     private final String INSTAGRAM_FEED_PACKAGE = "com.instagram.share.ADD_TO_FEED";
     private final String WHATSAPP_PACKAGE = "com.whatsapp";
+    private final String WE_CHAT_PACKAGE = "com.tencent.mm";
     private final String TELEGRAM_PACKAGE = "org.telegram.messenger";
     private final String TELEGRAM_WEB_PACKAGE = "org.telegram.messenger.web";
     private final String TIKTOK_PACKAGE = "com.zhiliaoapp.musically";
@@ -72,6 +73,9 @@ public class SocialShareUtil {
         return shareFilesToPackage(imagePaths, context, WHATSAPP_PACKAGE);
     }
 
+    public String shareToWeChat(String filePath, String title, Context activity) {
+        return shareFileAndTextToPackage(filePath, title, activity, WE_CHAT_PACKAGE);
+    }
 
     public String shareToInstagramDirect(String text, Context activity) {
         return shareTextToPackage(text, activity, INSTAGRAM_PACKAGE);
@@ -405,6 +409,7 @@ public class SocialShareUtil {
         appsMap.put("instagram", INSTAGRAM_PACKAGE);
         appsMap.put("facebook_stories", FACEBOOK_PACKAGE);
         appsMap.put("whatsapp", WHATSAPP_PACKAGE);
+        appsMap.put("we_chat", WE_CHAT_PACKAGE);
         appsMap.put(telegramApp, TELEGRAM_PACKAGE);
         appsMap.put("messenger", FACEBOOK_MESSENGER_PACKAGE);
         appsMap.put("messenger-lite", FACEBOOK_MESSENGER_LITE_PACKAGE);
@@ -424,7 +429,7 @@ public class SocialShareUtil {
         List<ResolveInfo> resolvedActivities = pm.queryIntentActivities(intent, 0);
         apps.put("message", !resolvedActivities.isEmpty());
     
-        String[] appNames = {"instagram", "facebook_stories", "whatsapp", "telegram", "messenger", "facebook", "facebook-lite", "messenger-lite", "instagram_stories", "twitter", "tiktok"};
+        String[] appNames = {"instagram", "facebook_stories", "whatsapp", "we_chat" ,"telegram", "messenger", "facebook", "facebook-lite", "messenger-lite", "instagram_stories", "twitter", "tiktok"};
     
         for (String appName : appNames) {
             // Telegram has two types of package ids
