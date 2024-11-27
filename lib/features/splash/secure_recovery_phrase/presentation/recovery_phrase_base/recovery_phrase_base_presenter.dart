@@ -87,15 +87,16 @@ abstract class RecoveryPhraseBasePresenter<T extends RecoveryPhraseBaseState>
     final res = await generateMnemonicFile(settingsFlow);
 
     if (Platform.isAndroid) {
-      await _socialShare.shareToWechat(
+      await _socialShare.android.shareToWechat(
         _mnemonicTitle,
-        filePath: res['filePath'],
+        res['filePath'],
       );
     } else {
-      await _socialShare.shareToSystem(
+      await _socialShare.iOS.shareToSystem(
         _mnemonicTitle,
-        '',
-        filePath: res['filePath'],
+        filePaths: [
+          res['filePath'],
+        ],
       );
     }
 
