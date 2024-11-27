@@ -36,7 +36,7 @@ dependencies:
   app_links: 3.4.5
   app_settings: ^5.1.1
   appinio_social_share:
-    path: packages/appinio_social_share
+    path: packages/flutter_packages/packages/appinio_social_share
   background_fetch: ^1.2.1
   cached_network_image: ^3.4.1
   clipboard: ^0.1.3
