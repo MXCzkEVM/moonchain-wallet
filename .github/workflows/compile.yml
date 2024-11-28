@@ -22,7 +22,7 @@ jobs:
           echo "Set VERSION_CODE to: ${{ github.run_number }}"
         shell: bash
 
-      - uses: reasje/action-flutter-build-android@v3
+      - uses: reasje/action-flutter-build-android@v8
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
@@ -49,60 +49,60 @@ jobs:
           destination-dir: app
 
 
-  build-macos:
-    name: Build-ios
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code with submodules
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Check flutter found
-        id: check_flutter
-        shell: bash
-        run: |
-          if flutter --version; then
-              echo "installed=true" >> "$GITHUB_OUTPUT"
-          else
-              echo "installed=false" >> "$GITHUB_OUTPUT"
-          fi
+  # build-macos:
+  #   name: Build-ios
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: Checkout code with submodules
+  #       uses: actions/checkout@v4
+  #       with:
+  #         submodules: recursive
+  #     - name: Check flutter found
+  #       id: check_flutter
+  #       shell: bash
+  #       run: |
+  #         if flutter --version; then
+  #             echo "installed=true" >> "$GITHUB_OUTPUT"
+  #         else
+  #             echo "installed=false" >> "$GITHUB_OUTPUT"
+  #         fi
   
-      - name: Setup flutter
-        if: steps.check_flutter.outputs.installed == 'false'
-        uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-          flutter-version: '3.24.5'
-          cache: true
+  #     - name: Setup flutter
+  #       if: steps.check_flutter.outputs.installed == 'false'
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         channel: "stable"
+  #         flutter-version: '3.24.5'
+  #         cache: true
 
-      # Step to clear CocoaPods cache and reinstall pods
-      - name: Reinstall CocoaPods
-        run: |
-          flutter pub get
-          cd ios          
-          echo "Current Directory:"
-          pwd
-          echo "Contents of Current Directory:"
-          ls -la
-          pod install --repo-update
-          echo "Contents of Current Directory:"
-          ls -la  
+  #     # Step to clear CocoaPods cache and reinstall pods
+  #     - name: Reinstall CocoaPods
+  #       run: |
+  #         flutter pub get
+  #         cd ios          
+  #         echo "Current Directory:"
+  #         pwd
+  #         echo "Contents of Current Directory:"
+  #         ls -la
+  #         pod install --repo-update
+  #         echo "Contents of Current Directory:"
+  #         ls -la  
           
-      - uses: sheenhx/action-flutter-build-ios@v1
-        with:
-          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
-          build-cmd: flutter build ipa --build-number=$(( 15 + ${{ github.run_number }})) --export-options-plist=ios/GithubActionsExportOptions.plist
-          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
-          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
-          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
-          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
+  #     - uses: sheenhx/action-flutter-build-ios@v1
+  #       with:
+  #         # always use --export-options-plist=ios/GithubActionsExportOptions.plist
+  #         build-cmd: flutter build ipa --build-number=$(( 15 + ${{ github.run_number }})) --export-options-plist=ios/GithubActionsExportOptions.plist
+  #         certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+  #         certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+  #         provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+  #         keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
 
-      - name: Archive IPA
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-ipa
-          # Try running the build locally with the build command to be sure of this path
-          path: build/ios/ipa/*.ipa
+  #     - name: Archive IPA
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: release-ipa
+  #         # Try running the build locally with the build command to be sure of this path
+  #         path: build/ios/ipa/*.ipa
 
   upload-combined:
     name: Combine and Upload Builds
