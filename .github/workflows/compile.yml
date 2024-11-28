@@ -72,7 +72,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          flutter-version: '3.7.12'
+          flutter-version: '3.24.5'
           cache: true
 
       # Step to clear CocoaPods cache and reinstall pods
