@@ -5,6 +5,14 @@ class IOS {
     return AppinioSocialSharePlatform.instance.shareToWhatsapp(message);
   }
 
+  Future<String> shareToWechat(
+    String message,
+    String? filePath,
+  ) {
+    return AppinioSocialSharePlatform.instance
+        .shareToWeChat(message, filePath);
+  }
+
   Future<String> shareToTelegram(String message) {
     return AppinioSocialSharePlatform.instance.shareToTelegram(message);
   }

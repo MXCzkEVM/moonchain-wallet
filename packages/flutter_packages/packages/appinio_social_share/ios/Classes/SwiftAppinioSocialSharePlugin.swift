@@ -16,6 +16,7 @@ public class SwiftAppinioSocialSharePlugin: NSObject, FlutterPlugin, SharingDele
     private let MESSENGER = "messenger";
     private let WHATSAPP:String = "whatsapp";
     private let WHATSAPP_IMG_IOS:String = "whatsapp_img_ios";
+    private let WE_CHAT:String = "we_chat";
     private let TWITTER:String = "twitter";
     private let SMS:String = "sms";
     private let SYSTEM_SHARE:String = "system_share";
@@ -61,6 +62,9 @@ public class SwiftAppinioSocialSharePlugin: NSObject, FlutterPlugin, SharingDele
           break
       case WHATSAPP:
           shareUtil.shareToWhatsApp(args:args!, result:result)
+          break
+      case WE_CHAT:
+          shareUtil.shareToWeChat(args:args!, result:result)
           break
       case TWITTER:
           shareUtil.shareToTwitter(args:args!,result:result)
