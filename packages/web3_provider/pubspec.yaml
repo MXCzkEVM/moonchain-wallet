@@ -12,11 +12,18 @@ dependencies:
     sdk: flutter
 
   decimal: ^2.3.0
-  flutter_inappwebview: ^5.7.1
+  flutter_inappwebview: ^6.1.5
+  mxc_logic:
+    path: ../shared/logic
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+dependency_overrides:
+  # Graphql 5.1.3 requires this version so we override this
+  # for phoenix_socket to use lower version of ws  
+  web_socket_channel: ^2.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

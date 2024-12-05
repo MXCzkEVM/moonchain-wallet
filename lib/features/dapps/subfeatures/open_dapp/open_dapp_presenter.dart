@@ -399,7 +399,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
       state.isLoadStopCalled = !state.isLoadStopCalled;
 
   void injectMXCWalletJSChannel() =>
-      JSChannelUtils.injectMXCWalletJSChannel(state);
+      JSChannelInjectionUtils.injectMXCWalletJSChannel(state);
 
   void cancelCharacteristicListenerTimer() =>
       characteristicListenerTimer?.cancel();

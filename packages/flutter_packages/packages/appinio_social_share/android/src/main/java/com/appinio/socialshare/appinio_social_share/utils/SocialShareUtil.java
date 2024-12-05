@@ -114,7 +114,15 @@ public class SocialShareUtil {
     }
 
     public String shareToTelegramFiles(ArrayList<String> imagePaths, Context activity) {
-        return shareFilesToPackage(imagePaths, activity, TELEGRAM_PACKAGE);
+        // Trying to launch Telegram downloaded from Google Play
+        String result = shareFilesToPackage(imagePaths, activity, TELEGRAM_PACKAGE);
+
+        // Trying to launch Telegram downloaded from It's website
+        if (!result.equals(SUCCESS)) {
+            result = shareFilesToPackage(imagePaths, activity, TELEGRAM_WEB_PACKAGE);
+        }
+
+        return result;
     }
 
 

@@ -30,7 +30,7 @@ public class ShareUtil{
 
     
     public func getInstalledApps(result: @escaping FlutterResult){
-        let apps = [["instagram","instagram"],["facebook-stories","facebook_stories"],["whatsapp","whatsapp"],["tg","telegram"],["fb-messenger","messenger"],["tiktok","snssdk1233"],["instagram-stories","instagram_stories"],["twitter","twitter"],["sms","message"]]
+        let apps = [["instagram","instagram"],["facebook-stories","facebook_stories"],["whatsapp","whatsapp"],["weixin","we_chat"],["tg","telegram"],["fb-messenger","messenger"],["tiktok","snssdk1233"],["instagram-stories","instagram_stories"],["twitter","twitter"],["sms","message"]]
         var output:[String: Bool] = [:]
         for app in apps {
             if(UIApplication.shared.canOpenURL(URL(string:(app[0])+"://")!)){
@@ -289,7 +289,23 @@ public class ShareUtil{
         }
     }
     
-    
+    func shareToWeChat(args : [String: Any?],result: @escaping FlutterResult) {
+        let message = args[self.argMessage] as? String
+        let wechatURL = "weixin://dl/favorites?file=\(message!)"
+        
+        var characterSet = CharacterSet.urlQueryAllowed
+        characterSet.insert(charactersIn: "?&")
+        let wcAppURL  = NSURL(string: wechatURL.addingPercentEncoding(withAllowedCharacters: characterSet)!)
+        if UIApplication.shared.canOpenURL(wcAppURL! as URL)
+        {
+            UIApplication.shared.openURL(wcAppURL! as URL)
+            result(SUCCESS);
+        }
+        else
+        {
+            result(ERROR_APP_NOT_AVAILABLE);
+        }
+    }    
     
     func shareToFacebookPost(args : [String: Any?],result: @escaping FlutterResult, delegate: SharingDelegate) {
         let message = args[self.argMessage] as? String

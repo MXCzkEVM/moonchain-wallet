@@ -51,8 +51,8 @@ dependencies:
   eth_sig_util: ^0.0.9
   f_logs: ^2.0.1
   favicon: ^1.1.2
-  firebase_core: ^2.22.0
-  firebase_messaging: ^14.7.4
+  firebase_core: ^3.8.0
+  firebase_messaging: ^15.1.5
   fl_chart: ^0.69.0
   fl_shared_link:
     path: packages/fl_shared_link
@@ -64,7 +64,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   flutter_hooks: ^0.18.5+1
   flutter_i18n: ^0.35.1
-  flutter_inappwebview: ^5.8.0
+  flutter_inappwebview: ^6.1.5
   flutter_local_notifications: ^18.0.1
   flutter_mailer: ^2.0.2
   flutter_svg: ^2.0.1

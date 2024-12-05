@@ -73,8 +73,8 @@ class OpenDAppPage extends HookConsumerWidget {
                     rpcUrl: state.network?.web3RpcHttpUrl,
                     walletAddress: state.account!.address,
                     isDebug: false,
-                    initialUrlRequest: URLRequest(
-                      url: Uri.parse(url),
+                    initialUrlRequest:  URLRequest(
+                      url: WebUri(url),
                     ),
                     onLoadStart: (controller, url) =>
                         presenter.changeOnLoadStopCalled(),
