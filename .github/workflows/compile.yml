@@ -63,7 +63,7 @@ jobs:
         with:
           submodules: recursive
           
-      - uses: reasje/action-flutter-build-ios@main
+      - uses: sheenhx/action-flutter-build-ios@main
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
           build-cmd: flutter build ipa --build-number=$(( 15 + ${{ github.run_number }})) --export-options-plist=ios/GithubActionsExportOptions.plist
@@ -130,14 +130,20 @@ jobs:
 
   build-waldo:
     name: Build-waldo
-    runs-on: macos-latest
+    # https://github.com/actions/runner-images
+    # https://xcodereleases.com/
+    runs-on: macos-15
+
     steps:
+      - name: Select Xcode version 16.1
+        run: sudo xcode-select -s /Applications/Xcode_16.1.app
+
       - name: Checkout code with submodules
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - uses: sheenhx/action-flutter-build-ios@v1
+      - uses: sheenhx/action-flutter-build-ios@main
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
           build-cmd: flutter build ios --simulator
