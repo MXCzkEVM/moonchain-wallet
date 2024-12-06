@@ -8,8 +8,11 @@ jobs:
   build-macos:
     name: Build-testflight
     if: github.ref == 'refs/heads/pre_main_qa'
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
+      - name: Select Xcode version 16.1
+        run: sudo xcode-select -s /Applications/Xcode_16.1.app
+
       - name: Checkout code with submodules
         uses: actions/checkout@v4
         with:
