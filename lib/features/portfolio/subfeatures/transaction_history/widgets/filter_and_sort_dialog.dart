@@ -20,28 +20,17 @@ Future<bool?> showFilterAndSortDialog(
 }) {
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        MxcAppBarEvenly.title(
-          titleText: FlutterI18n.translate(context, 'filter_&_sort'),
-          action: Container(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              child: const Icon(Icons.close),
-              onTap: () => Navigator.of(context).pop(false),
-            ),
-          ),
-        ),
-        FilterAndSortItems(
-          transactionType: transactionType,
-          sortOption: sortOption,
-          dateSort: dateSort,
-          amountSort: amountSort,
-          onTap: onTap,
-        ),
-        const SizedBox(height: 10),
-      ],
-    ),
+    bottomSheetTitle: 'filter_&_sort',
+    closeButtonReturnValue: false,
+    widgets: [
+      FilterAndSortItems(
+        transactionType: transactionType,
+        sortOption: sortOption,
+        dateSort: dateSort,
+        amountSort: amountSort,
+        onTap: onTap,
+      ),
+      const SizedBox(height: 10),
+    ],
   );
 }

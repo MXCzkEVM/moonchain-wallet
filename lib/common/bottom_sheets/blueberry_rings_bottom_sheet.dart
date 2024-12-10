@@ -10,30 +10,11 @@ Future<ScanResult?> showBlueberryRingsBottomSheet(
 ) {
   return showBaseBottomSheet<ScanResult>(
     context: context,
-    content: ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.9,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          MxcAppBarEvenly.title(
-            titleText: FlutterI18n.translate(
-              context,
-              'nearby_blueberry_rings',
-            ),
-            action: Container(
-              alignment: Alignment.centerRight,
-              child: InkWell(
-                child: const Icon(Icons.close),
-                onTap: () => Navigator.of(context).pop(null),
-              ),
-            ),
-          ),
-          const BlueberryDeviceInfo(),
-          const SizedBox(height: 10),
-        ],
-      ),
-    ),
+    bottomSheetTitle: 'nearby_blueberry_rings',
+    closeButtonReturnValue: null,
+    widgets: [
+      const BlueberryDeviceInfo(),
+      const SizedBox(height: 10),
+    ],
   );
 }

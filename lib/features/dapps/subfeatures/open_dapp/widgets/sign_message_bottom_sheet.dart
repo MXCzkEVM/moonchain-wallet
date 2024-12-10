@@ -6,26 +6,16 @@ import 'message_info.dart';
 
 Future<bool?> showSignMessageDialog(
   BuildContext context, {
-  String? title,
+  String? title = '',
   required String networkName,
   required String message,
   VoidCallback? onTap,
 }) {
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        MxcAppBarEvenly.title(
-          titleText: title ?? '',
-          action: Container(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              child: const Icon(Icons.close),
-              onTap: () => Navigator.of(context).pop(false),
-            ),
-          ),
-        ),
+    bottomSheetTitle: title,
+    closeButtonReturnValue: false,
+    widgets: [
         MessageInfo(
           message: message,
           networkName: networkName,
@@ -33,6 +23,5 @@ Future<bool?> showSignMessageDialog(
         ),
         const SizedBox(height: 10),
       ],
-    ),
   );
 }

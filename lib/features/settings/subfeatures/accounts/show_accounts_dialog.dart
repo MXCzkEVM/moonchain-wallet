@@ -17,55 +17,64 @@ void showAccountsDialog(
     required Function(Account) onRemove}) {
   showBaseBottomSheet<void>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        MxcAppBarEvenly.title(
-          titleText: FlutterI18n.translate(context, 'accounts'),
-          action: Container(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              child: const Icon(Icons.close),
-              onTap: () => Navigator.of(context).pop(false),
-            ),
-          ),
+    bottomSheetTitle: 'accounts',
+    widgets: [
+      Flexible(
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: accounts.length,
+          shrinkWrap: true,
+          itemBuilder: (ctx, index) {
+            return AccountItem(
+              account: accounts[index],
+              isSelected: currentAccount.address == accounts[index].address,
+              onSelect: () => onSelect(accounts[index]),
+              isCustom: accounts[index].isCustom,
+              onRemove: onRemove,
+            );
+          },
         ),
-        Flexible(
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: accounts.length,
-            shrinkWrap: true,
-            itemBuilder: (ctx, index) {
-              return AccountItem(
-                account: accounts[index],
-                isSelected: currentAccount.address == accounts[index].address,
-                onSelect: () => onSelect(accounts[index]),
-                isCustom: accounts[index].isCustom,
-                onRemove: onRemove,
-              );
-            },
-          ),
-        ),
-        const SizedBox(height: Sizes.spaceXSmall),
-        MxcButton.primary(
-          key: const ValueKey('addAccountButton'),
-          title: FlutterI18n.translate(
-              context, isLoading ? 'adding_account' : 'add_new_account'),
-          onTap: onAdd,
-          size: MXCWalletButtonSize.xl,
-        ),
-        const SizedBox(height: Sizes.spaceXSmall),
-        MxcButton.plainWhite(
-          key: const ValueKey('importAccountButton'),
-          title: FlutterI18n.translate(context, 'import_account'),
-          onTap: onImport,
-          size: MXCWalletButtonSize.xl,
-          titleColor: ColorsTheme.of(
-            context,
-            listen: false,
-          ).primary,
-        ),
-      ],
-    ),
+      ),
+      const SizedBox(height: Sizes.spaceXSmall),
+      MxcButton.primary(
+        key: const ValueKey('addAccountButton'),
+        title: FlutterI18n.translate(
+            context, isLoading ? 'adding_account' : 'add_new_account',),
+        onTap: onAdd,
+        size: MXCWalletButtonSize.xl,
+      ),
+      const SizedBox(height: Sizes.spaceXSmall),
+      MxcButton.plainWhite(
+        key: const ValueKey('importAccountButton'),
+        title: FlutterI18n.translate(context, 'import_account',),
+        onTap: onImport,
+        size: MXCWalletButtonSize.xl,
+        titleColor: ColorsTheme.of(
+          context,
+          listen: false,
+        ).primary,
+      ),
+    ],
+    // content: Container(
+    //   padding: const EdgeInsets.only(right: 24, left: 24, bottom: 44),
+    //   decoration: BoxDecoration(
+    //     color: Colors.amber,
+    //   ),
+    // child: Column(
+    //   mainAxisSize: MainAxisSize.min,
+    //   children: [
+    //     MxcAppBarEvenly.title(
+    //       titleText: FlutterI18n.translate(context, 'accounts'),
+    //       action: Container(
+    //         alignment: Alignment.centerRight,
+    //         child: InkWell(
+    //           child: const Icon(Icons.close),
+    //           onTap: () => Navigator.of(context).pop(false),
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // ),
+    // ),
   );
 }
