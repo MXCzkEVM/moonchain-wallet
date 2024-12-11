@@ -15,50 +15,40 @@ Future<bool?> showSwitchNetworkDialog(
 
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.only(
-              start: Sizes.spaceNormal,
-              end: Sizes.spaceNormal,
-              bottom: Sizes.space2XLarge),
-          child: MxcAppBarEvenly.title(
-            titleText: translate('switch_to_network'),
-          ),
-        ),
-        Text(
-          translate('allow_this_site_notice')
-              .replaceFirst('{0}', "\"$fromNetwork\"")
-              .replaceFirst('{1}', "\"$toNetwork\""),
-          style: FontTheme.of(context, listen: false).body2.primary(),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(
-          height: Sizes.spaceXLarge,
-        ),
-        MxcButton.secondary(
-          key: const ValueKey('cancelButton'),
-          title: translate('cancel'),
-          onTap: () => Navigator.of(context).pop(false),
-          size: MXCWalletButtonSize.xl,
-          edgeType: MXCWalletButtonEdgeType.hard,
-        ),
-        const SizedBox(
-          height: Sizes.spaceXLarge,
-        ),
-        MxcButton.primary(
-          key: const ValueKey('approveButton'),
-          title: translate('approve'),
-          onTap: () {
-            onTap();
-            Navigator.of(context).pop(true);
-          },
-          size: MXCWalletButtonSize.xl,
-          edgeType: MXCWalletButtonEdgeType.hard,
-        ),
-        const SizedBox(height: Sizes.spaceNormal),
-      ],
-    ),
+    bottomSheetTitle: 'switch_to_network',
+    hasCloseButton: false,
+    widgets: [
+      Text(
+        translate('allow_this_site_notice')
+            .replaceFirst('{0}', "\"$fromNetwork\"")
+            .replaceFirst('{1}', "\"$toNetwork\""),
+        style: FontTheme.of(context, listen: false).body2.primary(),
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(
+        height: Sizes.spaceXLarge,
+      ),
+      MxcButton.secondary(
+        key: const ValueKey('cancelButton'),
+        title: translate('cancel'),
+        onTap: () => Navigator.of(context).pop(false),
+        size: MXCWalletButtonSize.xl,
+        edgeType: MXCWalletButtonEdgeType.hard,
+      ),
+      const SizedBox(
+        height: Sizes.spaceXLarge,
+      ),
+      MxcButton.primary(
+        key: const ValueKey('approveButton'),
+        title: translate('approve'),
+        onTap: () {
+          onTap();
+          Navigator.of(context).pop(true);
+        },
+        size: MXCWalletButtonSize.xl,
+        edgeType: MXCWalletButtonEdgeType.hard,
+      ),
+      const SizedBox(height: Sizes.spaceNormal),
+    ],
   );
 }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 import 'package:lottie/lottie.dart';
 
@@ -16,15 +17,12 @@ class GesturesInstructionItem {
 }
 
 Future<bool?> showGesturesInstructionDialog(BuildContext context) async {
-  return await showModalBottomSheet<bool>(
+  return await showBaseBottomSheet(
     context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
     isDismissible: false,
     enableDrag: false,
-    useSafeArea: true,
-    backgroundColor: Colors.transparent,
-    builder: (BuildContext context) => const GesturesInstruction(),
+    bottomSheetBackgroundColor: Colors.transparent,
+    content: const GesturesInstruction(),
   );
 }
 

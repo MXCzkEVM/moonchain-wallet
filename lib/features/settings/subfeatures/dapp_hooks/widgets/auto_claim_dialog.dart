@@ -9,57 +9,50 @@ Future<bool?> showAutoClaimExecutionAlertDialog(
 
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MxcAppBarEvenly.title(
-          titleText: translate('auto_claim_execution_dialog_title'),
-          useContentPadding: false,
-          textFieldFlex: 5,
+    bottomSheetTitle: 'auto_claim_execution_dialog_title',
+    hasCloseButton: false,
+    widgets: [
+      Padding(
+        padding: const EdgeInsetsDirectional.symmetric(
+          horizontal: Sizes.spaceXLarge,
         ),
-        Padding(
-          padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: Sizes.spaceXLarge,
-          ),
-          child: Column(
-            children: [
-              Text(
-                translate(
-                  'auto_claim_execution_dialog_text',
-                ),
-                style: FontTheme.of(context, listen: false)
-                    .body1
-                    .primary()
-                    .copyWith(),
-                softWrap: true,
-                textAlign: TextAlign.justify,
+        child: Column(
+          children: [
+            Text(
+              translate(
+                'auto_claim_execution_dialog_text',
               ),
-              const SizedBox(
-                height: Sizes.spaceNormal,
-              ),
-              MxcButton.secondary(
-                key: const ValueKey('cancelButton'),
-                title: translate('cancel'),
-                onTap: () => Navigator.of(context).pop(false),
-                size: MXCWalletButtonSize.xl,
-              ),
-              const SizedBox(
-                height: Sizes.spaceNormal,
-              ),
-              MxcButton.primary(
-                key: const ValueKey('executeButton'),
-                title: translate('execute'),
-                onTap: () {
-                  executeAutoClaim();
-                  Navigator.of(context).pop(true);
-                },
-                size: MXCWalletButtonSize.xl,
-              ),
-            ],
-          ),
-        )
-      ],
-    ),
+              style: FontTheme.of(context, listen: false)
+                  .body1
+                  .primary()
+                  .copyWith(),
+              softWrap: true,
+              textAlign: TextAlign.justify,
+            ),
+            const SizedBox(
+              height: Sizes.spaceNormal,
+            ),
+            MxcButton.secondary(
+              key: const ValueKey('cancelButton'),
+              title: translate('cancel'),
+              onTap: () => Navigator.of(context).pop(false),
+              size: MXCWalletButtonSize.xl,
+            ),
+            const SizedBox(
+              height: Sizes.spaceNormal,
+            ),
+            MxcButton.primary(
+              key: const ValueKey('executeButton'),
+              title: translate('execute'),
+              onTap: () {
+                executeAutoClaim();
+                Navigator.of(context).pop(true);
+              },
+              size: MXCWalletButtonSize.xl,
+            ),
+          ],
+        ),
+      )
+    ],
   );
 }
