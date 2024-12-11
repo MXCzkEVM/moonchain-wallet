@@ -8,7 +8,7 @@ import 'transaction_info.dart';
 enum TransactionProcessType { confirm, send, done }
 
 Future<bool?> showTransactionDialog(BuildContext context,
-    {String? title,
+    {String? title = '',
     required Nft nft,
     required String newtork,
     required String from,
@@ -19,31 +19,20 @@ Future<bool?> showTransactionDialog(BuildContext context,
     required String symbol}) {
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        MxcAppBarEvenly.title(
-          titleText: title ?? '',
-          action: Container(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              child: const Icon(Icons.close),
-              onTap: () => Navigator.of(context).pop(false),
-            ),
-          ),
-        ),
-        TransactionInfo(
-          nft: nft,
-          newtork: newtork,
-          from: from,
-          to: to,
-          estimatedFee: estimatedFee,
-          processType: processType,
-          onTap: onTap,
-          symbol: symbol,
-        ),
-        const SizedBox(height: 10),
-      ],
-    ),
+    bottomSheetTitle: title,
+    closeButtonReturnValue: false,
+    widgets: [
+      TransactionInfo(
+        nft: nft,
+        newtork: newtork,
+        from: from,
+        to: to,
+        estimatedFee: estimatedFee,
+        processType: processType,
+        onTap: onTap,
+        symbol: symbol,
+      ),
+      const SizedBox(height: 10),
+    ],
   );
 }

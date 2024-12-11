@@ -13,47 +13,37 @@ Future<bool?> showSwitchNetworkDialog(
 
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.only(
-              start: Sizes.spaceNormal,
-              end: Sizes.spaceNormal,
-              bottom: Sizes.space2XLarge),
-          child: MxcAppBarEvenly.title(
-            titleText: translate('new_network_added'),
-          ),
-        ),
-        Text(
-          translate('x_is_now_available')
-              .replaceFirst('{0}', network.label ?? network.web3RpcHttpUrl),
-          style: FontTheme.of(context, listen: false).body2.primary(),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(
-          height: Sizes.spaceXLarge,
-        ),
-        MxcButton.secondary(
-          key: const ValueKey('closeButton'),
-          title: translate('close'),
-          onTap: () => Navigator.of(context).pop(false),
-          size: MXCWalletButtonSize.xl,
-          edgeType: MXCWalletButtonEdgeType.hard,
-        ),
-        const SizedBox(
-          height: Sizes.spaceXLarge,
-        ),
-        MxcButton.primary(
-          key: const ValueKey('switchToNetwork'),
-          title: translate('switch_to_network'),
-          onTap: () {
-            onSwitch(network);
-          },
-          size: MXCWalletButtonSize.xl,
-          edgeType: MXCWalletButtonEdgeType.hard,
-        ),
-      ],
-    ),
+    bottomSheetTitle: 'new_network_added',
+    hasCloseButton: false,
+    widgets: [
+      Text(
+        translate('x_is_now_available')
+            .replaceFirst('{0}', network.label ?? network.web3RpcHttpUrl),
+        style: FontTheme.of(context, listen: false).body2.primary(),
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(
+        height: Sizes.spaceXLarge,
+      ),
+      MxcButton.secondary(
+        key: const ValueKey('closeButton'),
+        title: translate('close'),
+        onTap: () => Navigator.of(context).pop(false),
+        size: MXCWalletButtonSize.xl,
+        edgeType: MXCWalletButtonEdgeType.hard,
+      ),
+      const SizedBox(
+        height: Sizes.spaceXLarge,
+      ),
+      MxcButton.primary(
+        key: const ValueKey('switchToNetwork'),
+        title: translate('switch_to_network'),
+        onTap: () {
+          onSwitch(network);
+        },
+        size: MXCWalletButtonSize.xl,
+        edgeType: MXCWalletButtonEdgeType.hard,
+      ),
+    ],
   );
 }

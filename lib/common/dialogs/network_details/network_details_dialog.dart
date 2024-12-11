@@ -13,83 +13,73 @@ Future<bool?> showNetworkDetailsDialog(
 
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.only(
-              start: Sizes.spaceNormal, end: Sizes.spaceNormal, bottom: 0),
-          child: MxcAppBarEvenly.title(
-            titleText: network.label ?? network.web3RpcHttpUrl,
-          ),
-        ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: [
-        //     Text(
-        //       translate(
-        //         'want_to_add_this_network',
-        //       ),
-        //       style: FontTheme.of(context, listen: false)
-        //           .body2
-        //           .primary()
-        //           .copyWith(fontWeight: FontWeight.w600),
-        //     ),
-        //     const SizedBox(
-        //       height: Sizes.spaceXSmall,
-        //     ),
-        //     Text(
-        //       translate(
-        //         'network_adding_usage_notice',
-        //       ),
-        //       style: FontTheme.of(context, listen: false).body2.primary(),
-        //       textAlign: TextAlign.center,
-        //     ),
-        //     const SizedBox(
-        //       height: Sizes.spaceXSmall,
-        //     ),
-        //     network.networkType == NetworkType.custom
-        //         ? Text(
-        //             translate(
-        //               'custom_network_security_alert',
-        //             ),
-        //             style: FontTheme.of(context, listen: false).body1().copyWith(
-        //                 color: ColorsTheme.of(context, listen: false).textCritical),
-        //             textAlign: TextAlign.center,
-        //           )
-        //         : Container()
-        //   ],
-        // ),
-        // const SizedBox(
-        //   height: Sizes.spaceXSmall,
-        // ),
-        PropertyItem(
-            title: translate('network_name'),
-            value: network.label ?? network.web3RpcHttpUrl),
-        PropertyItem(
-            title: translate('rpc_url'), value: network.web3RpcHttpUrl),
-        PropertyItem(
-            title: translate('chain_id'), value: network.chainId.toString()),
-        PropertyItem(title: translate('symbol'), value: network.symbol),
-        network.explorerUrl != null
-            ? PropertyItem(
-                title: translate('block_explorer_url'),
-                value: network.explorerUrl!)
-            : Container(),
-        const SizedBox(
-          height: Sizes.spaceXSmall,
-        ),
-        MxcButton.secondary(
-          key: const ValueKey('closeButton'),
-          title: translate('close'),
-          onTap: () => Navigator.of(context).pop(false),
-          size: MXCWalletButtonSize.xl,
-        ),
-        const SizedBox(
-          height: Sizes.spaceNormal,
-        ),
-      ],
-    ),
+    bottomSheetTitle: network.label ?? network.web3RpcHttpUrl,
+    hasCloseButton: false,
+    widgets: [
+      // Column(
+      //   crossAxisAlignment: CrossAxisAlignment.center,
+      //   children: [
+      //     Text(
+      //       translate(
+      //         'want_to_add_this_network',
+      //       ),
+      //       style: FontTheme.of(context, listen: false)
+      //           .body2
+      //           .primary()
+      //           .copyWith(fontWeight: FontWeight.w600),
+      //     ),
+      //     const SizedBox(
+      //       height: Sizes.spaceXSmall,
+      //     ),
+      //     Text(
+      //       translate(
+      //         'network_adding_usage_notice',
+      //       ),
+      //       style: FontTheme.of(context, listen: false).body2.primary(),
+      //       textAlign: TextAlign.center,
+      //     ),
+      //     const SizedBox(
+      //       height: Sizes.spaceXSmall,
+      //     ),
+      //     network.networkType == NetworkType.custom
+      //         ? Text(
+      //             translate(
+      //               'custom_network_security_alert',
+      //             ),
+      //             style: FontTheme.of(context, listen: false).body1().copyWith(
+      //                 color: ColorsTheme.of(context, listen: false).textCritical),
+      //             textAlign: TextAlign.center,
+      //           )
+      //         : Container()
+      //   ],
+      // ),
+      // const SizedBox(
+      //   height: Sizes.spaceXSmall,
+      // ),
+      PropertyItem(
+          title: translate('network_name'),
+          value: network.label ?? network.web3RpcHttpUrl),
+      PropertyItem(title: translate('rpc_url'), value: network.web3RpcHttpUrl),
+      PropertyItem(
+          title: translate('chain_id'), value: network.chainId.toString()),
+      PropertyItem(title: translate('symbol'), value: network.symbol),
+      network.explorerUrl != null
+          ? PropertyItem(
+              title: translate('block_explorer_url'),
+              value: network.explorerUrl!)
+          : Container(),
+      const SizedBox(
+        height: Sizes.spaceXSmall,
+      ),
+      MxcButton.secondary(
+        key: const ValueKey('closeButton'),
+        title: translate('close'),
+        onTap: () => Navigator.of(context).pop(false),
+        size: MXCWalletButtonSize.xl,
+      ),
+      const SizedBox(
+        height: Sizes.spaceNormal,
+      ),
+    ],
   );
 }

@@ -12,43 +12,33 @@ Future<bool?> showPermissionUseCasesBottomSheet(
 
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.only(
-              start: Sizes.spaceNormal,
-              end: Sizes.spaceNormal,
-              bottom: Sizes.space2XLarge),
-          child: MxcAppBarEvenly.title(
-            titleText: translate('permission_use_cases'),
-          ),
-        ),
-        Text(
-          translate(getPermissionUseCaseText(permission)),
-          style: FontTheme.of(context, listen: false).body2.primary(),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(
-          height: Sizes.spaceXLarge,
-        ),
-        MxcButton.secondary(
-          key: const ValueKey('notNow'),
-          title: translate('not_now'),
-          onTap: () => Navigator.of(context).pop(false),
-          size: MXCWalletButtonSize.xl,
-        ),
-        const SizedBox(
-          height: Sizes.spaceXLarge,
-        ),
-        MxcButton.primary(
-          key: const ValueKey('okAllow'),
-          title: translate('ok_allow'),
-          onTap: () => Navigator.of(context).pop(true),
-          size: MXCWalletButtonSize.xl,
-        ),
-      ],
-    ),
+    bottomSheetTitle: 'permission_use_cases',
+    hasCloseButton: false,
+    widgets: [
+      Text(
+        translate(getPermissionUseCaseText(permission)),
+        style: FontTheme.of(context, listen: false).body2.primary(),
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(
+        height: Sizes.spaceXLarge,
+      ),
+      MxcButton.secondary(
+        key: const ValueKey('notNow'),
+        title: translate('not_now'),
+        onTap: () => Navigator.of(context).pop(false),
+        size: MXCWalletButtonSize.xl,
+      ),
+      const SizedBox(
+        height: Sizes.spaceXLarge,
+      ),
+      MxcButton.primary(
+        key: const ValueKey('okAllow'),
+        title: translate('ok_allow'),
+        onTap: () => Navigator.of(context).pop(true),
+        size: MXCWalletButtonSize.xl,
+      ),
+    ],
   );
 }
 

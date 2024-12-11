@@ -26,7 +26,6 @@ class ReceiveBottomSheet extends StatelessWidget {
     bool isWalletAddressCopied = false;
 
     return Container(
-      padding: const EdgeInsets.only(right: 24, left: 24, bottom: 44),
       decoration: BoxDecoration(
         color: ColorsTheme.of(context).layerSheetBackground,
         borderRadius: const BorderRadius.only(

@@ -6,31 +6,20 @@ import 'package:mxc_ui/mxc_ui.dart';
 
 Future<bool?> showAddAssetDialog(
   BuildContext context, {
-  String? title,
+  String? title = '',
   required WatchAssetModel token,
   VoidCallback? onTap,
 }) {
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        MxcAppBarEvenly.title(
-          titleText: title ?? '',
-          action: Container(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              child: const Icon(Icons.close),
-              onTap: () => Navigator.of(context).pop(false),
-            ),
-          ),
-        ),
-        AddAssetInfo(
-          token: token,
-          onTap: onTap,
-        ),
-        const SizedBox(height: 10),
-      ],
-    ),
+    bottomSheetTitle: title,
+    closeButtonReturnValue: false,
+    widgets: [
+      AddAssetInfo(
+        token: token,
+        onTap: onTap,
+      ),
+      const SizedBox(height: 10),
+    ],
   );
 }

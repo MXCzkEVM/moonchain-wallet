@@ -11,25 +11,14 @@ Future<bool?> showCancelDialog(BuildContext context,
         required String symbol}) =>
     showBaseBottomSheet<bool>(
       context: context,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          MxcAppBarEvenly.title(
-            titleText: FlutterI18n.translate(context, 'cancel'),
-            action: Container(
-              alignment: Alignment.centerRight,
-              child: InkWell(
-                child: const Icon(Icons.close),
-                onTap: () => Navigator.of(context).pop(false),
-              ),
-            ),
-          ),
-          SpeedUpCancelBottomSheetInfo(
-            estimatedFee: estimatedFee,
-            maxFee: maxFee,
-            symbol: symbol,
-          ),
-          const SizedBox(height: 10),
-        ],
-      ),
+      bottomSheetTitle: 'cancel',
+      closeButtonReturnValue: false,
+      widgets: [
+        SpeedUpCancelBottomSheetInfo(
+          estimatedFee: estimatedFee,
+          maxFee: maxFee,
+          symbol: symbol,
+        ),
+        const SizedBox(height: 10),
+      ],
     );

@@ -11,59 +11,52 @@ Future<bool?> showLocationPermissionBottomSheet({
 
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MxcAppBarEvenly.title(
-          titleText: translate('location_permission_required_title'),
-          useContentPadding: false,
-          textFieldFlex: 5,
+    bottomSheetTitle: 'location_permission_required_title',
+    hasCloseButton: false,
+    widgets: [
+      Padding(
+        padding: const EdgeInsetsDirectional.symmetric(
+          horizontal: Sizes.spaceXLarge,
         ),
-        Padding(
-          padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: Sizes.spaceXLarge,
-          ),
-          child: Column(
-            children: [
-              Text(
-                translate(
-                  'location_permission_required_text',
-                ),
-                style: FontTheme.of(context, listen: false)
-                    .body1
-                    .primary()
-                    .copyWith(),
-                softWrap: true,
-                textAlign: TextAlign.justify,
+        child: Column(
+          children: [
+            Text(
+              translate(
+                'location_permission_required_text',
               ),
-              const SizedBox(
-                height: Sizes.spaceNormal,
-              ),
-              MxcButton.primary(
-                key: const ValueKey('openLocationSettingsButton'),
-                title: translate('open_settings'),
-                onTap: () {
-                  openLocationSettings();
-                  Navigator.of(context).pop(true);
-                },
-                size: MXCWalletButtonSize.xl,
-              ),
-              const SizedBox(
-                height: Sizes.spaceNormal,
-              ),
-              MxcButton.secondary(
-                key: const ValueKey('cancelButton'),
-                title: translate('cancel'),
-                onTap: () {
-                  Navigator.of(context).pop(true);
-                },
-                size: MXCWalletButtonSize.xl,
-              ),
-            ],
-          ),
-        )
-      ],
-    ),
+              style: FontTheme.of(context, listen: false)
+                  .body1
+                  .primary()
+                  .copyWith(),
+              softWrap: true,
+              textAlign: TextAlign.justify,
+            ),
+            const SizedBox(
+              height: Sizes.spaceNormal,
+            ),
+            MxcButton.primary(
+              key: const ValueKey('openLocationSettingsButton'),
+              title: translate('open_settings'),
+              onTap: () {
+                openLocationSettings();
+                Navigator.of(context).pop(true);
+              },
+              size: MXCWalletButtonSize.xl,
+            ),
+            const SizedBox(
+              height: Sizes.spaceNormal,
+            ),
+            MxcButton.secondary(
+              key: const ValueKey('cancelButton'),
+              title: translate('cancel'),
+              onTap: () {
+                Navigator.of(context).pop(true);
+              },
+              size: MXCWalletButtonSize.xl,
+            ),
+          ],
+        ),
+      ),
+    ],
   );
 }

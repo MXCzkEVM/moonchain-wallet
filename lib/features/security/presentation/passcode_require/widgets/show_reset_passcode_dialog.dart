@@ -10,13 +10,9 @@ import 'package:mxc_ui/mxc_ui.dart';
 import 'package:collection/collection.dart';
 
 void showResetPasscodeDialog(BuildContext context, WidgetRef ref) {
-  showModalBottomSheet<bool>(
+  showBaseBottomSheet(
     context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
-    useSafeArea: true,
-    backgroundColor: Colors.transparent,
-    builder: (BuildContext context) => ResetPasscode(
+    content: ResetPasscode(
       onTap: () {
         ref.read(logOutUseCaseProvider).logOut();
         Navigator.of(context).replaceAll(
@@ -68,7 +64,6 @@ class ResetPasscode extends StatelessWidget {
         sigmaY: 20,
       ),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: ColorsTheme.of(context).cardBackground,

@@ -29,10 +29,12 @@ class SplashImportStoragePage extends SplashBasePage {
 
   @override
   List<Widget> setButtons(BuildContext context, WidgetRef ref) {
-    final isTelegramAvailable = ref.watch(state).applist['telegram'] == true ||
-        ref.watch(state).applist['telegram_web'] == true;
-    final isWeChatAvailable = ref.watch(state).applist['weixin'] == true ||
-        ref.watch(state).applist['we_chat'] == true;
+    final splashBaseState = ref.watch(state);
+    final splashBasePresenter = ref.read(presenter);
+    final isTelegramAvailable = splashBaseState.applist['telegram'] == true ||
+        splashBaseState.applist['telegram_web'] == true;
+    final isWeChatAvailable = splashBaseState.applist['weixin'] == true ||
+        splashBaseState.applist['we_chat'] == true;
     final isNoneAvailable = !(isTelegramAvailable || isWeChatAvailable);
     return [
       MxcButton.secondaryWhite(
@@ -42,7 +44,7 @@ class SplashImportStoragePage extends SplashBasePage {
         titleSize: 18,
         title: FlutterI18n.translate(context, 'telegram_secured_storage'),
         onTap: isTelegramAvailable
-            ? () => ref.read(presenter).openTelegram()
+            ? () => splashBasePresenter.openTelegram()
             : null,
         edgeType: getPageButtonsEdge(),
       ),
@@ -53,7 +55,7 @@ class SplashImportStoragePage extends SplashBasePage {
         titleSize: 18,
         title: FlutterI18n.translate(context, 'wechat_secured_storage'),
         onTap:
-            isWeChatAvailable ? () => ref.read(presenter).openWechat() : null,
+            isWeChatAvailable ? () => splashBasePresenter.openWechat() : null,
         edgeType: getPageButtonsEdge(),
       ),
       MxcButton.secondaryWhite(
@@ -75,7 +77,7 @@ class SplashImportStoragePage extends SplashBasePage {
         iconSize: 32,
         titleSize: 18,
         title: FlutterI18n.translate(context, 'google_drive_secured_storage'),
-        onTap: () => ref.read(presenter).loadBackupFromGoogleDrive(),
+        onTap: () => splashBasePresenter.loadBackupFromGoogleDrive(),
         edgeType: getPageButtonsEdge(),
       ),
       Platform.isIOS
@@ -85,7 +87,7 @@ class SplashImportStoragePage extends SplashBasePage {
               iconSize: 32,
               titleSize: 18,
               title: FlutterI18n.translate(context, 'icloud_secured_storage'),
-              onTap: () => ref.read(presenter).loadBackupFromICloud(),
+              onTap: () => splashBasePresenter.loadBackupFromICloud(),
               edgeType: getPageButtonsEdge(),
             )
           : Container(),
@@ -96,7 +98,7 @@ class SplashImportStoragePage extends SplashBasePage {
               iconSize: 32,
               titleSize: 18,
               title: FlutterI18n.translate(context, 'local_secured_storage'),
-              onTap: () => ref.read(presenter).openLocalSeedPhrase(),
+              onTap: () => splashBasePresenter.openLocalSeedPhrase(),
               edgeType: getPageButtonsEdge(),
             )
           : Container(),
