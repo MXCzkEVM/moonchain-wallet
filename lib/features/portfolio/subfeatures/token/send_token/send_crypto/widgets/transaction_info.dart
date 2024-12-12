@@ -57,46 +57,43 @@ class _TransactionInfoState extends State<TransactionInfo> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            children: [
-              amountItem(context),
+        Column(
+          children: [
+            amountItem(context),
+            SingleLineInfoItem(
+              title: 'balance',
+              value: widget.balance,
+              hint: widget.token.symbol,
+            ),
+            SingleLineInfoItem(
+              title: 'network',
+              value: widget.network,
+            ),
+            SingleLineInfoItem(
+              title: 'from',
+              value: widget.from,
+            ),
+            SingleLineInfoItem(
+              title: 'to',
+              value: widget.to,
+            ),
+            if (TransactionProcessType.confirm != processType) ...[
               SingleLineInfoItem(
-                title: 'balance',
-                value: widget.balance,
-                hint: widget.token.symbol,
-              ),
-              SingleLineInfoItem(
-                title: 'network',
-                value: widget.network,
-              ),
-              SingleLineInfoItem(
-                title: 'from',
-                value: widget.from,
-              ),
-              SingleLineInfoItem(
-                title: 'to',
-                value: widget.to,
-              ),
-              if (TransactionProcessType.confirm != processType) ...[
-                SingleLineInfoItem(
-                  title: 'estimated_fee',
-                  value: MXCFormatter.formatNumberForUI(
-                    widget.estimatedFee,
-                  ),
-                  hint: widget.networkSymbol,
+                title: 'estimated_fee',
+                value: MXCFormatter.formatNumberForUI(
+                  widget.estimatedFee,
                 ),
-                SingleLineInfoItem(
-                  title: 'max_fee',
-                  value: MXCFormatter.formatNumberForUI(
-                    widget.maxFee,
-                  ),
-                  hint: widget.networkSymbol,
+                hint: widget.networkSymbol,
+              ),
+              SingleLineInfoItem(
+                title: 'max_fee',
+                value: MXCFormatter.formatNumberForUI(
+                  widget.maxFee,
                 ),
-              ]
-            ],
-          ),
+                hint: widget.networkSymbol,
+              ),
+            ]
+          ],
         ),
         const SizedBox(height: 8),
         transactionButton(context),
