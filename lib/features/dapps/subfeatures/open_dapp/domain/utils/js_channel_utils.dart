@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import '../../open_dapp.dart';
