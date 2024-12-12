@@ -157,7 +157,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
     print("sendWifiInfo");
 
     final isGranted = await PermissionUtils.checkLocationPermission();
-    print("isGranted: ${isGranted}");
+    print("isGranted: $isGranted");
 
     if (isGranted) {
       try {
@@ -179,7 +179,7 @@ class DAppHooksUseCase extends ReactiveUseCase {
 
         final hexagonId = MXCType.bigIntToHex(hexagonBigInt);
 
-        print("hexagon: ${hexagonId}");
+        print("hexagon: $hexagonId");
 
         List<WifiModel> finalWifiList = [];
 

@@ -15,84 +15,94 @@ class BlueberryDeviceInfo extends HookConsumerWidget {
     final scanResults = state.scanResults;
     final isBluetoothScanning = state.isBluetoothScanning;
 
-    return Column(
-      children: [
-        isBluetoothScanning
-            ? Container(
-                margin: const EdgeInsets.only(bottom: Sizes.spaceSmall),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: SizedBox(
-                          height: 10,
-                          width: 10,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
+    return Flexible(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          isBluetoothScanning
+              ? Container(
+                  margin: const EdgeInsets.only(bottom: Sizes.spaceSmall),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Center(
+                        child: SizedBox(
+                            height: 10,
+                            width: 10,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            )),
+                      ),
+                      const SizedBox(
+                        width: Sizes.spaceSmall,
+                      ),
+                      Container(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            FlutterI18n.translate(context, 'scanning'),
+                            style: FontTheme.of(context).subtitle1.primary(),
                           )),
-                    ),
-                    const SizedBox(
-                      width: Sizes.spaceSmall,
-                    ),
-                    Container(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: Text(
-                          FlutterI18n.translate(context, 'scanning'),
-                          style: FontTheme.of(context).subtitle1.primary(),
-                        )),
-                  ],
-                ),
-              )
-            : Container(),
-        SingleChildScrollView(
-          child: Column(
-            children: scanResults
-                .map(
-                  (e) => InkWell(
-                    onTap: () => Navigator.of(context).pop(e),
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: ColorsTheme.of(context)
-                                        .primaryBackground),
-                                height: 45,
-                                width: 45,
-                                child: SvgPicture.asset(
-                                    'assets/svg/blueberryring.svg'),
-                              ),
-                              const SizedBox(
-                                width: Sizes.spaceSmall,
-                              ),
-                              Text(
-                                e.device.advName.isEmpty
-                                    ? 'No name'
-                                    : e.device.advName,
-                                style: FontTheme.of(context).body2.primary(),
-                              ),
-                              const Spacer(),
-                              Text(
-                                e.device.remoteId.str,
-                                style:
-                                    FontTheme.of(context).subtitle2.primary(),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Divider()
-                      ],
-                    ),
+                    ],
                   ),
                 )
-                .toList(),
+              : Container(),
+          Flexible(
+            child: SingleChildScrollView(
+              child: Column(
+                children: scanResults
+                    .map(
+                      (e) => InkWell(
+                        onTap: () => Navigator.of(context).pop(e),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: ColorsTheme.of(context)
+                                          .primaryBackground),
+                                  height: 45,
+                                  width: 45,
+                                  child: SvgPicture.asset(
+                                      'assets/svg/blueberryring.svg'),
+                                ),
+                                const SizedBox(
+                                  width: Sizes.spaceSmall,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    e.device.advName.isEmpty
+                                        ? 'No name'
+                                        : e.device.advName,
+                                    style: FontTheme.of(context).body2.primary(),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                const   SizedBox(width: Sizes.spaceXLarge,),
+                                Align(
+                                  alignment: AlignmentDirectional.centerEnd,
+                                  child: Text(
+                                    e.device.remoteId.str,
+                                    style:
+                                        FontTheme.of(context).subtitle2.primary(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider()
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

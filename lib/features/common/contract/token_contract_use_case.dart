@@ -4,7 +4,6 @@ import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 import 'package:flutter/services.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:web3dart/web3dart.dart';
 
 extension Unique<E, T> on List<E> {
   void unique([T Function(E element)? id, bool inPlace = true]) {
@@ -71,19 +70,19 @@ class TokenContractUseCase extends ReactiveUseCase {
     return await _repository.tokenContract.getEthBalance(from);
   }
 
-  Future<WannseeTransactionsModel?> getTransactionsByAddress(
+  Future<MoonchainTransactionsModel?> getTransactionsByAddress(
     String address,
   ) async {
     return _repository.tokenContract.getTransactionsByAddress(address);
   }
 
-  Future<WannseeTransactionModel?> getTransactionByHash(
+  Future<MoonchainTransactionModel?> getTransactionByHash(
     String hash,
   ) async {
     return _repository.tokenContract.getTransactionByHash(hash);
   }
 
-  Future<WannseeTokenTransfersModel?> getTokenTransfersByAddress(
+  Future<MoonchainTokenTransfersResponseModel?> getTokenTransfersByAddress(
     String address,
   ) async {
     return _repository.tokenContract

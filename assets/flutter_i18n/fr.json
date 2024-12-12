@@ -470,5 +470,6 @@
     "dapps": "DApps",
     "partner": "Partenaire",
     "native": "Natif",
-    "see_all": "Voir tout"
+    "see_all": "Voir tout",
+    "enable_not_important_logs": "Activer les journaux non importants"
 }

@@ -1,7 +1,6 @@
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moonchain_wallet/main.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -31,7 +30,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
       presenter: presenter,
       useSplashBackground: true,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 24),
-
+      useFooterPadding: true,
       // footer: Column(
       //   mainAxisAlignment: MainAxisAlignment.end,
       //   children: [
@@ -130,6 +129,7 @@ class WalletCreationNoticePage extends HookConsumerWidget {
           onTap: () => presenter.continueNow(context),
           edgeType: UIConfig.securityScreensButtonsEdgeType,
         ),
+        const SizedBox(height: Sizes.spaceNormal,)
       ],
     );
   }

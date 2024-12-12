@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:web3dart/web3dart.dart';
 
 class PortfolioUseCase extends ReactiveUseCase {
   PortfolioUseCase(this._repository);

@@ -9,7 +9,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:moonchain_wallet/features/dapps/subfeatures/open_dapp/open_dapp.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'json_util.dart';
@@ -63,7 +62,6 @@ class InAppWebViewEIP1193 extends StatefulWidget {
     this.initialOptions,
     this.initialUserScripts,
     this.pullToRefreshController,
-    this.implementation = WebViewImplementation.NATIVE,
     this.contextMenu,
     this.onWebViewCreated,
     this.onLoadStart,
@@ -825,9 +823,6 @@ class InAppWebViewEIP1193 extends StatefulWidget {
   ///**NOTE for Android**: to be able to use the "pull-to-refresh" feature, [AndroidInAppWebViewOptions.useHybridComposition] must be `true`.
   final PullToRefreshController? pullToRefreshController;
 
-  ///Represents the WebView native implementation to be used.
-  ///The default value is [WebViewImplementation.NATIVE].
-  final WebViewImplementation implementation;
 
   @override
   State<InAppWebViewEIP1193> createState() => _InAppWebViewEIP1193State();
@@ -958,20 +953,19 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
                           injectionTime:
                               UserScriptInjectionTime.AT_DOCUMENT_START,
                         ),
-                        UserScript(
-                          source: jsChannelScript,
-                          injectionTime:
-                              UserScriptInjectionTime.AT_DOCUMENT_START,
-                        ),
-                        UserScript(
-                          source: jsBluetoothScript,
-                          injectionTime:
-                              UserScriptInjectionTime.AT_DOCUMENT_START,
-                        ),
+                          UserScript(
+                            source: jsChannelScript,
+                            injectionTime:
+                                UserScriptInjectionTime.AT_DOCUMENT_START,
+                          ),
+                          UserScript(
+                            source: jsBluetoothScript,
+                            injectionTime:
+                                UserScriptInjectionTime.AT_DOCUMENT_START,
+                          ),
                       ])
                     : null),
             pullToRefreshController: widget.pullToRefreshController,
-            implementation: widget.implementation,
             contextMenu: widget.contextMenu,
             onWebViewCreated: (controller) async {
               _webViewController = controller;

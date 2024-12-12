@@ -2,7 +2,6 @@ import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-import 'chain_configuration_repository.dart';
 
 class ChainConfigurationUseCase extends ReactiveUseCase {
   ChainConfigurationUseCase(this._repository, this._authUseCase);

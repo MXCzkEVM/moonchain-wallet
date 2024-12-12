@@ -1,8 +1,6 @@
 import 'package:mxc_logic/mxc_logic.dart';
-import 'package:moonchain_wallet/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:web3dart/web3dart.dart';
 
 class Validation {
   static String? notEmpty(BuildContext context, String? value,
@@ -29,7 +27,7 @@ class Validation {
   static String? checkUrl(BuildContext context, String? value,
       {String? errorText}) {
     RegExp urlExp = RegExp(
-        r"^((ftp|telnet|http(?:s)?):\/\/)?(www\.)?([a-zA-Z0-9-]+\.)([a-zA-Z0-9-.]+)(\/[^\s]*)?$");
+        r"^((ftp|telnet|http(?:s)?):\/\/)?((www\.)?([a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))(:\d+)?(\/[^\s]*)?$");
     if (!urlExp.hasMatch(value!)) {
       return FlutterI18n.translate(context, errorText ?? 'invalid_format');
     }

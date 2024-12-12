@@ -15,16 +15,33 @@ class CustomerSupportPresenter extends CompletePresenter<CustomerSupportState> {
 
   final AppinioSocialShare _socialShare = AppinioSocialShare();
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
+  late final _logsConfigUseCase = ref.read(logsConfigUseCaseProvider);
 
   @override
   void initState() {
     super.initState();
 
+    _logsConfigUseCase.notImportantLogsEnabled.listen(
+      (value) => notify(
+        () => state.notImportantLogsEnabled = value,
+      ),
+    );
+
     loadPage();
   }
 
+  void changeNotImportantLogsEnabled(bool value) =>
+      _logsConfigUseCase.updateItem(value);
+
   void exportedLogs() async {
     loading = true;
+
+    // If we have lots of logs
+    if (state.notImportantLogsEnabled == true) {
+      await Future.delayed(
+        const Duration(seconds: 5),
+      );
+    }
     try {
       final file = await FLog.exportLogs();
       final newFile = await changeFileName(

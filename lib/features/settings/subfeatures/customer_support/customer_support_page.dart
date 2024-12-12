@@ -2,7 +2,6 @@ import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/customer_support/widget/customer_support_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
@@ -43,6 +42,15 @@ class CustomerSupportPage extends HookConsumerWidget {
         Text(
           FlutterI18n.translate(context, 'diagnosing_logs'),
           style: FontTheme.of(context).subtitle1.secondary(),
+        ),
+        const SizedBox(height: Sizes.spaceNormal),
+        MXCSwitchRowItem(
+          key: const Key('changeNotImportantLogsEnabledSwitch'),
+          title: translate('enable_not_important_logs'),
+          value: ref.watch(state).notImportantLogsEnabled,
+          onChanged: ref.read(presenter).changeNotImportantLogsEnabled,
+          enabled: true,
+          titleStyle: FontTheme.of(context).h6(),
         ),
         const SizedBox(height: Sizes.spaceNormal),
         MxcButton.secondary(

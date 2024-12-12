@@ -1,6 +1,5 @@
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:moonchain_wallet/core/core.dart';
 
 class MxcContextHook extends StatefulWidget {
   const MxcContextHook({

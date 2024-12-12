@@ -1,7 +1,5 @@
-import '../../../common/common.dart';
 import '../../../core/core.dart';
 import 'package:appinio_social_share/appinio_social_share.dart';
-import 'package:flutter_mailer/flutter_mailer.dart';
 
 import 'splash_base_state.dart';
 

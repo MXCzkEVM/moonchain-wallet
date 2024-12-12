@@ -22,10 +22,6 @@ class XsdConversionRatePresenter
     });
   }
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-  }
 
   void onReset() {
     final rate = rateController.text;

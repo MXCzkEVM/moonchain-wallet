@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import '../../open_dapp.dart';
 
-class JSChannelUtils {
+class JSChannelInjectionUtils {
   static void injectMXCWalletJSChannel(OpenDAppState state) async {
     // Making It easy for accessing axs wallet
     // use this way window.axs.callHandler
@@ -25,9 +24,5 @@ class JSChannelUtils {
         ));
       },
     );
-  }
-
-  static Future<String> loadJSBluetoothScript(BuildContext context) async {
-    return await DefaultAssetBundle.of(context).loadString('assets/js/bluetooth/bluetooth.js');
   }
 }

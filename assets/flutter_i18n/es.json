@@ -470,5 +470,6 @@
     "dapps": "DApps",
     "partner": "Socio",
     "native": "Nativo",
-    "see_all": "Ver todo"
+    "see_all": "Ver todo",
+    "enable_not_important_logs": "Habilitar registros no importantes"
 }

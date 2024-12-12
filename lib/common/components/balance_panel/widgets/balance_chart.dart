@@ -21,10 +21,10 @@ class BalanceChart extends HookConsumerWidget {
                 height: 55,
                 width: 130,
                 child: LineChart(LineChartData(
-                  gridData: FlGridData(
+                  gridData: const FlGridData(
                     show: false,
                   ),
-                  titlesData: FlTitlesData(
+                  titlesData: const FlTitlesData(
                     show: true,
                     rightTitles: AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
@@ -55,7 +55,7 @@ class BalanceChart extends HookConsumerWidget {
                         spots: state.balanceSpots,
                         isCurved: true,
                         isStrokeCapRound: true,
-                        dotData: FlDotData(
+                        dotData: const FlDotData(
                           show: false,
                         ),
                         color: ColorsTheme.of(context).borderPrimary200,

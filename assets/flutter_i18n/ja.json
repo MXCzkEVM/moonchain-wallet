@@ -470,5 +470,6 @@
     "dapps": "DApps",
     "partner": "パートナー",
     "native": "ネイティブ",
-    "see_all": "すべて表示"
+    "see_all": "すべて表示",
+    "enable_not_important_logs": "重要でないログを有効にする"
 }

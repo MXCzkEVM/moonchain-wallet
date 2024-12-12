@@ -9,24 +9,13 @@ Future<bool?> showCustomNetworkSwitchDialog(
 
   return showBaseBottomSheet<bool>(
     context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.only(
-              start: Sizes.spaceNormal,
-              end: Sizes.spaceNormal,
-              bottom: Sizes.space2XLarge),
-          child: Text(
-            networkTitle.contains('https')
+    hasCloseButton: false,
+    bottomSheetTitle:             networkTitle.contains('https')
                 ? translate('custom_network_switch_without_title__notice')
                     .replaceFirst("{0}", networkTitle)
                 : translate('custom_network_switch_title__notice')
                     .replaceFirst("{0}", networkTitle),
-            style: FontTheme.of(context, listen: false).h6.primary(),
-            textAlign: TextAlign.center,
-          ),
-        ),
+    widgets: [
         Text(
           translate('custom_network_switch_text__notice'),
           style: FontTheme.of(context, listen: false).body2.primary(),
@@ -45,6 +34,5 @@ Future<bool?> showCustomNetworkSwitchDialog(
           edgeType: MXCWalletButtonEdgeType.hard,
         ),
       ],
-    ),
   );
 }

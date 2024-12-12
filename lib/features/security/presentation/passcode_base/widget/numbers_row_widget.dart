@@ -1,10 +1,6 @@
 import 'dart:math';
 
-import 'package:moonchain_wallet/common/color_filter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mxc_ui/mxc_ui.dart';
 
 import '../../passcode_require/widgets/circle_animation.dart';
 

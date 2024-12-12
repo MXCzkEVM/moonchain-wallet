@@ -78,13 +78,10 @@ void showWalletAddressDialog(
     required String walletAddress,
     required List<Widget> noticeComponents,
     required bool showError}) {
-  showModalBottomSheet<bool>(
+  showBaseBottomSheet(
     context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
-    useSafeArea: true,
-    backgroundColor: Colors.transparent,
-    builder: (BuildContext context) => ReceiveBottomSheet(
+    hasCloseButton: false,
+    content: ReceiveBottomSheet(
       walletAddress: walletAddress,
       noticeComponents: noticeComponents,
       showError: showError,

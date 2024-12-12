@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -54,12 +53,11 @@ class _TweetState extends State<Tweet> {
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                   ),
               child: InAppWebView(
-                initialUrlRequest: URLRequest(
-                    url: Uri.dataFromString(
-                  getHtmlString(widget.tweetId, widget.isDark),
+                initialData: InAppWebViewInitialData(
+                  data: getHtmlString(widget.tweetId, widget.isDark),
                   mimeType: 'text/html',
-                  encoding: Encoding.getByName('utf-8'),
-                )),
+                  encoding: 'utf-8',
+                ),
                 onWebViewCreated: (controller) {
                   controller.addJavaScriptHandler(
                     handlerName: 'twitterHeightChannel',

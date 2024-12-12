@@ -470,5 +470,6 @@
     "dapps": "DApps",
     "partner": "Партнер",
     "native": "Родной",
-    "see_all": "Смотреть все"
+    "see_all": "Смотреть все",
+    "enable_not_important_logs": "Включить неважные логи"
 }

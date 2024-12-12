@@ -10,7 +10,6 @@ import '../../dapps_presenter.dart';
 import 'build_card.dart';
 import 'context_menu_actions.dart';
 import 'shatter_widget.dart';
-import 'card_item.dart';
 
 class DAppCard extends HookConsumerWidget {
   final Dapp dapp;

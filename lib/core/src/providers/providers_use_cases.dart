@@ -237,6 +237,12 @@ final Provider<LauncherUseCase> launcherUseCaseProvider = Provider(
   ),
 );
 
+final Provider<LogsConfigUseCase> logsConfigUseCaseProvider = Provider(
+  (ref) => LogsConfigUseCase(
+    ref.watch(globalCacheProvider).logsConfigRepository,
+  ),
+);
+
 final Provider<MoonchainAppLinksUseCase> appLinksUseCaseProvider = Provider(
   (ref) => MoonchainAppLinksUseCase(
     ref.watch(authUseCaseProvider),

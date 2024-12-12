@@ -22,22 +22,26 @@ class AddBookmarkPresenter extends CompletePresenter<void> {
     loading = true;
 
     try {
-      final response = await http.get(Uri.parse(url));
-      final startIndex = response.body.indexOf('<title>');
-      final endIndex = response.body.indexOf('</title>');
-      String title = startIndex == -1 || endIndex == -1
-          ? ''
-          : response.body.substring(startIndex + 7, endIndex);
+      String? title;
+      Favicon? iconUrl;
 
-      if (startIndex == -1 || title.isEmpty) {
-        title = 'Unknown';
+      RegExp urlExp = RegExp(
+          r"^(https?:\/\/)?((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(:[0-9]{1,5})?(\/[^\s]*)?$");
+      if (!urlExp.hasMatch(url)) {
+        // It's not local API address
+        final response = await http.get(Uri.parse(url));
+        final startIndex = response.body.indexOf('<title>');
+        final endIndex = response.body.indexOf('</title>');
+        title = startIndex == -1 || endIndex == -1
+            ? null
+            : response.body.substring(startIndex + 7, endIndex);
+
+        iconUrl = await FaviconFinder.getBest(url);
       }
-
-      var iconUrl = await FaviconFinder.getBest(url);
 
       _bookmarksUseCase.addItem(Bookmark(
         id: DateTime.now().microsecondsSinceEpoch,
-        title: title,
+        title: title ?? 'Unknown',
         url: url,
         image: iconUrl?.url,
       ));

@@ -144,8 +144,7 @@ class CupertinoContextMenuExtended extends StatefulWidget {
       'This feature was deprecated after v3.4.0-34.1.pre.',
     )
         this.previewBuilder = _defaultPreviewBuilder,
-  })  : assert(actions != null && actions.isNotEmpty),
-        assert(child != null),
+  })  : assert(actions.isNotEmpty),
         builder =
             ((BuildContext context, Animation<double> animation) => child);
 
@@ -161,7 +160,7 @@ class CupertinoContextMenuExtended extends StatefulWidget {
     super.key,
     required this.actions,
     required this.builder,
-  })  : assert(actions != null && actions.isNotEmpty),
+  })  : assert(actions.isNotEmpty),
         child = null,
         previewBuilder = null;
 
@@ -808,8 +807,7 @@ class _ContextMenuRoute<T> extends PopupRoute<T> {
     super.filter,
     required Rect previousChildRect,
     super.settings,
-  })  : assert(actions != null && actions.isNotEmpty),
-        assert(contextMenuLocation != null),
+  })  : assert(actions.isNotEmpty),
         _actions = actions,
         _builder = builder,
         _contextMenuLocation = contextMenuLocation,
@@ -1102,8 +1100,7 @@ class _ContextMenuRouteStatic extends StatefulWidget {
     this.onDismiss,
     required this.orientation,
     this.sheetGlobalKey,
-  })  : assert(contextMenuLocation != null),
-        assert(orientation != null);
+  });
 
   final List<Widget>? actions;
   final Widget child;
@@ -1437,9 +1434,7 @@ class _ContextMenuSheet extends StatelessWidget {
     required this.actions,
     required _ContextMenuLocation contextMenuLocation,
     required Orientation orientation,
-  })  : assert(actions != null && actions.isNotEmpty),
-        assert(contextMenuLocation != null),
-        assert(orientation != null),
+  })  : assert(actions.isNotEmpty),
         _contextMenuLocation = contextMenuLocation,
         _orientation = orientation;
 

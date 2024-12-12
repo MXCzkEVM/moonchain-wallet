@@ -8,7 +8,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'mns_query_presenter.dart';
-import 'mns_query_state.dart';
 
 class SplashMNSQueryPage extends HookConsumerWidget {
   const SplashMNSQueryPage({Key? key}) : super(key: key);
