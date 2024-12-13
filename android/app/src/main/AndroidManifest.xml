@@ -36,6 +36,13 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
+    <!-- Used for force removal of Google add id, Because one of 
+    3rd party SDk was injecting It in merged Manifest in build/app/intermediates/merged_manifests/productDebug/AndroidManifest.xml -->
+    <!-- Should be removed If analytics is added and in 
+    Google play console we need to tell them we this add id for analytics 
+    https://stackoverflow.com/questions/73129574/you-cant-submit-updates-as-some-information-about-your-app-is-incomplete-googl -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
+
     <!-- legacy for Android 11 or lower -->
     <!-- <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" /> -->
