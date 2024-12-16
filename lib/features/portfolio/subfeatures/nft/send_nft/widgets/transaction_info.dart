@@ -32,17 +32,14 @@ class TransactionInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            children: [
-              imageItem(context, nft),
-              addressItem(context, 'from', from),
-              addressItem(context, 'to', to),
-              if (TransactionProcessType.confirm != processType)
-                priceItem(context, 'estimated_fee', estimatedFee, symbol),
-            ],
-          ),
+        Column(
+          children: [
+            imageItem(context, nft),
+            addressItem(context, 'from', from),
+            addressItem(context, 'to', to),
+            if (TransactionProcessType.confirm != processType)
+              priceItem(context, 'estimated_fee', estimatedFee, symbol),
+          ],
         ),
         const SizedBox(height: 8),
         transactionButton(context),

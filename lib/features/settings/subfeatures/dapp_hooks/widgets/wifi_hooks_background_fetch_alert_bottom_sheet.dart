@@ -13,36 +13,31 @@ Future<bool?> showWiFiHooksBackgroundFetchAlertBottomSheet({
     bottomSheetTitle: 'background_fetch_notice_title',
     hasCloseButton: false,
     widgets: [
-      Padding(
-        padding: const EdgeInsetsDirectional.symmetric(
-          horizontal: Sizes.spaceXLarge,
-        ),
-        child: Column(
-          children: [
-            Text(
-              translate(
-                'wifi_location_background_fetch_notice_text',
-              ),
-              style: FontTheme.of(context, listen: false)
-                  .body1
-                  .primary()
-                  .copyWith(),
-              softWrap: true,
-              textAlign: TextAlign.justify,
+      Column(
+        children: [
+          Text(
+            translate(
+              'wifi_location_background_fetch_notice_text',
             ),
-            const SizedBox(
-              height: Sizes.spaceNormal,
-            ),
-            MxcButton.primary(
-              key: const ValueKey('acknowledgeButton'),
-              title: translate('acknowledge'),
-              onTap: () {
-                Navigator.of(context).pop(true);
-              },
-              size: MXCWalletButtonSize.xl,
-            ),
-          ],
-        ),
+            style: FontTheme.of(context, listen: false)
+                .body1
+                .primary()
+                .copyWith(),
+            softWrap: true,
+            textAlign: TextAlign.justify,
+          ),
+          const SizedBox(
+            height: Sizes.spaceNormal,
+          ),
+          MxcButton.primary(
+            key: const ValueKey('acknowledgeButton'),
+            title: translate('acknowledge'),
+            onTap: () {
+              Navigator.of(context).pop(true);
+            },
+            size: MXCWalletButtonSize.xl,
+          ),
+        ],
       ),
     ],
   );

@@ -41,7 +41,7 @@
     <!-- Should be removed If analytics is added and in 
     Google play console we need to tell them we this add id for analytics 
     https://stackoverflow.com/questions/73129574/you-cant-submit-updates-as-some-information-about-your-app-is-incomplete-googl -->
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
+    <!-- <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" /> -->
 
     <!-- legacy for Android 11 or lower -->
     <!-- <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />

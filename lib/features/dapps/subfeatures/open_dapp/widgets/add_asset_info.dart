@@ -22,13 +22,10 @@ class AddAssetInfo extends ConsumerWidget {
     final presenter = ref.read(openDAppPageContainer.actions);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            children: [
-              ...tokenInfo(context, token),
-            ],
-          ),
+        Column(
+          children: [
+            ...tokenInfo(context, token),
+          ],
         ),
         const SizedBox(height: 8),
         addTokenButton(context),

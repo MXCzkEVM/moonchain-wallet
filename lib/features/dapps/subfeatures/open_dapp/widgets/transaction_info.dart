@@ -29,35 +29,32 @@ class TransactionInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            children: [
-              amountItem(context),
-              SingleLineInfoItem(
-                title: 'from',
-                value: from,
+        Column(
+          children: [
+            amountItem(context),
+            SingleLineInfoItem(
+              title: 'from',
+              value: from,
+            ),
+            SingleLineInfoItem(
+              title: 'to',
+              value: to,
+            ),
+            SingleLineInfoItem(
+              title: 'estimated_fee',
+              value: MXCFormatter.formatNumberForUI(
+                estimatedFee,
               ),
-              SingleLineInfoItem(
-                title: 'to',
-                value: to,
+              hint: symbol,
+            ),
+            SingleLineInfoItem(
+              title: 'max_fee',
+              value: MXCFormatter.formatNumberForUI(
+                maxFee,
               ),
-              SingleLineInfoItem(
-                title: 'estimated_fee',
-                value: MXCFormatter.formatNumberForUI(
-                  estimatedFee,
-                ),
-                hint: symbol,
-              ),
-              SingleLineInfoItem(
-                title: 'max_fee',
-                value: MXCFormatter.formatNumberForUI(
-                  maxFee,
-                ),
-                hint: symbol,
-              ),
-            ],
-          ),
+              hint: symbol,
+            ),
+          ],
         ),
         const SizedBox(height: 8),
         transactionButton(context),

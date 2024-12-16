@@ -23,14 +23,11 @@ class MessageInfo extends ConsumerWidget {
     final presenter = ref.read(openDAppPageContainer.actions);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            children: [
-              titleItem(context),
-              messageItem(context, presenter, message),
-            ],
-          ),
+        Column(
+          children: [
+            titleItem(context),
+            messageItem(context, presenter, message),
+          ],
         ),
         const SizedBox(height: 8),
         signButton(context),

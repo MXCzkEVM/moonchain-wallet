@@ -5,10 +5,10 @@
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.transistorsoft.fetch</string>
-		<string>com.moonchain.mxc.notificationsTask</string>
-		<string>com.moonchain.mxc.wifiHooksTask</string>
-		<string>com.moonchain.mxc.minerAutoClaimTask</string>
-		<string>com.moonchain.mxc.blueberryAutoSyncTask</string>
+		<string>com.transistorsoft.notificationsTask</string>
+		<string>com.transistorsoft.wifiHooksTask</string>
+		<string>com.transistorsoft.minerAutoClaimTask</string>
+		<string>com.transistorsoft.blueberryAutoSyncTask</string>
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
