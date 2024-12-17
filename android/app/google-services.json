@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "810578982053",
     "project_id": "moonchain-app",
-    "storage_bucket": "moonchain-app.appspot.com"
+    "storage_bucket": "moonchain-app.firebasestorage.app"
   },
   "client": [
     {
@@ -13,6 +13,30 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "810578982053-ettvcq9ao4l1idjaap0vbqaq7lp906hh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moonchain.app",
+            "certificate_hash": "b3d8f034c8319b877f83a2a44ff9141325ded9c3"
+          }
+        },
+        {
+          "client_id": "810578982053-lcmvcramqf6cmnl3o60m5tbe91kfto89.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moonchain.app",
+            "certificate_hash": "5c3aaff06b031aa5f90f61c1e1d3b79fc0294af0"
+          }
+        },
+        {
+          "client_id": "810578982053-q4cakrdg97b716dvbdqkrcpv87cl6d69.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moonchain.app",
+            "certificate_hash": "2d7ddbcda8fff7b9cbc2b55d3b01e9ddc77c20e4"
+          }
+        },
         {
           "client_id": "810578982053-5mthh5ep4k1601komn39hu7c4biu4chb.apps.googleusercontent.com",
           "client_type": 3
