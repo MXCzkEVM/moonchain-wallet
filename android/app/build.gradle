@@ -35,6 +35,8 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+    namespace "com.moonchain.app"
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion "33.0.1"
     ndkVersion flutter.ndkVersion
