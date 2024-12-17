@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:moonchain_wallet/app/logger.dart';
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
@@ -24,13 +26,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }
 
-void main() {
-  var onError = FlutterError.onError;
-  FlutterError.onError = (FlutterErrorDetails details) {
-    onError?.call(details);
-    reportErrorAndLog(details);
-  };
-
+void main() async {
   runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +34,35 @@ void main() {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+
+      const fatalError = true;
+      var onError = FlutterError.onError;
+      // Non-async exceptions
+      FlutterError.onError = (errorDetails) {
+        onError?.call(errorDetails);
+        reportErrorAndLog(errorDetails);
+        if (fatalError) {
+          // If you want to record a "fatal" exception
+          FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+          // ignore: dead_code
+        } else {
+          // If you want to record a "non-fatal" exception
+          FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+        }
+      };
+      // Async exceptions
+      PlatformDispatcher.instance.onError = (error, stack) {
+        if (fatalError) {
+          // If you want to record a "fatal" exception
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+          // ignore: dead_code
+        } else {
+          // If you want to record a "non-fatal" exception
+          FirebaseCrashlytics.instance.recordError(error, stack);
+        }
+        return true;
+      };
 
       FirebaseMessaging.onBackgroundMessage(
           _firebaseMessagingBackgroundHandler);
