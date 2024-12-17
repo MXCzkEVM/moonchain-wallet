@@ -17,8 +17,7 @@ class MoonchainWalletFireBase {
   static int buildTap = 0;
 
   static Future<FirebaseApp> initializeFirebase() async {
-    return await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+    return await Firebase.initializeApp();
   }
 
   // Listening to the foreground messages
