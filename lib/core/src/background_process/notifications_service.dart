@@ -105,8 +105,9 @@ class NotificationsService {
         // terminate background fetch
         BackgroundFetch.stop(taskId);
       }
-    } catch (e) {
+    } catch (e, s) {
       print("Background fetch ERROR : $e" );
+      print("Background fetch stacktrace : $s" );
       BackgroundFetch.finish(taskId);
     }
   }
