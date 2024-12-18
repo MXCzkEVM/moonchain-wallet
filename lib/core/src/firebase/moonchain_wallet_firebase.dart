@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/src/moonchain_wallet_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -87,10 +88,23 @@ class MoonchainWalletFireBase {
 
   static void incrementBuildTap() async {
     buildTap++;
-    if (buildTap == 10) {
-      final token = await FirebaseMessaging.instance.getToken();
-      FlutterClipboard.copy(token ?? 'Unable to get token');
-      buildTap = 0;
+    if (buildTap % 2 == 0) {
+      forceFullCrash();
+    } else {
+      forceCrash();
     }
+    // if (buildTap == 10) {
+    //   final token = await FirebaseMessaging.instance.getToken();
+    //   FlutterClipboard.copy(token ?? 'Unable to get token');
+    //   buildTap = 0;
+    // }
+  }
+
+  static void forceCrash() {
+    throw Exception("Test crash to verify Firebase Crashlytics integration.");
+  }
+
+  static void forceFullCrash() {
+    FirebaseCrashlytics.instance.crash();
   }
 }
