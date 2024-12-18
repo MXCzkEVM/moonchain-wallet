@@ -54,7 +54,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       withKeywords: ['2301'],
     );
 
-    await Future.delayed(const Duration(seconds: 4), () async {
+    await Future.delayed(const Duration(seconds: 6), () async {
       final scanResults = _bluetoothUseCase.scanResults.value;
       if (scanResults.isNotEmpty) {
         // only one scan results
