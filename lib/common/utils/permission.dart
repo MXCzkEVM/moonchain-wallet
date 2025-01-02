@@ -120,8 +120,9 @@ class PermissionUtils {
   }
 
   static Future<bool> checkNotificationPermission() async {
+    print('TEST: checkNotificationPermission');
     AuthorizationStatus authorizationStatus = await getNotificationPermission();
-
+    print('TEST: authorizationStatus $authorizationStatus');
     return authorizationStatus == AuthorizationStatus.authorized ||
         authorizationStatus == AuthorizationStatus.provisional;
   }
@@ -161,14 +162,18 @@ class PermissionUtils {
   }
 
   static Future<bool> initNotificationPermission() async {
+    print('TEST: initNotificationPermission');
     bool isGranted = await checkNotificationPermission();
+    print('TEST: isGranted $isGranted');
     if (isGranted) {
       return isGranted;
     }
     // permission not granted or the status is not determined
     final authorizationStatus = await requestNotificationPermission();
+    print('TEST: authorizationStatus $authorizationStatus');
     isGranted = await checkNotificationPermissionWithAuthorizationStatus(
         authorizationStatus);
+    print('TEST: isGranted $isGranted');
     return isGranted;
   }
 
