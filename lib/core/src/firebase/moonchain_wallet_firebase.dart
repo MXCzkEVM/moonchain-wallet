@@ -69,8 +69,9 @@ class MoonchainWalletFireBase {
 
   /// Initializes firebaseMessageInteraction (For when user taps on notification) if user grants the permission, Otherwise the local notification & firebaseMessageInteraction are not going to be set.
   static Future<void> initLocalNotificationsAndListeners() async {
+    print('TEST: initLocalNotificationsAndListeners');
     final isPermissionGranted = await _initLocalNotifications();
-
+    print('TEST: isPermissionGranted $isPermissionGranted');
     if (isPermissionGranted) {
       _setupFirebaseMessagingForegroundHandler();
       setupFirebaseMessageInteraction();
@@ -79,9 +80,13 @@ class MoonchainWalletFireBase {
 
   /// Initializes local notifications if permission is granted, Otherwise the local notification is not going to be set.
   static Future<bool> _initLocalNotifications() async {
+    print('TEST: _initLocalNotifications');
     final isGranted = await PermissionUtils.initNotificationPermission();
+    print('TEST: isGranted $isGranted');
     if (isGranted) {
+      print('TEST: setupFlutterNotifications');
       moonchainNotification.setupFlutterNotifications();
+      print('TEST: setupFlutterNotifications done');
     }
     return isGranted;
   }

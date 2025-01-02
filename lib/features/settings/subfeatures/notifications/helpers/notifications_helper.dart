@@ -145,11 +145,17 @@ class NotificationsHelper {
   }
 
   void checkNotificationsStatus() async {
+    print('TEST: checkNotificationsStatus');
     final isGranted = await PermissionUtils.checkNotificationPermission();
+    print('TEST: isGranted $isGranted & (state.isNotificationsEnabled == false && isGranted == true) ${(state.isNotificationsEnabled == false && isGranted == true)}');
     if (state.isNotificationsEnabled == false && isGranted == true) {
+      print('TEST: initializeFirebase');
       await MoonchainWalletFireBase.initializeFirebase();
+      print('TEST: initializeFirebase done');
       MoonchainWalletFireBase.initLocalNotificationsAndListeners();
+      print('TEST: initLocalNotificationsAndListeners done');
     }
+    print('TEST: notify');
     notify(() => state.isNotificationsEnabled = isGranted);
   }
 
