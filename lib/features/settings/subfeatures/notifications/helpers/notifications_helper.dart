@@ -150,7 +150,7 @@ class NotificationsHelper {
     print('TEST: isGranted $isGranted & (state.isNotificationsEnabled == false && isGranted == true) ${(state.isNotificationsEnabled == false && isGranted == true)}');
     if (state.isNotificationsEnabled == false && isGranted == true) {
       print('TEST: initializeFirebase');
-      await MoonchainWalletFireBase.initializeFirebase();
+      // await MoonchainWalletFireBase.initializeFirebase();
       print('TEST: initializeFirebase done');
       MoonchainWalletFireBase.initLocalNotificationsAndListeners();
       print('TEST: initLocalNotificationsAndListeners done');
