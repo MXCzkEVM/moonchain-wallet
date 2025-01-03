@@ -16,27 +16,42 @@ class MoonchainWalletFireBase {
 
   static String? firebaseToken;
   static int buildTap = 0;
+  static bool foregroundHandlerInit = false;
+  static bool messageInteractionInit = false;
 
-  static Future<FirebaseApp> initializeFirebase() async {
-    return await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-  }
+  // static Future<FirebaseApp> initializeFirebase() async {
+  //   return await Firebase.initializeApp(
+  //       options: DefaultFirebaseOptions.currentPlatform);
+  // }
 
   // Listening to the foreground messages
   static void _setupFirebaseMessagingForegroundHandler() async {
+    print('TEST: foregroundHandlerInit $foregroundHandlerInit');
+    if (foregroundHandlerInit) {
+      return;
+    }
+
     firebaseToken = Platform.isAndroid
         ? await FirebaseMessaging.instance.getToken()
         : await FirebaseMessaging.instance.getAPNSToken();
+    print('TEST: firebaseToken $firebaseToken');
     FirebaseMessaging.onMessage
         .listen(moonchainNotification.showFlutterNotification);
+    foregroundHandlerInit = true;
   }
 
   // It is assumed that all messages contain a data field with the key 'type'
   static Future<void> setupFirebaseMessageInteraction() async {
+    print('TEST: messageInteractionInit $messageInteractionInit');
+    if (messageInteractionInit) {
+      return;
+    }
+
     // Get any messages which caused the application to open from
     // a terminated state.
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
+    print('TEST: initialMessage $initialMessage');
 
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
@@ -46,7 +61,10 @@ class MoonchainWalletFireBase {
 
     // Also handle any interaction when the app is in the background via a
     // Stream listener
+    print('TEST: FirebaseMessaging.onMessageOpenedApp');
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+
+    messageInteractionInit = true;
   }
 
   static void _handleMessage(RemoteMessage message) {
@@ -73,8 +91,11 @@ class MoonchainWalletFireBase {
     final isPermissionGranted = await _initLocalNotifications();
     print('TEST: isPermissionGranted $isPermissionGranted');
     if (isPermissionGranted) {
+      print('TEST: _setupFirebaseMessagingForegroundHandler');
       _setupFirebaseMessagingForegroundHandler();
+      print('TEST: _setupFirebaseMessagingForegroundHandler done');
       setupFirebaseMessageInteraction();
+      print('TEST: setupFirebaseMessageInteraction done');
     }
   }
 
@@ -85,7 +106,7 @@ class MoonchainWalletFireBase {
     print('TEST: isGranted $isGranted');
     if (isGranted) {
       print('TEST: setupFlutterNotifications');
-      moonchainNotification.setupFlutterNotifications();
+      await moonchainNotification.setupFlutterNotifications();
       print('TEST: setupFlutterNotifications done');
     }
     return isGranted;
