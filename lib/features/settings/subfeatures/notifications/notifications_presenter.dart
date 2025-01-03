@@ -60,19 +60,19 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     transactionFeeController.addListener(onTransactionFeeChange);
 
     print('TEST: Init notif page!');
-    Future.delayed(
-      const Duration(
-        milliseconds: 1,
-      ),
-      () {
-        print('TEST: Showing the snack bar!');
-        showSnackBar(
-          context: context!,
-          content: translate(
-              'let_us_personalize_your_notifications_choose_which_ones_you_want_to_see')!);
+    // Future.delayed(
+    //   const Duration(
+    //     milliseconds: 1,
+    //   ),
+    //   () {
+    //     print('TEST: Showing the snack bar!');
+    //     showSnackBar(
+    //       context: context!,
+    //       content: translate(
+    //           'let_us_personalize_your_notifications_choose_which_ones_you_want_to_see')!);
 
-      }
-    );
+    //   }
+    // );
 
     Future.delayed(
         const Duration(
