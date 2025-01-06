@@ -18,15 +18,19 @@ class MoonchainWalletFireBase {
   static int buildTap = 0;
   static bool foregroundHandlerInit = false;
   static bool messageInteractionInit = false;
+  static bool firebaseInit = false;
 
-  // static Future<FirebaseApp> initializeFirebase() async {
-  //   return await Firebase.initializeApp(
-  //       options: DefaultFirebaseOptions.currentPlatform);
-  // }
+  static Future<FirebaseApp> initializeFirebase() async {
+    if (firebaseInit) {
+      return Firebase.app();
+    }
+    firebaseInit = true;
+    return await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+  }
 
   // Listening to the foreground messages
   static void _setupFirebaseMessagingForegroundHandler() async {
-    print('TEST: foregroundHandlerInit $foregroundHandlerInit');
     if (foregroundHandlerInit) {
       return;
     }
@@ -42,7 +46,6 @@ class MoonchainWalletFireBase {
 
   // It is assumed that all messages contain a data field with the key 'type'
   static Future<void> setupFirebaseMessageInteraction() async {
-    print('TEST: messageInteractionInit $messageInteractionInit');
     if (messageInteractionInit) {
       return;
     }
@@ -51,7 +54,6 @@ class MoonchainWalletFireBase {
     // a terminated state.
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
-    print('TEST: initialMessage $initialMessage');
 
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
@@ -61,7 +63,6 @@ class MoonchainWalletFireBase {
 
     // Also handle any interaction when the app is in the background via a
     // Stream listener
-    print('TEST: FirebaseMessaging.onMessageOpenedApp');
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
 
     messageInteractionInit = true;
@@ -87,27 +88,18 @@ class MoonchainWalletFireBase {
 
   /// Initializes firebaseMessageInteraction (For when user taps on notification) if user grants the permission, Otherwise the local notification & firebaseMessageInteraction are not going to be set.
   static Future<void> initLocalNotificationsAndListeners() async {
-    print('TEST: initLocalNotificationsAndListeners');
     final isPermissionGranted = await _initLocalNotifications();
-    print('TEST: isPermissionGranted $isPermissionGranted');
     if (isPermissionGranted) {
-      print('TEST: _setupFirebaseMessagingForegroundHandler');
       _setupFirebaseMessagingForegroundHandler();
-      print('TEST: _setupFirebaseMessagingForegroundHandler done');
       setupFirebaseMessageInteraction();
-      print('TEST: setupFirebaseMessageInteraction done');
     }
   }
 
   /// Initializes local notifications if permission is granted, Otherwise the local notification is not going to be set.
   static Future<bool> _initLocalNotifications() async {
-    print('TEST: _initLocalNotifications');
     final isGranted = await PermissionUtils.initNotificationPermission();
-    print('TEST: isGranted $isGranted');
     if (isGranted) {
-      print('TEST: setupFlutterNotifications');
       await moonchainNotification.setupFlutterNotifications();
-      print('TEST: setupFlutterNotifications done');
     }
     return isGranted;
   }

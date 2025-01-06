@@ -59,13 +59,11 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
     lowBalanceController.addListener(onLowBalanceChange);
     transactionFeeController.addListener(onTransactionFeeChange);
 
-    print('TEST: Init notif page!');
     // Future.delayed(
     //   const Duration(
     //     milliseconds: 1,
     //   ),
     //   () {
-    //     print('TEST: Showing the snack bar!');
     //     showSnackBar(
     //       context: context!,
     //       content: translate(
@@ -79,7 +77,6 @@ class NotificationsPresenter extends CompletePresenter<NotificationsState>
           milliseconds: 1,
         ),
         () {
-          print('TEST: Init notif page, notificationsHelper.checkNotificationsStatus();!');
           notificationsHelper.checkNotificationsStatus();
         });
   }
