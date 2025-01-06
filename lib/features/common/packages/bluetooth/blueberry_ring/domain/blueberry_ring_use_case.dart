@@ -48,9 +48,9 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
   Future<void> getBlueberryRingBackground() async {
     _bluetoothUseCase.startScanning(
-      withServices: [bluetoothServiceUUID],
-      // withNames: ['Mi Smart Band 4'],
-      withNames: ['2301', 'BBRING'],
+      // withServices: [bluetoothServiceUUID],
+      // withNames: ['Mi'],
+      // withNames: ['2301', 'BBRING'],
       withKeywords: ['2301', 'BBRING'],
     );
 
