@@ -51,4 +51,8 @@ class PeriodicSleepData {
 
   @override
   int get hashCode => date.hashCode ^ value.hashCode;
+
+  DateTime get dateTime => DateTime.fromMillisecondsSinceEpoch(
+        date * 1000,
+      );
 }

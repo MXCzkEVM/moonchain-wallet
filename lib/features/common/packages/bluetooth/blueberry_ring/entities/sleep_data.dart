@@ -71,4 +71,8 @@ class SleepData {
   int get hashCode {
     return id.hashCode ^ sleeps.hashCode ^ length.hashCode ^ date.hashCode;
   }
+
+  DateTime get dateTime => DateTime.fromMillisecondsSinceEpoch(
+        date * 1000,
+      );
 }
