@@ -29,10 +29,10 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     // Get spteps data from cache and compare
     // If steps is below a certain number then show a
     // Below 5000
-    final todaysData = data.where((e) => DateUtils.isDateOnToday(e.dateTime));
+    final todaysData = data.where((e) => MXCTime.isDateOnToday(e.dateTime));
     print(
         'checkActivityReminder:todaysData ${todaysData.map((e) => e.toJson()).toList()}');
-    final totalSteps = data.map((item) => item.step).reduce((a, b) => a + b);
+    final totalSteps = todaysData.map((item) => item.step).reduce((a, b) => a + b);
     print('checkActivityReminder:totalSteps $totalSteps');
 
     if (totalSteps < 5000) {
@@ -48,7 +48,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     print('checkSleepInsight:data ${data.map((e) => e.toJson()).toList()}');
     // If sleeps is below standard level
     // loop throug all and get average
-    final todaysData = data.where((e) => DateUtils.isDateOnToday(e.dateTime));
+    final todaysData = data.where((e) => MXCTime.isDateOnToday(e.dateTime));
     print(
         'checkSleepInsight:todaysData ${todaysData.map((e) => e.toJson()).toList()}');
 
@@ -72,7 +72,7 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     print('checkHeartAlert:data ${data.map((e) => e.toJson()).toList()}');
     // If below standard but between person to person different
     final latestData = data.last;
-    final isToday = DateUtils.isDateOnToday(latestData.dateTime);
+    final isToday = MXCTime.isDateOnToday(latestData.dateTime);
     print('checkHeartAlert:isToday $isToday');
     print('checkHeartAlert:latestData $latestData');
 
