@@ -18,11 +18,9 @@ class SelectRecipientPage extends HookConsumerWidget {
 
   final bool editFlow;
 
-  @override
   ProviderBase<SelectRecipientPresenter> get presenter =>
       addTokenPageContainer.actions;
 
-  @override
   ProviderBase<SelectRecipientState> get state => addTokenPageContainer.state;
 
   @override
