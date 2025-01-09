@@ -58,4 +58,8 @@ class HeartRateData {
 
   @override
   int get hashCode => id.hashCode ^ value.hashCode ^ date.hashCode;
+
+  DateTime get dateTime => DateTime.fromMillisecondsSinceEpoch(
+        date * 1000,
+      );
 }

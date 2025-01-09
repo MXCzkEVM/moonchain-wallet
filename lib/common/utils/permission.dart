@@ -121,7 +121,6 @@ class PermissionUtils {
 
   static Future<bool> checkNotificationPermission() async {
     AuthorizationStatus authorizationStatus = await getNotificationPermission();
-
     return authorizationStatus == AuthorizationStatus.authorized ||
         authorizationStatus == AuthorizationStatus.provisional;
   }

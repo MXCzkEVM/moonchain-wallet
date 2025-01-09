@@ -48,13 +48,13 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
   Future<void> getBlueberryRingBackground() async {
     _bluetoothUseCase.startScanning(
-      withServices: [bluetoothServiceUUID],
-      // withNames: ['Mi Smart Band 4'],
-      withNames: ['2301'],
-      withKeywords: ['2301'],
+      // withServices: [bluetoothServiceUUID],
+      // withNames: ['Mi'],
+      // withNames: ['2301', 'BBRING'],
+      withKeywords: ['2301', 'BBRING'],
     );
 
-    await Future.delayed(const Duration(seconds: 4), () async {
+    await Future.delayed(const Duration(seconds: 6), () async {
       final scanResults = _bluetoothUseCase.scanResults.value;
       if (scanResults.isNotEmpty) {
         // only one scan results

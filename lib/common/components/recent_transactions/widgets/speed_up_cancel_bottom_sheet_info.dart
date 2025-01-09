@@ -21,28 +21,25 @@ class SpeedUpCancelBottomSheetInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...notice(context),
-              SingleLineInfoItem(
-                title: 'estimated_fee',
-                value: MXCFormatter.formatNumberForUI(
-                  estimatedFee,
-                ),
-                hint: symbol,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...notice(context),
+            SingleLineInfoItem(
+              title: 'estimated_fee',
+              value: MXCFormatter.formatNumberForUI(
+                estimatedFee,
               ),
-              SingleLineInfoItem(
-                title: 'max_fee',
-                value: MXCFormatter.formatNumberForUI(
-                  maxFee,
-                ),
-                hint: symbol,
+              hint: symbol,
+            ),
+            SingleLineInfoItem(
+              title: 'max_fee',
+              value: MXCFormatter.formatNumberForUI(
+                maxFee,
               ),
-            ],
-          ),
+              hint: symbol,
+            ),
+          ],
         ),
         const SizedBox(height: Sizes.spaceXSmall),
         submitButton(context),

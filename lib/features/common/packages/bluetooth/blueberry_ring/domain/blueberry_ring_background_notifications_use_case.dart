@@ -5,7 +5,6 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/chain_configuration/domain/chain_configuration_use_case.dart';
 
-
 class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
   BlueberryRingBackgroundNotificationsUseCase(
       this._repository,
@@ -30,16 +29,13 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     // Get spteps data from cache and compare
     // If steps is below a certain number then show a
     // Below 5000
-    final latestData = data.first;
-    final lastDate = DateTime.fromMillisecondsSinceEpoch(
-      latestData.date * 1000,
-    );
-    final now = DateTime.now();
-    final isToday = now.year == lastDate.year &&
-        now.month == lastDate.month &&
-        now.day == lastDate.day;
+    final todaysData = data.where((e) => MXCTime.isDateOnToday(e.dateTime));
+    print(
+        'checkActivityReminder:todaysData ${todaysData.map((e) => e.toJson()).toList()}');
+    final totalSteps = todaysData.map((item) => item.step).reduce((a, b) => a + b);
+    print('checkActivityReminder:totalSteps $totalSteps');
 
-    if (isToday && latestData.step < 5000) {
+    if (totalSteps < 5000) {
       MoonchainWalletNotification().showNotification(
         cTranslate('activity_reminder'),
         cTranslate('blueberry_ring_inactive_alert_text'),
@@ -52,20 +48,10 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     print('checkSleepInsight:data ${data.map((e) => e.toJson()).toList()}');
     // If sleeps is below standard level
     // loop throug all and get average
-    final now = DateTime.now();
-
-    final todaysData = data.where((element) {
-      final date = DateTime.fromMillisecondsSinceEpoch(
-        element.date * 1000,
-      );
-      final isToday = now.year == date.year &&
-          now.month == date.month &&
-          now.day == date.day;
-      return isToday;
-    });
-
+    final todaysData = data.where((e) => MXCTime.isDateOnToday(e.dateTime));
     print(
         'checkSleepInsight:todaysData ${todaysData.map((e) => e.toJson()).toList()}');
+
     if (todaysData.isEmpty) {
       return;
     }
@@ -85,14 +71,10 @@ class BlueberryRingBackgroundNotificationsUseCase extends ReactiveUseCase {
     final data = await _blueberryRingUseCase.readHeartRate();
     print('checkHeartAlert:data ${data.map((e) => e.toJson()).toList()}');
     // If below standard but between person to person different
-    final latestData = data.first;
-    final lastDate = DateTime.fromMillisecondsSinceEpoch(
-      latestData.date * 1000,
-    );
-    final now = DateTime.now();
-    final isToday = now.year == lastDate.year &&
-        now.month == lastDate.month &&
-        now.day == lastDate.day;
+    final latestData = data.last;
+    final isToday = MXCTime.isDateOnToday(latestData.dateTime);
+    print('checkHeartAlert:isToday $isToday');
+    print('checkHeartAlert:latestData $latestData');
 
     if (isToday && latestData.value >= 100) {
       MoonchainWalletNotification().showNotification(

@@ -25,14 +25,11 @@ class TypeMessageInfo extends ConsumerWidget {
     final presenter = ref.read(openDAppPageContainer.actions);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            children: [
-              titleItem(context),
-              ...infoItems(context, presenter),
-            ],
-          ),
+        Column(
+          children: [
+            titleItem(context),
+            ...infoItems(context, presenter),
+          ],
         ),
         const SizedBox(height: 8),
         signButton(context),

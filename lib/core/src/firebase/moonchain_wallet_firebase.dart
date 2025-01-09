@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/src/moonchain_wallet_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,23 +16,40 @@ class MoonchainWalletFireBase {
 
   static String? firebaseToken;
   static int buildTap = 0;
+  static bool foregroundHandlerInit = false;
+  static bool messageInteractionInit = false;
+  static bool firebaseInit = false;
 
   static Future<FirebaseApp> initializeFirebase() async {
+    if (firebaseInit) {
+      return Firebase.app();
+    }
+    firebaseInit = true;
     return await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
   }
 
   // Listening to the foreground messages
   static void _setupFirebaseMessagingForegroundHandler() async {
+    if (foregroundHandlerInit) {
+      return;
+    }
+
     firebaseToken = Platform.isAndroid
         ? await FirebaseMessaging.instance.getToken()
         : await FirebaseMessaging.instance.getAPNSToken();
+    print('TEST: firebaseToken $firebaseToken');
     FirebaseMessaging.onMessage
         .listen(moonchainNotification.showFlutterNotification);
+    foregroundHandlerInit = true;
   }
 
   // It is assumed that all messages contain a data field with the key 'type'
   static Future<void> setupFirebaseMessageInteraction() async {
+    if (messageInteractionInit) {
+      return;
+    }
+
     // Get any messages which caused the application to open from
     // a terminated state.
     RemoteMessage? initialMessage =
@@ -46,6 +64,8 @@ class MoonchainWalletFireBase {
     // Also handle any interaction when the app is in the background via a
     // Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+
+    messageInteractionInit = true;
   }
 
   static void _handleMessage(RemoteMessage message) {
@@ -69,7 +89,6 @@ class MoonchainWalletFireBase {
   /// Initializes firebaseMessageInteraction (For when user taps on notification) if user grants the permission, Otherwise the local notification & firebaseMessageInteraction are not going to be set.
   static Future<void> initLocalNotificationsAndListeners() async {
     final isPermissionGranted = await _initLocalNotifications();
-
     if (isPermissionGranted) {
       _setupFirebaseMessagingForegroundHandler();
       setupFirebaseMessageInteraction();
@@ -80,17 +99,30 @@ class MoonchainWalletFireBase {
   static Future<bool> _initLocalNotifications() async {
     final isGranted = await PermissionUtils.initNotificationPermission();
     if (isGranted) {
-      moonchainNotification.setupFlutterNotifications();
+      await moonchainNotification.setupFlutterNotifications();
     }
     return isGranted;
   }
 
   static void incrementBuildTap() async {
     buildTap++;
-    if (buildTap == 10) {
-      final token = await FirebaseMessaging.instance.getToken();
-      FlutterClipboard.copy(token ?? 'Unable to get token');
-      buildTap = 0;
+    if (buildTap % 2 == 0) {
+      forceFullCrash();
+    } else {
+      forceCrash();
     }
+    // if (buildTap == 10) {
+    //   final token = await FirebaseMessaging.instance.getToken();
+    //   FlutterClipboard.copy(token ?? 'Unable to get token');
+    //   buildTap = 0;
+    // }
+  }
+
+  static void forceCrash() {
+    throw Exception("Test crash to verify Firebase Crashlytics integration.");
+  }
+
+  static void forceFullCrash() {
+    FirebaseCrashlytics.instance.crash();
   }
 }

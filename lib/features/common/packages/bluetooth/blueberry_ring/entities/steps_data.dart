@@ -80,4 +80,8 @@ class StepsData {
         km.hashCode ^
         date.hashCode;
   }
+
+  DateTime get dateTime => DateTime.fromMillisecondsSinceEpoch(
+        date * 1000,
+      );
 }
