@@ -21,11 +21,9 @@ class EditRecipientPage extends HookConsumerWidget {
   final bool editFlow;
   final Recipient? recipient;
 
-  @override
   ProviderBase<EditRecipientPresenter> get presenter =>
       editRecipientContainer.actions(recipient);
 
-  @override
   ProviderBase<EditRecipientState> get state =>
       editRecipientContainer.state(recipient);
 
