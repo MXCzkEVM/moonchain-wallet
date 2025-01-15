@@ -8,7 +8,7 @@ on:
 jobs:
   build-apk:
     name: Build-apk
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code with submodules
         uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
           echo "Set VERSION_CODE to: ${{ github.run_number }}"
         shell: bash
 
-      - uses: reasje/action-flutter-build-android@main
+      - uses: sheenhx/action-flutter-build-android@main
         with:
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
