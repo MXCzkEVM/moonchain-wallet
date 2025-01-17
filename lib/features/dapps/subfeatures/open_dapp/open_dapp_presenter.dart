@@ -174,6 +174,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void updateCurrentUrl(Uri? value) async {
+    collectLog('Injecting host to axs object');
+    await state.webviewController!
+        .evaluateJavascript(source: "window.axs.host = '${value?.host}';");
+    await state.webviewController!.evaluateJavascript(
+        source: "console.log(\"window.axs.host\" + window.axs.host)");
+
     value = value ?? await state.webviewController!.getUrl();
     notify(
       () => state.currentUrl = value,
