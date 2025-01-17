@@ -8,6 +8,8 @@ on:
 jobs:
   build-apk:
     name: Build-apk
+    # This version contains CMake 3.18 but the latest contains 3.30 
+    # We will need to check CMake 3.30 compatibility and then upgrade
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code with submodules
