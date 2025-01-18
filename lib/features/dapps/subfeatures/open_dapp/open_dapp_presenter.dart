@@ -171,15 +171,46 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     updateCurrentUrl(null);
     cronListenersHelper.injectMinerDappListeners();
     bluetoothListenersHelper.injectBluetoothListeners();
+    await injectHairyScript();
+    injectDAppOrigin();
+  }
+
+  Future<void> injectHairyScript() async {
+    const hairyScript = """
+const send = XMLHttpRequest.prototype.send;
+    XMLHttpRequest.prototype.send = function (body) {
+      this.addEventListener('readystatechange', function listener() {
+        console.log("Working as expected.");
+        if (this.readyState !== 3 || this.status !== 200)
+          return
+        if (!this.responseURL.includes('pass/serviceLoginAuth2'))
+          return
+        const state = this.responseText
+        const data = JSON.parse(state.replaceAll('&&&START&&&', ''))
+        if (data.code !== 0)
+          return
+        setTimeout(() => document.querySelector('.mi-form-helper-text--error').remove())
+        Object.defineProperty(this, 'responseText', { value: '' });
+        location.origin
+        location.href = \${window.axs.origin}?state=\${state}
+      });
+      return send.apply(this, arguments);
+    };
+""";
+    await state.webviewController!.evaluateJavascript(source: hairyScript);
+  }
+
+  // This is requested by Hairy on Xiaomi related feature
+  void injectDAppOrigin() async {
+    final value = await state.webviewController!.getUrl();
+    collectLog('Injecting origin $value to axs.origin object');
+    await state.webviewController!
+        .evaluateJavascript(source: "window.axs.origin = '${value?.origin}';");
+    await state.webviewController!.evaluateJavascript(
+        source: "console.log(\"window.axs.origin \" + window.axs.origin)");
   }
 
   void updateCurrentUrl(Uri? value) async {
-    collectLog('Injecting host to axs object');
-    await state.webviewController!
-        .evaluateJavascript(source: "window.axs.host = '${value?.host}';");
-    await state.webviewController!.evaluateJavascript(
-        source: "console.log(\"window.axs.host\" + window.axs.host)");
-
     value = value ?? await state.webviewController!.getUrl();
     notify(
       () => state.currentUrl = value,
