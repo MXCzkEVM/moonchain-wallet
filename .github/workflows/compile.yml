@@ -50,7 +50,6 @@ jobs:
           source-dir: build/app/outputs/flutter-apk
           destination-dir: app
 
-
   build-macos:
     name: Build-ios
     # https://github.com/actions/runner-images
@@ -81,57 +80,8 @@ jobs:
           # Try running the build locally with the build command to be sure of this path
           path: build/ios/ipa/*.ipa
 
-  upload-combined:
-    name: Combine and Upload Builds
-    needs: [build-apk, build-macos]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Ubuntu artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: release-apk
-          path: combined-builds/android
-
-      - name: Download macOS artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: release-ipa
-          path: combined-builds/iOS
-
-      - name: Upload combined artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: combined-builds
-          path: combined-builds
-
-      - name: Generate
-        id: generate
-        uses: AcmeSoftwareLLC/app-build-number@v1
-        with:
-          timezone: Asia/Kathmandu
-    
-      - name: Display the generated build number
-        run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
-
-        
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa"
-          token: ${{ secrets.DART_TOKEN }}
-          tag: ${{ steps.generate.outputs.build-number }}
-          name: "Nightly-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
-          generateReleaseNotes: true
-          body: >
-            <a href="https://play.google.com/store/apps/details?id=com.moonchain.app" target="_blank"><img width="500" alt="image" src="https://github.com/user-attachments/assets/802b4fa6-8978-4b01-8de7-68207a5f8d77"></a><a href="https://apps.apple.com/app/moonbase-the-mining-hub/id6736371768" target="_blank"><img width="500" alt="image" src="https://github.com/user-attachments/assets/ed4678e2-4099-498c-92ee-94b88b620c21"></a>
-
-      - name: Upload APK to Waldo
-        uses: waldoapp/gh-action-upload@v2
-        with:
-          build_path: combined-builds/android/moonchain.apk
-          upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
-
-  build-waldo:
-    name: Build-waldo
+  build-macos-simulator:
+    name: Build-ios-simulator
     # https://github.com/actions/runner-images
     # https://xcodereleases.com/
     runs-on: macos-15
@@ -153,8 +103,95 @@ jobs:
           certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
           provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
           keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
-      - name: Upload IPA to Waldo
-        uses: waldoapp/gh-action-upload@v2
+
+      - name: Archive .app
+        uses: actions/upload-artifact@v4
         with:
-          build_path: build/ios/iphonesimulator/Runner.app
-          upload_token: ${{ secrets.WALDO_SESSIONS_IOS }}
+          name: simulator-app
+          # Try running the build locally with the build command to be sure of this path
+          path: build/ios/iphonesimulator/Runner.app 
+
+  upload-combined:
+    name: Combine and Upload Builds
+    needs: [build-apk, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Ubuntu artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+          path: combined-builds/android
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-ipa
+          path: combined-builds/iOS
+
+      - name: Download macOS-simulator artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: simulator-app
+          path: combined-builds/iOS
+  
+
+      - name: Upload combined artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-builds
+          path: combined-builds
+
+      - name: Generate
+        id: generate
+        uses: AcmeSoftwareLLC/app-build-number@v1
+        with:
+          timezone: Asia/Kathmandu
+    
+      - name: Display the generated build number
+        run: echo "Build Number > ${{ steps.generate.outputs.build-number }}"
+
+        
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa,combined-builds/iOS/*.app"
+          token: ${{ secrets.DART_TOKEN }}
+          tag: ${{ steps.generate.outputs.build-number }}
+          name: "Nightly-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
+          generateReleaseNotes: true
+          body: >
+            <a href="https://play.google.com/store/apps/details?id=com.moonchain.app" target="_blank"><img width="500" alt="image" src="https://github.com/user-attachments/assets/802b4fa6-8978-4b01-8de7-68207a5f8d77"></a><a href="https://apps.apple.com/app/moonbase-the-mining-hub/id6736371768" target="_blank"><img width="500" alt="image" src="https://github.com/user-attachments/assets/ed4678e2-4099-498c-92ee-94b88b620c21"></a>
+
+      # - name: Upload APK to Waldo
+      #   uses: waldoapp/gh-action-upload@v2
+      #   with:
+      #     build_path: combined-builds/android/moonchain.apk
+      #     upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
+          
+  # build-waldo:
+  #   name: Build-waldo
+  #   # https://github.com/actions/runner-images
+  #   # https://xcodereleases.com/
+  #   runs-on: macos-15
+
+  #   steps:
+  #     - name: Select Xcode version 16.1
+  #       run: sudo xcode-select -s /Applications/Xcode_16.1.app
+
+  #     - name: Checkout code with submodules
+  #       uses: actions/checkout@v4
+  #       with:
+  #         submodules: recursive
+
+  #     - uses: sheenhx/action-flutter-build-ios@main
+  #       with:
+  #         # always use --export-options-plist=ios/GithubActionsExportOptions.plist
+  #         build-cmd: flutter build ios --simulator
+  #         certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+  #         certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+  #         provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+  #         keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
+  #     - name: Upload IPA to Waldo
+  #       uses: waldoapp/gh-action-upload@v2
+  #       with:
+  #         build_path: build/ios/iphonesimulator/Runner.app
+  #         upload_token: ${{ secrets.WALDO_SESSIONS_IOS }}
