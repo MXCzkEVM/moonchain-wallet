@@ -288,11 +288,13 @@ XMLHttpRequest.prototype.send = function (body) {
     if (data.code !== 0)
       return
     setTimeout(() => document.querySelector('.mi-form-helper-text--error').remove())
+    setTimeout(() => document.querySelector('._-src-components-FormErrorMessage-formErrorMessage').remove())
     Object.defineProperty(this, 'responseText', { value: '' })
-    location.href = `\${window.axs.origin}?state=\${state}`
+    location.href = `\${window.axs.origin}?state=\${encodeURIComponent(state)}`
   })
   return send.apply(this, arguments)
 }
+
 """;
     await state.webviewController!.evaluateJavascript(source: hairyScript);
   }
