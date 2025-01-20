@@ -50,7 +50,6 @@ jobs:
           source-dir: build/app/outputs/flutter-apk
           destination-dir: app
 
-
   build-macos:
     name: Build-ios
     # https://github.com/actions/runner-images
@@ -129,6 +128,13 @@ jobs:
           name: release-ipa
           path: combined-builds/iOS
 
+      - name: Download macOS-simulator artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: simulator-app
+          path: combined-builds/iOS
+  
+
       - name: Upload combined artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -147,7 +153,7 @@ jobs:
         
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa"
+          artifacts: "combined-builds/android/*.apk,combined-builds/iOS/*.ipa,combined-builds/iOS/*.app"
           token: ${{ secrets.DART_TOKEN }}
           tag: ${{ steps.generate.outputs.build-number }}
           name: "Nightly-v${{ steps.generate.outputs.build-number }}-iOS/Android-Visit mxc1usd.com"
