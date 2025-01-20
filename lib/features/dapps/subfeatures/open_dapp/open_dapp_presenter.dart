@@ -290,11 +290,10 @@ XMLHttpRequest.prototype.send = function (body) {
     setTimeout(() => document.querySelector('.mi-form-helper-text--error').remove())
     setTimeout(() => document.querySelector('._-src-components-FormErrorMessage-formErrorMessage').remove())
     Object.defineProperty(this, 'responseText', { value: '' })
-    location.href = `\${window.axs.origin}?state=\${encodeURIComponent(state)}`
+    location.href = `\${window.axs.origin}?state=\${encodeURIComponent(state)}&body=\${encodeURIComponent(body)}`
   })
   return send.apply(this, arguments)
 }
-
 """;
     await state.webviewController!.evaluateJavascript(source: hairyScript);
   }
