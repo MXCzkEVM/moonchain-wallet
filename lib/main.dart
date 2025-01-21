@@ -14,58 +14,58 @@ import 'app/app.dart';
 
 const appName = 'MOONCHAIN';
 
-// @pragma('vm:entry-point')
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // If you're going to use other Firebase services in the background, such as Firestore,
-//   // make sure you call `initializeApp` before using other Firebase services.
-//   print(message.data);
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-//   await MoonchainWalletNotification().setupFlutterNotifications();
-//   // Firebase triggers notifications Itself
-//   // mxcNotification.showFlutterNotification(message);
-//   print('Handling a background message ${message.messageId}');
-// }
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  print(message.data);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await MoonchainWalletNotification().setupFlutterNotifications();
+  // Firebase triggers notifications Itself
+  // mxcNotification.showFlutterNotification(message);
+  print('Handling a background message ${message.messageId}');
+}
 
 void main() async {
   runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
-      // await Firebase.initializeApp(
-      //   options: DefaultFirebaseOptions.currentPlatform,
-      // );
-      // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
-      // const fatalError = true;
-      // var onError = FlutterError.onError;
-      // // Non-async exceptions
-      // FlutterError.onError = (errorDetails) {
-      //   onError?.call(errorDetails);
-      //   reportErrorAndLog(errorDetails);
-      //   if (fatalError) {
-      //     // If you want to record a "fatal" exception
-      //     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-      //     // ignore: dead_code
-      //   } else {
-      //     // If you want to record a "non-fatal" exception
-      //     FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
-      //   }
-      // };
-      // // Async exceptions
-      // PlatformDispatcher.instance.onError = (error, stack) {
-      //   if (fatalError) {
-      //     // If you want to record a "fatal" exception
-      //     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      //     // ignore: dead_code
-      //   } else {
-      //     // If you want to record a "non-fatal" exception
-      //     FirebaseCrashlytics.instance.recordError(error, stack);
-      //   }
-      //   return true;
-      // };
+      const fatalError = true;
+      var onError = FlutterError.onError;
+      // Non-async exceptions
+      FlutterError.onError = (errorDetails) {
+        onError?.call(errorDetails);
+        reportErrorAndLog(errorDetails);
+        if (fatalError) {
+          // If you want to record a "fatal" exception
+          FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+          // ignore: dead_code
+        } else {
+          // If you want to record a "non-fatal" exception
+          FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+        }
+      };
+      // Async exceptions
+      PlatformDispatcher.instance.onError = (error, stack) {
+        if (fatalError) {
+          // If you want to record a "fatal" exception
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+          // ignore: dead_code
+        } else {
+          // If you want to record a "non-fatal" exception
+          FirebaseCrashlytics.instance.recordError(error, stack);
+        }
+        return true;
+      };
 
-      // FirebaseMessaging.onBackgroundMessage(
-      //     _firebaseMessagingBackgroundHandler);
+      FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler);
 
       await dotenv.load(fileName: 'assets/.env');
       await initLogs();

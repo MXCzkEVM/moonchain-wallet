@@ -95,43 +95,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Check flutter found
-        id: check_flutter
-        shell: bash
-        run: |
-          if flutter --version; then
-              echo "installed=true" >> "$GITHUB_OUTPUT"
-          else
-              echo "installed=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Setup flutter
-        if: steps.check_flutter.outputs.installed == 'false'
-        uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-          flutter-version: '3.27.1'
-          cache: true
-
-      # Step to clear CocoaPods cache and reinstall pods
-      - name: Reinstall CocoaPods
-        run: |
-          flutter clean
-          flutter pub get
-          cd ios          
-          echo "Current Directory:"
-          pwd
-          echo "Contents of Current Directory:"
-          ls -la
-          rm -rf Pods
-          echo "Contents of Current Directory: After cleaning."
-          ls -la
-          pod install --repo-update
-          pod update
-          echo "Contents of Current Directory:"
-          ls -la  
-
-
       - uses: sheenhx/action-flutter-build-ios@main
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
