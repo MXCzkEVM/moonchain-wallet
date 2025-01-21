@@ -123,7 +123,6 @@ jobs:
           pwd
           echo "Contents of Current Directory:"
           ls -la
-          rm Podfile.lock
           rm -rf Pods
           echo "Contents of Current Directory: After cleaning."
           ls -la
