@@ -113,7 +113,7 @@ jobs:
 
   upload-combined:
     name: Combine and Upload Builds
-    needs: [build-apk, build-macos]
+    needs: [build-apk, build-macos, build-macos-simulator]
     runs-on: ubuntu-latest
     steps:
       - name: Download Ubuntu artifact
