@@ -109,7 +109,7 @@ jobs:
         with:
           name: simulator-app
           # Try running the build locally with the build command to be sure of this path
-          path: build/ios/iphonesimulator/Runner.app 
+          path: build/ios/iphonesimulator/*.app 
 
   upload-combined:
     name: Combine and Upload Builds
