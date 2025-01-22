@@ -84,7 +84,7 @@ jobs:
     name: Build-ios-simulator
     # https://github.com/actions/runner-images
     # https://xcodereleases.com/
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Select Xcode version 16.1
@@ -95,7 +95,7 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: sheenhx/action-flutter-build-ios@main
+      - uses: reasje/action-flutter-build-ios@main
         with:
           # always use --export-options-plist=ios/GithubActionsExportOptions.plist
           build-cmd: flutter build ios --simulator --no-codesign --debug --dart-define=FLUTTER_BUILD_MODE=debug --verbose
