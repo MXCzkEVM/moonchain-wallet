@@ -53,6 +53,10 @@
 
     <application tools:replace="android:label" android:label="MoonBase" android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:theme="@style/LaunchTheme" android:requestLegacyExternalStorage="true">
 
+        # This is line is to disable Impeller
+        <meta-data
+            android:name="io.flutter.embedding.android.EnableImpeller"
+            android:value="false" />
 
         <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="moonchain_wallet_channel" />
 
