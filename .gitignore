@@ -20,7 +20,6 @@
 .gradle/
 .project
 .classpath
-.fvm
 
 # iOS
 ios/Podfile.lock
@@ -47,3 +46,6 @@ lib/generated_plugin_registrant.dart
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# FVM Version Cache
+.fvm/
