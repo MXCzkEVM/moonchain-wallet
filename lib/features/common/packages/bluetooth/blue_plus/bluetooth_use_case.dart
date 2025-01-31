@@ -225,6 +225,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   }
 
   void stopScanner() {
+    update(scanResults, <ScanResult>[]);
     FlutterBluePlus.stopScan();
   }
 }
