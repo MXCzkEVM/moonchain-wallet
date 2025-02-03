@@ -76,7 +76,8 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
     await Future.delayed(const Duration(seconds: 3), () async {
       final scanResults = _bluetoothUseCase.scanResults.value;
-      if (scanResults.length > 1 || scanResults.isEmpty) {
+      final showBottomSheet = scanResults.length > 1 || scanResults.isEmpty;
+      if (showBottomSheet) {
         // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
         final scanResult = await showBlueberryRingsBottomSheet(
           context,
