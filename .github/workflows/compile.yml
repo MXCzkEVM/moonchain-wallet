@@ -8,7 +8,9 @@ on:
 jobs:
   build-apk:
     name: Build-apk
-    runs-on: ubuntu-latest
+    # This version contains CMake 3.18 but the latest contains 3.30 
+    # We will need to check CMake 3.30 compatibility and then upgrade
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code with submodules
         uses: actions/checkout@v4
@@ -48,7 +50,6 @@ jobs:
           source-dir: build/app/outputs/flutter-apk
           destination-dir: app
 
-
   build-macos:
     name: Build-ios
     # https://github.com/actions/runner-images
@@ -78,6 +79,37 @@ jobs:
           name: release-ipa
           # Try running the build locally with the build command to be sure of this path
           path: build/ios/ipa/*.ipa
+
+  build-macos-simulator:
+    name: Build-ios-simulator
+    # https://github.com/actions/runner-images
+    # https://xcodereleases.com/
+    runs-on: macos-15
+
+    steps:
+      - name: Select Xcode version 16.1
+        run: sudo xcode-select -s /Applications/Xcode_16.1.app
+
+      - name: Checkout code with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: sheenhx/action-flutter-build-ios@main
+        with:
+          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
+          build-cmd: flutter build ios --simulator --no-codesign --debug --dart-define=FLUTTER_BUILD_MODE=debug
+          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
+
+      - name: Archive .app
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulator-app
+          # Try running the build locally with the build command to be sure of this path
+          path: build/ios/iphonesimulator/*.app 
 
   upload-combined:
     name: Combine and Upload Builds
@@ -121,38 +153,3 @@ jobs:
           generateReleaseNotes: true
           body: >
             <a href="https://play.google.com/store/apps/details?id=com.moonchain.app" target="_blank"><img width="500" alt="image" src="https://github.com/user-attachments/assets/802b4fa6-8978-4b01-8de7-68207a5f8d77"></a><a href="https://apps.apple.com/app/moonbase-the-mining-hub/id6736371768" target="_blank"><img width="500" alt="image" src="https://github.com/user-attachments/assets/ed4678e2-4099-498c-92ee-94b88b620c21"></a>
-
-      - name: Upload APK to Waldo
-        uses: waldoapp/gh-action-upload@v2
-        with:
-          build_path: combined-builds/android/moonchain.apk
-          upload_token: ${{ secrets.WALDO_SESSIONS_ANDROID }}
-
-  build-waldo:
-    name: Build-waldo
-    # https://github.com/actions/runner-images
-    # https://xcodereleases.com/
-    runs-on: macos-15
-
-    steps:
-      - name: Select Xcode version 16.1
-        run: sudo xcode-select -s /Applications/Xcode_16.1.app
-
-      - name: Checkout code with submodules
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - uses: sheenhx/action-flutter-build-ios@main
-        with:
-          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
-          build-cmd: flutter build ios --simulator
-          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
-          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
-          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
-          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
-      - name: Upload IPA to Waldo
-        uses: waldoapp/gh-action-upload@v2
-        with:
-          build_path: build/ios/iphonesimulator/Runner.app
-          upload_token: ${{ secrets.WALDO_SESSIONS_IOS }}

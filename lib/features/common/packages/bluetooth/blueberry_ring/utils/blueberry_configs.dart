@@ -161,5 +161,11 @@ int parseDate(List<int> data) {
 }
 
 int parseInt(List<int> data) {
-  return int.parse(data.reversed.map((e) => e.toString()).join(''));
+  final processedData = BlueberryCommandsUtils.radix16bcd(data,no0x: true)
+      .map((d) => d.toString().replaceFirst('0x', '')) // Convert to string and remove '0x'
+      .toList()
+      .reversed
+      .join('');
+
+  return int.parse('0x$processedData', );
 }

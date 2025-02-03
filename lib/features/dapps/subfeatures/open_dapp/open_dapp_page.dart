@@ -20,6 +20,8 @@ class OpenDAppPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final presenter = ref.read(openDAppPageContainer.actions);
     final state = ref.watch(openDAppPageContainer.state);
+    presenter.initialUrl = Uri.parse(url);
+
     const rightToLeftPrimaryVelocity = 2000;
     const leftToRightPrimaryVelocity = 3000;
 
@@ -81,6 +83,7 @@ class OpenDAppPage extends HookConsumerWidget {
                     onLoadStop: (controller, url) {
                       presenter.injectCopyHandling();
                       presenter.injectScrollDetector();
+                      presenter.injectHairyRelatedScripts();
                       if (!state.isLoadStopCalled) {
                         presenter.injectMXCWalletJSChannel();
                         presenter.changeOnLoadStopCalled();
