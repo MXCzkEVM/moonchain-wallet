@@ -15,6 +15,7 @@ Future<bool?> showNetworkDetailsDialog(
     context: context,
     bottomSheetTitle: network.label ?? network.web3RpcHttpUrl,
     hasCloseButton: false,
+    closeButtonReturnValue: false,
     widgets: [
       // Column(
       //   crossAxisAlignment: CrossAxisAlignment.center,
