@@ -71,25 +71,14 @@ class BlueberryRingUseCase extends ReactiveUseCase {
   // Sets the selectedBlueberryRing
   Future<void> getBlueberryRingsNearby(BuildContext context) async {
     _bluetoothUseCase.startScanning(
-      withServices: [bluetoothServiceUUID],
+      // withServices: [bluetoothServiceUUID],
+      // withKeywords: ['Mi', ],
+      // withKeywords: ['2301', 'BBRING'],
+      // withNames: ['Buds Pro'],
     );
 
-    await Future.delayed(const Duration(seconds: 3), () async {
-      final scanResults = _bluetoothUseCase.scanResults.value;
-      if (scanResults.length > 1 || scanResults.isEmpty) {
-        // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
-        final scanResult = await showBlueberryRingsBottomSheet(
-          context,
-        );
-        if (scanResult != null) {
-          update(selectedBlueberryRing, scanResult);
-        }
-      } else {
-        // only one scan results
-        final scanResult = scanResults.first;
-        update(selectedBlueberryRing, scanResult);
-      }
-    });
+    await _bluetoothUseCase.getScanResults(context);
+    update(selectedBlueberryRing, _bluetoothUseCase.selectedScanResult.value);
 
     _bluetoothUseCase.stopScanner();
   }

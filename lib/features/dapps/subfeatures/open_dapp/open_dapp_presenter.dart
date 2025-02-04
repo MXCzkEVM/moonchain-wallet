@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/services.dart';
 
 import 'package:clipboard/clipboard.dart';
@@ -34,6 +35,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _backgroundFetchConfigUseCase =
       ref.read(backgroundFetchConfigUseCaseProvider);
   late final _bluetoothUseCase = ref.read(bluetoothUseCaseProvider);
+  late final _blueberryRingUseCase = ref.read(blueberryRingUseCaseProvider);
 
   Timer? characteristicListenerTimer;
   StreamSubscription<List<int>>? characteristicValueStreamSubscription;
@@ -73,6 +75,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         state: state,
         loading: (bool value) => loading = value,
         bluetoothUseCase: _bluetoothUseCase,
+        blueberryRingUseCase: _blueberryRingUseCase,
         characteristicListenerTimer: characteristicListenerTimer,
         characteristicValueStreamSubscription:
             characteristicValueStreamSubscription,
@@ -273,7 +276,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     injectDAppOrigin();
   }
 
-
   Future<void> injectHairyScript() async {
     const hairyScript = """
 const send = XMLHttpRequest.prototype.send
@@ -301,8 +303,8 @@ XMLHttpRequest.prototype.send = function (body) {
   // This is requested by Hairy on Xiaomi related feature
   void injectDAppOrigin() async {
     collectLog('Injecting origin $initialUrl to axs.origin object');
-    await state.webviewController!
-        .evaluateJavascript(source: "window.axs.origin = '${initialUrl!.origin}';");
+    await state.webviewController!.evaluateJavascript(
+        source: "window.axs.origin = '${initialUrl!.origin}';");
     await state.webviewController!.evaluateJavascript(
         source: "console.log(\"window.axs.origin \" + window.axs.origin)");
   }

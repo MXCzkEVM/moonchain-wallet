@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'package:moonchain_wallet/core/core.dart';
@@ -41,6 +43,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   late final ValueStream<BluetoothAdapterState> bluetoothStatus =
       reactive(BluetoothAdapterState.off);
   late final ValueStream<List<ScanResult>> scanResults = reactive([]);
+  late final ValueStream<ScanResult> selectedScanResult = reactive();
 
   void initBluetoothUseCase() {
     initStateListener();
@@ -209,6 +212,27 @@ class BluetoothUseCase extends ReactiveUseCase {
     );
   }
 
+  Future<void> getScanResults(BuildContext context) async {
+    await Future.delayed(const Duration(seconds: 4), () async {
+      final currentScanResults = scanResults.value;
+      final showBottomSheet =
+          currentScanResults.length > 1 || currentScanResults.isEmpty;
+      if (showBottomSheet) {
+        // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
+        final scanResult = await showBlueberryRingsBottomSheet(
+          context,
+        );
+        if (scanResult != null) {
+          update(selectedScanResult, scanResult);
+        }
+      } else {
+        // only one scan results
+        final scanResult = currentScanResults.first;
+        update(selectedScanResult, scanResult);
+      }
+    });
+  }
+
   void _cancelScannerListen() {
     // cleanup: cancel subscription when scanning stops
     if (scannerListener != null) {
@@ -225,6 +249,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   }
 
   void stopScanner() {
+    update(scanResults, <ScanResult>[]);
     FlutterBluePlus.stopScan();
   }
 }
