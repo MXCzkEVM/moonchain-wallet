@@ -39,7 +39,9 @@ class BluetoothHelper {
   Future<Map<String, dynamic>> handleBluetoothRequestDevice(
     Map<String, dynamic> channelData,
   ) async {
+    collectLog('handleBluetoothRequestDevice:channelData : $channelData');
     // final options = RequestDeviceOptions.fromJson(channelData['data']);
+
     final options = RequestDeviceOptions.fromMap(channelData);
     late BluetoothDevice responseDevice;
 
