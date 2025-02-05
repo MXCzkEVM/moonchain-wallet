@@ -73,7 +73,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
     _bluetoothUseCase.startScanning(
       // withServices: [bluetoothServiceUUID],
       // withKeywords: ['Mi', ],
-      // withKeywords: ['2301', 'BBRING'],
+      withKeywords: ['2301', 'BBRING'],
       // withNames: ['Buds Pro'],
     );
 
