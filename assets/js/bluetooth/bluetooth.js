@@ -337,7 +337,7 @@ class AXSBluetooth {
   }
 
   async requestDevice(options) {
-    console.log("AXSBluetooth:requestDevice ", options);
+    console.log("AXSBluetooth:requestDevice ", JSON.stringify(options, null, 4));
     const response = await window.axs?.callHandlerWrapper("requestDevice", options);
 
     const gatt = new BluetoothRemoteGATTServer(

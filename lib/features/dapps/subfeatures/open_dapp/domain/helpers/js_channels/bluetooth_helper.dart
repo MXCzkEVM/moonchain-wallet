@@ -16,6 +16,7 @@ class BluetoothHelper {
     required this.translate,
     required this.collectLog,
     required this.bluetoothUseCase,
+    required this.blueberryRingUseCase,
     required this.navigator,
     required this.minerHooksHelper,
     required this.loading,
@@ -25,6 +26,7 @@ class BluetoothHelper {
 
   OpenDAppState state;
   BluetoothUseCase bluetoothUseCase;
+  BlueberryRingUseCase blueberryRingUseCase;
   void Function(String line) collectLog;
   NavigatorState? navigator;
   MinerHooksHelper minerHooksHelper;
@@ -37,7 +39,9 @@ class BluetoothHelper {
   Future<Map<String, dynamic>> handleBluetoothRequestDevice(
     Map<String, dynamic> channelData,
   ) async {
+    collectLog('handleBluetoothRequestDevice:channelData : $channelData');
     // final options = RequestDeviceOptions.fromJson(channelData['data']);
+
     final options = RequestDeviceOptions.fromMap(channelData);
     late BluetoothDevice responseDevice;
 
@@ -273,29 +277,15 @@ class BluetoothHelper {
 
   Future<BluetoothDevice?> getBlueberryRing() async {
     loading(true);
-    return Future.delayed(const Duration(seconds: 3), () async {
-      loading(false);
-      BluetoothDevice? responseDevice;
-      final scanResults = bluetoothUseCase.scanResults.value;
-      if (scanResults.length == 1) {
-        // only one scan results
-        final scanResult = scanResults.first;
-        state.selectedScanResult = scanResult;
-      } else {
-        // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
-        final scanResult = await showBlueberryRingsBottomSheet(
-          context!,
-        );
-        if (scanResult != null) {
-          state.selectedScanResult = scanResult;
-        }
-      }
-      if (state.selectedScanResult != null) {
-        responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
-            state.selectedScanResult!);
-      }
+    await bluetoothUseCase.getScanResults(context!);
+    loading(false);
+    BluetoothDevice? responseDevice;
+    state.selectedScanResult = bluetoothUseCase.selectedScanResult.value;
+    if (state.selectedScanResult != null) { 
+      responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
+          state.selectedScanResult!);
+    }
 
-      return responseDevice;
-    });
+    return responseDevice;
   }
 }
