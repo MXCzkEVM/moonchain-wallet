@@ -127,6 +127,13 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         notify: notify,
       );
 
+  FrontEndRequiredHelper get frontEndRequiredHelper =>
+      FrontEndRequiredHelper(
+        context: context,
+        jsChannelHandlerHelper: jsChannelHandlersHelper,
+        state: state,
+      );
+
   @override
   void initState() {
     super.initState();
@@ -175,6 +182,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     updateCurrentUrl(null);
     cronListenersHelper.injectMinerDappListeners();
     bluetoothListenersHelper.injectBluetoothListeners();
+    frontEndRequiredHelper.injectFrontEndRequiredListeners();
   }
 
   void updateCurrentUrl(Uri? value) async {
