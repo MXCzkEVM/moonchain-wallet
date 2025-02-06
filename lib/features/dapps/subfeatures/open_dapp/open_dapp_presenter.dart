@@ -280,19 +280,35 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     const hairyScript = """
 const send = XMLHttpRequest.prototype.send
 XMLHttpRequest.prototype.send = function (body) {
-  this.addEventListener('readystatechange', function listener() {
+  this.addEventListener('readystatechange', async function listener() {
+    const storage = localStorage
     if (this.readyState !== 3 || this.status !== 200)
       return
-    if (!this.responseURL.includes('pass/serviceLoginAuth2'))
-      return
-    const state = this.responseText
-    const data = JSON.parse(state.replaceAll('&&&START&&&', ''))
-    if (data.code !== 0)
-      return
-    setTimeout(() => document.querySelector('.mi-form-helper-text--error').remove())
-    setTimeout(() => document.querySelector('._-src-components-FormErrorMessage-formErrorMessage').remove())
-    Object.defineProperty(this, 'responseText', { value: '' })
-    location.href = `\${window.axs.origin}?state=\${encodeURIComponent(state)}&body=\${encodeURIComponent(body)}`
+    if (this.responseURL.includes('pass/serviceLoginAuth2')) {
+      const state = this.responseText
+      const data = JSON.parse(state.replaceAll('&&&START&&&', ''))
+      if (data.code !== 0)
+        return
+      setTimeout(() => document.querySelector('.mi-form-helper-text--error').remove())
+      setTimeout(() => document.querySelector('._-src-components-FormErrorMessage-formErrorMessage').remove())
+      Object.defineProperty(this, 'responseText', { value: '' })
+      storage.setItem('state', encodeURIComponent(state))
+      storage.setItem('body', encodeURIComponent(body))
+      location.href = data.location
+    }
+
+    if (this.responseURL.includes('/pass2/config')) {
+      const { cookies } = await window.axs.callHandler('getCookies', { url: 'account.xiaomi.com' })
+      const tokenCookie = cookies.find(cookie => cookie.name === 'serviceToken')
+      storage.setItem('token', encodeURIComponent(tokenCookie.value || ''))
+      const params = [
+        `state=\${storage.getItem('state')}`,
+        `token=\${storage.getItem('token')}`,
+        `body=\${storage.getItem('body')}`,
+      ]
+      location.href = `\${window.axs.origin}?=\${params.join('&')}`
+      Object.defineProperty(this, 'responseText', { value: '' })
+    }
   })
   return send.apply(this, arguments)
 }
