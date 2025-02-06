@@ -23,7 +23,8 @@ class FrontEndRequiredHelper {
             args, handleGetCookies));
   }
 
-  Future<Map<String, dynamic>> handleGetCookies(Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> handleGetCookies(
+      Map<String, dynamic> data) async {
     collectLog('handleGetCookies : $data');
 
     final host = data['url'];
@@ -32,18 +33,20 @@ class FrontEndRequiredHelper {
     final allCookies =
         await cookieManager.getCookies(url: WebUri('https://$host/'));
 
-    final cookies = 
-      allCookies
-          .where((e) {
-            collectLog("handleGetCookies:e.domain ${e.domain ?? ""}");
-            return (e.domain?.contains(host) ?? false) && e.isHttpOnly == true;
-          }) // Exclude HttpOnly cookies
-          .map((e) =>
-              e.toMap()) // Convert each cookie to a JSON-serializable map
-          .toList(); // Convert the iterable to a list
+    // Commented this part is some cases like Pixel 5 API 32 emulator
+    // All the properties except name & value are null
+    // final cookies
+    //   allCookies
+    //       .where((e) {
+    //         collectLog("handleGetCookies:e.domain ${e.domain ?? ""}");
+    //         return (e.domain?.contains(host) ?? false) && e.isHttpOnly == true;
+    //       }) // Exclude HttpOnly cookies
+    //       .map((e) =>
+    //           e.toMap()) // Convert each cookie to a JSON-serializable map
+    //       .toList(); // Convert the iterable to a list
 
-    collectLog("handleGetCookies:cookies $cookies");
+    collectLog("handleGetCookies:cookies $allCookies");
 
-    return {'cookies': cookies};
+    return {'cookies': allCookies};
   }
 }
