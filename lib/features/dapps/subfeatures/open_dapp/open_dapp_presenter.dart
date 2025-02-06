@@ -287,9 +287,9 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   Future<void> injectHairyScript() async {
     const hairyScript = """
 const send = XMLHttpRequest.prototype.send
+const storage = localStorage
 XMLHttpRequest.prototype.send = function (body) {
   this.addEventListener('readystatechange', async function listener() {
-    const storage = localStorage
     if (this.readyState !== 3 || this.status !== 200)
       return
     if (this.responseURL.includes('pass/serviceLoginAuth2')) {
@@ -304,22 +304,30 @@ XMLHttpRequest.prototype.send = function (body) {
       storage.setItem('body', encodeURIComponent(body))
       location.href = data.location
     }
-
-    if (this.responseURL.includes('/pass2/config')) {
-      const { cookies } = await window.axs.callHandler('getCookies', { url: 'account.xiaomi.com' })
-      const tokenCookie = cookies.find(cookie => cookie.name === 'serviceToken')
-      storage.setItem('token', encodeURIComponent(tokenCookie.value || ''))
-      const params = [
-        `state=\${storage.getItem('state')}`,
-        `token=\${storage.getItem('token')}`,
-        `body=\${storage.getItem('body')}`,
-      ]
-      location.href = `\${window.axs.origin}?=\${params.join('&')}`
-      Object.defineProperty(this, 'responseText', { value: '' })
-    }
   })
   return send.apply(this, arguments)
 }
+setTimeout(async function loop() {
+  if (!location.origin.includes('account.xiaomi.com'))
+    return
+
+  try {
+    const { cookies } = await window.axs.callHandler('getCookies', { url: 'account.xiaomi.com' })
+    const tokenCookie = cookies.find(cookie => cookie.name === 'serviceToken')
+    storage.setItem('token', encodeURIComponent(tokenCookie.value || ''))
+  }
+  catch {}
+  const state = storage.getItem('state')
+  const token = storage.getItem('token')
+
+  if (state && token) {
+    storage.removeItem('token')
+    storage.removeItem('state')
+    location.href = `\${window.axs.origin}?state=\${state}&token=\${token}`
+    return
+  }
+  setTimeout(loop, 500)
+})
 """;
     await state.webviewController!.evaluateJavascript(source: hairyScript);
   }
