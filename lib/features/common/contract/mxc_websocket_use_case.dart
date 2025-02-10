@@ -27,6 +27,7 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
   late final ValueStream<Stream<dynamic>?> websocketStreamSubscription =
       reactive(null);
   StreamSubscription<dynamic>? websocketCloseStreamSubscription;
+  StreamSubscription<dynamic>? websocketErrorStreamSubscription;
   late final ValueStream<Stream<dynamic>> addressStream =
       reactive(const Stream.empty());
   StreamSubscription<dynamic>? addressStreamSubscription;
@@ -109,6 +110,10 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
     return _repository.tokenContract.getCloseStream();
   }
 
+  Stream<dynamic>? getErrorStream() {
+    return _repository.tokenContract.getErrorStream();
+  }
+
   void initializeCloseStream() {
     final closeStream = getCloseStream();
     websocketCloseStreamSubscription = closeStream!.listen((event) {
@@ -116,6 +121,15 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
       initializeWebSocketConnection();
     });
   }
+
+  void initializeErrorStream() {
+    final errorStream = getErrorStream();
+    websocketErrorStreamSubscription = errorStream!.listen((event) {
+      websocketErrorStreamSubscription!.cancel();
+      initializeWebSocketConnection();
+    });
+  }
+
 
   Future<Stream<dynamic>> subscribeToAddressEvents(String address) async {
     final res = await subscribeEvent(
@@ -126,6 +140,9 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
 
   void listenToTopUpEvents(dynamic event) {
     switch (event.event.value as String) {
+      // case "phx_error":
+      //   print('Error in websocket');
+      //   break;
       case 'transaction':
         final newMXCTx = MoonchainTransactionModel.fromJson(
             json.encode(event.payload['transactions'][0]));
