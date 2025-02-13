@@ -42,6 +42,7 @@ class MXCWebsocketUseCase extends ReactiveUseCase {
       }
     });
 
+    // Used to track account changes 
     _accountUseCase.account.listen(
       (value) {
         account = value;
