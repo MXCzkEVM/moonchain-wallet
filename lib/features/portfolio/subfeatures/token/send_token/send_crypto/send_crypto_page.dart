@@ -194,9 +194,12 @@ class SendCryptoPage extends HookConsumerWidget {
                 suffixButton: MxcTextFieldButton.svg(
                   svg: 'assets/svg/ic_contact.svg',
                   onTap: () async {
-                    Recipient res = await Navigator.of(context)
-                        .push(route(const SelectRecipientPage()));
+                    Recipient? res = (await Navigator.of(context)
+                        .push(route(const SelectRecipientPage())) as Recipient?);
 
+                    if (res == null) {
+                      return;
+                    }
                     ref.read(presenter).recipientController.text =
                         res.address ?? res.mns ?? '';
                     ref.watch(state).formKey.currentState!.validate();

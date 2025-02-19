@@ -23,12 +23,6 @@ class SplashSetupWalletPresenter
   @override
   void initState() {
     listen(_chainConfigurationUseCase.networks, (value) {
-      if (value.isEmpty) {
-        // populates the default list for the first time
-        final defaultList = Network.fixedNetworks();
-        _chainConfigurationUseCase.addItems(defaultList);
-      }
-
       _chainConfigurationUseCase.getCurrentNetwork();
       _authUseCase.resetNetwork(
           _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh());

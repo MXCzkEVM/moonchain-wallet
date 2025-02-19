@@ -133,7 +133,12 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
   }
 
   void validateAndUpdate() {
-    final result = state.formKey.currentState!.validate();
+    // It's rare but happened in some cases http://github.com/orgs/MXCzkEVM/projects/4/views/1?pane=issue&itemId=98388906 
+    final formState = state.formKey.currentState;
+    if (formState == null) {
+      return;
+    }
+    final result = formState.validate();
     notify(() => state.valid = result);
   }
 
