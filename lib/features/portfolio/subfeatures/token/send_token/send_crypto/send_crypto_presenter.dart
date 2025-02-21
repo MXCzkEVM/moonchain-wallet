@@ -7,6 +7,7 @@ import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/common/app_nav_bar/app_nav_bar_presenter.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:moonchain_wallet/features/wallet/wallet.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
@@ -240,10 +241,29 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
     } else if (TransactionProcessType.done == type) {
       navigator!.pop();
       Future.delayed(const Duration(milliseconds: 200), () {
-        navigator?.popUntil((route) {
-          return route.settings.name?.contains('WalletPage') ?? false;
-        });
+        // There are two ways to navigate to Send Crypto Page
+        // One through QR code
+        // Second through Wallet Page
+        // If it's through QR code, we need to push to Wallet Page
+        // If it's through Wallet Page, we need to pop until we reach Wallet Page
+        // bool walletPageFound = false;
+        // navigator?.popUntil((route) {
+        //   if (route.settings.name?.contains('WalletPage') ?? false) {
+        //     walletPageFound = true;
+        //     return true;
+        //   }
+        //   return false;
+        // });
+        // if (!walletPageFound) {
+        //   navigator?.pushReplacement(route(const WalletPage()));
+        // }
+        navigator?.pushReplacement(route(const WalletPage()));
       });
+      // Future.delayed(const Duration(milliseconds: 200), () {
+      //   navigator?.popUntil((route) {
+      //     return route.settings.name?.contains('WalletPage') ?? false;
+      //   });
+      // });
     }
     return null;
   }
