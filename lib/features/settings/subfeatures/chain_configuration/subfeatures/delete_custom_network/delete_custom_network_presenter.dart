@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
-
 final deleteCustomNetworkContainer =
     PresenterContainer<DeleteCustomNetworkPresenter, DeleteCustomNetworkState>(
         () => DeleteCustomNetworkPresenter());
@@ -145,8 +144,10 @@ class DeleteCustomNetworkPresenter
     final itemIndex = state.networks
         .indexWhere((element) => element.chainId == selectedNetwork!.chainId);
     if (itemIndex != -1) {
-      final selectedNetwork =
-          state.networks[itemIndex].copyWith(isAdded: false);
+      final selectedNetwork = state.networks[itemIndex].copyWith(
+        isAdded: false,
+        enabled: false,
+      );
       _chainConfigurationUseCase.updateItem(selectedNetwork, itemIndex);
     }
   }
