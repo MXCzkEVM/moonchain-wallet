@@ -6,7 +6,7 @@ class ChainConfigurationRepository extends GlobalCacheRepository {
   final String zone = 'chain_configuration';
 
   late final Field<List<Network>> networks = fieldWithDefault<List<Network>>(
-      'networks', [],
+      'networks', Network.fixedNetworks(),
       serializer: (b) => b
           .map((e) => {
                 'logo': e.logo,

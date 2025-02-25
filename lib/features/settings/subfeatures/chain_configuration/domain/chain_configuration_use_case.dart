@@ -1,7 +1,7 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:mxc_logic/mxc_logic.dart';
-
 
 class ChainConfigurationUseCase extends ReactiveUseCase {
   ChainConfigurationUseCase(this._repository, this._authUseCase);
@@ -138,10 +138,21 @@ class ChainConfigurationUseCase extends ReactiveUseCase {
     }
   }
 
-  void getCurrentNetwork() {
-    final currentNetwork =
-        _repository.items.where((item) => item.enabled).first;
-    update(selectedNetwork, currentNetwork);
+  void getCurrentNetwork() async{
+    final chains =_repository.items;
+    try {
+      final currentNetwork =
+          chains.where((item) => item.enabled).first;
+      update(selectedNetwork, currentNetwork);
+    } catch (e, s) {
+      FirebaseCrashlytics.instance.setCustomKey("chains_list_not_enabled_any", chains.map((e) => e.toJson(),).toList().toString());
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        s,
+        reason: 'Fatal error on detecting enabled chain',
+        information: ['chains_list_not_enabled_any is reported with It\'s value'],
+      );
+    }
   }
 
   Network getCurrentNetworkWithoutRefresh() {
