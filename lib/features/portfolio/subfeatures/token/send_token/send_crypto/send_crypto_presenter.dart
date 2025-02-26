@@ -259,11 +259,6 @@ class SendCryptoPresenter extends CompletePresenter<SendCryptoState> {
         // }
         navigator?.pushReplacement(route(const WalletPage()));
       });
-      // Future.delayed(const Duration(milliseconds: 200), () {
-      //   navigator?.popUntil((route) {
-      //     return route.settings.name?.contains('WalletPage') ?? false;
-      //   });
-      // });
     }
     return null;
   }
