@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
@@ -48,39 +49,39 @@ class BluetoothHelper {
     await bluetoothUseCase.turnOnBluetoothAndProceed();
 
     //  Get the options data
+    final List<String>? withNames = options.filters != null
+        ? options.filters!
+            .where((filter) => filter.name != null)
+            .map((filter) => filter.name!)
+            .toList()
+        : [];
+    final List<String>? withKeywords = options.filters != null
+        ? options.filters!
+            .where((filter) => filter.namePrefix != null)
+            .map((filter) => filter.namePrefix!)
+            .toList()
+        : [];
+    final List<blue_plus.MsdFilter>? withMsd = options.filters != null
+        ? options.filters!
+            .expand((filter) => filter.manufacturerData ?? [])
+            .toList()
+            .firstOrNull
+        : [];
+    final List<blue_plus.ServiceDataFilter>? withServiceData = options.filters != null
+        ? options.filters!
+            .expand((filter) => filter.serviceData ?? [])
+            .toList()
+            .firstOrNull
+        : [];
+    final List<blue_plus.Guid> withServices =
+        (withKeywords?.isNotEmpty ?? false) && Platform.isAndroid ? [] : options.filters?[0].services ?? [];
     bluetoothUseCase.startScanning(
-      withServices: options.filters != null
-          ? options.filters!
-              .expand((filter) => filter.services ?? [])
-              .toList()
-              .firstOrNull
-          : [],
-      withRemoteIds:
-          null, // No direct mapping in RequestDeviceOptions, adjust as necessary
-      withNames: options.filters != null
-          ? options.filters!
-              .where((filter) => filter.name != null)
-              .map((filter) => filter.name!)
-              .toList()
-          : [],
-      withKeywords: options.filters != null
-          ? options.filters!
-              .where((filter) => filter.namePrefix != null)
-              .map((filter) => filter.namePrefix!)
-              .toList()
-          : [],
-      withMsd: options.filters != null
-          ? options.filters!
-              .expand((filter) => filter.manufacturerData ?? [])
-              .toList()
-              .firstOrNull
-          : [],
-      withServiceData: options.filters != null
-          ? options.filters!
-              .expand((filter) => filter.serviceData ?? [])
-              .toList()
-              .firstOrNull
-          : [],
+      withServices: withServices,
+      withRemoteIds: null,
+      withNames: withNames,
+      withKeywords: withKeywords,
+      withMsd: withMsd,
+      withServiceData: withServiceData,
       continuousUpdates: true,
       continuousDivisor: 2,
       androidUsesFineLocation: true,
@@ -281,7 +282,7 @@ class BluetoothHelper {
     loading(false);
     BluetoothDevice? responseDevice;
     state.selectedScanResult = bluetoothUseCase.selectedScanResult.value;
-    if (state.selectedScanResult != null) { 
+    if (state.selectedScanResult != null) {
       responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
           state.selectedScanResult!);
     }
