@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../open_dapp_presenter.dart';
@@ -76,18 +77,25 @@ class BlueberryDeviceInfo extends HookConsumerWidget {
                                     e.device.advName.isEmpty
                                         ? 'No name'
                                         : e.device.advName,
-                                    style: FontTheme.of(context).body2.primary(),
+                                    style:
+                                        FontTheme.of(context).body2.primary(),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const   SizedBox(width: Sizes.spaceXLarge,),
+                                const SizedBox(
+                                  width: Sizes.spaceXLarge,
+                                ),
                                 Align(
                                   alignment: AlignmentDirectional.centerEnd,
                                   child: Text(
-                                    e.device.remoteId.str,
-                                    style:
-                                        FontTheme.of(context).subtitle2.primary(),
+                                    MXCFormatter.formatLongText(
+                                      e.device.remoteId.str,
+                                      nCharacters: 10,
+                                    ),
+                                    style: FontTheme.of(context)
+                                        .subtitle2
+                                        .primary(),
                                   ),
                                 ),
                               ],
