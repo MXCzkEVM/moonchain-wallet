@@ -203,7 +203,7 @@ class BluetoothUseCase extends ReactiveUseCase {
       withServiceData: withServiceData ?? [],
       withKeywords: withKeywords ?? [],
       timeout: timeout,
-      removeIfGone: removeIfGone,
+      removeIfGone: removeIfGone ?? const Duration(seconds: 30),
       continuousUpdates: continuousUpdates ?? false,
       continuousDivisor: continuousDivisor ?? 1,
       oneByOne: oneByOne ?? false,
