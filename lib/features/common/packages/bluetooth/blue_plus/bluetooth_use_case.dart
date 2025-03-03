@@ -204,7 +204,7 @@ class BluetoothUseCase extends ReactiveUseCase {
       withKeywords: withKeywords ?? [],
       timeout: timeout,
       removeIfGone: removeIfGone ?? const Duration(seconds: 30),
-      continuousUpdates: continuousUpdates ?? false,
+      continuousUpdates: continuousUpdates ?? true,
       continuousDivisor: continuousDivisor ?? 1,
       oneByOne: oneByOne ?? false,
       androidScanMode: androidScanMode ?? AndroidScanMode.lowLatency,
