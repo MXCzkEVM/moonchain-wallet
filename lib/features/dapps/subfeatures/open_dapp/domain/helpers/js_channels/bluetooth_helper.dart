@@ -3,10 +3,12 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
+import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/dapp_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as blue_plus;
+import 'package:mxc_ui/mxc_ui.dart';
 
 import '../../../open_dapp.dart';
 
@@ -277,9 +279,25 @@ class BluetoothHelper {
   }
 
   Future<BluetoothDevice?> getBlueberryRing() async {
-    loading(true);
+    showSnackBar(
+        context: context!,
+        content: translate('searching_for_x')!
+            .replaceFirst('{0}', translate('nearby_blueberry_rings')!),
+        leadingIcon: Container(
+          padding: const EdgeInsets.all(Sizes.spaceXSmall),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: const Color(0xFF303746).withOpacity(0.5),
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.bluetooth,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ));
     await bluetoothUseCase.getScanResults(context!);
-    loading(false);
     BluetoothDevice? responseDevice;
     state.selectedScanResult = bluetoothUseCase.selectedScanResult.value;
     if (state.selectedScanResult != null) {
