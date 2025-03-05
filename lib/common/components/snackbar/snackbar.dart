@@ -20,6 +20,7 @@ void showSnackBar({
   void Function()? buttonOnTap,
   SnackBarPosition? snackBarPosition,
   action,
+  Widget? leadingIcon,
 }) {
   if (buttonOnTap != null || buttonTitle != null) {
     assert(buttonOnTap != null && buttonTitle != null,
@@ -131,7 +132,7 @@ void showSnackBar({
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
+                leadingIcon ??  Container(
                   padding: const EdgeInsets.all(Sizes.spaceXSmall),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,

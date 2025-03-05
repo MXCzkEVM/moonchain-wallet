@@ -416,7 +416,7 @@
 	"no_description": "No description",
 	"bluetooth_not_supported": "Bluetooth is not supported on this device.",
 	"blueberry_ring_hooks": "Blueberry Ring hooks",
-	"nearby_blueberry_rings": "Nearby Blueberry rings",
+	"nearby_blueberry_rings": "nearby Blueberry Rings",
 	"unable_to_continue_bluetooth_is_turned_off": "Unable to continue Bluetooth is turned off!",
 	"scanning": "Scanning ...",
 	"blueberry_ring_inactive_alert_title": "Time to go for a walk!",
@@ -471,5 +471,6 @@
 	"partner": "Partner",
 	"native": "Native",
 	"see_all": "See all",
-	"enable_not_important_logs": "Enable not important logs" 
+	"enable_not_important_logs": "Enable not important logs",
+	"searching_for_x": "Searching for {0}..."
 }

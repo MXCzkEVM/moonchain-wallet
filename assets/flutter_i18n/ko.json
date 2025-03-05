@@ -471,5 +471,6 @@
     "partner": "파트너",
     "native": "원주민",
     "see_all": "모두 보기",
-    "enable_not_important_logs": "중요하지 않은 로그 활성화"
+    "enable_not_important_logs": "중요하지 않은 로그 활성화",
+    "searching_for_x": "{0}을 검색 중입니다..."
 }

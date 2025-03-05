@@ -471,5 +471,6 @@
     "partner": "パートナー",
     "native": "ネイティブ",
     "see_all": "すべて表示",
-    "enable_not_important_logs": "重要でないログを有効にする"
+    "enable_not_important_logs": "重要でないログを有効にする",
+    "searching_for_x": "{0}を検索しています…"
 }

@@ -471,5 +471,6 @@
     "partner": "Партнер",
     "native": "Родной",
     "see_all": "Смотреть все",
-    "enable_not_important_logs": "Включить неважные логи"
+    "enable_not_important_logs": "Включить неважные логи",
+    "searching_for_x": "Поиск {0}..."
 }

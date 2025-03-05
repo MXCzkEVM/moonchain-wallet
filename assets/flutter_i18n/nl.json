@@ -471,5 +471,6 @@
     "partner": "Partner",
     "native": "Inheems",
     "see_all": "Alles bekijken",
-    "enable_not_important_logs": "Schakel niet-belangrijke logboeken in"
+    "enable_not_important_logs": "Schakel niet-belangrijke logboeken in",
+    "searching_for_x": "Op zoek naar {0}..."
 }

@@ -471,5 +471,6 @@
     "partner": "Partenaire",
     "native": "Natif",
     "see_all": "Voir tout",
-    "enable_not_important_logs": "Activer les journaux non importants"
+    "enable_not_important_logs": "Activer les journaux non importants",
+    "searching_for_x": "Recherche de {0}..."
 }
