@@ -471,5 +471,6 @@
     "partner": "Partner",
     "native": "Nativo",
     "see_all": "Vedi tutto",
-    "enable_not_important_logs": "Abilita i log non importanti"
+    "enable_not_important_logs": "Abilita i log non importanti",
+    "searching_for_x": "Ricerca di {0}..."
 }

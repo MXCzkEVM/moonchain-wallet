@@ -471,5 +471,6 @@
     "partner": "Đối tác",
     "native": "Bản địa",
     "see_all": "Xem tất cả",
-    "enable_not_important_logs": "Bật nhật ký không quan trọng"
+    "enable_not_important_logs": "Bật nhật ký không quan trọng",
+    "searching_for_x": "Đang tìm kiếm {0}..."
 }
