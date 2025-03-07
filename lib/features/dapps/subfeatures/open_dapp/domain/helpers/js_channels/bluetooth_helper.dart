@@ -299,7 +299,7 @@ class BluetoothHelper {
         ));
     await bluetoothUseCase.getScanResults(context!);
     BluetoothDevice? responseDevice;
-    state.selectedScanResult = bluetoothUseCase.selectedScanResult.value;
+    state.selectedScanResult = bluetoothUseCase.selectedScanResult.valueOrNull;
     if (state.selectedScanResult != null) {
       responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
           state.selectedScanResult!);
