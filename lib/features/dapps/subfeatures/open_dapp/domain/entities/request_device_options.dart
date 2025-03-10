@@ -24,11 +24,13 @@ class RequestDeviceOptions {
   factory RequestDeviceOptions.fromMap(Map<String, dynamic> json) {
     return RequestDeviceOptions(
       filters: json['filters'] != null
-          ? List<BluetoothLEScanFilter>.from(json['filters']
-              .map((filter) => BluetoothLEScanFilter.fromMap(filter)))
-          : null,
+      ? List<BluetoothLEScanFilter>.from(
+          (json['filters'] as List<dynamic>)
+              .where((filter) => filter is Map<String, dynamic> && filter.isNotEmpty) // Ensure it's a Map and not empty
+              .map((filter) => BluetoothLEScanFilter.fromMap(filter as Map<String, dynamic>)))
+      : null,
       optionalServices: json['optionalServices'] != null
-          ? List<Guid>.from(json['optionalServices']
+          ? List<Guid>.from((json['optionalServices'] as List<dynamic>)
               .map((service) => GuidHelper.parse(service)))
           : null,
       optionalManufacturerData: json['optionalManufacturerData'] != null

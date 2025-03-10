@@ -44,39 +44,51 @@ class BluetoothHelper {
   ) async {
     collectLog('handleBluetoothRequestDevice:channelData : $channelData');
     // final options = RequestDeviceOptions.fromJson(channelData['data']);
+    late RequestDeviceOptions options =
+        RequestDeviceOptions.fromMap(channelData);
 
-    final options = RequestDeviceOptions.fromMap(channelData);
     late BluetoothDevice responseDevice;
 
     await bluetoothUseCase.turnOnBluetoothAndProceed();
 
     //  Get the options data
-    final List<String>? withNames = options.filters != null
+    final isFiltersNotNull = options.filters != null;
+    final List<String> withNames = isFiltersNotNull
         ? options.filters!
             .where((filter) => filter.name != null)
             .map((filter) => filter.name!)
             .toList()
         : [];
-    final List<String>? withKeywords = options.filters != null
+    final List<String> withKeywords = isFiltersNotNull
         ? options.filters!
             .where((filter) => filter.namePrefix != null)
             .map((filter) => filter.namePrefix!)
             .toList()
         : [];
-    final List<blue_plus.MsdFilter>? withMsd = options.filters != null
+    final List<blue_plus.MsdFilter>? withMsd = isFiltersNotNull
         ? options.filters!
             .expand((filter) => filter.manufacturerData ?? [])
             .toList()
             .firstOrNull
         : [];
-    final List<blue_plus.ServiceDataFilter>? withServiceData = options.filters != null
+    final List<blue_plus.ServiceDataFilter>? withServiceData = isFiltersNotNull
         ? options.filters!
             .expand((filter) => filter.serviceData ?? [])
             .toList()
             .firstOrNull
         : [];
+    final optionalServices = options.optionalServices ?? <blue_plus.Guid>[];
+    final filterServices = options.filters!
+        .expand(
+          (filter) => filter.services ?? <blue_plus.Guid>[],
+        )
+        .toList();
     final List<blue_plus.Guid> withServices =
-        (withKeywords?.isNotEmpty ?? false) && Platform.isAndroid ? [] : options.filters?[0].services ?? [];
+        withKeywords.isNotEmpty  && Platform.isAndroid
+            ? []
+            : isFiltersNotNull
+                ? [...filterServices, ...optionalServices]
+                : optionalServices;
     bluetoothUseCase.startScanning(
       withServices: withServices,
       withRemoteIds: null,
