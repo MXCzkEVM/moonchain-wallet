@@ -70,19 +70,22 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
   // Sets the selectedBlueberryRing
   Future<void> getBlueberryRingsNearby(BuildContext context) async {
-    _bluetoothUseCase.startScanning(
-      // withServices: [bluetoothServiceUUID],
-      withKeywords: ['2301', 'BBRING'],
-      // withKeywords: ['Mi', 'Buds Pro'],
-      // Mi Band service uuid 
-      // withServices: [Guid.fromString('0000fee0-0000-1000-8000-00805f9b34fb')]
-      // withNames: ['Buds Pro'],
-    );
+    await _bluetoothUseCase.alreadyScanningGuard<void>(() async {
+      _bluetoothUseCase.startScanning(
+        // withServices: [bluetoothServiceUUID],
+        withKeywords: ['2301', 'BBRING'],
+        // withKeywords: ['Mi', 'Buds Pro'],
+        // Mi Band service uuid
+        // withServices: [Guid.fromString('0000fee0-0000-1000-8000-00805f9b34fb')]
+        // withNames: ['Buds Pro'],
+      );
 
-    await _bluetoothUseCase.getScanResults(context);
-    update(selectedBlueberryRing, _bluetoothUseCase.selectedScanResult.valueOrNull);
+      await _bluetoothUseCase.getScanResults(context);
+      update(selectedBlueberryRing,
+          _bluetoothUseCase.selectedScanResult.valueOrNull);
 
-    _bluetoothUseCase.stopScanner();
+      _bluetoothUseCase.stopScanner();
+    });
   }
 
   Future<void> connectToBlueberryRing() async {
