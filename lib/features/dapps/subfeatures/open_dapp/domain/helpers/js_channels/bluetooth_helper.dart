@@ -42,74 +42,81 @@ class BluetoothHelper {
   Future<Map<String, dynamic>> handleBluetoothRequestDevice(
     Map<String, dynamic> channelData,
   ) async {
-    collectLog('handleBluetoothRequestDevice:channelData : $channelData');
-    // final options = RequestDeviceOptions.fromJson(channelData['data']);
-    late RequestDeviceOptions options =
-        RequestDeviceOptions.fromMap(channelData);
+    return (await bluetoothUseCase
+            .alreadyScanningGuard<Map<String, dynamic>>(() async {
+          collectLog('handleBluetoothRequestDevice:channelData : $channelData');
+          late RequestDeviceOptions options =
+              RequestDeviceOptions.fromMap(channelData);
 
-    late BluetoothDevice responseDevice;
+          late BluetoothDevice responseDevice;
 
-    await bluetoothUseCase.turnOnBluetoothAndProceed();
+          await bluetoothUseCase.turnOnBluetoothAndProceed();
 
-    //  Get the options data
-    final isFiltersNotNull = options.filters != null;
-    final List<String> withNames = isFiltersNotNull
-        ? options.filters!
-            .where((filter) => filter.name != null)
-            .map((filter) => filter.name!)
-            .toList()
-        : [];
-    final List<String> withKeywords = isFiltersNotNull
-        ? options.filters!
-            .where((filter) => filter.namePrefix != null)
-            .map((filter) => filter.namePrefix!)
-            .toList()
-        : [];
-    final List<blue_plus.MsdFilter>? withMsd = isFiltersNotNull
-        ? options.filters!
-            .expand((filter) => filter.manufacturerData ?? [])
-            .toList()
-            .firstOrNull
-        : [];
-    final List<blue_plus.ServiceDataFilter>? withServiceData = isFiltersNotNull
-        ? options.filters!
-            .expand((filter) => filter.serviceData ?? [])
-            .toList()
-            .firstOrNull
-        : [];
-    final optionalServices = options.optionalServices ?? <blue_plus.Guid>[];
-    final filterServices = options.filters!
-        .expand(
-          (filter) => filter.services ?? <blue_plus.Guid>[],
-        )
-        .toList();
-    final List<blue_plus.Guid> withServices =
-        withKeywords.isNotEmpty  && Platform.isAndroid
-            ? []
-            : isFiltersNotNull
-                ? [...filterServices, ...optionalServices]
-                : optionalServices;
-    bluetoothUseCase.startScanning(
-      withServices: withServices,
-      withRemoteIds: null,
-      withNames: withNames,
-      withKeywords: withKeywords,
-      withMsd: withMsd,
-      withServiceData: withServiceData,
-      continuousUpdates: true,
-      continuousDivisor: 2,
-      androidUsesFineLocation: true,
-    );
+          //  Get the options data
+          final isFiltersNotNull = options.filters != null;
+          final List<String> withNames = isFiltersNotNull
+              ? options.filters!
+                  .where((filter) => filter.name != null)
+                  .map((filter) => filter.name!)
+                  .toList()
+              : [];
+          final List<String> withKeywords = isFiltersNotNull
+              ? options.filters!
+                  .where((filter) => filter.namePrefix != null)
+                  .map((filter) => filter.namePrefix!)
+                  .toList()
+              : [];
+          final List<blue_plus.MsdFilter>? withMsd = isFiltersNotNull
+              ? options.filters!
+                  .expand((filter) => filter.manufacturerData ?? [])
+                  .toList()
+                  .firstOrNull
+              : [];
+          final List<blue_plus.ServiceDataFilter>? withServiceData =
+              isFiltersNotNull
+                  ? options.filters!
+                      .expand((filter) => filter.serviceData ?? [])
+                      .toList()
+                      .firstOrNull
+                  : [];
+          final optionalServices =
+              options.optionalServices ?? <blue_plus.Guid>[];
+          final filterServices = isFiltersNotNull
+              ? options.filters!
+                  .expand(
+                    (filter) => filter.services ?? <blue_plus.Guid>[],
+                  )
+                  .toList()
+              : [];
+          final List<blue_plus.Guid> withServices =
+              withKeywords.isNotEmpty && Platform.isAndroid
+                  ? []
+                  : isFiltersNotNull
+                      ? [...filterServices, ...optionalServices]
+                      : optionalServices;
+          bluetoothUseCase.startScanning(
+            withServices: withServices,
+            withRemoteIds: null,
+            withNames: withNames,
+            withKeywords: withKeywords,
+            withMsd: withMsd,
+            withServiceData: withServiceData,
+            continuousUpdates: true,
+            continuousDivisor: 2,
+            androidUsesFineLocation: true,
+          );
 
-    final blueberryRing = await getBlueberryRing();
-    bluetoothUseCase.stopScanner();
-    if (blueberryRing == null) {
-      return {};
-    } else {
-      responseDevice = blueberryRing;
-    }
+          final blueberryRing = await getBlueberryRing();
+          bluetoothUseCase.stopScanner();
 
-    return responseDevice.toMap();
+          if (blueberryRing == null) {
+            return {};
+          } else {
+            responseDevice = blueberryRing;
+          }
+          return responseDevice.toMap();
+        })) ??
+        {};
   }
 
   // GATT server

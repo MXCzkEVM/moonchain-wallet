@@ -233,6 +233,14 @@ class BluetoothUseCase extends ReactiveUseCase {
     });
   }
 
+  // This function prevents any new start scanning and other operations If It's already scanning
+  Future<T>? alreadyScanningGuard<T>(Future<T> Function() function) { 
+    if (isScanning.value != true) {
+      return function();
+    }
+    return null;
+  }
+
   void _cancelScannerListen() {
     // cleanup: cancel subscription when scanning stops
     if (scannerListener != null) {
