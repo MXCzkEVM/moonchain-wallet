@@ -47,6 +47,7 @@ class BluetoothUseCase extends ReactiveUseCase {
 
   void initBluetoothUseCase() {
     initStateListener();
+    initLogsListener();
     bluetoothStatus.listen((state) {
       if (state == BluetoothAdapterState.on) {
         // usually start scanning, connecting, etc
@@ -75,6 +76,13 @@ class BluetoothUseCase extends ReactiveUseCase {
     // Note: The platform is initialized on the first call to any FlutterBluePlus method.
     final res = await FlutterBluePlus.isSupported;
     return res;
+  }
+
+  initLogsListener() {
+    // listen to logs
+    FlutterBluePlus.logs.listen((log) {
+      collectLog(log);
+    });
   }
 
   void initStateListener() {
