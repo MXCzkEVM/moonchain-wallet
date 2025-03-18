@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:moonchain_wallet/app/logger.dart';
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
