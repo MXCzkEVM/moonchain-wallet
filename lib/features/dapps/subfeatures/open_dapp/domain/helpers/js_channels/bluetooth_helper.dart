@@ -106,7 +106,10 @@ class BluetoothHelper {
             androidUsesFineLocation: true,
           );
 
-          final blueberryRing = await getBlueberryRing();
+
+          final equality = ListEquality<String>();
+          final isRegisterRing = equality.equals(withKeywords,blueberryRingGeneralSearch);
+          final blueberryRing = await getBlueberryRing(isRegisterRing);
           bluetoothUseCase.stopScanner();
 
           if (blueberryRing == null) {
@@ -297,7 +300,7 @@ class BluetoothHelper {
     return uInt8List;
   }
 
-  Future<BluetoothDevice?> getBlueberryRing() async {
+  Future<BluetoothDevice?> getBlueberryRing(bool isRegisterRing) async {
     showSnackBar(
         context: context!,
         content: translate('searching_for_x')!
@@ -316,7 +319,8 @@ class BluetoothHelper {
             ),
           ),
         ));
-    await bluetoothUseCase.getScanResults(context!);
+    // Check register criteria for blueberry ring    
+    await bluetoothUseCase.getScanResults(context!, isRegisterRing);
     BluetoothDevice? responseDevice;
     state.selectedScanResult = bluetoothUseCase.selectedScanResult.valueOrNull;
     if (state.selectedScanResult != null) {

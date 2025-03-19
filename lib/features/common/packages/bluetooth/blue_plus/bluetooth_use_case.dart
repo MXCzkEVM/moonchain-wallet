@@ -102,12 +102,14 @@ class BluetoothUseCase extends ReactiveUseCase {
     //  `scanResults` if you want live scan results *or* the results from a previous scan.
     scannerListener = FlutterBluePlus.onScanResults.listen(
       (results) {
-        inspect(results);
+        collectLog('Scan results: ${results.map(
+          (e) => e.device.toString(),
+        )}');
         if (results.isNotEmpty) {
           update(scanResults, results);
         }
       },
-      onError: (e) => print(e),
+      onError: (e) => collectLog(e),
     );
   }
 
@@ -221,12 +223,16 @@ class BluetoothUseCase extends ReactiveUseCase {
     );
   }
 
-  Future<void> getScanResults(BuildContext context) async {
+  // Prevented to opened again If It's opened
+  Future<void> getScanResults(
+    BuildContext context,
+    bool withBottomSheet, 
+  ) async {
     await Future.delayed(const Duration(seconds: 4), () async {
       final currentScanResults = scanResults.value;
-      final showBottomSheet =
-          currentScanResults.length > 1 || currentScanResults.isEmpty;
-      if (showBottomSheet) {
+      final noDevicesFound = currentScanResults.isEmpty;
+      final showBottomSheet = currentScanResults.length > 1 || noDevicesFound;
+      if (showBottomSheet && withBottomSheet == true) {
         // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
         final scanResult = await showBlueberryRingsBottomSheet(
           context,
@@ -234,6 +240,30 @@ class BluetoothUseCase extends ReactiveUseCase {
         if (scanResult != null) {
           update(selectedScanResult, scanResult);
         }
+      } else if (noDevicesFound) {
+        // If no devices are found, Wait till It's found
+        // Create a Completer to manage the async flow
+        Completer<void> completer = Completer<void>();
+
+        // Listen to the stream
+        StreamSubscription<List<ScanResult>> subscription =
+            scanResults.listen((results) {
+          if (results.isNotEmpty) {
+            final scanResult = results.first;
+            update(selectedScanResult, scanResult);
+
+            // Complete the completer to signal that the condition is met
+            if (!completer.isCompleted) {
+              completer.complete();
+            }
+          }
+        });
+
+        // Wait for the completer's future to complete
+        await completer.future;
+
+        // Cancel the subscription if no longer needed
+        subscription.cancel();
       } else {
         // only one scan results
         final scanResult = currentScanResults.first;
@@ -243,7 +273,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   }
 
   // This function prevents any new start scanning and other operations If It's already scanning
-  Future<T>? alreadyScanningGuard<T>(Future<T> Function() function) { 
+  Future<T>? alreadyScanningGuard<T>(Future<T> Function() function) {
     if (isScanning.value != true) {
       return function();
     }
@@ -266,6 +296,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   }
 
   void stopScanner() {
+    collectLog('Stopping scan...');
     update(scanResults, <ScanResult>[]);
     FlutterBluePlus.stopScan();
   }
