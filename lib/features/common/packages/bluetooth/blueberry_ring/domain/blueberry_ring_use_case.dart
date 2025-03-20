@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:moonchain_wallet/app/logger.dart';
-import 'package:moonchain_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -18,6 +17,7 @@ final bluetoothCharacteristicUUID =
     Guid.fromString('0000fff6-0000-1000-8000-00805f9b34fb');
 final bluetoothCharacteristicNotificationUUID =
     Guid.fromString('0000fff7-0000-1000-8000-00805f9b34fb');
+final List<String> blueberryRingGeneralSearch = ['2301', 'BBRING'];
 
 class BlueberryRingUseCase extends ReactiveUseCase {
   BlueberryRingUseCase(this._repository, this._chainConfigurationUseCase,
@@ -51,7 +51,7 @@ class BlueberryRingUseCase extends ReactiveUseCase {
       // withServices: [bluetoothServiceUUID],
       // withNames: ['Mi'],
       // withNames: ['2301', 'BBRING'],
-      withKeywords: ['2301', 'BBRING'],
+      withKeywords: blueberryRingGeneralSearch,
     );
 
     await Future.delayed(const Duration(seconds: 6), () async {
@@ -70,19 +70,22 @@ class BlueberryRingUseCase extends ReactiveUseCase {
 
   // Sets the selectedBlueberryRing
   Future<void> getBlueberryRingsNearby(BuildContext context) async {
-    _bluetoothUseCase.startScanning(
-      // withServices: [bluetoothServiceUUID],
-      withKeywords: ['2301', 'BBRING'],
-      // withKeywords: ['Mi', 'Buds Pro'],
-      // Mi Band service uuid 
-      // withServices: [Guid.fromString('0000fee0-0000-1000-8000-00805f9b34fb')]
-      // withNames: ['Buds Pro'],
-    );
+    await _bluetoothUseCase.alreadyScanningGuard<void>(() async {
+      _bluetoothUseCase.startScanning(
+          // withServices: [bluetoothServiceUUID],
+          withKeywords: ['2301', 'BBRING'],
+          // withKeywords: ['Mi', 'Buds Pro'],
+          // Mi Band service uuid
+          // withServices: [Guid.fromString('0000fee0-0000-1000-8000-00805f9b34fb')]
+          // withNames: ['Buds Pro'],
+          );
 
-    await _bluetoothUseCase.getScanResults(context);
-    update(selectedBlueberryRing, _bluetoothUseCase.selectedScanResult.valueOrNull);
+      await _bluetoothUseCase.getScanResults(context, true);
+      update(selectedBlueberryRing,
+          _bluetoothUseCase.selectedScanResult.valueOrNull);
 
-    _bluetoothUseCase.stopScanner();
+      _bluetoothUseCase.stopScanner();
+    });
   }
 
   Future<void> connectToBlueberryRing() async {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/services.dart';
 
 import 'package:clipboard/clipboard.dart';
@@ -169,7 +168,12 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     cancelCharacteristicListenerTimer();
     closeBlueberryConnection();
     state.animationController = null;
+    cancelBluetoothScanningOperation();
     return super.dispose();
+  }
+
+  void cancelBluetoothScanningOperation() {
+    _bluetoothUseCase.stopScanner();
   }
 
   // Disconnects from Blueberry If there a selected device.

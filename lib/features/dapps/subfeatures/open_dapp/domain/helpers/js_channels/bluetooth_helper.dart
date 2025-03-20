@@ -42,62 +42,84 @@ class BluetoothHelper {
   Future<Map<String, dynamic>> handleBluetoothRequestDevice(
     Map<String, dynamic> channelData,
   ) async {
-    collectLog('handleBluetoothRequestDevice:channelData : $channelData');
-    // final options = RequestDeviceOptions.fromJson(channelData['data']);
+    return (await bluetoothUseCase
+            .alreadyScanningGuard<Map<String, dynamic>>(() async {
+          collectLog('handleBluetoothRequestDevice:channelData : $channelData');
+          late RequestDeviceOptions options =
+              RequestDeviceOptions.fromMap(channelData);
 
-    final options = RequestDeviceOptions.fromMap(channelData);
-    late BluetoothDevice responseDevice;
+          late BluetoothDevice responseDevice;
 
-    await bluetoothUseCase.turnOnBluetoothAndProceed();
+          await bluetoothUseCase.turnOnBluetoothAndProceed();
 
-    //  Get the options data
-    final List<String>? withNames = options.filters != null
-        ? options.filters!
-            .where((filter) => filter.name != null)
-            .map((filter) => filter.name!)
-            .toList()
-        : [];
-    final List<String>? withKeywords = options.filters != null
-        ? options.filters!
-            .where((filter) => filter.namePrefix != null)
-            .map((filter) => filter.namePrefix!)
-            .toList()
-        : [];
-    final List<blue_plus.MsdFilter>? withMsd = options.filters != null
-        ? options.filters!
-            .expand((filter) => filter.manufacturerData ?? [])
-            .toList()
-            .firstOrNull
-        : [];
-    final List<blue_plus.ServiceDataFilter>? withServiceData = options.filters != null
-        ? options.filters!
-            .expand((filter) => filter.serviceData ?? [])
-            .toList()
-            .firstOrNull
-        : [];
-    final List<blue_plus.Guid> withServices =
-        (withKeywords?.isNotEmpty ?? false) && Platform.isAndroid ? [] : options.filters?[0].services ?? [];
-    bluetoothUseCase.startScanning(
-      withServices: withServices,
-      withRemoteIds: null,
-      withNames: withNames,
-      withKeywords: withKeywords,
-      withMsd: withMsd,
-      withServiceData: withServiceData,
-      continuousUpdates: true,
-      continuousDivisor: 2,
-      androidUsesFineLocation: true,
-    );
+          //  Get the options data
+          final isFiltersNotNull = options.filters != null;
+          final List<String> withNames = isFiltersNotNull
+              ? options.filters!
+                  .where((filter) => filter.name != null)
+                  .map((filter) => filter.name!)
+                  .toList()
+              : [];
+          final List<String> withKeywords = isFiltersNotNull
+              ? options.filters!
+                  .where((filter) => filter.namePrefix != null)
+                  .map((filter) => filter.namePrefix!)
+                  .toList()
+              : [];
+          final List<blue_plus.MsdFilter>? withMsd = isFiltersNotNull
+              ? options.filters!
+                  .expand((filter) => filter.manufacturerData ?? [])
+                  .toList()
+                  .firstOrNull
+              : [];
+          final List<blue_plus.ServiceDataFilter>? withServiceData =
+              isFiltersNotNull
+                  ? options.filters!
+                      .expand((filter) => filter.serviceData ?? [])
+                      .toList()
+                      .firstOrNull
+                  : [];
+          final optionalServices =
+              options.optionalServices ?? <blue_plus.Guid>[];
+          final filterServices = isFiltersNotNull
+              ? options.filters!
+                  .expand(
+                    (filter) => filter.services ?? <blue_plus.Guid>[],
+                  )
+                  .toList()
+              : [];
+          final List<blue_plus.Guid> withServices =
+              withKeywords.isNotEmpty && Platform.isAndroid
+                  ? []
+                  : isFiltersNotNull
+                      ? [...filterServices, ...optionalServices]
+                      : optionalServices;
+          bluetoothUseCase.startScanning(
+            withServices: withServices,
+            withRemoteIds: null,
+            withNames: withNames,
+            withKeywords: withKeywords,
+            withMsd: withMsd,
+            withServiceData: withServiceData,
+            continuousUpdates: true,
+            continuousDivisor: 2,
+            androidUsesFineLocation: true,
+          );
 
-    final blueberryRing = await getBlueberryRing();
-    bluetoothUseCase.stopScanner();
-    if (blueberryRing == null) {
-      return {};
-    } else {
-      responseDevice = blueberryRing;
-    }
 
-    return responseDevice.toMap();
+          final equality = ListEquality<String>();
+          final isRegisterRing = equality.equals(withKeywords,blueberryRingGeneralSearch);
+          final blueberryRing = await getBlueberryRing(isRegisterRing);
+          bluetoothUseCase.stopScanner();
+
+          if (blueberryRing == null) {
+            return {};
+          } else {
+            responseDevice = blueberryRing;
+          }
+          return responseDevice.toMap();
+        })) ??
+        {};
   }
 
   // GATT server
@@ -278,7 +300,7 @@ class BluetoothHelper {
     return uInt8List;
   }
 
-  Future<BluetoothDevice?> getBlueberryRing() async {
+  Future<BluetoothDevice?> getBlueberryRing(bool isRegisterRing) async {
     showSnackBar(
         context: context!,
         content: translate('searching_for_x')!
@@ -297,9 +319,10 @@ class BluetoothHelper {
             ),
           ),
         ));
-    await bluetoothUseCase.getScanResults(context!);
+    // Check register criteria for blueberry ring    
+    await bluetoothUseCase.getScanResults(context!, isRegisterRing);
     BluetoothDevice? responseDevice;
-    state.selectedScanResult = bluetoothUseCase.selectedScanResult.value;
+    state.selectedScanResult = bluetoothUseCase.selectedScanResult.valueOrNull;
     if (state.selectedScanResult != null) {
       responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
           state.selectedScanResult!);
