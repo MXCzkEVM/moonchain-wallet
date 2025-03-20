@@ -471,5 +471,6 @@
     "partner": "Partener",
     "native": "Nativ",
     "see_all": "Vezi toate",
-    "enable_not_important_logs": "Activează jurnalele neimportante"
+    "enable_not_important_logs": "Activează jurnalele neimportante",
+    "searching_for_x": "Căutare pentru {0}..."
 }

@@ -471,5 +471,6 @@
     "partner": "Mitra",
     "native": "Pribumi",
     "see_all": "Lihat semua",
-    "enable_not_important_logs": "Aktifkan log yang tidak penting"
+    "enable_not_important_logs": "Aktifkan log yang tidak penting",
+    "searching_for_x": "Mencari {0}..."
 }
