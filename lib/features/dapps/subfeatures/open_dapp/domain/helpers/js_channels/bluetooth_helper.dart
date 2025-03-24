@@ -99,7 +99,7 @@ class BluetoothHelper {
           if (queryName != null) {
             scanResult = bluetoothUseCase.checkRingCache(queryName);
           }
-          if (scanResult != null) {
+          if (scanResult == null) {
             bluetoothUseCase.startScanning(
               withServices: withServices,
               withRemoteIds: null,
