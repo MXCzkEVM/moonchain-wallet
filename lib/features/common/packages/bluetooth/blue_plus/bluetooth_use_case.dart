@@ -185,6 +185,24 @@ class BluetoothUseCase extends ReactiveUseCase {
     }
   }
 
+  // This function should be called before starting to scan & select scan result
+  // It will try to check, If the ring that is already selected is the ring
+  // that we are trying to search for.
+  ScanResult? checkRingCache(String name) {
+    // Just trying to see If we have do not search for It again
+    final currentRing = selectedScanResult.valueOrNull;
+    final currentRingName = currentRing?.device.advName;
+    collectLog(
+        'checkRingCache: name : $name currentRingName : $currentRingName ');
+    if (currentRing != null && currentRing.device.advName == name) {
+      collectLog('checkRingCache: Found ring in cache');
+      return selectedScanResult.valueOrNull;
+    } else {
+      collectLog('checkRingCache: No cached ring found');
+      return null;
+    }
+  }
+
   void startScanning({
     List<Guid>? withServices,
     List<String>? withRemoteIds,
