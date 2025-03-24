@@ -48,7 +48,7 @@ class BluetoothHelper {
           late RequestDeviceOptions options =
               RequestDeviceOptions.fromMap(channelData);
 
-          late BluetoothDevice responseDevice;
+          BluetoothDevice? responseDevice;
 
           await bluetoothUseCase.turnOnBluetoothAndProceed();
 
@@ -94,30 +94,37 @@ class BluetoothHelper {
                   : isFiltersNotNull
                       ? [...filterServices, ...optionalServices]
                       : optionalServices;
-          bluetoothUseCase.startScanning(
-            withServices: withServices,
-            withRemoteIds: null,
-            withNames: withNames,
-            withKeywords: withKeywords,
-            withMsd: withMsd,
-            withServiceData: withServiceData,
-            continuousUpdates: true,
-            continuousDivisor: 2,
-            androidUsesFineLocation: true,
-          );
-
-
-          final equality = ListEquality<String>();
-          final isRegisterRing = equality.equals(withKeywords,blueberryRingGeneralSearch);
-          final blueberryRing = await getBlueberryRing(isRegisterRing);
-          bluetoothUseCase.stopScanner();
-
-          if (blueberryRing == null) {
-            return {};
-          } else {
-            responseDevice = blueberryRing;
+          final queryName = withNames.firstOrNull;
+          blue_plus.ScanResult? scanResult;
+          if (queryName != null) {
+            scanResult = bluetoothUseCase.checkRingCache(queryName);
           }
-          return responseDevice.toMap();
+          if (scanResult == null) {
+            bluetoothUseCase.startScanning(
+              withServices: withServices,
+              withRemoteIds: null,
+              withNames: withNames,
+              withKeywords: withKeywords,
+              withMsd: withMsd,
+              withServiceData: withServiceData,
+              continuousUpdates: true,
+              continuousDivisor: 2,
+              androidUsesFineLocation: true,
+            );
+
+            const equality = ListEquality<String>();
+            final isRegisterRing =
+                equality.equals(withKeywords, blueberryRingGeneralSearch);
+            scanResult = await getBlueberryRing(isRegisterRing);
+            bluetoothUseCase.stopScanner();
+          }
+
+          if (scanResult != null) {
+            responseDevice =
+                BluetoothDevice.getBluetoothDeviceFromScanResult(scanResult);
+          }
+
+          return responseDevice == null ? {} : responseDevice.toMap();
         })) ??
         {};
   }
@@ -300,7 +307,7 @@ class BluetoothHelper {
     return uInt8List;
   }
 
-  Future<BluetoothDevice?> getBlueberryRing(bool isRegisterRing) async {
+  Future<blue_plus.ScanResult?> getBlueberryRing(bool isRegisterRing) async {
     showSnackBar(
         context: context!,
         content: translate('searching_for_x')!
@@ -319,15 +326,10 @@ class BluetoothHelper {
             ),
           ),
         ));
-    // Check register criteria for blueberry ring    
+    // Check register criteria for blueberry ring
     await bluetoothUseCase.getScanResults(context!, isRegisterRing);
-    BluetoothDevice? responseDevice;
     state.selectedScanResult = bluetoothUseCase.selectedScanResult.valueOrNull;
-    if (state.selectedScanResult != null) {
-      responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
-          state.selectedScanResult!);
-    }
 
-    return responseDevice;
+    return state.selectedScanResult;
   }
 }

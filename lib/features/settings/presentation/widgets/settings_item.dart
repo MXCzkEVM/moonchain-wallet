@@ -33,9 +33,11 @@ class SettingItem extends HookConsumerWidget {
             margin: const EdgeInsets.only(top: Sizes.spaceNormal),
             child: InkWell(
               onTap: settingData.onTap ??
-                  () => Navigator.of(context).push(route(
-                        settingData.page!,
-                      )),
+                  () => Navigator.of(context).push(
+                        route(
+                          settingData.page!,
+                        ),
+                      ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: Sizes.spaceSmall),
                 child: Row(
