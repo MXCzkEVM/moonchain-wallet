@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:moonchain_wallet/app/logger.dart';
 import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/common/packages/packages.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'package:moonchain_wallet/core/core.dart';
@@ -244,7 +245,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   // Prevented to opened again If It's opened
   Future<void> getScanResults(
     BuildContext context,
-    bool withBottomSheet, 
+    bool withBottomSheet,
   ) async {
     await Future.delayed(const Duration(seconds: 4), () async {
       final currentScanResults = scanResults.value;
@@ -288,6 +289,15 @@ class BluetoothUseCase extends ReactiveUseCase {
         update(selectedScanResult, scanResult);
       }
     });
+  }
+  List<BluetoothDevice> getConnectedDevices() {
+    final devices = FlutterBluePlus.connectedDevices;
+    print('getConnectedDevices: devices $devices');
+    final devicesList = FlutterBluePlus.systemDevices([
+      bluetoothServiceUUID,
+    ]);
+    print('getConnectedDevices: devicesList $devicesList');
+    return devices;
   }
 
   // This function prevents any new start scanning and other operations If It's already scanning

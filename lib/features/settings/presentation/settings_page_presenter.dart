@@ -15,6 +15,8 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
       ref.read(blueberryRingBackgroundNotificationsUseCaseProvider);
   late final contextLessTranslationUseCase =
       ref.read(contextLessTranslationUseCaseProvider);
+  late final blueberryRingUseCase = ref.read(blueberryRingUseCaseProvider);
+  late final bluetoothUseCase = ref.read(bluetoothUseCaseProvider);
 
   @override
   void initState() {
@@ -48,8 +50,22 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     notify(() => state.appVersion = ' $version ($buildNumber)');
   }
 
-  void testOnly() async {
+  void scan() async {
+    final connectedDevicesList = bluetoothUseCase.getConnectedDevices();
+    // print(connectedDevicesList);
+    // await blueberryRingUseCase.getBlueberryRingsNearby(context!);
+    // print(blueberryRingUseCase.selectedBlueberryRing.valueOrNull);
     
+    // final ring = blueberryRingUseCase.selectedBlueberryRing.valueOrNull;
+    // final uuids = ring!.advertisementData.serviceUuids;
+    // final cstate = await ring!.device.connectionState.last;
+    // await ring.device.connect();
+    // final cnstate = await ring.device.connectionState.last;
+    // await blueberryRingUseCase.connectToBlueberryRing();
+    // blueberryRingUseCase.connectToBlueberryRing();
+  }
+
+  void testOnly() async {
     // await blueberryRingBackgroundNotificationsUseCase.checkLowBattery();
     // await blueberryRingBackgroundNotificationsUseCase.checkActivityReminder();
     // await blueberryRingBackgroundNotificationsUseCase.checkSleepInsight();
