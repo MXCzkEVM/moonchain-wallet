@@ -164,7 +164,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   Future<void> connectionHandler(BluetoothDevice device) async {
     int attempts = 0;
     const maxAttempts = 4;
-    while (attempts < maxAttempts) {
+    while (attempts < maxAttempts && device.isConnected != true) {
       try {
         print('Attempt ${attempts + 1} to connect to device...');
         await device.connect();
@@ -256,9 +256,7 @@ class BluetoothUseCase extends ReactiveUseCase {
         final scanResult = await showBlueberryRingsBottomSheet(
           context,
         );
-        if (scanResult != null) {
-          update(selectedScanResult, scanResult);
-        }
+        update(selectedScanResult, scanResult);
       } else if (noDevicesFound) {
         // If no devices are found, Wait till It's found
         // Create a Completer to manage the async flow
@@ -290,6 +288,22 @@ class BluetoothUseCase extends ReactiveUseCase {
       }
     });
   }
+
+  StreamSubscription<BluetoothConnectionState>? streamSub;
+  void initDeviceConnectionState(Function disconnectionFunction) {
+    // listen to device connection state
+    if (streamSub != null) {
+      streamSub!.cancel();
+    }
+    streamSub = selectedScanResult.value.device.connectionState.listen((state) {
+      if (state == BluetoothConnectionState.disconnected) {
+        collectLog('Device disconnected');
+        disconnectionFunction();
+        streamSub!.cancel();
+      }
+    });
+  }
+
   List<BluetoothDevice> getConnectedDevices() {
     final devices = FlutterBluePlus.connectedDevices;
     print('getConnectedDevices: devices $devices');

@@ -95,11 +95,11 @@ class BluetoothHelper {
                       ? [...filterServices, ...optionalServices]
                       : optionalServices;
           final queryName = withNames.firstOrNull;
-          blue_plus.ScanResult? scanResult;
+
           if (queryName != null) {
-            scanResult = bluetoothUseCase.checkRingCache(queryName);
+            state.selectedScanResult = bluetoothUseCase.checkRingCache(queryName);
           }
-          if (scanResult == null) {
+          if (state.selectedScanResult == null) {
             bluetoothUseCase.startScanning(
               withServices: withServices,
               withRemoteIds: null,
@@ -115,13 +115,14 @@ class BluetoothHelper {
             const equality = ListEquality<String>();
             final isRegisterRing =
                 equality.equals(withKeywords, blueberryRingGeneralSearch);
-            scanResult = await getBlueberryRing(isRegisterRing);
+            await getBlueberryRing(isRegisterRing);
             bluetoothUseCase.stopScanner();
           }
 
-          if (scanResult != null) {
+          state.selectedScanResult = bluetoothUseCase.selectedScanResult.valueOrNull;
+          if (state.selectedScanResult != null) {
             responseDevice =
-                BluetoothDevice.getBluetoothDeviceFromScanResult(scanResult);
+                BluetoothDevice.getBluetoothDeviceFromScanResult(state.selectedScanResult!);
           }
 
           return responseDevice == null ? {} : responseDevice.toMap();
@@ -174,12 +175,22 @@ class BluetoothHelper {
       Map<String, dynamic> data) async {
     collectLog('handleBluetoothRemoteGATTServerConnect : $data');
     await bluetoothUseCase.connectionHandler(state.selectedScanResult!.device);
-
+    bluetoothUseCase.initDeviceConnectionState(handleDisconnection);
     return BluetoothRemoteGATTServer(
             device: BluetoothDevice.getBluetoothDeviceFromScanResult(
                 state.selectedScanResult!),
             connected: true)
         .toMap();
+  }
+
+  void handleDisconnection() async {
+    // listen to device connection state
+    // handle disconnection
+    const script = '''
+        navigator.bluetooth.dispatchBluetoothEvent('gattserverdisconnected');
+        ''';
+    await state.webviewController!.evaluateJavascript(source: script);
+    collectLog('Injected the disconnection state.');
   }
 
   // Service
@@ -307,7 +318,7 @@ class BluetoothHelper {
     return uInt8List;
   }
 
-  Future<blue_plus.ScanResult?> getBlueberryRing(bool isRegisterRing) async {
+  Future<void> getBlueberryRing(bool isRegisterRing) async {
     showSnackBar(
         context: context!,
         content: translate('searching_for_x')!
@@ -328,8 +339,5 @@ class BluetoothHelper {
         ));
     // Check register criteria for blueberry ring
     await bluetoothUseCase.getScanResults(context!, isRegisterRing);
-    state.selectedScanResult = bluetoothUseCase.selectedScanResult.valueOrNull;
-
-    return state.selectedScanResult;
   }
 }

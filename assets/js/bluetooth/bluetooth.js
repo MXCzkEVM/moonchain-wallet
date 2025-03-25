@@ -373,6 +373,19 @@ class AXSBluetooth {
     }
   }
 
+  dispatchBluetoothEvent(eventName) {
+    console.log(
+      "AXSBluetooth:dispatchBluetoothEvent ",
+      " ",
+      eventName
+    );
+    this.dispatchEvent(new Event(eventName));
+    console.log(
+      "AXSBluetooth:dispatchBluetoothEvent:eventName ",
+      eventName
+    );
+  }
+
   updateCharacteristicValue(characteristicUUID, value) {    
     console.log(
       "AXSBluetooth:updateCharacteristicValue ",
