@@ -164,7 +164,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   Future<void> connectionHandler(BluetoothDevice device) async {
     int attempts = 0;
     const maxAttempts = 4;
-    while (attempts < maxAttempts) {
+    while (attempts < maxAttempts && device.isConnected != true) {
       try {
         print('Attempt ${attempts + 1} to connect to device...');
         await device.connect();
@@ -256,9 +256,7 @@ class BluetoothUseCase extends ReactiveUseCase {
         final scanResult = await showBlueberryRingsBottomSheet(
           context,
         );
-        if (scanResult != null) {
-          update(selectedScanResult, scanResult);
-        }
+        update(selectedScanResult, scanResult);
       } else if (noDevicesFound) {
         // If no devices are found, Wait till It's found
         // Create a Completer to manage the async flow
