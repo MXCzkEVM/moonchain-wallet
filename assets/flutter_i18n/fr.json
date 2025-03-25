@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "Le compte que vous essayez d'importer est un doublon.",
     "unable_to_launch_email_app": "Impossible de lancer l'application email",
     "max_fee": "Frais Maximal",
-    "deposit_with_l3_bridge_notice": "Achetez sur d'autres échanges et utilisez {0} pour déposer ERC20 MXC dans le portefeuille Moonchain",
     "buy_some_x_for_fee_notice": "Achetez un peu de {0} pour payer les frais de gaz pour la transaction, normalement moins de 2 USD lorsque le réseau n'est pas occupé",
     "insufficient_funds_notice": "Solde insuffisant pour cette transaction. Veuillez ajouter des fonds.",
     "contractCall": "Appel de contrat",
@@ -472,5 +471,6 @@
     "native": "Natif",
     "see_all": "Voir tout",
     "enable_not_important_logs": "Activer les journaux non importants",
-    "searching_for_x": "Recherche de {0}..."
+    "searching_for_x": "Recherche de {0}...",
+    "deposit_with_jannowitz_notice": "Achetez auprès d'autres bourses et utilisez {0} pour déposer des ERC20 MXC sur le portefeuille Moonchain"
 }

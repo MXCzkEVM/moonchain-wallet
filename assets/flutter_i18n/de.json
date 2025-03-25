@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "Das Konto, das Sie versuchen zu importieren, ist ein Duplikat.",
     "unable_to_launch_email_app": "Nicht in der Lage, E-Mail-App zu starten",
     "max_fee": "Maximale Gebühr",
-    "deposit_with_l3_bridge_notice": "Kaufen Sie von anderen Börsen und verwenden Sie {0}, um ERC20 MXC in die Moonchain Wallet einzuzahlen.",
     "buy_some_x_for_fee_notice": "Kaufen Sie etwas {0}, um die Gasgebühr für die Transaktion zu bezahlen, normalerweise weniger als 2 USD, wenn das Netzwerk nicht ausgelastet ist.",
     "insufficient_funds_notice": "Unzureichendes Guthaben für diese Transaktion. Bitte fügen Sie Geldmittel hinzu.",
     "contractCall": "Vertragsaufruf",
@@ -472,5 +471,6 @@
     "native": "Einheimisch",
     "see_all": "Alles anzeigen",
     "enable_not_important_logs": "Nicht wichtige Protokolle aktivieren",
-    "searching_for_x": "Suche nach {0}..."
+    "searching_for_x": "Suche nach {0}...",
+    "deposit_with_jannowitz_notice": "Kaufe von anderen Börsen und verwende {0}, um ERC20 MXC auf das Moonchain-Wallet einzuzahlen"
 }

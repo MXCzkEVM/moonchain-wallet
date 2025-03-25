@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "Akun yang Anda coba impor adalah duplikat.",
     "unable_to_launch_email_app": "Tidak dapat meluncurkan aplikasi email",
     "max_fee": "Biaya Maksimal",
-    "deposit_with_l3_bridge_notice": "Beli dari bursa lain dan gunakan {0} untuk menyetor MXC ERC20 ke dompet Moonchain",
     "buy_some_x_for_fee_notice": "Beli beberapa {0} untuk membayar biaya gas untuk transaksi, biasanya kurang dari 2 USD saat jaringan tidak sibuk",
     "insufficient_funds_notice": "Saldo tidak cukup untuk transaksi ini. \nSilakan tambahkan dana.",
     "contractCall": "Panggilan kontrak",
@@ -472,5 +471,6 @@
     "native": "Pribumi",
     "see_all": "Lihat semua",
     "enable_not_important_logs": "Aktifkan log yang tidak penting",
-    "searching_for_x": "Mencari {0}..."
+    "searching_for_x": "Mencari {0}...",
+    "deposit_with_jannowitz_notice": "Beli dari bursa lain dan gunakan {0} untuk menyetor ERC20 MXC ke dompet Moonchain"
 }
