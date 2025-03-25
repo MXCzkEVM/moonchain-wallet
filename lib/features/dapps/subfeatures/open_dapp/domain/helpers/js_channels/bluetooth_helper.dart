@@ -174,12 +174,22 @@ class BluetoothHelper {
       Map<String, dynamic> data) async {
     collectLog('handleBluetoothRemoteGATTServerConnect : $data');
     await bluetoothUseCase.connectionHandler(state.selectedScanResult!.device);
-
+    bluetoothUseCase.initDeviceConnectionState(handleDisconnection);
     return BluetoothRemoteGATTServer(
             device: BluetoothDevice.getBluetoothDeviceFromScanResult(
                 state.selectedScanResult!),
             connected: true)
         .toMap();
+  }
+
+  void handleDisconnection() async {
+    // listen to device connection state
+    // handle disconnection
+    const script = '''
+        navigator.bluetooth.dispatchBluetoothEvent('gattserverdisconnected');
+        ''';
+    await state.webviewController!.evaluateJavascript(source: script);
+    collectLog('Injected the disconnection state.');
   }
 
   // Service

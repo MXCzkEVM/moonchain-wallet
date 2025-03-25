@@ -290,6 +290,19 @@ class BluetoothUseCase extends ReactiveUseCase {
       }
     });
   }
+
+  void initDeviceConnectionState(Function disconnectionFunction) {
+    // listen to device connection state
+    StreamSubscription<BluetoothConnectionState>? streamSub;
+    streamSub = selectedScanResult.value.device.connectionState.listen((state) {
+      if (state == BluetoothConnectionState.disconnected) {
+        collectLog('Device disconnected');
+        disconnectionFunction();
+        streamSub!.cancel();
+      }
+    });
+  }
+
   List<BluetoothDevice> getConnectedDevices() {
     final devices = FlutterBluePlus.connectedDevices;
     print('getConnectedDevices: devices $devices');
