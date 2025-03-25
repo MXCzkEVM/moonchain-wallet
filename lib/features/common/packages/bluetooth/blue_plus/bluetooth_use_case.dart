@@ -304,14 +304,14 @@ class BluetoothUseCase extends ReactiveUseCase {
     });
   }
 
-  List<BluetoothDevice> getConnectedDevices() {
+  Future<void> getConnectedDevices() async {
     final devices = FlutterBluePlus.connectedDevices;
     print('getConnectedDevices: devices $devices');
-    final devicesList = FlutterBluePlus.systemDevices([
+    final devicesList = await FlutterBluePlus.systemDevices([
       bluetoothServiceUUID,
     ]);
     print('getConnectedDevices: devicesList $devicesList');
-    return devices;
+    // return devices;
   }
 
   // This function prevents any new start scanning and other operations If It's already scanning
