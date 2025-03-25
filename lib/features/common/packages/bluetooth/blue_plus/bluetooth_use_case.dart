@@ -291,9 +291,12 @@ class BluetoothUseCase extends ReactiveUseCase {
     });
   }
 
+  StreamSubscription<BluetoothConnectionState>? streamSub;
   void initDeviceConnectionState(Function disconnectionFunction) {
     // listen to device connection state
-    StreamSubscription<BluetoothConnectionState>? streamSub;
+    if (streamSub != null) {
+      streamSub!.cancel();
+    }
     streamSub = selectedScanResult.value.device.connectionState.listen((state) {
       if (state == BluetoothConnectionState.disconnected) {
         collectLog('Device disconnected');
