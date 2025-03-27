@@ -50,7 +50,9 @@ class _QrScannerPageState extends State<QrScannerPage> {
     }
     Navigator.of(context).push(route(ChooseCryptoPage(
       qrCode: barcode.code,
-    )));
+    ))).then((value) {
+      _lock = false;
+    },);
   }
 
   @override
