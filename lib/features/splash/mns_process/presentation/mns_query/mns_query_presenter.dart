@@ -86,11 +86,11 @@ class SplashMNSQueryPresenter extends CompletePresenter<SplashMNSQueryState> {
               network.chainId,
               network.symbol,
               () {
-                final l3BridgeUri = Urls.networkL3Bridge(chainId);
+                final jannowitzUri = Urls.networkJannowitz(chainId);
                 Navigator.of(context!).push(route.featureDialog(
                   maintainState: false,
                   OpenDAppPage(
-                    url: l3BridgeUri,
+                    url: jannowitzUri,
                   ),
                 ));
               },

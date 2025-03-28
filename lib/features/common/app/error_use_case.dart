@@ -1,4 +1,3 @@
-
 import 'package:moonchain_wallet/common/common.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/common/common.dart';
@@ -71,7 +70,7 @@ class ErrorUseCase extends ReactiveUseCase {
       final walletAddress = _accountUseCase.account.value!.address;
       showReceiveBottomSheet(
           context, walletAddress, network.chainId, network.symbol, () {
-        l3Tap(context);
+        jannowitzTap(context);
       }, _launcherUseCase.launchUrlInPlatformDefaultWithString, true);
       return isFund;
     }
@@ -109,14 +108,14 @@ class ErrorUseCase extends ReactiveUseCase {
     return null;
   }
 
-  void l3Tap(BuildContext context) {
+  void jannowitzTap(BuildContext context) {
     final network = _chainConfigurationUseCase.selectedNetwork.value!;
     final chainId = network.chainId;
-    final l3BridgeUri = Urls.networkL3Bridge(chainId);
+    final jannowitzUri = Urls.networkJannowitz(chainId);
     Navigator.of(context).push(route.featureDialog(
       maintainState: false,
       OpenDAppPage(
-        url: l3BridgeUri,
+        url: jannowitzUri,
       ),
     ));
   }
