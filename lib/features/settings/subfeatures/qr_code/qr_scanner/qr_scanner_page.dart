@@ -48,11 +48,15 @@ class _QrScannerPageState extends State<QrScannerPage> {
       Navigator.of(context).pop(barcode.code);
       return;
     }
-    Navigator.of(context).push(route(ChooseCryptoPage(
+    Navigator.of(context)
+        .push(route(ChooseCryptoPage(
       qrCode: barcode.code,
-    ))).then((value) {
-      _lock = false;
-    },);
+    )))
+        .then(
+      (value) {
+        _lock = false;
+      },
+    );
   }
 
   @override
@@ -65,7 +69,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
   Widget build(BuildContext context) {
     return MxcPage(
       appBar: MxcAppBarEvenly.close(
-        titleText: '',
+        titleText: FlutterI18n.translate(context, 'scan_qr_code'),
         useContentPadding: true,
         action: InkWell(
           onTap: () async {
@@ -99,13 +103,15 @@ class _QrScannerPageState extends State<QrScannerPage> {
           ),
         ),
         const SizedBox(height: Sizes.space7XLarge),
-        MxcButton.primary(
-          key: const ValueKey('showQrCodeButton'),
-          title: FlutterI18n.translate(context, 'show_qr_code'),
-          icon: MxcIcons.qr_code,
-          edgeType: UIConfig.settingsScreensButtonsEdgeType,
-          onTap: () => BottomFlowDialog.of(context).close(),
-        ),
+        !widget.returnQrCode
+            ? MxcButton.primary(
+                key: const ValueKey('showQrCodeButton'),
+                title: FlutterI18n.translate(context, 'show_qr_code'),
+                icon: MxcIcons.qr_code,
+                edgeType: UIConfig.settingsScreensButtonsEdgeType,
+                onTap: () => BottomFlowDialog.of(context).close(),
+              )
+            : Container(),
       ],
     );
   }
