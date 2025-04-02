@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:moonchain_wallet/app/logger.dart';
 import 'package:moonchain_wallet/common/common.dart';
+import 'package:moonchain_wallet/features/common/packages/packages.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
 import 'package:moonchain_wallet/core/core.dart';
@@ -163,7 +164,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   Future<void> connectionHandler(BluetoothDevice device) async {
     int attempts = 0;
     const maxAttempts = 4;
-    while (attempts < maxAttempts) {
+    while (attempts < maxAttempts && device.isConnected != true) {
       try {
         print('Attempt ${attempts + 1} to connect to device...');
         await device.connect();
@@ -182,6 +183,24 @@ class BluetoothUseCase extends ReactiveUseCase {
           break; // Exit on unexpected errors
         }
       }
+    }
+  }
+
+  // This function should be called before starting to scan & select scan result
+  // It will try to check, If the ring that is already selected is the ring
+  // that we are trying to search for.
+  ScanResult? checkRingCache(String name) {
+    // Just trying to see If we have do not search for It again
+    final currentRing = selectedScanResult.valueOrNull;
+    final currentRingName = currentRing?.device.advName;
+    collectLog(
+        'checkRingCache: name : $name currentRingName : $currentRingName ');
+    if (currentRing != null && currentRing.device.advName == name) {
+      collectLog('checkRingCache: Found ring in cache');
+      return selectedScanResult.valueOrNull;
+    } else {
+      collectLog('checkRingCache: No cached ring found');
+      return null;
     }
   }
 
@@ -226,7 +245,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   // Prevented to opened again If It's opened
   Future<void> getScanResults(
     BuildContext context,
-    bool withBottomSheet, 
+    bool withBottomSheet,
   ) async {
     await Future.delayed(const Duration(seconds: 4), () async {
       final currentScanResults = scanResults.value;
@@ -237,9 +256,7 @@ class BluetoothUseCase extends ReactiveUseCase {
         final scanResult = await showBlueberryRingsBottomSheet(
           context,
         );
-        if (scanResult != null) {
-          update(selectedScanResult, scanResult);
-        }
+        update(selectedScanResult, scanResult);
       } else if (noDevicesFound) {
         // If no devices are found, Wait till It's found
         // Create a Completer to manage the async flow
@@ -270,6 +287,31 @@ class BluetoothUseCase extends ReactiveUseCase {
         update(selectedScanResult, scanResult);
       }
     });
+  }
+
+  StreamSubscription<BluetoothConnectionState>? streamSub;
+  void initDeviceConnectionState(Function disconnectionFunction) {
+    // listen to device connection state
+    if (streamSub != null) {
+      streamSub!.cancel();
+    }
+    streamSub = selectedScanResult.value.device.connectionState.listen((state) {
+      if (state == BluetoothConnectionState.disconnected) {
+        collectLog('Device disconnected');
+        disconnectionFunction();
+        streamSub!.cancel();
+      }
+    });
+  }
+
+  Future<void> getConnectedDevices() async {
+    final devices = FlutterBluePlus.connectedDevices;
+    print('getConnectedDevices: devices $devices');
+    final devicesList = await FlutterBluePlus.systemDevices([
+      bluetoothServiceUUID,
+    ]);
+    print('getConnectedDevices: devicesList $devicesList');
+    // return devices;
   }
 
   // This function prevents any new start scanning and other operations If It's already scanning

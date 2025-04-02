@@ -124,7 +124,7 @@ List<TextSpan> depositWithL3BridgeNotice(
   BuildContext context,
   VoidCallback onL3Tap,
 ) {
-  final text = FlutterI18n.translate(context, 'deposit_with_l3_bridge_notice');
+  final text = FlutterI18n.translate(context, 'deposit_with_jannowitz_notice');
   final firstSplit = text.split('{0}');
   final firstPart = firstSplit[0];
   final secondPart = firstSplit[1];
@@ -133,7 +133,7 @@ List<TextSpan> depositWithL3BridgeNotice(
       text: firstPart,
     ),
     TextSpan(
-      text: 'L3 bridge',
+      text: 'Jannowitz',
       style: TextStyle(
         color: ColorsTheme.of(context, listen: false).textSecondary,
         decoration: TextDecoration.underline,

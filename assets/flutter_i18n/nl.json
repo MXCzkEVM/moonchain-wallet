@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "Het account dat u probeert te importeren is een duplicaat.",
     "unable_to_launch_email_app": "Kan e-mail app niet starten",
     "max_fee": "Maximale Vergoeding",
-    "deposit_with_l3_bridge_notice": "Koop van andere beurzen en gebruik {0} om ERC20 MXC te storten in de Moonchain portemonnee",
     "buy_some_x_for_fee_notice": "Koop wat {0} om de gasprijs voor de transactie te betalen, normaal gesproken minder dan 2 USD wanneer het netwerk niet druk is.",
     "insufficient_funds_notice": "Onvoldoende saldo voor deze transactie. Voeg alsjeblieft fondsen toe.",
     "contractCall": "Contractoproep",
@@ -472,5 +471,6 @@
     "native": "Inheems",
     "see_all": "Alles bekijken",
     "enable_not_important_logs": "Schakel niet-belangrijke logboeken in",
-    "searching_for_x": "Op zoek naar {0}..."
+    "searching_for_x": "Op zoek naar {0}...",
+    "deposit_with_jannowitz_notice": "Koop van andere exchanges en gebruik {0} om ERC20 MXC naar Moonchain wallet te storten"
 }

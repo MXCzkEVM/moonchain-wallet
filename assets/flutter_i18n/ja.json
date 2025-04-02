@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "あなたがインポートしようとしているアカウントは重複しています。",
     "unable_to_launch_email_app": "メールアプリを起動できません",
     "max_fee": "最大手数料",
-    "deposit_with_l3_bridge_notice": "他の取引所から購入し、{0}を使用してERC20 MXCをMoonchainウォレットに預ける",
     "buy_some_x_for_fee_notice": "取引のガス料を支払うために{0}をいくつか購入してください。通常、ネットワークが混雑していないときは2ドル未満です。",
     "insufficient_funds_notice": "このトランザクションには残高が不足しています。資金を追加してください。",
     "contractCall": "契約の呼び出し",
@@ -472,5 +471,6 @@
     "native": "ネイティブ",
     "see_all": "すべて表示",
     "enable_not_important_logs": "重要でないログを有効にする",
-    "searching_for_x": "{0}を検索しています…"
+    "searching_for_x": "{0}を検索しています…",
+    "deposit_with_jannowitz_notice": "他の取引所から購入し、{0}を使用してERC20 MXCをムーンチェーンウォレットに預ける"
 }

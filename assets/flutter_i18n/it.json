@@ -300,7 +300,6 @@
     "duplicate_account_import_notice": "L'account che stai cercando di importare è un duplicato.",
     "unable_to_launch_email_app": "Impossibile avviare l'app di posta elettronica",
     "max_fee": "Commissione Massima",
-    "deposit_with_l3_bridge_notice": "Acquista da altri exchange e usa {0} per depositare MXC ERC20 nel portafoglio Moonchain",
     "buy_some_x_for_fee_notice": "Acquista un po' di {0} per pagare la commissione di gas per la transazione, normalmente meno di 2 USD quando la rete non è occupata.",
     "insufficient_funds_notice": "Saldo insufficiente per questa transazione. Per favore, aggiungi fondi.",
     "contractCall": "Chiamata del contratto",
@@ -472,5 +471,6 @@
     "native": "Nativo",
     "see_all": "Vedi tutto",
     "enable_not_important_logs": "Abilita i log non importanti",
-    "searching_for_x": "Ricerca di {0}..."
+    "searching_for_x": "Ricerca di {0}...",
+    "deposit_with_jannowitz_notice": "Compra da altri exchange e usa {0} per depositare ERC20 MXC sul wallet Moonchain"
 }

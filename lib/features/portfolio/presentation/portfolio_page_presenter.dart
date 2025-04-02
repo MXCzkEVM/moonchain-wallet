@@ -103,11 +103,11 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     final chainId = state.network!.chainId;
     final networkSymbol = state.network!.symbol;
     showReceiveBottomSheet(context!, walletAddress, chainId, networkSymbol, () {
-      final l3BridgeUri = Urls.networkL3Bridge(chainId);
+      final jannowitzUri = Urls.networkJannowitz(chainId);
       Navigator.of(context!).push(route.featureDialog(
         maintainState: false,
         OpenDAppPage(
-          url: l3BridgeUri,
+          url: jannowitzUri,
         ),
       ));
     }, _launcherUseCase.launchUrlInPlatformDefaultWithString, false);
