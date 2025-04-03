@@ -81,6 +81,7 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
     notify(() => state.switchTokensOrNFTs = toggle);
   }
 
+  // Enables buy button If the network is Moonchain mainnet or testnet.
   getBuyEnabled() {
     final enabledNetwork = _chainConfigurationUseCase.networks.value
         .where((element) => element.enabled)
