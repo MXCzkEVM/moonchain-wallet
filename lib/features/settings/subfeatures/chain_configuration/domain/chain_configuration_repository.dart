@@ -5,38 +5,48 @@ class ChainConfigurationRepository extends GlobalCacheRepository {
   @override
   final String zone = 'chain_configuration';
 
-  late final Field<List<Network>> networks = fieldWithDefault<List<Network>>(
-      'networks', Network.fixedNetworks(),
-      serializer: (b) => b
-          .map((e) => {
-                'logo': e.logo,
-                'web3RpcHttpUrl': e.web3RpcHttpUrl,
-                'web3RpcWebsocketUrl': e.web3RpcWebsocketUrl,
-                'web3WebSocketUrl': e.web3WebSocketUrl,
-                'symbol': e.symbol,
-                'explorerUrl': e.explorerUrl,
-                'enabled': e.enabled,
-                'label': e.label,
-                'chainId': e.chainId,
-                'isAdded': e.isAdded,
-                'networkType': e.networkType.name
-              })
-          .toList(),
-      deserializer: (b) => (b as List)
-          .map((e) => Network(
-              logo: e['logo'],
-              web3RpcHttpUrl: e['web3RpcHttpUrl'],
-              web3RpcWebsocketUrl: e['web3RpcWebsocketUrl'],
-              web3WebSocketUrl: e['web3WebSocketUrl'],
-              symbol: e['symbol'],
-              explorerUrl: e['explorerUrl'],
-              enabled: e['enabled'],
-              label: e['label'],
-              chainId: e['chainId'],
-              isAdded: e['isAdded'],
-              networkType: NetworkType.values
-                  .firstWhere((element) => element.name == e['networkType'])))
-          .toList());
+  late final Field<List<Network>> networks =
+      fieldWithDefault<List<Network>>('networks', Network.fixedNetworks(),
+          serializer: (b) => b
+              .map((e) => {
+                    'logo': e.logo,
+                    'web3RpcHttpUrl': e.web3RpcHttpUrl,
+                    'web3RpcWebsocketUrl': e.web3RpcWebsocketUrl,
+                    'web3WebSocketUrl': e.web3WebSocketUrl,
+                    'symbol': e.symbol,
+                    'explorerUrl': e.explorerUrl,
+                    'enabled': e.enabled,
+                    'label': e.label,
+                    'chainId': e.chainId,
+                    'isAdded': e.isAdded,
+                    'networkType': e.networkType.name
+                  })
+              .toList(),
+          deserializer: (b) {
+
+            final chains = (b as List)
+                .map((e) => Network(
+                    logo: e['logo'],
+                    web3RpcHttpUrl: e['web3RpcHttpUrl'],
+                    web3RpcWebsocketUrl: e['web3RpcWebsocketUrl'],
+                    web3WebSocketUrl: e['web3WebSocketUrl'],
+                    symbol: e['symbol'],
+                    explorerUrl: e['explorerUrl'],
+                    enabled: e['enabled'],
+                    label: e['label'],
+                    chainId: e['chainId'],
+                    isAdded: e['isAdded'],
+                    networkType: NetworkType.values.firstWhere(
+                        (element) => element.name == e['networkType'])))
+                .toList();
+              final i = chains.indexWhere((element) => element.enabled == true,);
+              // Handling exceptional cases
+              // If no network is enabled try handling like this.
+              if (i == -1) {
+                chains[0] = chains[0].copyWith(enabled: true);
+              }
+              return chains;
+          });
 
   late final Field<String?> selectedIpfsGateWay = fieldWithDefault<String?>(
       'selectedIpfsGateWay', null,
