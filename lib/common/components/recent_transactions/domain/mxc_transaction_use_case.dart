@@ -60,8 +60,9 @@ class MXCTransactionsUseCase extends ReactiveUseCase {
       if (element.hash != null) {
         // 1. Delete if txHash is null
         // 2. Delete if tx is token transfer
-        return tokenTransferList.indexWhere(
-                (e) => e.txHash == null ? true : e.txHash == element.hash) ==
+        return tokenTransferList.indexWhere((e) => e.transactionHash == null
+                ? true
+                : e.transactionHash == element.hash) ==
             -1;
       } else {
         return false;
