@@ -24,12 +24,9 @@ class DappCardLayout extends HookConsumerWidget {
     final actions = ref.read(appsPagePageContainer.actions);
     final dapps = state.orderedDapps;
 
-    final List<Dapp> bookmarksDapps = dapps.whereType<Bookmark>().toList();
-    final List<Dapp> nativeDapps =
-        dapps.where((e) => e.app?.providerType == ProviderType.native).toList();
-    final List<Dapp> partnerDapps = dapps
-        .where((e) => e.app?.providerType == ProviderType.thirdParty)
-        .toList();
+    final List<Dapp> bookmarksDapps = actions.getBookmarkDapps();
+    final List<Dapp> nativeDapps = actions.getNativeDapps();
+    final List<Dapp> partnerDapps = actions.getPartnerDapps();
 
     final pages = actions.calculateMaxItemsCount(
         dapps.length, mainAxisCount, crossAxisCount);
