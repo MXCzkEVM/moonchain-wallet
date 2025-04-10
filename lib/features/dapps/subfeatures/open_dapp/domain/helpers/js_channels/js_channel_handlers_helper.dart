@@ -52,19 +52,20 @@ class JsChannelHandlersHelper {
     List<dynamic> args,
     Future<dynamic> Function(
       Map<String, dynamic>,
+      BuildContext? context,
     ) callback,
   ) async {
     try {
       Map<String, dynamic> channelDataMap;
 
-      final channelData = args[0];
+      final channelData = args.isNotEmpty ? args[0] : null;
       channelDataMap = channelData == null
           ? {}
           : channelData is String
               ? json.decode(channelData) as Map<String, dynamic>
               : channelData as Map<String, dynamic>;
 
-      final callbackRes = await callback(channelDataMap);
+      final callbackRes = await callback(channelDataMap, context);
       return callbackRes;
     } catch (e) {
       if (e is BluetoothTimeoutError) {

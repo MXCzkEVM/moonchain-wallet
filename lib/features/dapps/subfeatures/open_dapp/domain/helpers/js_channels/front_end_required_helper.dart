@@ -17,6 +17,7 @@ class FrontEndRequiredHelper {
   BuildContext? context;
 
   Future<Map<String, dynamic>> handleScanQRCode(
+    Map<String, dynamic> data,
     BuildContext? context,
   ) async {
     try { 
@@ -32,19 +33,12 @@ class FrontEndRequiredHelper {
           status: AXSJSChannelResponseStatus.success,
           message: null,
           data: null);
-      // TODO: Will need to improve the this part 
+
       return response.toMap((qrCode) => {}, mappedData: {'qrCode': qrCode});
-    } catch (e) {
-      final response = AXSJSChannelResponseModel(
-          status: AXSJSChannelResponseStatus.failed,
-          data: null,
-          message: e.toString());
-      return response.toMap((data) => {'message': e.toString()});
-    }
   }
 
   Future<Map<String, dynamic>> handleGetCookies(
-      Map<String, dynamic> data) async {
+      Map<String, dynamic> data, BuildContext? context) async {
     collectLog('handleGetCookies : $data');
 
     final host = data['url'];

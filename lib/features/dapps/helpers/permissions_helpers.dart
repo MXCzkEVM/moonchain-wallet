@@ -29,10 +29,10 @@ class PermissionsHelper {
         final key = keys[i];
         final value = values[i];
 
-        // Currently since we use OS file picker and import & export are working fine 
+        // Currently since we use OS file picker and import & export are working fine
         // without storage permission we don't need to request It.
-        // Also storage permission is deprecated in Android +13, We will need to 
-        // use videos, photos, audio, manageExternalStorage permissions separately 
+        // Also storage permission is deprecated in Android +13, We will need to
+        // use videos, photos, audio, manageExternalStorage permissions separately
         // How to use? https://developer.android.com/about/versions/13/behavior-changes-13#granular-media-permissions
         if (value == 'required' && key != 'storage') {
           final permission = PermissionUtils.permissions[key];

@@ -24,6 +24,7 @@ class FrontEndRequiredListenerHelper {
 
     state.webviewController!.addJavaScriptHandler(
         handlerName: JSChannelEvents.scanQRCodeEvent,
-        callback: (args) => frontEndRequiredHelper.handleScanQRCode(context));
+        callback: (args) => jsChannelHandlerHelper.jsChannelErrorHandler(
+            args, frontEndRequiredHelper.handleScanQRCode));
   }
 }
