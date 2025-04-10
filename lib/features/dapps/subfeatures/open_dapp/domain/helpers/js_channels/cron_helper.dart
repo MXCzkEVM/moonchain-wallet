@@ -26,7 +26,9 @@ class CronHelper {
   // ready => updateSystemInfo (service statues, mining service status, time, selected miners, camera permission location permission)
 
   Future<Map<String, dynamic>> handleChangeCronTransition(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    Map<String, dynamic> channelData,
+    AXSCronServices axsCronService,
+  ) async {
     final axsCronService =
         AXSCronServicesExtension.getCronServiceFromJson(channelData);
     if (axsCronService == AXSCronServices.miningAutoClaimCron) {
@@ -122,7 +124,9 @@ class CronHelper {
   }
 
   Future<Map<String, dynamic>> handleGoToAdvancedSettingsEvent(
-      Map<String, dynamic> channelData, AXSCronServices axsCronService) async {
+    Map<String, dynamic> channelData,
+    AXSCronServices axsCronService,
+  ) async {
     goToAdvancedSettings();
     final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
         status: AXSJSChannelResponseStatus.success, message: null, data: null);

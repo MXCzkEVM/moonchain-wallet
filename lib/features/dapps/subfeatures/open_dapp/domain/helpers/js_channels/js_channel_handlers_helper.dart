@@ -24,8 +24,7 @@ class JsChannelHandlersHelper {
     Future<Map<String, dynamic>> Function(
       Map<String, dynamic>,
       AXSCronServices,
-    )
-        callback,
+    ) callback,
   ) async {
     try {
       Map<String, dynamic> channelDataMap;
@@ -35,7 +34,10 @@ class JsChannelHandlersHelper {
 
       final axsCronService =
           AXSCronServicesExtension.getCronServiceFromJson(channelDataMap);
-      final callbackRes = await callback(channelDataMap, axsCronService);
+      final callbackRes = await callback(
+        channelDataMap,
+        axsCronService,
+      );
       return callbackRes;
     } catch (e) {
       final response = AXSJSChannelResponseModel<MiningCronServiceDataModel>(
@@ -50,8 +52,7 @@ class JsChannelHandlersHelper {
     List<dynamic> args,
     Future<dynamic> Function(
       Map<String, dynamic>,
-    )
-        callback,
+    ) callback,
   ) async {
     try {
       Map<String, dynamic> channelDataMap;
