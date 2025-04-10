@@ -65,6 +65,11 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         state: state,
       );
 
+  FrontEndRequiredHelper get frontEndRequiredHelper => FrontEndRequiredHelper(
+        context: context,
+        state: state,
+      );
+
   BluetoothHelper get bluetoothHelper => BluetoothHelper(
         translate: translate,
         context: context,
@@ -85,6 +90,14 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         state: state,
         cronHelper: cronHelper,
         jsChannelHandlerHelper: jsChannelHandlersHelper,
+      );
+
+
+  FrontEndRequiredListenerHelper get frontEndRequiredListenerHelper => FrontEndRequiredListenerHelper(
+        context: context,
+        state: state,
+        jsChannelHandlerHelper: jsChannelHandlersHelper,
+        frontEndRequiredHelper: frontEndRequiredHelper,
       );
 
   BluetoothListenersHelper get bluetoothListenersHelper =>
@@ -124,13 +137,6 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         bridgeFunctionsHelper: bridgeFunctionsHelper,
         loading: (bool value) => loading = value,
         notify: notify,
-      );
-
-  FrontEndRequiredHelper get frontEndRequiredHelper =>
-      FrontEndRequiredHelper(
-        context: context,
-        jsChannelHandlerHelper: jsChannelHandlersHelper,
-        state: state,
       );
 
   @override
@@ -186,7 +192,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
     updateCurrentUrl(null);
     cronListenersHelper.injectMinerDappListeners();
     bluetoothListenersHelper.injectBluetoothListeners();
-    frontEndRequiredHelper.injectFrontEndRequiredListeners();
+    frontEndRequiredListenerHelper.injectFrontEndRequiredListeners();
   }
 
   void updateCurrentUrl(Uri? value) async {

@@ -41,6 +41,7 @@ class BluetoothHelper {
 
   Future<Map<String, dynamic>> handleBluetoothRequestDevice(
     Map<String, dynamic> channelData,
+    BuildContext? context,
   ) async {
     return (await bluetoothUseCase
             .alreadyScanningGuard<Map<String, dynamic>>(() async {
@@ -97,7 +98,8 @@ class BluetoothHelper {
           final queryName = withNames.firstOrNull;
 
           if (queryName != null) {
-            state.selectedScanResult = bluetoothUseCase.checkRingCache(queryName);
+            state.selectedScanResult =
+                bluetoothUseCase.checkRingCache(queryName);
           }
           if (state.selectedScanResult == null) {
             bluetoothUseCase.startScanning(
@@ -119,10 +121,11 @@ class BluetoothHelper {
             bluetoothUseCase.stopScanner();
           }
 
-          state.selectedScanResult = bluetoothUseCase.selectedScanResult.valueOrNull;
+          state.selectedScanResult =
+              bluetoothUseCase.selectedScanResult.valueOrNull;
           if (state.selectedScanResult != null) {
-            responseDevice =
-                BluetoothDevice.getBluetoothDeviceFromScanResult(state.selectedScanResult!);
+            responseDevice = BluetoothDevice.getBluetoothDeviceFromScanResult(
+                state.selectedScanResult!);
           }
 
           return responseDevice == null ? {} : responseDevice.toMap();
@@ -132,7 +135,9 @@ class BluetoothHelper {
 
   // GATT server
   Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerGetPrimaryService(
-      Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     collectLog('handleBluetoothRemoteGATTServerGetPrimaryService : $data');
     final selectedService = await BluetoothEntitiesUtils.getSelectedService(
         data['service'], state.selectedScanResult!);
@@ -172,7 +177,9 @@ class BluetoothHelper {
   }
 
   Future<Map<String, dynamic>> handleBluetoothRemoteGATTServerConnect(
-      Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     collectLog('handleBluetoothRemoteGATTServerConnect : $data');
     await bluetoothUseCase.connectionHandler(state.selectedScanResult!.device);
     bluetoothUseCase.initDeviceConnectionState(handleDisconnection);
@@ -196,7 +203,9 @@ class BluetoothHelper {
   // Service
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTServiceGetCharacteristic(
-          Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     collectLog('handleBluetoothRemoteGATTServiceGetCharacteristic : $data');
     final targetCharacteristicUUID = data['characteristic'];
 
@@ -223,7 +232,9 @@ class BluetoothHelper {
 
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicStartNotifications(
-          Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     collectLog(
         'handleBluetoothRemoteGATTCharacteristicStartNotifications : $data');
     final selectedService = await BluetoothEntitiesUtils.getSelectedService(
@@ -243,7 +254,9 @@ class BluetoothHelper {
 
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicStopNotifications(
-          Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     collectLog(
         'handleBluetoothRemoteGATTCharacteristicStopNotifications : $data');
     final selectedService = await BluetoothEntitiesUtils.getSelectedService(
@@ -283,24 +296,32 @@ class BluetoothHelper {
 
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicWriteValue(
-          Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     return handleWrites(data);
   }
 
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicWriteValueWithResponse(
-          Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     return handleWrites(data);
   }
 
   Future<Map<String, dynamic>>
       handleBluetoothRemoteGATTCharacteristicWriteValueWithoutResponse(
-          Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     return handleWrites(data, withResponse: false);
   }
 
   Future<dynamic> handleBluetoothRemoteGATTCharacteristicReadValue(
-      Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+    BuildContext? context,
+  ) async {
     collectLog('handleBluetoothRemoteGATTCharacteristicReadValue : $data');
     final selectedService = await BluetoothEntitiesUtils.getSelectedService(
         data['serviceUUID'], state.selectedScanResult!);
