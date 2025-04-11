@@ -124,6 +124,18 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
           DappUtils.loadingOnce = false;
           notify(() => state.loading = false);
         }
+        // Used to update dapps list for see all dapps
+        if (state.seeAllDapps != null) {
+          if (state.seeAllDapps is Bookmark) {
+            state.seeAllDapps = getBookmarkDapps();
+          } else if (state.seeAllDapps![0].app?.providerType ==
+              ProviderType.native) {
+            state.seeAllDapps = getNativeDapps();
+          } else if (state.seeAllDapps![0].app?.providerType ==
+              ProviderType.thirdParty) {
+            state.seeAllDapps = getPartnerDapps();
+          }
+        }
         notify();
       },
     );
@@ -240,7 +252,9 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
     reorderHelper.handleOnReorder(newIndex, oldIndex);
   }
 
-  selectSeeAllDApps(List<Dapp> dapps) {
+  selectSeeAllDApps(
+    List<Dapp> dapps,
+  ) {
     notify(
       () => state.seeAllDapps = dapps,
     );
@@ -251,6 +265,14 @@ class DAppsPagePresenter extends CompletePresenter<DAppsState> {
       () => state.seeAllDapps = null,
     );
   }
+
+  getBookmarkDapps() => state.orderedDapps.whereType<Bookmark>().toList();
+  getNativeDapps() => state.orderedDapps
+      .where((e) => e.app?.providerType == ProviderType.native)
+      .toList();
+  getPartnerDapps() => state.orderedDapps
+      .where((e) => e.app?.providerType == ProviderType.thirdParty)
+      .toList();
 
   @override
   Future<void> dispose() async {

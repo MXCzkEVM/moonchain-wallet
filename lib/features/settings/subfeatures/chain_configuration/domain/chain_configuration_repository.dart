@@ -14,7 +14,7 @@ class ChainConfigurationRepository extends GlobalCacheRepository {
                     'web3RpcWebsocketUrl': e.web3RpcWebsocketUrl,
                     'web3WebSocketUrl': e.web3WebSocketUrl,
                     'symbol': e.symbol,
-                    'explorerUrl': e.explorerUrl,
+                    'explorerUrl': e.explorerUrl == 'https://explorer.mxc.com/' ? 'https://explorer.moonchain.com/' : e.explorerUrl,
                     'enabled': e.enabled,
                     'label': e.label,
                     'chainId': e.chainId,
