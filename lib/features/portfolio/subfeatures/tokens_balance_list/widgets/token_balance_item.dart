@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mxc_ui/mxc_ui.dart';
+import 'package:mxc_logic/mxc_logic.dart';
 
 class TokenBalanceItem extends HookConsumerWidget {
   const TokenBalanceItem({
@@ -29,8 +30,9 @@ class TokenBalanceItem extends HookConsumerWidget {
     final walletState = ref.watch(walletContainer.state);
     String balanceInXSDConverter = walletState.xsdConversionRate == 1.0
         ? balanceInXsd
-        : (walletState.xsdConversionRate * double.parse(balanceInXsd))
-            .toString();
+        : MXCFormatter.formatNumberForUI((walletState.xsdConversionRate *
+                MXCFormatter.readDoubleFromFormattedString(balanceInXsd))
+            .toString());
     return GestureDetector(
       onTap: onTap,
       child: Container(
