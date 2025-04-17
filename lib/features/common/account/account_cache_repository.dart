@@ -31,8 +31,12 @@ class AccountCacheRepository extends GlobalCacheRepository {
   late final Field<String?> publicAddress = field('public-address');
   late final Field<String?> privateKey = field('pravate-key');
 
-  late final Field<double> xsdConversionRate =
-      fieldWithDefault('xsd-conversion-rate', 1.0);
+  late final Field<double> xsdConversionRate = fieldWithDefault(
+    'xsd-conversion-rate',
+    1.0,
+    serializer: (s) => s.toString(),
+    deserializer: (d) => double.parse(d),
+  );
 
   late final Field<List<Account>> accounts = fieldWithDefault<List<Account>>(
       'items', [],
@@ -59,6 +63,7 @@ class AccountCacheRepository extends GlobalCacheRepository {
 
   List<Account> get accountItems => accounts.value;
   Account get accountItem => account.value!;
+  double get xsdConversionRateValue => xsdConversionRate.value;
 
   void addAccount(Account item, {int? index}) {
     if (index == null) {
@@ -87,7 +92,6 @@ class AccountCacheRepository extends GlobalCacheRepository {
   void resetAccounts() => accounts.value = [];
 
   void setXsdConversionRate(double value) => xsdConversionRate.value = value;
-  double getXsdConversionRate() => xsdConversionRate.value;
 
   void clear() => cleanFields([
         publicAddress,
