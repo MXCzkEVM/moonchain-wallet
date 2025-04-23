@@ -106,11 +106,12 @@ class MoonchainWalletFireBase {
 
   static void incrementBuildTap() async {
     buildTap++;
-    if (buildTap % 2 == 0) {
+    if (buildTap == 10) {
       forceFullCrash();
-    } else {
-      forceCrash();
     }
+    //  else {
+    //   forceCrash();
+    // }
     // if (buildTap == 10) {
     //   final token = await FirebaseMessaging.instance.getToken();
     //   FlutterClipboard.copy(token ?? 'Unable to get token');

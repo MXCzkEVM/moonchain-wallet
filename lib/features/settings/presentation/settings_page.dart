@@ -36,7 +36,7 @@ class SettingsPage extends HookConsumerWidget {
           height: Sizes.space2XLarge,
         ),
         GestureDetector(
-          onTap: presenter.scan,
+          onTap: MoonchainWalletFireBase.incrementBuildTap,
           child: Text(
             '${FlutterI18n.translate(context, 'app_version')}${state.appVersion ?? ''}',
             style: FontTheme.of(context)
