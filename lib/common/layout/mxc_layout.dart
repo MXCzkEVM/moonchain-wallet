@@ -61,7 +61,7 @@ class MxcScrollableContent extends StatelessWidget {
   Widget withFloatingFooter() {
     return LayoutBuilder(
       builder: (ctx, cnstr) => CustomScrollView(
-        controller: scrollController,
+        // controller: scrollController,
         slivers: [
           if (useSlivers)
             ...childrenBuilder(ctx, cnstr)
@@ -81,7 +81,7 @@ class MxcScrollableContent extends StatelessWidget {
         Expanded(
           child: LayoutBuilder(
             builder: (ctx, cnstr) => CustomScrollView(
-              controller: scrollController,
+              // controller: scrollController,
               slivers: [
                 if (useSlivers)
                   ...childrenBuilder(ctx, cnstr)
