@@ -101,6 +101,12 @@ class MxcPageLayer extends MxcPage {
               BottomFlowDialog.maybeOf(context)?.overscrollValue.value ?? 0,
         );
 
+    final scrollController2 = 
+        useScrollController(
+          initialScrollOffset:
+              BottomFlowDialog.maybeOf(context)?.overscrollValue.value ?? 0,
+        );
+
     useEffect(
       () {
         final dialog = BottomFlowDialog.maybeOf(context);
@@ -143,128 +149,131 @@ class MxcPageLayer extends MxcPage {
       [scrollController, BottomFlowDialog.maybeOf(context)],
     );
 
-    return MxcScrollableContent(
-      scrollController: scrollController,
-      useSlivers: true,
-      footer: footer == null
-          ? Container(
-              color: backgroundColor ??
-                  ColorsTheme.of(context).layerSheetBackground,
-            )
-          : Container(
-              color: backgroundColor ??
-                  ColorsTheme.of(context).layerSheetBackground,
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: (useFooterPadding
-                        ? MxcScrollableContent.defaultFooterPadding(fixedFooter)
-                        : EdgeInsets.zero)
-                    .copyWith(
-                  bottom: MediaQueryData.fromView(window).padding.bottom +
-                      (useFooterPadding
-                          ? MxcScrollableContent.defaultFooterPadding(
-                                  fixedFooter)
-                              .bottom
-                          : EdgeInsets.zero.bottom),
+    return PrimaryScrollController(
+      controller: scrollController2,
+      child: MxcScrollableContent(
+        scrollController: scrollController,
+        useSlivers: true,
+        footer: footer == null
+            ? Container(
+                color: backgroundColor ??
+                    ColorsTheme.of(context).layerSheetBackground,
+              )
+            : Container(
+                color: backgroundColor ??
+                    ColorsTheme.of(context).layerSheetBackground,
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: (useFooterPadding
+                          ? MxcScrollableContent.defaultFooterPadding(fixedFooter)
+                          : EdgeInsets.zero)
+                      .copyWith(
+                    bottom: MediaQueryData.fromView(window).padding.bottom +
+                        (useFooterPadding
+                            ? MxcScrollableContent.defaultFooterPadding(
+                                    fixedFooter)
+                                .bottom
+                            : EdgeInsets.zero.bottom),
+                  ),
+                  child: footer,
                 ),
-                child: footer,
               ),
+        footerPadding: EdgeInsets.zero,
+        fixedFooter: fixedFooter,
+        usePadding: false,
+        childrenBuilder: (ctx, cnstr) => [
+          if (onRefresh != null) ...[
+            CupertinoSliverRefreshControl(
+              onRefresh: onRefresh,
+              builder: (
+                ctx,
+                refreshState,
+                pulledExtent,
+                refreshTriggerPullDistance,
+                refreshIndicatorExtent,
+              ) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.only(top: initialBottomFlowDialogOffset),
+                  child: CupertinoSliverRefreshControl.buildRefreshIndicator(
+                    ctx,
+                    refreshState,
+                    pulledExtent,
+                    refreshTriggerPullDistance,
+                    refreshIndicatorExtent,
+                  ),
+                );
+              },
             ),
-      footerPadding: EdgeInsets.zero,
-      fixedFooter: fixedFooter,
-      usePadding: false,
-      childrenBuilder: (ctx, cnstr) => [
-        if (onRefresh != null) ...[
-          CupertinoSliverRefreshControl(
-            onRefresh: onRefresh,
-            builder: (
-              ctx,
-              refreshState,
-              pulledExtent,
-              refreshTriggerPullDistance,
-              refreshIndicatorExtent,
-            ) {
-              return Padding(
-                padding:
-                    const EdgeInsets.only(top: initialBottomFlowDialogOffset),
-                child: CupertinoSliverRefreshControl.buildRefreshIndicator(
-                  ctx,
-                  refreshState,
-                  pulledExtent,
-                  refreshTriggerPullDistance,
-                  refreshIndicatorExtent,
+          ],
+          SliverPadding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).viewPadding.top +
+                  initialBottomFlowDialogOffset,
+            ),
+            sliver: SliverStack(
+              children: [
+                AnimatedBuilder(
+                  animation: scrollController,
+                  builder: (ctx, w) => SliverPositioned.fill(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(
+                          BottomFlowDialog.maybeOf(context)
+                                  ?.expectedBorderRadius ??
+                              bottomFlowDialogRoundedCornersRadius,
+                        ),
+                        topRight: Radius.circular(
+                          BottomFlowDialog.maybeOf(context)
+                                  ?.expectedBorderRadius ??
+                              bottomFlowDialogRoundedCornersRadius,
+                        ),
+                      ),
+                      child: ColoredBox(
+                        color: backgroundColor ??
+                            ColorsTheme.of(context).layerSheetBackground,
+                      ),
+                    ),
+                  ),
                 ),
-              );
-            },
+                MultiSliver(
+                  children: [
+                    if (appBar != null)
+                      SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            appBar!,
+                            const SizedBox(height: 16),
+                          ],
+                        ),
+                      ),
+                    SliverLayoutBuilder(
+                      builder: (ctx, sliverCnstr) => buildChildrenAsSliver(
+                        layout == LayoutType.column2
+                            ? BoxConstraints(
+                                maxHeight: cnstr.maxHeight -
+                                    sliverCnstr.precedingScrollExtent -
+                                    (footer == null ? 32 : 0),
+                                maxWidth: cnstr.maxWidth,
+                              )
+                            : null,
+                      ),
+                    ),
+                    if (footer == null && layout != LayoutType.column2)
+                      const SliverPadding(padding: EdgeInsets.only(top: 32))
+                    else if (fixedFooter)
+                      SliverFillRemaining(
+                        hasScrollBody: false,
+                        fillOverscroll: true,
+                        child: Container(height: 1),
+                      ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
-        SliverPadding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).viewPadding.top +
-                initialBottomFlowDialogOffset,
-          ),
-          sliver: SliverStack(
-            children: [
-              AnimatedBuilder(
-                animation: scrollController,
-                builder: (ctx, w) => SliverPositioned.fill(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(
-                        BottomFlowDialog.maybeOf(context)
-                                ?.expectedBorderRadius ??
-                            bottomFlowDialogRoundedCornersRadius,
-                      ),
-                      topRight: Radius.circular(
-                        BottomFlowDialog.maybeOf(context)
-                                ?.expectedBorderRadius ??
-                            bottomFlowDialogRoundedCornersRadius,
-                      ),
-                    ),
-                    child: ColoredBox(
-                      color: backgroundColor ??
-                          ColorsTheme.of(context).layerSheetBackground,
-                    ),
-                  ),
-                ),
-              ),
-              MultiSliver(
-                children: [
-                  if (appBar != null)
-                    SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          appBar!,
-                          const SizedBox(height: 16),
-                        ],
-                      ),
-                    ),
-                  SliverLayoutBuilder(
-                    builder: (ctx, sliverCnstr) => buildChildrenAsSliver(
-                      layout == LayoutType.column2
-                          ? BoxConstraints(
-                              maxHeight: cnstr.maxHeight -
-                                  sliverCnstr.precedingScrollExtent -
-                                  (footer == null ? 32 : 0),
-                              maxWidth: cnstr.maxWidth,
-                            )
-                          : null,
-                    ),
-                  ),
-                  if (footer == null && layout != LayoutType.column2)
-                    const SliverPadding(padding: EdgeInsets.only(top: 32))
-                  else if (fixedFooter)
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      fillOverscroll: true,
-                      child: Container(height: 1),
-                    ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 

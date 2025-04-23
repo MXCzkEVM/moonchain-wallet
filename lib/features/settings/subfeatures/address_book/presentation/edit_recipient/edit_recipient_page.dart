@@ -66,43 +66,47 @@ class EditRecipientPage extends HookConsumerWidget {
                 },
               ),
               MxcTextField(
-                  key: const ValueKey('addressTextField'),
-                  label: '${translate('address_or_mns')} *',
-                  hint: translate('wallet_address_or_mns'),
-                  controller: ref.read(presenter).addressController,
-                  action: TextInputAction.done,
-                  errorText: ref.watch(state).errorText,
-                  validator: (value) {
-                    final res = Validation.notEmpty(
-                        context,
-                        value,
-                        translate('x_not_empty')
-                            .replaceFirst('{0}', translate('address_or_mns')));
-                    if (res != null) return res;
+                key: const ValueKey('addressTextField'),
+                label: '${translate('address_or_mns')} *',
+                hint: translate('wallet_address_or_mns'),
+                controller: ref.read(presenter).addressController,
+                action: TextInputAction.done,
+                errorText: ref.watch(state).errorText,
+                validator: (value) {
+                  final res = Validation.notEmpty(
+                      context,
+                      value,
+                      translate('x_not_empty')
+                          .replaceFirst('{0}', translate('address_or_mns')));
+                  if (res != null) return res;
 
-                    if (value!.startsWith('0x')) {
-                      return Validation.checkEthereumAddress(context, value);
-                    } else {
-                      return Validation.checkMnsValidation(context, value);
-                    }
+                  if (value!.startsWith('0x')) {
+                    return Validation.checkEthereumAddress(context, value);
+                  } else {
+                    return Validation.checkMnsValidation(context, value);
+                  }
+                },
+                suffixButton: MxcTextFieldButton.icon(
+                  icon: MxcIcons.qr_code,
+                  onTap: () async {
+                    String qrCode = await Navigator.of(context).push(
+                      route(
+                        const QrScannerPage(
+                          returnQrCode: true,
+                        ),
+                      ),
+                    );
+                    ref.read(presenter).addressController.text = qrCode;
+                    formKey.currentState!.validate();
                   },
-                  suffixButton: MxcTextFieldButton.icon(
-                    icon: MxcIcons.qr_code,
-                    onTap: () async {
-                      String qrCode = await Navigator.of(context)
-                          .push(route(const QrScannerPage(
-                        returnQrCode: true,
-                      )));
-                      ref.read(presenter).addressController.text = qrCode;
-                      formKey.currentState!.validate();
-                    },
-                  ),
-                  onFocused: (focused) {
-                    ref.read(presenter).resetValidation();
-                    if (!focused) {
-                      if (!focused) formKey.currentState!.validate();
-                    }
-                  }),
+                ),
+                onFocused: (focused) {
+                  ref.read(presenter).resetValidation();
+                  if (!focused) {
+                    if (!focused) formKey.currentState!.validate();
+                  }
+                },
+              ),
               if (editFlow) ...[
                 const SizedBox(height: Sizes.spaceXLarge),
                 MxcButton.plain(
