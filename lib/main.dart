@@ -39,10 +39,16 @@ void main() async {
       const fatalError = true;
       var onError = FlutterError.onError;
       // Non-async exceptions
-      FlutterError.onError = (errorDetails) {
+      FlutterError.onError = (errorDetails) { 
         onError?.call(errorDetails);
         reportErrorAndLog(errorDetails);
-        if (fatalError) {
+        if (fatalError) {  
+          // This error should be fixed on latest Flutter version
+          // But since we don't want to upgrade the version for now, we will ignore this error
+          final bool isGpuError = errorDetails.exception.toString().contains('Image upload failed due to loss of GPU access');
+          if (isGpuError) {
+            return;
+          }
           // If you want to record a "fatal" exception
           FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
           // ignore: dead_code
