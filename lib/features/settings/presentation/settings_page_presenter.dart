@@ -51,7 +51,7 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
   }
 
   void scan() async {
-    final connectedDevicesList = bluetoothUseCase.getConnectedDevices();
+    // final connectedDevicesList = bluetoothUseCase.getConnectedDevices();
     // print(connectedDevicesList);
     // await blueberryRingUseCase.getBlueberryRingsNearby(context!);
     // print(blueberryRingUseCase.selectedBlueberryRing.valueOrNull);
@@ -63,12 +63,5 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     // final cnstate = await ring.device.connectionState.last;
     // await blueberryRingUseCase.connectToBlueberryRing();
     // blueberryRingUseCase.connectToBlueberryRing();
-  }
-
-  void testOnly() async {
-    // await blueberryRingBackgroundNotificationsUseCase.checkLowBattery();
-    // await blueberryRingBackgroundNotificationsUseCase.checkActivityReminder();
-    // await blueberryRingBackgroundNotificationsUseCase.checkSleepInsight();
-    // await blueberryRingBackgroundNotificationsUseCase.checkHeartAlert();
   }
 }
