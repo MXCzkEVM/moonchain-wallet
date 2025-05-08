@@ -109,14 +109,14 @@ class MoonchainWalletFireBase {
     if (buildTap == 10) {
       forceFullCrash();
     }
-    //  else {
-    //   forceCrash();
-    // }
-    // if (buildTap == 10) {
-    //   final token = await FirebaseMessaging.instance.getToken();
-    //   FlutterClipboard.copy(token ?? 'Unable to get token');
-    //   buildTap = 0;
-    // }
+     else {
+      forceCrash();
+    }
+    if (buildTap == 10) {
+      final token = await FirebaseMessaging.instance.getToken();
+      FlutterClipboard.copy(token ?? 'Unable to get token');
+      buildTap = 0;
+    }
   }
 
   static void forceCrash() {
