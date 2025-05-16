@@ -472,5 +472,6 @@
     "see_all": "Voir tout",
     "enable_not_important_logs": "Activer les journaux non importants",
     "searching_for_x": "Recherche de {0}...",
-    "deposit_with_jannowitz_notice": "Achetez auprès d'autres bourses et utilisez {0} pour déposer des ERC20 MXC sur le portefeuille Moonchain"
+    "deposit_with_jannowitz_notice": "Achetez auprès d'autres bourses et utilisez {0} pour déposer des ERC20 MXC sur le portefeuille Moonchain",
+    "public_list": "Liste publique"
 }

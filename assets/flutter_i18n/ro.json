@@ -472,5 +472,6 @@
     "see_all": "Vezi toate",
     "enable_not_important_logs": "Activează jurnalele neimportante",
     "searching_for_x": "Căutare pentru {0}...",
-    "deposit_with_jannowitz_notice": "Cumpărați de la alte burse și utilizați {0} pentru a depune ERC20 MXC în portofelul Moonchain"
+    "deposit_with_jannowitz_notice": "Cumpărați de la alte burse și utilizați {0} pentru a depune ERC20 MXC în portofelul Moonchain",
+    "public_list": "Listă publică"
 }

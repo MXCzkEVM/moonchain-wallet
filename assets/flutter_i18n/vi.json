@@ -472,5 +472,6 @@
     "see_all": "Xem tất cả",
     "enable_not_important_logs": "Bật nhật ký không quan trọng",
     "searching_for_x": "Đang tìm kiếm {0}...",
-    "deposit_with_jannowitz_notice": "Mua từ các sàn giao dịch khác và sử dụng {0} để gửi ERC20 MXC vào ví Moonchain"
+    "deposit_with_jannowitz_notice": "Mua từ các sàn giao dịch khác và sử dụng {0} để gửi ERC20 MXC vào ví Moonchain",
+    "public_list": "Danh sách công khai"
 }

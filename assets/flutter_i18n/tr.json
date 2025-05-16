@@ -472,5 +472,6 @@
     "see_all": "Hepsini Gör",
     "enable_not_important_logs": "Önemli olmayan günlükleri etkinleştir",
     "searching_for_x": "{0} arıyorum...",
-    "deposit_with_jannowitz_notice": "Diğer borsalardan satın alın ve ERC20 MXC'yi Moonchain cüzdanına yatırmak için {0} kullanın"
+    "deposit_with_jannowitz_notice": "Diğer borsalardan satın alın ve ERC20 MXC'yi Moonchain cüzdanına yatırmak için {0} kullanın",
+    "public_list": "Kamu listesi"
 }

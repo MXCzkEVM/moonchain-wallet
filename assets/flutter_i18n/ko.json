@@ -472,5 +472,6 @@
     "see_all": "모두 보기",
     "enable_not_important_logs": "중요하지 않은 로그 활성화",
     "searching_for_x": "{0}을 검색 중입니다...",
-    "deposit_with_jannowitz_notice": "다른 거래소에서 구매하고 {0}을 사용하여 ERC20 MXC를 문체인 지갑에 입금하십시오"
+    "deposit_with_jannowitz_notice": "다른 거래소에서 구매하고 {0}을 사용하여 ERC20 MXC를 문체인 지갑에 입금하십시오",
+    "public_list": "공개 목록"
 }

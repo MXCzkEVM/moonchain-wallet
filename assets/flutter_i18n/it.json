@@ -472,5 +472,6 @@
     "see_all": "Vedi tutto",
     "enable_not_important_logs": "Abilita i log non importanti",
     "searching_for_x": "Ricerca di {0}...",
-    "deposit_with_jannowitz_notice": "Compra da altri exchange e usa {0} per depositare ERC20 MXC sul wallet Moonchain"
+    "deposit_with_jannowitz_notice": "Compra da altri exchange e usa {0} per depositare ERC20 MXC sul wallet Moonchain",
+    "public_list": "Lista pubblica"
 }
