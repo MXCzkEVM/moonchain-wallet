@@ -83,20 +83,19 @@ class PortfolioPresenter extends CompletePresenter<PortfolioState> {
 
   // Enables buy button If the network is Moonchain mainnet or testnet.
   getBuyEnabled() {
-    final enabledNetwork = _chainConfigurationUseCase.networks.value
-        .where((element) => element.enabled)
-        .toList()[0];
-    if (enabledNetwork.chainId == Config.mxcTestnetChainId) {
-      notify(() => state.buyEnabled = true);
-    } else if (enabledNetwork.chainId == Config.mxcMainnetChainId) {
-      notify(() => state.buyEnabled = true);
-    } else {
-      notify(() => state.buyEnabled = false);
-    }
+    final enabledNetwork =
+        _chainConfigurationUseCase.getCurrentNetworkWithoutRefresh();
+    MXCChains.isMXCChains(enabledNetwork.chainId)
+        ? notify(() => state.buyEnabled = true)
+        : notify(() => state.buyEnabled = false);
   }
 
   String? getNftMarketPlaceUrl() {
     return _launcherUseCase.getNftMarketPlaceUrl();
+  }
+
+  void launchTokenListRepo() {
+    _launcherUseCase.launchTokenListRepo();
   }
 
   void showReceiveSheet() {
