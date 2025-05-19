@@ -472,5 +472,6 @@
     "see_all": "Lihat semua",
     "enable_not_important_logs": "Aktifkan log yang tidak penting",
     "searching_for_x": "Mencari {0}...",
-    "deposit_with_jannowitz_notice": "Beli dari bursa lain dan gunakan {0} untuk menyetor ERC20 MXC ke dompet Moonchain"
+    "deposit_with_jannowitz_notice": "Beli dari bursa lain dan gunakan {0} untuk menyetor ERC20 MXC ke dompet Moonchain",
+    "public_list": "Daftar publik"
 }

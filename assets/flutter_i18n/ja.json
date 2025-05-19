@@ -472,5 +472,6 @@
     "see_all": "すべて表示",
     "enable_not_important_logs": "重要でないログを有効にする",
     "searching_for_x": "{0}を検索しています…",
-    "deposit_with_jannowitz_notice": "他の取引所から購入し、{0}を使用してERC20 MXCをムーンチェーンウォレットに預ける"
+    "deposit_with_jannowitz_notice": "他の取引所から購入し、{0}を使用してERC20 MXCをムーンチェーンウォレットに預ける",
+    "public_list": "公開リスト"
 }

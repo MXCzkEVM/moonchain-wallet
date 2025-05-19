@@ -472,5 +472,6 @@
 	"native": "Native",
 	"see_all": "See all",
 	"enable_not_important_logs": "Enable not important logs",
-	"searching_for_x": "Searching for {0}..."
+	"searching_for_x": "Searching for {0}...",
+	"public_list": "Public list"
 }

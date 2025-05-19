@@ -472,5 +472,6 @@
     "see_all": "全部顯示",
     "enable_not_important_logs": "啟用非重要日誌",
     "searching_for_x": "搜尋中 {0}...",
-    "deposit_with_jannowitz_notice": "從其他交易所購買並使用 {0} 將 ERC20 MXC 存入 Moonchain 錢包"
+    "deposit_with_jannowitz_notice": "從其他交易所購買並使用 {0} 將 ERC20 MXC 存入 Moonchain 錢包",
+    "public_list": "公開列表"
 }

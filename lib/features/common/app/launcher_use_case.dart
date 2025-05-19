@@ -21,6 +21,8 @@ class LauncherUseCase extends ReactiveUseCase {
   final AccountUseCase _accountUseCase;
   final ChainConfigurationUseCase _chainConfigurationUseCase;
 
+  int chainId() => _chainConfigurationUseCase.selectedNetwork.value!.chainId;
+
   void viewTransactions(List<TransactionModel>? txList) async {
     // Account should have tx
     if (txList != null && txList.isNotEmpty) {
@@ -117,6 +119,10 @@ class LauncherUseCase extends ReactiveUseCase {
 
   Future<void> launchMXCWalletTermsConditions() async {
     await launchUrlInExternalAppWithString(Urls.mxcWalletTermsConditions);
+  }
+
+  Future<void> launchTokenListRepo() async {
+    await launchUrlInExternalAppWithString(Urls.getTokenListRepoUrl(chainId()));
   }
 
   void openTelegram() => launchUrlInPlatformDefaultWithString(Urls.telegram);
