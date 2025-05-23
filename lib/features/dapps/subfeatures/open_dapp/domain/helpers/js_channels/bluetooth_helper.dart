@@ -8,6 +8,7 @@ import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/dapp_hooks/dapp_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as blue_plus;
+import 'package:mxc_logic/mxc_logic.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import '../../../open_dapp.dart';
@@ -25,6 +26,7 @@ class BluetoothHelper {
     required this.loading,
     required this.characteristicListenerTimer,
     required characteristicValueStreamSubscription,
+    required this.currentUrl,
   });
 
   OpenDAppState state;
@@ -38,6 +40,7 @@ class BluetoothHelper {
   void Function(bool v) loading;
   Timer? characteristicListenerTimer;
   StreamSubscription<List<int>>? characteristicValueStreamSubscription;
+  Uri currentUrl;
 
   Future<Map<String, dynamic>> handleBluetoothRequestDevice(
     Map<String, dynamic> channelData,
@@ -115,9 +118,19 @@ class BluetoothHelper {
             );
 
             const equality = ListEquality<String>();
-            final isRegisterRing =
-                equality.equals(withKeywords, blueberryRingGeneralSearch);
-            await getBlueberryRing(isRegisterRing);
+            final isMiningDapp = -1 !=
+                Urls.getRingDappUrls().indexWhere(
+                  (element) =>
+                      Uri.parse(element).host == currentUrl.host,
+                );
+            bool showNearbyBottomSheet = true;
+            if (isMiningDapp) {
+              final isRegisterRing =
+                  equality.equals(withKeywords, blueberryRingGeneralSearch);
+              showNearbyBottomSheet = isRegisterRing;
+            }
+
+            await getBlueberryRing(showNearbyBottomSheet);
             bluetoothUseCase.stopScanner();
           }
 

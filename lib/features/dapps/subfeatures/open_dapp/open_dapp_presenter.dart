@@ -83,6 +83,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         characteristicListenerTimer: characteristicListenerTimer,
         characteristicValueStreamSubscription:
             characteristicValueStreamSubscription,
+        currentUrl: state.currentUrl ?? initialUrl ?? Uri.parse('https://google.com'), 
       );
 
   CronListenersHelper get cronListenersHelper => CronListenersHelper(
@@ -204,7 +205,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   }
 
   void copyUrl() {
-    FlutterClipboard.copy(state.currentUrl.toString()).then((value) => null);
+    FlutterClipboard.copy(state.currentUrl!.toString()).then((value) => null);
 
     showSnackBar(context: context!, content: translate('copied') ?? '');
   }
