@@ -243,6 +243,7 @@ final Provider<CustomTokensUseCase> customTokensUseCaseProvider = Provider(
   (ref) => CustomTokensUseCase(
     ref.watch(globalCacheProvider).globalCustomTokensRepository,
     ref.watch(datadashCacheProvider).custonTokens,
+    ref.watch(accountUseCaseProvider),
   ),
 );
 
