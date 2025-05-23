@@ -46,13 +46,13 @@ class NetworkUnavailableUseCase {
     final stopwatch = Stopwatch()..start();
     try {
       final result = await InternetAddress.lookup('google.com')
-          .timeout(timeout); // Fail fast if DNS resolution is slow
+          .timeout(timeout); 
       stopwatch.stop();
 
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         final latencyMs = stopwatch.elapsedMilliseconds;
         collectLog('DNS latency: $latencyMs ms');
-        return latencyMs > 800; // Arbitrary threshold for "weak" connection
+        return latencyMs > 800; 
       }
     } catch (_) {
       stopwatch.stop();

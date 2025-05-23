@@ -1,7 +1,7 @@
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/common/common.dart';
-import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/domain.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_token_state.dart';
@@ -20,7 +20,6 @@ class AddTokenPresenter extends CompletePresenter<AddTokenState> {
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController symbolController = TextEditingController();
   late final TextEditingController decimalController = TextEditingController();
-
 
   void onChanged(String value) async {
     loading = true;
