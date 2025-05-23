@@ -1,11 +1,10 @@
+// We will need to remove this repository when we migrate to the new one Date changed: 2025-05-23
 import 'package:mxc_logic/mxc_logic.dart';
 import 'package:moonchain_wallet/core/core.dart';
 
-// NOTE: This repository is used to store custom tokens that are not specific to a account. It is used to store tokens that are used in the app globally, but not specific to a account.
-// We are migrating from custom token repo to this repo 
-class GlobalCustomTokensRepository extends GlobalCacheRepository {
+class CustomTokensRepository extends ControlledCacheRepository {
   @override
-  final String zone = 'global-custom-token';
+  final String zone = 'custom-token';
 
   late final Field<List<Token>> tokens = fieldWithDefault<List<Token>>(
     'items',

@@ -1,16 +1,16 @@
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:mxc_logic/mxc_logic.dart';
 
+import 'custom_tokens_repository_temp.dart';
 import 'custom_tokens_repository.dart';
-import 'global_custom_tokens_repository.dart';
 
 class CustomTokensUseCase extends ReactiveUseCase {
-  CustomTokensUseCase(this._repository, this._customTokensRepository) {
+  CustomTokensUseCase(this._repository, this._customTokensRepositoryTemp) {
     mergeCustomTokensRepo();
   }
 
   final GlobalCustomTokensRepository _repository;
-  final CustomTokensRepository _customTokensRepository;
+  final CustomTokensRepository _customTokensRepositoryTemp;
 
   late final ValueStream<List<Token>> tokens =
       reactiveField(_repository.tokens);
@@ -34,16 +34,16 @@ class CustomTokensUseCase extends ReactiveUseCase {
 
   void mergeCustomTokensRepo() {
     print('Trying to merge custom tokens repo with global custom tokens repo');
-    print('Custom tokens repo: ${_customTokensRepository.items}');
-    print('global custom tokens repo: ${_customTokensRepository.items}');
-    for (var element in _customTokensRepository.tokens.value) {
+    print('Custom tokens repo: ${_customTokensRepositoryTemp.items}');
+    print('global custom tokens repo: ${_repository.items}');
+    for (var element in _customTokensRepositoryTemp.tokens.value) {
       if (!_repository.items.contains(element)) {
         _repository.addItem(element);
-        _customTokensRepository.removeItem(element);
+        _customTokensRepositoryTemp.removeItem(element);
       }
     }
     print('Merged custom tokens repo with global custom tokens repo');
-    print('Custom tokens repo: ${_customTokensRepository.items}');
-    print('global custom tokens repo: ${_customTokensRepository.items}');
+    print('Custom tokens repo: ${_customTokensRepositoryTemp.items}');
+    print('global custom tokens repo: ${_repository.items}');
   }
 }
