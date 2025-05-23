@@ -6,7 +6,7 @@ import 'package:moonchain_wallet/core/core.dart';
 // TODO: Remove global from begging 
 class GlobalCustomTokensRepository extends GlobalCacheRepository {
   @override
-  final String zone = 'custom-tokens';
+  final String zone = 'global-custom-tokens';
 
   late final Field<List<Token>> tokens = fieldWithDefault<List<Token>>(
     'items',
