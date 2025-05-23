@@ -4,8 +4,8 @@ import 'package:mxc_logic/mxc_logic.dart';
 import 'custom_tokens_repository.dart';
 import 'global_custom_tokens_repository.dart';
 
-class GlobalCustomTokensUseCase extends ReactiveUseCase {
-  GlobalCustomTokensUseCase(this._repository, this._customTokensRepository){
+class CustomTokensUseCase extends ReactiveUseCase {
+  CustomTokensUseCase(this._repository, this._customTokensRepository) {
     mergeCustomTokensRepo();
   }
 
@@ -31,7 +31,7 @@ class GlobalCustomTokensUseCase extends ReactiveUseCase {
     _repository.removeAll();
     update(tokens, _repository.items);
   }
-  
+
   void mergeCustomTokensRepo() {
     print('Trying to merge custom tokens repo with global custom tokens repo');
     print('Custom tokens repo: ${_customTokensRepository.items}');

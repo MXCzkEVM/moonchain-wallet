@@ -15,7 +15,7 @@ class BridgeFunctionsHelper {
     required this.context,
     required this.translate,
     required this.navigator,
-    required this.globalCustomTokensUseCase,
+    required this.customTokensUseCase,
     required this.tokenContractUseCase,
     required this.transactionHistoryUseCase,
     required this.chainConfigurationUseCase,
@@ -25,7 +25,7 @@ class BridgeFunctionsHelper {
 
   OpenDAppState state;
   TokenContractUseCase tokenContractUseCase;
-  GlobalCustomTokensUseCase globalCustomTokensUseCase;
+  CustomTokensUseCase customTokensUseCase;
   TransactionsHistoryUseCase transactionHistoryUseCase;
   ChainConfigurationUseCase chainConfigurationUseCase;
   NavigatorState? navigator;
@@ -128,7 +128,7 @@ class BridgeFunctionsHelper {
   bool addAsset(Token token) {
     loading(true);
     try {
-      globalCustomTokensUseCase.addItem(token);
+      customTokensUseCase.addItem(token);
       return true;
     } catch (error, stackTrace) {
       addError(error, stackTrace);

@@ -239,9 +239,8 @@ final Provider<LogsConfigUseCase> logsConfigUseCaseProvider = Provider(
   ),
 );
 
-final Provider<GlobalCustomTokensUseCase> globalCustomTokensUseCaseProvider =
-    Provider(
-  (ref) => GlobalCustomTokensUseCase(
+final Provider<CustomTokensUseCase> customTokensUseCaseProvider = Provider(
+  (ref) => CustomTokensUseCase(
     ref.watch(globalCacheProvider).globalCustomTokensRepository,
     ref.watch(datadashCacheProvider).custonTokens,
   ),

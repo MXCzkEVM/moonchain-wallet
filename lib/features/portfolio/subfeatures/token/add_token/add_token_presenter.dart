@@ -15,8 +15,8 @@ class AddTokenPresenter extends CompletePresenter<AddTokenState> {
 
   late final TokenContractUseCase _tokenContractUseCase =
       ref.read(tokenContractUseCaseProvider);
-  late final GlobalCustomTokensUseCase _globalCustomTokensUseCase =
-      ref.read(globalCustomTokensUseCaseProvider);
+  late final CustomTokensUseCase _customTokensUseCase =
+      ref.read(customTokensUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController symbolController = TextEditingController();
   late final TextEditingController decimalController = TextEditingController();
@@ -39,7 +39,7 @@ class AddTokenPresenter extends CompletePresenter<AddTokenState> {
   Future<void> onSave() async {
     loading = true;
     try {
-      _globalCustomTokensUseCase.addItem(state.token!);
+      _customTokensUseCase.addItem(state.token!);
       BottomFlowDialog.of(context!).close();
     } catch (error, stackTrace) {
       addError(error, stackTrace);
