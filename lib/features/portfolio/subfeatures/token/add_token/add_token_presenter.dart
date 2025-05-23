@@ -1,7 +1,7 @@
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:moonchain_wallet/features/common/common.dart';
-import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/domain.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
 import 'add_token_state.dart';
@@ -15,12 +15,11 @@ class AddTokenPresenter extends CompletePresenter<AddTokenState> {
 
   late final TokenContractUseCase _tokenContractUseCase =
       ref.read(tokenContractUseCaseProvider);
-  late final CustomTokensUseCase _customTokensUseCase =
-      ref.read(customTokensUseCaseProvider);
+  late final GlobalCustomTokensUseCase _globalCustomTokensUseCase =
+      ref.read(globalCustomTokensUseCaseProvider);
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController symbolController = TextEditingController();
   late final TextEditingController decimalController = TextEditingController();
-
 
   void onChanged(String value) async {
     loading = true;
@@ -40,7 +39,7 @@ class AddTokenPresenter extends CompletePresenter<AddTokenState> {
   Future<void> onSave() async {
     loading = true;
     try {
-      _customTokensUseCase.addItem(state.token!);
+      _globalCustomTokensUseCase.addItem(state.token!);
       BottomFlowDialog.of(context!).close();
     } catch (error, stackTrace) {
       addError(error, stackTrace);

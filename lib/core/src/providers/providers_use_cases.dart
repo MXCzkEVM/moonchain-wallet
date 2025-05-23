@@ -5,6 +5,7 @@ import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/dapps/domain/domain.dart';
 import 'package:moonchain_wallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
 import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/domain.dart';
 import 'package:moonchain_wallet/features/settings/domain/app_version_use_case.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/address_book/address_book.dart';
 import 'package:moonchain_wallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
@@ -235,6 +236,14 @@ final Provider<LauncherUseCase> launcherUseCaseProvider = Provider(
 final Provider<LogsConfigUseCase> logsConfigUseCaseProvider = Provider(
   (ref) => LogsConfigUseCase(
     ref.watch(globalCacheProvider).logsConfigRepository,
+  ),
+);
+
+final Provider<GlobalCustomTokensUseCase> globalCustomTokensUseCaseProvider =
+    Provider(
+  (ref) => GlobalCustomTokensUseCase(
+    ref.watch(globalCacheProvider).globalCustomTokensRepository,
+    ref.watch(datadashCacheProvider).custonTokens,
   ),
 );
 

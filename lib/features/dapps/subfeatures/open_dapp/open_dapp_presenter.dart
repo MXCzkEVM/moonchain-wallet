@@ -27,7 +27,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
   late final _tokenContractUseCase = ref.read(tokenContractUseCaseProvider);
   late final _accountUseCase = ref.read(accountUseCaseProvider);
   late final _authUseCase = ref.read(authUseCaseProvider);
-  late final _customTokensUseCase = ref.read(customTokensUseCaseProvider);
+  late final _globalCustomTokensUseCase = ref.read(globalCustomTokensUseCaseProvider);
   late final _errorUseCase = ref.read(errorUseCaseProvider);
   late final _launcherUseCase = ref.read(launcherUseCaseProvider);
   late final _dAppHooksUseCase = ref.read(dAppHooksUseCaseProvider);
@@ -119,7 +119,7 @@ class OpenDAppPresenter extends CompletePresenter<OpenDAppState> {
         chainConfigurationUseCase: _chainConfigurationUseCase,
         tokenContractUseCase: _tokenContractUseCase,
         transactionHistoryUseCase: _transactionHistoryUseCase,
-        customTokensUseCase: _customTokensUseCase,
+        globalCustomTokensUseCase: _globalCustomTokensUseCase,
         loading: (bool value) => loading = value,
         navigator: navigator,
       );

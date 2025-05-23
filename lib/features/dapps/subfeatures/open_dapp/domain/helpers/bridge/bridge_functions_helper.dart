@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:moonchain_wallet/common/components/components.dart';
 import 'package:moonchain_wallet/features/common/common.dart';
-import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_use_case.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/domain.dart';
 import 'package:moonchain_wallet/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:mxc_logic/mxc_logic.dart';
@@ -15,7 +15,7 @@ class BridgeFunctionsHelper {
     required this.context,
     required this.translate,
     required this.navigator,
-    required this.customTokensUseCase,
+    required this.globalCustomTokensUseCase,
     required this.tokenContractUseCase,
     required this.transactionHistoryUseCase,
     required this.chainConfigurationUseCase,
@@ -25,7 +25,7 @@ class BridgeFunctionsHelper {
 
   OpenDAppState state;
   TokenContractUseCase tokenContractUseCase;
-  CustomTokensUseCase customTokensUseCase;
+  GlobalCustomTokensUseCase globalCustomTokensUseCase;
   TransactionsHistoryUseCase transactionHistoryUseCase;
   ChainConfigurationUseCase chainConfigurationUseCase;
   NavigatorState? navigator;
@@ -128,7 +128,7 @@ class BridgeFunctionsHelper {
   bool addAsset(Token token) {
     loading(true);
     try {
-      customTokensUseCase.addItem(token);
+      globalCustomTokensUseCase.addItem(token);
       return true;
     } catch (error, stackTrace) {
       addError(error, stackTrace);

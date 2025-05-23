@@ -21,7 +21,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
   late final _transactionControllerUseCase =
       ref.read(transactionControllerUseCaseProvider);
   late final _tweetsUseCase = ref.read(tweetsUseCaseProvider);
-  late final _customTokenUseCase = ref.read(customTokensUseCaseProvider);
+  late final _globalCustomTokenUseCase = ref.read(globalCustomTokensUseCaseProvider);
   late final _balanceUseCase = ref.read(balanceHistoryUseCaseProvider);
   late final _transactionHistoryUseCase =
       ref.read(transactionHistoryUseCaseProvider);
@@ -90,7 +90,7 @@ class WalletPresenter extends CompletePresenter<WalletState> {
           .addItem(BalanceData(timeStamp: DateTime.now(), balance: newValue));
     });
 
-    listen(_customTokenUseCase.tokens, (customTokens) {
+    listen(_globalCustomTokenUseCase.tokens, (customTokens) {
       _tokenContractUseCase.addCustomTokens(
           customTokens,
           state.account?.address ?? _accountUserCase.account.value!.address,
