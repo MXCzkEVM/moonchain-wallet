@@ -267,7 +267,6 @@
     "double_tap_reload": "双击以重新加载您的DApp。",
     "pinch_all_dapps": "捏动以查看所有打开的DApps。",
     "try_again": "再试一次",
-    "internet_connection_unavailable": "互联网连接当前不可用，但您仍可以访问设置。",
     "retry": "重试",
     "verify": "验证您的生物特征",
     "approve": "批准",
@@ -473,5 +472,9 @@
     "enable_not_important_logs": "启用不重要的日志",
     "searching_for_x": "正在搜索{0}...",
     "deposit_with_jannowitz_notice": "从其他交易所购买并使用{0}将ERC20 MXC存入Moonchain钱包",
-    "public_list": "公开列表"
+    "public_list": "公开列表",
+    "lost_internet_connection": "无网络连接\n您现在处于离线状态。您可以：\n• 检查您的网络设置\n• 浏览钱包\n•稍后再试",
+    "poor_internet_connection": "网速慢\n您的网络连接目前较弱。您可以：\n• 靠近您的路由器\n• 切换到更快的移动运营商\n• 继续使用 Moonbase，但质量会降低",
+    "token_not_found": "令牌未找到！请检查地址并重试。",
+    "token_already_exists": "令牌已存在！"
 }

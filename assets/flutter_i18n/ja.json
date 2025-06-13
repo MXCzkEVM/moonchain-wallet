@@ -267,7 +267,6 @@
     "double_tap_reload": "DAppを再読み込みするには、ダブルタップしてください。",
     "pinch_all_dapps": "全ての開かれたDAppsを見るためにピンチしてください。",
     "try_again": "もう一度お試しください",
-    "internet_connection_unavailable": "インターネット接続は現在利用できませんが、設定には引き続きアクセスできます。",
     "retry": "再試行",
     "verify": "バイオメトリクスを確認してください",
     "approve": "承認",
@@ -473,5 +472,9 @@
     "enable_not_important_logs": "重要でないログを有効にする",
     "searching_for_x": "{0}を検索しています…",
     "deposit_with_jannowitz_notice": "他の取引所から購入し、{0}を使用してERC20 MXCをムーンチェーンウォレットに預ける",
-    "public_list": "公開リスト"
+    "public_list": "公開リスト",
+    "lost_internet_connection": "インターネット接続がありません\nオフラインです。次のことができます。\n• ネットワーク設定を確認する\n• ウォレットを参照する\n• 後で再試行する",
+    "poor_internet_connection": "遅いインターネット接続\n接続が弱くなっています。以下のことができます。\n• ルーターに近づきます\n• より高速なモバイルキャリアに切り替えます\n• 低画質でMoonbaseを使い続けます",
+    "token_not_found": "トークンが見つかりません！アドレスを確認して、もう一度お試しください。",
+    "token_already_exists": "トークンは既に存在します！"
 }

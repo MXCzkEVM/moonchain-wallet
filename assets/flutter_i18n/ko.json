@@ -267,7 +267,6 @@
     "double_tap_reload": "DApp을 다시 로드하려면 두 번 탭하세요.",
     "pinch_all_dapps": "모든 열린 DApps를 보려면 두 손가락으로 화면을 좁혀보세요.",
     "try_again": "다시 시도해보세요",
-    "internet_connection_unavailable": "인터넷 연결이 현재 사용할 수 없습니다. 그러나 설정에는 여전히 액세스할 수 있습니다.",
     "retry": "재시도",
     "verify": "당신의 생체 인식을 확인하십시오",
     "approve": "승인",
@@ -473,5 +472,9 @@
     "enable_not_important_logs": "중요하지 않은 로그 활성화",
     "searching_for_x": "{0}을 검색 중입니다...",
     "deposit_with_jannowitz_notice": "다른 거래소에서 구매하고 {0}을 사용하여 ERC20 MXC를 문체인 지갑에 입금하십시오",
-    "public_list": "공개 목록"
+    "public_list": "공개 목록",
+    "lost_internet_connection": "인터넷 연결 없음\n현재 오프라인 상태입니다. 다음을 수행할 수 있습니다.\n• 네트워크 설정 확인\n• 지갑 탐색\n• 나중에 다시 시도",
+    "poor_internet_connection": "느린 인터넷 연결\n현재 연결이 약합니다. 다음을 시도해 볼 수 있습니다.\n• 라우터에 가까이 이동\n• 더 빠른 이동통신사로 변경\n• 낮은 화질로 Moonbase 계속 사용",
+    "token_not_found": "토큰을 찾을 수 없습니다! 주소를 확인하고 다시 시도하십시오.",
+    "token_already_exists": "토큰이 이미 존재합니다!"
 }

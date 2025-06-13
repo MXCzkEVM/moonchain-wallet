@@ -267,7 +267,6 @@
     "double_tap_reload": "Chạm kép để tải lại DApp của bạn.",
     "pinch_all_dapps": "Chạm và kéo để xem tất cả DApps đã mở.",
     "try_again": "Thử lại",
-    "internet_connection_unavailable": "Kết nối internet hiện không khả dụng; tuy nhiên, bạn vẫn có quyền truy cập vào cài đặt.",
     "retry": "Thử lại",
     "verify": "Xác minh dấu vân tay của bạn",
     "approve": "Đồng ý",
@@ -473,5 +472,9 @@
     "enable_not_important_logs": "Bật nhật ký không quan trọng",
     "searching_for_x": "Đang tìm kiếm {0}...",
     "deposit_with_jannowitz_notice": "Mua từ các sàn giao dịch khác và sử dụng {0} để gửi ERC20 MXC vào ví Moonchain",
-    "public_list": "Danh sách công khai"
+    "public_list": "Danh sách công khai",
+    "lost_internet_connection": "Không có kết nối internet\nBạn đang ngoại tuyến. Bạn có thể:\n• Kiểm tra cài đặt mạng của bạn\n• Duyệt ví\n• Thử lại sau",
+    "poor_internet_connection": "Kết nối internet chậm\nKết nối của bạn đang yếu. Bạn có thể:\n• Đến gần bộ định tuyến hơn\n• Chuyển sang nhà mạng di động nhanh hơn\n• Tiếp tục sử dụng Moonbase ở chất lượng thấp hơn",
+    "token_not_found": "Không tìm thấy mã thông báo! Vui lòng kiểm tra địa chỉ và thử lại.",
+    "token_already_exists": "Token đã tồn tại!"
 }

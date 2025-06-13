@@ -267,7 +267,6 @@
     "double_tap_reload": "DApp'inizi yeniden yüklemek için çift tıklayın.",
     "pinch_all_dapps": "Tüm açık DApps'leri görmek için ekrana iki parmağınızla dokunun ve parmaklarınızı birleştirin.",
     "try_again": "Tekrar deneyin",
-    "internet_connection_unavailable": "İnternet bağlantısı şu anda kullanılamıyor; ancak, ayarlara hala erişiminiz var.",
     "retry": "Tekrar Dene",
     "verify": "Biyometriklerinizi doğrulayın",
     "approve": "Onayla",
@@ -473,5 +472,9 @@
     "enable_not_important_logs": "Önemli olmayan günlükleri etkinleştir",
     "searching_for_x": "{0} arıyorum...",
     "deposit_with_jannowitz_notice": "Diğer borsalardan satın alın ve ERC20 MXC'yi Moonchain cüzdanına yatırmak için {0} kullanın",
-    "public_list": "Kamu listesi"
+    "public_list": "Kamu listesi",
+    "lost_internet_connection": "İnternet bağlantısı yok\nŞu anda çevrimdışısınız. Şunları yapabilirsiniz:\n• Ağ ayarlarınızı kontrol edin\n• Cüzdanınıza göz atın\n• Daha sonra tekrar deneyin",
+    "poor_internet_connection": "Yavaş internet bağlantısı\nBağlantınız şu anda zayıf. Şunları yapabilirsiniz:\n• Router'ınıza daha yakın hareket edin\n• Daha hızlı bir mobil operatörüne geçin\n• Moonbase'i düşük kalitede kullanmaya devam edin",
+    "token_not_found": "Token bulunamadı! Lütfen adresi kontrol edin ve tekrar deneyin.",
+    "token_already_exists": "Token zaten var!"
 }
