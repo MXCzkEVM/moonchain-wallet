@@ -392,7 +392,7 @@ packages:
     source: hosted
     version: "1.1.2"
   ffi:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: ffi
       sha256: "16ed7b077ef01ad6170a3d0c57caa4a112a38d7a2ed5602e0aca9ca6f3d98da6"
@@ -1129,6 +1129,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  libusb_android_helper:
+    dependency: "direct main"
+    description:
+      name: libusb_android_helper
+      sha256: c8f752f11a141575361d181f9762728d5b60f97191990262c991c7baef6db9e3
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
+  libusb_new:
+    dependency: transitive
+    description:
+      name: libusb_new
+      sha256: "3cc5e83ecd7ffd752479e26fe4a87a6c5c15ff1c51b494d7a373355f0b107f13"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   lints:
     dependency: transitive
     description:
@@ -1683,6 +1699,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.12"
+  smart_usb:
+    dependency: "direct main"
+    description:
+      name: smart_usb
+      sha256: "0fbd3b198d916fddfda8595ae1a93ec76061c53e38455f9e760be31669889a4f"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.2"
   source_span:
     dependency: transitive
     description:
@@ -1899,6 +1923,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.1.4"
+  usb_serial:
+    dependency: "direct main"
+    description:
+      name: usb_serial
+      sha256: a605a600e34e7f28d4e80851ca3999ef747e42e406138887b8a88b8c382a8b07
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.2"
   uuid:
     dependency: transitive
     description:
