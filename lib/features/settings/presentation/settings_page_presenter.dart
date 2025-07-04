@@ -63,46 +63,46 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
   void scan() async {
     // final _usbPlugin = UsbPlugin();
 
-    addMessage('Starting USB detection operation.');
+    // addMessage('Starting USB detection operation.');
 
-    try {
-      print('Trying with USBSerial package...');
-      List<UsbSerial.UsbDevice> devices =
-          await UsbSerial.UsbSerial.listDevices();
-      print('Connected devices : $devices');
+    // try {
+    //   print('Trying with USBSerial package...');
+    //   List<UsbSerial.UsbDevice> devices =
+    //       await UsbSerial.UsbSerial.listDevices();
+    //   print('Connected devices : $devices');
 
-      // print('Trying with QuickUSB package...');
-      // await Future.delayed(Duration(seconds: 3), ()async {
-      //   List<UsbDevice> devices = await UsbSerial.listDevices();
-      //   print('Connected devices : $devices');
-      // });
+    //   // print('Trying with QuickUSB package...');
+    //   // await Future.delayed(Duration(seconds: 3), ()async {
+    //   //   List<UsbDevice> devices = await UsbSerial.listDevices();
+    //   //   print('Connected devices : $devices');
+    //   // });
 
-      print('Trying with SmartUSB package...');
-      await SmartUsb.SmartUsb.init();
-      print('SmartUsb.getDeviceList();.');
-      var deviceList = await SmartUsb.SmartUsb.getDeviceList();
-      await SmartUsb.SmartUsb.exit();
-      print(
-          'Connected deviceList : ${deviceList.map((e) => e.toString()).toList()}');
+    //   print('Trying with SmartUSB package...');
+    //   await SmartUsb.SmartUsb.init();
+    //   print('SmartUsb.getDeviceList();.');
+    //   var deviceList = await SmartUsb.SmartUsb.getDeviceList();
+    //   await SmartUsb.SmartUsb.exit();
+    //   print(
+    //       'Connected deviceList : ${deviceList.map((e) => e.toString()).toList()}');
 
-      print('Trying with LibusbAndroidHelper package...');
-      List<LibusbAndroidHelper.UsbDevice>? libDevices =
-          await LibusbAndroidHelper.LibusbAndroidHelper.listDevices();
-      print(
-          'Connected libDevices : ${libDevices?.map((e) => e.toString()).toList()}');
+    //   print('Trying with LibusbAndroidHelper package...');
+    //   List<LibusbAndroidHelper.UsbDevice>? libDevices =
+    //       await LibusbAndroidHelper.LibusbAndroidHelper.listDevices();
+    //   print(
+    //       'Connected libDevices : ${libDevices?.map((e) => e.toString()).toList()}');
 
-      // print('Trying with LibusbAndroidHelper package...');
-      // final usbCommunication = UsbSerialCommunication.UsbSerialCommunication();
-      // final comDevices = await usbCommunication.getAvailableDevices();
-      // print(
-      //     'Connected comDevices : ${comDevices?.map((e) => e.toString()).toList()}');
+    //   // print('Trying with LibusbAndroidHelper package...');
+    //   // final usbCommunication = UsbSerialCommunication.UsbSerialCommunication();
+    //   // final comDevices = await usbCommunication.getAvailableDevices();
+    //   // print(
+    //   //     'Connected comDevices : ${comDevices?.map((e) => e.toString()).toList()}');
 
-      addMessage('Done initializing USB plugin.');
+    //   addMessage('Done initializing USB plugin.');
 
-    } catch (e) {
-      addMessage('Error initializing USB plugin: $e');
-      print('Error initializing USB plugin: $e');
-    }
+    // } catch (e) {
+    //   addMessage('Error initializing USB plugin: $e');
+    //   print('Error initializing USB plugin: $e');
+    // }
 
     // var description = await SmartUsb.getDeviceDescription(requestPermission: false);
     // if (!stateUsbStreamInit) {
@@ -119,7 +119,7 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     // final connectedDevicesList = bluetoothUseCase.getConnectedDevices();
 
     // print(connectedDevicesList);
-    // await blueberryRingUseCase.getBlueberryRingsNearby(context!);
+    await blueberryRingUseCase.getBlueberryRingsNearby(context!);
     // print(blueberryRingUseCase.selectedBlueberryRing.valueOrNull);
 
     // final ring = blueberryRingUseCase.selectedBlueberryRing.valueOrNull;
