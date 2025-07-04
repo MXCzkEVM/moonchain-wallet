@@ -267,7 +267,6 @@
     "double_tap_reload": "Dubbelklik om je DApp opnieuw te laden.",
     "pinch_all_dapps": "Knijp om alle geopende DApps te bekijken.",
     "try_again": "Probeer opnieuw",
-    "internet_connection_unavailable": "De internetverbinding is momenteel niet beschikbaar; je hebt echter nog steeds toegang tot de instellingen.",
     "retry": "Opnieuw proberen",
     "verify": "Verifieer uw biometrie",
     "approve": "Goedkeuren",
@@ -473,5 +472,9 @@
     "enable_not_important_logs": "Schakel niet-belangrijke logboeken in",
     "searching_for_x": "Op zoek naar {0}...",
     "deposit_with_jannowitz_notice": "Koop van andere exchanges en gebruik {0} om ERC20 MXC naar Moonchain wallet te storten",
-    "public_list": "Publieke lijst"
+    "public_list": "Publieke lijst",
+    "lost_internet_connection": "Geen internetverbinding\nJe bent momenteel offline. Je kunt:\n• Je netwerkinstellingen controleren\n• Portemonnee bekijken\n• Later opnieuw proberen",
+    "poor_internet_connection": "Trage internetverbinding\nUw verbinding is momenteel zwak. U kunt:\n• Dichter bij uw router gaan zitten\n• Overschakelen naar een snellere mobiele provider\n• Doorgaan met het gebruik van Moonbase met verminderde kwaliteit",
+    "token_not_found": "Token niet gevonden! Controleer het adres en probeer het opnieuw.",
+    "token_already_exists": "Token bestaat al!"
 }

@@ -42,7 +42,7 @@ class MinerHooksHelper {
     if (success) {
       // Time past, need to run the auto claim
       if (reached) {
-        shouldShowScheduleSnackBar = !(await showAutoClaimExecutionAlertDialog(
+        shouldShowScheduleSnackBar = (await showAutoClaimExecutionAlertDialog(
                 context: context!,
                 executeAutoClaim: () {
                   dAppHooksUseCase.claimMiners(

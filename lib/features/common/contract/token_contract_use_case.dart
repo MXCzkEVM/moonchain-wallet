@@ -122,7 +122,7 @@ class TokenContractUseCase extends ReactiveUseCase {
     return result?.tokens ?? tokensList.value;
   }
 
-  Future<Token?> getToken(String address) async =>
+  Future<Token> getToken(String address) async =>
       await _repository.tokenContract.getToken(address);
 
   Future<String> getAddress(String? name) async =>

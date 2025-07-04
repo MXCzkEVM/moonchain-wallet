@@ -5,9 +5,9 @@ import 'package:moonchain_wallet/features/common/common.dart';
 import 'package:moonchain_wallet/features/dapps/domain/domain.dart';
 import 'package:moonchain_wallet/features/errors/network_unavailable/network_unavailable_use_case.dart';
 import 'package:moonchain_wallet/features/portfolio/subfeatures/nft/domain/nfts_use_case.dart';
+import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/domain.dart';
 import 'package:moonchain_wallet/features/settings/domain/app_version_use_case.dart';
 import 'package:moonchain_wallet/features/settings/subfeatures/address_book/address_book.dart';
-import 'package:moonchain_wallet/features/portfolio/subfeatures/token/add_token/domain/custom_tokens_use_case.dart';
 import 'package:moonchain_wallet/features/dapps/subfeatures/add_dapp/domain/bookmark_use_case.dart';
 import 'package:moonchain_wallet/features/portfolio/domain/portfolio_use_case.dart';
 import 'package:moonchain_wallet/features/security/security.dart';
@@ -119,10 +119,6 @@ final Provider<AccountUseCase> accountUseCaseProvider = Provider(
 
 final Provider<BookmarkUseCase> bookmarksUseCaseProvider = Provider(
   (ref) => BookmarkUseCase(ref.watch(datadashCacheProvider).bookmarks),
-);
-
-final Provider<CustomTokensUseCase> customTokensUseCaseProvider = Provider(
-  (ref) => CustomTokensUseCase(ref.watch(datadashCacheProvider).custonTokens),
 );
 
 final Provider<BackgroundFetchConfigUseCase>
@@ -240,6 +236,14 @@ final Provider<LauncherUseCase> launcherUseCaseProvider = Provider(
 final Provider<LogsConfigUseCase> logsConfigUseCaseProvider = Provider(
   (ref) => LogsConfigUseCase(
     ref.watch(globalCacheProvider).logsConfigRepository,
+  ),
+);
+
+final Provider<CustomTokensUseCase> customTokensUseCaseProvider = Provider(
+  (ref) => CustomTokensUseCase(
+    ref.watch(globalCacheProvider).globalCustomTokensRepository,
+    ref.watch(datadashCacheProvider).custonTokens,
+    ref.watch(accountUseCaseProvider),
   ),
 );
 

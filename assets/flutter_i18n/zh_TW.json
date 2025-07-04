@@ -267,7 +267,6 @@
     "double_tap_reload": "雙擊以重新加載您的DApp。",
     "pinch_all_dapps": "捏合以查看所有已開啟的DApps。",
     "try_again": "再試一次",
-    "internet_connection_unavailable": "網路連接目前無法使用，但您仍可以訪問設定。",
     "retry": "重試",
     "verify": "驗證您的生物特徵",
     "approve": "批准",
@@ -473,5 +472,9 @@
     "enable_not_important_logs": "啟用非重要日誌",
     "searching_for_x": "搜尋中 {0}...",
     "deposit_with_jannowitz_notice": "從其他交易所購買並使用 {0} 將 ERC20 MXC 存入 Moonchain 錢包",
-    "public_list": "公開列表"
+    "public_list": "公開列表",
+    "lost_internet_connection": "沒有網絡連線\n您目前離線。您可以：\n• 檢查您的網絡設定\n• 瀏覽錢包\n•稍後再試",
+    "poor_internet_connection": "網路連線速度慢\n您的網路連線目前較弱。您可以：\n• 靠近您的路由器\n• 切換到速度更快的行動網路業者\n• 以較低的畫質繼續使用 Moonbase",
+    "token_not_found": "找不到代幣！請檢查地址並再試一次。",
+    "token_already_exists": "權杖已存在！"
 }

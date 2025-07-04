@@ -267,7 +267,6 @@
     "double_tap_reload": "Ketuk dua kali untuk memuat ulang DApp Anda.",
     "pinch_all_dapps": "Cubit untuk melihat semua DApps yang dibuka.",
     "try_again": "Coba lagi",
-    "internet_connection_unavailable": "Koneksi internet saat ini tidak tersedia; namun, Anda masih memiliki akses ke pengaturan.",
     "retry": "Coba Lagi",
     "verify": "Verifikasi biometrik Anda",
     "approve": "Setujui",
@@ -473,5 +472,9 @@
     "enable_not_important_logs": "Aktifkan log yang tidak penting",
     "searching_for_x": "Mencari {0}...",
     "deposit_with_jannowitz_notice": "Beli dari bursa lain dan gunakan {0} untuk menyetor ERC20 MXC ke dompet Moonchain",
-    "public_list": "Daftar publik"
+    "public_list": "Daftar publik",
+    "lost_internet_connection": "Tidak ada koneksi internet\nAnda sedang offline sekarang. Anda dapat:\n• Periksa pengaturan jaringan Anda\n• Jelajahi dompet\n• Coba lagi nanti",
+    "poor_internet_connection": "Koneksi internet lambat\nKoneksi Anda lemah saat ini. Anda dapat:\n• Mendekat ke router Anda\n• Beralih ke operator seluler yang lebih cepat\n• Melanjutkan menggunakan Moonbase dengan kualitas yang dikurangi",
+    "token_not_found": "Token tidak ditemukan! Periksa alamat dan coba lagi.",
+    "token_already_exists": "Token sudah ada!"
 }
