@@ -246,6 +246,7 @@ class BluetoothUseCase extends ReactiveUseCase {
   Future<void> getScanResults(
     BuildContext context,
     bool withBottomSheet,
+    String title,
   ) async {
     await Future.delayed(const Duration(seconds: 4), () async {
       final currentScanResults = scanResults.value;
@@ -253,8 +254,9 @@ class BluetoothUseCase extends ReactiveUseCase {
       final showBottomSheet = currentScanResults.length > 1 || noDevicesFound;
       if (showBottomSheet && withBottomSheet == true) {
         // We need to let the user to choose If two or more devices of rings are available and even If empty maybe let the user to wait
-        final scanResult = await showBlueberryRingsBottomSheet(
+        final scanResult = await showBluetoothDevicesBottomSheet(
           context,
+          title,
         );
         update(selectedScanResult, scanResult);
       } else if (noDevicesFound) {

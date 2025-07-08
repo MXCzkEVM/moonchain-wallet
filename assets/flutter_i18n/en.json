@@ -476,5 +476,6 @@
 	"searching_for_x": "Searching for {0}...",
 	"public_list": "Public list",
 	"token_not_found": "Token not found! Please check address and try again.",
-	"token_already_exists": "Token already exists!"
+	"token_already_exists": "Token already exists!",
+	"bluetooth_devices": "Bluetooth devices"
 }
