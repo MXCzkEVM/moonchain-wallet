@@ -476,5 +476,6 @@
     "lost_internet_connection": "İnternet bağlantısı yok\nŞu anda çevrimdışısınız. Şunları yapabilirsiniz:\n• Ağ ayarlarınızı kontrol edin\n• Cüzdanınıza göz atın\n• Daha sonra tekrar deneyin",
     "poor_internet_connection": "Yavaş internet bağlantısı\nBağlantınız şu anda zayıf. Şunları yapabilirsiniz:\n• Router'ınıza daha yakın hareket edin\n• Daha hızlı bir mobil operatörüne geçin\n• Moonbase'i düşük kalitede kullanmaya devam edin",
     "token_not_found": "Token bulunamadı! Lütfen adresi kontrol edin ve tekrar deneyin.",
-    "token_already_exists": "Token zaten var!"
+    "token_already_exists": "Token zaten var!",
+    "bluetooth_devices": "Bluetooth cihazları"
 }

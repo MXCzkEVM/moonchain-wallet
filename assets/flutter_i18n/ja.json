@@ -476,5 +476,6 @@
     "lost_internet_connection": "インターネット接続がありません\nオフラインです。次のことができます。\n• ネットワーク設定を確認する\n• ウォレットを参照する\n• 後で再試行する",
     "poor_internet_connection": "遅いインターネット接続\n接続が弱くなっています。以下のことができます。\n• ルーターに近づきます\n• より高速なモバイルキャリアに切り替えます\n• 低画質でMoonbaseを使い続けます",
     "token_not_found": "トークンが見つかりません！アドレスを確認して、もう一度お試しください。",
-    "token_already_exists": "トークンは既に存在します！"
+    "token_already_exists": "トークンは既に存在します！",
+    "bluetooth_devices": "Bluetoothデバイス"
 }

@@ -476,5 +476,6 @@
     "lost_internet_connection": "Sin conexión a internet\nEstás sin conexión ahora. Puedes:\n• Revisar tu configuración de red\n• Explorar monedero\n• Intentar de nuevo más tarde",
     "poor_internet_connection": "Conexión lenta a internet\nSu conexión es débil en este momento. Puede:\n• Acercarse a su router\n• Cambiar a un operador móvil más rápido\n• Continuar usando Moonbase con calidad reducida",
     "token_not_found": "¡Token no encontrado! Por favor, compruebe la dirección e inténtelo de nuevo.",
-    "token_already_exists": "¡El token ya existe!"
+    "token_already_exists": "¡El token ya existe!",
+    "bluetooth_devices": "Dispositivos Bluetooth"
 }

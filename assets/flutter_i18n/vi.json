@@ -476,5 +476,6 @@
     "lost_internet_connection": "Không có kết nối internet\nBạn đang ngoại tuyến. Bạn có thể:\n• Kiểm tra cài đặt mạng của bạn\n• Duyệt ví\n• Thử lại sau",
     "poor_internet_connection": "Kết nối internet chậm\nKết nối của bạn đang yếu. Bạn có thể:\n• Đến gần bộ định tuyến hơn\n• Chuyển sang nhà mạng di động nhanh hơn\n• Tiếp tục sử dụng Moonbase ở chất lượng thấp hơn",
     "token_not_found": "Không tìm thấy mã thông báo! Vui lòng kiểm tra địa chỉ và thử lại.",
-    "token_already_exists": "Token đã tồn tại!"
+    "token_already_exists": "Token đã tồn tại!",
+    "bluetooth_devices": "Thiết bị Bluetooth"
 }

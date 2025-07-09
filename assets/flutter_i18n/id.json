@@ -476,5 +476,6 @@
     "lost_internet_connection": "Tidak ada koneksi internet\nAnda sedang offline sekarang. Anda dapat:\n• Periksa pengaturan jaringan Anda\n• Jelajahi dompet\n• Coba lagi nanti",
     "poor_internet_connection": "Koneksi internet lambat\nKoneksi Anda lemah saat ini. Anda dapat:\n• Mendekat ke router Anda\n• Beralih ke operator seluler yang lebih cepat\n• Melanjutkan menggunakan Moonbase dengan kualitas yang dikurangi",
     "token_not_found": "Token tidak ditemukan! Periksa alamat dan coba lagi.",
-    "token_already_exists": "Token sudah ada!"
+    "token_already_exists": "Token sudah ada!",
+    "bluetooth_devices": "Perangkat Bluetooth"
 }

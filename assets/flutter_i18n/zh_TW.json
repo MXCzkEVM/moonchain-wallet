@@ -476,5 +476,6 @@
     "lost_internet_connection": "沒有網絡連線\n您目前離線。您可以：\n• 檢查您的網絡設定\n• 瀏覽錢包\n•稍後再試",
     "poor_internet_connection": "網路連線速度慢\n您的網路連線目前較弱。您可以：\n• 靠近您的路由器\n• 切換到速度更快的行動網路業者\n• 以較低的畫質繼續使用 Moonbase",
     "token_not_found": "找不到代幣！請檢查地址並再試一次。",
-    "token_already_exists": "權杖已存在！"
+    "token_already_exists": "權杖已存在！",
+    "bluetooth_devices": "藍牙裝置"
 }

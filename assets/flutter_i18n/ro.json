@@ -476,5 +476,6 @@
     "lost_internet_connection": "Nicio conexiune la internet\nSunteți offline în acest moment. Puteți:\n• Verifica setările de rețea\n• Răsfoiți portofelul\n• Încercați din nou mai târziu",
     "poor_internet_connection": "Conexiune internet lentă\nConexiunea dumneavoastră este slabă în acest moment. Puteți:\n• Să vă apropiați de router\n• Să treceți la un operator mobil mai rapid\n• Să continuați să utilizați Moonbase la o calitate redusă",
     "token_not_found": "Jeton nedetectat! Verificați adresa și încercați din nou.",
-    "token_already_exists": "Tokenul există deja!"
+    "token_already_exists": "Tokenul există deja!",
+    "bluetooth_devices": "Dispozitive Bluetooth"
 }
