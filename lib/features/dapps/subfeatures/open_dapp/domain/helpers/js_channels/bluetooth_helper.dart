@@ -118,19 +118,19 @@ class BluetoothHelper {
             );
 
             const equality = ListEquality<String>();
-            final isMiningDapp = -1 !=
+            final isRingDapp = -1 !=
                 Urls.getRingDappUrls().indexWhere(
                   (element) =>
                       Uri.parse(element).host == currentUrl.host,
                 );
             bool showNearbyBottomSheet = true;
-            if (isMiningDapp) {
+            if (isRingDapp) {
               final isRegisterRing =
                   equality.equals(withKeywords, blueberryRingGeneralSearch);
               showNearbyBottomSheet = isRegisterRing;
             }
 
-            await getBlueberryRing(showNearbyBottomSheet);
+            await getBlueberryRing(showNearbyBottomSheet, isRingDapp);
             bluetoothUseCase.stopScanner();
           }
 
@@ -352,11 +352,14 @@ class BluetoothHelper {
     return uInt8List;
   }
 
-  Future<void> getBlueberryRing(bool isRegisterRing) async {
+  // isRegisterRing is to know wether to show the bottomsheet or not (On register we don't)
+  // isRingDapp is to know and show right title
+  Future<void> getBlueberryRing(bool isRegisterRing, bool isRingDapp) async {
+    String title = isRingDapp ? 'nearby_blueberry_rings' : 'bluetooth_devices';
     showSnackBar(
         context: context!,
         content: translate('searching_for_x')!
-            .replaceFirst('{0}', translate('nearby_blueberry_rings')!),
+            .replaceFirst('{0}', translate(title)!),
         leadingIcon: Container(
           padding: const EdgeInsets.all(Sizes.spaceXSmall),
           decoration: BoxDecoration(
@@ -372,6 +375,6 @@ class BluetoothHelper {
           ),
         ));
     // Check register criteria for blueberry ring
-    await bluetoothUseCase.getScanResults(context!, isRegisterRing);
+    await bluetoothUseCase.getScanResults(context!, isRegisterRing, title);
   }
 }
