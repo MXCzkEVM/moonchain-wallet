@@ -119,7 +119,8 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     // final connectedDevicesList = bluetoothUseCase.getConnectedDevices();
 
     // print(connectedDevicesList);
-    await blueberryRingUseCase.getBlueberryRingsNearby(context!);
+    bluetoothUseCase.startScanning();
+    bluetoothUseCase.getScanResults(context!, true, "Hey");
     // print(blueberryRingUseCase.selectedBlueberryRing.valueOrNull);
 
     // final ring = blueberryRingUseCase.selectedBlueberryRing.valueOrNull;
