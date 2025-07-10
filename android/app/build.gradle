@@ -99,6 +99,9 @@ android {
     }
 
     compileOptions {
+        // Use certain newer Java language APIs 
+        // Even when your app’s minSdkVersion is below the API level where these classes are actually available natively.
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
@@ -114,4 +117,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 }
