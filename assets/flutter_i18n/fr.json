@@ -476,5 +476,6 @@
     "lost_internet_connection": "Pas de connexion internet\nVous êtes hors ligne pour le moment. Vous pouvez :\n• Vérifier vos paramètres réseau\n• Consulter votre portefeuille\n• Réessayer plus tard",
     "poor_internet_connection": "Connexion internet lente\nVotre connexion est faible actuellement. Vous pouvez :\n• Vous rapprocher de votre routeur\n• Passer à un opérateur mobile plus rapide\n• Continuer à utiliser Moonbase en qualité réduite",
     "token_not_found": "Jeton introuvable ! Veuillez vérifier l’adresse et réessayer.",
-    "token_already_exists": "Jeton déjà existant !"
+    "token_already_exists": "Jeton déjà existant !",
+    "bluetooth_devices": "Périphériques Bluetooth"
 }

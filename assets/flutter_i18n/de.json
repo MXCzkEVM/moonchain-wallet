@@ -476,5 +476,6 @@
     "lost_internet_connection": "Keine Internetverbindung\nSie sind gerade offline. Sie können:\n• Ihre Netzwerkeinstellungen überprüfen\n• Wallet durchsuchen\n• Später erneut versuchen",
     "poor_internet_connection": "Langsame Internetverbindung\nIhre Verbindung ist derzeit schwach. Sie können:\n• Näher an Ihren Router gehen\n• Zu einem schnelleren Mobilfunkanbieter wechseln\n• Moonbase weiterhin in reduzierter Qualität verwenden",
     "token_not_found": "Token nicht gefunden! Bitte Adresse überprüfen und erneut versuchen.",
-    "token_already_exists": "Token existiert bereits!"
+    "token_already_exists": "Token existiert bereits!",
+    "bluetooth_devices": "Bluetooth-Geräte"
 }

@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mxc_ui/mxc_ui.dart';
 
-Future<ScanResult?> showBlueberryRingsBottomSheet(
+Future<ScanResult?> showBluetoothDevicesBottomSheet(
   BuildContext context,
+  String title,
 ) {
   return showBaseBottomSheet<ScanResult>(
     context: context,
-    bottomSheetTitle: 'nearby_blueberry_rings',
+    bottomSheetTitle: title,
     closeButtonReturnValue: null,
     widgets: [
       const BlueberryDeviceInfo(),

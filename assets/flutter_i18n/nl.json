@@ -476,5 +476,6 @@
     "lost_internet_connection": "Geen internetverbinding\nJe bent momenteel offline. Je kunt:\n• Je netwerkinstellingen controleren\n• Portemonnee bekijken\n• Later opnieuw proberen",
     "poor_internet_connection": "Trage internetverbinding\nUw verbinding is momenteel zwak. U kunt:\n• Dichter bij uw router gaan zitten\n• Overschakelen naar een snellere mobiele provider\n• Doorgaan met het gebruik van Moonbase met verminderde kwaliteit",
     "token_not_found": "Token niet gevonden! Controleer het adres en probeer het opnieuw.",
-    "token_already_exists": "Token bestaat al!"
+    "token_already_exists": "Token bestaat al!",
+    "bluetooth_devices": "Bluetooth-apparaten"
 }

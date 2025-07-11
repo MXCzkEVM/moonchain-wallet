@@ -476,5 +476,6 @@
     "lost_internet_connection": "인터넷 연결 없음\n현재 오프라인 상태입니다. 다음을 수행할 수 있습니다.\n• 네트워크 설정 확인\n• 지갑 탐색\n• 나중에 다시 시도",
     "poor_internet_connection": "느린 인터넷 연결\n현재 연결이 약합니다. 다음을 시도해 볼 수 있습니다.\n• 라우터에 가까이 이동\n• 더 빠른 이동통신사로 변경\n• 낮은 화질로 Moonbase 계속 사용",
     "token_not_found": "토큰을 찾을 수 없습니다! 주소를 확인하고 다시 시도하십시오.",
-    "token_already_exists": "토큰이 이미 존재합니다!"
+    "token_already_exists": "토큰이 이미 존재합니다!",
+    "bluetooth_devices": "블루투스 장치"
 }

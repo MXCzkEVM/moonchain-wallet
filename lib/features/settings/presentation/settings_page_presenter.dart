@@ -3,10 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:moonchain_wallet/core/core.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:smart_usb/smart_usb.dart' as SmartUsb;
-import 'package:usb_serial/usb_serial.dart' as UsbSerial;
-import 'package:libusb_android_helper/libusb_android_helper.dart'
-    as LibusbAndroidHelper;
 import '../../../common/common.dart';
 import 'settings_page_state.dart';
 
@@ -119,7 +115,8 @@ class SettingsPresenter extends CompletePresenter<SettingsState> {
     // final connectedDevicesList = bluetoothUseCase.getConnectedDevices();
 
     // print(connectedDevicesList);
-    await blueberryRingUseCase.getBlueberryRingsNearby(context!);
+    // final firebaseToken = await FirebaseMessaging.instance.getToken();
+    // print('Fireabse otken : $firebaseToken');
     // print(blueberryRingUseCase.selectedBlueberryRing.valueOrNull);
 
     // final ring = blueberryRingUseCase.selectedBlueberryRing.valueOrNull;
