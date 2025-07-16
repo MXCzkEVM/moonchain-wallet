@@ -44,18 +44,19 @@ class MoonchainAppLinksUseCase extends ReactiveUseCase {
     _moonchainAppLinks.initAppLinks().then((value) {
       print('TEST:value: $value');
       if (value != null) {
-        isLoggedInWrapper(() {
-          toNavigateWidget = _appLinksRouter.openLink(value);
-          checkNavigationFunction();
-        });
+        handleLink(value);
       }
       _moonchainAppLinks.linkSubscription!.onData((data) {
         print('TEST:data: $data');
-        isLoggedInWrapper(() {
-          toNavigateWidget = _appLinksRouter.openLink(data);
-          checkNavigationFunction();
-        });
+        handleLink(data);
       });
+    });
+  }
+
+  handleLink(Uri data) {
+    isLoggedInWrapper(() {
+      toNavigateWidget = _appLinksRouter.openLink(data);
+      checkNavigationFunction();
     });
   }
 
@@ -66,7 +67,8 @@ class MoonchainAppLinksUseCase extends ReactiveUseCase {
   }
 
   void checkNavigationFunction() {
-    print('TEST:isPassCodeScreenShown: ${(!isPassCodeScreenShown && toNavigateWidget != null)}');
+    print(
+        'TEST:isPassCodeScreenShown: ${(!isPassCodeScreenShown && toNavigateWidget != null)}');
     if (!isPassCodeScreenShown && toNavigateWidget != null) {
       _appLinksRouter.navigateTo(toNavigateWidget!);
       toNavigateWidget = null;
