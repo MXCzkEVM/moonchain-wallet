@@ -35,9 +35,7 @@ class MoonchainWalletFireBase {
       return;
     }
 
-    firebaseToken = Platform.isAndroid
-        ? await FirebaseMessaging.instance.getToken()
-        : await FirebaseMessaging.instance.getAPNSToken();
+    firebaseToken = await FirebaseMessaging.instance.getToken();
     print('TEST: firebaseToken $firebaseToken');
     FirebaseMessaging.onMessage
         .listen(moonchainNotification.showFlutterNotification);
@@ -91,7 +89,7 @@ class MoonchainWalletFireBase {
     final isPermissionGranted = await _initLocalNotifications();
     if (isPermissionGranted) {
       _setupFirebaseMessagingForegroundHandler();
-      setupFirebaseMessageInteraction();
+      // setupFirebaseMessageInteraction();
     }
   }
 

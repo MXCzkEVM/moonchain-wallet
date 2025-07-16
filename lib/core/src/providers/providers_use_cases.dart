@@ -254,6 +254,12 @@ final Provider<MoonchainAppLinksUseCase> appLinksUseCaseProvider = Provider(
   ),
 );
 
+final Provider<MoonchainNotificationsUseCase> notificationUseCaseProvider = Provider(
+  (ref) => MoonchainNotificationsUseCase(
+    ref.watch(appLinksUseCaseProvider),
+  ),
+);
+
 final Provider<MXCTransactionsUseCase> mxcTransactionsUseCaseProvider =
     Provider(
   (ref) => MXCTransactionsUseCase(
