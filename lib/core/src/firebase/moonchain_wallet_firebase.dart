@@ -91,7 +91,7 @@ class MoonchainWalletFireBase {
     final isPermissionGranted = await _initLocalNotifications();
     if (isPermissionGranted) {
       _setupFirebaseMessagingForegroundHandler();
-      setupFirebaseMessageInteraction();
+      // setupFirebaseMessageInteraction();
     }
   }
 
