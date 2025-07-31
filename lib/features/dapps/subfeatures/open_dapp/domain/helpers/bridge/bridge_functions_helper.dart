@@ -40,6 +40,7 @@ class BridgeFunctionsHelper {
     EtherAmount? gasPrice,
     Uint8List data,
     BigInt? amountOfGas,
+    EtherAmount? value,
   ) async {
     loading(true);
     try {
@@ -48,7 +49,8 @@ class BridgeFunctionsHelper {
           to: to,
           gasPrice: gasPrice,
           data: data,
-          amountOfGas: amountOfGas);
+          amountOfGas: amountOfGas,
+          value: value);
       loading(false);
 
       return gasFee;

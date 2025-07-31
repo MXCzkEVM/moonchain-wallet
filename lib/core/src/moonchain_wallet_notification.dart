@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:moonchain_wallet/core/src/firebase/moonchain_wallet_firebase.dart';
@@ -20,6 +21,8 @@ class MoonchainWalletNotification {
   /// Create a [AndroidNotificationChannel] for heads up notifications
   late AndroidNotificationChannel channel;
   late AndroidNotificationChannel lowPriorityChannel;
+  static StreamController<String?> foregroundNotificationStreamController =
+      StreamController();
 
   bool isFlutterLocalNotificationsInitialized = false;
 
@@ -31,6 +34,7 @@ class MoonchainWalletNotification {
     if (isFlutterLocalNotificationsInitialized) {
       return;
     }
+
     channel = const AndroidNotificationChannel(
       'moonchain_wallet_channel',
       'Moonchain wallet notifications Channel',
@@ -48,6 +52,21 @@ class MoonchainWalletNotification {
     );
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('moonchain_logo');
+
+    const InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid, iOS: DarwinInitializationSettings());
+
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (details) {
+        if (details.payload != null) {
+          foregroundNotificationStreamController.sink.add(details.payload);
+        }
+      },
+    );
 
     /// Create an Android Notification Channel.
     ///
@@ -73,12 +92,14 @@ class MoonchainWalletNotification {
     AndroidNotification? android = message.notification?.android;
     final imageUrl = android?.imageUrl;
     AndroidBitmap<Object>? largeImage;
+    
     if (imageUrl != null) {
       final http.Response response = await http.get(Uri.parse(imageUrl));
       largeImage = ByteArrayAndroidBitmap.fromBase64String(
         base64Encode(response.bodyBytes),
       );
     }
+
     if (notification != null && android != null && !kIsWeb) {
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
@@ -99,6 +120,7 @@ class MoonchainWalletNotification {
             largeIcon: largeImage,
           ),
         ),
+        payload: jsonEncode(message.data),
       );
     }
   }

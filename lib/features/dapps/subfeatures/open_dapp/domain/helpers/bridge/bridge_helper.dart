@@ -49,6 +49,9 @@ class BridgeHelper {
     final amountEther = EtherAmount.inWei(bridge.value ?? BigInt.zero);
     final amount = amountEther.getValueInUnit(EtherUnit.ether).toString();
     final bridgeData = MXCType.hexToUint8List(bridge.data ?? '');
+    final value = bridge.value != null
+        ? EtherAmount.fromBase10String(EtherUnit.wei, bridge.value!.toString())
+        : null;
     EtherAmount? gasPrice;
     double? gasFee;
     TransactionGasEstimation? estimatedGasFee;
@@ -69,7 +72,7 @@ class BridgeHelper {
           gasPrice: gasPrice, gas: amountOfGas, gasFee: gasFee);
     } else {
       estimatedGasFee = await bridgeFunctionsHelper.estimatedFee(
-          bridge.from!, bridge.to!, gasPrice, bridgeData, amountOfGas);
+          bridge.from!, bridge.to!, gasPrice, bridgeData, amountOfGas, value);
 
       if (estimatedGasFee == null) {
         cancel.call();
